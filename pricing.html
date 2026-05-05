@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lisaany — Choose Your Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lato:wght@300;400;700&family=Amiri:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#060e1b;
+  --bg2:#0f2040;
+  --card:#0f1e36;
+  --card2:#132848;
+  --gold:#c9a84c;
+  --gold-lt:#e8c97a;
+  --gold-dk:#8a6820;
+  --text:#e8e4dc;
+  --dim:#8a9ab8;
+  --border:rgba(212,163,74,.06);
+  --blue:#d4a347;
+  --blue-lt:#f2d080;
+  --blue-dim:rgba(212,163,74,.04);
+}
+.ms{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;font-size:20px;line-height:1;display:inline-block;}
+
+body{
+  background:#060e1b;
+  color:var(--text);
+  font-family:'Lato',sans-serif;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+
+/* Radial gradient hero bg */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212,163,74,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 80%, rgba(201,168,76,.06) 0%, transparent 50%);
+  pointer-events:none;z-index:0;
+}
+
+/* Subtle grid lines */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(212,163,74,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212,163,74,.04) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;z-index:0;
+}
+
+.page{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:60px 24px 100px;}
+
+/* ── NAV ── */
+.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:72px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-ar{font-family:'Amiri',serif;font-size:26px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.logo-en{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);}
+.nav-back{font-size:13px;color:var(--dim);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s;}
+.nav-back:hover{color:var(--text);}
+
+/* ── HEADER ── */
+.hdr{text-align:center;margin-bottom:56px;}
+.hdr-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(212,163,74,.1);border:1px solid rgba(212,163,74,.25);
+  border-radius:999px;padding:6px 16px;margin-bottom:20px;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-lt);
+}
+.hdr-eyebrow .ms{font-size:14px;}
+.hdr-title{
+  font-family:'Cinzel',serif;font-size:42px;font-weight:900;
+  line-height:1.15;margin-bottom:16px;
+  background:linear-gradient(160deg, #fff 30%, var(--blue-lt) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.hdr-desc{font-size:15px;color:var(--dim);line-height:1.8;max-width:500px;margin:0 auto;}
+
+/* ── BILLING TOGGLE ── */
+.billing-wrap{
+  display:flex;align-items:center;justify-content:center;gap:0;
+  background:rgba(255,255,255,.04);border:1px solid var(--border);
+  border-radius:14px;padding:4px;width:fit-content;margin:0 auto 48px;
+}
+.bill-opt{
+  padding:9px 24px;border-radius:10px;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .25s;color:var(--dim);border:none;background:transparent;
+  display:flex;align-items:center;gap:8px;
+}
+.bill-opt.active{background:rgba(212,163,74,.2);color:var(--text);border:1px solid rgba(212,163,74,.3);}
+.save-pill{
+  background:linear-gradient(135deg,rgba(143,200,143,.2),rgba(143,200,143,.1));
+  border:1px solid rgba(143,200,143,.3);color:#a7d9a6;
+  font-size:9px;font-weight:800;padding:2px 8px;border-radius:999px;letter-spacing:.06em;
+}
+
+/* ── PLANS GRID ── */
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px;}
+@media(max-width:640px){.plans{grid-template-columns:1fr;}}
+
+.plan{
+  border-radius:20px;padding:36px 32px;position:relative;
+  transition:transform .3s, box-shadow .3s;cursor:pointer;
+  display:flex;flex-direction:column;
+}
+.plan:hover{transform:translateY(-4px);}
+
+.plan-standard{
+  background:linear-gradient(145deg, var(--card), var(--card2));
+  border:1px solid var(--border);
+}
+.plan-standard:hover{box-shadow:0 24px 60px rgba(0,0,0,.4),0 0 0 1px rgba(212,163,74,.2);}
+
+.plan-premium{
+  background:linear-gradient(145deg, #0d2444, #0f2d56);
+  border:1px solid rgba(212,163,74,.35);
+  box-shadow:0 0 60px rgba(212,163,74,.04);
+}
+.plan-premium:hover{box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 60px rgba(212,163,74,.04);}
+
+/* Glow line top */
+.plan-premium::before{
+  content:'';position:absolute;top:0;left:20%;right:20%;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(212,163,74,.7),transparent);
+  border-radius:999px;
+}
+
+.badge-popular{
+  position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--blue),var(--blue-lt));
+  color:#fff;font-size:10px;font-weight:800;padding:5px 18px;
+  border-radius:999px;letter-spacing:.1em;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(212,163,74,.4);
+}
+
+.plan-tag{font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--dim);margin-bottom:8px;}
+.plan-name{font-family:'Cinzel',serif;font-size:24px;font-weight:700;color:var(--text);margin-bottom:24px;}
+.plan-premium .plan-name{color:#fff;}
+
+.price-row{display:flex;align-items:flex-start;gap:2px;margin-bottom:4px;}
+.price-sym{font-size:20px;font-weight:700;color:var(--gold);padding-top:8px;}
+.price-num{font-family:'Cinzel',serif;font-size:56px;font-weight:900;line-height:1;color:var(--gold);}
+.plan-premium .price-sym,.plan-premium .price-num{color:var(--gold-lt);}
+.price-period{font-size:13px;color:var(--dim);margin-bottom:4px;}
+.price-save{font-size:11px;color:#a7d9a6;min-height:16px;margin-bottom:24px;}
+
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:24px;}
+
+.features{list-style:none;display:flex;flex-direction:column;gap:13px;margin-bottom:32px;flex:1;}
+.fi{display:flex;align-items:center;gap:11px;font-size:13px;color:var(--text);line-height:1.4;}
+.fi .ms{font-size:17px;flex-shrink:0;}
+.fi.yes .ms{color:#a7d9a6;}
+.fi.no .ms{color:rgba(255,255,255,.15);}
+.fi.no{color:var(--dim);}
+
+.btn{
+  width:100%;padding:15px;border:none;border-radius:12px;
+  font-family:'Cinzel',serif;font-size:13px;font-weight:700;
+  letter-spacing:.08em;cursor:pointer;transition:all .3s;
+}
+.btn-std{
+  background:transparent;border:1.5px solid rgba(212,163,74,.35);
+  color:var(--gold-lt);
+}
+.btn-std:hover{background:rgba(212,163,74,.1);border-color:var(--gold-lt);}
+
+.btn-prem{
+  background:linear-gradient(135deg,var(--gold),var(--gold-lt));
+  color:#fff;box-shadow:0 4px 20px rgba(212,163,74,.35);
+}
+.btn-prem:hover{box-shadow:0 6px 30px rgba(212,163,74,.5);transform:translateY(-1px);}
+
+/* ── HOW IT WORKS ── */
+.how{
+  background:linear-gradient(145deg,var(--card),var(--card2));
+  border:1px solid var(--border);border-radius:20px;border-top:2px solid rgba(74,144,217,.35);
+  padding:36px 32px;margin-bottom:32px;
+}
+.how-hdr{display:flex;align-items:center;gap:14px;margin-bottom:28px;}
+.how-icon{
+  width:48px;height:48px;border-radius:14px;
+  background:rgba(212,163,74,.1);border:1px solid rgba(212,163,74,.2);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.how-icon .ms{color:var(--gold-lt);font-size:24px;}
+.how-title{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--text);}
+.how-sub{font-size:13px;color:var(--dim);margin-top:2px;}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media(max-width:560px){.how-grid{grid-template-columns:1fr 1fr;}}
+.how-item{
+  background:rgba(255,255,255,.03);border:1px solid rgba(212,163,74,.1);
+  border-radius:14px;padding:18px 16px;text-align:center;
+}
+.how-item .ms{font-size:24px;color:var(--gold-lt);margin-bottom:10px;display:block;}
+.how-item-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.how-item-desc{font-size:11px;color:var(--dim);line-height:1.5;}
+
+/* ── FAQ ── */
+.faq{margin-bottom:40px;}
+.section-title{
+  font-family:'Cinzel',serif;font-size:18px;font-weight:700;
+  color:var(--text);text-align:center;margin-bottom:24px;
+}
+.faq-item{
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:18px 0;
+}
+.faq-q{
+  font-size:14px;font-weight:700;color:var(--text);
+  cursor:pointer;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;user-select:none;
+}
+.faq-q .ms{font-size:20px;color:var(--dim);transition:transform .3s;flex-shrink:0;font-variation-settings:'FILL' 0;}
+.faq-q.open .ms{transform:rotate(180deg);color:var(--gold-lt);}
+.faq-a{font-size:13px;color:var(--dim);line-height:1.8;margin-top:12px;display:none;padding-right:36px;}
+.faq-a.show{display:block;}
+
+/* ── GUARANTEE ── */
+.guarantee{
+  background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.04));
+  border:1px solid rgba(201,168,76,.2);border-radius:16px;
+  padding:24px 28px;display:flex;align-items:center;gap:20px;
+}
+.guarantee .ms{font-size:36px;color:var(--gold);flex-shrink:0;}
+.guarantee-title{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.guarantee-desc{font-size:13px;color:var(--dim);line-height:1.6;}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.plan{animation:fadeUp .5s ease both;}
+.plan:nth-child(2){animation-delay:.1s;}
+.how{animation:fadeUp .5s .2s ease both;}
+
+@media(max-width:480px){
+  .geo-hero-title{font-size:28px!important;}
+  .geo-hero-ar{font-size:60px!important;}
+  .path-card{margin-bottom:12px;}
+  .plans{grid-template-columns:1fr!important;}
+  .tutor-card{grid-template-columns:1fr!important;}
+  .topbar{padding:12px 16px!important;}
+  .logo-ar{font-size:22px!important;}
+  .logo-en{font-size:12px!important;}
+  .bottom-nav{padding:8px 0 12px!important;}
+  .nav-item span:last-child{font-size:9px!important;}
+}
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="logo">
+      <span class="logo-ar">عِلْم</span>
+      <span class="logo-en">Lisaany</span>
+    </div>
+    <a href="index.html" class="nav-back">
+      <span class="ms" style="font-size:16px;font-variation-settings:'FILL' 0;">arrow_back</span>
+      Back to Home
+    </a>
+  </nav>
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-eyebrow">
+      <span class="ms">star</span>
+      Simple, transparent pricing
+    </div>
+    <h1 class="hdr-title">Choose Your Arabic<br>Learning Journey</h1>
+    <p class="hdr-desc">Full access to every lesson, assessment and resource. Add a live tutor to accelerate your progress dramatically.</p>
+  </div>
+
+  <!-- Billing toggle -->
+  <div class="billing-wrap">
+    <button class="bill-opt active" id="btn-monthly" onclick="setBilling('monthly')">Monthly</button>
+    <button class="bill-opt" id="btn-annual" onclick="setBilling('annual')">
+      Annual
+      <span class="save-pill">Save 30%</span>
+    </button>
+  </div>
+
+  <!-- Plans -->
+  <div class="plans">
+
+    <!-- Standard -->
+    <div class="plan plan-standard" onclick="selectPlan('standard')">
+      <div class="plan-tag">Standard</div>
+      <div class="plan-name">Self-Paced</div>
+      <div class="price-row">
+        <span class="price-sym">$</span>
+        <span class="price-num" id="std-num">9.99</span>
+      </div>
+      <div class="price-period">per month</div>
+      <div class="price-save" id="std-save"></div>
+      <div class="divider"></div>
+      <ul class="features">
+        <li class="fi yes"><span class="ms">check_circle</span>All 8 Tajweed lessons</li>
+        <li class="fi yes"><span class="ms">check_circle</span>Full Arabic Platform (5 modules)</li>
+        <li class="fi yes"><span class="ms">check_circle</span>Audio pronunciation system</li>
+        <li class="fi yes"><span class="ms">check_circle</span>Assessments & progress tracking</li>
+        <li class="fi yes"><span class="ms">check_circle</span>Streaks & XP system</li>
+        <li class="fi no"><span class="ms">cancel</span>Live tutor sessions</li>
+        <li class="fi no"><span class="ms">cancel</span>Session recordings</li>
+      </ul>
+      <button class="btn btn-std">Get Started →</button>
+    </div>
+
+    <!-- Premium -->
+    <div class="plan plan-premium" onclick="selectPlan('premium')">
+      <div class="badge-popular">✦ Most Popular</div>
+      <div class="plan-tag" style="color:rgba(122,184,245,.6);">Premium</div>
+      <div class="plan-name">With Live Tutor</div>
+      <div class="price-row">
+        <span class="price-sym">$</span>
+        <span class="price-num" id="prem-num">15.99</span>
+      </div>
+      <div class="price-period">per month</div>
+      <div class="price-save" id="prem-save"></div>
+      <div class="divider" style="background:linear-gradient(90deg,transparent,rgba(212,163,74,.3),transparent);"></div>
+      <ul class="features">
+        <li class="fi yes"><span class="ms">check_circle</span>Everything in Standard</li>
+        <li class="fi yes"><span class="ms">check_circle</span>2 live group sessions/month</li>
+        <li class="fi yes"><span class="ms">check_circle</span>Recorded session library</li>
+        <li class="fi yes"><span class="ms">check_circle</span>Calendar booking via Calendly</li>
+        <li class="fi yes"><span class="ms">check_circle</span>Google Meet integration</li>
+        <li class="fi yes"><span class="ms">check_circle</span>Switch tutor (once/month)</li>
+        <li class="fi yes"><span class="ms">check_circle</span>Priority support</li>
+      </ul>
+      <button class="btn btn-prem">Start with Tutor →</button>
+    </div>
+
+  </div>
+
+  <!-- How it works -->
+  <div class="how">
+    <div class="how-hdr">
+      <div class="how-icon"><span class="ms">live_tv</span></div>
+      <div>
+        <div class="how-title">How Live Sessions Work</div>
+        <div class="how-sub">Simple, flexible, and effective</div>
+      </div>
+    </div>
+    <div class="how-grid">
+      <div class="how-item">
+        <span class="ms">event_available</span>
+        <div class="how-item-title">Book a Slot</div>
+        <div class="how-item-desc">Pick your time on the Calendly calendar in one tap</div>
+      </div>
+      <div class="how-item">
+        <span class="ms">videocam</span>
+        <div class="how-item-title">Join on Meet</div>
+        <div class="how-item-desc">Google Meet link sent automatically — no downloads</div>
+      </div>
+      <div class="how-item">
+        <span class="ms">groups</span>
+        <div class="how-item-title">Group Learning</div>
+        <div class="how-item-desc">Up to 15 students per session — focused & interactive</div>
+      </div>
+      <div class="how-item">
+        <span class="ms">replay</span>
+        <div class="how-item-title">Watch Again</div>
+        <div class="how-item-desc">Every session recorded and available for replay</div>
+      </div>
+      <div class="how-item">
+        <span class="ms">swap_horiz</span>
+        <div class="how-item-title">Switch Tutor</div>
+        <div class="how-item-desc">Free to switch in first 7 days. Once per month after</div>
+      </div>
+      <div class="how-item">
+        <span class="ms">verified</span>
+        <div class="how-item-title">Qualified Teachers</div>
+        <div class="how-item-desc">All tutors vetted and trained in Arabic instruction</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq">
+    <div class="section-title">Frequently Asked Questions</div>
+
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Can I switch between plans? <span class="ms">expand_more</span></div>
+      <div class="faq-a">Yes — upgrade or downgrade anytime. Changes take effect at the start of your next billing cycle. No penalties.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">What happens to my progress if I cancel? <span class="ms">expand_more</span></div>
+      <div class="faq-a">Your progress is always saved to your account. If you cancel, you keep full access until the end of your paid period. Your data is never deleted.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">How do I book a tutor session? <span class="ms">expand_more</span></div>
+      <div class="faq-a">Premium subscribers see a "Book a Session" button inside the app. It opens the Calendly calendar — pick your time and a Google Meet link is sent to your email automatically.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Are sessions 1-on-1 or group? <span class="ms">expand_more</span></div>
+      <div class="faq-a">Group sessions (maximum 15 students) are included in Premium. This keeps quality high and cost affordable for everyone. 1-on-1 sessions may be available as a future add-on.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">Is there a free trial? <span class="ms">expand_more</span></div>
+      <div class="faq-a">Module 1 of both the Tajweed and Arabic Conversation paths is completely free — no credit card required. Only upgrade when you're ready to unlock everything.</div>
+    </div>
+  </div>
+
+  <!-- Guarantee -->
+  <div class="guarantee">
+    <span class="ms" style="font-size:40px;">verified_user</span>
+    <div>
+      <div class="guarantee-title">7-Day Money-Back Guarantee</div>
+      <div class="guarantee-desc">Not satisfied within your first 7 days? We'll refund you completely — no questions asked, no hassle.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let billing = 'monthly';
+
+function setBilling(type) {
+  billing = type;
+  document.getElementById('btn-monthly').classList.toggle('active', type === 'monthly');
+  document.getElementById('btn-annual').classList.toggle('active', type === 'annual');
+
+  if (type === 'annual') {
+    document.getElementById('std-num').textContent = '6.99';
+    document.getElementById('prem-num').textContent = '11.19';
+    document.getElementById('std-save').textContent = 'Billed $83.88/year — you save $36';
+    document.getElementById('prem-save').textContent = 'Billed $134.28/year — you save $57.60';
+    document.getElementById('std-save').style.color = '#a7d9a6';
+    document.getElementById('prem-save').style.color = '#a7d9a6';
+  } else {
+    document.getElementById('std-num').textContent = '9.99';
+    document.getElementById('prem-num').textContent = '15.99';
+    document.getElementById('std-save').textContent = '';
+    document.getElementById('prem-save').textContent = '';
+  }
+}
+
+function selectPlan(plan) {
+  // Stripe Checkout — connect when keys are ready
+  const name = plan === 'premium' ? 'Premium + Tutor' : 'Standard';
+  alert(`${name} selected (${billing}) — Stripe integration coming soon!`);
+}
+
+function toggleFaq(el) {
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('show');
+}
+</script>
+</body>
+</html>

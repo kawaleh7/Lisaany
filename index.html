@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Lisaany — Learn Arabic</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
+<style>:root{
+  --bg:#060e1b!important;--s1:#0d1e36!important;--s2:#0d1e36!important;--s3:#132040!important;
+  --gold:#d4a347!important;--gold-lt:#f2d080!important;--gold-dk:#8a6420!important;
+  --text:#e8dcc8!important;--dim:#9a8e78!important;
+  --border:rgba(212,163,71,.2)!important;--faint:rgba(212,163,71,.07)!important;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+html,body{min-height:100%;background:#060e1b;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+.bg-glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 50% 20%,rgba(242,190,98,.04) 0%,transparent 70%);}
+.star-dot{position:fixed;border-radius:50%;background:var(--gold);pointer-events:none;z-index:0;animation:twinkle 4s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:.06}50%{opacity:.35}}
+.page{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 20px 80px;}
+.ms{font-family:'Material Symbols Outlined';font-size:inherit;line-height:1;font-variation-settings:'FILL' 1;}
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(6,14,27,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);margin:0 -20px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-ar{font-family:'Amiri',serif;font-size:28px;background:linear-gradient(135deg,#f2be62,#f2d8a0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.logo-en{font-family:'Cinzel',serif;font-size:16px;font-weight:700;letter-spacing:.5px;color:var(--gold);}
+/* HERO */
+.hero{text-align:center;padding:48px 0 40px;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(242,190,98,.08);border:1px solid rgba(242,190,98,.25);padding:8px 20px;border-radius:999px;margin-bottom:24px;}
+.hero-ar{font-family:'Amiri',serif;font-size:78px;line-height:1;background:linear-gradient(135deg,#f2e0b0,#f2be62,#d4a34a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 30px rgba(242,190,98,.4));margin-bottom:12px;animation:float 5s ease-in-out infinite;}
+.hero-title{font-family:'Cinzel',serif;font-size:32px;font-weight:700;line-height:1.15;margin-bottom:14px;}
+.hero-sub{font-size:15px;color:var(--dim);line-height:1.6;max-width:340px;margin:0 auto 32px;}
+/* PATH CARDS */
+.path-card{border-radius:28px;overflow:hidden;border:1.5px solid var(--border);background:linear-gradient(145deg,#0d1828,#fafaf5);cursor:pointer;transition:all .3s cubic-bezier(0.4,0,0.2,1);margin-bottom:20px;text-decoration:none;display:block;color:inherit;box-shadow:0 10px 30px rgba(0,0,0,.3);}
+.path-card:hover{transform:translateY(-8px) scale(1.02);border-color:var(--gold);box-shadow:0 20px 50px rgba(242,190,98,.04);}
+.path-card:active{transform:scale(.98);}
+.pc-top{padding:32px 24px 24px;display:flex;align-items:flex-start;gap:20px;position:relative;overflow:hidden;}
+.pc-glow{position:absolute;inset:0;opacity:.16;pointer-events:none;}
+.pc-icon{width:68px;height:68px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0;position:relative;z-index:1;box-shadow:0 8px 25px rgba(0,0,0,.3);}
+.pc-body{flex:1;position:relative;z-index:1;}
+.pc-tag{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.pc-title{font-family:'Cinzel',serif;font-size:22px;font-weight:700;line-height:1.2;margin-bottom:8px;}
+.pc-desc{font-size:13.5px;color:var(--dim);line-height:1.55;}
+.pc-bottom{border-top:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(0,0,0,.15);}
+.pc-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.pc-pill{padding:5px 12px;border-radius:999px;font-size:9.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;border:1px solid;background:rgba(255,255,255,.03);}
+.pc-cta{font-size:13px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;gap:6px;color:var(--gold);}
+/* ROADMAP */
+.roadmap-strip{background:var(--faint);border:1px solid var(--border);border-radius:24px;border-top:2px solid rgba(74,144,217,.35);padding:24px 20px;margin:32px 0;}
+.rs-title{font-family:'Cinzel',serif;font-size:15px;font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:10px;color:var(--gold);}
+.rs-nodes{display:flex;align-items:center;gap:8px;overflow-x:auto;padding:8px 0;scrollbar-width:none;}
+.rs-node{display:flex;flex-direction:column;align-items:center;gap:6px;flex-shrink:0;min-width:58px;}
+.rs-circle{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:'Cinzel',serif;}
+.rs-lbl{font-size:9px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;text-align:center;line-height:1.2;color:var(--dim);}
+.rs-line{flex:1;height:3px;background:var(--border);margin-bottom:18px;}
+/* FEATURES */
+.features{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:32px 0;}
+.feat{background:var(--faint);border:1px solid var(--border);border-radius:20px;border-top:2px solid rgba(74,144,217,.35);padding:20px 16px;display:flex;flex-direction:column;gap:10px;}
+.feat-icon{width:48px;height:48px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:4px;}
+.feat-title{font-size:13.5px;font-weight:700;}
+.feat-desc{font-size:12px;color:var(--dim);line-height:1.5;}
+/* BOTTOM NAV */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-around;padding:14px 20px 24px;background:rgba(6,14,27,.97);backdrop-filter:blur(24px);border-top:1px solid var(--border);border-radius:28px 28px 0 0;}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;color:rgba(255,255,255,.4);font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;text-decoration:none;transition:all .2s;}
+.nav-btn.active{color:var(--gold);}
+.nav-btn .ms{font-size:26px;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes fade-up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.path-card:nth-child(1){animation:fade-up .6s .1s ease both;}
+.path-card:nth-child(2){animation:fade-up .6s .2s ease both;}
+
+/* ── Islamic Geometric Pattern ── */
+.geo-header{
+  position:relative;
+  overflow:hidden;
+  background:#0d0d0d;
+  padding:0 20px;
+  margin:0 -20px;
+}
+/* SVG pattern overlay */
+.geo-pattern{
+  position:absolute;inset:0;
+  opacity:.18;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8'%3E%3Cpolygon points='40,4 52,16 64,8 64,24 76,32 64,40 76,48 64,56 64,72 52,64 40,76 28,64 16,72 16,56 4,48 16,40 4,32 16,24 16,8 28,16'/%3E%3Cpolygon points='40,14 50,22 60,16 60,28 70,34 60,40 70,46 60,52 60,64 50,58 40,66 30,58 20,64 20,52 10,46 20,40 10,34 20,28 20,16 30,22'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:80px 80px;
+  pointer-events:none;
+  z-index:0;
+}
+/* Gold border top and bottom */
+.geo-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,#d4a347 20%,#f2d080 50%,#d4a347 80%,transparent);
+  z-index:2;
+}
+.geo-header::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,#d4a34780 50%,transparent);
+  z-index:2;
+}
+.geo-inner{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  padding:52px 0 44px;
+  text-align:center;
+}
+/* Corner ornaments */
+.geo-corner{
+  position:absolute;width:90px;height:90px;opacity:.25;
+}
+.geo-corner-tl{top:0;left:0;}
+.geo-corner-tr{top:0;right:0;transform:scaleX(-1);}
+
+/* Divider ornament */
+.gold-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:0 auto 28px;width:100%;max-width:320px;
+}
+.gold-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#d4a347);}
+.gold-divider-line.r{background:linear-gradient(90deg,#d4a347,transparent);}
+.gold-divider-diamond{
+  width:8px;height:8px;background:var(--gold);
+  transform:rotate(45deg);flex-shrink:0;
+  box-shadow:0 0 8px rgba(212,163,74,.6);
+}
+
+/* Updated hero inside geo header */
+.geo-hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid rgba(212,163,74,.4);
+  padding:6px 18px;border-radius:999px;margin-bottom:20px;
+  background:rgba(212,163,74,.06);
+}
+.geo-hero-ar{
+  font-family:'Amiri',serif;font-size:82px;line-height:1;
+  background:linear-gradient(160deg,#f5e8c0 0%,#f2be62 40%,#d4a347 70%,#b8892e 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 36px rgba(212,163,74,.5));
+  margin-bottom:14px;
+  animation:float 5s ease-in-out infinite;
+}
+.geo-hero-title{
+  font-family:'Cinzel',serif;font-size:30px;font-weight:700;line-height:1.2;
+  color:#fff;margin-bottom:12px;
+  text-shadow:0 2px 20px rgba(0,0,0,.6);
+}
+.geo-hero-sub{
+  font-size:14px;color:rgba(180,180,200,.8);line-height:1.65;
+  max-width:300px;margin:0 auto;
+}
+
+/* Updated topbar */
+.topbar{
+  background:rgba(13,13,13,.95)!important;
+  border-bottom:1px solid rgba(212,163,74,.2)!important;
+}
+
+/* Path card darker */
+.path-card{
+  background:linear-gradient(145deg,#1a1a1a,#0a1628)!important;
+  border-color:rgba(212,163,74,.04)!important;
+}
+.path-card:hover{
+  border-color:var(--gold)!important;
+  box-shadow:0 20px 50px rgba(212,163,74,.06)!important;
+}
+.pc-bottom{background:rgba(0,0,0,.3)!important;}
+
+/* Roadmap strip */
+.roadmap-strip{
+  background:rgba(12,22,42,.7)!important;
+  border-color:rgba(212,163,74,.04)!important;
+}
+
+/* Features */
+.feat{
+  background:rgba(12,22,42,.6)!important;
+  border-color:rgba(212,163,74,.1)!important;
+}
+
+/* Quote card */
+.quote-geo{
+  background:rgba(20,15,5,.7);
+  border:1px solid rgba(212,163,74,.25);
+  border-radius:24px;
+  padding:28px 24px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  margin:40px 0 20px;
+}
+.quote-geo::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.5' opacity='0.3'%3E%3Cpolygon points='30,3 39,12 48,6 48,18 57,24 48,30 57,36 48,42 48,54 39,48 30,57 21,48 12,54 12,42 3,36 12,30 3,24 12,18 12,6 21,12'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:60px 60px;
+  opacity:.12;pointer-events:none;
+}
+
+/* ══ DEEP REDESIGN ══ */
+
+html,body{background:#060e1b!important;}
+
+/* Animated geometric bg */
+.geo-bg-anim{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.geo-bg-anim svg{
+  position:absolute;top:-10%;left:-10%;width:120%;height:120%;
+  opacity:.14;
+  animation:geo-drift 40s linear infinite;
+}
+@keyframes geo-drift{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* HERO BANNER — full redesign */
+.geo-header{
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#0d0b06 0%,#111008 60%,#060e1b 100%);
+  margin:0 -20px;padding:0 20px;
+}
+/* Top gold border */
+.geo-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold-dk) 15%,var(--gold-lt) 40%,var(--gold) 50%,var(--gold-lt) 60%,var(--gold-dk) 85%,transparent 100%);
+  z-index:3;
+}
+/* Bottom border */
+.geo-header::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,163,74,.5) 50%,transparent);
+  z-index:3;
+}
+/* Pattern tiles */
+.geo-pattern{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.6'%3E%3Cpolygon points='50,5 61,18 75,10 75,26 89,32 75,40 89,50 75,60 75,76 61,68 50,81 39,68 25,76 25,60 11,50 25,40 11,32 25,26 25,10 39,18'/%3E%3Cpolygon points='50,18 59,27 68,22 68,34 77,40 68,46 77,52 68,58 68,70 59,65 50,74 41,65 32,70 32,58 23,52 32,46 23,40 32,34 32,22 41,27'/%3E%3Ccircle cx='50' cy='40' r='9'/%3E%3Cline x1='50' y1='0' x2='50' y2='18'/%3E%3Cline x1='50' y1='62' x2='50' y2='80'/%3E%3Cline x1='0' y1='40' x2='23' y2='40'/%3E%3Cline x1='77' y1='40' x2='100' y2='40'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:100px 100px;
+  opacity:.15;
+}
+/* Side gradient fade */
+.geo-pattern-sides{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,#0d0b06 0%,transparent 20%,transparent 80%,#0d0b06 100%);
+}
+.geo-inner{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  padding:56px 0 50px;text-align:center;
+}
+/* Corner SVG ornaments */
+.geo-corner{position:absolute;z-index:2;pointer-events:none;}
+.geo-corner-tl{top:0;left:0;}
+.geo-corner-tr{top:0;right:0;transform:scaleX(-1);}
+.geo-corner-bl{bottom:0;left:0;transform:scaleY(-1);}
+.geo-corner-br{bottom:0;right:0;transform:scale(-1,-1);}
+
+.geo-hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold);background:rgba(212,163,74,.04);
+  border:1px solid rgba(212,163,74,.3);padding:7px 20px;border-radius:999px;
+  margin-bottom:22px;
+}
+.geo-hero-ar{
+  font-family:'Amiri',serif;font-size:90px;line-height:1;
+  background:linear-gradient(160deg,#fff8e8 0%,var(--gold-lt) 30%,var(--gold) 55%,var(--gold-dk) 80%,#6b4c10 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 40px rgba(212,163,74,.55));
+  margin-bottom:16px;animation:float 5s ease-in-out infinite;
+}
+.gold-divider{display:flex;align-items:center;gap:10px;margin:0 auto 24px;width:240px;}
+.gold-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+.gold-divider-line.r{background:linear-gradient(90deg,var(--gold),transparent);}
+.gold-divider-star{
+  font-size:14px;color:var(--gold);
+  font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;
+  filter:drop-shadow(0 0 6px rgba(212,163,74,.6));
+}
+.geo-hero-title{
+  font-family:'Cinzel',serif;font-size:30px;font-weight:700;line-height:1.2;
+  color:#fff;margin-bottom:12px;
+  text-shadow:0 2px 30px rgba(0,0,0,.8);
+}
+.geo-hero-sub{
+  font-size:14px;color:rgba(200,190,168,.75);line-height:1.7;
+  max-width:290px;margin:0 auto;
+}
+
+/* ── ORNAMENTAL SECTION DIVIDER ── */
+.ornament-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:36px 0 18px;
+}
+.od-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(212,163,74,.3));}
+.od-line.r{background:linear-gradient(90deg,rgba(212,163,74,.3),transparent);}
+.od-center{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.od-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 8px rgba(212,163,74,.5);}
+.od-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+
+/* ── PATH CARDS — geometric frame ── */
+.path-card{
+  border-radius:20px!important;
+  background:linear-gradient(145deg,#0d1e36,#0a1628)!important;
+  border:1px solid rgba(212,163,74,.2)!important;
+  box-shadow:0 8px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(212,163,74,.04)!important;
+  position:relative;overflow:hidden!important;
+}
+.path-card:hover{
+  border-color:rgba(212,163,74,.55)!important;
+  box-shadow:0 16px 50px rgba(0,0,0,.6),0 0 30px rgba(212,163,74,.04),inset 0 1px 0 rgba(212,163,74,.04)!important;
+}
+/* Geometric corner on each card */
+.path-card::before{
+  content:'';position:absolute;top:0;left:0;width:60px;height:60px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.7' opacity='0.35'%3E%3Cpolygon points='0,0 40,0 20,20 0,40'/%3E%3Cpolygon points='0,0 25,0 12,12 0,25'/%3E%3Ccircle cx='5' cy='5' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.path-card::after{
+  content:'';position:absolute;top:0;right:0;width:60px;height:60px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.7' opacity='0.35' transform='scale(-1,1) translate(-60,0)'%3E%3Cpolygon points='0,0 40,0 20,20 0,40'/%3E%3Cpolygon points='0,0 25,0 12,12 0,25'/%3E%3Ccircle cx='5' cy='5' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.pc-bottom{
+  background:rgba(0,0,0,.4)!important;
+  border-top:1px solid rgba(212,163,74,.04)!important;
+}
+
+/* ── ROADMAP ── */
+.roadmap-strip{
+  background:linear-gradient(145deg,#0d1e36,#0a1628)!important;
+  border:1px solid rgba(212,163,74,.06)!important;
+  position:relative;overflow:hidden;
+}
+.roadmap-strip::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.5' opacity='0.2'%3E%3Cpolygon points='40,4 52,16 64,8 64,24 76,32 64,40 76,48 64,56 64,72 52,64 40,76 28,64 16,72 16,56 4,48 16,40 4,32 16,24 16,8 28,16'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:80px 80px;pointer-events:none;
+}
+
+/* ── FEATURES ── */
+.feat{
+  background:linear-gradient(145deg,#0d1e36,#0a1628)!important;
+  border:1px solid rgba(212,163,74,.04)!important;
+  position:relative;overflow:hidden;
+}
+.feat::before{
+  content:'';position:absolute;top:0;right:0;width:40px;height:40px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.6' opacity='0.25' transform='scale(-1,1) translate(-40,0)'%3E%3Cpolygon points='0,0 30,0 15,15 0,30'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+
+/* ── QUOTE CARD ── */
+.quote-geo{
+  background:linear-gradient(145deg,#0d1e36,#0a1628)!important;
+  border:1px solid rgba(212,163,74,.25)!important;
+  border-radius:20px;padding:30px 24px;text-align:center;
+  position:relative;overflow:hidden;margin:0 0 20px;
+}
+.quote-geo::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.5' opacity='0.15'%3E%3Cpolygon points='40,4 52,16 64,8 64,24 76,32 64,40 76,48 64,56 64,72 52,64 40,76 28,64 16,72 16,56 4,48 16,40 4,32 16,24 16,8 28,16'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:80px 80px;pointer-events:none;
+}
+/* top accent line */
+.quote-geo::after{
+  content:'';position:absolute;top:0;left:20%;right:20%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  background:rgba(10,9,6,.97)!important;
+  border-top:1px solid rgba(212,163,74,.06)!important;
+}
+.nav-btn.active{color:var(--gold)!important;}
+
+/* Text color warmth */
+.pc-desc{color:rgba(190,178,155,.75)!important;}
+.feat-desc{color:rgba(190,178,155,.7)!important;}
+.hero-sub,.geo-hero-sub{color:rgba(190,178,155,.7)!important;}
+
+/* ══ BOLD ISLAMIC GEOMETRIC — matches reference image ══ */
+
+html,body{background:#060e1b!important;}
+
+/* Topbar */
+.topbar{
+  background:rgba(8,6,2,.97)!important;
+  border-bottom:1px solid rgba(212,163,74,.25)!important;
+}
+.topbar::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,163,74,.5) 50%,transparent);
+  pointer-events:none;
+}
+.topbar{position:relative!important;}
+
+/* Bottom nav */
+.bottom-nav{
+  background:rgba(8,6,2,.98)!important;
+  border-top:1px solid rgba(212,163,74,.22)!important;
+}
+
+/* All cards — warm dark */
+.mc,.uc,.bc,.feat,.roadmap-strip,.dscene,.gh,.rule-card,.score-row,
+.xp-card,.quote-geo,.auth-card{
+  background:linear-gradient(145deg,#0d1e36,#0a1628)!important;
+  border-color:rgba(212,163,74,.16)!important;
+}
+.mc:hover{border-color:rgba(212,163,74,.55)!important;}
+.uc.uc-on{border-color:var(--gold)!important;}
+.bc.bc-dn{border-color:rgba(127,168,134,.25)!important;}
+
+/* Path cards on index */
+.path-card{
+  background:linear-gradient(145deg,#0d1e36,#0a1628)!important;
+  border-color:rgba(212,163,74,.06)!important;
+  box-shadow:0 10px 40px rgba(0,0,0,.6)!important;
+}
+.path-card:hover{
+  border-color:rgba(212,163,74,.6)!important;
+  box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(212,163,74,.04)!important;
+}
+.pc-bottom{background:rgba(0,0,0,.5)!important;border-top-color:rgba(212,163,74,.14)!important;}
+
+/* Geo corners on cards */
+.mc,.path-card{position:relative!important;overflow:hidden!important;}
+.mc::before,.path-card::before{
+  content:'';position:absolute;top:0;left:0;width:60px;height:60px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.35'%3E%3Cpolygon points='0,0 42,0 21,21 0,42'/%3E%3Cpolygon points='0,0 26,0 13,13 0,26'/%3E%3Ccircle cx='6' cy='6' r='3.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.mc::after,.path-card::after{
+  content:'';position:absolute;top:0;right:0;width:60px;height:60px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.35' transform='scale(-1,1) translate(-60,0)'%3E%3Cpolygon points='0,0 42,0 21,21 0,42'/%3E%3Cpolygon points='0,0 26,0 13,13 0,26'/%3E%3Ccircle cx='6' cy='6' r='3.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+
+
+.bg-stars{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.9'%3E%3Cpolygon points='40,5 47,21 62,15 56,30 72,35 57,43 63,59 48,53 44,69 40,55 36,69 32,53 17,59 23,43 8,35 24,30 18,15 33,21'/%3E%3Cpolygon points='40,18 52,29 40,40 28,29'/%3E%3Ccircle cx='40' cy='29' r='4.5'/%3E%3Cline x1='0' y1='0' x2='18' y2='15'/%3E%3Cline x1='80' y1='0' x2='62' y2='15'/%3E%3Cline x1='0' y1='80' x2='18' y2='65'/%3E%3Cline x1='80' y1='80' x2='62' y2='65'/%3E%3Ccircle cx='0' cy='0' r='2.5' fill='%23d4a347'/%3E%3Ccircle cx='80' cy='0' r='2.5' fill='%23d4a347'/%3E%3Ccircle cx='0' cy='80' r='2.5' fill='%23d4a347'/%3E%3Ccircle cx='80' cy='80' r='2.5' fill='%23d4a347'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  opacity: .18;
+}
+
+/* ══ CORNER ORNAMENTS ON ALL CARDS ══ */
+.glass,.mc,.uc,.bc,.rn-circle-wrap,.opt,.rule-choice,.choice,
+.vm-word-block,.vm-connected,.slide-ex,.prac-tip,
+.assess-hero,.dscene,.gh,.maad-card,.morph-card,
+.ex-card,.auth-card,.path-card,.feat,
+.prac-audio-card,.assess-audio-card{
+  position:relative;
+}
+/* Top-left corner */
+.glass::before,.mc::before,.opt::before,.ex-card::before,
+.prac-audio-card::before,.assess-hero::before,.path-card::before{
+  content:'';
+  position:absolute;top:0;left:0;
+  width:44px;height:44px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.35'%3E%3Cpolygon points='0,0 32,0 16,16 0,32'/%3E%3Cpolygon points='0,0 20,0 10,10 0,20'/%3E%3Ccircle cx='5' cy='5' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;border-radius:inherit;
+}
+/* Top-right corner */
+.glass::after,.mc::after,.opt::after,.ex-card::after,
+.prac-audio-card::after,.assess-hero::after,.path-card::after{
+  content:'';
+  position:absolute;top:0;right:0;
+  width:44px;height:44px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.35' transform='scale(-1,1) translate(-44,0)'%3E%3Cpolygon points='0,0 32,0 16,16 0,32'/%3E%3Cpolygon points='0,0 20,0 10,10 0,20'/%3E%3Ccircle cx='5' cy='5' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;border-radius:inherit;
+}
+
+
+.ob-opt{
+  width:100%;padding:14px 16px;border:1.5px solid rgba(212,163,74,.2);
+  border-radius:12px;background:rgba(255,255,255,.03);
+  color:var(--text);font-size:13px;font-weight:600;
+  cursor:pointer;transition:all .2s;text-align:left;
+  display:flex;align-items:center;gap:10px;
+}
+.ob-opt:hover{border-color:var(--gold);background:rgba(212,163,74,.06);}
+
+
+@media(max-width:480px){
+  .geo-hero-title{font-size:28px!important;}
+  .geo-hero-ar{font-size:60px!important;}
+  .path-card{margin-bottom:12px;}
+  .plans{grid-template-columns:1fr!important;}
+  .tutor-card{grid-template-columns:1fr!important;}
+  .topbar{padding:12px 16px!important;}
+  .logo-ar{font-size:22px!important;}
+  .logo-en{font-size:12px!important;}
+  .bottom-nav{padding:8px 0 12px!important;}
+  .nav-item span:last-child{font-size:9px!important;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- Animated geometric background -->
+<div class="geo-bg-anim">
+  <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#d4a347" stroke-width="0.5">
+      <polygon points="400,40 480,120 560,80 560,200 640,240 560,300 640,380 560,440 560,560 480,520 400,600 320,520 240,560 240,440 160,380 240,300 160,240 240,200 240,80 320,120"/>
+      <polygon points="400,120 460,180 520,150 520,240 580,270 520,310 580,360 520,400 520,490 460,460 400,520 340,460 280,490 280,400 220,360 280,310 220,270 280,240 280,150 340,180"/>
+      <circle cx="400" cy="330" r="60"/>
+      <polygon points="400,250 440,290 400,330 360,290"/>
+      <polygon points="400,330 440,370 400,410 360,370"/>
+    </g>
+  </svg>
+</div>
+<div class="bg-stars"></div>
+<div class="bg-glow"></div>
+<div class="star-dot" style="left:12%;top:18%;width:3px;height:3px;animation-delay:0s;"></div>
+<div class="star-dot" style="left:82%;top:14%;width:2px;height:2px;animation-delay:1.2s;"></div>
+<div class="star-dot" style="left:25%;top:48%;width:4px;height:4px;animation-delay:.7s;"></div>
+<div class="star-dot" style="left:75%;top:65%;width:2px;height:2px;animation-delay:2.3s;"></div>
+
+<div class="page">
+  <div class="topbar">
+    <div class="logo">
+      <span class="logo-ar">عِلْم</span>
+      <span class="logo-en">Lisaany</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div style="display:flex;align-items:center;gap:8px;background:var(--faint);border:1px solid var(--border);padding:7px 16px;border-radius:999px;font-size:13px;font-weight:700;color:var(--gold);">
+        <span class="ms">local_fire_department</span>
+        <span id="streak-val">0</span>
+      </div>
+      <button id="auth-btn" onclick="handleAuthBtn()" style="display:flex;align-items:center;gap:6px;background:transparent;border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:6px 14px;cursor:pointer;transition:all .2s;" title="Sign In"><span class="ms" style="font-size:18px;color:#ffffff;font-variation-settings:'FILL' 1;">account_circle</span><span id="auth-label" style="font-size:12px;font-weight:700;color:#ffffff;letter-spacing:.06em;font-family:'Cinzel',serif;">Login</span></button>
+    </div>
+  </div>
+
+      <div style="width:1px;height:16px;background:var(--border);"></div>
+    <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--dim);">
+      <span class="ms" style="font-size:16px;color:var(--gold);">star</span>
+      <span><strong style="color:var(--text);">4.9/5</strong> student rating</span>
+    </div>
+    <div style="width:1px;height:16px;background:var(--border);"></div>
+    <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--dim);">
+      <span class="ms" style="font-size:16px;color:var(--gold);">menu_book</span>
+      <span><strong style="color:var(--text);">8 lessons</strong> · free to start</span>
+    </div>
+    <div style="width:1px;height:16px;background:var(--border);"></div>
+    <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--dim);">
+      <span class="ms" style="font-size:16px;color:var(--gold);">live_tv</span>
+      <span><strong style="color:var(--text);">3 live sessions</strong> per week</span>
+    </div>
+  </div>
+
+  <div class="geo-header">
+    <div class="geo-pattern"></div>
+        <!-- Corner ornaments -->
+    <svg class="geo-corner geo-corner-tl" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.5">
+        <polygon points="0,0 60,0 30,30 0,60"/>
+        <polygon points="0,0 35,0 17,17 0,35"/>
+        <polygon points="0,0 18,0 9,9 0,18"/>
+        <circle cx="8" cy="8" r="4"/>
+        <circle cx="22" cy="8" r="2"/>
+        <circle cx="8" cy="22" r="2"/>
+      </g>
+    </svg>
+    <svg class="geo-corner geo-corner-tr" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.5" transform="scale(-1,1) translate(-100,0)">
+        <polygon points="0,0 60,0 30,30 0,60"/>
+        <polygon points="0,0 35,0 17,17 0,35"/>
+        <polygon points="0,0 18,0 9,9 0,18"/>
+        <circle cx="8" cy="8" r="4"/>
+        <circle cx="22" cy="8" r="2"/>
+        <circle cx="8" cy="22" r="2"/>
+      </g>
+    </svg>
+    <svg class="geo-corner geo-corner-bl" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.3" transform="scale(1,-1) translate(0,-100)">
+        <polygon points="0,0 60,0 30,30 0,60"/>
+        <polygon points="0,0 35,0 17,17 0,35"/>
+        <circle cx="8" cy="8" r="4"/>
+      </g>
+    </svg>
+    <svg class="geo-corner geo-corner-br" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.3" transform="scale(-1,-1) translate(-100,-100)">
+        <polygon points="0,0 60,0 30,30 0,60"/>
+        <polygon points="0,0 35,0 17,17 0,35"/>
+        <circle cx="8" cy="8" r="4"/>
+      </g>
+    </svg>
+    <div class="geo-inner">
+      <div class="geo-hero-badge">
+        <span class="ms" style="font-size:12px">auto_awesome</span>
+        YOUR ARABIC JOURNEY
+      </div>
+      <div class="geo-hero-ar">عِلْم</div>
+      <div class="gold-divider">
+        <div class="gold-divider-line"></div>
+        <span class="gold-divider-star">star</span>
+        <div class="gold-divider-line r"></div>
+      </div>
+      <h1 class="geo-hero-title">Read the Quran.<br>Speak Arabic.</h1>
+      <p class="geo-hero-sub">From the alphabet to the Quran — with a real teacher. Both paths, properly.</p>
+        <button onclick="showOnboarding()" style="margin-top:20px;padding:14px 32px;border:none;border-radius:14px;background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:#1a1000;font-family:'Cinzel',serif;font-size:14px;font-weight:700;letter-spacing:.06em;cursor:pointer;box-shadow:0 4px 20px rgba(212,163,74,.3);">Find My Path →</button>
+  </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <a href="lisaany_new.html" class="path-card">
+      <div class="pc-top">
+        <div class="pc-glow" style="background:radial-gradient(circle at 30% 40%,#f2be62 0%,transparent 65%);"></div>
+        <div class="pc-icon" style="background:rgba(242,190,98,.04);border:2px solid rgba(242,190,98,.4);color:var(--gold);">
+          <span class="ms">menu_book</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-tag" style="color:var(--gold);">Start here for Quran</div>
+          <div class="pc-title">Learn to Read Arabic</div>
+          <div class="pc-desc">Master the Arabic alphabet, harakat, tajweed rules, and everything you need to read the Quran with confidence and beauty.</div>
+        </div>
+        <span class="ms" style="color:var(--gold);font-size:28px;align-self:center;flex-shrink:0;position:relative;z-index:1;">arrow_forward</span>
+      </div>
+      <div class="pc-bottom">
+        <div class="pc-pills">
+          <span class="pc-pill" style="border-color:rgba(242,190,98,.4);color:var(--gold);">8 Lessons</span>
+          <span class="pc-pill" style="border-color:rgba(242,190,98,.4);color:var(--gold);">Tajweed</span>
+          <span class="pc-pill" style="border-color:rgba(242,190,98,.4);color:var(--gold);">Audio</span>
+        </div>
+        <div class="pc-cta">
+          <span class="ms">play_circle</span> Begin Journey
+        </div>
+      </div>
+    </a>
+
+    <a href="arabic_platform.html" class="path-card">
+      <div class="pc-top">
+        <div class="pc-glow" style="background:radial-gradient(circle at 30% 40%,#7a9cc8 0%,transparent 65%);"></div>
+        <div class="pc-icon" style="background:rgba(122,156,200,.15);border:2px solid rgba(122,156,200,.4);color:var(--blue);">
+          <span class="ms">translate</span>
+        </div>
+        <div class="pc-body">
+          <div class="pc-tag" style="color:var(--blue);">Path 2 · Modern Arabic</div>
+          <div class="pc-title">Speak Arabic Fluently</div>
+          <div class="pc-desc">Structured 5-module course following Al-Arabiyyah Bayna Yadayk and Madina Arabic. From basics to real conversations.</div>
+        </div>
+        <span class="ms" style="color:var(--blue);font-size:28px;align-self:center;flex-shrink:0;position:relative;z-index:1;">arrow_forward</span>
+      </div>
+      <div class="pc-bottom">
+        <div class="pc-pills">
+          <span class="pc-pill" style="border-color:rgba(122,156,200,.4);color:var(--blue);">5 Modules</span>
+          <span class="pc-pill" style="border-color:rgba(122,156,200,.4);color:var(--blue);">40 Blocks</span>
+        </div>
+        <div class="pc-cta" style="color:var(--blue);">
+          <span class="ms">play_circle</span> Start Speaking
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="roadmap-strip">
+    <div class="rs-title">
+      <span class="ms" style="font-size:22px">route</span>
+      Tajweed Roadmap
+    </div>
+    <div class="rs-nodes">
+      <div class="rs-node">
+        <div class="rs-circle" style="background:rgba(167,209,166,.15);border:2px solid var(--green);color:var(--green);">1</div>
+        <div class="rs-lbl" style="color:var(--green);">Alphabet</div>
+      </div>
+      <div class="rs-line"></div>
+      <div class="rs-node">
+        <div class="rs-circle" style="background:rgba(167,209,166,.15);border:2px solid var(--green);color:var(--green);">2</div>
+        <div class="rs-lbl" style="color:var(--green);">Harakat</div>
+      </div>
+      <div class="rs-line"></div>
+      <div class="rs-node">
+        <div class="rs-circle" style="background:rgba(242,190,98,.04);border:2px solid var(--gold);color:var(--gold);">3</div>
+        <div class="rs-lbl" style="color:var(--gold);">Maada</div>
+      </div>
+      <div class="rs-line"></div>
+      <div class="rs-node">
+        <div class="rs-circle" style="background:var(--faint);border:2px solid var(--border);color:var(--dim);">4</div>
+        <div class="rs-lbl">Sukun</div>
+      </div>
+      <div class="rs-line"></div>
+      <div class="rs-node">
+        <div class="rs-circle" style="background:var(--faint);border:2px solid var(--border);color:var(--dim);">5</div>
+        <div class="rs-lbl">Tanween</div>
+      </div>
+      <div class="rs-line"></div>
+      <div class="rs-node">
+        <div class="rs-circle" style="background:var(--faint);border:2px solid var(--border);color:var(--dim);">6</div>
+        <div class="rs-lbl">Shaddah</div>
+      </div>
+      <div class="rs-line"></div>
+      <div class="rs-node">
+        <div class="rs-circle" style="background:var(--faint);border:2px solid var(--border);color:var(--dim);">7</div>
+        <div class="rs-lbl">Hamzah</div>
+      </div>
+      <div class="rs-line"></div>
+      <div class="rs-node">
+        <div class="rs-circle" style="background:var(--faint);border:2px solid var(--border);color:var(--dim);">8</div>
+        <div class="rs-lbl">Laam</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin:40px 0 20px;">
+    <div class="ornament-divider"><div class="od-line"></div><div class="od-center"><div class="od-diamond"></div><div class="od-label">What Makes Lisaany Different</div><div class="od-diamond"></div></div><div class="od-line r"></div></div>
+    <div class="features">
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(242,190,98,.12);color:var(--gold);"><span class="ms">volume_up</span></div>
+        <div class="feat-title">Crystal Clear Audio</div>
+        <div class="feat-desc">Native pronunciation for every letter, word, and rule.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(122,156,200,.12);color:var(--blue);"><span class="ms">extension</span></div>
+        <div class="feat-title">Interactive Practice</div>
+        <div class="feat-desc">Build sentences, repeat after audio, and get instant feedback.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(167,209,166,.12);color:var(--green);"><span class="ms">school</span></div>
+        <div class="feat-title">Proven Curriculum</div>
+        <div class="feat-desc">Following Al-Arabiyyah Bayna Yadayk curriculum.</div>
+      </div>
+      <div class="feat">
+        <div class="feat-icon" style="background:rgba(156,122,184,.12);color:var(--purple);"><span class="ms">stars</span></div>
+        <div class="feat-title">Gamified Progress</div>
+        <div class="feat-desc">XP, streaks, levels — stay motivated every day.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quote-geo">
+    <div style="font-family:'Amiri',serif;font-size:24px;line-height:1.5;color:var(--gold);margin-bottom:12px;direction:rtl;">
+      طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِم
+    </div>
+    <div style="font-size:14px;color:var(--dim);font-style:italic;">
+      "Seeking knowledge is an obligation upon every Muslim."
+    </div>
+    <div style="margin-top:12px;font-size:11px;color:var(--gold);font-weight:700;">— Prophet Muhammad ﷺ · (Sunan Ibn Majah, 224)</div>
+  </div>
+</div>
+
+
+  <!-- Onboarding modal -->
+  <div id="onboarding-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:#0d1b2e;border:1.5px solid rgba(212,163,74,.3);border-top:2px solid rgba(74,144,217,.4);border-radius:24px;padding:32px;max-width:400px;width:100%;position:relative;">
+      
+      <!-- Step indicators -->
+      <div style="display:flex;gap:6px;justify-content:center;margin-bottom:24px;">
+        <div class="ob-dot" id="dot1" style="width:8px;height:8px;border-radius:50%;background:var(--gold);"></div>
+        <div class="ob-dot" id="dot2" style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);"></div>
+        <div class="ob-dot" id="dot3" style="width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);"></div>
+      </div>
+
+      <!-- Step 1 -->
+      <div id="ob-step1">
+        <div style="font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--text);text-align:center;margin-bottom:8px;">Why are you learning Arabic?</div>
+        <div style="font-size:13px;color:var(--dim);text-align:center;margin-bottom:24px;">We'll personalise your learning path</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button onclick="obSelect(1,'quran')" class="ob-opt">🕌 To read the Quran</button>
+          <button onclick="obSelect(1,'speak')" class="ob-opt">💬 To speak Modern Arabic</button>
+          <button onclick="obSelect(1,'both')" class="ob-opt">⭐ Both — Quran + Speaking</button>
+          <button onclick="obSelect(1,'culture')" class="ob-opt">🌍 Culture & travel</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="ob-step2" style="display:none;">
+        <div style="font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--text);text-align:center;margin-bottom:8px;">What's your current level?</div>
+        <div style="font-size:13px;color:var(--dim);text-align:center;margin-bottom:24px;">Be honest — we'll start from the right place</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button onclick="obSelect(2,'zero')" class="ob-opt">🌱 Complete beginner</button>
+          <button onclick="obSelect(2,'some')" class="ob-opt">📖 I know the alphabet</button>
+          <button onclick="obSelect(2,'basic')" class="ob-opt">🗣️ I know basic words</button>
+          <button onclick="obSelect(2,'inter')" class="ob-opt">📚 Intermediate level</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div id="ob-step3" style="display:none;">
+        <div style="font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--text);text-align:center;margin-bottom:8px;">How much time per day?</div>
+        <div style="font-size:13px;color:var(--dim);text-align:center;margin-bottom:24px;">Consistency beats intensity</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button onclick="obSelect(3,'5')" class="ob-opt">⚡ 5 minutes — casual</button>
+          <button onclick="obSelect(3,'15')" class="ob-opt">🎯 15 minutes — regular</button>
+          <button onclick="obSelect(3,'30')" class="ob-opt">🔥 30 minutes — serious</button>
+          <button onclick="obSelect(3,'60')" class="ob-opt">💪 1 hour — intensive</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+  <a href="index.html" class="nav-btn active">
+    <span class="ms">home</span>
+    Home
+  </a>
+  <a href="lisaany_new.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">menu_book</span>
+    Read
+  </a>
+  <a href="arabic_platform.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">translate</span>
+    Speak
+  </a>
+  <a href="auth.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">person</span>
+    Profile
+  </a>
+</div>
+
+<script>
+let streak = 0;
+try {
+  streak = Math.max(
+    parseInt(localStorage.getItem('lisaany_streak')||'0'),
+    parseInt(localStorage.getItem('lisaany_ap_str')||'0')
+  );
+} catch(e){}
+document.getElementById('streak-val').textContent = streak;
+
+// ── Supabase auth for index.html ──
+const { createClient: createSbClient } = supabase;
+const sbIndex = createSbClient(
+  'https://cfaxrzfqvoalwznkhwnx.supabase.co',
+  'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa'
+);
+
+async function initAuth() {
+  const { data: { session } } = await sbIndex.auth.getSession();
+  const btn = document.getElementById('auth-btn');
+  if (!btn) return;
+  if (session) {
+    // Logged in — show avatar initial + sign out on click
+    const name = session.user.user_metadata?.name || session.user.email || 'U';
+    const initial = name.charAt(0).toUpperCase();
+    btn.innerHTML = `<span style="font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);">${initial}</span>`;
+    btn.title = 'Sign Out (' + (session.user.user_metadata?.name || session.user.email) + ')';
+    btn.style.background = 'rgba(212,163,74,.04)';
+    btn.style.borderColor = 'rgba(212,163,74,.4)';
+  } else {
+    btn.title = 'Sign In';
+  }
+}
+
+async function handleAuthBtn() {
+  const { data: { session } } = await sbIndex.auth.getSession();
+  if (session) {
+    // Signed in — sign out
+    if (confirm('Sign out of Lisaany?')) {
+      await sbIndex.auth.signOut();
+      location.reload();
+    }
+  } else {
+    // Not signed in — go to auth page
+    window.location.href = 'auth.html';
+  }
+}
+
+initAuth();
+
+
+// Onboarding
+const obData = {};
+
+function showOnboarding() {
+  const seen = localStorage.getItem('lisaany_onboarded');
+  if(!seen) {
+    const modal = document.getElementById('onboarding-modal');
+    modal.style.display = 'flex';
+  }
+}
+
+function obSelect(step, value) {
+  obData['step'+step] = value;
+  
+  if(step === 1) {
+    document.getElementById('ob-step1').style.display = 'none';
+    document.getElementById('ob-step2').style.display = 'block';
+    document.getElementById('dot2').style.background = 'var(--gold)';
+  } else if(step === 2) {
+    document.getElementById('ob-step2').style.display = 'none';
+    document.getElementById('ob-step3').style.display = 'block';
+    document.getElementById('dot3').style.background = 'var(--gold)';
+  } else if(step === 3) {
+    // Save all preferences
+    localStorage.setItem('lisaany_onboarded', '1');
+    localStorage.setItem('lisaany_goal', JSON.stringify(obData));
+    
+    // Set daily XP target based on time commitment
+    const xpTargets = {'5':50,'15':150,'30':300,'60':600};
+    localStorage.setItem('lisaany_daily_xp', xpTargets[value] || 150);
+    
+    // Set level badge
+    const levels = {'zero':'Beginner','some':'Elementary','basic':'Pre-Intermediate','inter':'Intermediate'};
+    localStorage.setItem('lisaany_level', levels[obData.step2] || 'Beginner');
+    
+    document.getElementById('onboarding-modal').style.display = 'none';
+    
+    // Redirect based on goal
+    if(obData.step1 === 'quran') {
+      window.location.href = 'lisaany_new.html';
+    } else if(obData.step1 === 'speak') {
+      window.location.href = 'arabic_platform.html';
+    } else {
+      window.location.href = 'arabic_platform.html';
+    }
+  }
+}
+
+// Onboarding triggered by CTA click, not auto-popup
+
+</script>
+</body>
+</html>

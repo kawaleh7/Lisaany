@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lisaany — Live Tutors</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#060e1b;
+  --card:rgba(13,27,50,.9);
+  --gold:#d4a347;
+  --gold-lt:#f2d080;
+  --text:#e8dcc8;
+  --dim:#9a8e78;
+  --border:rgba(212,163,74,.18);--blue-border:rgba(74,144,217,.35);--blue-glow:rgba(74,144,217,.08);
+  --green:#a7d9a6;
+}
+.ms{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;font-size:20px;line-height:1;display:inline-block;}
+
+body{
+  background:#060e1b;color:var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;position:relative;
+}
+
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.9'%3E%3Cpolygon points='40,5 47,21 62,15 56,30 72,35 57,43 63,59 48,53 44,69 40,55 36,69 32,53 17,59 23,43 8,35 24,30 18,15 33,21'/%3E%3Cpolygon points='40,18 52,29 40,40 28,29'/%3E%3Ccircle cx='40' cy='29' r='4.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:80px 80px;opacity:.12;pointer-events:none;z-index:0;
+}
+
+.page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 80px;}
+
+/* Nav */
+.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-ar{font-family:'Amiri',serif;font-size:26px;background:linear-gradient(135deg,var(--gold-lt),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.logo-en{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);}
+.nav-back{font-size:13px;color:var(--dim);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s;}
+.nav-back:hover{color:var(--text);}
+.nav-back .ms{font-size:16px;font-variation-settings:'FILL' 0;}
+
+/* Header */
+.hdr{text-align:center;margin-bottom:48px;}
+.hdr-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(212,163,74,.08);border:1px solid rgba(212,163,74,.2);
+  border-radius:999px;padding:6px 16px;margin-bottom:16px;
+  font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);
+}
+.hdr-title{font-family:'Cinzel',serif;font-size:34px;font-weight:700;color:var(--text);margin-bottom:12px;}
+.hdr-desc{font-size:14px;color:var(--dim);line-height:1.7;max-width:460px;margin:0 auto;}
+
+/* Premium notice */
+.premium-notice{
+  background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);
+  border-radius:14px;padding:14px 20px;display:flex;align-items:center;
+  gap:12px;margin-bottom:40px;font-size:13px;color:var(--dim);
+}
+.premium-notice .ms{color:var(--gold);font-size:22px;}
+.premium-notice a{color:var(--gold);font-weight:700;text-decoration:none;}
+.premium-notice a:hover{text-decoration:underline;}
+
+/* Tutor card */
+.tutor-card{
+  background:var(--card);
+  border:1.5px solid rgba(212,163,74,.2);
+  border-radius:24px;padding:32px;
+  position:relative;overflow:hidden;
+  display:grid;grid-template-columns:auto 1fr auto;
+  gap:24px;align-items:start;
+  transition:all .3s;margin-bottom:20px;
+}
+.tutor-card:hover{border-color:rgba(212,163,74,.45);transform:translateY(-2px);box-shadow:0 16px 40px rgba(0,0,0,.4);}
+
+/* Corner ornaments */
+.tutor-card::before{
+  content:'';position:absolute;top:0;left:0;width:50px;height:50px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.7' opacity='0.35'%3E%3Cpolygon points='0,0 38,0 19,19 0,38'/%3E%3Ccircle cx='5' cy='5' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.tutor-card::after{
+  content:'';position:absolute;top:0;right:0;width:50px;height:50px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.7' opacity='0.35' transform='scale(-1,1) translate(-50,0)'%3E%3Cpolygon points='0,0 38,0 19,19 0,38'/%3E%3Ccircle cx='5' cy='5' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+
+/* Avatar */
+.avatar{
+  width:90px;height:90px;border-radius:20px;
+  background:linear-gradient(135deg,rgba(212,163,74,.2),rgba(212,163,74,.05));
+  border:2px solid rgba(212,163,74,.3);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;position:relative;z-index:1;overflow:hidden;
+}
+.avatar .ms{font-size:44px;color:rgba(212,163,74,.6);}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+.online-dot{
+  position:absolute;bottom:6px;right:6px;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--green);border:2px solid var(--bg);
+}
+
+/* Info */
+.tutor-info{position:relative;z-index:1;}
+.tutor-name{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.tutor-title{font-size:13px;color:var(--gold);font-weight:600;margin-bottom:12px;}
+.tutor-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
+.tag{
+  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  padding:4px 10px;border-radius:999px;
+  background:rgba(212,163,74,.08);border:1px solid rgba(212,163,74,.2);color:var(--gold);
+}
+.tutor-bio{font-size:13px;color:var(--dim);line-height:1.7;margin-bottom:16px;max-width:480px;}
+.tutor-stats{display:flex;gap:20px;}
+.stat{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--dim);}
+.stat .ms{font-size:16px;color:var(--gold);}
+.stat strong{color:var(--text);font-weight:700;}
+
+/* Stars */
+.stars{display:flex;gap:2px;margin-bottom:14px;}
+.star{font-size:14px;color:var(--gold);}
+.star.empty{color:rgba(212,163,74,.2);}
+
+/* Book button */
+.book-side{display:flex;flex-direction:column;align-items:flex-end;gap:12px;position:relative;z-index:1;flex-shrink:0;}
+.price-tag{text-align:right;}
+.price-tag .amount{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);}
+.price-tag .per{font-size:11px;color:var(--dim);}
+.btn-book{
+  background:linear-gradient(135deg,var(--gold),var(--gold-lt));
+  color:#1a1000;border:none;border-radius:12px;
+  padding:12px 24px;font-family:'Cinzel',serif;
+  font-size:12px;font-weight:700;letter-spacing:.08em;
+  cursor:pointer;transition:all .3s;white-space:nowrap;
+  box-shadow:0 4px 16px rgba(212,163,74,.25);
+}
+.btn-book:hover{box-shadow:0 6px 24px rgba(212,163,74,.4);transform:translateY(-1px);}
+.btn-book .ms{font-size:14px;vertical-align:middle;margin-right:4px;}
+
+.avail-badge{
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;color:var(--green);font-weight:600;
+}
+.avail-badge .ms{font-size:14px;}
+
+/* Specialties section */
+.specialties{margin-top:16px;padding-top:16px;border-top:1px solid rgba(212,163,74,.1);
+  display:flex;gap:16px;flex-wrap:wrap;}
+.spec-item{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--dim);}
+.spec-item .ms{font-size:16px;color:var(--gold);}
+
+/* Coming soon */
+.coming-soon{
+  border:1.5px dashed rgba(212,163,74,.15);
+  border-radius:24px;padding:32px;text-align:center;
+  color:var(--dim);font-size:14px;margin-top:8px;
+}
+.coming-soon .ms{font-size:40px;color:rgba(212,163,74,.2);display:block;margin-bottom:12px;}
+.coming-soon p{line-height:1.7;}
+
+@media(max-width:600px){
+  .tutor-card{grid-template-columns:1fr;gap:20px;}
+  .book-side{align-items:flex-start;}
+  .avatar{width:70px;height:70px;}
+}
+
+@media(max-width:480px){
+  .geo-hero-title{font-size:28px!important;}
+  .geo-hero-ar{font-size:60px!important;}
+  .path-card{margin-bottom:12px;}
+  .plans{grid-template-columns:1fr!important;}
+  .tutor-card{grid-template-columns:1fr!important;}
+  .topbar{padding:12px 16px!important;}
+  .logo-ar{font-size:22px!important;}
+  .logo-en{font-size:12px!important;}
+  .bottom-nav{padding:8px 0 12px!important;}
+  .nav-item span:last-child{font-size:9px!important;}
+}
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="logo">
+      <span class="logo-ar">عِلْم</span>
+      <span class="logo-en">Lisaany</span>
+    </div>
+    <a href="index.html" class="nav-back">
+      <span class="ms">arrow_back</span>
+      Back to Home
+    </a>
+  </nav>
+
+  <!-- Header -->
+  <div class="hdr">
+    <div class="hdr-eyebrow"><span class="ms" style="font-size:14px;">school</span> Live Tutors</div>
+    <h1 class="hdr-title">Learn with a Real Teacher</h1>
+    <p class="hdr-desc">Book a live group session with one of our qualified Arabic instructors. Available to Premium subscribers.</p>
+  </div>
+
+  <!-- Premium notice -->
+  <div class="premium-notice">
+    <span class="ms">star</span>
+    <span>Live sessions are included in the <a href="pricing.html">Premium plan ($15.99/month)</a>. Upgrade to book a session.</span>
+  </div>
+
+  <!-- Tutor 1 -->
+  <div class="tutor-card">
+    <div class="avatar">
+      <span class="ms">person</span>
+      <div class="online-dot"></div>
+    </div>
+
+    <div class="tutor-info">
+      <div class="tutor-name">Sheikh Ahmad</div>
+      <div class="tutor-title">Arabic & Tajweed Instructor</div>
+      <div class="stars">
+        <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        <span style="font-size:12px;color:var(--dim);margin-left:6px;">5.0 · New instructor</span>
+      </div>
+      <div class="tutor-tags">
+        <span class="tag">Tajweed</span>
+        <span class="tag">Quran Recitation</span>
+        <span class="tag">MSA Arabic</span>
+        <span class="tag">Beginner Friendly</span>
+      </div>
+      <div class="tutor-bio">
+        Passionate Arabic instructor specializing in Tajweed and Quranic recitation. Teaches with patience and clarity, making Arabic accessible for absolute beginners. Sessions conducted in English and Arabic.
+      </div>
+      <div class="specialties">
+        <div class="spec-item"><span class="ms">schedule</span>30-min sessions</div>
+        <div class="spec-item"><span class="ms">groups</span>Group (up to 15)</div>
+        <div class="spec-item"><span class="ms">videocam</span>Google Meet</div>
+        <div class="spec-item"><span class="ms">language</span>English / Arabic</div>
+      </div>
+    </div>
+
+    <div class="book-side">
+      <div class="price-tag">
+        <div class="amount">Included</div>
+        <div class="per">with Premium</div>
+      </div>
+      <div class="avail-badge">
+        <span class="ms">fiber_manual_record</span>
+        Available Now
+      </div>
+      <button class="btn-book" onclick="window.location.href='booking.html'">
+        <span class="ms">event</span>
+        Book a Session
+      </button>
+    </div>
+  </div>
+
+  <!-- Coming soon -->
+  <div class="coming-soon">
+    <span class="ms">group_add</span>
+    <p><strong style="color:var(--text);">More tutors coming soon.</strong><br>
+    We are carefully selecting and vetting qualified Arabic instructors.<br>
+    <span style="color:var(--gold);">Interested in teaching?</span> Email us at <a href="mailto:tutors@lisaany.com" style="color:var(--gold);">tutors@lisaany.com</a></p>
+  </div>
+
+</div>
+
+<script></script>
+</body>
+</html>

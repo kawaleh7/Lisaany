@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Lisaany — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#060e1b;
+  --gold:#d4a347;--gold-lt:#f2d080;--gold-dk:#8a6420;
+  --green:#a7d1a6;--red:#e07070;--blue:#7a9cc8;
+  --text:#e8dcc8;--dim:#9a8e78;
+  --border:rgba(212,163,71,.2);--faint:rgba(212,163,71,.07);
+  --on-gold:#2a1800;
+}
+html,body{
+  min-height:100%;background:#060e1b;color:var(--text);
+  font-family:'Inter',sans-serif;font-size:14px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+.ms{font-family:'Material Symbols Outlined';font-size:inherit;line-height:1;font-variation-settings:'FILL' 1;}
+
+/* ══════════════════════════
+   AUTH FORM AREA
+══════════════════════════ */
+.auth-wrap{
+  max-width:420px;margin:0 auto;
+  padding:0 24px 60px;
+}
+
+/* Tab switcher */
+.auth-tabs{
+  display:flex;background:rgba(20,15,5,.8);
+  border:1px solid var(--border);border-radius:14px;border-top:2px solid rgba(74,144,217,.3);
+  padding:4px;margin:24px 0 28px;
+}
+.auth-tab{
+  flex:1;padding:10px;border-radius:10px;border:none;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s;color:var(--dim);background:none;
+}
+.auth-tab.active{
+  background:linear-gradient(135deg,var(--gold-dk),var(--gold));
+  color:var(--on-gold);
+  box-shadow:0 4px 12px rgba(212,163,74,.25);
+}
+
+/* Form */
+.form-group{margin-bottom:18px;}
+.form-label{
+  display:block;font-size:11px;font-weight:700;
+  letter-spacing:.8px;text-transform:uppercase;
+  color:var(--dim);margin-bottom:8px;
+}
+.form-input{
+  width:100%;padding:14px 16px;
+  background:rgba(20,15,5,.7);
+  border:1.5px solid var(--border);
+  border-radius:12px;color:var(--text);
+  font-family:'Inter',sans-serif;font-size:14px;
+  transition:all .2s;outline:none;
+}
+.form-input:focus{
+  border-color:var(--gold);
+  background:rgba(25,18,5,.85);
+  box-shadow:0 0 0 3px rgba(212,163,74,.04);
+}
+.form-input::placeholder{color:rgba(154,142,120,.4);}
+
+.form-input-wrap{position:relative;}
+.form-input-icon{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  font-size:18px;color:var(--dim);cursor:pointer;
+}
+
+/* Submit button */
+.btn-submit{
+  width:100%;padding:15px;border:none;border-radius:14px;
+  background:linear-gradient(135deg,#8a6420,#d4a347,#f2d080,#d4a347,#8a6420);
+  background-size:200% 100%;
+  color:var(--on-gold);font-family:'Cinzel',serif;
+  font-size:15px;font-weight:700;letter-spacing:1px;
+  cursor:pointer;transition:all .3s;
+  box-shadow:0 6px 24px rgba(212,163,74,.3);
+  margin-top:6px;
+}
+.btn-submit:hover{
+  background-position:100% 0;
+  box-shadow:0 8px 32px rgba(212,163,74,.45);
+  transform:translateY(-1px);
+}
+.btn-submit:active{transform:scale(.98);}
+
+/* Divider */
+.or-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:20px 0;font-size:11px;color:var(--dim);
+  font-weight:700;letter-spacing:.8px;text-transform:uppercase;
+}
+.or-line{flex:1;height:1px;background:var(--border);}
+
+/* Social buttons */
+.social-btn{
+  width:100%;padding:13px;border-radius:12px;
+  background:rgba(20,15,5,.6);border:1.5px solid var(--border);
+  color:var(--text);font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:all .2s;margin-bottom:10px;
+}
+.social-btn:hover{border-color:var(--gold);background:rgba(25,18,5,.7);}
+
+/* Links */
+.auth-link{
+  text-align:center;font-size:12px;color:var(--dim);
+  margin-top:20px;line-height:1.7;
+}
+.auth-link a{color:var(--gold);text-decoration:none;font-weight:700;}
+.auth-link a:hover{text-decoration:underline;}
+
+/* Forgot password */
+.forgot{
+  text-align:right;font-size:11px;color:var(--gold);
+  font-weight:700;cursor:pointer;margin-top:6px;
+  letter-spacing:.3px;
+}
+.forgot:hover{text-decoration:underline;}
+
+/* Free tier banner */
+.free-banner{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(167,209,166,.07);
+  border:1px solid rgba(167,209,166,.2);
+  border-radius:12px;padding:12px 16px;
+  margin-bottom:20px;font-size:12px;color:var(--green);
+}
+.free-banner .ms{font-size:18px;}
+
+/* Terms */
+.terms{
+  text-align:center;font-size:11px;color:rgba(154,142,120,.5);
+  margin-top:16px;line-height:1.7;
+}
+.terms a{color:rgba(212,163,74,.6);}
+
+/* Geo corner ornaments on form card */
+.auth-card{
+  background:rgba(13,27,46,.92);
+  border:1px solid var(--border);
+  border-radius:24px;padding:28px 24px;
+  position:relative;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.auth-card::before{
+  content:'';position:absolute;top:0;left:0;width:70px;height:70px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.3'%3E%3Cpolygon points='0,0 50,0 25,25 0,50'/%3E%3Cpolygon points='0,0 30,0 15,15 0,30'/%3E%3Ccircle cx='6' cy='6' r='4'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.auth-card::after{
+  content:'';position:absolute;top:0;right:0;width:70px;height:70px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.3' transform='scale(-1,1) translate(-70,0)'%3E%3Cpolygon points='0,0 50,0 25,25 0,50'/%3E%3Cpolygon points='0,0 30,0 15,15 0,30'/%3E%3Ccircle cx='6' cy='6' r='4'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.auth-card-inner{position:relative;z-index:1;}
+
+/* Form title */
+.form-title{
+  font-family:'Cinzel',serif;font-size:18px;font-weight:700;
+  color:var(--text);margin-bottom:4px;text-align:center;
+}
+.form-sub{font-size:12px;color:var(--dim);text-align:center;margin-bottom:20px;line-height:1.6;}
+
+/* Error/success messages */
+.msg{border-radius:10px;padding:10px 14px;font-size:12px;margin-bottom:14px;display:none;}
+.msg.show{display:block;}
+.msg-err{background:rgba(224,112,112,.1);border:1px solid rgba(224,112,112,.3);color:var(--red);}
+.msg-ok{background:rgba(127,168,134,.1);border:1px solid rgba(127,168,134,.3);color:var(--green);}
+
+/* Bottom nav */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  display:flex;align-items:center;justify-content:space-around;
+  padding:12px 16px 22px;
+  background:rgba(8,6,2,.97);backdrop-filter:blur(24px);
+  border-top:1px solid rgba(212,163,74,.06);
+  border-radius:28px 28px 0 0;
+}
+.nav-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:none;border:none;cursor:pointer;
+  color:rgba(255,255,255,.3);font-size:10px;font-weight:700;
+  letter-spacing:.6px;text-transform:uppercase;
+  text-decoration:none;transition:all .2s;font-family:'Inter',sans-serif;
+}
+.nav-btn.active{color:var(--gold);}
+.nav-btn .ms{font-size:24px;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.auth-card{animation:fadeIn .4s ease both;}
+/* ── Islamic Geometric Pattern ── */
+.geo-header{
+  position:relative;
+  overflow:hidden;
+  background:#0d0d0d;
+  padding:0 20px;
+  margin:0 -20px;
+}
+/* SVG pattern overlay */
+.geo-pattern{
+  position:absolute;inset:0;
+  opacity:.15;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8'%3E%3Cpolygon points='40,4 52,16 64,8 64,24 76,32 64,40 76,48 64,56 64,72 52,64 40,76 28,64 16,72 16,56 4,48 16,40 4,32 16,24 16,8 28,16'/%3E%3Cpolygon points='40,14 50,22 60,16 60,28 70,34 60,40 70,46 60,52 60,64 50,58 40,66 30,58 20,64 20,52 10,46 20,40 10,34 20,28 20,16 30,22'/%3E%3Ccircle cx='40' cy='40' r='8'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:80px 80px;
+  pointer-events:none;
+  z-index:0;
+}
+/* Gold border top and bottom */
+.geo-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,#d4a347 20%,#f2d080 50%,#d4a347 80%,transparent);
+  z-index:2;
+}
+.geo-header::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,#d4a34780 50%,transparent);
+  z-index:2;
+}
+.geo-inner{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  padding:52px 0 44px;
+  text-align:center;
+}
+/* Corner ornaments */
+.geo-corner{
+  position:absolute;width:90px;height:90px;opacity:.12;
+}
+.geo-corner-tl{top:0;left:0;}
+.geo-corner-tr{top:0;right:0;transform:scaleX(-1);}
+
+/* Divider ornament */
+.gold-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:0 auto 28px;width:100%;max-width:320px;
+}
+.gold-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,#d4a347);}
+.gold-divider-line.r{background:linear-gradient(90deg,#d4a347,transparent);}
+.gold-divider-diamond{
+  width:8px;height:8px;background:var(--gold);
+  transform:rotate(45deg);flex-shrink:0;
+  box-shadow:0 0 8px rgba(212,163,74,.6);
+}
+
+/* Updated hero inside geo header */
+.geo-hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--gold);
+  border:1px solid rgba(212,163,74,.4);
+  padding:6px 18px;border-radius:999px;margin-bottom:20px;
+  background:rgba(212,163,74,.06);
+}
+.geo-hero-ar{
+  font-family:'Amiri',serif;font-size:82px;line-height:1;
+  background:linear-gradient(160deg,#f5e8c0 0%,#f2be62 40%,#d4a347 70%,#b8892e 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 36px rgba(212,163,74,.5));
+  margin-bottom:14px;
+  animation:float 5s ease-in-out infinite;
+}
+.geo-hero-title{
+  font-family:'Cinzel',serif;font-size:30px;font-weight:700;line-height:1.2;
+  color:#fff;margin-bottom:12px;
+  text-shadow:0 2px 20px rgba(0,0,0,.6);
+}
+.geo-hero-sub{
+  font-size:14px;color:rgba(180,180,200,.8);line-height:1.65;
+  max-width:300px;margin:0 auto;
+}
+
+/* Updated topbar */
+.topbar{
+  background:rgba(13,13,13,.95)!important;
+  border-bottom:1px solid rgba(212,163,74,.2)!important;
+}
+
+/* Path card darker */
+.path-card{
+  background:linear-gradient(145deg,#1a1a1a,#0a1628)!important;
+  border-color:rgba(212,163,74,.04)!important;
+}
+.path-card:hover{
+  border-color:var(--gold)!important;
+  box-shadow:0 20px 50px rgba(212,163,74,.06)!important;
+}
+.pc-bottom{background:rgba(0,0,0,.3)!important;}
+
+/* Roadmap strip */
+.roadmap-strip{
+  background:rgba(12,22,42,.7)!important;
+  border-color:rgba(212,163,74,.04)!important;
+}
+
+/* Features */
+.feat{
+  background:rgba(12,22,42,.6)!important;
+  border-color:rgba(212,163,74,.1)!important;
+}
+
+/* Quote card */
+.quote-geo{
+  background:rgba(20,15,5,.7);
+  border:1px solid rgba(212,163,74,.25);
+  border-radius:24px;
+  padding:28px 24px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  margin:40px 0 20px;
+}
+.quote-geo::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.5' opacity='0.3'%3E%3Cpolygon points='30,3 39,12 48,6 48,18 57,24 48,30 57,36 48,42 48,54 39,48 30,57 21,48 12,54 12,42 3,36 12,30 3,24 12,18 12,6 21,12'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:60px 60px;
+  opacity:.12;pointer-events:none;
+}
+
+/* ══ DEEP REDESIGN ══ */
+:root{
+  --bg:#060e1b;--s1:#0a1628;--s2:#0d1e36;--s3:#1c1c1c;
+  --gold:#d4a347;--gold-lt:#f2d080;--gold-dk:#8a6420;
+  --green:#a7d1a6;--blue:#7a9cc8;--purple:#9c7ab8;
+  --text:#e8dcc8;--dim:#9a8e78;--faint:rgba(212,163,71,.07);--border:rgba(212,163,71,.14);
+}
+html,body{background:#060e1b!important;}
+
+/* Animated geometric bg */
+.geo-bg-anim{
+  position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+}
+.geo-bg-anim svg{
+  position:absolute;top:-10%;left:-10%;width:120%;height:120%;
+  opacity:.04;
+  animation:geo-drift 40s linear infinite;
+}
+@keyframes geo-drift{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* HERO BANNER — full redesign */
+.geo-header{
+  position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#0d0b06 0%,#111008 60%,#060e1b 100%);
+  margin:0 -20px;padding:0 20px;
+}
+/* Top gold border */
+.geo-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent 0%,var(--gold-dk) 15%,var(--gold-lt) 40%,var(--gold) 50%,var(--gold-lt) 60%,var(--gold-dk) 85%,transparent 100%);
+  z-index:3;
+}
+/* Bottom border */
+.geo-header::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,163,74,.5) 50%,transparent);
+  z-index:3;
+}
+/* Pattern tiles */
+.geo-pattern{
+  position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.6'%3E%3Cpolygon points='50,5 61,18 75,10 75,26 89,32 75,40 89,50 75,60 75,76 61,68 50,81 39,68 25,76 25,60 11,50 25,40 11,32 25,26 25,10 39,18'/%3E%3Cpolygon points='50,18 59,27 68,22 68,34 77,40 68,46 77,52 68,58 68,70 59,65 50,74 41,65 32,70 32,58 23,52 32,46 23,40 32,34 32,22 41,27'/%3E%3Ccircle cx='50' cy='40' r='9'/%3E%3Cline x1='50' y1='0' x2='50' y2='18'/%3E%3Cline x1='50' y1='62' x2='50' y2='80'/%3E%3Cline x1='0' y1='40' x2='23' y2='40'/%3E%3Cline x1='77' y1='40' x2='100' y2='40'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:100px 100px;
+  opacity:.15;
+}
+/* Side gradient fade */
+.geo-pattern-sides{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,#0d0b06 0%,transparent 20%,transparent 80%,#0d0b06 100%);
+}
+.geo-inner{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  padding:56px 0 50px;text-align:center;
+}
+/* Corner SVG ornaments */
+.geo-corner{position:absolute;z-index:2;pointer-events:none;}
+.geo-corner-tl{top:0;left:0;}
+.geo-corner-tr{top:0;right:0;transform:scaleX(-1);}
+.geo-corner-bl{bottom:0;left:0;transform:scaleY(-1);}
+.geo-corner-br{bottom:0;right:0;transform:scale(-1,-1);}
+
+.geo-hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold);background:rgba(212,163,74,.04);
+  border:1px solid rgba(212,163,74,.3);padding:7px 20px;border-radius:999px;
+  margin-bottom:22px;
+}
+.geo-hero-ar{
+  font-family:'Amiri',serif;font-size:90px;line-height:1;
+  background:linear-gradient(160deg,#fff8e8 0%,var(--gold-lt) 30%,var(--gold) 55%,var(--gold-dk) 80%,#6b4c10 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 40px rgba(212,163,74,.55));
+  margin-bottom:16px;animation:float 5s ease-in-out infinite;
+}
+.gold-divider{display:flex;align-items:center;gap:10px;margin:0 auto 24px;width:240px;}
+.gold-divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
+.gold-divider-line.r{background:linear-gradient(90deg,var(--gold),transparent);}
+.gold-divider-star{
+  font-size:14px;color:var(--gold);
+  font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;
+  filter:drop-shadow(0 0 6px rgba(212,163,74,.6));
+}
+.geo-hero-title{
+  font-family:'Cinzel',serif;font-size:30px;font-weight:700;line-height:1.2;
+  color:#fff;margin-bottom:12px;
+  text-shadow:0 2px 30px rgba(0,0,0,.8);
+}
+.geo-hero-sub{
+  font-size:14px;color:rgba(200,190,168,.75);line-height:1.7;
+  max-width:290px;margin:0 auto;
+}
+
+/* ── ORNAMENTAL SECTION DIVIDER ── */
+.ornament-divider{
+  display:flex;align-items:center;gap:12px;
+  margin:36px 0 18px;
+}
+.od-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(212,163,74,.3));}
+.od-line.r{background:linear-gradient(90deg,rgba(212,163,74,.3),transparent);}
+.od-center{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.od-diamond{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 8px rgba(212,163,74,.5);}
+.od-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+
+/* ── PATH CARDS — geometric frame ── */
+.path-card{
+  border-radius:20px!important;
+  background:linear-gradient(145deg,#060e1b,#060606)!important;
+  border:1px solid rgba(212,163,74,.2)!important;
+  box-shadow:0 8px 30px rgba(0,0,0,.5),inset 0 1px 0 rgba(212,163,74,.04)!important;
+  position:relative;overflow:hidden!important;
+}
+.path-card:hover{
+  border-color:rgba(212,163,74,.55)!important;
+  box-shadow:0 16px 50px rgba(0,0,0,.6),0 0 30px rgba(212,163,74,.04),inset 0 1px 0 rgba(212,163,74,.04)!important;
+}
+/* Geometric corner on each card */
+.path-card::before{
+  content:'';position:absolute;top:0;left:0;width:60px;height:60px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.7' opacity='0.35'%3E%3Cpolygon points='0,0 40,0 20,20 0,40'/%3E%3Cpolygon points='0,0 25,0 12,12 0,25'/%3E%3Ccircle cx='5' cy='5' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.path-card::after{
+  content:'';position:absolute;top:0;right:0;width:60px;height:60px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.7' opacity='0.35' transform='scale(-1,1) translate(-60,0)'%3E%3Cpolygon points='0,0 40,0 20,20 0,40'/%3E%3Cpolygon points='0,0 25,0 12,12 0,25'/%3E%3Ccircle cx='5' cy='5' r='3'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.pc-bottom{
+  background:rgba(0,0,0,.4)!important;
+  border-top:1px solid rgba(212,163,74,.04)!important;
+}
+
+/* ── ROADMAP ── */
+.roadmap-strip{
+  background:linear-gradient(145deg,#060e1b,#060606)!important;
+  border:1px solid rgba(212,163,74,.06)!important;
+  position:relative;overflow:hidden;
+}
+.roadmap-strip::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.5' opacity='0.2'%3E%3Cpolygon points='40,4 52,16 64,8 64,24 76,32 64,40 76,48 64,56 64,72 52,64 40,76 28,64 16,72 16,56 4,48 16,40 4,32 16,24 16,8 28,16'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:80px 80px;pointer-events:none;
+}
+
+/* ── FEATURES ── */
+.feat{
+  background:linear-gradient(145deg,#060e1b,#060606)!important;
+  border:1px solid rgba(212,163,74,.04)!important;
+  position:relative;overflow:hidden;
+}
+.feat::before{
+  content:'';position:absolute;top:0;right:0;width:40px;height:40px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.6' opacity='0.25' transform='scale(-1,1) translate(-40,0)'%3E%3Cpolygon points='0,0 30,0 15,15 0,30'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+
+/* ── QUOTE CARD ── */
+.quote-geo{
+  background:linear-gradient(145deg,#060e1b,#060606)!important;
+  border:1px solid rgba(212,163,74,.25)!important;
+  border-radius:20px;padding:30px 24px;text-align:center;
+  position:relative;overflow:hidden;margin:0 0 20px;
+}
+.quote-geo::before{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.5' opacity='0.15'%3E%3Cpolygon points='40,4 52,16 64,8 64,24 76,32 64,40 76,48 64,56 64,72 52,64 40,76 28,64 16,72 16,56 4,48 16,40 4,32 16,24 16,8 28,16'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:80px 80px;pointer-events:none;
+}
+/* top accent line */
+.quote-geo::after{
+  content:'';position:absolute;top:0;left:20%;right:20%;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  background:rgba(10,9,6,.97)!important;
+  border-top:1px solid rgba(212,163,74,.06)!important;
+}
+.nav-btn.active{color:var(--gold)!important;}
+
+/* Text color warmth */
+.pc-desc{color:rgba(190,178,155,.75)!important;}
+.feat-desc{color:rgba(190,178,155,.7)!important;}
+.hero-sub,.geo-hero-sub{color:rgba(190,178,155,.7)!important;}
+
+/* ══ BOLD ISLAMIC GEOMETRIC — matches reference image ══ */
+:root{
+  --bg:#060606!important;--s1:#060e1b!important;--s2:#060e1b!important;--s3:#0a1628!important;
+  --gold:#d4a347!important;--gold-lt:#f2d080!important;--gold-dk:#8a6420!important;
+  --text:#e8dcc8!important;--dim:#9a8e78!important;
+  --border:rgba(212,163,71,.2)!important;--faint:rgba(212,163,71,.07)!important;
+}
+html,body{background:#060e1b!important;}
+
+/* Topbar */
+.topbar{
+  background:rgba(8,6,2,.97)!important;
+  border-bottom:1px solid rgba(212,163,74,.25)!important;
+}
+.topbar::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,163,74,.5) 50%,transparent);
+  pointer-events:none;
+}
+.topbar{position:relative!important;}
+
+/* Bottom nav */
+.bottom-nav{
+  background:rgba(8,6,2,.98)!important;
+  border-top:1px solid rgba(212,163,74,.22)!important;
+}
+
+/* All cards — warm dark */
+.mc,.uc,.bc,.feat,.roadmap-strip,.dscene,.gh,.rule-card,.score-row,
+.xp-card,.quote-geo,.auth-card{
+  background:linear-gradient(145deg,#060e1b,#060606)!important;
+  border-color:rgba(212,163,74,.16)!important;
+}
+.mc:hover{border-color:rgba(212,163,74,.55)!important;}
+.uc.uc-on{border-color:var(--gold)!important;}
+.bc.bc-dn{border-color:rgba(127,168,134,.25)!important;}
+
+/* Path cards on index */
+.path-card{
+  background:linear-gradient(145deg,#060e1b,#060606)!important;
+  border-color:rgba(212,163,74,.06)!important;
+  box-shadow:0 10px 40px rgba(0,0,0,.6)!important;
+}
+.path-card:hover{
+  border-color:rgba(212,163,74,.6)!important;
+  box-shadow:0 20px 60px rgba(0,0,0,.7),0 0 40px rgba(212,163,74,.04)!important;
+}
+.pc-bottom{background:rgba(0,0,0,.5)!important;border-top-color:rgba(212,163,74,.14)!important;}
+
+/* Geo corners on cards */
+.mc,.path-card{position:relative!important;overflow:hidden!important;}
+.mc::before,.path-card::before{
+  content:'';position:absolute;top:0;left:0;width:60px;height:60px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.35'%3E%3Cpolygon points='0,0 42,0 21,21 0,42'/%3E%3Cpolygon points='0,0 26,0 13,13 0,26'/%3E%3Ccircle cx='6' cy='6' r='3.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+.mc::after,.path-card::after{
+  content:'';position:absolute;top:0;right:0;width:60px;height:60px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.35' transform='scale(-1,1) translate(-60,0)'%3E%3Cpolygon points='0,0 42,0 21,21 0,42'/%3E%3Cpolygon points='0,0 26,0 13,13 0,26'/%3E%3Ccircle cx='6' cy='6' r='3.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;
+}
+
+
+/* Auth-specific geo overrides */
+.geo-header{
+  margin:0!important;
+  padding:0 24px!important;
+  min-height:300px;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-bottom:36px!important;
+}
+.geo-inner{padding:44px 0 0!important;}
+.geo-hero-title{font-size:26px!important;}
+.geo-hero-sub{display:none!important;}
+
+
+.bg-stars{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.9'%3E%3Cpolygon points='40,5 47,21 62,15 56,30 72,35 57,43 63,59 48,53 44,69 40,55 36,69 32,53 17,59 23,43 8,35 24,30 18,15 33,21'/%3E%3Cpolygon points='40,18 52,29 40,40 28,29'/%3E%3Ccircle cx='40' cy='29' r='4.5'/%3E%3Cline x1='0' y1='0' x2='18' y2='15'/%3E%3Cline x1='80' y1='0' x2='62' y2='15'/%3E%3Cline x1='0' y1='80' x2='18' y2='65'/%3E%3Cline x1='80' y1='80' x2='62' y2='65'/%3E%3Ccircle cx='0' cy='0' r='2.5' fill='%23d4a347'/%3E%3Ccircle cx='80' cy='0' r='2.5' fill='%23d4a347'/%3E%3Ccircle cx='0' cy='80' r='2.5' fill='%23d4a347'/%3E%3Ccircle cx='80' cy='80' r='2.5' fill='%23d4a347'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  opacity: .18;
+}
+
+/* ══ CORNER ORNAMENTS ON ALL CARDS ══ */
+.glass,.mc,.uc,.bc,.rn-circle-wrap,.opt,.rule-choice,.choice,
+.vm-word-block,.vm-connected,.slide-ex,.prac-tip,
+.assess-hero,.dscene,.gh,.maad-card,.morph-card,
+.ex-card,.auth-card,.path-card,.feat,
+.prac-audio-card,.assess-audio-card{
+  position:relative;
+}
+/* Top-left corner */
+.glass::before,.mc::before,.opt::before,.ex-card::before,
+.prac-audio-card::before,.assess-hero::before,.path-card::before{
+  content:'';
+  position:absolute;top:0;left:0;
+  width:44px;height:44px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.35'%3E%3Cpolygon points='0,0 32,0 16,16 0,32'/%3E%3Cpolygon points='0,0 20,0 10,10 0,20'/%3E%3Ccircle cx='5' cy='5' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;border-radius:inherit;
+}
+/* Top-right corner */
+.glass::after,.mc::after,.opt::after,.ex-card::after,
+.prac-audio-card::after,.assess-hero::after,.path-card::after{
+  content:'';
+  position:absolute;top:0;right:0;
+  width:44px;height:44px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='0.8' opacity='0.35' transform='scale(-1,1) translate(-44,0)'%3E%3Cpolygon points='0,0 32,0 16,16 0,32'/%3E%3Cpolygon points='0,0 20,0 10,10 0,20'/%3E%3Ccircle cx='5' cy='5' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;border-radius:inherit;
+}
+
+</style>
+</head>
+<body>
+
+<div class="geo-header">
+    <div class="geo-pattern"></div>
+    <!-- Corner ornaments -->
+    <svg class="geo-corner geo-corner-tl" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0 L90 0 L90 10 Q45 10 45 45 Q45 90 0 90 Z" fill="rgba(212,163,74,.04)"/>
+      <path d="M0 0 L60 0 Q30 0 30 30 L30 90 L0 90 Z" fill="rgba(212,163,74,.05)"/>
+      <polygon points="10,10 30,10 20,20" stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.5"/>
+      <polygon points="0,0 40,0 20,20 0,40" stroke="#d4a347" stroke-width="0.6" fill="none" opacity="0.4"/>
+      <circle cx="8" cy="8" r="3" stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.5"/>
+    </svg>
+    <svg class="geo-corner geo-corner-tr" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0 L90 0 L90 0 L90 90 Q45 90 45 45 Q45 0 0 0 Z" fill="rgba(212,163,74,.04)"/>
+      <polygon points="10,10 30,10 20,20" stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.5"/>
+      <polygon points="0,0 40,0 20,20 0,40" stroke="#d4a347" stroke-width="0.6" fill="none" opacity="0.4"/>
+      <circle cx="8" cy="8" r="3" stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.5"/>
+    </svg>
+    <!-- Corner ornaments -->
+    <svg class="geo-corner geo-corner-tl" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.5">
+        <polygon points="0,0 60,0 30,30 0,60"/>
+        <polygon points="0,0 35,0 17,17 0,35"/>
+        <polygon points="0,0 18,0 9,9 0,18"/>
+        <circle cx="8" cy="8" r="4"/>
+        <circle cx="22" cy="8" r="2"/>
+        <circle cx="8" cy="22" r="2"/>
+      </g>
+    </svg>
+    <svg class="geo-corner geo-corner-tr" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.5" transform="scale(-1,1) translate(-100,0)">
+        <polygon points="0,0 60,0 30,30 0,60"/>
+        <polygon points="0,0 35,0 17,17 0,35"/>
+        <polygon points="0,0 18,0 9,9 0,18"/>
+        <circle cx="8" cy="8" r="4"/>
+        <circle cx="22" cy="8" r="2"/>
+        <circle cx="8" cy="22" r="2"/>
+      </g>
+    </svg>
+    <svg class="geo-corner geo-corner-bl" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.3" transform="scale(1,-1) translate(0,-100)">
+        <polygon points="0,0 60,0 30,30 0,60"/>
+        <polygon points="0,0 35,0 17,17 0,35"/>
+        <circle cx="8" cy="8" r="4"/>
+      </g>
+    </svg>
+    <svg class="geo-corner geo-corner-br" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#d4a347" stroke-width="0.8" fill="none" opacity="0.3" transform="scale(-1,-1) translate(-100,-100)">
+        <polygon points="0,0 60,0 30,30 0,60"/>
+        <polygon points="0,0 35,0 17,17 0,35"/>
+        <circle cx="8" cy="8" r="4"/>
+      </g>
+    </svg>
+    <div class="geo-inner">
+      <div class="geo-hero-badge">
+        <span class="ms" style="font-size:12px">auto_awesome</span>
+        YOUR ARABIC JOURNEY
+      </div>
+      <div class="geo-hero-ar">عِلْم</div>
+      <div class="gold-divider">
+        <div class="gold-divider-line"></div>
+        <span class="gold-divider-star">star</span>
+        <div class="gold-divider-line r"></div>
+      </div>
+      <h1 class="geo-hero-title">Lisaany</h1>
+      <p class="geo-hero-sub"></p>
+    </div>
+  </div>
+
+<!-- ══ AUTH FORM ══ -->
+<div class="auth-wrap">
+
+  <!-- Tab switcher -->
+  <div class="auth-tabs">
+    <button class="auth-tab active" onclick="showTab('login',this)">Sign In</button>
+    <button class="auth-tab" onclick="showTab('signup',this)">Create Account</button>
+  </div>
+
+  <!-- LOGIN CARD -->
+  <div id="login-card" class="auth-card">
+    <div class="auth-card-inner">
+      <div class="form-title">Welcome Back</div>
+      <div class="form-sub">Sign in to continue your Arabic journey</div>
+
+      <div class="msg msg-err" id="login-err"></div>
+      <div class="msg msg-ok" id="login-ok"></div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" id="login-email" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="form-input-wrap">
+          <input class="form-input" type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" style="padding-right:44px;">
+          <span class="ms form-input-icon" onclick="togglePass('login-pass',this)" style="font-variation-settings:'FILL' 0">visibility</span>
+        </div>
+        <div class="forgot" onclick="">Forgot password?</div>
+      </div>
+
+      <button class="btn-submit" onclick="handleLogin()">
+        Sign In &nbsp; →
+      </button>
+
+      <div class="or-divider"><div class="or-line"></div>or continue with<div class="or-line"></div></div>
+
+      <button class="social-btn" onclick="handleGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+        Continue with Google
+      </button>
+
+      <div class="auth-link">
+        Don't have an account? <a href="#" onclick="showTab('signup',document.querySelectorAll('.auth-tab')[1]);return false;">Create one free</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNUP CARD -->
+  <div id="signup-card" class="auth-card" style="display:none;">
+    <div class="auth-card-inner">
+      <div class="form-title">Start Learning Arabic</div>
+      <div class="form-sub">Create your free account — no credit card needed</div>
+
+      <div class="free-banner">
+        <span class="ms">check_circle</span>
+        Module 1 is completely free — start today
+      </div>
+
+      <div class="msg msg-err" id="signup-err"></div>
+      <div class="msg msg-ok" id="signup-ok"></div>
+
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input class="form-input" type="text" id="signup-name" placeholder="Ahmad Al-Rashid" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input class="form-input" type="email" id="signup-email" placeholder="your@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="form-input-wrap">
+          <input class="form-input" type="password" id="signup-pass" placeholder="At least 8 characters" autocomplete="new-password" style="padding-right:44px;">
+          <span class="ms form-input-icon" onclick="togglePass('signup-pass',this)" style="font-variation-settings:'FILL' 0">visibility</span>
+        </div>
+      </div>
+
+
+      <button class="btn-submit" onclick="handleSignup()">
+        Create Free Account &nbsp; →
+      </button>
+
+      <div class="or-divider"><div class="or-line"></div>or<div class="or-line"></div></div>
+
+      <button class="social-btn" onclick="handleGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+        Sign up with Google
+      </button>
+
+      <div class="auth-link">
+        Already have an account? <a href="#" onclick="showTab('login',document.querySelectorAll('.auth-tab')[0]);return false;">Sign in</a>
+      </div>
+
+      <div class="terms">
+        By creating an account you agree to our
+        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to home -->
+  <div style="text-align:center;margin-top:20px;padding-bottom:80px;">
+    <a href="index.html" style="font-size:12px;color:var(--dim);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+      <span class="ms" style="font-size:16px;font-variation-settings:'FILL' 0">arrow_back</span>
+      Back to Home
+    </a>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <a href="index.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">home</span>
+    Home
+  </a>
+  <a href="lisaany_new.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">menu_book</span>
+    Read
+  </a>
+  <a href="arabic_platform.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">translate</span>
+    Speak
+  </a>
+  <a href="auth.html" class="nav-btn active">
+    <span class="ms">person</span>
+    Profile
+  </a>
+</div>
+
+<script>
+// ── Tab switching
+function showTab(tab, btn) {
+  document.getElementById('login-card').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('signup-card').style.display = tab==='signup' ? 'block' : 'none';
+  document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── Password toggle
+function togglePass(id, icon) {
+  const inp = document.getElementById(id);
+  const isPass = inp.type === 'password';
+  inp.type = isPass ? 'text' : 'password';
+  icon.textContent = isPass ? 'visibility_off' : 'visibility';
+}
+
+// ── Show message
+function showMsg(id, text, type) {
+  const el = document.getElementById(id);
+  el.textContent = text;
+  el.className = 'msg show msg-' + type;
+  setTimeout(() => el.classList.remove('show'), 4000);
+}
+
+// ── Supabase init
+const { createClient } = supabase;
+const sb = createClient('https://cfaxrzfqvoalwznkhwnx.supabase.co', 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa');
+
+// ── If already logged in, redirect
+(async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) window.location.href = 'index.html';
+})();
+
+// ── Login handler
+async function handleLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pass  = document.getElementById('login-pass').value;
+  if (!email || !pass) { showMsg('login-err', 'Please fill in all fields.', 'err'); return; }
+  if (!email.includes('@')) { showMsg('login-err', 'Please enter a valid email.', 'err'); return; }
+
+  showMsg('login-ok', 'Signing in...', 'ok');
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if (error) {
+    showMsg('login-err', error.message, 'err');
+  } else {
+    window.location.href = 'index.html';
+  }
+}
+
+// ── Signup handler
+async function handleSignup() {
+  const name  = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const pass  = document.getElementById('signup-pass').value;
+  const path  = 'both';
+
+  if (!name || !email || !pass) { showMsg('signup-err', 'Please fill in all fields.', 'err'); return; }
+  if (!email.includes('@')) { showMsg('signup-err', 'Please enter a valid email.', 'err'); return; }
+  if (pass.length < 8) { showMsg('signup-err', 'Password must be at least 8 characters.', 'err'); return; }
+
+  showMsg('signup-ok', 'Creating account...', 'ok');
+  const { data, error } = await sb.auth.signUp({
+    email,
+    password: pass,
+    options: { data: { name, path } }
+  });
+  if (error) {
+    showMsg('signup-err', error.message, 'err');
+  } else {
+    showMsg('signup-ok', 'Account created! Check your email to confirm.', 'ok');
+    setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+  }
+}
+
+// ── Google OAuth
+async function handleGoogle() {
+  const { error } = await sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin + '/index.html' }
+  });
+  if (error) alert(error.message);
+}
+</script>
+</body>
+</html>
