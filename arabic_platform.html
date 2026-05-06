@@ -1158,12 +1158,13 @@ body::before{
 
 /* English prompt */
 .en-prompt{
-  background:rgba(232,200,120,.06)!important;
-  border:1px solid rgba(232,200,120,.2)!important;
+  background:#1a2030!important;
+  border:1.5px solid rgba(232,200,120,.35)!important;
   border-radius:16px!important;
   padding:14px 18px!important;
   font-size:14px!important;
   line-height:1.7!important;
+  box-shadow:0 2px 12px rgba(0,0,0,.25)!important;
 }
 .en-prompt .lbl{
   font-size:10px!important;letter-spacing:.18em!important;
@@ -1173,14 +1174,15 @@ body::before{
 /* Answer zone */
 .az{
   border-radius:16px!important;
-  border:2px dashed rgba(232,200,120,.18)!important;
-  background:rgba(8,13,24,.6)!important;
+  border:2px dashed rgba(232,200,120,.4)!important;
+  background:#1a2030!important;
   padding:14px 16px!important;
   min-height:72px!important;
+  box-shadow:0 2px 12px rgba(0,0,0,.25)!important;
 }
 .az.cz{
-  border-color:rgba(167,209,166,.5)!important;
-  background:rgba(127,168,134,.06)!important;
+  border-color:rgba(167,209,166,.6)!important;
+  background:rgba(127,168,134,.12)!important;
 }
 
 /* Tokens (sentence builder) */
@@ -1193,18 +1195,19 @@ body::before{
   transition:all .15s ease!important;
 }
 .t-bank{
-  background:rgba(20,28,46,.8)!important;
-  border:1.5px solid rgba(232,200,120,.2)!important;
+  background:#0a0e18!important;
+  border:1.5px solid rgba(232,200,120,.3)!important;
   color:#f5e8c8!important;
+  box-shadow:0 3px 8px rgba(0,0,0,.35)!important;
 }
 .t-bank:hover{
   border-color:var(--gold)!important;
-  background:rgba(232,200,120,.08)!important;
+  background:rgba(232,200,120,.12)!important;
   transform:translateY(-2px);
 }
 .t-ans{
-  background:rgba(232,200,120,.08)!important;
-  border:1.5px solid rgba(232,200,120,.4)!important;
+  background:rgba(232,200,120,.12)!important;
+  border:1.5px solid rgba(232,200,120,.5)!important;
   color:var(--gold)!important;
 }
 
@@ -1256,13 +1259,13 @@ body::before{
   transform:translateY(-1px);
 }
 .btn-ghost{
-  background:rgba(20,28,46,.6)!important;
-  border:1px solid var(--border)!important;
+  background:#0a0e18!important;
+  border:1.5px solid rgba(232,200,120,.3)!important;
   color:var(--text)!important;
 }
 .btn-ghost:hover{
-  background:rgba(20,28,46,.9)!important;
-  border-color:rgba(232,200,120,.3)!important;
+  background:#1a2030!important;
+  border-color:rgba(232,200,120,.5)!important;
 }
 
 /* Bottom nav — refined */
@@ -4278,123 +4281,28 @@ function mkBlocks(){
   const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Unit '+unit.id+' · '+unit.title)); w.appendChild(ph);
   w.appendChild(el('h2',{className:'page-title'},unit.title));
   w.appendChild(el('p',{className:'page-sub'},unit.desc));
-
-  // Group blocks into LINC stages based on type
-  // WARM-UP: dialogue blocks (introduce language in real context)
-  // ACTIVITY: vocab + grammar (focused practice)
-  // FOLLOW-UP: clutter / sentence builder (apply what you learned)
-  // MASTERY: any extra blocks (assessment / bonus)
-  const stages = [
-    { tag:'WARM-UP',   title:'Hear Arabic in Context',   time:'~10 min', types:['dialogue'],  blocks:[] },
-    { tag:'ACTIVITY',  title:'Build Your Vocabulary',    time:'~15 min', types:['vocab','grammar'], blocks:[] },
-    { tag:'FOLLOW-UP', title:'Apply What You Learned',   time:'~15 min', types:['cloze','clutter'],   blocks:[] },
-  ];
-  const stageOrder = ['dialogue','vocab','grammar','cloze','clutter'];
-
-  unit.blocks.forEach(blk=>{
-    const stageIdx = stages.findIndex(s=>s.types.includes(blk.type));
-    if(stageIdx >= 0) stages[stageIdx].blocks.push(blk);
-    else stages[stages.length-1].blocks.push(blk); // fallback to last stage
+  const BMETA=[{icon:'forum',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'translate',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'psychology',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'extension',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'hearing',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'forum',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'}];
+  const ICON_BY_TYPE={dialogue:'forum',vocab:'translate',grammar:'psychology',clutter:'extension',cloze:'hearing'};
+  const grid=div('bgrid');
+  unit.blocks.forEach((blk,i)=>{
+    const ok=blockOk(S.mId,S.uId,blk.id); const st=getBlock_(S.mId,S.uId,blk.id);
+    const bm=BMETA[i]||BMETA[0];
+    const icon=ICON_BY_TYPE[blk.type]||bm.icon;
+    const card=div('bc'+(st==='done'?' bc-dn':'')+(!ok?' bc-lk':''));
+    const top=div('bc-top');
+    const ico=div('bc-ico'); ico.style.cssText=`background:${bm.ci};color:${bm.cb};`; ico.appendChild(ms(icon)); top.appendChild(ico);
+    top.appendChild(el('div',{className:'bc-num'},'Block '+blk.id));
+    top.appendChild(el('div',{className:'bc-title'},blk.title));
+    top.appendChild(el('div',{className:'bc-desc'},blk.desc));
+    card.appendChild(top);
+    const bot=div('bc-bot');
+    const sl=div('bc-st'); sl.style.color=st==='done'?'var(--green)':ok?bm.cb:'var(--dim)'; sl.textContent=st==='done'?'✓ Done':ok?'Ready':'Locked'; bot.appendChild(sl);
+    if(ok){ const chv=el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'16px',color:bm.cb}},'chevron_right'); bot.appendChild(chv); }
+    card.appendChild(bot);
+    if(ok) card.addEventListener('click',()=>{ S.bId=blk.id; resetBS(); S.view='lesson'; render(); });
+    grid.appendChild(card);
   });
-
-  // Calculate progress
-  const totalBlocks = unit.blocks.length;
-  const doneBlocks = unit.blocks.filter(b=>getBlock_(S.mId,S.uId,b.id)==='done').length;
-  const pct = totalBlocks ? Math.round(doneBlocks/totalBlocks*100) : 0;
-
-  // Progress strip
-  const prog = div('linc-progress');
-  const prRow = div('linc-progress-row');
-  prRow.appendChild(el('span',{className:'linc-progress-lbl'},'Lesson Progress'));
-  prRow.appendChild(el('span',{className:'linc-progress-pct'},pct+'%'));
-  prog.appendChild(prRow);
-  const prBar = div('linc-progress-bar');
-  const prFill = div('linc-progress-fill');
-  prFill.style.width = pct+'%';
-  prBar.appendChild(prFill);
-  prog.appendChild(prBar);
-  w.appendChild(prog);
-
-  // Determine which stage is "active" — first stage with at least one undone block
-  let activeStageIdx = -1;
-  stages.forEach((s, i)=>{
-    if(activeStageIdx === -1 && s.blocks.some(b=>getBlock_(S.mId,S.uId,b.id)!=='done')){
-      activeStageIdx = i;
-    }
-  });
-
-  // Render stages
-  const stagesEl = div('linc-stages');
-  const blockIcons = { dialogue:'forum', vocab:'translate', grammar:'psychology', clutter:'extension', cloze:'hearing' };
-
-  stages.forEach((stage, sIdx)=>{
-    if(stage.blocks.length === 0) return; // skip empty stages
-
-    const allDone = stage.blocks.every(b=>getBlock_(S.mId,S.uId,b.id)==='done');
-    // Locked if previous stage isn't fully done
-    let locked = false;
-    if(sIdx > 0){
-      const prevStage = stages.slice(0, sIdx).filter(s=>s.blocks.length>0).pop();
-      if(prevStage && !prevStage.blocks.every(b=>getBlock_(S.mId,S.uId,b.id)==='done')) locked = true;
-    }
-    const isActive = sIdx === activeStageIdx && !locked;
-
-    const stEl = div('linc-stage' + (allDone?' lc-done':'') + (locked?' lc-locked':'') + (isActive?' lc-active':''));
-
-    const head = div('linc-stage-head');
-    const num = div('linc-stage-num');
-    const numTxt = el('span',{className:'linc-stage-num-text'}, String(sIdx+1));
-    num.appendChild(numTxt);
-    head.appendChild(num);
-
-    const info = div('linc-stage-info');
-    info.appendChild(el('div',{className:'linc-stage-tag'}, stage.tag));
-    info.appendChild(el('div',{className:'linc-stage-title'}, stage.title));
-    head.appendChild(info);
-
-    const time = div('linc-stage-time');
-    const timeIc = ms('schedule'); timeIc.style.fontVariationSettings = "'FILL' 0";
-    time.appendChild(timeIc);
-    time.appendChild(document.createTextNode(' '+stage.time));
-    head.appendChild(time);
-
-    stEl.appendChild(head);
-
-    // Block list within this stage
-    const blockList = div('linc-block-list');
-    stage.blocks.forEach(blk=>{
-      const blkOk = blockOk(S.mId, S.uId, blk.id) && !locked;
-      const blkSt = getBlock_(S.mId, S.uId, blk.id);
-      const isDone = blkSt === 'done';
-      const row = div('linc-block-row' + (isDone?' lb-done':'') + (!blkOk?' lb-locked':''));
-
-      const ico = div('linc-block-ico');
-      ico.textContent = blockIcons[blk.type] || 'star';
-      row.appendChild(ico);
-
-      const inf = div('linc-block-info');
-      inf.appendChild(el('div',{className:'linc-block-title'}, blk.title));
-      inf.appendChild(el('div',{className:'linc-block-desc'}, blk.desc));
-      row.appendChild(inf);
-
-      const chev = el('span',{className:'linc-block-chev'}, isDone?'check_circle':blkOk?'chevron_right':'lock');
-      row.appendChild(chev);
-
-      if(blkOk){
-        row.addEventListener('click', ()=>{
-          S.bId = blk.id;
-          resetBS();
-          S.view = 'lesson';
-          render();
-        });
-      }
-      blockList.appendChild(row);
-    });
-    stEl.appendChild(blockList);
-    stagesEl.appendChild(stEl);
-  });
-  w.appendChild(stagesEl);
-
+  w.appendChild(grid);
   return w;
 }
 function resetBS(){
