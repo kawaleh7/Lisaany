@@ -1187,6 +1187,111 @@ body::before{
   .kw-bar{margin:0 16px 16px!important;}
 }
 
+
+/* ════════════════════════════════════════════════════════
+   PREMIUM CLEAN BACKGROUND
+   Pattern-free · Designed for paying users
+   ════════════════════════════════════════════════════════ */
+
+/* Hide all pattern overlay elements */
+.bg-stars, .geo-pattern, .geo-bg-anim,
+.geo-header::before, .geo-header::after,
+.star-dot {
+  display: none !important;
+}
+
+/* Strip pattern URLs from body pseudo elements */
+body::before, body::after {
+  background-image: none !important;
+}
+
+/* Single subtle warm gradient — like reading-lamp glow from above */
+body::before {
+  content: '' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(232,200,120,.07) 0%, transparent 60%) !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  opacity: 1 !important;
+}
+
+/* Refined deep charcoal base — warmer than original navy */
+html, body {
+  background: #141821 !important;
+}
+
+/* The bg-glow div (some files) — keep as a softer overlay */
+.bg-glow {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 20%, rgba(232,200,120,.025) 0%, transparent 70%) !important;
+}
+
+
+
+
+
+
+/* ════════════════════════════════════════════════════════
+   LISAANY ISLAMIC STAR PATTERN
+   Sparse mosque hexagons — only on edges, clear middle
+   ════════════════════════════════════════════════════════ */
+
+body::after {
+  content: '' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='1.2'%3E%3Cpolygon points='120,80 145,95 145,130 120,145 95,130 95,95'/%3E%3C/g%3E%3C/svg%3E") !important;
+  background-size: 240px 240px !important;
+  background-repeat: repeat !important;
+  background-position: 0 0 !important;
+  opacity: 0.10 !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+  font-size: 0 !important;
+  color: transparent !important;
+  filter: none !important;
+  transform: none !important;
+  white-space: normal !important;
+  /* Fade out toward the center so the middle stays clear for content */
+  -webkit-mask-image: radial-gradient(ellipse 55% 50% at center, transparent 0%, transparent 30%, rgba(0,0,0,0.6) 65%, black 100%) !important;
+  mask-image: radial-gradient(ellipse 55% 50% at center, transparent 0%, transparent 30%, rgba(0,0,0,0.6) 65%, black 100%) !important;
+}
+
+@media (max-width: 600px) {
+  body::after {
+    background-size: 160px 160px !important;
+    opacity: 0.08 !important;
+    -webkit-mask-image: radial-gradient(ellipse 65% 55% at center, transparent 0%, transparent 25%, rgba(0,0,0,0.5) 60%, black 100%) !important;
+    mask-image: radial-gradient(ellipse 65% 55% at center, transparent 0%, transparent 25%, rgba(0,0,0,0.5) 60%, black 100%) !important;
+  }
+}
+
+/* ════════════════════════════════════════════════════════
+   CARD OPACITY FIX
+   Make content cards solid so the dot pattern doesn't show through
+   ════════════════════════════════════════════════════════ */
+
+.mc, .uc, .bc, .dscene, .gh, .gt, .ge, .rule-card, .score-row,
+.section-card, .path-card, .quote-card, .stats-strip, .premium-notice,
+.tutor-card, .feat-mini, .xp-card, .ge, .hub-stat, .mini-card,
+.fc-face, .fc-front, .fc-back, .en-prompt, .az,
+.cf-ok, .cf-no, .dialect-note,
+.kw-bar {
+  background-color: #1a2030 !important;
+}
+
+/* Topbar and bottom nav need to fully cover content underneath */
+.topbar {
+  background: rgba(8, 11, 18, 0.98) !important;
+  backdrop-filter: blur(24px) saturate(140%) !important;
+}
+.bottom-nav {
+  background: rgba(8, 11, 18, 0.98) !important;
+  backdrop-filter: blur(28px) saturate(160%) !important;
+}
+
 </style>
 </head>
 <body>
