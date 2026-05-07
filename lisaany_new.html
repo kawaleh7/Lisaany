@@ -11,7 +11,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#141821;
+  --bg:#142849;
   --surface:#0d1e36;
   --card:#132040;
   --s1:#0a1421; --s2:#111927; --s3:#18212f; --s4:#212b3a; --s5:#2a3548;
@@ -25,7 +25,7 @@
 /* ── Core Layout ── */
 #app{
   position:fixed; inset:0; display:flex; flex-direction:column; overflow:hidden;
-  background:#141821; color:var(--text); font-family:'Inter',sans-serif; font-size:14px;
+  background:#142849; color:var(--text); font-family:'Inter',sans-serif; font-size:14px;
 }
 
 .topbar{
@@ -146,7 +146,7 @@
 .slide-rule{width:100%;background:var(--faint);border:1px solid var(--border);border-radius:16px;border-top:2px solid rgba(74,144,217,.3);padding:14px 18px;font-size:13px;color:var(--dim);line-height:1.7;text-align:center;}
 .slide-rule strong{color:var(--text);}
 .slide-examples{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%;}
-.slide-ex{flex:1;min-width:88px;background:rgba(10,14,24,.85);border:1.5px solid rgba(212,163,74,.35);border-radius:14px;padding:20px 12px;text-align:center;}
+.slide-ex{flex:1;min-width:88px;background:#0a0f20;border:1.5px solid rgba(212,163,74,.35);border-radius:14px;padding:20px 12px;text-align:center;}
 .slide-ex-ar{font-family:'Scheherazade New','Amiri',serif;font-size:34px;color:var(--text);line-height:2.0;letter-spacing:2px;}
 .slide-ex-en{display:none;}
 .slide-trio{display:flex;gap:10px;width:100%;}
@@ -339,12 +339,12 @@
 /* ══ ISLAMIC GEOMETRIC STYLE — applied from Lisaany Home ══ */
 /* ══ DEEP REDESIGN ══ */
 :root{
-  --bg:#141821;--s1:#0a1628;--s2:#0d1e36;--s3:#1c1c1c;
+  --bg:#142849;--s1:#0a1628;--s2:#0d1e36;--s3:#1c1c1c;
   --gold:#d4a347;--gold-lt:#f2d080;--gold-dk:#8a6420;
   --green:#a7d1a6;--blue:#7a9cc8;--purple:#9c7ab8;
   --text:#e8dcc8;--dim:#9a8e78;--faint:rgba(212,163,71,.07);--border:rgba(212,163,71,.14);
 }
-html,body{background:#141821!important;}
+html,body{background:#142849!important;}
 
 /* Animated geometric bg */
 .geo-bg-anim{
@@ -360,7 +360,7 @@ html,body{background:#141821!important;}
 /* HERO BANNER — full redesign */
 .geo-header{
   position:relative;overflow:hidden;
-  background:linear-gradient(180deg,#0d0b06 0%,#111008 60%,#141821 100%);
+  background:linear-gradient(180deg,#0d0b06 0%,#111008 60%,#142849 100%);
   margin:0 -20px;padding:0 20px;
 }
 /* Top gold border */
@@ -559,12 +559,12 @@ html,body{background:#141821!important;}
 
 /* ══ BOLD ISLAMIC GEOMETRIC — matches reference image ══ */
 :root{
-  --bg:#141821!important;--s1:#0d1e36!important;--s2:#0d1e36!important;--s3:#132040!important;
+  --bg:#142849!important;--s1:#0d1e36!important;--s2:#0d1e36!important;--s3:#132040!important;
   --gold:#d4a347!important;--gold-lt:#f2d080!important;--gold-dk:#8a6420!important;
   --text:#e8dcc8!important;--dim:#9a8e78!important;
   --border:rgba(212,163,71,.2)!important;--faint:rgba(212,163,71,.07)!important;
 }
-html,body{background:#141821!important;}
+html,body{background:#142849!important;}
 
 /* Topbar */
 .topbar{
@@ -713,7 +713,7 @@ html,body{background:#141821!important;}
 
 /* ════════════════════════════════════════════════════════
    LISAANY UNIFIED BACKGROUND
-   Match the rest of the site: clean #141821 + sparse mosque hexagons on edges
+   Match the rest of the site: clean #142849 + sparse mosque hexagons on edges
    ════════════════════════════════════════════════════════ */
 
 /* Hide the busy SVG geometric backgrounds and decorative pattern divs */
@@ -735,13 +735,14 @@ body::before, body::after {
   background-image: none !important;
 }
 
-/* Single subtle warm gradient — reading-lamp glow from above */
+/* Subtle warm gradient on top + dark vignette at bottom for depth */
 body::before {
   content: '' !important;
   position: fixed !important;
   inset: 0 !important;
   background:
-    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(232,200,120,.07) 0%, transparent 60%) !important;
+    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(232,200,120,.07) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 100% at 50% 100%, rgba(8,14,28,.4) 0%, transparent 70%) !important;
   pointer-events: none !important;
   z-index: 0 !important;
   opacity: 1 !important;
@@ -749,7 +750,7 @@ body::before {
 
 /* Page base color — match site standard */
 html, body {
-  background: #141821 !important;
+  background: #142849 !important;
 }
 
 /* Make the #app wrapper transparent so the body pattern shows through */
@@ -762,33 +763,24 @@ html, body {
     radial-gradient(ellipse 80% 50% at 50% 20%, rgba(232,200,120,.025) 0%, transparent 70%) !important;
 }
 
-/* Sparse mosque hexagons — only on edges, clear middle */
+/* Subtle gold border frame around the viewport — editorial book-cover feel */
 body::after {
   content: '' !important;
   position: fixed !important;
-  inset: 0 !important;
-  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='1.2'%3E%3Cpolygon points='120,80 145,95 145,130 120,145 95,130 95,95'/%3E%3C/g%3E%3C/svg%3E") !important;
-  background-size: 240px 240px !important;
-  background-repeat: repeat !important;
-  background-position: 0 0 !important;
-  opacity: 0.10 !important;
+  inset: 10px !important;
+  border: 1px solid rgba(212, 163, 74, 0.28) !important;
+  border-radius: 10px !important;
   pointer-events: none !important;
-  z-index: 0 !important;
-  font-size: 0 !important;
-  color: transparent !important;
-  filter: none !important;
-  transform: none !important;
-  white-space: normal !important;
-  -webkit-mask-image: radial-gradient(ellipse 55% 50% at center, transparent 0%, transparent 30%, rgba(0,0,0,0.6) 65%, black 100%) !important;
-  mask-image: radial-gradient(ellipse 55% 50% at center, transparent 0%, transparent 30%, rgba(0,0,0,0.6) 65%, black 100%) !important;
+  z-index: 9999 !important;
+  display: block !important;
+  background: none !important;
+  background-image: none !important;
 }
 
 @media (max-width: 600px) {
   body::after {
-    background-size: 160px 160px !important;
-    opacity: 0.08 !important;
-    -webkit-mask-image: radial-gradient(ellipse 65% 55% at center, transparent 0%, transparent 25%, rgba(0,0,0,0.5) 60%, black 100%) !important;
-    mask-image: radial-gradient(ellipse 65% 55% at center, transparent 0%, transparent 25%, rgba(0,0,0,0.5) 60%, black 100%) !important;
+    inset: 6px !important;
+    border-radius: 8px !important;
   }
 }
 
@@ -1891,7 +1883,7 @@ function buildSlide(slide,el_){
     slide.examples.forEach(ex=>{
       if(!ex.ar) return;
       const box = div('');
-      box.style.cssText = `background:rgba(10,14,24,.85);border:1.5px solid rgba(212,163,74,.3);border-radius:16px;padding:20px 12px 16px;display:flex;align-items:center;justify-content:center;min-height:80px;`;
+      box.style.cssText = `background:#0a0f20;border:1.5px solid rgba(212,163,74,.3);border-radius:16px;padding:20px 12px 16px;display:flex;align-items:center;justify-content:center;min-height:80px;`;
       box.appendChild(el('div',{style:{fontFamily:"'Scheherazade New','Amiri',serif",fontSize:'36px',color:'var(--text)',direction:'rtl',lineHeight:'2.0',letterSpacing:'2px'}}),ex.ar);
       box.lastChild.textContent = ex.ar;
       exGrid.appendChild(box);
@@ -1947,7 +1939,7 @@ function mkCoachTip(lessonId) {
   const text = tips[lessonId];
   if (!text) return null;
   const card = div('');
-  card.style.cssText = 'background:rgba(10,14,24,.85);border:1px solid rgba(212,163,74,.3);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:10px;';
+  card.style.cssText = 'background:#0a0f20;border:1px solid rgba(212,163,74,.3);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:10px;';
   const ic = el('span',{className:'prac-tip-icon'},'💡');
   const p = el('p',{style:{fontSize:'14px',color:'var(--text)',lineHeight:'1.6'}});
   p.innerHTML = text;
