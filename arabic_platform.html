@@ -809,6 +809,72 @@ body::after {
   margin-left: 6px;
 }
 
+
+/* ═══ LESSON OBJECTIVES CARD ═══ */
+.unit-objectives{
+  background: linear-gradient(135deg, rgba(232,200,120,.08), rgba(212,163,74,.04));
+  border: 1px solid rgba(212,163,74,.25);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin: 14px 0 18px;
+  position: relative;
+}
+.unit-objectives::before{
+  content: '';
+  position: absolute;
+  left: 0; top: 14px; bottom: 14px;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--gold), rgba(212,163,74,.3));
+  border-radius: 0 2px 2px 0;
+}
+.unit-objectives-label{
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.unit-objectives-label .ms{
+  font-size: 14px;
+  font-variation-settings: 'FILL' 1;
+}
+.unit-objectives-title{
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.unit-objectives ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.unit-objectives li{
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+  padding: 4px 0 4px 22px;
+  position: relative;
+}
+.unit-objectives li::before{
+  content: '✓';
+  position: absolute;
+  left: 0; top: 4px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 14px;
+}
+@media(max-width:600px){
+  .unit-objectives{ padding: 14px 16px; }
+  .unit-objectives li{ font-size: 12.5px; }
+}
+
 /* ════ LISAANY BANNER ════ */
 .lis-nav{
   position:sticky;top:0;z-index:1000;
@@ -1057,7 +1123,7 @@ const CUR = [
                 {spk:"Ahmad",side:"left",ar:"مِن أَيْنَ أَنْتَ؟",en:"Where are you from?"},
                 {spk:"Khalid",side:"right",ar:"أَنا مِن الأُرْدُن، وَأَنْتَ؟",en:"I am from Jordan, and you?"},
                 {spk:"Ahmad",side:"left",ar:"أَنا مِن مِصْر",en:"I am from Egypt"},
-                {spk:"Khalid",side:"right",ar:"تَشَرَّفْنا يا أَحمَد",en:"Pleased to meet you Ahmad"},
+                {spk:"Khalid",side:"right",ar:"تَشَرَّفْنا يا أَحمَد",en:"Pleased to meet you Ahmad."},
               ],
               keywords:[
                 {ar:"السَّلامُ عَلَيْكُم",en:"Greeting"},
@@ -1168,14 +1234,14 @@ const CUR = [
           { id:2, type:"dialogue", title:"Students from Different Countries", desc:"محادثة بين طلاب دوليين", icon:"forum", color:"#D4A34A",
             data:{ title:"طُلَّاب مِن كُلِّ مَكان", setting:"مجموعة طلاب يتعرفون على بعضهم",
               lines:[
-                {spk:"Sami",side:"left",ar:"أَنا سامِي، أَنا مِن السُّعودِيَّة",en:"I am Sami, I am from Saudi Arabia"},
-                {spk:"Rania",side:"right",ar:"أَنا رانِيا، أَنا مِن الأُرْدُن",en:"I am Rania, I am from Jordan"},
-                {spk:"Karim",side:"left",ar:"وَأَنا كَرِيم مِن المَغرِب",en:"And I am Karim from Morocco"},
+                {spk:"Sami",side:"left",ar:"أَنا سامِي، أَنا مِن السُّعودِيَّة",en:"I am Sami, I am from Saudi Arabia."},
+                {spk:"Rania",side:"right",ar:"أَنا رانِيا، أَنا مِن الأُرْدُن",en:"I am Rania, I am from Jordan."},
+                {spk:"Karim",side:"left",ar:"وَأَنا كَرِيم مِن المَغرِب",en:"And I am Karim from Morocco."},
                 {spk:"Sami",side:"right",ar:"أَنْتِ مَغرِبِيَّة يا رانِيا؟",en:"Are you Moroccan Rania?"},
                 {spk:"Rania",side:"left",ar:"لا، أَنا أُرْدُنِيَّة",en:"No, I am Jordanian"},
                 {spk:"Karim",side:"right",ar:"وَأَنتَ يا سامِي؟ سُعودِيّ؟",en:"And you Sami, Saudi?"},
-                {spk:"Sami",side:"left",ar:"نَعَم، أَنا سُعودِيّ مِن الرِّياض",en:"Yes, I am Saudi from Riyadh"},
-                {spk:"Rania",side:"right",ar:"وَأَنا مِن عَمَّان، عاصِمَة الأُرْدُن",en:"And I am from Amman, capital of Jordan"},
+                {spk:"Sami",side:"left",ar:"نَعَم، أَنا سُعودِيّ مِن الرِّياض",en:"Yes, I am Saudi from Riyadh."},
+                {spk:"Rania",side:"right",ar:"وَأَنا مِن عَمَّان، عاصِمَة الأُرْدُن",en:"And I am from Amman, capital of Jordan."},
               ],
               keywords:[
                 {ar:"عاصِمَة",en:"Capital city"},
@@ -1214,7 +1280,7 @@ const CUR = [
                 {ar:"هُوَ مِصْرِيّ",en:"He is Egyptian"},
                 {ar:"هِيَ مِصْرِيَّة",en:"She is Egyptian"},
                 {ar:"هُوَ طالِب سُعودِيّ",en:"He is a Saudi student"},
-                {ar:"هِيَ طالِبَة أُرْدُنِيَّة",en:"She is a Jordanian student"},
+                {ar:"هِيَ طالِبَة أُرْدُنِيَّة",en:"She is a Jordanian student."},
               ]
             }
           },
@@ -1244,22 +1310,22 @@ const CUR = [
             data:{ title:"هَل تَتَكَلَّم العَرَبِيَّة؟", setting:"خالد يلتقي بطالب دولي في الجامعة",
               lines:[
                 {spk:"Khalid",side:"left",ar:"مَرحَباً، هَل تَتَكَلَّم العَرَبِيَّة؟",en:"Hello, do you speak Arabic?"},
-                {spk:"James",side:"right",ar:"لا، لا أَتَكَلَّم العَرَبِيَّة جَيِّداً",en:"No, I don't speak Arabic well"},
+                {spk:"James",side:"right",ar:"لا، لا أَتَكَلَّم العَرَبِيَّة جَيِّداً",en:"No, I don't speak Arabic well."},
                 {spk:"Khalid",side:"left",ar:"هَل تَتَكَلَّم الإِنجِلِيزِيَّة؟",en:"Do you speak English?"},
-                {spk:"James",side:"right",ar:"نَعَم، أَتَكَلَّم الإِنجِلِيزِيَّة، هِيَ لُغَتِي الأُولى",en:"Yes, I speak English, it is my first language"},
+                {spk:"James",side:"right",ar:"نَعَم، أَتَكَلَّم الإِنجِلِيزِيَّة، هِيَ لُغَتِي الأُولى",en:"Yes, I speak English, it is my first language."},
                 {spk:"Khalid",side:"left",ar:"وَهَل تَتَكَلَّم الفَرَنسِيَّة أَيضاً؟",en:"And do you also speak French?"},
-                {spk:"James",side:"right",ar:"لا، لا أَتَكَلَّم الفَرَنسِيَّة، لَكِن أَتَكَلَّم قَلِيلاً مِن الإِسبانِيَّة",en:"No, I don't speak French, but I speak a little Spanish"},
-                {spk:"Khalid",side:"left",ar:"رائِع، وَأَنا أَتَكَلَّم العَرَبِيَّة وَالإِنجِلِيزِيَّة فَقَط",en:"Wonderful, and I speak Arabic and English only"},
+                {spk:"James",side:"right",ar:"لا، لا أَتَكَلَّم الفَرَنسِيَّة، لَكِن أَتَكَلَّم قَلِيلاً مِن الإِسبانِيَّة",en:"No, I don't speak French, but I speak a little Spanish."},
+                {spk:"Khalid",side:"left",ar:"رائِع، وَأَنا أَتَكَلَّم العَرَبِيَّة وَالإِنجِلِيزِيَّة فَقَط",en:"Wonderful, and I speak Arabic and English only."},
                 {spk:"James",side:"right",ar:"هَل يُمكِنُكَ أَن تُعَلِّمَنِي العَرَبِيَّة؟",en:"Can you teach me Arabic?"},
-                {spk:"Khalid",side:"left",ar:"بِكُلِّ سُرُور، وَتُعَلِّمُنِي الإِنجِلِيزِيَّة أَكثَر",en:"With great pleasure, and you teach me more English"},
-                {spk:"James",side:"right",ar:"اتِّفاق! نَبدَأ مِن غَداً إِن شاءَ اللَّه",en:"Deal! We start from tomorrow, God willing"},
+                {spk:"Khalid",side:"left",ar:"بِكُلِّ سُرُور، وَتُعَلِّمُنِي الإِنجِلِيزِيَّة أَكثَر",en:"With great pleasure, and you teach me more English."},
+                {spk:"James",side:"right",ar:"اتِّفاق! نَبدَأ مِن غَداً إِن شاءَ اللَّه",en:"Deal! We start from tomorrow, in shaa Allah."},
               ],
               keywords:[
                 {ar:"نَعَم",en:"Yes"},
                 {ar:"لا",en:"No"},
                 {ar:"هَل تَتَكَلَّم؟",en:"Do you speak?"},
                 {ar:"أَتَكَلَّم / لا أَتَكَلَّم",en:"I speak / I don't speak"},
-                {ar:"إِن شاءَ اللَّه",en:"God willing"},
+                {ar:"إِن شاءَ اللَّه",en:"In shaa Allah"},
               ]
             }
           },
@@ -1267,12 +1333,12 @@ const CUR = [
             data:{ title:"اللُّغات", setting:"سارة تتحدث مع ماريا عن اللغات",
               lines:[
                 {spk:"Sara",side:"left",ar:"ماريا، هَل أَنتِ إِيطالِيَّة؟",en:"Maria, are you Italian?"},
-                {spk:"Maria",side:"right",ar:"نَعَم، أَنا إِيطالِيَّة مِن رُوما",en:"Yes, I am Italian from Rome"},
+                {spk:"Maria",side:"right",ar:"نَعَم، أَنا إِيطالِيَّة مِن رُوما",en:"Yes, I am Italian from Rome."},
                 {spk:"Sara",side:"left",ar:"هَل تَتَكَلَّمِين الإِيطالِيَّة وَالإِنجِلِيزِيَّة؟",en:"Do you speak Italian and English?"},
-                {spk:"Maria",side:"right",ar:"نَعَم، وَأَيضاً أَتَكَلَّم الفَرَنسِيَّة قَلِيلاً",en:"Yes, and I also speak a little French"},
+                {spk:"Maria",side:"right",ar:"نَعَم، وَأَيضاً أَتَكَلَّم الفَرَنسِيَّة قَلِيلاً",en:"Yes, and I also speak a little French."},
                 {spk:"Sara",side:"left",ar:"هَل تَتَكَلَّمِين العَرَبِيَّة؟",en:"Do you speak Arabic?"},
                 {spk:"Maria",side:"right",ar:"لا، لا أَتَكَلَّم العَرَبِيَّة، هَل هِيَ صَعبَة؟",en:"No, I don't speak Arabic, is it difficult?"},
-                {spk:"Sara",side:"left",ar:"لا، لَيسَت صَعبَة، هِيَ جَمِيلَة وَمُمتِعَة",en:"No, it's not difficult, it's beautiful and enjoyable"},
+                {spk:"Sara",side:"left",ar:"لا، لَيسَت صَعبَة، هِيَ جَمِيلَة وَمُمتِعَة",en:"No, it's not difficult, it's beautiful and enjoyable."},
                 {spk:"Maria",side:"right",ar:"هَل تُعَلِّمِينَنِي كَلِمات بَسِيطَة؟",en:"Will you teach me simple words?"},
               ],
               keywords:[
@@ -1310,10 +1376,10 @@ const CUR = [
               },
               keyRule:"لا + verb = I don't/not. نَعَم + verb = Yes I do. لَيس = is not (for nouns).",
               examples:[
-                {ar:"هَل تَتَكَلَّم الفَرَنسِيَّة؟ لا، لا أَتَكَلَّمُها",en:"Do you speak French? No, I don't speak it"},
-                {ar:"هَل تَعرِف العَرَبِيَّة؟ نَعَم، أَعرِف قَلِيلاً",en:"Do you know Arabic? Yes, I know a little"},
-                {ar:"هَل عِندَكَ كِتاب؟ لا، لَيس عِندِي",en:"Do you have a book? No, I don't have one"},
-                {ar:"هَل أَنتَ مِصرِيّ؟ لا، لَستُ مِصرِيًّا",en:"Are you Egyptian? No, I am not Egyptian"},
+                {ar:"هَل تَتَكَلَّم الفَرَنسِيَّة؟ لا، لا أَتَكَلَّمُها",en:"Do you speak French? No, I don't speak it."},
+                {ar:"هَل تَعرِف العَرَبِيَّة؟ نَعَم، أَعرِف قَلِيلاً",en:"Do you know Arabic? Yes, I know a little."},
+                {ar:"هَل عِندَكَ كِتاب؟ لا، لَيس عِندِي",en:"Do you have a book? No, I don't have one."},
+                {ar:"هَل أَنتَ مِصرِيّ؟ لا، لَستُ مِصرِيًّا",en:"Are you Egyptian? No, I am not Egyptian."},
               ]
             }
           },
@@ -1342,12 +1408,12 @@ const CUR = [
               lines:[
                 {spk:"Ahmad",side:"left",ar:"خالِد، كَم عُمرُكَ؟",en:"Khalid, how old are you?"},
                 {spk:"Khalid",side:"right",ar:"عُمرِي عِشرُون سَنَة، وَأَنتَ؟",en:"I am twenty years old, and you?"},
-                {spk:"Ahmad",side:"left",ar:"أَنا في السَّادِسَة عَشرَة، وَأَخِي عُمرُهُ خَمس سَنَوات",en:"I am sixteen, and my brother is five years old"},
+                {spk:"Ahmad",side:"left",ar:"أَنا في السَّادِسَة عَشرَة، وَأَخِي عُمرُهُ خَمس سَنَوات",en:"I am sixteen, and my brother is five years old."},
                 {spk:"Khalid",side:"right",ar:"وَكَم عَدَد الطُّلَّاب في فَصلِكَ؟",en:"And how many students are in your class?"},
-                {spk:"Ahmad",side:"left",ar:"عَشَرَة طُلَّاب فَقَط، فَصلٌ صَغِير جِداً",en:"Only ten students, a very small class"},
-                {spk:"Khalid",side:"right",ar:"أَعطِنِي رَقم هاتِفَكَ مِن فَضلِكَ",en:"Give me your phone number please"},
-                {spk:"Ahmad",side:"left",ar:"صِفر، خَمسَة، واحِد، ثَلاثَة، سَبعَة، اثنَان، سِتَّة",en:"Zero, five, one, three, seven, two, six"},
-                {spk:"Khalid",side:"right",ar:"شُكراً، لَدَيَّ أَربَعَة أَخَوَة وَأُختٌ واحِدَة",en:"Thank you, I have four brothers and one sister"},
+                {spk:"Ahmad",side:"left",ar:"عَشَرَة طُلَّاب فَقَط، فَصلٌ صَغِير جِداً",en:"Only ten students, a very small class."},
+                {spk:"Khalid",side:"right",ar:"أَعطِنِي رَقم هاتِفَكَ مِن فَضلِكَ",en:"Give me your phone number please."},
+                {spk:"Ahmad",side:"left",ar:"صِفر، خَمسَة، واحِد، ثَلاثَة، سَبعَة، اثنَان، سِتَّة",en:"Zero, five, one, three, seven, two, six."},
+                {spk:"Khalid",side:"right",ar:"شُكراً، لَدَيَّ أَربَعَة أَخَوَة وَأُختٌ واحِدَة",en:"Thank you, I have four brothers and one sister."},
               ],
               keywords:[
                 {ar:"كَم عُمرُكَ؟",en:"How old are you?"},
@@ -1385,9 +1451,9 @@ const CUR = [
               },
               keyRule:"3-10 + masculine noun → use feminine number (with ة). 3-10 + feminine noun → use masculine number.",
               examples:[
-                {ar:"عِندِي ثَلاثَةُ إِخوَة وَأُختَان",en:"I have three brothers and two sisters"},
-                {ar:"في الفَصل عَشَرَةُ طُلَّاب",en:"There are ten students in the class"},
-                {ar:"اشتَرَيتُ أَربَعَة كُتُب وَقَلَمَين",en:"I bought four books and two pens"},
+                {ar:"عِندِي ثَلاثَةُ إِخوَة وَأُختَان",en:"I have three brothers and two sisters."},
+                {ar:"في الفَصل عَشَرَةُ طُلَّاب",en:"There are ten students in the class."},
+                {ar:"اشتَرَيتُ أَربَعَة كُتُب وَقَلَمَين",en:"I bought four books and two pens."},
                 {ar:"عُمرِي خَمسَة عَشَر سَنَة",en:"I am fifteen years old"},
               ]
             }
@@ -1418,15 +1484,15 @@ const CUR = [
           { id:1, type:"dialogue", title:"Photo Album", desc:"عمر يعرّف بعائلته", icon:"forum", color:"#D4A34A",
             data:{ title:"هَذِهِ عائِلَتِي", setting:"عمر يُري صديقه صور عائلته",
               lines:[
-                {spk:"Omar",side:"left",ar:"هَذا أَبِي، اسْمُهُ مُحَمَّد",en:"This is my father, his name is Muhammad"},
+                {spk:"Omar",side:"left",ar:"هَذا أَبِي، اسْمُهُ مُحَمَّد",en:"This is my father, his name is Muhammad."},
                 {spk:"Friend",side:"right",ar:"وَمَن هَذِهِ؟",en:"And who is this?"},
-                {spk:"Omar",side:"left",ar:"هَذِهِ أُمِّي، اسْمُها نُور",en:"This is my mother, her name is Nour"},
+                {spk:"Omar",side:"left",ar:"هَذِهِ أُمِّي، اسْمُها نُور",en:"This is my mother, her name is Nour."},
                 {spk:"Friend",side:"right",ar:"هَل لَدَيكَ إِخوَة يا عُمَر؟",en:"Do you have siblings Omar?"},
-                {spk:"Omar",side:"left",ar:"نَعَم، لَدَيَّ أَخٌ وَأُخت",en:"Yes, I have a brother and a sister"},
+                {spk:"Omar",side:"left",ar:"نَعَم، لَدَيَّ أَخٌ وَأُخت",en:"Yes, I have a brother and a sister."},
                 {spk:"Friend",side:"right",ar:"كَم عُمر أَخِيكَ؟",en:"How old is your brother?"},
-                {spk:"Omar",side:"left",ar:"أَخِي عُمرُهُ خَمسَةَ عَشَر سَنَة",en:"My brother is fifteen years old"},
+                {spk:"Omar",side:"left",ar:"أَخِي عُمرُهُ خَمسَةَ عَشَر سَنَة",en:"My brother is fifteen years old."},
                 {spk:"Friend",side:"right",ar:"وَأُختُكَ؟ كَم عُمرُها؟",en:"And your sister? How old is she?"},
-                {spk:"Omar",side:"left",ar:"أُختِي صَغِيرَة، عُمرُها ثَمانِي سَنَوات",en:"My sister is young, she is eight years old"},
+                {spk:"Omar",side:"left",ar:"أُختِي صَغِيرَة، عُمرُها ثَمانِي سَنَوات",en:"My sister is young, she is eight years old."},
                 {spk:"Friend",side:"right",ar:"عائِلَتُكَ كَبِيرَة وَجَمِيلَة!",en:"Your family is big and beautiful!"},
               ],
               keywords:[
@@ -1444,11 +1510,11 @@ const CUR = [
                 {spk:"Colleague",side:"left",ar:"مَن هَؤُلاء في الصُّورَة؟",en:"Who are these people in the photo?"},
                 {spk:"Layla",side:"right",ar:"هَذِهِ عائِلَتِي الكَرِيمَة",en:"This is my dear family"},
                 {spk:"Colleague",side:"left",ar:"وَمَن هَذا الرَّجُل الطَّوِيل؟",en:"And who is this tall man?"},
-                {spk:"Layla",side:"right",ar:"هَذا أَبِي، هُوَ طَبِيبٌ مَشهُور",en:"This is my father, he is a famous doctor"},
+                {spk:"Layla",side:"right",ar:"هَذا أَبِي، هُوَ طَبِيبٌ مَشهُور",en:"This is my father, he is a famous doctor."},
                 {spk:"Colleague",side:"left",ar:"وَهَذِهِ السَّيِّدَة الجَمِيلَة؟",en:"And this beautiful lady?"},
-                {spk:"Layla",side:"right",ar:"هَذِهِ أُمِّي، هِيَ مُدَرِّسَة",en:"This is my mother, she is a teacher"},
+                {spk:"Layla",side:"right",ar:"هَذِهِ أُمِّي، هِيَ مُدَرِّسَة",en:"This is my mother, she is a teacher."},
                 {spk:"Colleague",side:"left",ar:"هَل لَدَيكِ جَدٌّ وَجَدَّة؟",en:"Do you have a grandfather and grandmother?"},
-                {spk:"Layla",side:"right",ar:"نَعَم، جَدِّي وَجَدَّتِي يَسكُنان مَعَنا",en:"Yes, my grandfather and grandmother live with us"},
+                {spk:"Layla",side:"right",ar:"نَعَم، جَدِّي وَجَدَّتِي يَسكُنان مَعَنا",en:"Yes, my grandfather and grandmother live with us."},
               ],
               keywords:[
                 {ar:"مَن هَؤُلاء؟",en:"Who are these?"},
@@ -1476,18 +1542,18 @@ const CUR = [
               intro:"هَذا = This (masculine). هَذِهِ = This (feminine). ذَلِكَ / تِلكَ = That (m/f). Always match the gender of the noun.",
               table:{ cols:["Arabic","Gender","Use"], colW:"1fr 1fr 2fr",
                 rows:[
-                  {ar:"هَذا",roman:"Masculine",en:"هَذا أَبِي — This is my father"},
-                  {ar:"هَذِهِ",roman:"Feminine",en:"هَذِهِ أُمِّي — This is my mother"},
-                  {ar:"ذَلِكَ",roman:"Masc. far",en:"ذَلِكَ أَخِي — That is my brother"},
-                  {ar:"تِلكَ",roman:"Fem. far",en:"تِلكَ أُختِي — That is my sister"},
+                  {ar:"هَذا",roman:"Masculine",en:"هَذا أَبِي — This is my father."},
+                  {ar:"هَذِهِ",roman:"Feminine",en:"هَذِهِ أُمِّي — This is my mother."},
+                  {ar:"ذَلِكَ",roman:"Masc. far",en:"ذَلِكَ أَخِي — That is my brother."},
+                  {ar:"تِلكَ",roman:"Fem. far",en:"تِلكَ أُختِي — That is my sister."},
                 ]
               },
               keyRule:"Match هَذا/هَذِهِ to the gender of the following noun.",
               examples:[
-                {ar:"هَذا أَبِي، هُوَ طَبِيب",en:"This is my father, he is a doctor"},
-                {ar:"هَذِهِ أُمِّي، هِيَ مُدَرِّسَة",en:"This is my mother, she is a teacher"},
+                {ar:"هَذا أَبِي، هُوَ طَبِيب",en:"This is my father, he is a doctor."},
+                {ar:"هَذِهِ أُمِّي، هِيَ مُدَرِّسَة",en:"This is my mother, she is a teacher."},
                 {ar:"مَن هَذا الرَّجُل؟",en:"Who is this man?"},
-                {ar:"هَذِهِ بِنتِي الصَّغِيرَة",en:"This is my little daughter"},
+                {ar:"هَذِهِ بِنتِي الصَّغِيرَة",en:"This is my little daughter."},
               ]
             }
           },
@@ -1514,15 +1580,15 @@ const CUR = [
             data:{ title:"ماذا تَعمَل؟", setting:"أحمد ومريم يتحدثان عن مهنيهما في حفلة",
               lines:[
                 {spk:"Maryam",side:"left",ar:"أَخبِرنِي، ماذا تَعمَل يا أَحمَد؟",en:"Tell me, what do you do Ahmad?"},
-                {spk:"Ahmad",side:"right",ar:"أَنا طَبِيب في مُستَشفى الملك فَهد",en:"I am a doctor at King Fahad hospital"},
+                {spk:"Ahmad",side:"right",ar:"أَنا طَبِيب في مُستَشفى الملك فَهد",en:"I am a doctor at King Fahad hospital."},
                 {spk:"Maryam",side:"left",ar:"رائِع! مُنذُ كَم سَنَة تَعمَل؟",en:"Wonderful! For how many years have you worked?"},
                 {spk:"Ahmad",side:"right",ar:"مُنذُ خَمس سَنَوات، وَأَنتِ؟",en:"For five years, and you?"},
-                {spk:"Maryam",side:"left",ar:"أَنا مُدَرِّسَة لُغَة عَرَبِيَّة",en:"I am an Arabic language teacher"},
+                {spk:"Maryam",side:"left",ar:"أَنا مُدَرِّسَة لُغَة عَرَبِيَّة",en:"I am an Arabic language teacher."},
                 {spk:"Ahmad",side:"right",ar:"أَيْنَ تُدَرِّسِين بِالضَّبط؟",en:"Where exactly do you teach?"},
-                {spk:"Maryam",side:"left",ar:"أُدَرِّس في مَدرَسَة البَنات القَرِيبَة",en:"I teach at the nearby girls' school"},
+                {spk:"Maryam",side:"left",ar:"أُدَرِّس في مَدرَسَة البَنات القَرِيبَة",en:"I teach at the nearby girls' school."},
                 {spk:"Ahmad",side:"right",ar:"هَل تُحِبِّين تَدرِيسَ العَرَبِيَّة؟",en:"Do you like teaching Arabic?"},
-                {spk:"Maryam",side:"left",ar:"نَعَم، أُحِبُّ عَمَلِي كَثِيراً جِداً",en:"Yes, I love my work very much indeed"},
-                {spk:"Ahmad",side:"right",ar:"اللُّغَة العَرَبِيَّة لُغَة جَمِيلَة",en:"Arabic is a beautiful language"},
+                {spk:"Maryam",side:"left",ar:"نَعَم، أُحِبُّ عَمَلِي كَثِيراً جِداً",en:"Yes, I love my work very much indeed."},
+                {spk:"Ahmad",side:"right",ar:"اللُّغَة العَرَبِيَّة لُغَة جَمِيلَة",en:"Arabic is a beautiful language."},
               ],
               keywords:[
                 {ar:"أَخبِرنِي",en:"Tell me"},
@@ -1536,12 +1602,12 @@ const CUR = [
             data:{ title:"في مَكتَب التَّوظِيف", setting:"سامر يتحدث مع مسؤول التوظيف",
               lines:[
                 {spk:"Official",side:"left",ar:"ما هِيَ مِهنَتُكَ يا سَيِّد سامِر؟",en:"What is your profession Mr. Samer?"},
-                {spk:"Samer",side:"right",ar:"أَنا مُهَندِس مَدَنِيّ مِن جامِعَة القاهِرَة",en:"I am a civil engineer from Cairo University"},
+                {spk:"Samer",side:"right",ar:"أَنا مُهَندِس مَدَنِيّ مِن جامِعَة القاهِرَة",en:"I am a civil engineer from Cairo University."},
                 {spk:"Official",side:"left",ar:"كَم سَنَة خِبرَة لَدَيكَ؟",en:"How many years of experience do you have?"},
-                {spk:"Samer",side:"right",ar:"لَدَيَّ سَبع سَنَوات خِبرَة في البِناء",en:"I have seven years of experience in construction"},
+                {spk:"Samer",side:"right",ar:"لَدَيَّ سَبع سَنَوات خِبرَة في البِناء",en:"I have seven years of experience in construction."},
                 {spk:"Official",side:"left",ar:"هَل تَتَكَلَّم لُغات أُخرى؟",en:"Do you speak other languages?"},
-                {spk:"Samer",side:"right",ar:"نَعَم، أَتَكَلَّم العَرَبِيَّة وَالإِنجِلِيزِيَّة",en:"Yes, I speak Arabic and English"},
-                {spk:"Official",side:"left",ar:"مُمتاز! سَنَتَّصِل بِكَ قَرِيباً",en:"Excellent! We will contact you soon"},
+                {spk:"Samer",side:"right",ar:"نَعَم، أَتَكَلَّم العَرَبِيَّة وَالإِنجِلِيزِيَّة",en:"Yes, I speak Arabic and English."},
+                {spk:"Official",side:"left",ar:"مُمتاز! سَنَتَّصِل بِكَ قَرِيباً",en:"Excellent! We will contact you soon."},
               ],
               keywords:[
                 {ar:"مِهنَة",en:"Profession"},
@@ -1578,10 +1644,10 @@ const CUR = [
               },
               keyRule:"First noun + second noun = possession. First noun loses Tanween. Second noun can have Al-.",
               examples:[
-                {ar:"بَيتُ أَحمَد كَبِير جِداً",en:"Ahmad's house is very big"},
-                {ar:"مُدِيرُ الشَّرِكَة في الاجتِماع",en:"The company's manager is in the meeting"},
-                {ar:"كِتابُ الطَّالِبَة عَلى المَكتَب",en:"The student's book is on the desk"},
-                {ar:"لُغَةُ القُرآن لُغَة عَرَبِيَّة",en:"The language of the Quran is Arabic"},
+                {ar:"بَيتُ أَحمَد كَبِير جِداً",en:"Ahmad's house is very big."},
+                {ar:"مُدِيرُ الشَّرِكَة في الاجتِماع",en:"The company's manager is in the meeting."},
+                {ar:"كِتابُ الطَّالِبَة عَلى المَكتَب",en:"The student's book is on the desk."},
+                {ar:"لُغَةُ القُرآن لُغَة عَرَبِيَّة",en:"The language of the Quran is Arabic."},
               ]
             }
           },
@@ -1609,14 +1675,14 @@ const CUR = [
           { id:1, type:"dialogue", title:"From Surah Yusuf", desc:"قصة يوسف عليه السلام", icon:"forum", color:"#D4A34A",
             data:{ title:"مِن سُورَة يُوسُف", setting:"من أجمل قصص القرآن الكريم — سورة يوسف",
               lines:[
-                {spk:"Narrator",side:"left",ar:"قَالَ يُوسُف لِأَبِيهِ يا أَبَتِ",en:"Yusuf said to his father: O my father"},
-                {spk:"Yusuf",side:"right",ar:"إِنِّي رَأَيتُ أَحَدَ عَشَرَ كَوكَباً",en:"Indeed I saw eleven stars"},
-                {spk:"Father",side:"left",ar:"قَالَ أَبُوهُ لا تَقصُص رُؤياكَ عَلى إِخوَتِكَ",en:"His father said: Do not tell your vision to your brothers"},
-                {spk:"Brothers",side:"right",ar:"قَالُوا لَيُوسُفُ وَأَخُوهُ أَحَبُّ إِلى أَبِينا",en:"They said: Yusuf and his brother are more loved by our father"},
-                {spk:"Narrator",side:"left",ar:"قَالَت امرَأَة العَزِيز اخرُج عَلَيهِنَّ",en:"The wife of Al-Azeez said: Come out before them"},
-                {spk:"Women",side:"right",ar:"قُلنَ حاشَ لِلَّه ما هَذا بَشَراً",en:"They said: Far is Allah from imperfection, this is not a human"},
-                {spk:"Yusuf",side:"left",ar:"قَالَ رَبِّ السِّجنُ أَحَبُّ إِلَيَّ",en:"He said: My Lord, prison is more beloved to me"},
-                {spk:"King",side:"right",ar:"قَالَ المَلِك ائتُونِي بِهِ",en:"The king said: Bring him to me"},
+                {spk:"Narrator",side:"left",ar:"قَالَ يُوسُف لِأَبِيهِ يا أَبَتِ",en:"Yusuf said to his father: O my father."},
+                {spk:"Yusuf",side:"right",ar:"إِنِّي رَأَيتُ أَحَدَ عَشَرَ كَوكَباً",en:"Indeed I saw eleven stars."},
+                {spk:"Father",side:"left",ar:"قَالَ أَبُوهُ لا تَقصُص رُؤياكَ عَلى إِخوَتِكَ",en:"His father said: Do not tell your vision to your brothers."},
+                {spk:"Brothers",side:"right",ar:"قَالُوا لَيُوسُفُ وَأَخُوهُ أَحَبُّ إِلى أَبِينا",en:"They said: Yusuf and his brother are more loved by our father."},
+                {spk:"Narrator",side:"left",ar:"قَالَت امرَأَة العَزِيز اخرُج عَلَيهِنَّ",en:"The wife of Al-Azeez said: Come out before them."},
+                {spk:"Women",side:"right",ar:"قُلنَ حاشَ لِلَّه ما هَذا بَشَراً",en:"They said: Far is Allah from imperfection, this is not a human."},
+                {spk:"Yusuf",side:"left",ar:"قَالَ رَبِّ السِّجنُ أَحَبُّ إِلَيَّ",en:"He said: My Lord, prison is more beloved to me."},
+                {spk:"King",side:"right",ar:"قَالَ المَلِك ائتُونِي بِهِ",en:"The king said: Bring him to me."},
               ],
               keywords:[
                 {ar:"قَالَ / قَالَت",en:"He said / She said"},
@@ -1629,12 +1695,12 @@ const CUR = [
           { id:2, type:"dialogue", title:"Everyday Conversation", desc:"Using قَالَ in daily life", icon:"forum", color:"#D4A34A",
             data:{ title:"في الحَيَاة اليَومِيَّة", setting:"خالد يحكي لصديقه ما قاله المدرس",
               lines:[
-                {spk:"Khalid",side:"left",ar:"قَالَ المُدَرِّس إِنَّ الامتِحان غَداً",en:"The teacher said that the exam is tomorrow"},
+                {spk:"Khalid",side:"left",ar:"قَالَ المُدَرِّس إِنَّ الامتِحان غَداً",en:"The teacher said that the exam is tomorrow."},
                 {spk:"Ahmad",side:"right",ar:"ماذا؟ قُلتَ الامتِحان غَداً؟",en:"What? You said the exam is tomorrow?"},
-                {spk:"Khalid",side:"left",ar:"نَعَم، قَالَ ذَلِكَ في نِهايَة الدَّرس",en:"Yes, he said that at the end of the lesson"},
-                {spk:"Ahmad",side:"right",ar:"قُلتُ لَكَ مِن قَبل يَجِب أَن نُذاكِر يَومِيًّا",en:"I said to you before we must study daily"},
-                {spk:"Khalid",side:"left",ar:"صَحِيح، وَقَالَت أُمِّي نَفس الكَلام",en:"True, and my mother said the same thing"},
-                {spk:"Ahmad",side:"right",ar:"قُلنا لَكَ كَثِيراً، الآن تَعالَ نُذاكِر مَعاً",en:"We said to you many times, now come let's study together"},
+                {spk:"Khalid",side:"left",ar:"نَعَم، قَالَ ذَلِكَ في نِهايَة الدَّرس",en:"Yes, he said that at the end of the lesson."},
+                {spk:"Ahmad",side:"right",ar:"قُلتُ لَكَ مِن قَبل يَجِب أَن نُذاكِر يَومِيًّا",en:"I said to you before we must study daily."},
+                {spk:"Khalid",side:"left",ar:"صَحِيح، وَقَالَت أُمِّي نَفس الكَلام",en:"True, and my mother said the same thing."},
+                {spk:"Ahmad",side:"right",ar:"قُلنا لَكَ كَثِيراً، الآن تَعالَ نُذاكِر مَعاً",en:"We said to you many times, now come let's study together."},
               ],
               keywords:[
                 {ar:"قَالَ إِنَّ",en:"He said that"},
@@ -1653,7 +1719,7 @@ const CUR = [
               {ar:"أَخ / إِخوَة",en:"Brother / Brothers"},
               {ar:"مَلِك / عَزِيز",en:"King / Noble"},
               {ar:"سِجن",en:"Prison"},
-              {ar:"حاشَ لِلَّه",en:"Far is Allah from imperfection"},
+              {ar:"حاشَ لِلَّه",en:"Far is Allah from imperfection."},
               {ar:"رَبِّ",en:"My Lord"},
             ]}
           },
@@ -1674,10 +1740,10 @@ const CUR = [
               },
               keyRule:"قَالَ / قَالَت for 3rd person. قُلتُ / قُلتَ / قُلتِ / قُلنا for 1st and 2nd person.",
               examples:[
-                {ar:"قَالَ رَبِّ اشرَح لِي صَدرِي — سورة طه ٢٥",en:"He said: My Lord expand my chest — Quran 20:25"},
-                {ar:"قَالَت إِنِّي أَعُوذُ بِالرَّحمن — سورة مريم ١٨",en:"She said: I seek refuge in the Most Merciful — Quran 19:18"},
-                {ar:"قَالُوا آمَنَّا بِاللَّه — سورة البقرة ١٤",en:"They said: We believe in Allah — Quran 2:14"},
-                {ar:"قُلنا يا نار كُونِي بَرداً — سورة الأنبياء ٦٩",en:"We said: O fire be cool — Quran 21:69"},
+                {ar:"قَالَ رَبِّ اشرَح لِي صَدرِي — سورة طه ٢٥",en:"He said: My Lord expand my chest — Quran 20:25."},
+                {ar:"قَالَت إِنِّي أَعُوذُ بِالرَّحمن — سورة مريم ١٨",en:"She said: I seek refuge in the Most Merciful — Quran 19:18."},
+                {ar:"قَالُوا آمَنَّا بِاللَّه — سورة البقرة ١٤",en:"They said: We believe in Allah — Quran 2:14."},
+                {ar:"قُلنا يا نار كُونِي بَرداً — سورة الأنبياء ٦٩",en:"We said: O fire be cool — Quran 21:69."},
               ]
             }
           },
@@ -1709,10 +1775,10 @@ const CUR = [
               lines:[
                 {spk:"Teacher",side:"left",ar:"صَباحَ الخَير يا طُلَّاب",en:"Good morning students"},
                 {spk:"Students",side:"right",ar:"صَباحَ النُّور يا أُستاذ",en:"Good morning teacher"},
-                {spk:"Teacher",side:"left",ar:"اسْمي الأُستاذ سامِر، أَهلاً بِكُم",en:"My name is teacher Samer, welcome"},
-                {spk:"Teacher",side:"left",ar:"أَنا مُدَرِّس اللُّغَة العَرَبِيَّة",en:"I am the Arabic language teacher"},
+                {spk:"Teacher",side:"left",ar:"اسْمي الأُستاذ سامِر، أَهلاً بِكُم",en:"My name is teacher Samer, welcome."},
+                {spk:"Teacher",side:"left",ar:"أَنا مُدَرِّس اللُّغَة العَرَبِيَّة",en:"I am the Arabic language teacher."},
                 {spk:"Student",side:"right",ar:"أَهلاً بِكَ يا أُستاذ",en:"Welcome teacher"},
-                {spk:"Teacher",side:"left",ar:"اِفتَحوا كُتُبَكُم على الصَّفحَة الأُولى",en:"Open your books to page one"},
+                {spk:"Teacher",side:"left",ar:"اِفتَحوا كُتُبَكُم على الصَّفحَة الأُولى",en:"Open your books to page one."},
                 {spk:"Student",side:"right",ar:"حاضِر يا أُستاذ",en:"Yes, teacher"},
                 {spk:"Teacher",side:"left",ar:"مَن يُريد أَن يَقرَأ؟",en:"Who wants to read?"},
                 {spk:"Student",side:"right",ar:"أَنا يا أُستاذ",en:"Me, teacher"},
@@ -1732,16 +1798,16 @@ const CUR = [
           { id:2, type:"dialogue", title:"Asking a Question", desc:"الطّالِب يَسأَل المُدَرِّس", icon:"forum", color:"#D4A34A",
             data:{ title:"سُؤال في الفَصل", setting:"الطّالِب لا يَفهَم وَيَطلُب المُساعَدَة",
               lines:[
-                {spk:"Student",side:"left",ar:"يا أُستاذ، عِندي سُؤال",en:"Teacher, I have a question"},
+                {spk:"Student",side:"left",ar:"يا أُستاذ، عِندي سُؤال",en:"Teacher, I have a question."},
                 {spk:"Teacher",side:"right",ar:"تَفَضَّل، ما هُوَ سُؤالُكَ؟",en:"Go ahead, what is your question?"},
-                {spk:"Student",side:"left",ar:"لا أَفهَم هذِهِ الكَلِمَة",en:"I don't understand this word"},
+                {spk:"Student",side:"left",ar:"لا أَفهَم هذِهِ الكَلِمَة",en:"I don't understand this word."},
                 {spk:"Teacher",side:"right",ar:"أَيُّ كَلِمَة؟",en:"Which word?"},
-                {spk:"Student",side:"left",ar:"كَلِمَة 'مَكتَبَة'",en:"The word 'maktaba' (library)"},
-                {spk:"Teacher",side:"right",ar:"المَكتَبَة هِيَ المَكان الَّذي فيهِ كُتُب كَثيرَة",en:"A library is the place that has many books"},
-                {spk:"Student",side:"left",ar:"شُكراً يا أُستاذ، فَهِمتُ الآن",en:"Thank you teacher, I understand now"},
+                {spk:"Student",side:"left",ar:"كَلِمَة 'مَكتَبَة'",en:"The word 'maktaba' (library)."},
+                {spk:"Teacher",side:"right",ar:"المَكتَبَة هِيَ المَكان الَّذي فيهِ كُتُب كَثيرَة",en:"A library is the place that has many books."},
+                {spk:"Student",side:"left",ar:"شُكراً يا أُستاذ، فَهِمتُ الآن",en:"Thank you teacher, I understand now."},
                 {spk:"Teacher",side:"right",ar:"عَفواً، أَيُّ سُؤال آخَر؟",en:"You're welcome, any other question?"},
-                {spk:"Student",side:"left",ar:"لا، شُكراً، هذا كافٍ",en:"No, thank you, this is enough"},
-                {spk:"Teacher",side:"right",ar:"أَحسَنتَ، اِجلِس مِن فَضلِكَ",en:"Well done, please sit down"},
+                {spk:"Student",side:"left",ar:"لا، شُكراً، هذا كافٍ",en:"No, thank you, this is enough."},
+                {spk:"Teacher",side:"right",ar:"أَحسَنتَ، اِجلِس مِن فَضلِكَ",en:"Well done, please sit down."},
               ],
               keywords:[
                 {ar:"سُؤال",en:"Question"},
@@ -1815,12 +1881,12 @@ const CUR = [
               lines:[
                 {spk:"Sami",side:"left",ar:"ما مادَّتُكَ المُفَضَّلَة يا عُمَر؟",en:"What's your favorite subject Omar?"},
                 {spk:"Omar",side:"right",ar:"أُحِبُّ الرِّياضِيَّات كَثيراً",en:"I love mathematics a lot"},
-                {spk:"Sami",side:"left",ar:"حَقّاً؟ أَنا أَجِدُها صَعبَة",en:"Really? I find it difficult"},
+                {spk:"Sami",side:"left",ar:"حَقّاً؟ أَنا أَجِدُها صَعبَة",en:"Really? I find it difficult."},
                 {spk:"Omar",side:"right",ar:"وَأَنتَ، ما تُحِبّ؟",en:"And you, what do you like?"},
-                {spk:"Sami",side:"left",ar:"أُفَضِّل اللُّغَة العَرَبِيَّة وَالتَّاريخ",en:"I prefer Arabic and history"},
-                {spk:"Omar",side:"right",ar:"التَّاريخ مُمتِع جِدّاً",en:"History is very interesting"},
+                {spk:"Sami",side:"left",ar:"أُفَضِّل اللُّغَة العَرَبِيَّة وَالتَّاريخ",en:"I prefer Arabic and history."},
+                {spk:"Omar",side:"right",ar:"التَّاريخ مُمتِع جِدّاً",en:"History is very interesting."},
                 {spk:"Sami",side:"left",ar:"وَكَيفَ العُلوم عِندَك؟",en:"And how is science for you?"},
-                {spk:"Omar",side:"right",ar:"العُلوم سَهلَة لَكِنَّها تَحتاج تَركيز",en:"Science is easy but it needs focus"},
+                {spk:"Omar",side:"right",ar:"العُلوم سَهلَة لَكِنَّها تَحتاج تَركيز",en:"Science is easy but it needs focus."},
                 {spk:"Sami",side:"left",ar:"عِندَنا اِمتِحان غَداً",en:"We have an exam tomorrow"},
                 {spk:"Omar",side:"right",ar:"يَجِب أَن نَدرُس مَعاً",en:"We must study together"},
               ],
@@ -1838,13 +1904,13 @@ const CUR = [
             data:{ title:"جَدوَل اليَوم", setting:"طالِبَتان تَنظُران إِلى الجَدوَل",
               lines:[
                 {spk:"Layla",side:"left",ar:"ما الحِصَّة الأُولى اليَوم؟",en:"What's the first class today?"},
-                {spk:"Sara",side:"right",ar:"الحِصَّة الأُولى عَرَبِيّ",en:"The first class is Arabic"},
+                {spk:"Sara",side:"right",ar:"الحِصَّة الأُولى عَرَبِيّ",en:"The first class is Arabic."},
                 {spk:"Layla",side:"left",ar:"وَبَعدَها؟",en:"And after it?"},
-                {spk:"Sara",side:"right",ar:"بَعدَها رِياضِيَّات ثُمَّ اِنجِليزِيّ",en:"After it mathematics then English"},
+                {spk:"Sara",side:"right",ar:"بَعدَها رِياضِيَّات ثُمَّ اِنجِليزِيّ",en:"After it mathematics then English."},
                 {spk:"Layla",side:"left",ar:"مَتى الفُرصَة؟",en:"When is the break?"},
                 {spk:"Sara",side:"right",ar:"الفُرصَة في العاشِرَة وَالنِّصف",en:"Break is at 10:30"},
                 {spk:"Layla",side:"left",ar:"وَمَتى نَنتَهي؟",en:"And when do we finish?"},
-                {spk:"Sara",side:"right",ar:"نَنتَهي في الواحِدَة بَعدَ الظُّهر",en:"We finish at one in the afternoon"},
+                {spk:"Sara",side:"right",ar:"نَنتَهي في الواحِدَة بَعدَ الظُّهر",en:"We finish at one in the afternoon."},
                 {spk:"Layla",side:"left",ar:"يَوم طَويل!",en:"A long day!"},
               ],
               keywords:[
@@ -1886,7 +1952,7 @@ const CUR = [
               keyRule:"After these verbs, put 'الـ' (the) before the subject: أُحِبُّ الرِّياضِيَّات (I love mathematics).",
               examples:[
                 {ar:"أُحِبُّ التَّاريخ",en:"I love history"},
-                {ar:"أُفَضِّل العَرَبِيَّة على الاِنجِليزِيَّة",en:"I prefer Arabic over English"},
+                {ar:"أُفَضِّل العَرَبِيَّة على الاِنجِليزِيَّة",en:"I prefer Arabic over English."},
                 {ar:"لا أُحِبُّ الاِمتِحانات",en:"I don't like exams"},
                 {ar:"يُحِبُّ أَخي الرِّياضَة",en:"My brother loves sports"},
               ]
@@ -1920,13 +1986,13 @@ const CUR = [
             data:{ title:"شَقَّتِي الجَدِيدَة", setting:"خالد يصف شقته الجديدة لصديقه سعيد",
               lines:[
                 {spk:"سعيد",side:"left",ar:"كَيفَ شَقَّتُكَ الجَدِيدَة يا خالِد؟",en:"How is your new apartment Khalid?"},
-                {spk:"Khalid",side:"right",ar:"هِيَ شَقَّة كَبِيرَة وَمُرِيحَة جِداً",en:"It is a large and very comfortable apartment"},
+                {spk:"Khalid",side:"right",ar:"هِيَ شَقَّة كَبِيرَة وَمُرِيحَة جِداً",en:"It is a large and very comfortable apartment."},
                 {spk:"سعيد",side:"left",ar:"كَم غُرفَة فِيها بِالضَّبط؟",en:"How many rooms does it have exactly?"},
-                {spk:"Khalid",side:"right",ar:"فِيها ثَلاث غُرَف نَوم وَصالَة كَبِيرَة",en:"It has three bedrooms and a big living room"},
-                {spk:"سعيد",side:"left",ar:"هَل المَطبَخ كَبِير؟ أَنا أُحِبُّ الطَّبخ",en:"Is the kitchen big? I love cooking"},
-                {spk:"Khalid",side:"right",ar:"نَعَم، المَطبَخ كَبِير وَجَدِيد وَمُجَهَّز",en:"Yes, the kitchen is big, new and equipped"},
+                {spk:"Khalid",side:"right",ar:"فِيها ثَلاث غُرَف نَوم وَصالَة كَبِيرَة",en:"It has three bedrooms and a big living room."},
+                {spk:"سعيد",side:"left",ar:"هَل المَطبَخ كَبِير؟ أَنا أُحِبُّ الطَّبخ",en:"Is the kitchen big? I love cooking."},
+                {spk:"Khalid",side:"right",ar:"نَعَم، المَطبَخ كَبِير وَجَدِيد وَمُجَهَّز",en:"Yes, the kitchen is big, new and equipped."},
                 {spk:"سعيد",side:"left",ar:"أَيْنَ الشَّقَّة بِالضَّبط؟",en:"Where exactly is the apartment?"},
-                {spk:"Khalid",side:"right",ar:"في حَيّ الزَّيتُون قَرِيباً مِن المَركَز",en:"In Zaytoun district close to the center"},
+                {spk:"Khalid",side:"right",ar:"في حَيّ الزَّيتُون قَرِيباً مِن المَركَز",en:"In Zaytoun district close to the center."},
                 {spk:"سعيد",side:"left",ar:"رائِع جِداً! مَتى نَزورُكَ؟",en:"Very wonderful! When can we visit you?"},
                 {spk:"Khalid",side:"right",ar:"أَهلاً وَسَهلاً في أَيِّ وَقت تُرِيد",en:"Welcome anytime you want"},
               ],
@@ -1942,13 +2008,13 @@ const CUR = [
           { id:2, type:"dialogue", title:"Describing the House", desc:"سلمى تصف منزلها لصديقتها", icon:"forum", color:"#D4A34A",
             data:{ title:"بَيتُنا القَدِيم", setting:"سلمى تتذكر بيت طفولتها",
               lines:[
-                {spk:"Nadia",side:"left",ar:"صِفِي لِي بَيتَكِ القَدِيم يا سَلمى",en:"Describe your old house to me Salma"},
-                {spk:"Salma",side:"right",ar:"كانَ بَيتاً كَبِيراً مَع حَدِيقَة جَمِيلَة",en:"It was a big house with a beautiful garden"},
+                {spk:"Nadia",side:"left",ar:"صِفِي لِي بَيتَكِ القَدِيم يا سَلمى",en:"Describe your old house to me Salma."},
+                {spk:"Salma",side:"right",ar:"كانَ بَيتاً كَبِيراً مَع حَدِيقَة جَمِيلَة",en:"It was a big house with a beautiful garden."},
                 {spk:"Nadia",side:"left",ar:"كَم كانَت فِيهِ مِن غُرفَة؟",en:"How many rooms did it have?"},
-                {spk:"Salma",side:"right",ar:"خَمس غُرَف نَوم وَمَطبَخ وَاسِع",en:"Five bedrooms and a spacious kitchen"},
+                {spk:"Salma",side:"right",ar:"خَمس غُرَف نَوم وَمَطبَخ وَاسِع",en:"Five bedrooms and a spacious kitchen."},
                 {spk:"Nadia",side:"left",ar:"هَل كانَ قَرِيباً مِن المَدرَسَة؟",en:"Was it close to school?"},
-                {spk:"Salma",side:"right",ar:"نَعَم، المَدرَسَة كانَت عَلى بُعد خَمس دَقائِق",en:"Yes, the school was five minutes away"},
-                {spk:"Nadia",side:"left",ar:"أَتَذَكَّر بَيتَ طُفولَتِي أَيضاً بِحُنِين",en:"I also remember my childhood home with nostalgia"},
+                {spk:"Salma",side:"right",ar:"نَعَم، المَدرَسَة كانَت عَلى بُعد خَمس دَقائِق",en:"Yes, the school was five minutes away."},
+                {spk:"Nadia",side:"left",ar:"أَتَذَكَّر بَيتَ طُفولَتِي أَيضاً بِحُنِين",en:"I also remember my childhood home with nostalgia."},
               ],
               keywords:[
                 {ar:"صِفِي لِي",en:"Describe to me (f)"},
@@ -1981,17 +2047,17 @@ const CUR = [
                   {ar:"في",roman:"In / At",en:"الكِتاب في الحَقِيبَة"},
                   {ar:"عَلى",roman:"On",en:"القَلَم عَلى المَكتَب"},
                   {ar:"تَحتَ",roman:"Under",en:"الحَذاء تَحتَ السَّرِير"},
-                  {ar:"فَوقَ",roman:"Above",en:"اللَّمبَة فَوقَ الطاوِلَة"},
-                  {ar:"أَمامَ",roman:"In front of",en:"السَّيَّارَة أَمامَ البَيت"},
-                  {ar:"خَلفَ",roman:"Behind",en:"الحَدِيقَة خَلفَ المَنزِل"},
+                  {ar:"فَوقَ",roman:"Above",en:"اللَّمبَة فَوقَ الطاوِلَة."},
+                  {ar:"أَمامَ",roman:"In front of",en:"السَّيَّارَة أَمامَ البَيت."},
+                  {ar:"خَلفَ",roman:"Behind",en:"الحَدِيقَة خَلفَ المَنزِل."},
                 ]
               },
               keyRule:"Preposition + noun → noun gets Kasra ending. في البَيتِ = in the house",
               examples:[
-                {ar:"الكِتاب عَلى الطاوِلَة البَيضاء",en:"The book is on the white table"},
-                {ar:"السَّيَّارَة أَمامَ المَنزِل الكَبِير",en:"The car is in front of the big house"},
-                {ar:"المِفتاح في الدُّرج الأَيسَر",en:"The key is in the left drawer"},
-                {ar:"الحَدِيقَة الجَمِيلَة خَلفَ البَيت",en:"The beautiful garden is behind the house"},
+                {ar:"الكِتاب عَلى الطاوِلَة البَيضاء",en:"The book is on the white table."},
+                {ar:"السَّيَّارَة أَمامَ المَنزِل الكَبِير",en:"The car is in front of the big house."},
+                {ar:"المِفتاح في الدُّرج الأَيسَر",en:"The key is in the left drawer."},
+                {ar:"الحَدِيقَة الجَمِيلَة خَلفَ البَيت",en:"The beautiful garden is behind the house."},
               ]
             }
           },
@@ -2017,16 +2083,16 @@ const CUR = [
           { id:1, type:"dialogue", title:"Shopping for Furniture", desc:"ليلى ورانيا يتسوقان", icon:"forum", color:"#D4A34A",
             data:{ title:"نَتَسَوَّق الأَثاث", setting:"ليلى ورانيا في محل الأثاث الكبير",
               lines:[
-                {spk:"Layla",side:"left",ar:"أُرِيد أَن أَشتَرِيَ سَرِيراً جَدِيداً لِغُرفَتِي",en:"I want to buy a new bed for my room"},
-                {spk:"Rania",side:"right",ar:"هَذا السَّرِير الخَشَبِيّ جَمِيل وَمَتِين",en:"This wooden bed is beautiful and sturdy"},
+                {spk:"Layla",side:"left",ar:"أُرِيد أَن أَشتَرِيَ سَرِيراً جَدِيداً لِغُرفَتِي",en:"I want to buy a new bed for my room."},
+                {spk:"Rania",side:"right",ar:"هَذا السَّرِير الخَشَبِيّ جَمِيل وَمَتِين",en:"This wooden bed is beautiful and sturdy."},
                 {spk:"Layla",side:"left",ar:"نَعَم، لَكِن كَم سِعرُهُ بِالضَّبط؟",en:"Yes, but how much is it exactly?"},
-                {spk:"Seller",side:"right",ar:"هَذا السَّرِير بِأَلفَينِ وَخَمسِمِئَة دِرهَم",en:"This bed is two thousand five hundred dirhams"},
-                {spk:"Layla",side:"left",ar:"هَذا غالٍ جِداً بِالنِّسبَة لِي",en:"This is too expensive for me"},
-                {spk:"Seller",side:"right",ar:"حَسَناً، يُمكِننَا تَخفِيض السِّعر لَكِ",en:"Okay, we can reduce the price for you"},
-                {spk:"Seller",side:"right",ar:"بِأَلفَينِ فَقَط بَدلاً مِن أَلفَينِ وَخَمسِمِئَة",en:"Two thousand only instead of two thousand five hundred"},
+                {spk:"Seller",side:"right",ar:"هَذا السَّرِير بِأَلفَينِ وَخَمسِمِئَة دِرهَم",en:"This bed is two thousand five hundred dirhams."},
+                {spk:"Layla",side:"left",ar:"هَذا غالٍ جِداً بِالنِّسبَة لِي",en:"This is too expensive for me."},
+                {spk:"Seller",side:"right",ar:"حَسَناً، يُمكِننَا تَخفِيض السِّعر لَكِ",en:"Okay, we can reduce the price for you."},
+                {spk:"Seller",side:"right",ar:"بِأَلفَينِ فَقَط بَدلاً مِن أَلفَينِ وَخَمسِمِئَة",en:"Two thousand only instead of two thousand five hundred."},
                 {spk:"Layla",side:"left",ar:"جَيِّد، وَهَل يَشمَل السِّعر التَّوصِيل؟",en:"Good, and does the price include delivery?"},
-                {spk:"Seller",side:"right",ar:"نَعَم، التَّوصِيل مَجَّانِيّ داخِل المَدِينَة",en:"Yes, delivery is free within the city"},
-                {spk:"Layla",side:"left",ar:"مُمتاز، سَآخُذُهُ إِذَن، شُكراً جَزِيلاً",en:"Excellent, I'll take it then, thank you very much"},
+                {spk:"Seller",side:"right",ar:"نَعَم، التَّوصِيل مَجَّانِيّ داخِل المَدِينَة",en:"Yes, delivery is free within the city."},
+                {spk:"Layla",side:"left",ar:"مُمتاز، سَآخُذُهُ إِذَن، شُكراً جَزِيلاً",en:"Excellent, I'll take it then, thank you very much."},
               ],
               keywords:[
                 {ar:"خَشَبِيّ",en:"Wooden"},
@@ -2042,13 +2108,13 @@ const CUR = [
             data:{ title:"غُرفَتِي المُرَتَّبَة", setting:"يوسف يصف غرفته الجديدة لأخيه",
               lines:[
                 {spk:"Brother",side:"left",ar:"كَيفَ غُرفَتُكَ الجَدِيدَة يا يُوسُف؟",en:"How is your new room Yusuf?"},
-                {spk:"Yusuf",side:"right",ar:"غُرفَتِي كَبِيرَة وَمُرَتَّبَة وَفِيها نُور كَثِير",en:"My room is big, tidy and has a lot of light"},
+                {spk:"Yusuf",side:"right",ar:"غُرفَتِي كَبِيرَة وَمُرَتَّبَة وَفِيها نُور كَثِير",en:"My room is big, tidy and has a lot of light."},
                 {spk:"Brother",side:"left",ar:"أَيْنَ مَكتَبُكَ الجَدِيد؟",en:"Where is your new desk?"},
-                {spk:"Yusuf",side:"right",ar:"مَكتَبِي أَمامَ النَّافِذَة مُباشَرَةً",en:"My desk is directly in front of the window"},
+                {spk:"Yusuf",side:"right",ar:"مَكتَبِي أَمامَ النَّافِذَة مُباشَرَةً",en:"My desk is directly in front of the window."},
                 {spk:"Brother",side:"left",ar:"وَأَيْنَ تَضَع كُتُبَكَ وَمَلابِسَكَ؟",en:"And where do you put your books and clothes?"},
-                {spk:"Yusuf",side:"right",ar:"كُتُبِي عَلى الرَّف وَمَلابِسِي في الخِزانَة",en:"My books are on the shelf and my clothes are in the wardrobe"},
+                {spk:"Yusuf",side:"right",ar:"كُتُبِي عَلى الرَّف وَمَلابِسِي في الخِزانَة",en:"My books are on the shelf and my clothes are in the wardrobe."},
                 {spk:"Brother",side:"left",ar:"غُرفَتُكَ أَجمَل مِن غُرفَتِي بِكَثِير!",en:"Your room is much more beautiful than mine!"},
-                {spk:"Yusuf",side:"right",ar:"هَيَّا نُرَتِّب غُرفَتَكَ أَيضاً",en:"Come on, let's tidy your room too"},
+                {spk:"Yusuf",side:"right",ar:"هَيَّا نُرَتِّب غُرفَتَكَ أَيضاً",en:"Come on, let's tidy your room too."},
               ],
               keywords:[
                 {ar:"مُرَتَّب",en:"Tidy / Organized"},
@@ -2088,10 +2154,10 @@ const CUR = [
               },
               keyRule:"Attach suffix to noun. Tanween disappears. كِتابٌ + ي = كِتابِي",
               examples:[
-                {ar:"مَكتَبِي أَمامَ النَّافِذَة",en:"My desk is in front of the window"},
-                {ar:"كُتُبُهُ عَلى الرَّف",en:"His books are on the shelf"},
-                {ar:"شَقَّتُنا في الطَّابِق الثَّالِث",en:"Our apartment is on the third floor"},
-                {ar:"سَيَّارَتُها أَمامَ البَيت",en:"Her car is in front of the house"},
+                {ar:"مَكتَبِي أَمامَ النَّافِذَة",en:"My desk is in front of the window."},
+                {ar:"كُتُبُهُ عَلى الرَّف",en:"His books are on the shelf."},
+                {ar:"شَقَّتُنا في الطَّابِق الثَّالِث",en:"Our apartment is on the third floor."},
+                {ar:"سَيَّارَتُها أَمامَ البَيت",en:"Her car is in front of the house."},
               ]
             }
           },
@@ -2120,12 +2186,12 @@ const CUR = [
             data:{ title:"ماذا فَعَلتَ أَمس؟", setting:"أحمد وسامي يتحدثان عن يومهما الأمس",
               lines:[
                 {spk:"Ahmad",side:"left",ar:"سامِي، ماذا فَعَلتَ أَمس بَعدَ المَدرَسَة؟",en:"Sami, what did you do yesterday after school?"},
-                {spk:"Sami",side:"right",ar:"ذَهَبتُ إِلى البَيت وَأَكَلتُ الغَداء وَنِمتُ قَلِيلاً",en:"I went home and ate lunch and slept a little"},
+                {spk:"Sami",side:"right",ar:"ذَهَبتُ إِلى البَيت وَأَكَلتُ الغَداء وَنِمتُ قَلِيلاً",en:"I went home and ate lunch and slept a little."},
                 {spk:"Ahmad",side:"left",ar:"وَبَعدَ ذَلِكَ، هَل ذَهَبتَ إِلى أَيِّ مَكان؟",en:"And after that, did you go anywhere?"},
-                {spk:"Sami",side:"right",ar:"نَعَم، ذَهَبتُ مَعَ أَخِي إِلى المَلعَب وَلَعِبنا كُرَة القَدَم",en:"Yes, I went with my brother to the playground and we played football"},
+                {spk:"Sami",side:"right",ar:"نَعَم، ذَهَبتُ مَعَ أَخِي إِلى المَلعَب وَلَعِبنا كُرَة القَدَم",en:"Yes, I went with my brother to the playground and we played football."},
                 {spk:"Ahmad",side:"left",ar:"رائِع، وَهَل كَتَبتُم الواجِب المَدرَسِيّ؟",en:"Wonderful, and did you write the homework?"},
                 {spk:"Sami",side:"right",ar:"كَتَبتُهُ في اللَّيل، وَأَنتَ؟ ماذا فَعَلتَ؟",en:"I wrote it at night, and you? What did you do?"},
-                {spk:"Ahmad",side:"left",ar:"قَرَأتُ الكِتاب وَكَتَبتُ الواجِب وَشَاهَدتُ التِّلفاز",en:"I read the book and wrote the homework and watched TV"},
+                {spk:"Ahmad",side:"left",ar:"قَرَأتُ الكِتاب وَكَتَبتُ الواجِب وَشَاهَدتُ التِّلفاز",en:"I read the book and wrote the homework and watched TV."},
                 {spk:"Sami",side:"right",ar:"وَهَل نِمتَ مُبَكِّراً أَم نِمتَ مُتَأَخِّراً اللَّيلَة الماضِيَة؟",en:"And did you sleep early or late last night?"},
               ],
               keywords:[
@@ -2140,13 +2206,13 @@ const CUR = [
             data:{ title:"ماذا حَدَثَ؟", setting:"فاطمة تحكي لأمها ما حدث في المدرسة",
               lines:[
                 {spk:"Mother",side:"left",ar:"فاطِمَة، ماذا حَدَثَ في المَدرَسَة اليَوم؟",en:"Fatima, what happened at school today?"},
-                {spk:"Fatima",side:"right",ar:"حَدَثَ شَيءٌ مُضحِك يا أُمِّي",en:"Something funny happened mom"},
+                {spk:"Fatima",side:"right",ar:"حَدَثَ شَيءٌ مُضحِك يا أُمِّي",en:"Something funny happened mom."},
                 {spk:"Mother",side:"left",ar:"ماذا؟ أَخبِرِينِي ما الَّذِي جَرَى؟",en:"What? Tell me what happened?"},
-                {spk:"Fatima",side:"right",ar:"دَخَلَ المُدَرِّس الفَصل وَجَلَسَ عَلى كُرسِيّ مَكسُور",en:"The teacher entered the class and sat on a broken chair"},
+                {spk:"Fatima",side:"right",ar:"دَخَلَ المُدَرِّس الفَصل وَجَلَسَ عَلى كُرسِيّ مَكسُور",en:"The teacher entered the class and sat on a broken chair."},
                 {spk:"Mother",side:"left",ar:"وَماذا حَدَثَ بَعدَ ذَلِكَ؟",en:"And what happened after that?"},
-                {spk:"Fatima",side:"right",ar:"وَقَعَ الكُرسِيّ وَوَقَعَ المُدَرِّس مَعَهُ عَلى الأَرض",en:"The chair fell and the teacher fell with it on the floor"},
+                {spk:"Fatima",side:"right",ar:"وَقَعَ الكُرسِيّ وَوَقَعَ المُدَرِّس مَعَهُ عَلى الأَرض",en:"The chair fell and the teacher fell with it on the floor."},
                 {spk:"Mother",side:"left",ar:"هَل خَرَجَ مِن الفَصل؟",en:"Did he leave the class?"},
-                {spk:"Fatima",side:"right",ar:"لا، ضَحِكَ مَعَنا وَاستَمَرَّ في الشَّرح",en:"No, he laughed with us and continued explaining"},
+                {spk:"Fatima",side:"right",ar:"لا، ضَحِكَ مَعَنا وَاستَمَرَّ في الشَّرح",en:"No, he laughed with us and continued explaining."},
               ],
               keywords:[
                 {ar:"حَدَثَ / جَرَى",en:"Happened"},
@@ -2187,10 +2253,10 @@ const CUR = [
               },
               keyRule:"Same endings always: ـَ، ـَت، ـتُ، ـتَ، ـتِ، ـنا، ـُوا. Change the first 3 letters, keep the endings.",
               examples:[
-                {ar:"ذَهَبتُ إِلى المَدرَسَة وَكَتَبتُ الواجِب",en:"I went to school and wrote the homework"},
-                {ar:"أَكَلنا الغَداء مَعاً وَشَرِبنا الشَّاي",en:"We ate lunch together and drank tea"},
-                {ar:"قَرَأَت الكِتابَ وَفَهِمَت كُلَّ شَيء",en:"She read the book and understood everything"},
-                {ar:"خَرَجُوا مِن البَيت وَذَهَبُوا إِلى السُّوق",en:"They left the house and went to the market"},
+                {ar:"ذَهَبتُ إِلى المَدرَسَة وَكَتَبتُ الواجِب",en:"I went to school and wrote the homework."},
+                {ar:"أَكَلنا الغَداء مَعاً وَشَرِبنا الشَّاي",en:"We ate lunch together and drank tea."},
+                {ar:"قَرَأَت الكِتابَ وَفَهِمَت كُلَّ شَيء",en:"She read the book and understood everything."},
+                {ar:"خَرَجُوا مِن البَيت وَذَهَبُوا إِلى السُّوق",en:"They left the house and went to the market."},
               ]
             }
           },
@@ -2220,16 +2286,16 @@ const CUR = [
           { id:1, type:"dialogue", title:"At the Restaurant", desc:"أحمد وسارة يأكلان في مطعم", icon:"forum", color:"#D4A34A",
             data:{ title:"في المَطعَم العَرَبِيّ", setting:"أحمد وسارة يتناولان العشاء في مطعم عربي",
               lines:[
-                {spk:"Waiter",side:"left",ar:"أَهلاً وَسَهلاً، تَفَضَّلوا بِالجُلوس",en:"Welcome, please have a seat"},
+                {spk:"Waiter",side:"left",ar:"أَهلاً وَسَهلاً، تَفَضَّلوا بِالجُلوس",en:"Welcome, please have a seat."},
                 {spk:"Ahmad",side:"right",ar:"شُكراً، هَل يُمكِنُنا الاطِّلاع عَلى القائِمَة؟",en:"Thank you, can we see the menu?"},
-                {spk:"Waiter",side:"left",ar:"بِالتَّأكِيد، تَفَضَّلوا هَذِهِ القائِمَة",en:"Of course, here is the menu"},
-                {spk:"Sara",side:"right",ar:"أُرِيد شُوَرمَة دَجَاج مَع خُبز وَسَلَطَة",en:"I want chicken shawarma with bread and salad"},
-                {spk:"Ahmad",side:"left",ar:"وَأَنا أُرِيد كَبَاباً وَأُرزاً وَعَصِير لَيمُون",en:"And I want kebab and rice and lemon juice"},
+                {spk:"Waiter",side:"left",ar:"بِالتَّأكِيد، تَفَضَّلوا هَذِهِ القائِمَة",en:"Of course, here is the menu."},
+                {spk:"Sara",side:"right",ar:"أُرِيد شُوَرمَة دَجَاج مَع خُبز وَسَلَطَة",en:"I want chicken shawarma with bread and salad."},
+                {spk:"Ahmad",side:"left",ar:"وَأَنا أُرِيد كَبَاباً وَأُرزاً وَعَصِير لَيمُون",en:"And I want kebab and rice and lemon juice."},
                 {spk:"Waiter",side:"right",ar:"هَل تُرِيدُون حَرِيفاً أَم خَفِيفاً؟",en:"Do you want it spicy or mild?"},
                 {spk:"Ahmad",side:"left",ar:"أُحِبُّ الطَّعام الحارّ جِداً",en:"I like very spicy food"},
-                {spk:"Sara",side:"right",ar:"وَأَنا أُفَضِّل الطَّعام خَفِيف التَّوابِل",en:"And I prefer food with light spices"},
-                {spk:"Waiter",side:"left",ar:"حاضِر، سَيَكُون الطَّلَب جاهِزاً خِلال عَشر دَقائِق",en:"Of course, the order will be ready within ten minutes"},
-                {spk:"Sara",side:"right",ar:"الطَّعام لَذِيذ جِداً، شُكراً عَلى الخِدمَة الرَّائِعَة",en:"The food is very delicious, thank you for the wonderful service"},
+                {spk:"Sara",side:"right",ar:"وَأَنا أُفَضِّل الطَّعام خَفِيف التَّوابِل",en:"And I prefer food with light spices."},
+                {spk:"Waiter",side:"left",ar:"حاضِر، سَيَكُون الطَّلَب جاهِزاً خِلال عَشر دَقائِق",en:"Of course, the order will be ready within ten minutes."},
+                {spk:"Sara",side:"right",ar:"الطَّعام لَذِيذ جِداً، شُكراً عَلى الخِدمَة الرَّائِعَة",en:"The food is very delicious, thank you for the wonderful service."},
               ],
               keywords:[
                 {ar:"القائِمَة",en:"Menu"},
@@ -2246,13 +2312,13 @@ const CUR = [
             data:{ title:"وَصفَة الكُبَّة", setting:"أم عمر تعلم ابنتها ريم طبخ الكبة",
               lines:[
                 {spk:"Reem",side:"left",ar:"يا أُمِّي، كَيفَ أَطبُخ الكُبَّة اللَّذِيذَة؟",en:"Mom, how do I cook the delicious kibbeh?"},
-                {spk:"Mother",side:"right",ar:"أَوَّلاً نَحتاج كِيلو لَحم مَفرُوم طازَج",en:"First we need a kilo of fresh minced meat"},
+                {spk:"Mother",side:"right",ar:"أَوَّلاً نَحتاج كِيلو لَحم مَفرُوم طازَج",en:"First we need a kilo of fresh minced meat."},
                 {spk:"Reem",side:"left",ar:"وَماذا أَيضاً مِن المُكَوِّنات؟",en:"And what else from the ingredients?"},
-                {spk:"Mother",side:"right",ar:"بَصَل وَبُرغُل وَبَهارات وَمِلح وَفُلفُل",en:"Onion, bulgur, spices, salt and pepper"},
+                {spk:"Mother",side:"right",ar:"بَصَل وَبُرغُل وَبَهارات وَمِلح وَفُلفُل",en:"Onion, bulgur, spices, salt and pepper."},
                 {spk:"Reem",side:"left",ar:"وَكَيفَ نَطبُخها؟",en:"And how do we cook it?"},
-                {spk:"Mother",side:"right",ar:"نَخلِط اللَّحم مَع البُرغُل وَالبَصَل جَيِّداً",en:"We mix the meat well with bulgur and onion"},
+                {spk:"Mother",side:"right",ar:"نَخلِط اللَّحم مَع البُرغُل وَالبَصَل جَيِّداً",en:"We mix the meat well with bulgur and onion."},
                 {spk:"Reem",side:"left",ar:"وَبَعدَ ذَلِكَ؟",en:"And after that?"},
-                {spk:"Mother",side:"right",ar:"نَشكِّلها وَنَضَعها في الفُرن لِمُدَّة نِصف ساعَة",en:"We shape them and put them in the oven for half an hour"},
+                {spk:"Mother",side:"right",ar:"نَشكِّلها وَنَضَعها في الفُرن لِمُدَّة نِصف ساعَة",en:"We shape them and put them in the oven for half an hour."},
               ],
               keywords:[
                 {ar:"مَفرُوم",en:"Minced"},
@@ -2291,10 +2357,10 @@ const CUR = [
               },
               keyRule:"Adjective AFTER noun. Add ة for feminine. Add Al- if noun is definite.",
               examples:[
-                {ar:"الطَّعامُ اللَّذِيذ في المَطعَم العَرَبِيّ",en:"The delicious food in the Arabic restaurant"},
-                {ar:"شُوَرمَة دَجَاج طازَجَة وَلَذِيذَة",en:"Fresh and delicious chicken shawarma"},
-                {ar:"قَهوَةٌ عَرَبِيَّة سَاخِنَة بِالهَيل",en:"Hot Arabic coffee with cardamom"},
-                {ar:"وَجبَةٌ كَامِلَة مَع سَلَطَة خَضراء",en:"A complete meal with green salad"},
+                {ar:"الطَّعامُ اللَّذِيذ في المَطعَم العَرَبِيّ",en:"The delicious food in the Arabic restaurant."},
+                {ar:"شُوَرمَة دَجَاج طازَجَة وَلَذِيذَة",en:"Fresh and delicious chicken shawarma."},
+                {ar:"قَهوَةٌ عَرَبِيَّة سَاخِنَة بِالهَيل",en:"Hot Arabic coffee with cardamom."},
+                {ar:"وَجبَةٌ كَامِلَة مَع سَلَطَة خَضراء",en:"A complete meal with green salad."},
               ]
             }
           },
@@ -2321,18 +2387,18 @@ const CUR = [
             data:{ title:"في سُوق الخُضار", setting:"ليلى تتسوق في السوق الشعبي",
               lines:[
                 {spk:"Layla",side:"left",ar:"عِندَكَ تُفَّاح يا عَمّ؟",en:"Do you have apples uncle?"},
-                {spk:"Seller",side:"right",ar:"نَعَم، التُّفَّاح الأَحمَر بِعَشَرَة دَراهِم الكِيلو",en:"Yes, red apples are ten dirhams per kilo"},
-                {spk:"Layla",side:"left",ar:"أُرِيد ثَلاثَة كِيلوات تُفَّاح أَحمَر",en:"I want three kilos of red apples"},
-                {spk:"Seller",side:"right",ar:"إِذَن ثَلاثُون دِرهَماً لِلتُّفَّاح",en:"So thirty dirhams for the apples"},
+                {spk:"Seller",side:"right",ar:"نَعَم، التُّفَّاح الأَحمَر بِعَشَرَة دَراهِم الكِيلو",en:"Yes, red apples are ten dirhams per kilo."},
+                {spk:"Layla",side:"left",ar:"أُرِيد ثَلاثَة كِيلوات تُفَّاح أَحمَر",en:"I want three kilos of red apples."},
+                {spk:"Seller",side:"right",ar:"إِذَن ثَلاثُون دِرهَماً لِلتُّفَّاح",en:"So thirty dirhams for the apples."},
                 {spk:"Layla",side:"left",ar:"وَبِكَم كِيلو الطَّمَاطِم الطَّازَجَة؟",en:"And how much per kilo of fresh tomatoes?"},
-                {spk:"Seller",side:"right",ar:"الطَّمَاطِم بِخَمسَة دَراهِم الكِيلو فَقَط",en:"Tomatoes are only five dirhams per kilo"},
-                {spk:"Layla",side:"left",ar:"جَيِّد، وَكِيلوَين بَصَل وَكِيلو ثَوم مِن فَضلِكَ",en:"Good, and two kilos of onion and a kilo of garlic please"},
-                {spk:"Seller",side:"right",ar:"حاضِر، المَجمُوع سَبعَة وَخَمسُون دِرهَماً",en:"Ready, the total is fifty-seven dirhams"},
-                {spk:"Layla",side:"left",ar:"تَفَضَّل سِتُّون دِرهَماً وَأَبقِ البَاقِي",en:"Here is sixty dirhams and keep the change"},
-                {spk:"Seller",side:"right",ar:"شُكراً جَزِيلاً، أَهلاً بِكِ دائِماً",en:"Thank you very much, you are always welcome"},
+                {spk:"Seller",side:"right",ar:"الطَّمَاطِم بِخَمسَة دَراهِم الكِيلو فَقَط",en:"Tomatoes are only five dirhams per kilo."},
+                {spk:"Layla",side:"left",ar:"جَيِّد، وَكِيلوَين بَصَل وَكِيلو ثَوم مِن فَضلِكَ",en:"Good, and two kilos of onion and a kilo of garlic please."},
+                {spk:"Seller",side:"right",ar:"حاضِر، المَجمُوع سَبعَة وَخَمسُون دِرهَماً",en:"Ready, the total is fifty-seven dirhams."},
+                {spk:"Layla",side:"left",ar:"تَفَضَّل سِتُّون دِرهَماً وَأَبقِ البَاقِي",en:"Here is sixty dirhams and keep the change."},
+                {spk:"Seller",side:"right",ar:"شُكراً جَزِيلاً، أَهلاً بِكِ دائِماً",en:"Thank you very much, you are always welcome."},
               ],
               keywords:[
-                {ar:"يا عَمّ",en:"Uncle (addressing elders)"},
+                {ar:"يا عَمّ",en:"Uncle (addressing elders)."},
                 {ar:"كِيلوات",en:"Kilograms (plural)"},
                 {ar:"المَجمُوع",en:"Total"},
                 {ar:"أَبقِ البَاقِي",en:"Keep the change"},
@@ -2344,16 +2410,16 @@ const CUR = [
           { id:2, type:"dialogue", title:"At the Clothing Store", desc:"رانيا تبحث عن فستان", icon:"forum", color:"#D4A34A",
             data:{ title:"في مَحَلّ المَلابِس", setting:"رانيا في محل الملابس تبحث عن فستان",
               lines:[
-                {spk:"Rania",side:"left",ar:"أَبحَث عَن فُستان أَزرَق مُناسِب لِحَفلَة",en:"I'm looking for a blue dress suitable for a party"},
-                {spk:"Seller",side:"right",ar:"عِندَنا مَجمُوعَة جَمِيلَة مِن الفَساتِين الأَنِيقَة",en:"We have a beautiful collection of elegant dresses"},
+                {spk:"Rania",side:"left",ar:"أَبحَث عَن فُستان أَزرَق مُناسِب لِحَفلَة",en:"I'm looking for a blue dress suitable for a party."},
+                {spk:"Seller",side:"right",ar:"عِندَنا مَجمُوعَة جَمِيلَة مِن الفَساتِين الأَنِيقَة",en:"We have a beautiful collection of elegant dresses."},
                 {spk:"Rania",side:"left",ar:"هَل عِندَكِ مَقاس وَسَط في هَذا اللَّون؟",en:"Do you have medium size in this color?"},
-                {spk:"Seller",side:"right",ar:"نَعَم، تَفَضَّلِي هَذا الفُستان الجَمِيل",en:"Yes, here is this beautiful dress"},
+                {spk:"Seller",side:"right",ar:"نَعَم، تَفَضَّلِي هَذا الفُستان الجَمِيل",en:"Yes, here is this beautiful dress."},
                 {spk:"Rania",side:"left",ar:"سَأُجَرِّبُهُ، أَيْنَ غُرفَة القِياس؟",en:"I'll try it on, where is the fitting room?"},
-                {spk:"Seller",side:"right",ar:"غُرفَة القِياس عَلى يَمِينِكِ بَعدَ المَحَلّ",en:"The fitting room is on your right after the shop"},
-                {spk:"Rania",side:"left",ar:"الفُستان جَمِيل لَكِنَّهُ أَكبَر قَلِيلاً",en:"The dress is beautiful but it's a bit too big"},
-                {spk:"Seller",side:"right",ar:"عِندِي نَفس الفُستان بِمَقاس أَصغَر",en:"I have the same dress in a smaller size"},
+                {spk:"Seller",side:"right",ar:"غُرفَة القِياس عَلى يَمِينِكِ بَعدَ المَحَلّ",en:"The fitting room is on your right after the shop."},
+                {spk:"Rania",side:"left",ar:"الفُستان جَمِيل لَكِنَّهُ أَكبَر قَلِيلاً",en:"The dress is beautiful but it's a bit too big."},
+                {spk:"Seller",side:"right",ar:"عِندِي نَفس الفُستان بِمَقاس أَصغَر",en:"I have the same dress in a smaller size."},
                 {spk:"Rania",side:"left",ar:"رائِع، كَم سِعرُهُ مَع التَّخفِيض؟",en:"Wonderful, how much with the discount?"},
-                {spk:"Seller",side:"right",ar:"بِمِئَتَينِ وَعِشرِين دِرهَماً بَعدَ تَخفِيض ثَلاثِين بِالمِئَة",en:"Two hundred and twenty dirhams after thirty percent discount"},
+                {spk:"Seller",side:"right",ar:"بِمِئَتَينِ وَعِشرِين دِرهَماً بَعدَ تَخفِيض ثَلاثِين بِالمِئَة",en:"Two hundred and twenty dirhams after thirty percent discount."},
               ],
               keywords:[
                 {ar:"أَبحَث عَن",en:"I'm looking for"},
@@ -2395,7 +2461,7 @@ const CUR = [
                 {ar:"ثَلاثَةُ كِيلوات تُفَّاح",en:"Three kilos of apples"},
                 {ar:"خَمسُ فَساتِين جَمِيلَة",en:"Five beautiful dresses"},
                 {ar:"عِشرُون دِرهَماً لِلكِيلو",en:"Twenty dirhams per kilo"},
-                {ar:"المَجمُوع سَبعَة وَخَمسُون دِرهَماً",en:"Total: fifty-seven dirhams"},
+                {ar:"المَجمُوع سَبعَة وَخَمسُون دِرهَماً",en:"Total: fifty-seven dirhams."},
               ]
             }
           },
@@ -2423,14 +2489,14 @@ const CUR = [
           { id:1, type:"dialogue", title:"At the Checkout", desc:"Paying at the supermarket", icon:"forum", color:"#D4A34A",
             data:{ title:"عِندَ الكاشِير", setting:"ليلى تدفع في السوبرماركت",
               lines:[
-                {spk:"Cashier",side:"left",ar:"مَساء الخَير، المَجمُوع أَربَعَة عَشَر دِرهَماً وَخَمسُون فِلساً",en:"Good evening, the total is fourteen dirhams and fifty fils"},
-                {spk:"Layla",side:"right",ar:"تَفَضَّل خَمسَةَ عَشَر دِرهَماً، خُذ البَاقِي",en:"Here is fifteen dirhams, keep the change"},
+                {spk:"Cashier",side:"left",ar:"مَساء الخَير، المَجمُوع أَربَعَة عَشَر دِرهَماً وَخَمسُون فِلساً",en:"Good evening, the total is fourteen dirhams and fifty fils."},
+                {spk:"Layla",side:"right",ar:"تَفَضَّل خَمسَةَ عَشَر دِرهَماً، خُذ البَاقِي",en:"Here is fifteen dirhams, keep the change."},
                 {spk:"Cashier",side:"left",ar:"شُكراً، وَهَل لَدَيكِ بِطاقَة الوَلاء؟",en:"Thank you, and do you have the loyalty card?"},
-                {spk:"Layla",side:"right",ar:"نَعَم، جَمَعتُ سِتَّةَ عَشَر نُقطَة هَذا الشَّهر",en:"Yes, I collected sixteen points this month"},
-                {spk:"Cashier",side:"left",ar:"مُمتاز، تَحتاجِين عِشرِين نُقطَة لِلحُصُول عَلى الخَصم",en:"Excellent, you need twenty points to get the discount"},
+                {spk:"Layla",side:"right",ar:"نَعَم، جَمَعتُ سِتَّةَ عَشَر نُقطَة هَذا الشَّهر",en:"Yes, I collected sixteen points this month."},
+                {spk:"Cashier",side:"left",ar:"مُمتاز، تَحتاجِين عِشرِين نُقطَة لِلحُصُول عَلى الخَصم",en:"Excellent, you need twenty points to get the discount."},
                 {spk:"Layla",side:"right",ar:"كَم نُقطَة أَحتاج بَعد؟ أَربَع أَم خَمس؟",en:"How many more points do I need? Four or five?"},
-                {spk:"Cashier",side:"left",ar:"تَحتاجِين أَربَع نُقاط فَقَط",en:"You only need four more points"},
-                {spk:"Layla",side:"right",ar:"سَأَشتَرِي سَبعَةَ عَشَر دِرهَماً مِن البَضاعَة لِأَكمِل",en:"I'll buy seventeen dirhams worth to complete it"},
+                {spk:"Cashier",side:"left",ar:"تَحتاجِين أَربَع نُقاط فَقَط",en:"You only need four more points."},
+                {spk:"Layla",side:"right",ar:"سَأَشتَرِي سَبعَةَ عَشَر دِرهَماً مِن البَضاعَة لِأَكمِل",en:"I'll buy seventeen dirhams worth to complete it."},
               ],
               keywords:[
                 {ar:"المَجمُوع",en:"Total"},
@@ -2468,10 +2534,10 @@ const CUR = [
               },
               keyRule:"11-19 are fixed — no gender change. 20 = عِشرُون. After 20 use وَ: twenty one = واحِد وَعِشرُون.",
               examples:[
-                {ar:"اشتَرَيتُ ثَلاثَة عَشَر كِيلو خُضَراوَات",en:"I bought thirteen kilos of vegetables"},
+                {ar:"اشتَرَيتُ ثَلاثَة عَشَر كِيلو خُضَراوَات",en:"I bought thirteen kilos of vegetables."},
                 {ar:"عُمرِي أَحَد عَشَر سَنَة",en:"I am eleven years old"},
-                {ar:"المَجمُوع خَمسَة عَشَر دِرهَماً",en:"The total is fifteen dirhams"},
-                {ar:"جَمَعتُ عِشرِين نُقطَة هَذا الشَّهر",en:"I collected twenty points this month"},
+                {ar:"المَجمُوع خَمسَة عَشَر دِرهَماً",en:"The total is fifteen dirhams."},
+                {ar:"جَمَعتُ عِشرِين نُقطَة هَذا الشَّهر",en:"I collected twenty points this month."},
               ]
             }
           },
@@ -2502,15 +2568,15 @@ const CUR = [
             data:{ title:"يَومِي المُعتاد", setting:"سامي يصف روتينه اليومي لصديقه في المكتب",
               lines:[
                 {spk:"Friend",side:"left",ar:"يا سامِي، كَيفَ يَبدَأ يَومُكَ عادَةً؟",en:"Sami, how does your day usually begin?"},
-                {spk:"Sami",side:"right",ar:"أَستَيقِظ في السَّادِسَة صَباحاً وَأُصَلِّي الفَجر",en:"I wake up at six in the morning and pray Fajr"},
+                {spk:"Sami",side:"right",ar:"أَستَيقِظ في السَّادِسَة صَباحاً وَأُصَلِّي الفَجر",en:"I wake up at six in the morning and pray Fajr."},
                 {spk:"Friend",side:"left",ar:"وَبَعدَ الصَّلاة ماذا تَفعَل؟",en:"And after prayer what do you do?"},
-                {spk:"Sami",side:"right",ar:"أَتَناوَل الفِطور مَع العائِلَة ثُمَّ أَذهَب لِلعَمَل",en:"I have breakfast with the family then go to work"},
+                {spk:"Sami",side:"right",ar:"أَتَناوَل الفِطور مَع العائِلَة ثُمَّ أَذهَب لِلعَمَل",en:"I have breakfast with the family then go to work."},
                 {spk:"Friend",side:"left",ar:"بِأَيِّ وَسِيلَة تَذهَب لِلعَمَل كُلَّ يَوم؟",en:"By what means do you go to work every day?"},
-                {spk:"Sami",side:"right",ar:"عادَةً أَذهَب بِالسَّيَّارَة لِأَنَّ المَكتَب بَعِيد",en:"Usually I go by car because the office is far"},
+                {spk:"Sami",side:"right",ar:"عادَةً أَذهَب بِالسَّيَّارَة لِأَنَّ المَكتَب بَعِيد",en:"Usually I go by car because the office is far."},
                 {spk:"Friend",side:"left",ar:"وَكَم ساعَة تَعمَل في المَكتَب يَومِيًّا؟",en:"And how many hours do you work in the office daily?"},
-                {spk:"Sami",side:"right",ar:"أَعمَل مِن الثَّامِنَة صَباحاً حَتَّى الرَّابِعَة مَساءً",en:"I work from eight in the morning until four in the afternoon"},
+                {spk:"Sami",side:"right",ar:"أَعمَل مِن الثَّامِنَة صَباحاً حَتَّى الرَّابِعَة مَساءً",en:"I work from eight in the morning until four in the afternoon."},
                 {spk:"Friend",side:"left",ar:"وَفي المَساء هَل تَخرُج أَم تَبقى في البَيت؟",en:"And in the evening, do you go out or stay at home?"},
-                {spk:"Sami",side:"right",ar:"أَستَرِيح قَلِيلاً ثُمَّ أَقضِي الوَقتَ مَع أُسرَتِي",en:"I rest a little then spend time with my family"},
+                {spk:"Sami",side:"right",ar:"أَستَرِيح قَلِيلاً ثُمَّ أَقضِي الوَقتَ مَع أُسرَتِي",en:"I rest a little then spend time with my family."},
               ],
               keywords:[
                 {ar:"عادَةً",en:"Usually"},
@@ -2526,13 +2592,13 @@ const CUR = [
             data:{ title:"جَدوَل الدِّراسَة", setting:"نور ومها تناقشان جدول دراستهما الأسبوعي",
               lines:[
                 {spk:"Maha",side:"left",ar:"نُور، ما هُوَ يَومُ الامتِحان؟ الإِثنَين أَم الثُّلاثاء؟",en:"Nour, what day is the exam? Monday or Tuesday?"},
-                {spk:"Nour",side:"right",ar:"الامتِحان يَوم الأَربِعاء في السَّاعَة التَّاسِعَة صَباحاً",en:"The exam is on Wednesday at nine in the morning"},
+                {spk:"Nour",side:"right",ar:"الامتِحان يَوم الأَربِعاء في السَّاعَة التَّاسِعَة صَباحاً",en:"The exam is on Wednesday at nine in the morning."},
                 {spk:"Maha",side:"left",ar:"إِذَن يَوم الخَمِيس أَنتِ حُرَّة، هَل نَدرُس مَعاً؟",en:"So on Thursday you are free, shall we study together?"},
                 {spk:"Nour",side:"right",ar:"بِكُلِّ سُرُور، وَماذا عَن يَوم الجُمُعَة وَالسَّبت؟",en:"With great pleasure, and what about Friday and Saturday?"},
-                {spk:"Maha",side:"left",ar:"الجُمُعَة عِندِي دَرس، لَكِن السَّبت أَنا حُرَّة طُوَال اليَوم",en:"Friday I have a class, but Saturday I am free all day"},
-                {spk:"Nour",side:"right",ar:"مُمتاز، يَوم الأَحَد هُوَ بِداية الأُسبُوع الجَدِيد عِندَنا",en:"Excellent, Sunday is the start of our new week"},
-                {spk:"Maha",side:"left",ar:"صَحِيح، نِهايَة الأُسبُوع هِيَ الجُمُعَة وَالسَّبت عِندَنا",en:"True, the weekend is Friday and Saturday for us"},
-                {spk:"Nour",side:"right",ar:"حَسَناً، نَلتَقِي يَوم الخَمِيس في المَكتَبَة السَّاعَة الثَّانِيَة",en:"Okay, we meet on Thursday at the library at two o'clock"},
+                {spk:"Maha",side:"left",ar:"الجُمُعَة عِندِي دَرس، لَكِن السَّبت أَنا حُرَّة طُوَال اليَوم",en:"Friday I have a class, but Saturday I am free all day."},
+                {spk:"Nour",side:"right",ar:"مُمتاز، يَوم الأَحَد هُوَ بِداية الأُسبُوع الجَدِيد عِندَنا",en:"Excellent, Sunday is the start of our new week."},
+                {spk:"Maha",side:"left",ar:"صَحِيح، نِهايَة الأُسبُوع هِيَ الجُمُعَة وَالسَّبت عِندَنا",en:"True, the weekend is Friday and Saturday for us."},
+                {spk:"Nour",side:"right",ar:"حَسَناً، نَلتَقِي يَوم الخَمِيس في المَكتَبَة السَّاعَة الثَّانِيَة",en:"Okay, we meet on Thursday at the library at two o'clock."},
               ],
               keywords:[
                 {ar:"مَشغُول / حُرّ",en:"Busy / Free"},
@@ -2587,10 +2653,10 @@ const CUR = [
               },
               keyRule:"أَ = I, تَ = you/she, يَ = he, نَ = we. Feminine 'you' adds ين. They plural adds ون.",
               examples:[
-                {ar:"أَعمَل مِن الثَّامِنَة حَتَّى الرَّابِعَة",en:"I work from eight until four"},
-                {ar:"هِيَ تَدرُس في الجامِعَة كُلَّ يَوم",en:"She studies at the university every day"},
+                {ar:"أَعمَل مِن الثَّامِنَة حَتَّى الرَّابِعَة",en:"I work from eight until four."},
+                {ar:"هِيَ تَدرُس في الجامِعَة كُلَّ يَوم",en:"She studies at the university every day."},
                 {ar:"هُم يَذهَبُون إِلى العَمَل بِالحافِلَة",en:"They go to work by bus"},
-                {ar:"نَلتَقِي في المَكتَبَة بَعدَ الظُّهر",en:"We meet at the library after noon"},
+                {ar:"نَلتَقِي في المَكتَبَة بَعدَ الظُّهر",en:"We meet at the library after noon."},
               ]
             }
           },
@@ -2617,21 +2683,21 @@ const CUR = [
             data:{ title:"سَنُسافِر إِلى القاهِرَة", setting:"أحمد وعمر يخططان لرحلة إلى القاهرة",
               lines:[
                 {spk:"Omar",side:"left",ar:"أَحمَد، سَمِعتُ أَنَّكَ ستُسافِر قَرِيباً، صَحِيح؟",en:"Ahmad, I heard you will travel soon, is that right?"},
-                {spk:"Ahmad",side:"right",ar:"نَعَم، سَأُسافِر إِلى القاهِرَة الأُسبُوع القادِم",en:"Yes, I will travel to Cairo next week"},
+                {spk:"Ahmad",side:"right",ar:"نَعَم، سَأُسافِر إِلى القاهِرَة الأُسبُوع القادِم",en:"Yes, I will travel to Cairo next week."},
                 {spk:"Omar",side:"left",ar:"رائِع! وَلِمَاذا تَذهَب إِلى القاهِرَة بِالضَّبط؟",en:"Wonderful! And why exactly are you going to Cairo?"},
-                {spk:"Ahmad",side:"right",ar:"سَأَحضُر مُؤتَمَراً طِبِّيًّا مُهِمًّا هُناكَ",en:"I will attend an important medical conference there"},
+                {spk:"Ahmad",side:"right",ar:"سَأَحضُر مُؤتَمَراً طِبِّيًّا مُهِمًّا هُناكَ",en:"I will attend an important medical conference there."},
                 {spk:"Omar",side:"left",ar:"وَكَيفَ سَتَسافِر؟ بِالطَّائِرَة أَم بِالقِطار؟",en:"And how will you travel? By plane or train?"},
-                {spk:"Ahmad",side:"right",ar:"سَأُسافِر بِالطَّائِرَة لِأَنَّها أَسرَع وَأَكثَر رَاحَة",en:"I will travel by plane because it's faster and more comfortable"},
+                {spk:"Ahmad",side:"right",ar:"سَأُسافِر بِالطَّائِرَة لِأَنَّها أَسرَع وَأَكثَر رَاحَة",en:"I will travel by plane because it's faster and more comfortable."},
                 {spk:"Omar",side:"left",ar:"وَأَيْنَ سَتَنزِل؟ هَل حَجَزتَ فُندُقاً؟",en:"And where will you stay? Have you booked a hotel?"},
-                {spk:"Ahmad",side:"right",ar:"نَعَم، حَجَزتُ غُرفَة في فُندُق قَرِيب مِن المُؤتَمَر",en:"Yes, I booked a room in a hotel near the conference"},
+                {spk:"Ahmad",side:"right",ar:"نَعَم، حَجَزتُ غُرفَة في فُندُق قَرِيب مِن المُؤتَمَر",en:"Yes, I booked a room in a hotel near the conference."},
                 {spk:"Omar",side:"left",ar:"هَل سَتَزُور الأَهرامات وَالمَعالِم السِّياحِيَّة؟",en:"Will you visit the Pyramids and tourist attractions?"},
-                {spk:"Ahmad",side:"right",ar:"بِالتَّأكِيد، سَأَستَغِلُّ الوَقت وَأَزُور القاهِرَة القَدِيمَة",en:"Definitely, I will make use of the time and visit Old Cairo"},
+                {spk:"Ahmad",side:"right",ar:"بِالتَّأكِيد، سَأَستَغِلُّ الوَقت وَأَزُور القاهِرَة القَدِيمَة",en:"Definitely, I will make use of the time and visit Old Cairo."},
               ],
               keywords:[
                 {ar:"سَمِعتُ أَنَّكَ",en:"I heard that you"},
                 {ar:"لِمَاذا",en:"Why"},
                 {ar:"مُؤتَمَر",en:"Conference"},
-                {ar:"أَسرَع وَأَكثَر رَاحَة",en:"Faster and more comfortable"},
+                {ar:"أَسرَع وَأَكثَر رَاحَة",en:"Faster and more comfortable."},
                 {ar:"حَجَزَ",en:"Booked / Reserved"},
                 {ar:"مَعالِم سِياحِيَّة",en:"Tourist attractions"},
                 {ar:"يَستَغِلُّ الوَقت",en:"Makes use of the time"},
@@ -2642,15 +2708,15 @@ const CUR = [
             data:{ title:"في المَطار وَالمَدِينَة", setting:"أحمد وصل القاهرة ويسأل عن الطريق",
               lines:[
                 {spk:"Ahmad",side:"left",ar:"عَفواً، أَيْنَ مَحَطَّة الأُوتُوبِيس إِلى وَسط المَدِينَة؟",en:"Excuse me, where is the bus station to the city center?"},
-                {spk:"Staff",side:"right",ar:"اِتَّجِه يَمِيناً ثُمَّ سِر مِئَتَي مِتر حَتَّى تَصِل",en:"Turn right then walk two hundred meters until you arrive"},
+                {spk:"Staff",side:"right",ar:"اِتَّجِه يَمِيناً ثُمَّ سِر مِئَتَي مِتر حَتَّى تَصِل",en:"Turn right then walk two hundred meters until you arrive."},
                 {spk:"Ahmad",side:"left",ar:"وَهَل يَمُرُّ الأُوتُوبِيس بِالقُرب مِن فُندُق النِّيل؟",en:"And does the bus pass near the Nile Hotel?"},
-                {spk:"Staff",side:"right",ar:"نَعَم، يَتَوَقَّف الأُوتُوبِيس رَقم سَبعَة أَمامَ الفُندُق",en:"Yes, bus number seven stops in front of the hotel"},
+                {spk:"Staff",side:"right",ar:"نَعَم، يَتَوَقَّف الأُوتُوبِيس رَقم سَبعَة أَمامَ الفُندُق",en:"Yes, bus number seven stops in front of the hotel."},
                 {spk:"Ahmad",side:"left",ar:"وَكَم تَستَغرِق الرِّحلَة مِن المَطار لِلفُندُق؟",en:"And how long does the trip take from the airport to the hotel?"},
-                {spk:"Staff",side:"right",ar:"تَستَغرِق حَوالَي أَربَعِين دَقِيقَة في أَوقات الذُّروَة",en:"It takes about forty minutes in rush hour"},
+                {spk:"Staff",side:"right",ar:"تَستَغرِق حَوالَي أَربَعِين دَقِيقَة في أَوقات الذُّروَة",en:"It takes about forty minutes in rush hour."},
                 {spk:"Ahmad",side:"left",ar:"شُكراً جَزِيلاً، هَل يُمكِنُنِي الدَّفع بِالبِطاقَة؟",en:"Thank you very much, can I pay by card?"},
-                {spk:"Staff",side:"right",ar:"لا، الأُوتُوبِيس نَقداً فَقَط بِخَمسَة جُنَيهات",en:"No, the bus is cash only, five pounds"},
-                {spk:"Ahmad",side:"left",ar:"حَسَناً، سَأَبحَث عَن صَرَّاف آلِيّ قَرِيب",en:"Okay, I'll look for a nearby ATM"},
-                {spk:"Staff",side:"right",ar:"الصَّرَّاف الآلِيّ مَوجُود عِندَ مَدخَل المَطار",en:"The ATM is available at the airport entrance"},
+                {spk:"Staff",side:"right",ar:"لا، الأُوتُوبِيس نَقداً فَقَط بِخَمسَة جُنَيهات",en:"No, the bus is cash only, five pounds."},
+                {spk:"Ahmad",side:"left",ar:"حَسَناً، سَأَبحَث عَن صَرَّاف آلِيّ قَرِيب",en:"Okay, I'll look for a nearby ATM."},
+                {spk:"Staff",side:"right",ar:"الصَّرَّاف الآلِيّ مَوجُود عِندَ مَدخَل المَطار",en:"The ATM is available at the airport entrance."},
               ],
               keywords:[
                 {ar:"اِتَّجِه",en:"Head towards / Turn"},
@@ -2690,10 +2756,10 @@ const CUR = [
               },
               keyRule:"سَـ + present = near future (I will). سَوفَ + present = emphatic future (I will definitely).",
               examples:[
-                {ar:"سَأُسافِر إِلى القاهِرَة الأُسبُوع القادِم",en:"I will travel to Cairo next week"},
-                {ar:"سَوفَ نَزُور الأَهرامات وَالمَتاحِف الكَبِيرَة",en:"We will definitely visit the Pyramids and big museums"},
-                {ar:"سَتَصِل الطَّائِرَة في السَّاعَة الثَّالِثَة",en:"The plane will arrive at three o'clock"},
-                {ar:"سَأَستَغِلُّ الوَقتَ وَأَزُور القاهِرَة القَدِيمَة",en:"I will make use of the time and visit Old Cairo"},
+                {ar:"سَأُسافِر إِلى القاهِرَة الأُسبُوع القادِم",en:"I will travel to Cairo next week."},
+                {ar:"سَوفَ نَزُور الأَهرامات وَالمَتاحِف الكَبِيرَة",en:"We will definitely visit the Pyramids and big museums."},
+                {ar:"سَتَصِل الطَّائِرَة في السَّاعَة الثَّالِثَة",en:"The plane will arrive at three o'clock."},
+                {ar:"سَأَستَغِلُّ الوَقتَ وَأَزُور القاهِرَة القَدِيمَة",en:"I will make use of the time and visit Old Cairo."},
               ]
             }
           },
@@ -2722,15 +2788,15 @@ const CUR = [
             data:{ title:"كَيفَ الطَّقس؟", setting:"سارة وريم يتحدثان عن الطقس ويخططان لنزهة",
               lines:[
                 {spk:"Sara",side:"left",ar:"رَيم، كَيفَ الطَّقس الآن في الخارِج؟",en:"Reem, how is the weather now outside?"},
-                {spk:"Reem",side:"right",ar:"الجَوّ جَمِيل جِداً، مُشمِس وَلَكِن لَيس حارًّا",en:"The weather is very nice, sunny but not hot"},
-                {spk:"Sara",side:"left",ar:"هَل هُناكَ رِياح؟ أَكرَه الرِّياح الشَّدِيدَة",en:"Is there wind? I hate strong winds"},
-                {spk:"Reem",side:"right",ar:"نَسِيم خَفِيف فَقَط، مِثالِيّ لِلنُّزهَة في الحَدِيقَة",en:"Only a light breeze, perfect for a walk in the park"},
+                {spk:"Reem",side:"right",ar:"الجَوّ جَمِيل جِداً، مُشمِس وَلَكِن لَيس حارًّا",en:"The weather is very nice, sunny but not hot."},
+                {spk:"Sara",side:"left",ar:"هَل هُناكَ رِياح؟ أَكرَه الرِّياح الشَّدِيدَة",en:"Is there wind? I hate strong winds."},
+                {spk:"Reem",side:"right",ar:"نَسِيم خَفِيف فَقَط، مِثالِيّ لِلنُّزهَة في الحَدِيقَة",en:"Only a light breeze, perfect for a walk in the park."},
                 {spk:"Sara",side:"left",ar:"رائِع، وَما هُوَ الطَّقس المُتَوَقَّع لِلأُسبُوع القادِم؟",en:"Wonderful, and what is the expected weather for next week?"},
-                {spk:"Reem",side:"right",ar:"قالُوا إِنَّهُ سَيَكُون غائِماً مَعَ احتِمال أَمطار",en:"They said it will be cloudy with chance of rain"},
-                {spk:"Sara",side:"left",ar:"أُحِبُّ المَطَر في فَصل الشِّتاء، يُرِيحُ النَّفس",en:"I love the rain in winter, it calms the soul"},
-                {spk:"Reem",side:"right",ar:"وَأَنا أُفَضِّل فَصل الرَّبِيع، الجَوّ مُعتَدِل وَالزُّهُور جَمِيلَة",en:"And I prefer spring, the weather is mild and the flowers are beautiful"},
-                {spk:"Sara",side:"left",ar:"هَيَّا نَخرُج الآن قَبلَ أَن يَتَغَيَّر الطَّقس",en:"Come on let's go out now before the weather changes"},
-                {spk:"Reem",side:"right",ar:"فِكرَة مُمتازَة، سَآخُذ مَعِي مَظَلَّة احتِياطاً",en:"Excellent idea, I'll take an umbrella just in case"},
+                {spk:"Reem",side:"right",ar:"قالُوا إِنَّهُ سَيَكُون غائِماً مَعَ احتِمال أَمطار",en:"They said it will be cloudy with chance of rain."},
+                {spk:"Sara",side:"left",ar:"أُحِبُّ المَطَر في فَصل الشِّتاء، يُرِيحُ النَّفس",en:"I love the rain in winter, it calms the soul."},
+                {spk:"Reem",side:"right",ar:"وَأَنا أُفَضِّل فَصل الرَّبِيع، الجَوّ مُعتَدِل وَالزُّهُور جَمِيلَة",en:"And I prefer spring, the weather is mild and the flowers are beautiful."},
+                {spk:"Sara",side:"left",ar:"هَيَّا نَخرُج الآن قَبلَ أَن يَتَغَيَّر الطَّقس",en:"Come on let's go out now before the weather changes."},
+                {spk:"Reem",side:"right",ar:"فِكرَة مُمتازَة، سَآخُذ مَعِي مَظَلَّة احتِياطاً",en:"Excellent idea, I'll take an umbrella just in case."},
               ],
               keywords:[
                 {ar:"الطَّقس / الجَوّ",en:"Weather / Atmosphere"},
@@ -2746,11 +2812,11 @@ const CUR = [
             data:{ title:"الفُصُول الأَربَعَة", setting:"أطفال يتحدثون عن فصولهم المفضلة",
               lines:[
                 {spk:"Teacher",side:"left",ar:"أَيُّها الأَطفال، ما هُوَ فَصلُكُم المُفَضَّل وَلِماذا؟",en:"Children, what is your favourite season and why?"},
-                {spk:"Ali",side:"right",ar:"أُحِبُّ الصَّيف لِأَنَّ الإِجازَة طَوِيلَة وَنَذهَب إِلى البَحر",en:"I love summer because the holiday is long and we go to the beach"},
-                {spk:"Nour",side:"left",ar:"وَأَنا أُحِبُّ الرَّبِيع، الجَوّ مُعتَدِل وَالطَّبِيعَة خَضراء",en:"And I love spring, the weather is mild and nature is green"},
-                {spk:"Omar",side:"right",ar:"أُفَضِّل الخَرِيف لِأَنَّ الأَشجار تَتَلَوَّن بِأَلوان جَمِيلَة",en:"I prefer autumn because the trees change to beautiful colours"},
+                {spk:"Ali",side:"right",ar:"أُحِبُّ الصَّيف لِأَنَّ الإِجازَة طَوِيلَة وَنَذهَب إِلى البَحر",en:"I love summer because the holiday is long and we go to the beach."},
+                {spk:"Nour",side:"left",ar:"وَأَنا أُحِبُّ الرَّبِيع، الجَوّ مُعتَدِل وَالطَّبِيعَة خَضراء",en:"And I love spring, the weather is mild and nature is green."},
+                {spk:"Omar",side:"right",ar:"أُفَضِّل الخَرِيف لِأَنَّ الأَشجار تَتَلَوَّن بِأَلوان جَمِيلَة",en:"I prefer autumn because the trees change to beautiful colours."},
                 {spk:"Teacher",side:"left",ar:"وَماذا عَن الشِّتاء؟ هَل يُحِبُّهُ أَحَد؟",en:"And what about winter? Does anyone like it?"},
-                {spk:"Sara",side:"right",ar:"أَنا أُحِبُّ الشِّتاء، أُحِبُّ المَطَر وَالجَلوس عِندَ المَدفَأَة",en:"I love winter, I love the rain and sitting by the fireplace"},
+                {spk:"Sara",side:"right",ar:"أَنا أُحِبُّ الشِّتاء، أُحِبُّ المَطَر وَالجَلوس عِندَ المَدفَأَة",en:"I love winter, I love the rain and sitting by the fireplace."},
               ],
               keywords:[
                 {ar:"الصَّيف / الشِّتاء",en:"Summer / Winter"},
@@ -2791,10 +2857,10 @@ const CUR = [
               },
               keyRule:"كانَ + adjective = was + adjective. كانَ الجَوّ حارًّا = The weather was hot.",
               examples:[
-                {ar:"كانَ الطَّقس جَمِيلاً أَمس",en:"The weather was beautiful yesterday"},
-                {ar:"كانَت الرِّياح شَدِيدَة جِداً",en:"The winds were very strong"},
-                {ar:"كُنَّا في البَحر لَمَّا بَدَأَ المَطَر",en:"We were at the beach when the rain started"},
-                {ar:"كانَ اللَّهُ غَفُوراً رَحِيماً — سورة الأحزاب",en:"Allah was ever Forgiving, Merciful — Quran 33:5"},
+                {ar:"كانَ الطَّقس جَمِيلاً أَمس",en:"The weather was beautiful yesterday."},
+                {ar:"كانَت الرِّياح شَدِيدَة جِداً",en:"The winds were very strong."},
+                {ar:"كُنَّا في البَحر لَمَّا بَدَأَ المَطَر",en:"We were at the beach when the rain started."},
+                {ar:"كانَ اللَّهُ غَفُوراً رَحِيماً — سورة الأحزاب",en:"Allah was ever Forgiving, Merciful — Quran 33:5."},
               ]
             }
           },
@@ -2825,16 +2891,16 @@ const CUR = [
           { id:1, type:"dialogue", title:"I Don't Feel Well", desc:"Omar tells his wife he is sick", icon:"forum", color:"#D4A34A",
             data:{ title:"أَنا لا أَشعُر بِخَير", setting:"عمر يُخبِر زوجته أنه مريض",
               lines:[
-                {spk:"Omar",side:"left",ar:"زَوجَتِي، أَنا لا أَشعُر بِخَير اليَوم",en:"My wife, I don't feel well today"},
+                {spk:"Omar",side:"left",ar:"زَوجَتِي، أَنا لا أَشعُر بِخَير اليَوم",en:"My wife, I don't feel well today."},
                 {spk:"Wife",side:"right",ar:"ماذا بِكَ يا عُمَر؟ أَيْنَ يُؤلِمُكَ؟",en:"What's wrong Omar? Where does it hurt?"},
-                {spk:"Omar",side:"left",ar:"عِندِي صُداع شَدِيد وَأَلَم في الحَلق",en:"I have a severe headache and a sore throat"},
-                {spk:"Wife",side:"right",ar:"هَل عِندَكَ حُمَّى أَيضاً؟ سَأَقِيس حَرارَتَكَ",en:"Do you also have a fever? I'll take your temperature"},
-                {spk:"Omar",side:"left",ar:"أَعتَقِد نَعَم، جِسمِي حارٌّ جِداً",en:"I think yes, my body is very hot"},
+                {spk:"Omar",side:"left",ar:"عِندِي صُداع شَدِيد وَأَلَم في الحَلق",en:"I have a severe headache and a sore throat."},
+                {spk:"Wife",side:"right",ar:"هَل عِندَكَ حُمَّى أَيضاً؟ سَأَقِيس حَرارَتَكَ",en:"Do you also have a fever? I'll take your temperature."},
+                {spk:"Omar",side:"left",ar:"أَعتَقِد نَعَم، جِسمِي حارٌّ جِداً",en:"I think yes, my body is very hot."},
                 {spk:"Wife",side:"right",ar:"حَرارَتُكَ ثَمانِيَة وَثَلاثِين وَنِصف",en:"Your temperature is 38.5"},
                 {spk:"Omar",side:"left",ar:"هَل يَجِب أَن أَذهَب إِلى الطَّبِيب؟",en:"Should I go to the doctor?"},
-                {spk:"Wife",side:"right",ar:"نَعَم، يَجِب أَن تَذهَب الآن بِدُون تَأخِير",en:"Yes, you must go now without delay"},
-                {spk:"Omar",side:"left",ar:"سَأَتَناوَل دَواءً أَوَّلاً وَأَرى إِن تَحَسَّنت",en:"I'll take medicine first and see if I improve"},
-                {spk:"Wife",side:"right",ar:"حَسَناً، لَكِن إِذا لَم تَتَحَسَّن سَنَذهَب فَوراً",en:"Okay, but if you don't improve we'll go immediately"},
+                {spk:"Wife",side:"right",ar:"نَعَم، يَجِب أَن تَذهَب الآن بِدُون تَأخِير",en:"Yes, you must go now without delay."},
+                {spk:"Omar",side:"left",ar:"سَأَتَناوَل دَواءً أَوَّلاً وَأَرى إِن تَحَسَّنت",en:"I'll take medicine first and see if I improve."},
+                {spk:"Wife",side:"right",ar:"حَسَناً، لَكِن إِذا لَم تَتَحَسَّن سَنَذهَب فَوراً",en:"Okay, but if you don't improve we'll go immediately."},
               ],
               keywords:[
                 {ar:"لا أَشعُر بِخَير",en:"I don't feel well"},
@@ -2849,16 +2915,16 @@ const CUR = [
           { id:2, type:"dialogue", title:"At the Pharmacy", desc:"Layla buys medicine at the pharmacy", icon:"forum", color:"#D4A34A",
             data:{ title:"في الصَّيدَلِيَّة", setting:"ليلى تشتري دواءً من الصيدلية",
               lines:[
-                {spk:"Layla",side:"left",ar:"مَساء الخَير، أُرِيد دَواءً لِلسُّعال وَالزُّكام",en:"Good evening, I want medicine for cough and cold"},
+                {spk:"Layla",side:"left",ar:"مَساء الخَير، أُرِيد دَواءً لِلسُّعال وَالزُّكام",en:"Good evening, I want medicine for cough and cold."},
                 {spk:"Pharmacist",side:"right",ar:"هَل هَذا لَكِ أَم لِشَخصٍ آخَر؟",en:"Is this for you or for someone else?"},
-                {spk:"Layla",side:"left",ar:"لِطِفلِي، عُمرُهُ خَمس سَنَوات",en:"For my child, he is five years old"},
-                {spk:"Pharmacist",side:"right",ar:"عِندِي شَراب مُناسِب لِلأَطفال بِدُون كُحول",en:"I have a suitable syrup for children without alcohol"},
+                {spk:"Layla",side:"left",ar:"لِطِفلِي، عُمرُهُ خَمس سَنَوات",en:"For my child, he is five years old."},
+                {spk:"Pharmacist",side:"right",ar:"عِندِي شَراب مُناسِب لِلأَطفال بِدُون كُحول",en:"I have a suitable syrup for children without alcohol."},
                 {spk:"Layla",side:"left",ar:"جَيِّد، وَهَل عِندَكَ خافِض حَرارَة أَيضاً؟",en:"Good, and do you also have a fever reducer?"},
-                {spk:"Pharmacist",side:"right",ar:"نَعَم، هَذا الشَّراب يُخَفِّض الحَرارَة وَيُعالِج السُّعال",en:"Yes, this syrup reduces fever and treats cough"},
+                {spk:"Pharmacist",side:"right",ar:"نَعَم، هَذا الشَّراب يُخَفِّض الحَرارَة وَيُعالِج السُّعال",en:"Yes, this syrup reduces fever and treats cough."},
                 {spk:"Layla",side:"left",ar:"كَم الجُرعَة المُناسِبَة لِطِفل في سِنِّهِ؟",en:"What is the appropriate dose for a child his age?"},
-                {spk:"Pharmacist",side:"right",ar:"خَمسَة مِلِّيلِترات كُلَّ سِتِّ ساعات بَعدَ الأَكل",en:"Five millilitres every six hours after food"},
+                {spk:"Pharmacist",side:"right",ar:"خَمسَة مِلِّيلِترات كُلَّ سِتِّ ساعات بَعدَ الأَكل",en:"Five millilitres every six hours after food."},
                 {spk:"Layla",side:"left",ar:"شُكراً جَزِيلاً، كَم سِعرُ هَذا الشَّراب؟",en:"Thank you very much, how much is this syrup?"},
-                {spk:"Pharmacist",side:"right",ar:"بِخَمسَةَ عَشَر دِرهَماً فَقَط، وَهَذِهِ الوَصفَة مَجَّانِيَّة",en:"Only fifteen dirhams, and this prescription is free"},
+                {spk:"Pharmacist",side:"right",ar:"بِخَمسَةَ عَشَر دِرهَماً فَقَط، وَهَذِهِ الوَصفَة مَجَّانِيَّة",en:"Only fifteen dirhams, and this prescription is free."},
               ],
               keywords:[
                 {ar:"صَيدَلِيَّة",en:"Pharmacy"},
@@ -2899,9 +2965,9 @@ const CUR = [
               },
               keyRule:"يَجِب أَن + present verb = must/should. Add لا before يَجِب for 'must not'.",
               examples:[
-                {ar:"يَجِب أَن تَذهَب إِلى الطَّبِيب الآن",en:"You must go to the doctor now"},
-                {ar:"لا يَجِب أَن تَتَناوَل الدَّواء بِدُون وَصفَة",en:"You must not take medicine without a prescription"},
-                {ar:"يَجِب أَن يَرتاح لِمُدَّة يَومَين",en:"He must rest for two days"},
+                {ar:"يَجِب أَن تَذهَب إِلى الطَّبِيب الآن",en:"You must go to the doctor now."},
+                {ar:"لا يَجِب أَن تَتَناوَل الدَّواء بِدُون وَصفَة",en:"You must not take medicine without a prescription."},
+                {ar:"يَجِب أَن يَرتاح لِمُدَّة يَومَين",en:"He must rest for two days."},
                 {ar:"هَل يَجِب أَن أَنتَظِر طَوِيلاً؟",en:"Must I wait for a long time?"},
               ]
             }
@@ -2929,14 +2995,14 @@ const CUR = [
             data:{ title:"عِندَ الطَّبِيب", setting:"سلمى تزور الطبيب بسبب ألم في المعدة",
               lines:[
                 {spk:"Doctor",side:"left",ar:"تَفَضَّلِي يا سَيِّدَة سَلمى، ماذا بِكِ اليَوم؟",en:"Please come in Mrs Salma, what's wrong today?"},
-                {spk:"Salma",side:"right",ar:"دَكتُور، عِندِي أَلَم شَدِيد في البَطن مُنذُ يَومَين",en:"Doctor, I have severe stomach pain since two days"},
+                {spk:"Salma",side:"right",ar:"دَكتُور، عِندِي أَلَم شَدِيد في البَطن مُنذُ يَومَين",en:"Doctor, I have severe stomach pain since two days."},
                 {spk:"Doctor",side:"left",ar:"أَيْنَ بِالضَّبط؟ هَل الأَلَم مُستَمِرٌّ أَم يَأتِي وَيَذهَب؟",en:"Where exactly? Is the pain continuous or does it come and go?"},
-                {spk:"Salma",side:"right",ar:"في الجِهَة اليُمنى، وَيَشتَدُّ بَعدَ الأَكل",en:"On the right side, and it intensifies after eating"},
+                {spk:"Salma",side:"right",ar:"في الجِهَة اليُمنى، وَيَشتَدُّ بَعدَ الأَكل",en:"On the right side, and it intensifies after eating."},
                 {spk:"Doctor",side:"left",ar:"هَل عِندَكِ غَثَيان أَو قَيء أَو إِسهال؟",en:"Do you have nausea, vomiting or diarrhea?"},
-                {spk:"Salma",side:"right",ar:"نَعَم، أَشعُر بِغَثَيان شَدِيد خُصُوصاً في الصَّباح",en:"Yes, I feel severe nausea especially in the morning"},
-                {spk:"Doctor",side:"left",ar:"سَأَفحَصُكِ الآن، مِن فَضلِكِ اِستَلقِي هُنا",en:"I'll examine you now, please lie down here"},
-                {spk:"Salma",side:"right",ar:"حَسَناً دَكتُور، آمُل أَن لا يَكُون شَيئاً خَطِيراً",en:"Okay doctor, I hope it's nothing serious"},
-                {spk:"Doctor",side:"left",ar:"لا تَقلَقِي، سَأَكتُب لَكِ وَصفَة وَتَحالِيل دَم",en:"Don't worry, I'll write you a prescription and blood tests"},
+                {spk:"Salma",side:"right",ar:"نَعَم، أَشعُر بِغَثَيان شَدِيد خُصُوصاً في الصَّباح",en:"Yes, I feel severe nausea especially in the morning."},
+                {spk:"Doctor",side:"left",ar:"سَأَفحَصُكِ الآن، مِن فَضلِكِ اِستَلقِي هُنا",en:"I'll examine you now, please lie down here."},
+                {spk:"Salma",side:"right",ar:"حَسَناً دَكتُور، آمُل أَن لا يَكُون شَيئاً خَطِيراً",en:"Okay doctor, I hope it's nothing serious."},
+                {spk:"Doctor",side:"left",ar:"لا تَقلَقِي، سَأَكتُب لَكِ وَصفَة وَتَحالِيل دَم",en:"Don't worry, I'll write you a prescription and blood tests."},
                 {spk:"Salma",side:"right",ar:"شُكراً دَكتُور، هَل يَجِب أَن أَرجِع بَعدَ التَّحالِيل؟",en:"Thank you doctor, must I come back after the tests?"},
               ],
               keywords:[
@@ -2952,12 +3018,12 @@ const CUR = [
             data:{ title:"السِّجِلّ الطِّبِّيّ", setting:"الطبيب يسأل المريض عن تاريخه الطبي",
               lines:[
                 {spk:"Doctor",side:"left",ar:"قَبلَ الفَحص، هَل عِندَكَ أَمراض مُزمِنَة مِثل السُّكَّرِيّ؟",en:"Before the exam, do you have chronic diseases like diabetes?"},
-                {spk:"Patient",side:"right",ar:"نَعَم، عِندِي ضَغط دَم مُرتَفِع مُنذُ خَمس سَنَوات",en:"Yes, I have high blood pressure for five years"},
+                {spk:"Patient",side:"right",ar:"نَعَم، عِندِي ضَغط دَم مُرتَفِع مُنذُ خَمس سَنَوات",en:"Yes, I have high blood pressure for five years."},
                 {spk:"Doctor",side:"left",ar:"هَل تَتَناوَل دَواءً مُنتَظِماً لِضَغط الدَّم؟",en:"Are you taking regular medicine for blood pressure?"},
-                {spk:"Patient",side:"right",ar:"نَعَم، أَتَناوَل حَبَّة واحِدَة كُلَّ يَوم في الصَّباح",en:"Yes, I take one pill every day in the morning"},
+                {spk:"Patient",side:"right",ar:"نَعَم، أَتَناوَل حَبَّة واحِدَة كُلَّ يَوم في الصَّباح",en:"Yes, I take one pill every day in the morning."},
                 {spk:"Doctor",side:"left",ar:"هَل أَنتَ حَسَّاس لِأَيِّ نَوع مِن الأَدوِيَة؟",en:"Are you allergic to any type of medicine?"},
-                {spk:"Patient",side:"right",ar:"نَعَم، عِندِي حَسَاسِيَّة مِن البِنسِلِين",en:"Yes, I am allergic to penicillin"},
-                {spk:"Doctor",side:"left",ar:"مُهِمٌّ جِداً، سَأَكتُب هَذا في مَلَفِّكَ الطِّبِّيّ",en:"Very important, I'll write this in your medical file"},
+                {spk:"Patient",side:"right",ar:"نَعَم، عِندِي حَسَاسِيَّة مِن البِنسِلِين",en:"Yes, I am allergic to penicillin."},
+                {spk:"Doctor",side:"left",ar:"مُهِمٌّ جِداً، سَأَكتُب هَذا في مَلَفِّكَ الطِّبِّيّ",en:"Very important, I'll write this in your medical file."},
                 {spk:"Patient",side:"right",ar:"دَكتُور، هَل يُمكِنُنِي مُمارَسَة الرِّياضَة مَع ضَغط الدَّم؟",en:"Doctor, can I exercise with high blood pressure?"},
               ],
               keywords:[
@@ -2998,10 +3064,10 @@ const CUR = [
               },
               keyRule:"إِذا + verb = if. إِذا لَم + past verb = if not. The result clause often uses future tense.",
               examples:[
-                {ar:"إِذا لَم تَتَحَسَّن سَنَذهَب إِلى المُستَشفى",en:"If you don't improve we'll go to the hospital"},
-                {ar:"إِذا كانَ عِندَكَ حَسَاسِيَّة أَخبِر الطَّبِيب",en:"If you have an allergy tell the doctor"},
-                {ar:"إِذا اشتَدَّ الأَلَم اتَّصِل بِالطَّوارِئ",en:"If the pain intensifies call emergency"},
-                {ar:"إِذا لَم يَكُن عِندَكَ وَصفَة لا يُعطِيكَ الدَّواء",en:"If you don't have a prescription he won't give you medicine"},
+                {ar:"إِذا لَم تَتَحَسَّن سَنَذهَب إِلى المُستَشفى",en:"If you don't improve we'll go to the hospital."},
+                {ar:"إِذا كانَ عِندَكَ حَسَاسِيَّة أَخبِر الطَّبِيب",en:"If you have an allergy tell the doctor."},
+                {ar:"إِذا اشتَدَّ الأَلَم اتَّصِل بِالطَّوارِئ",en:"If the pain intensifies call emergency."},
+                {ar:"إِذا لَم يَكُن عِندَكَ وَصفَة لا يُعطِيكَ الدَّواء",en:"If you don't have a prescription he won't give you medicine."},
               ]
             }
           },
@@ -3031,15 +3097,15 @@ const CUR = [
           { id:1, type:"dialogue", title:"Weekly Shopping", desc:"Rania does weekly grocery shopping", icon:"forum", color:"#D4A34A",
             data:{ title:"التَّسَوُّق الأُسبُوعِيّ", setting:"رانيا تتسوق في السوبرماركت الأسبوعي",
               lines:[
-                {spk:"Rania",side:"left",ar:"أَحتاج أَن أَشتَرِيَ حاجِيَّات البَيت لِهَذا الأُسبُوع",en:"I need to buy the household necessities for this week"},
+                {spk:"Rania",side:"left",ar:"أَحتاج أَن أَشتَرِيَ حاجِيَّات البَيت لِهَذا الأُسبُوع",en:"I need to buy the household necessities for this week."},
                 {spk:"Husband",side:"right",ar:"هَل كَتَبتِ قائِمَة المَشتَرِيَّات حَتَّى لا نَنسى شَيئاً؟",en:"Did you write the shopping list so we don't forget anything?"},
-                {spk:"Rania",side:"left",ar:"نَعَم، نَحتاج خُبزاً وَحَلِيباً وَبَيضاً وَخُضَراوَات طازَجَة",en:"Yes, we need bread, milk, eggs and fresh vegetables"},
+                {spk:"Rania",side:"left",ar:"نَعَم، نَحتاج خُبزاً وَحَلِيباً وَبَيضاً وَخُضَراوَات طازَجَة",en:"Yes, we need bread, milk, eggs and fresh vegetables."},
                 {spk:"Husband",side:"right",ar:"هَل نَحتاج لَحماً أَو دَجاجاً هَذا الأُسبُوع؟",en:"Do we need meat or chicken this week?"},
-                {spk:"Rania",side:"left",ar:"نَعَم، اشتَرِ كِيلو دَجَاج وَنِصف كِيلو لَحم مَفرُوم",en:"Yes, buy a kilo of chicken and half a kilo of minced meat"},
+                {spk:"Rania",side:"left",ar:"نَعَم، اشتَرِ كِيلو دَجَاج وَنِصف كِيلو لَحم مَفرُوم",en:"Yes, buy a kilo of chicken and half a kilo of minced meat."},
                 {spk:"Husband",side:"right",ar:"حَسَناً، وَهَل نَحتاج مُنَظِّفات لِلبَيت أَيضاً؟",en:"Okay, and do we also need cleaning products for the house?"},
-                {spk:"Rania",side:"left",ar:"نَعَم، خُذ صابُوناً وَمُنَظِّف الأَرضِيَّات وَمَعجُون أَسنان",en:"Yes, get soap, floor cleaner and toothpaste"},
-                {spk:"Husband",side:"right",ar:"سَأَبحَث عَن العُرُوض وَالتَّخفِيضات لِتَوفِير المال",en:"I'll look for offers and discounts to save money"},
-                {spk:"Rania",side:"left",ar:"فِكرَة مُمتازَة، البَطاقَة الذَّهَبِيَّة تُعطِينا نِقاطاً إِضافِيَّة",en:"Excellent idea, the gold card gives us extra points"},
+                {spk:"Rania",side:"left",ar:"نَعَم، خُذ صابُوناً وَمُنَظِّف الأَرضِيَّات وَمَعجُون أَسنان",en:"Yes, get soap, floor cleaner and toothpaste."},
+                {spk:"Husband",side:"right",ar:"سَأَبحَث عَن العُرُوض وَالتَّخفِيضات لِتَوفِير المال",en:"I'll look for offers and discounts to save money."},
+                {spk:"Rania",side:"left",ar:"فِكرَة مُمتازَة، البَطاقَة الذَّهَبِيَّة تُعطِينا نِقاطاً إِضافِيَّة",en:"Excellent idea, the gold card gives us extra points."},
                 {spk:"Husband",side:"right",ar:"صَحِيح، كَم نَقطَة جَمَعنا حَتَّى الآن؟",en:"True, how many points have we collected so far?"},
               ],
               keywords:[
@@ -3056,13 +3122,13 @@ const CUR = [
             data:{ title:"أَيْنَ أَجِد؟", setting:"خالد يسأل موظف السوبرماركت عن المنتجات",
               lines:[
                 {spk:"Khalid",side:"left",ar:"عَفواً، أَيْنَ أَجِد قِسم مُنتَجات الأَلبان مِن فَضلِكَ؟",en:"Excuse me, where can I find the dairy products section please?"},
-                {spk:"Staff",side:"right",ar:"قِسم الأَلبان في الممَرِّ الثَّالِث عَلى يَمِينِكَ",en:"The dairy section is in the third aisle on your right"},
+                {spk:"Staff",side:"right",ar:"قِسم الأَلبان في الممَرِّ الثَّالِث عَلى يَمِينِكَ",en:"The dairy section is in the third aisle on your right."},
                 {spk:"Khalid",side:"left",ar:"شُكراً، وَهَل عِندَكُم حَلِيب قَلِيل الدَّسَم؟",en:"Thank you, and do you have low-fat milk?"},
-                {spk:"Staff",side:"right",ar:"نَعَم، الحَلِيب قَلِيل الدَّسَم عَلى الرَّف الثَّانِي",en:"Yes, low-fat milk is on the second shelf"},
+                {spk:"Staff",side:"right",ar:"نَعَم، الحَلِيب قَلِيل الدَّسَم عَلى الرَّف الثَّانِي",en:"Yes, low-fat milk is on the second shelf."},
                 {spk:"Khalid",side:"left",ar:"وَأَيْنَ يُمكِنُنِي أَن أَجِد الخُبز الأَسمَر الطَّازَج؟",en:"And where can I find fresh brown bread?"},
-                {spk:"Staff",side:"right",ar:"المَخبَز في آخِر المَتجَر عَلى اليَسار بِجانِب البَوَّابَة",en:"The bakery is at the end of the store on the left next to the gate"},
+                {spk:"Staff",side:"right",ar:"المَخبَز في آخِر المَتجَر عَلى اليَسار بِجانِب البَوَّابَة",en:"The bakery is at the end of the store on the left next to the gate."},
                 {spk:"Khalid",side:"left",ar:"هَل يُمكِنُنِي الدَّفع بِالبِطاقَة أَم نَقداً فَقَط؟",en:"Can I pay by card or cash only?"},
-                {spk:"Staff",side:"right",ar:"يُمكِنُكَ الدَّفع بِالبِطاقَة أَو بِتَطبِيق الهاتِف",en:"You can pay by card or by phone application"},
+                {spk:"Staff",side:"right",ar:"يُمكِنُكَ الدَّفع بِالبِطاقَة أَو بِتَطبِيق الهاتِف",en:"You can pay by card or by phone application."},
               ],
               keywords:[
                 {ar:"مَمَرّ / قِسم",en:"Aisle / Section"},
@@ -3102,10 +3168,10 @@ const CUR = [
               },
               keyRule:"أَحتاج + noun (I need something). أَحتاج أَن + verb (I need to do).",
               examples:[
-                {ar:"أَحتاج أَن أَشتَرِيَ حاجِيَّات البَيت اليَوم",en:"I need to buy household necessities today"},
-                {ar:"نَحتاج إِلى كِيلو دَجَاج وَنِصف كِيلو لَحم",en:"We need a kilo of chicken and half a kilo of meat"},
+                {ar:"أَحتاج أَن أَشتَرِيَ حاجِيَّات البَيت اليَوم",en:"I need to buy household necessities today."},
+                {ar:"نَحتاج إِلى كِيلو دَجَاج وَنِصف كِيلو لَحم",en:"We need a kilo of chicken and half a kilo of meat."},
                 {ar:"هَل تَحتاج شَيئاً آخَر مِن السُّوبَرماركت؟",en:"Do you need anything else from the supermarket?"},
-                {ar:"لا أَحتاج مُنَظِّفات، عِندَنا مِنها كَثِير",en:"I don't need cleaners, we have a lot of them"},
+                {ar:"لا أَحتاج مُنَظِّفات، عِندَنا مِنها كَثِير",en:"I don't need cleaners, we have a lot of them."},
               ]
             }
           },
@@ -3132,13 +3198,13 @@ const CUR = [
             data:{ title:"في سُوق الخُضَار", setting:"سلمى تشتري الخضار من السوق الشعبي",
               lines:[
                 {spk:"Salma",side:"left",ar:"يا عَمّ، كَم سِعر كِيلو الطَّمَاطِم الطَّازَجَة اليَوم؟",en:"Uncle, what is the price of a kilo of fresh tomatoes today?"},
-                {spk:"Seller",side:"right",ar:"الطَّمَاطِم بِثَلاثَة دَراهِم الكِيلو، وَهِيَ طازَجَة مِن الصَّباح",en:"Tomatoes are three dirhams per kilo, they are fresh from this morning"},
-                {spk:"Salma",side:"left",ar:"أُرِيد كِيلوَين طَمَاطِم وَكِيلو خِيار وَنِصف كِيلو فَلفَل",en:"I want two kilos of tomatoes, a kilo of cucumber and half a kilo of pepper"},
+                {spk:"Seller",side:"right",ar:"الطَّمَاطِم بِثَلاثَة دَراهِم الكِيلو، وَهِيَ طازَجَة مِن الصَّباح",en:"Tomatoes are three dirhams per kilo, they are fresh from this morning."},
+                {spk:"Salma",side:"left",ar:"أُرِيد كِيلوَين طَمَاطِم وَكِيلو خِيار وَنِصف كِيلو فَلفَل",en:"I want two kilos of tomatoes, a kilo of cucumber and half a kilo of pepper."},
                 {spk:"Seller",side:"right",ar:"تَفَضَّلِي، وَهَل تُرِيدِين أَيضاً بَصَلاً أَو ثَوماً؟",en:"Here you go, and do you also want onion or garlic?"},
-                {spk:"Salma",side:"left",ar:"نَعَم، أُرِيد كِيلو بَصَل وَرُبع كِيلو ثَوم مِن فَضلِكَ",en:"Yes, I want a kilo of onion and a quarter kilo of garlic please"},
-                {spk:"Seller",side:"right",ar:"المَجمُوع سِتَّةَ عَشَر دِرهَماً وَنِصف يا سَيِّدَة",en:"The total is sixteen and a half dirhams madam"},
-                {spk:"Salma",side:"left",ar:"هَل يُمكِنُكَ تَخفِيض قَلِيل؟ أَنا زَبُونَة دائِمَة عِندَكَ",en:"Can you reduce a little? I am a regular customer of yours"},
-                {spk:"Seller",side:"right",ar:"حَسَناً، بِخَمسَةَ عَشَر دِرهَماً فَقَط لِأَنَّكِ زَبُونَتُنا الكَرِيمَة",en:"Okay, fifteen dirhams only because you are our valued customer"},
+                {spk:"Salma",side:"left",ar:"نَعَم، أُرِيد كِيلو بَصَل وَرُبع كِيلو ثَوم مِن فَضلِكَ",en:"Yes, I want a kilo of onion and a quarter kilo of garlic please."},
+                {spk:"Seller",side:"right",ar:"المَجمُوع سِتَّةَ عَشَر دِرهَماً وَنِصف يا سَيِّدَة",en:"The total is sixteen and a half dirhams madam."},
+                {spk:"Salma",side:"left",ar:"هَل يُمكِنُكَ تَخفِيض قَلِيل؟ أَنا زَبُونَة دائِمَة عِندَكَ",en:"Can you reduce a little? I am a regular customer of yours."},
+                {spk:"Seller",side:"right",ar:"حَسَناً، بِخَمسَةَ عَشَر دِرهَماً فَقَط لِأَنَّكِ زَبُونَتُنا الكَرِيمَة",en:"Okay, fifteen dirhams only because you are our valued customer."},
               ],
               keywords:[
                 {ar:"طازَج مِن الصَّباح",en:"Fresh from this morning"},
@@ -3153,13 +3219,13 @@ const CUR = [
             data:{ title:"نَطبُخ مَعاً", setting:"أم عمر تعلم ابنتها كيفية طبخ المنسف",
               lines:[
                 {spk:"Daughter",side:"left",ar:"يا أُمِّي، كَيفَ أَطبُخ المَنسَف بِالطَّرِيقَة الأُردُنِيَّة الأَصِيلَة؟",en:"Mom, how do I cook mansaf in the authentic Jordanian way?"},
-                {spk:"Mother",side:"right",ar:"أَوَّلاً نَحتاج لَحماً طازَجاً وَجَمِيلاً وَلَبَناً جافًّا",en:"First we need fresh good meat and dried yogurt"},
+                {spk:"Mother",side:"right",ar:"أَوَّلاً نَحتاج لَحماً طازَجاً وَجَمِيلاً وَلَبَناً جافًّا",en:"First we need fresh good meat and dried yogurt."},
                 {spk:"Daughter",side:"left",ar:"كَم كِيلو لَحم نَحتاج لِعَشَرَة أَشخاص تَقرِيباً؟",en:"How many kilos of meat do we need for approximately ten people?"},
-                {spk:"Mother",side:"right",ar:"نَحتاج كِيلوَين وَنِصف لَحم غَنَم وَكِيلو أُرز بَسمَاتِي",en:"We need two and a half kilos of lamb and a kilo of basmati rice"},
+                {spk:"Mother",side:"right",ar:"نَحتاج كِيلوَين وَنِصف لَحم غَنَم وَكِيلو أُرز بَسمَاتِي",en:"We need two and a half kilos of lamb and a kilo of basmati rice."},
                 {spk:"Daughter",side:"left",ar:"وَماذا عَن التَّوابِل وَالبَهَارات اللَّازِمَة؟",en:"And what about the necessary spices and herbs?"},
-                {spk:"Mother",side:"right",ar:"نَضَع بَهارات مِشكَلَة وَكَمُّون وَكُرفُس وَقِرفَة",en:"We add mixed spices, cumin, coriander and cinnamon"},
+                {spk:"Mother",side:"right",ar:"نَضَع بَهارات مِشكَلَة وَكَمُّون وَكُرفُس وَقِرفَة",en:"We add mixed spices, cumin, coriander and cinnamon."},
                 {spk:"Daughter",side:"left",ar:"وَكَم ساعَة يَحتاج اللَّحم لِيَنضَج جَيِّداً؟",en:"And how many hours does the meat need to cook well?"},
-                {spk:"Mother",side:"right",ar:"يَحتاج ساعَتَين عَلى نار هادِئَة مَعَ التَّقلِيب بِاستِمرار",en:"It needs two hours on low heat with continuous stirring"},
+                {spk:"Mother",side:"right",ar:"يَحتاج ساعَتَين عَلى نار هادِئَة مَعَ التَّقلِيب بِاستِمرار",en:"It needs two hours on low heat with continuous stirring."},
               ],
               keywords:[
                 {ar:"لَبَن جاف",en:"Dried yogurt"},
@@ -3199,10 +3265,10 @@ const CUR = [
               },
               keyRule:"For commands: remove تَـ from present tense. Add ي for feminine. Add وا for plural.",
               examples:[
-                {ar:"ضَعِي البَهارات وَاقلِبِي اللَّحم بِاستِمرار",en:"Add the spices and stir the meat continuously"},
-                {ar:"اِشتَرِ الخُضَراوَات الطَّازَجَة مِن السُّوق",en:"Buy the fresh vegetables from the market"},
-                {ar:"لا تَضَع كَثِيراً مِن المِلح في الطَّعام",en:"Don't put too much salt in the food"},
-                {ar:"اُطبُخِي اللَّحم عَلى نار هادِئَة لِمُدَّة ساعَتَين",en:"Cook the meat on low heat for two hours"},
+                {ar:"ضَعِي البَهارات وَاقلِبِي اللَّحم بِاستِمرار",en:"Add the spices and stir the meat continuously."},
+                {ar:"اِشتَرِ الخُضَراوَات الطَّازَجَة مِن السُّوق",en:"Buy the fresh vegetables from the market."},
+                {ar:"لا تَضَع كَثِيراً مِن المِلح في الطَّعام",en:"Don't put too much salt in the food."},
+                {ar:"اُطبُخِي اللَّحم عَلى نار هادِئَة لِمُدَّة ساعَتَين",en:"Cook the meat on low heat for two hours."},
               ]
             }
           },
@@ -3233,15 +3299,15 @@ const CUR = [
             data:{ title:"يَوم في المَول", setting:"عائلة تقضي يومها في مول التسوق",
               lines:[
                 {spk:"Father",side:"left",ar:"أَيْنَ تُرِيدُون أَن تَذهَبُوا أَوَّلاً في المَول؟",en:"Where do you want to go first in the mall?"},
-                {spk:"Son",side:"right",ar:"أُرِيد أَن أَذهَب إِلى مَحَلّ الألعاب الإِلكترونِيَّة",en:"I want to go to the electronics games store"},
-                {spk:"Daughter",side:"left",ar:"وَأَنا أُرِيد أَن أَتَسَوَّق مَلابِسَ جَدِيدَة لِلمَدرَسَة",en:"And I want to shop for new clothes for school"},
-                {spk:"Mother",side:"right",ar:"حَسَناً، سَنَنقَسِم وَنَلتَقِي عِندَ مَطعَم الطَّابِق الثَّالِث",en:"Okay, we'll split up and meet at the restaurant on the third floor"},
+                {spk:"Son",side:"right",ar:"أُرِيد أَن أَذهَب إِلى مَحَلّ الألعاب الإِلكترونِيَّة",en:"I want to go to the electronics games store."},
+                {spk:"Daughter",side:"left",ar:"وَأَنا أُرِيد أَن أَتَسَوَّق مَلابِسَ جَدِيدَة لِلمَدرَسَة",en:"And I want to shop for new clothes for school."},
+                {spk:"Mother",side:"right",ar:"حَسَناً، سَنَنقَسِم وَنَلتَقِي عِندَ مَطعَم الطَّابِق الثَّالِث",en:"Okay, we'll split up and meet at the restaurant on the third floor."},
                 {spk:"Father",side:"left",ar:"مُتَّفِق، في أَيِّ ساعَة نَلتَقِي؟ الثَّانِيَة أَم الثَّالِثَة؟",en:"Agreed, at what time do we meet? Two or three o'clock?"},
-                {spk:"Mother",side:"right",ar:"لِنَلتَقِ في الثَّانِيَة وَالنِّصف لِأَنَّنا نَحتاج وَقتاً لِلغَداء",en:"Let's meet at two thirty because we need time for lunch"},
+                {spk:"Mother",side:"right",ar:"لِنَلتَقِ في الثَّانِيَة وَالنِّصف لِأَنَّنا نَحتاج وَقتاً لِلغَداء",en:"Let's meet at two thirty because we need time for lunch."},
                 {spk:"Son",side:"left",ar:"بابا، هَل يُمكِنُكَ أَن تُعطِيَنِي مَبلَغاً لِلإِنفاق؟",en:"Dad, can you give me an amount to spend?"},
-                {spk:"Father",side:"right",ar:"إِليكَ خَمسُون دِرهَماً، أَنفِقها بِحِكمَة وَلا تُبَذِّر",en:"Here are fifty dirhams, spend them wisely and don't waste"},
+                {spk:"Father",side:"right",ar:"إِليكَ خَمسُون دِرهَماً، أَنفِقها بِحِكمَة وَلا تُبَذِّر",en:"Here are fifty dirhams, spend them wisely and don't waste."},
                 {spk:"Daughter",side:"left",ar:"أُمِّي، هَل سَتُساعِدِينَنِي في اختِيار المَلابِس المُناسِبَة؟",en:"Mom, will you help me choose the appropriate clothes?"},
-                {spk:"Mother",side:"right",ar:"بِكُلِّ سُرُور، سَنَختار مَعاً ما يُناسِبُكِ وَيُناسِب المِيزانِيَّة",en:"With great pleasure, we'll choose together what suits you and the budget"},
+                {spk:"Mother",side:"right",ar:"بِكُلِّ سُرُور، سَنَختار مَعاً ما يُناسِبُكِ وَيُناسِب المِيزانِيَّة",en:"With great pleasure, we'll choose together what suits you and the budget."},
               ],
               keywords:[
                 {ar:"نَنقَسِم / نَلتَقِي",en:"We split up / We meet"},
@@ -3255,14 +3321,14 @@ const CUR = [
           { id:2, type:"dialogue", title:"Clothes Shopping", desc:"Nadia shops for clothes", icon:"forum", color:"#D4A34A",
             data:{ title:"نَتَسَوَّق المَلابِس", setting:"نادية تتسوق ملابس في المول",
               lines:[
-                {spk:"Nadia",side:"left",ar:"أَبحَث عَن فُستان أَنِيق لِحَفلَة زَفاف أُختِي الشَّهر القادِم",en:"I'm looking for an elegant dress for my sister's wedding next month"},
-                {spk:"Staff",side:"right",ar:"أَهلاً بِكِ، عِندَنا مَجمُوعَة جَمِيلَة مِن فَساتِين السَّهرَة الأَنِيقَة",en:"Welcome, we have a beautiful collection of elegant evening dresses"},
-                {spk:"Nadia",side:"left",ar:"أُفَضِّل أَلوانَ الأَزرَق الداكِن أَو الأَحمَر الخَمرِيّ",en:"I prefer dark blue or burgundy colors"},
-                {spk:"Staff",side:"right",ar:"هَذا الفُستان الأَزرَق الداكِن وَصَلَ هَذا الأُسبُوع، إِنَّهُ رائِع",en:"This dark blue dress arrived this week, it's wonderful"},
+                {spk:"Nadia",side:"left",ar:"أَبحَث عَن فُستان أَنِيق لِحَفلَة زَفاف أُختِي الشَّهر القادِم",en:"I'm looking for an elegant dress for my sister's wedding next month."},
+                {spk:"Staff",side:"right",ar:"أَهلاً بِكِ، عِندَنا مَجمُوعَة جَمِيلَة مِن فَساتِين السَّهرَة الأَنِيقَة",en:"Welcome, we have a beautiful collection of elegant evening dresses."},
+                {spk:"Nadia",side:"left",ar:"أُفَضِّل أَلوانَ الأَزرَق الداكِن أَو الأَحمَر الخَمرِيّ",en:"I prefer dark blue or burgundy colors."},
+                {spk:"Staff",side:"right",ar:"هَذا الفُستان الأَزرَق الداكِن وَصَلَ هَذا الأُسبُوع، إِنَّهُ رائِع",en:"This dark blue dress arrived this week, it's wonderful."},
                 {spk:"Nadia",side:"left",ar:"جَمِيل جِداً، هَل عِندَكُم مَقاس وَسَط في هَذا اللَّون؟",en:"Very beautiful, do you have medium size in this color?"},
-                {spk:"Staff",side:"right",ar:"نَعَم، تَفَضَّلِي وَيُمكِنُكِ تَجرِبَتُهُ في غُرفَة القِياس",en:"Yes, here you go and you can try it in the fitting room"},
+                {spk:"Staff",side:"right",ar:"نَعَم، تَفَضَّلِي وَيُمكِنُكِ تَجرِبَتُهُ في غُرفَة القِياس",en:"Yes, here you go and you can try it in the fitting room."},
                 {spk:"Nadia",side:"left",ar:"شُكراً، وَما هِيَ سِياسَة الإِرجاع إِذا أَرَدتُ إِرجاعَهُ؟",en:"Thank you, and what is the return policy if I want to return it?"},
-                {spk:"Staff",side:"right",ar:"يُمكِنُكِ الإِرجاع خِلال أَربَعَة عَشَر يَوماً مَعَ الإِيصال",en:"You can return within fourteen days with the receipt"},
+                {spk:"Staff",side:"right",ar:"يُمكِنُكِ الإِرجاع خِلال أَربَعَة عَشَر يَوماً مَعَ الإِيصال",en:"You can return within fourteen days with the receipt."},
               ],
               keywords:[
                 {ar:"حَفلَة زَفاف",en:"Wedding"},
@@ -3303,9 +3369,9 @@ const CUR = [
               keyRule:"يُمكِن + attached pronoun + verb = can/may. هَل يُمكِن = can I/is it possible?",
               examples:[
                 {ar:"هَل يُمكِنُنِي تَجرِبَة هَذا الفُستان؟",en:"Can I try this dress?"},
-                {ar:"يُمكِنُكِ الإِرجاع خِلال أَربَعَة عَشَر يَوماً",en:"You can return within fourteen days"},
+                {ar:"يُمكِنُكِ الإِرجاع خِلال أَربَعَة عَشَر يَوماً",en:"You can return within fourteen days."},
                 {ar:"هَل يُمكِنُكَ أَن تُعطِيَنِي تَخفِيضاً إِضافِيًّا؟",en:"Can you give me an extra discount?"},
-                {ar:"لا يُمكِن الإِرجاع بَعدَ فَتح العُلبَة",en:"It is not possible to return after opening the box"},
+                {ar:"لا يُمكِن الإِرجاع بَعدَ فَتح العُلبَة",en:"It is not possible to return after opening the box."},
               ]
             }
           },
@@ -3331,16 +3397,16 @@ const CUR = [
           { id:1, type:"dialogue", title:"Buying a Suit", desc:"Kareem buys a suit for work", icon:"forum", color:"#D4A34A",
             data:{ title:"شِراء بَدلَة رَسمِيَّة", setting:"كريم يشتري بدلة رسمية للعمل",
               lines:[
-                {spk:"Kareem",side:"left",ar:"أَحتاج بَدلَة رَسمِيَّة أَنِيقَة لِمُقابَلَة عَمَل مُهِمَّة جِداً",en:"I need an elegant formal suit for a very important job interview"},
+                {spk:"Kareem",side:"left",ar:"أَحتاج بَدلَة رَسمِيَّة أَنِيقَة لِمُقابَلَة عَمَل مُهِمَّة جِداً",en:"I need an elegant formal suit for a very important job interview."},
                 {spk:"Staff",side:"right",ar:"أَهلاً بِكَ، ما هُوَ مَقاسُكَ تَقرِيباً؟ هَل جَرَّبتَ مِن قَبل؟",en:"Welcome, what is your size approximately? Have you tried before?"},
-                {spk:"Kareem",side:"left",ar:"عادَةً أَلبَس مَقاس اثنَين وَخَمسِين في البَدَلَة",en:"I usually wear size 52 in suits"},
-                {spk:"Staff",side:"right",ar:"تَفَضَّل، هَذِهِ البَدلَة الرَّمادِيَّة الداكِنَة مُناسِبَة جِداً لِلمُقابَلَة",en:"Here, this dark grey suit is very suitable for the interview"},
+                {spk:"Kareem",side:"left",ar:"عادَةً أَلبَس مَقاس اثنَين وَخَمسِين في البَدَلَة",en:"I usually wear size 52 in suits."},
+                {spk:"Staff",side:"right",ar:"تَفَضَّل، هَذِهِ البَدلَة الرَّمادِيَّة الداكِنَة مُناسِبَة جِداً لِلمُقابَلَة",en:"Here, this dark grey suit is very suitable for the interview."},
                 {spk:"Kareem",side:"left",ar:"جَمِيلَة، لَكِن هَل عِندَكُم نَفسَها بِلَون أَزرَق دَاكِن؟",en:"Beautiful, but do you have the same in dark blue?"},
-                {spk:"Staff",side:"right",ar:"نَعَم، هَذِهِ البَدلَة الزَّرقاء وَصَلَت مِن إِيطالِيا هَذا الأُسبُوع",en:"Yes, this blue suit arrived from Italy this week"},
+                {spk:"Staff",side:"right",ar:"نَعَم، هَذِهِ البَدلَة الزَّرقاء وَصَلَت مِن إِيطالِيا هَذا الأُسبُوع",en:"Yes, this blue suit arrived from Italy this week."},
                 {spk:"Kareem",side:"left",ar:"رائِعَة، سَأُجَرِّبُها. هَل تَشمَل البَدلَة قَمِيصاً وَرَبطَة عُنُق؟",en:"Wonderful, I'll try it. Does the suit include a shirt and tie?"},
-                {spk:"Staff",side:"right",ar:"البَدلَة وَحدَها، لَكِن عِندَنا قُمصان وَرَبطات عُنُق تُناسِبُها",en:"The suit alone, but we have shirts and ties that match it"},
+                {spk:"Staff",side:"right",ar:"البَدلَة وَحدَها، لَكِن عِندَنا قُمصان وَرَبطات عُنُق تُناسِبُها",en:"The suit alone, but we have shirts and ties that match it."},
                 {spk:"Kareem",side:"left",ar:"كَم سِعر البَدلَة الإِيطالِيَّة مَع القَمِيص وَرَبطَة العُنُق؟",en:"How much is the Italian suit with the shirt and tie?"},
-                {spk:"Staff",side:"right",ar:"البَدلَة بِأَلفٍ وَمِئَتَين، وَالقَمِيص بِمِئَة وَخَمسِين وَالرَّبطَة بِثَمانِين",en:"The suit for 1200, the shirt for 150 and the tie for 80"},
+                {spk:"Staff",side:"right",ar:"البَدلَة بِأَلفٍ وَمِئَتَين، وَالقَمِيص بِمِئَة وَخَمسِين وَالرَّبطَة بِثَمانِين",en:"The suit for 1200, the shirt for 150 and the tie for 80."},
               ],
               keywords:[
                 {ar:"مُقابَلَة عَمَل",en:"Job interview"},
@@ -3355,13 +3421,13 @@ const CUR = [
             data:{ title:"التَّفاوُض وَالدَّفع", setting:"كريم يتفاوض على السعر ويدفع",
               lines:[
                 {spk:"Kareem",side:"left",ar:"السِّعر مُرتَفِع قَلِيلاً، هَل يُمكِنُكَ تَخفِيض السِّعر إِذا اشتَرَيتُ الثَّلاثَة مَعاً؟",en:"The price is a little high, can you reduce it if I buy all three together?"},
-                {spk:"Staff",side:"right",ar:"إِذا اشتَرَيتَ البَدلَة وَالقَمِيص وَالرَّبطَة سَأُعطِيكَ خَصماً عَشَرَة بِالمِئَة",en:"If you buy the suit, shirt and tie I'll give you a ten percent discount"},
+                {spk:"Staff",side:"right",ar:"إِذا اشتَرَيتَ البَدلَة وَالقَمِيص وَالرَّبطَة سَأُعطِيكَ خَصماً عَشَرَة بِالمِئَة",en:"If you buy the suit, shirt and tie I'll give you a ten percent discount."},
                 {spk:"Kareem",side:"left",ar:"جَيِّد، وَهَل يُمكِنُنِي الدَّفع عَلى أَقساط بِدُون فَوائِد؟",en:"Good, and can I pay in instalments without interest?"},
-                {spk:"Staff",side:"right",ar:"نَعَم، يُمكِنُكَ الدَّفع عَلى سِتَّة أَقساط شَهرِيَّة بِدُون فَوائِد",en:"Yes, you can pay in six monthly instalments without interest"},
-                {spk:"Kareem",side:"left",ar:"مُمتاز، إِذَن سَآخُذ الثَّلاثَة مَعاً بِالتَّخفِيض وَالأَقساط",en:"Excellent, then I'll take all three with the discount and instalments"},
-                {spk:"Staff",side:"right",ar:"حَسَناً، المَجمُوع بَعدَ الخَصم أَلفٌ وَثَلاثَة وَثَلاثُون دِرهَماً",en:"Okay, the total after discount is one thousand and thirty three dirhams"},
+                {spk:"Staff",side:"right",ar:"نَعَم، يُمكِنُكَ الدَّفع عَلى سِتَّة أَقساط شَهرِيَّة بِدُون فَوائِد",en:"Yes, you can pay in six monthly instalments without interest."},
+                {spk:"Kareem",side:"left",ar:"مُمتاز، إِذَن سَآخُذ الثَّلاثَة مَعاً بِالتَّخفِيض وَالأَقساط",en:"Excellent, then I'll take all three with the discount and instalments."},
+                {spk:"Staff",side:"right",ar:"حَسَناً، المَجمُوع بَعدَ الخَصم أَلفٌ وَثَلاثَة وَثَلاثُون دِرهَماً",en:"Okay, the total after discount is one thousand and thirty three dirhams."},
                 {spk:"Kareem",side:"left",ar:"هَل يُمكِنُنِي الدَّفع بِبِطاقَة الائتِمان أَم يَجِب نَقداً؟",en:"Can I pay by credit card or must it be cash?"},
-                {spk:"Staff",side:"right",ar:"يُمكِنُكَ الدَّفع بِأَيِّ بِطاقَة، وَسَنُرسِل لَكَ الإِيصال عَلى الإِيمِيل",en:"You can pay with any card, and we'll send you the receipt by email"},
+                {spk:"Staff",side:"right",ar:"يُمكِنُكَ الدَّفع بِأَيِّ بِطاقَة، وَسَنُرسِل لَكَ الإِيصال عَلى الإِيمِيل",en:"You can pay with any card, and we'll send you the receipt by email."},
               ],
               keywords:[
                 {ar:"أَقساط / فَوائِد",en:"Instalments / Interest"},
@@ -3398,10 +3464,10 @@ const CUR = [
               },
               keyRule:"إِذا = real if. لَو = hypothetical if. Both take past tense verbs.",
               examples:[
-                {ar:"إِذا اشتَرَيتَ الثَّلاثَة سَأُعطِيكَ خَصماً عَشَرَة بِالمِئَة",en:"If you buy all three I'll give you a ten percent discount"},
-                {ar:"لَو كانَ عِندِي مال أَكثَر لاشتَرَيتُ البَدلَة الإِيطالِيَّة",en:"If I had more money I would have bought the Italian suit"},
-                {ar:"إِذا لَم يَكُن المَقاس مُناسِباً يُمكِنُكَ الاستِبدال",en:"If the size is not suitable you can exchange"},
-                {ar:"لَو عَرَفتُ السِّعرَ مِن قَبل ما كُنتُ أَشتَرِيه",en:"If I had known the price before I wouldn't have bought it"},
+                {ar:"إِذا اشتَرَيتَ الثَّلاثَة سَأُعطِيكَ خَصماً عَشَرَة بِالمِئَة",en:"If you buy all three I'll give you a ten percent discount."},
+                {ar:"لَو كانَ عِندِي مال أَكثَر لاشتَرَيتُ البَدلَة الإِيطالِيَّة",en:"If I had more money I would have bought the Italian suit."},
+                {ar:"إِذا لَم يَكُن المَقاس مُناسِباً يُمكِنُكَ الاستِبدال",en:"If the size is not suitable you can exchange."},
+                {ar:"لَو عَرَفتُ السِّعرَ مِن قَبل ما كُنتُ أَشتَرِيه",en:"If I had known the price before I wouldn't have bought it."},
               ]
             }
           },
@@ -3434,15 +3500,15 @@ const CUR = [
             data:{ title:"كَيفَ نَذهَب؟", setting:"خالد وأحمد يقررون كيف يسافران إلى المدينة",
               lines:[
                 {spk:"Khalid",side:"left",ar:"أَحمَد، كَيفَ سَنَذهَب إِلى المَدِينَة؟ بِالسَّيَّارَة أَم بِالقِطار؟",en:"Ahmad, how will we go to the city? By car or by train?"},
-                {spk:"Ahmad",side:"right",ar:"الحَافِلَة أَرخَص، لَكِن القِطار أَسرَع وَأَكثَر رَاحَة",en:"The bus is cheaper, but the train is faster and more comfortable"},
+                {spk:"Ahmad",side:"right",ar:"الحَافِلَة أَرخَص، لَكِن القِطار أَسرَع وَأَكثَر رَاحَة",en:"The bus is cheaper, but the train is faster and more comfortable."},
                 {spk:"Khalid",side:"left",ar:"كَم تَستَغرِق الرِّحلَة بِالقِطار مِن هُنا إِلى هُناكَ؟",en:"How long does the trip take by train from here to there?"},
-                {spk:"Ahmad",side:"right",ar:"تَقرِيباً ساعَتَان، بَينَما بِالحافِلَة ثَلاث ساعَات وَنِصف",en:"Approximately two hours, whereas by bus three and a half hours"},
+                {spk:"Ahmad",side:"right",ar:"تَقرِيباً ساعَتَان، بَينَما بِالحافِلَة ثَلاث ساعَات وَنِصف",en:"Approximately two hours, whereas by bus three and a half hours."},
                 {spk:"Khalid",side:"left",ar:"وَكَم تَكلِفَة تَذكِرَة القِطار ذَهاباً وَإِياباً؟",en:"And how much does a round trip train ticket cost?"},
-                {spk:"Ahmad",side:"right",ar:"التَّذكِرَة بِمِئَة وَعِشرِين دِرهَماً ذَهاباً وَإِياباً",en:"The ticket is one hundred and twenty dirhams return"},
-                {spk:"Khalid",side:"left",ar:"لَيسَت غالِيَة، هَيَّا نَأخُذ سَيَّارَة أُجرَة إِلى مَحَطَّة القِطار",en:"It's not expensive, let's take a taxi to the train station"},
+                {spk:"Ahmad",side:"right",ar:"التَّذكِرَة بِمِئَة وَعِشرِين دِرهَماً ذَهاباً وَإِياباً",en:"The ticket is one hundred and twenty dirhams return."},
+                {spk:"Khalid",side:"left",ar:"لَيسَت غالِيَة، هَيَّا نَأخُذ سَيَّارَة أُجرَة إِلى مَحَطَّة القِطار",en:"It's not expensive, let's take a taxi to the train station."},
                 {spk:"Ahmad",side:"right",ar:"فِكرَة جَيِّدَة، وَهَل تُفَضِّل الجُلُوس بِجانِب النَّافِذَة؟",en:"Good idea, and do you prefer sitting by the window?"},
-                {spk:"Khalid",side:"left",ar:"نَعَم دائِماً، أُحِبُّ مُشاهَدَة المَنظَر أَثناءَ السَّفَر",en:"Yes always, I love watching the scenery during travel"},
-                {spk:"Ahmad",side:"right",ar:"حَسَناً، سَأَحجُز التَّذاكِر الآن مِن تَطبِيق الهاتِف",en:"Okay, I'll book the tickets now from the phone app"},
+                {spk:"Khalid",side:"left",ar:"نَعَم دائِماً، أُحِبُّ مُشاهَدَة المَنظَر أَثناءَ السَّفَر",en:"Yes always, I love watching the scenery during travel."},
+                {spk:"Ahmad",side:"right",ar:"حَسَناً، سَأَحجُز التَّذاكِر الآن مِن تَطبِيق الهاتِف",en:"Okay, I'll book the tickets now from the phone app."},
               ],
               keywords:[
                 {ar:"ذَهاباً وَإِياباً",en:"Round trip"},
@@ -3457,14 +3523,14 @@ const CUR = [
           { id:2, type:"dialogue", title:"At the Car Rental", desc:"Rania rents a car", icon:"forum", color:"#D4A34A",
             data:{ title:"تَأجِير سَيَّارَة", setting:"رانيا تستأجر سيارة لرحلة عائلية",
               lines:[
-                {spk:"Rania",side:"left",ar:"أُرِيد أَن أَستَأجِرَ سَيَّارَة لِمُدَّة ثَلاثَة أَيَّام",en:"I want to rent a car for three days"},
+                {spk:"Rania",side:"left",ar:"أُرِيد أَن أَستَأجِرَ سَيَّارَة لِمُدَّة ثَلاثَة أَيَّام",en:"I want to rent a car for three days."},
                 {spk:"Staff",side:"right",ar:"أَهلاً، هَل تُفَضِّلِين سَيَّارَة صَغِيرَة أَم سَيَّارَة عائِلِيَّة كَبِيرَة؟",en:"Welcome, do you prefer a small car or a large family car?"},
-                {spk:"Rania",side:"left",ar:"سَيَّارَة عائِلِيَّة لِأَنَّنا سَبعَة أَشخاص مَعَ الأَمتِعَة",en:"A family car because we are seven people with luggage"},
-                {spk:"Staff",side:"right",ar:"عِندَنا سَيَّارَة SUV مُرِيحَة تَتَّسِع لِسَبعَة رُكَّاب",en:"We have a comfortable SUV that fits seven passengers"},
+                {spk:"Rania",side:"left",ar:"سَيَّارَة عائِلِيَّة لِأَنَّنا سَبعَة أَشخاص مَعَ الأَمتِعَة",en:"A family car because we are seven people with luggage."},
+                {spk:"Staff",side:"right",ar:"عِندَنا سَيَّارَة SUV مُرِيحَة تَتَّسِع لِسَبعَة رُكَّاب",en:"We have a comfortable SUV that fits seven passengers."},
                 {spk:"Rania",side:"left",ar:"هَل السَّيَّارَة أَوتُوماتِيكِيَّة أَم يَدَوِيَّة التَّعشِيق؟",en:"Is the car automatic or manual transmission?"},
-                {spk:"Staff",side:"right",ar:"أَوتُوماتِيكِيَّة بِالكامِل وَعِندَها مُكَيِّف وَنِظام GPS",en:"Fully automatic and has air conditioning and GPS system"},
+                {spk:"Staff",side:"right",ar:"أَوتُوماتِيكِيَّة بِالكامِل وَعِندَها مُكَيِّف وَنِظام GPS",en:"Fully automatic and has air conditioning and GPS system."},
                 {spk:"Rania",side:"left",ar:"مُمتاز، وَكَم تَكلِفَة الإِيجار في اليَوم الواحِد؟",en:"Excellent, and how much is the rental cost per day?"},
-                {spk:"Staff",side:"right",ar:"مِئَة وَخَمسُون دِرهَماً في اليَوم شامِلاً التَّأمِين الكامِل",en:"One hundred and fifty dirhams per day including full insurance"},
+                {spk:"Staff",side:"right",ar:"مِئَة وَخَمسُون دِرهَماً في اليَوم شامِلاً التَّأمِين الكامِل",en:"One hundred and fifty dirhams per day including full insurance."},
               ],
               keywords:[
                 {ar:"يَستَأجِر",en:"To rent"},
@@ -3505,10 +3571,10 @@ const CUR = [
               },
               keyRule:"أَ + adjective + مِن = more ... than. القِطار أَسرَع مِن الحافِلَة = The train is faster than the bus.",
               examples:[
-                {ar:"القِطار أَسرَع مِن الحافِلَة بِكَثِير",en:"The train is much faster than the bus"},
-                {ar:"الحافِلَة أَرخَص مِن سَيَّارَة الأُجرَة",en:"The bus is cheaper than the taxi"},
-                {ar:"الطَّائِرَة أَسرَع وَسِيلَة نَقل في العالَم",en:"The airplane is the fastest means of transport in the world"},
-                {ar:"الدَّرَّاجَة أَقرَب لِلطَّبِيعَة وَأَكثَر صِحَّةً",en:"The bicycle is closer to nature and healthier"},
+                {ar:"القِطار أَسرَع مِن الحافِلَة بِكَثِير",en:"The train is much faster than the bus."},
+                {ar:"الحافِلَة أَرخَص مِن سَيَّارَة الأُجرَة",en:"The bus is cheaper than the taxi."},
+                {ar:"الطَّائِرَة أَسرَع وَسِيلَة نَقل في العالَم",en:"The airplane is the fastest means of transport in the world."},
+                {ar:"الدَّرَّاجَة أَقرَب لِلطَّبِيعَة وَأَكثَر صِحَّةً",en:"The bicycle is closer to nature and healthier."},
               ]
             }
           },
@@ -3534,15 +3600,15 @@ const CUR = [
           { id:1, type:"dialogue", title:"First Driving Lesson", desc:"Father teaches son to drive", icon:"forum", color:"#D4A34A",
             data:{ title:"أَوَّل دَرس قِيادَة", setting:"الأب يعلم ابنه القيادة",
               lines:[
-                {spk:"Father",side:"left",ar:"قَبلَ أَي شَيء، اِربُط حِزامَ الأَمان",en:"Before anything, fasten your seatbelt"},
+                {spk:"Father",side:"left",ar:"قَبلَ أَي شَيء، اِربُط حِزامَ الأَمان",en:"Before anything, fasten your seatbelt."},
                 {spk:"Son",side:"right",ar:"حَسَناً يا أَبِي، رَبَطتُهُ. ماذا بَعدَ ذَلِكَ؟",en:"Okay dad, I fastened it. What after that?"},
-                {spk:"Father",side:"left",ar:"اِضبُط المَقعَد حَتَّى تَصِل يَداكَ إِلى المِقوَد بِرَاحَة",en:"Adjust the seat until your hands reach the steering wheel comfortably"},
+                {spk:"Father",side:"left",ar:"اِضبُط المَقعَد حَتَّى تَصِل يَداكَ إِلى المِقوَد بِرَاحَة",en:"Adjust the seat until your hands reach the steering wheel comfortably."},
                 {spk:"Son",side:"right",ar:"هَكَذا؟ هَل المِقوَد في الوَضع الصَّحِيح؟",en:"Like this? Is the steering wheel in the right position?"},
-                {spk:"Father",side:"left",ar:"مُمتاز، الآن اِضبُط المِرآة الأَمامِيَّة وَالجانِبِيَّتَين",en:"Excellent, now adjust the front mirror and the two side ones"},
+                {spk:"Father",side:"left",ar:"مُمتاز، الآن اِضبُط المِرآة الأَمامِيَّة وَالجانِبِيَّتَين",en:"Excellent, now adjust the front mirror and the two side ones."},
                 {spk:"Son",side:"right",ar:"تَمَّ ذَلِكَ، هَل أَفتَح النَّافِذَة قَلِيلاً؟",en:"Done, shall I open the window a little?"},
-                {spk:"Father",side:"left",ar:"لا، أَغلِق النَّافِذَة وَشَغِّل المُكَيِّف بَدَلاً مِن ذَلِكَ",en:"No, close the window and turn on the air conditioning instead"},
+                {spk:"Father",side:"left",ar:"لا، أَغلِق النَّافِذَة وَشَغِّل المُكَيِّف بَدَلاً مِن ذَلِكَ",en:"No, close the window and turn on the air conditioning instead."},
                 {spk:"Son",side:"right",ar:"حَسَناً، وَأَيْنَ زِرّ المُكَيِّف؟",en:"Okay, and where is the air conditioning button?"},
-                {spk:"Father",side:"left",ar:"عَلى يَمِينِكَ في لَوحَة التَّحكُّم، الزِّرّ الأَزرَق",en:"On your right on the control panel, the blue button"},
+                {spk:"Father",side:"left",ar:"عَلى يَمِينِكَ في لَوحَة التَّحكُّم، الزِّرّ الأَزرَق",en:"On your right on the control panel, the blue button."},
                 {spk:"Son",side:"right",ar:"وَجَدتُهُ، وَجَدتُهُ. الآن هَل أُشعِل المُحَرِّك؟",en:"I found it, I found it. Now shall I start the engine?"},
               ],
               keywords:[
@@ -3558,14 +3624,14 @@ const CUR = [
           { id:2, type:"dialogue", title:"Road Trip", desc:"Family on a road trip", icon:"forum", color:"#D4A34A",
             data:{ title:"رِحلَة بِالسَّيَّارَة", setting:"عائلة في رحلة طويلة بالسيارة",
               lines:[
-                {spk:"Mother",side:"left",ar:"يا وَلَدِي، اِربُط حِزامَ الأَمان مِن فَضلِكَ",en:"My son, please fasten your seatbelt"},
+                {spk:"Mother",side:"left",ar:"يا وَلَدِي، اِربُط حِزامَ الأَمان مِن فَضلِكَ",en:"My son, please fasten your seatbelt."},
                 {spk:"Son",side:"right",ar:"رَبَطتُهُ يا أُمِّي، هَل وَصَلنا قَرِيباً؟",en:"I fastened it mom, are we arriving soon?"},
                 {spk:"Father",side:"left",ar:"لا يَزال أَمامَنا ساعَة، هَل تُرِيد أَن أُشَغِّل المُوسِيقى؟",en:"We still have an hour ahead, do you want me to play music?"},
-                {spk:"Daughter",side:"right",ar:"نَعَم يا أَبِي، وَهَل يُمكِن تَخفِيض المُكَيِّف قَلِيلاً؟ بارِد جِداً",en:"Yes dad, and can you reduce the AC a little? It's very cold"},
-                {spk:"Father",side:"left",ar:"حَسَناً، وَافتَحِي النَّافِذَة قَلِيلاً إِذا أَرَدتِ",en:"Okay, and open the window a little if you want"},
-                {spk:"Son",side:"right",ar:"بابا، المِرآة الجانِبِيَّة مَكسُورَة لا أَستَطِيع الرُّؤيَة",en:"Dad, the side mirror is broken I can't see"},
-                {spk:"Father",side:"left",ar:"آسِف، سَأُصلِحُها عِندَ أَوَّل مَحَطَّة وَقُود",en:"Sorry, I'll fix it at the first petrol station"},
-                {spk:"Mother",side:"right",ar:"وَفِي نَفس الوَقت تَحقَّق مِن مِقياس الوَقُود",en:"And at the same time check the fuel gauge"},
+                {spk:"Daughter",side:"right",ar:"نَعَم يا أَبِي، وَهَل يُمكِن تَخفِيض المُكَيِّف قَلِيلاً؟ بارِد جِداً",en:"Yes dad, and can you reduce the AC a little? It's very cold."},
+                {spk:"Father",side:"left",ar:"حَسَناً، وَافتَحِي النَّافِذَة قَلِيلاً إِذا أَرَدتِ",en:"Okay, and open the window a little if you want."},
+                {spk:"Son",side:"right",ar:"بابا، المِرآة الجانِبِيَّة مَكسُورَة لا أَستَطِيع الرُّؤيَة",en:"Dad, the side mirror is broken I can't see."},
+                {spk:"Father",side:"left",ar:"آسِف، سَأُصلِحُها عِندَ أَوَّل مَحَطَّة وَقُود",en:"Sorry, I'll fix it at the first petrol station."},
+                {spk:"Mother",side:"right",ar:"وَفِي نَفس الوَقت تَحقَّق مِن مِقياس الوَقُود",en:"And at the same time check the fuel gauge."},
               ],
               keywords:[
                 {ar:"مِقياس الوَقُود",en:"Fuel gauge"},
@@ -3605,10 +3671,10 @@ const CUR = [
               },
               keyRule:"اِربُط حِزامَ الأَمان = fasten your seatbelt. لا تُسرِع = don't speed.",
               examples:[
-                {ar:"اِربُط حِزامَ الأَمان قَبلَ أَن تُشعِلَ المُحَرِّك",en:"Fasten your seatbelt before starting the engine"},
-                {ar:"اِضبُط المِرآة الجانِبِيَّة قَبلَ السَّير",en:"Adjust the side mirror before driving"},
-                {ar:"لا تَفتَح النَّافِذَة وَأَنتَ تَسِير بِسُرعَة",en:"Don't open the window while driving fast"},
-                {ar:"شَغِّل المُكَيِّف إِذا كانَ الجَوّ حارًّا",en:"Turn on the AC if the weather is hot"},
+                {ar:"اِربُط حِزامَ الأَمان قَبلَ أَن تُشعِلَ المُحَرِّك",en:"Fasten your seatbelt before starting the engine."},
+                {ar:"اِضبُط المِرآة الجانِبِيَّة قَبلَ السَّير",en:"Adjust the side mirror before driving."},
+                {ar:"لا تَفتَح النَّافِذَة وَأَنتَ تَسِير بِسُرعَة",en:"Don't open the window while driving fast."},
+                {ar:"شَغِّل المُكَيِّف إِذا كانَ الجَوّ حارًّا",en:"Turn on the AC if the weather is hot."},
               ]
             }
           },
@@ -3641,15 +3707,15 @@ const CUR = [
             data:{ title:"يَوم في المَزرَعَة", setting:"يوسف وابنه يزوران مزرعة قريبة من المدينة",
               lines:[
                 {spk:"Yusuf",side:"left",ar:"يا بُنَيَّ، هَذِهِ هِيَ مَزرَعَة عَمِّكَ، أَلَيسَ الجَوُّ هُنا رائِعاً؟",en:"My son, this is your uncle's farm, isn't the atmosphere here wonderful?"},
-                {spk:"Son",side:"right",ar:"نَعَم يا أَبِي، الهَواء نَظِيف وَالطَّبِيعَة خَضراء وَجَمِيلَة",en:"Yes dad, the air is clean and nature is green and beautiful"},
-                {spk:"Yusuf",side:"left",ar:"انظُر هُناكَ، تِلكَ هِيَ الأَبقار تَرعى في الحَقل",en:"Look there, those are the cows grazing in the field"},
+                {spk:"Son",side:"right",ar:"نَعَم يا أَبِي، الهَواء نَظِيف وَالطَّبِيعَة خَضراء وَجَمِيلَة",en:"Yes dad, the air is clean and nature is green and beautiful."},
+                {spk:"Yusuf",side:"left",ar:"انظُر هُناكَ، تِلكَ هِيَ الأَبقار تَرعى في الحَقل",en:"Look there, those are the cows grazing in the field."},
                 {spk:"Son",side:"right",ar:"وَهَذِهِ الحَيَوانات الصَّغِيرَة، ما اسمُها يا أَبِي؟",en:"And these small animals, what are they called dad?"},
-                {spk:"Yusuf",side:"left",ar:"هَذِهِ أَغنام، وَتِلكَ الكَبِيرَة هِيَ الحِصان البَنِّيّ",en:"These are sheep, and that big one is the brown horse"},
+                {spk:"Yusuf",side:"left",ar:"هَذِهِ أَغنام، وَتِلكَ الكَبِيرَة هِيَ الحِصان البَنِّيّ",en:"These are sheep, and that big one is the brown horse."},
                 {spk:"Son",side:"right",ar:"هَل يُمكِنُنِي أَن أَلمَسَ الحِصان يا أَبِي؟",en:"Can I touch the horse dad?"},
-                {spk:"Yusuf",side:"left",ar:"بِرِفق يا بُنَيَّ، اقتَرِب مِنهُ بِبُطء وَلا تُخِفهُ",en:"Gently my son, approach him slowly and don't scare him"},
+                {spk:"Yusuf",side:"left",ar:"بِرِفق يا بُنَيَّ، اقتَرِب مِنهُ بِبُطء وَلا تُخِفهُ",en:"Gently my son, approach him slowly and don't scare him."},
                 {spk:"Son",side:"right",ar:"أَسمَع أَصواتاً، ما هِيَ يا أَبِي؟",en:"I hear sounds, what are they dad?"},
-                {spk:"Yusuf",side:"left",ar:"هَذِهِ الدَّجاجات تَبحَث عَن الطَّعام في الأَرض",en:"These are chickens looking for food in the ground"},
-                {spk:"Son",side:"right",ar:"المَزرَعَة رائِعَة، أُرِيد أَن أَعِيشَ هُنا عِندَما أَكبَر",en:"The farm is wonderful, I want to live here when I grow up"},
+                {spk:"Yusuf",side:"left",ar:"هَذِهِ الدَّجاجات تَبحَث عَن الطَّعام في الأَرض",en:"These are chickens looking for food in the ground."},
+                {spk:"Son",side:"right",ar:"المَزرَعَة رائِعَة، أُرِيد أَن أَعِيشَ هُنا عِندَما أَكبَر",en:"The farm is wonderful, I want to live here when I grow up."},
               ],
               keywords:[
                 {ar:"مَزرَعَة",en:"Farm"},
@@ -3666,13 +3732,13 @@ const CUR = [
             data:{ title:"نَشتَرِي مِن المَزرَعَة", setting:"رانيا تشتري منتجات طازجة مباشرة من المزارع",
               lines:[
                 {spk:"Rania",side:"left",ar:"صَباح الخَير، هَل تَبِيعُون الخُضَراوَات وَالبَيض مِن المَزرَعَة مُباشَرَةً؟",en:"Good morning, do you sell vegetables and eggs directly from the farm?"},
-                {spk:"Farmer",side:"right",ar:"أَهلاً بِكِ، نَعَم كُلُّ شَيء طازَج قُطِفَ الصَّباح",en:"Welcome, yes everything is fresh picked this morning"},
+                {spk:"Farmer",side:"right",ar:"أَهلاً بِكِ، نَعَم كُلُّ شَيء طازَج قُطِفَ الصَّباح",en:"Welcome, yes everything is fresh picked this morning."},
                 {spk:"Rania",side:"left",ar:"الحَمدُ لِلَّه، أُرِيد بَيضَ الدَّجاج البَلَدِيّ، كَم سِعر البَيضَة؟",en:"Praise be to Allah, I want free-range eggs, how much per egg?"},
-                {spk:"Farmer",side:"right",ar:"البَيضَة البَلَدِيَّة بِدِرهَم وَاحِد، وَالكَرتُون اثنا عَشَر دِرهَماً",en:"A free-range egg is one dirham, and the carton is twelve dirhams"},
-                {spk:"Rania",side:"left",ar:"سَآخُذ كَرتُونَين مِن البَيض وَكِيلو طَمَاطِم مِن الحَدِيقَة",en:"I'll take two cartons of eggs and a kilo of tomatoes from the garden"},
-                {spk:"Farmer",side:"right",ar:"الطَّمَاطِم الحَمراء جاهِزَة، وَعِندِي أَيضاً خِيار وَفَلفَل طازَج",en:"The red tomatoes are ready, and I also have fresh cucumber and pepper"},
-                {spk:"Rania",side:"left",ar:"المُنتَجات الطَّبِيعِيَّة مِن المَزرَعَة أَصَحُّ بِكَثِير مِن السُّوبَرماركت",en:"Natural farm products are much healthier than the supermarket"},
-                {spk:"Farmer",side:"right",ar:"صَحِيح، لا مَوادَّ حافِظَة وَلا مَوادَّ كِيمِيائِيَّة، كُلُّهُ طَبِيعِيّ",en:"True, no preservatives and no chemicals, all natural"},
+                {spk:"Farmer",side:"right",ar:"البَيضَة البَلَدِيَّة بِدِرهَم وَاحِد، وَالكَرتُون اثنا عَشَر دِرهَماً",en:"A free-range egg is one dirham, and the carton is twelve dirhams."},
+                {spk:"Rania",side:"left",ar:"سَآخُذ كَرتُونَين مِن البَيض وَكِيلو طَمَاطِم مِن الحَدِيقَة",en:"I'll take two cartons of eggs and a kilo of tomatoes from the garden."},
+                {spk:"Farmer",side:"right",ar:"الطَّمَاطِم الحَمراء جاهِزَة، وَعِندِي أَيضاً خِيار وَفَلفَل طازَج",en:"The red tomatoes are ready, and I also have fresh cucumber and pepper."},
+                {spk:"Rania",side:"left",ar:"المُنتَجات الطَّبِيعِيَّة مِن المَزرَعَة أَصَحُّ بِكَثِير مِن السُّوبَرماركت",en:"Natural farm products are much healthier than the supermarket."},
+                {spk:"Farmer",side:"right",ar:"صَحِيح، لا مَوادَّ حافِظَة وَلا مَوادَّ كِيمِيائِيَّة، كُلُّهُ طَبِيعِيّ",en:"True, no preservatives and no chemicals, all natural."},
               ],
               keywords:[
                 {ar:"بَيض بَلَدِيّ",en:"Free-range eggs"},
@@ -3712,10 +3778,10 @@ const CUR = [
               },
               keyRule:"Add ان for masculine dual. Add تان for feminine dual. No number word needed — the ending says 'two'.",
               examples:[
-                {ar:"سَآخُذ كَرتُونَين مِن البَيض",en:"I'll take two cartons of eggs"},
-                {ar:"في المَزرَعَة بَقَرَتان وَثَلاثَة أَحصِنَة",en:"In the farm there are two cows and three horses"},
-                {ar:"اشتَرَيتُ كِيلوَين مِن الطَّمَاطِم",en:"I bought two kilos of tomatoes"},
-                {ar:"لَدَيَّ أَخَوان يَعمَلان في المَزرَعَة",en:"I have two brothers who work on the farm"},
+                {ar:"سَآخُذ كَرتُونَين مِن البَيض",en:"I'll take two cartons of eggs."},
+                {ar:"في المَزرَعَة بَقَرَتان وَثَلاثَة أَحصِنَة",en:"In the farm there are two cows and three horses."},
+                {ar:"اشتَرَيتُ كِيلوَين مِن الطَّمَاطِم",en:"I bought two kilos of tomatoes."},
+                {ar:"لَدَيَّ أَخَوان يَعمَلان في المَزرَعَة",en:"I have two brothers who work on the farm."},
               ]
             }
           },
@@ -3742,15 +3808,15 @@ const CUR = [
             data:{ title:"يَوم عائِلِيّ في حَدِيقَة الحَيَوان", setting:"عائلة تزور حديقة الحيوان في عطلة نهاية الأسبوع",
               lines:[
                 {spk:"Mother",side:"left",ar:"أَيُّها الأَطفال، نَحنُ وَصَلنا إِلى حَدِيقَة الحَيَوان، ما أَوَّل حَيَوان تُرِيدُون رُؤيَتَهُ؟",en:"Children, we arrived at the zoo, what is the first animal you want to see?"},
-                {spk:"Ali",side:"right",ar:"أُرِيد أَن أَرى الأَسَد، هُوَ أَشجَع الحَيَوانات وَأَقواها",en:"I want to see the lion, he is the bravest and strongest of animals"},
-                {spk:"Nour",side:"left",ar:"وَأَنا أُرِيد رُؤيَة الفِيل، الفِيل أَكبَر حَيَوان بَرِّيّ في العالَم",en:"And I want to see the elephant, the elephant is the largest land animal in the world"},
-                {spk:"Father",side:"right",ar:"أَوَّلاً سَنَذهَب إِلى قِسم الزَّوَاحِف لِنَرى الثُّعبان وَالتِّمساح",en:"First we'll go to the reptiles section to see the snake and crocodile"},
+                {spk:"Ali",side:"right",ar:"أُرِيد أَن أَرى الأَسَد، هُوَ أَشجَع الحَيَوانات وَأَقواها",en:"I want to see the lion, he is the bravest and strongest of animals."},
+                {spk:"Nour",side:"left",ar:"وَأَنا أُرِيد رُؤيَة الفِيل، الفِيل أَكبَر حَيَوان بَرِّيّ في العالَم",en:"And I want to see the elephant, the elephant is the largest land animal in the world."},
+                {spk:"Father",side:"right",ar:"أَوَّلاً سَنَذهَب إِلى قِسم الزَّوَاحِف لِنَرى الثُّعبان وَالتِّمساح",en:"First we'll go to the reptiles section to see the snake and crocodile."},
                 {spk:"Ali",side:"left",ar:"بابا، الثُّعبان مُخِيف جِداً، هَل هُوَ خَطِير؟",en:"Dad, the snake is very scary, is it dangerous?"},
-                {spk:"Father",side:"right",ar:"لا تَخَف، الثُّعبان في قَفَص زُجاجِيّ مَحكَم وَالحارِس بِجانِبِهِ",en:"Don't be afraid, the snake is in a secure glass cage and the guard is beside it"},
-                {spk:"Nour",side:"left",ar:"انظُر يا أُمِّي، الزَّرافَة رَقبَتُها طَوِيلَة جِداً تَأكُل مِن أَعلى الشَّجَرَة",en:"Look mom, the giraffe's neck is very long eating from the top of the tree"},
-                {spk:"Mother",side:"right",ar:"سُبحانَ اللَّه، كُلُّ حَيَوان خَلَقَهُ اللَّه بِشَكل مُختَلِف وَجَمِيل",en:"Glory be to Allah, every animal Allah created in a different and beautiful form"},
-                {spk:"Ali",side:"left",ar:"وَالقِرد يَتَقافَز مِن شَجَرَة إِلى أُخرى بِسُرعَة مَذهِلَة",en:"And the monkey jumps from tree to tree at an amazing speed"},
-                {spk:"Father",side:"right",ar:"لَم أَرَ القِطبِيّ بَعد، هَيَّا نَذهَب إِلى قِسم الحَيَوانات القُطبِيَّة",en:"I haven't seen the polar bear yet, let's go to the polar animals section"},
+                {spk:"Father",side:"right",ar:"لا تَخَف، الثُّعبان في قَفَص زُجاجِيّ مَحكَم وَالحارِس بِجانِبِهِ",en:"Don't be afraid, the snake is in a secure glass cage and the guard is beside it."},
+                {spk:"Nour",side:"left",ar:"انظُر يا أُمِّي، الزَّرافَة رَقبَتُها طَوِيلَة جِداً تَأكُل مِن أَعلى الشَّجَرَة",en:"Look mom, the giraffe's neck is very long eating from the top of the tree."},
+                {spk:"Mother",side:"right",ar:"سُبحانَ اللَّه، كُلُّ حَيَوان خَلَقَهُ اللَّه بِشَكل مُختَلِف وَجَمِيل",en:"Glory be to Allah, every animal Allah created in a different and beautiful form."},
+                {spk:"Ali",side:"left",ar:"وَالقِرد يَتَقافَز مِن شَجَرَة إِلى أُخرى بِسُرعَة مَذهِلَة",en:"And the monkey jumps from tree to tree at an amazing speed."},
+                {spk:"Father",side:"right",ar:"لَم أَرَ القِطبِيّ بَعد، هَيَّا نَذهَب إِلى قِسم الحَيَوانات القُطبِيَّة",en:"I haven't seen the polar bear yet, let's go to the polar animals section."},
               ],
               keywords:[
                 {ar:"حَدِيقَة الحَيَوان",en:"Zoo"},
@@ -3765,14 +3831,14 @@ const CUR = [
           { id:2, type:"dialogue", title:"Learning About Animals", desc:"Teacher explains about animals to students", icon:"forum", color:"#D4A34A",
             data:{ title:"نَتَعَلَّم عَن الحَيَوانات", setting:"مدرسة تزور حديقة الحيوان ميدانياً",
               lines:[
-                {spk:"Teacher",side:"left",ar:"أَيُّها الطُّلَّاب، الفِيلُ الأَفرِيقِيّ هُوَ أَكبَر حَيَوان يَعِيش عَلى الأَرض",en:"Students, the African elephant is the largest animal living on earth"},
-                {spk:"Student",side:"right",ar:"كَم يَزِن الفِيل يا أُستاذ؟ يَبدُو ثَقِيلاً جِداً",en:"How much does the elephant weigh teacher? It looks very heavy"},
-                {spk:"Teacher",side:"left",ar:"يَزِن بَينَ خَمسَة آلاف وَسَبعَة آلاف كِيلو وَيَعِيش سَبعِين سَنَة",en:"It weighs between five thousand and seven thousand kilos and lives seventy years"},
+                {spk:"Teacher",side:"left",ar:"أَيُّها الطُّلَّاب، الفِيلُ الأَفرِيقِيّ هُوَ أَكبَر حَيَوان يَعِيش عَلى الأَرض",en:"Students, the African elephant is the largest animal living on earth."},
+                {spk:"Student",side:"right",ar:"كَم يَزِن الفِيل يا أُستاذ؟ يَبدُو ثَقِيلاً جِداً",en:"How much does the elephant weigh teacher? It looks very heavy."},
+                {spk:"Teacher",side:"left",ar:"يَزِن بَينَ خَمسَة آلاف وَسَبعَة آلاف كِيلو وَيَعِيش سَبعِين سَنَة",en:"It weighs between five thousand and seven thousand kilos and lives seventy years."},
                 {spk:"Student",side:"right",ar:"وَما أَسرَع حَيَوان في العالَم يا أُستاذ؟",en:"And what is the fastest animal in the world teacher?"},
-                {spk:"Teacher",side:"left",ar:"الفَهد هُوَ أَسرَع حَيَوان، يَجرِي بِسُرعَة مِئَة وَعِشرِين كِيلو في السَّاعَة",en:"The cheetah is the fastest animal, it runs at a speed of one hundred and twenty kilos per hour"},
+                {spk:"Teacher",side:"left",ar:"الفَهد هُوَ أَسرَع حَيَوان، يَجرِي بِسُرعَة مِئَة وَعِشرِين كِيلو في السَّاعَة",en:"The cheetah is the fastest animal, it runs at a speed of one hundred and twenty kilos per hour."},
                 {spk:"Student",side:"right",ar:"سُبحانَ اللَّه، وَلِماذا الزَّرافَة رَقبَتُها طَوِيلَة جِداً؟",en:"Glory be to Allah, and why does the giraffe have such a long neck?"},
-                {spk:"Teacher",side:"left",ar:"لِتَصِلَ إِلى أَوراق الأَشجار العالِيَة التِي لا تَصِل إِلَيها الحَيَوانات الأُخرى",en:"To reach the leaves of tall trees that other animals cannot reach"},
-                {spk:"Student",side:"right",ar:"اللَّه أَكبَر، كُلُّ شَيء في الخَلق لَهُ حِكمَة وَسَبَب",en:"Allah is great, everything in creation has wisdom and reason"},
+                {spk:"Teacher",side:"left",ar:"لِتَصِلَ إِلى أَوراق الأَشجار العالِيَة التِي لا تَصِل إِلَيها الحَيَوانات الأُخرى",en:"To reach the leaves of tall trees that other animals cannot reach."},
+                {spk:"Student",side:"right",ar:"اللَّه أَكبَر، كُلُّ شَيء في الخَلق لَهُ حِكمَة وَسَبَب",en:"Allah is great, everything in creation has wisdom and reason."},
               ],
               keywords:[
                 {ar:"يَزِن",en:"Weighs"},
@@ -3812,10 +3878,10 @@ const CUR = [
               },
               keyRule:"Comparative: أَفعَل + مِن. Superlative: أَفعَل + noun (without مِن) = the most/the biggest.",
               examples:[
-                {ar:"الفِيل أَكبَر حَيَوان بَرِّيّ في العالَم",en:"The elephant is the largest land animal in the world"},
-                {ar:"الفَهد أَسرَع حَيَوان عَلى وَجه الأَرض",en:"The cheetah is the fastest animal on the face of the earth"},
-                {ar:"الأَسَد أَقوى حَيَوان في الغابَة",en:"The lion is the strongest animal in the jungle"},
-                {ar:"الزَّرافَة أَطوَل حَيَوان في العالَم",en:"The giraffe is the tallest animal in the world"},
+                {ar:"الفِيل أَكبَر حَيَوان بَرِّيّ في العالَم",en:"The elephant is the largest land animal in the world."},
+                {ar:"الفَهد أَسرَع حَيَوان عَلى وَجه الأَرض",en:"The cheetah is the fastest animal on the face of the earth."},
+                {ar:"الأَسَد أَقوى حَيَوان في الغابَة",en:"The lion is the strongest animal in the jungle."},
+                {ar:"الزَّرافَة أَطوَل حَيَوان في العالَم",en:"The giraffe is the tallest animal in the world."},
               ]
             }
           },
@@ -3842,15 +3908,15 @@ const CUR = [
             data:{ title:"حَدِيقَتُنا", setting:"جارتان تتحدثان عن حدائقهما",
               lines:[
                 {spk:"Huda",side:"left",ar:"يا أُمَّ خالِد، حَدِيقَتُكِ جَمِيلَة جِداً هَذِهِ السَّنَة، ما سِرُّكِ؟",en:"Um Khalid, your garden is very beautiful this year, what is your secret?"},
-                {spk:"Um Khalid",side:"right",ar:"الحَمدُ لِلَّه، أَهتَمُّ بِالنَّباتات كُلَّ يَوم وَأَسقِيها في الصَّباح وَالمَساء",en:"Praise be to Allah, I take care of the plants every day and water them in the morning and evening"},
+                {spk:"Um Khalid",side:"right",ar:"الحَمدُ لِلَّه، أَهتَمُّ بِالنَّباتات كُلَّ يَوم وَأَسقِيها في الصَّباح وَالمَساء",en:"Praise be to Allah, I take care of the plants every day and water them in the morning and evening."},
                 {spk:"Huda",side:"left",ar:"هَذِهِ الوُرُود الحَمراء رائِحَتُها جَمِيلَة، ما اسم هَذِهِ الزَّهرَة؟",en:"These red roses have a beautiful scent, what is the name of this flower?"},
-                {spk:"Um Khalid",side:"right",ar:"هَذِهِ وُرُود جَورِيَّة، وَتِلكَ الصَّفراء هِيَ زُهُور الدَّوَّار",en:"These are rose flowers, and those yellow ones are sunflowers"},
+                {spk:"Um Khalid",side:"right",ar:"هَذِهِ وُرُود جَورِيَّة، وَتِلكَ الصَّفراء هِيَ زُهُور الدَّوَّار",en:"These are rose flowers, and those yellow ones are sunflowers."},
                 {spk:"Huda",side:"left",ar:"هَل تَزرَعِين الخُضَراوَات أَيضاً أَم فَقَط الزُّهُور؟",en:"Do you also grow vegetables or just flowers?"},
-                {spk:"Um Khalid",side:"right",ar:"نَعَم، في الجِهَة الأُخرى أَزرَع طَمَاطِم وَخِيار وَنِعناع وَبَقدُونِس",en:"Yes, on the other side I grow tomatoes, cucumber, mint and parsley"},
-                {spk:"Huda",side:"left",ar:"ما شاءَ اللَّه، حَدِيقَة مُثمِرَة وَجَمِيلَة في آنٍ واحِد",en:"Masha Allah, a fruitful and beautiful garden at the same time"},
-                {spk:"Um Khalid",side:"right",ar:"العَمَل في الحَدِيقَة يُرِيحُ النَّفس وَيُفرِح القَلب",en:"Working in the garden relaxes the soul and gladdens the heart"},
+                {spk:"Um Khalid",side:"right",ar:"نَعَم، في الجِهَة الأُخرى أَزرَع طَمَاطِم وَخِيار وَنِعناع وَبَقدُونِس",en:"Yes, on the other side I grow tomatoes, cucumber, mint and parsley."},
+                {spk:"Huda",side:"left",ar:"ما شاءَ اللَّه، حَدِيقَة مُثمِرَة وَجَمِيلَة في آنٍ واحِد",en:"Masha Allah, a fruitful and beautiful garden at the same time."},
+                {spk:"Um Khalid",side:"right",ar:"العَمَل في الحَدِيقَة يُرِيحُ النَّفس وَيُفرِح القَلب",en:"Working in the garden relaxes the soul and gladdens the heart."},
                 {spk:"Huda",side:"left",ar:"صَحِيح، كَيفَ تَتَخَلَّصِين مِن الحَشَرات؟ هَل تَستَخدِمِين مُبِيداً؟",en:"True, how do you get rid of insects? Do you use pesticide?"},
-                {spk:"Um Khalid",side:"right",ar:"لا، أُفَضِّل الطُّرُق الطَّبِيعِيَّة مِثل الثُّوم وَرَائِحَة النِّعناع",en:"No, I prefer natural methods like garlic and mint scent"},
+                {spk:"Um Khalid",side:"right",ar:"لا، أُفَضِّل الطُّرُق الطَّبِيعِيَّة مِثل الثُّوم وَرَائِحَة النِّعناع",en:"No, I prefer natural methods like garlic and mint scent."},
               ],
               keywords:[
                 {ar:"يَسقِي / رَيّ",en:"Waters / Watering"},
@@ -3865,15 +3931,15 @@ const CUR = [
           { id:2, type:"dialogue", title:"Gardening Tips", desc:"Father teaches children about gardening", icon:"forum", color:"#D4A34A",
             data:{ title:"دُرُوس في البُستانَة", setting:"الأب يعلم أولاده كيفية العناية بالحديقة",
               lines:[
-                {spk:"Father",side:"left",ar:"يا أَولادِي، الحَدِيقَة أَمانَة في أَيدِينا وَيَجِب أَن نَهتَمَّ بِها",en:"My children, the garden is a trust in our hands and we must take care of it"},
+                {spk:"Father",side:"left",ar:"يا أَولادِي، الحَدِيقَة أَمانَة في أَيدِينا وَيَجِب أَن نَهتَمَّ بِها",en:"My children, the garden is a trust in our hands and we must take care of it."},
                 {spk:"Daughter",side:"right",ar:"يا أَبِي، لِماذا تَحتاج النَّباتات إِلى الماء وَالشَّمس؟",en:"Dad, why do plants need water and sun?"},
-                {spk:"Father",side:"left",ar:"الماء وَالشَّمس غِذاء النَّبات، بِدُونِهِما يَصفَرُّ وَيَمُوت",en:"Water and sun are the plant's food, without them it turns yellow and dies"},
+                {spk:"Father",side:"left",ar:"الماء وَالشَّمس غِذاء النَّبات، بِدُونِهِما يَصفَرُّ وَيَمُوت",en:"Water and sun are the plant's food, without them it turns yellow and dies."},
                 {spk:"Son",side:"right",ar:"وَهَذِهِ الشَّجَرَة الكَبِيرَة، كَم عُمرُها يا أَبِي؟",en:"And this big tree, how old is it dad?"},
-                {spk:"Father",side:"left",ar:"هَذِهِ الشَّجَرَة زَرَعَها جَدُّكُم قَبلَ ثَلاثِين سَنَة",en:"This tree was planted by your grandfather thirty years ago"},
-                {spk:"Daughter",side:"right",ar:"سُبحانَ اللَّه، كانَت بَذرَة صَغِيرَة وَأَصبَحَت شَجَرَة ضَخمَة",en:"Glory be to Allah, it was a small seed and became a huge tree"},
-                {spk:"Father",side:"left",ar:"هَكَذا الإِنسان أَيضاً، يَبدَأ صَغِيراً وَيَكبَر بِالعِلم وَالعَمَل",en:"So too is man, he starts small and grows with knowledge and work"},
+                {spk:"Father",side:"left",ar:"هَذِهِ الشَّجَرَة زَرَعَها جَدُّكُم قَبلَ ثَلاثِين سَنَة",en:"This tree was planted by your grandfather thirty years ago."},
+                {spk:"Daughter",side:"right",ar:"سُبحانَ اللَّه، كانَت بَذرَة صَغِيرَة وَأَصبَحَت شَجَرَة ضَخمَة",en:"Glory be to Allah, it was a small seed and became a huge tree."},
+                {spk:"Father",side:"left",ar:"هَكَذا الإِنسان أَيضاً، يَبدَأ صَغِيراً وَيَكبَر بِالعِلم وَالعَمَل",en:"So too is man, he starts small and grows with knowledge and work."},
                 {spk:"Son",side:"right",ar:"هَل نَستَطِيع أَن نَزرَعَ شَجَرَة اليَوم يا أَبِي؟",en:"Can we plant a tree today dad?"},
-                {spk:"Father",side:"right",ar:"بِكُلِّ سُرُور، مَن زَرَعَ شَجَرَة فَكَأَنَّما أَحيا نَفساً",en:"With great pleasure, whoever plants a tree is as if they have given life to a soul"},
+                {spk:"Father",side:"right",ar:"بِكُلِّ سُرُور، مَن زَرَعَ شَجَرَة فَكَأَنَّما أَحيا نَفساً",en:"With great pleasure, whoever plants a tree is as if they have given life to a soul."},
               ],
               keywords:[
                 {ar:"أَمانَة",en:"Trust / Responsibility"},
@@ -3914,10 +3980,10 @@ const CUR = [
               },
               keyRule:"كانَ = was (past state). أَصبَحَ = became (change of state). Use them together to show transformation.",
               examples:[
-                {ar:"كانَت بَذرَة صَغِيرَة وَأَصبَحَت شَجَرَة ضَخمَة",en:"It was a small seed and became a huge tree"},
-                {ar:"كانَ الجَوُّ بارِداً وَأَصبَحَ دافِئاً",en:"The weather was cold and became warm"},
-                {ar:"كانَ طِفلاً صَغِيراً وَأَصبَحَ عالِماً كَبِيراً",en:"He was a small child and became a great scholar"},
-                {ar:"كانَ الماءُ قَلِيلاً فَأَصبَحَ الزَّرعُ يابِساً",en:"The water was little so the crops became dry"},
+                {ar:"كانَت بَذرَة صَغِيرَة وَأَصبَحَت شَجَرَة ضَخمَة",en:"It was a small seed and became a huge tree."},
+                {ar:"كانَ الجَوُّ بارِداً وَأَصبَحَ دافِئاً",en:"The weather was cold and became warm."},
+                {ar:"كانَ طِفلاً صَغِيراً وَأَصبَحَ عالِماً كَبِيراً",en:"He was a small child and became a great scholar."},
+                {ar:"كانَ الماءُ قَلِيلاً فَأَصبَحَ الزَّرعُ يابِساً",en:"The water was little so the crops became dry."},
               ]
             }
           },
@@ -3951,12 +4017,12 @@ const CUR = [
                 {spk:"Yusuf",side:"left",ar:"ما رِياضَتُكَ المُفَضَّلَة يا كَريم؟",en:"What's your favorite sport Karim?"},
                 {spk:"Karim",side:"right",ar:"أُحِبُّ كُرَة القَدَم كَثيراً",en:"I love football a lot"},
                 {spk:"Yusuf",side:"left",ar:"هَل تَلعَب في فَريق؟",en:"Do you play on a team?"},
-                {spk:"Karim",side:"right",ar:"نَعَم، أَلعَب مَع فَريق المَدرَسَة",en:"Yes, I play with the school team"},
+                {spk:"Karim",side:"right",ar:"نَعَم، أَلعَب مَع فَريق المَدرَسَة",en:"Yes, I play with the school team."},
                 {spk:"Yusuf",side:"left",ar:"أَنا أُفَضِّل كُرَة السَّلَّة",en:"I prefer basketball"},
                 {spk:"Karim",side:"right",ar:"كُرَة السَّلَّة جَميلَة أَيضاً",en:"Basketball is nice too"},
-                {spk:"Yusuf",side:"left",ar:"أَلعَب يَوم الجُمُعَة في النّادي",en:"I play on Friday at the club"},
+                {spk:"Yusuf",side:"left",ar:"أَلعَب يَوم الجُمُعَة في النّادي",en:"I play on Friday at the club."},
                 {spk:"Karim",side:"right",ar:"هَل أَستَطيع أَن آتي مَعَك؟",en:"Can I come with you?"},
-                {spk:"Yusuf",side:"left",ar:"بِالتَّأكيد، أَنتَ مُرَحَّب بِك",en:"Of course, you are welcome"},
+                {spk:"Yusuf",side:"left",ar:"بِالتَّأكيد، أَنتَ مُرَحَّب بِك",en:"Of course, you are welcome."},
                 {spk:"Karim",side:"right",ar:"شُكراً يا صَديقي",en:"Thank you my friend"},
               ],
               keywords:[
@@ -3972,15 +4038,15 @@ const CUR = [
           { id:2, type:"dialogue", title:"At the Stadium", desc:"مُشاهَدَة مُباراة كُرَة قَدَم", icon:"forum", color:"#D4A34A",
             data:{ title:"في المَلعَب", setting:"أَب وَاِبنه يُشاهِدان المُباراة",
               lines:[
-                {spk:"Father",side:"left",ar:"المَلعَب مُمتَلِئ بِالنّاس اليَوم",en:"The stadium is full of people today"},
-                {spk:"Son",side:"right",ar:"المُباراة مُهِمَّة جِدّاً يا أَبي",en:"The match is very important father"},
+                {spk:"Father",side:"left",ar:"المَلعَب مُمتَلِئ بِالنّاس اليَوم",en:"The stadium is full of people today."},
+                {spk:"Son",side:"right",ar:"المُباراة مُهِمَّة جِدّاً يا أَبي",en:"The match is very important father."},
                 {spk:"Father",side:"left",ar:"مَن يَلعَب الآن؟",en:"Who is playing now?"},
-                {spk:"Son",side:"right",ar:"فَريقُنا يَلعَب ضِدَّ فَريق المَدينَة",en:"Our team is playing against the city team"},
+                {spk:"Son",side:"right",ar:"فَريقُنا يَلعَب ضِدَّ فَريق المَدينَة",en:"Our team is playing against the city team."},
                 {spk:"Father",side:"left",ar:"ما هِيَ النَّتيجَة؟",en:"What's the score?"},
                 {spk:"Son",side:"right",ar:"اِثنان مُقابِل واحِد لِفَريقِنا",en:"Two to one for our team"},
                 {spk:"Father",side:"left",ar:"رائِع! مَن سَجَّل الأَهداف؟",en:"Excellent! Who scored the goals?"},
-                {spk:"Son",side:"right",ar:"اللاعِب رَقم سَبعَة سَجَّل هَدَفَين",en:"Player number seven scored two goals"},
-                {spk:"Father",side:"left",ar:"إِنَّهُ لاعِب مُمتاز",en:"He is an excellent player"},
+                {spk:"Son",side:"right",ar:"اللاعِب رَقم سَبعَة سَجَّل هَدَفَين",en:"Player number seven scored two goals."},
+                {spk:"Father",side:"left",ar:"إِنَّهُ لاعِب مُمتاز",en:"He is an excellent player."},
               ],
               keywords:[
                 {ar:"مَلعَب",en:"Stadium / Field"},
@@ -4024,8 +4090,8 @@ const CUR = [
               examples:[
                 {ar:"أَلعَبُ التَّنِس كُلَّ يَوم",en:"I play tennis every day"},
                 {ar:"تَلعَبُ سارَة كُرَةَ السَّلَّة",en:"Sara plays basketball"},
-                {ar:"يَلعَبُ أَخي في فَريق المَدرَسَة",en:"My brother plays on the school team"},
-                {ar:"نَلعَبُ مَعاً في النّادي",en:"We play together at the club"},
+                {ar:"يَلعَبُ أَخي في فَريق المَدرَسَة",en:"My brother plays on the school team."},
+                {ar:"نَلعَبُ مَعاً في النّادي",en:"We play together at the club."},
               ]
             }
           },
@@ -4054,13 +4120,13 @@ const CUR = [
                 {spk:"Nour",side:"left",ar:"ما هِوايَتُكِ يا هَناء؟",en:"What's your hobby Hanaa?"},
                 {spk:"Hanaa",side:"right",ar:"أُحِبُّ القِراءَة كَثيراً",en:"I love reading a lot"},
                 {spk:"Nour",side:"left",ar:"ماذا تَقرَئين؟",en:"What do you read?"},
-                {spk:"Hanaa",side:"right",ar:"أَقرَأُ الرِّوايات وَالقِصَص",en:"I read novels and stories"},
+                {spk:"Hanaa",side:"right",ar:"أَقرَأُ الرِّوايات وَالقِصَص",en:"I read novels and stories."},
                 {spk:"Nour",side:"left",ar:"وَأَنا أُحِبُّ الرَّسم",en:"And I love drawing"},
                 {spk:"Hanaa",side:"right",ar:"حَقّاً؟ ماذا تَرسُمين؟",en:"Really? What do you draw?"},
-                {spk:"Nour",side:"left",ar:"أَرسُمُ الطَّبيعَة وَالحَيَوانات",en:"I draw nature and animals"},
+                {spk:"Nour",side:"left",ar:"أَرسُمُ الطَّبيعَة وَالحَيَوانات",en:"I draw nature and animals."},
                 {spk:"Hanaa",side:"right",ar:"يَجِب أَن أَرى رُسوماتِك",en:"I must see your drawings"},
-                {spk:"Nour",side:"left",ar:"بِالتَّأكيد، تَعالَي إِلى بَيتي غَداً",en:"Of course, come to my house tomorrow"},
-                {spk:"Hanaa",side:"right",ar:"مَوافِقَة، شُكراً جَزيلاً",en:"Agreed, thank you very much"},
+                {spk:"Nour",side:"left",ar:"بِالتَّأكيد، تَعالَي إِلى بَيتي غَداً",en:"Of course, come to my house tomorrow."},
+                {spk:"Hanaa",side:"right",ar:"مَوافِقَة، شُكراً جَزيلاً",en:"Agreed, thank you very much."},
               ],
               keywords:[
                 {ar:"هِوايَة",en:"Hobby"},
@@ -4076,14 +4142,14 @@ const CUR = [
             data:{ title:"عُطلَة نِهايَة الأُسبوع", setting:"صَديقان يُخَطِّطان لِنِهايَة الأُسبوع",
               lines:[
                 {spk:"Tariq",side:"left",ar:"ماذا سَتَفعَل في العُطلَة؟",en:"What will you do on the holiday?"},
-                {spk:"Bilal",side:"right",ar:"سَأَذهَب إِلى السّينَما مَعَ عائِلَتي",en:"I will go to the cinema with my family"},
+                {spk:"Bilal",side:"right",ar:"سَأَذهَب إِلى السّينَما مَعَ عائِلَتي",en:"I will go to the cinema with my family."},
                 {spk:"Tariq",side:"left",ar:"أَيُّ فيلم سَتُشاهِدون؟",en:"Which movie will you watch?"},
-                {spk:"Bilal",side:"right",ar:"فيلم جَديد عَن المُغامَرات",en:"A new movie about adventures"},
-                {spk:"Tariq",side:"left",ar:"وَأَنا سَأَذهَب إِلى الحَديقَة",en:"And I will go to the park"},
+                {spk:"Bilal",side:"right",ar:"فيلم جَديد عَن المُغامَرات",en:"A new movie about adventures."},
+                {spk:"Tariq",side:"left",ar:"وَأَنا سَأَذهَب إِلى الحَديقَة",en:"And I will go to the park."},
                 {spk:"Bilal",side:"right",ar:"ماذا سَتَفعَل هُناك؟",en:"What will you do there?"},
-                {spk:"Tariq",side:"left",ar:"سَأَلعَب الشَّطرَنج مَع أَبي",en:"I will play chess with my father"},
-                {spk:"Bilal",side:"right",ar:"الشَّطرَنج لُعبَة جَميلَة وَمُفيدَة",en:"Chess is a nice and useful game"},
-                {spk:"Tariq",side:"left",ar:"نَعَم، أَبي يُعَلِّمُني مُنذُ سَنَتَين",en:"Yes, my father has been teaching me for two years"},
+                {spk:"Tariq",side:"left",ar:"سَأَلعَب الشَّطرَنج مَع أَبي",en:"I will play chess with my father."},
+                {spk:"Bilal",side:"right",ar:"الشَّطرَنج لُعبَة جَميلَة وَمُفيدَة",en:"Chess is a nice and useful game."},
+                {spk:"Tariq",side:"left",ar:"نَعَم، أَبي يُعَلِّمُني مُنذُ سَنَتَين",en:"Yes, my father has been teaching me for two years."},
               ],
               keywords:[
                 {ar:"عُطلَة",en:"Holiday / Vacation"},
@@ -4125,9 +4191,9 @@ const CUR = [
               keyRule:"For longer-term future, use سَوفَ instead of سَ. Example: سَوفَ أُسافِر السَّنَة القادِمَة (I will travel next year).",
               examples:[
                 {ar:"سَأَذهَبُ إِلى السّينَما",en:"I will go to the cinema"},
-                {ar:"سَنَلعَبُ كُرَة القَدَم غَداً",en:"We will play football tomorrow"},
+                {ar:"سَنَلعَبُ كُرَة القَدَم غَداً",en:"We will play football tomorrow."},
                 {ar:"سَوفَ أَتَعَلَّمُ الموسيقى",en:"I will learn music"},
-                {ar:"سَيَقرَأُ الكِتاب في العُطلَة",en:"He will read the book on the holiday"},
+                {ar:"سَيَقرَأُ الكِتاب في العُطلَة",en:"He will read the book on the holiday."},
               ]
             }
           },
@@ -4222,6 +4288,52 @@ CUR.forEach(mod=>{
         color: '#D4A34A',
         data: {}
       });
+    }
+  });
+});
+
+// ════════════════════════════════════════════════════════
+// LESSON OBJECTIVES — assigned to each unit at runtime
+// "By the end of this lesson, you can..."
+// ════════════════════════════════════════════════════════
+const UNIT_OBJECTIVES = {
+  "1.1": ["greet someone in Arabic at any time of day", "respond to greetings appropriately", "introduce yourself with your name and origin"],
+  "1.2": ["ask someone how they are doing", "say how you are feeling using praise to God (الحَمدُ لِله)", "wish someone well when they leave"],
+  "1.3": ["introduce yourself to a stranger formally", "ask and answer 'where are you from?'", "use polite expressions when meeting someone new"],
+  "1.4": ["exchange phone numbers in Arabic", "use Arabic numerals 0–9 in conversation", "ask 'what is your phone number?' politely"],
+  "2.1": ["name immediate family members in Arabic", "describe how many siblings you have", "use possessive endings (my, your, his, her)"],
+  "2.2": ["talk about extended family — uncles, aunts, cousins", "describe family relationships clearly", "ask about someone's family politely"],
+  "2.3": ["name common professions in Arabic", "ask 'what do you do?' and answer naturally", "describe a family member's job"],
+  "3.1": ["name common classroom items and people", "respond to a teacher's instructions", "ask a question politely when you don't understand"],
+  "3.2": ["name school subjects in Arabic", "talk about your favorite subject", "use 'I love' (أُحِبّ) and 'I prefer' (أُفَضِّل)"],
+  "4.1": ["name the rooms of a house in Arabic", "describe where things are using prepositions of place", "talk about your own home naturally"],
+  "4.2": ["name common furniture and household items", "describe a room's contents in detail", "use color and size adjectives correctly"],
+  "4.3": ["describe your daily activities at home", "use the present tense for routines", "express possession using 'I have' (عِندي)"],
+  "5.1": ["name common foods and drinks in Arabic", "order food and drinks at a restaurant", "say what you like and don't like"],
+  "5.2": ["ask the price of items politely", "use Arabic numerals 10–100 in transactions", "say 'how much' and 'too expensive'"],
+  "5.3": ["describe a meal using sensory adjectives", "compliment food in Arabic", "ask for the bill and pay politely"],
+  "6.1": ["tell time using Arabic clock vocabulary", "describe your morning routine step by step", "use time expressions (after, before, then)"],
+  "6.2": ["name the days of the week in Arabic", "talk about your weekly schedule", "make plans for a specific day"],
+  "6.3": ["describe events that happen at fixed times", "use the present tense with adverbs of frequency", "talk about morning, afternoon, evening, and night"],
+  "7.1": ["name parts of the body in Arabic", "describe common symptoms (pain, fever, cough)", "say 'I don't feel well' and 'I am tired'"],
+  "7.2": ["make an appointment with a doctor", "describe what hurts and for how long", "follow a doctor's basic instructions"],
+  "7.3": ["buy medicine at a pharmacy in Arabic", "ask about dosage and timing", "describe allergies or medical conditions"],
+  "8.1": ["name common grocery sections (dairy, produce, bakery)", "ask where items are located in a store", "use plural forms of food words correctly"],
+  "8.2": ["compare prices and quantities", "ask for fresh items by name", "use 'I need' (أَحتاج) for shopping"],
+  "9.1": ["name common articles of clothing in Arabic", "describe clothes by color and size", "ask to try something on"],
+  "9.2": ["negotiate prices respectfully", "ask about discounts and sales", "use conditional sentences (if I buy...)"],
+  "10.1": ["name common modes of transport", "compare options using comparatives (faster, cheaper)", "talk about how you get to work or school"],
+  "10.2": ["ask for directions to a place", "follow basic directional instructions", "name nearby landmarks (mosque, market, station)"],
+  "11.1": ["name common animals and plants", "describe a natural scene (farm, garden, forest)", "use the dual form (مُثَنَّى) correctly"],
+  "11.2": ["describe weather and seasons", "use comparative adjectives (hotter, colder)", "talk about a memorable trip outdoors"],
+  "12.1": ["name popular sports in Arabic", "conjugate the verb 'to play' (يَلعَب) for all pronouns", "talk about a match or game you watched"],
+  "12.2": ["name common hobbies and free-time activities", "use the future tense (سَ + verb) for plans", "describe what you'll do this weekend"]
+};
+
+CUR.forEach(mod=>{
+  mod.units.forEach(unit=>{
+    if(UNIT_OBJECTIVES[unit.id]){
+      unit.objectives = UNIT_OBJECTIVES[unit.id];
     }
   });
 });
@@ -4559,6 +4671,23 @@ function mkBlocks(){
   const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Unit '+unit.id+' · '+unit.title)); w.appendChild(ph);
   w.appendChild(el('h2',{className:'page-title'},unit.title));
   w.appendChild(el('p',{className:'page-sub'},unit.desc));
+  // ── Lesson objectives card (LINC-style "By the end of this lesson, you can...") ──
+  if(unit.objectives && unit.objectives.length){
+    const objCard = div('unit-objectives');
+    const objLabel = div('unit-objectives-label');
+    objLabel.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'14px',fontVariationSettings:"'FILL' 1"}},'flag'));
+    objLabel.appendChild(document.createTextNode('Lesson Objectives'));
+    objCard.appendChild(objLabel);
+    objCard.appendChild(el('div',{className:'unit-objectives-title'},'By the end of this lesson, you can:'));
+    const ul = document.createElement('ul');
+    unit.objectives.forEach(obj=>{
+      const li = document.createElement('li');
+      li.textContent = obj;
+      ul.appendChild(li);
+    });
+    objCard.appendChild(ul);
+    w.appendChild(objCard);
+  }
   const BMETA=[{icon:'forum',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'translate',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'psychology',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'extension',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'forum',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'}];
   const grid=div('bgrid');
   unit.blocks.forEach((blk,i)=>{
