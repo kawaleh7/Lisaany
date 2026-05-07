@@ -4524,12 +4524,23 @@ function mkTop(){
 }
 
 // BOTTOM NAV
+// Consistent across the site: Home / Read / Speak / Profile.
+// "Speak" stays inside this file (current platform). Others navigate to their HTML files.
 function mkNav(){
   const nav=div('bottom-nav');
-  [{icon:'home',lbl:'Home'},{icon:'menu_book',lbl:'Library'},{icon:'bar_chart',lbl:'Progress'},{icon:'person',lbl:'Profile'}].forEach((t,i)=>{
-    const b=div('nav-btn'+(S.view==='hub'&&i===0?' active':''));
-    const ic=ms(t.icon); ic.style.fontSize='24px'; b.appendChild(ic); b.appendChild(document.createTextNode(t.lbl));
-    if(i===0) b.addEventListener('click',()=>{ S.view='hub'; render(); });
+  const tabs=[
+    {icon:'auto_awesome', lbl:'Home',    href:'index.html'},
+    {icon:'menu_book',    lbl:'Read',    href:'lisaany_new.html'},
+    {icon:'translate',    lbl:'Speak',   href:null},          // current page
+    {icon:'person',       lbl:'Profile', href:'auth.html'},
+  ];
+  tabs.forEach((t,i)=>{
+    const isActive = (i===2); // Speak is the current platform
+    const b=div('nav-btn'+(isActive?' active':''));
+    const ic=ms(t.icon); ic.style.fontSize='24px';
+    b.appendChild(ic);
+    b.appendChild(document.createTextNode(t.lbl));
+    if(t.href){ b.style.cursor='pointer'; b.addEventListener('click',()=>{ window.location.href=t.href; }); }
     nav.appendChild(b);
   });
   return nav;
