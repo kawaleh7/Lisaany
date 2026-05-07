@@ -1457,6 +1457,99 @@ const CUR = [
             ]}
           }
         ]
+      },
+      { id:"1.5", title:"My, Your, His, Hers", icon:"key",
+        desc:"الضَّمَائِر الْمُتَّصِلَة — مَنْ يَمْتَلِك مَاذَا؟",
+        blocks:[
+          { id:1, type:"dialogue", title:"Whose Is This?", desc:"Layla and Sami compare belongings", icon:"forum", color:"#D4A34A",
+            data:{ title:"هَذَا قَلَمِي", setting:"ليلى وسامي في المقهى",
+              lines:[
+                {spk:"Layla",side:"left",ar:"هَذَا كِتَابِي الْجَدِيد.",en:"This is my new book."},
+                {spk:"Sami",side:"right",ar:"جَمِيل! وَأَيْنَ قَلَمُكَ؟",en:"Beautiful! And where is your pen?"},
+                {spk:"Layla",side:"left",ar:"قَلَمِي فِي حَقِيبَتِي.",en:"My pen is in my bag."},
+                {spk:"Sami",side:"right",ar:"هَلْ هَذَا هَاتِفُكَ؟",en:"Is this your phone?"},
+                {spk:"Layla",side:"left",ar:"لَا، هَذَا هَاتِفُهُ، صَدِيقِي خَالِد.",en:"No, this is his phone — my friend Khalid's."},
+                {spk:"Sami",side:"right",ar:"وَأَيْنَ بَيْتُكِ يَا لَيْلَى؟",en:"And where is your house, Layla?"},
+                {spk:"Layla",side:"left",ar:"بَيْتِي قَرِيب مِن الْجَامِعَة.",en:"My house is near the university."},
+                {spk:"Sami",side:"right",ar:"وَهَذِهِ سَلْمَى — أَيْنَ بَيْتُهَا؟",en:"And this is Salma — where is her house?"},
+                {spk:"Layla",side:"left",ar:"بَيْتُهَا فِي نَفْس الْحَيّ.",en:"Her house is in the same neighborhood."},
+              ],
+              keywords:[
+                {ar:"كِتَابِي",en:"my book"},
+                {ar:"قَلَمُكَ",en:"your pen"},
+                {ar:"هَاتِفُهُ",en:"his phone"},
+                {ar:"بَيْتُهَا",en:"her house"},
+                {ar:"صَدِيقِي",en:"my friend"},
+              ]
+            }
+          },
+          { id:2, type:"vocab", title:"The Four Suffixes", desc:"الضمائر المتصلة الأربعة", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"ـِي",en:"my (suffix)"},
+              {ar:"ـُكَ",en:"your, m. (suffix)"},
+              {ar:"ـُكِ",en:"your, f. (suffix)"},
+              {ar:"ـُهُ",en:"his (suffix)"},
+              {ar:"ـُهَا",en:"her (suffix)"},
+              {ar:"كِتَاب",en:"Book"},
+              {ar:"قَلَم",en:"Pen"},
+              {ar:"بَيْت",en:"House"},
+              {ar:"اسْم",en:"Name"},
+              {ar:"هَاتِف",en:"Phone"},
+              {ar:"صَدِيق",en:"Friend"},
+              {ar:"دَفْتَر",en:"Notebook"},
+            ]}
+          },
+          { id:3, type:"grammar", title:"How Suffixes Attach", desc:"قَلَم → قَلَمِي / قَلَمُكَ / قَلَمُهُ / قَلَمُهَا", icon:"psychology", color:"#D4A34A",
+            data:{ title:"Possessive Suffixes", titleAr:"الضَّمَائِر الْمُتَّصِلَة",
+              intro:"In Arabic, 'my', 'your', 'his', and 'her' are not separate words — they're tiny suffixes that ATTACH to the end of the noun. Once you learn the four suffixes, you can possess any noun you know.",
+              table:{ cols:["Suffix","Means","Example: قَلَم (pen)","Sound"], colW:"1fr 1.2fr 1.6fr 1fr",
+                rows:[
+                  {ar:"ـِي",roman:"my",en:"قَلَمِي"},
+                  {ar:"ـُكَ",roman:"your (to a man)",en:"قَلَمُكَ"},
+                  {ar:"ـُكِ",roman:"your (to a woman)",en:"قَلَمُكِ"},
+                  {ar:"ـُهُ",roman:"his",en:"قَلَمُهُ"},
+                  {ar:"ـُهَا",roman:"her",en:"قَلَمُهَا"},
+                ]
+              },
+              keyRule:"The vowel before the suffix tells you the case. Don't worry about that yet — focus on the suffix consonant: ي / كَ / كِ / هُ / هَا.",
+              examples:[
+                {ar:"كِتَابِي عَلَى الطَّاوِلَة",en:"My book is on the table."},
+                {ar:"هَلْ هَذَا قَلَمُكَ؟",en:"Is this your pen?"},
+                {ar:"اسْمُهُ خَالِد",en:"His name is Khalid."},
+                {ar:"بَيْتُهَا قَرِيب",en:"Her house is near."},
+                {ar:"صَدِيقِي طَالِب",en:"My friend is a student."},
+              ]
+            }
+          },
+          { id:4, type:"clutter", title:"Sentence Builder", desc:"كلمات صغيرة، معنى كبير", icon:"extension", color:"#D4A34A",
+            data:{ passing:70, sentences:[
+              {ar:"هَذَا كِتَابِي",en:"This is my book", words:["هَذَا","كِتَابِي"]},
+              {ar:"أَيْنَ قَلَمُكَ؟",en:"Where is your pen?", words:["أَيْنَ","قَلَمُكَ؟"]},
+              {ar:"اسْمُهُ خَالِد",en:"His name is Khalid", words:["اسْمُهُ","خَالِد"]},
+              {ar:"بَيْتُهَا قَرِيب",en:"Her house is near", words:["بَيْتُهَا","قَرِيب"]},
+              {ar:"هَذَا هَاتِفِي الْجَدِيد",en:"This is my new phone", words:["هَذَا","هَاتِفِي","الْجَدِيد"]},
+              {ar:"صَدِيقِي مِن مِصْر",en:"My friend is from Egypt", words:["صَدِيقِي","مِن","مِصْر"]},
+              {ar:"قَلَمُهَا فِي الْحَقِيبَة",en:"Her pen is in the bag", words:["قَلَمُهَا","فِي","الْحَقِيبَة"]},
+              {ar:"كِتَابُكَ عَلَى الطَّاوِلَة",en:"Your book is on the table", words:["كِتَابُكَ","عَلَى","الطَّاوِلَة"]},
+              {ar:"دَفْتَرُهُ جَدِيد",en:"His notebook is new", words:["دَفْتَرُهُ","جَدِيد"]},
+              {ar:"هَلْ هَذَا قَلَمُكِ؟",en:"Is this your pen? (to a woman)", words:["هَلْ","هَذَا","قَلَمُكِ؟"]},
+            ]}
+          },
+          { id:5, type:"possessive", title:"Tap the Right Suffix", desc:"اختر الضمير الصحيح", icon:"touch_app", color:"#D4A34A",
+            data:{ passing:70, sentences:[
+              {stem:"كِتَاب",en:"My book",       correct:"ـِي",  finalForm:"كِتَابِي"},
+              {stem:"قَلَم", en:"Your pen (m.)",  correct:"ـُكَ", finalForm:"قَلَمُكَ"},
+              {stem:"بَيْت", en:"His house",      correct:"ـُهُ", finalForm:"بَيْتُهُ"},
+              {stem:"اسْم", en:"Her name",       correct:"ـُهَا",finalForm:"اسْمُهَا"},
+              {stem:"هَاتِف",en:"My phone",       correct:"ـِي",  finalForm:"هَاتِفِي"},
+              {stem:"صَدِيق",en:"Your friend (m.)",correct:"ـُكَ", finalForm:"صَدِيقُكَ"},
+              {stem:"دَفْتَر",en:"His notebook",   correct:"ـُهُ", finalForm:"دَفْتَرُهُ"},
+              {stem:"بَيْت", en:"Her house",      correct:"ـُهَا",finalForm:"بَيْتُهَا"},
+              {stem:"قَلَم", en:"My pen",         correct:"ـِي",  finalForm:"قَلَمِي"},
+              {stem:"كِتَاب",en:"Your book (m.)", correct:"ـُكَ", finalForm:"كِتَابُكَ"},
+            ]}
+          }
+        ]
       }
     ]
   },
@@ -4261,6 +4354,7 @@ const UNIT_OBJECTIVES = {
   "1.2": ["ask someone how they are doing", "say how you are feeling using praise to God (الحَمدُ لِله)", "wish someone well when they leave"],
   "1.3": ["introduce yourself to a stranger formally", "ask and answer 'where are you from?'", "use polite expressions when meeting someone new"],
   "1.4": ["exchange phone numbers in Arabic", "use Arabic numerals 0–9 in conversation", "ask 'what is your phone number?' politely"],
+  "1.5": ["attach the four possessive suffixes (ي / كَ / هُ / هَا) to any noun you know", "say 'my X', 'your X', 'his X', 'her X' for everyday objects", "understand who owns what in a conversation about belongings"],
   "2.1": ["name immediate family members in Arabic", "describe how many siblings you have", "use demonstratives (هَذَا/هَذِهِ) to point out people"],
   "2.2": ["name common professions in Arabic", "ask 'what do you do?' and answer naturally", "use the iḍāfah possessive construction (Ahmad's house, the student's book)"],
   "2.3": ["recognize قَالَ — the most common verb in the Quran", "conjugate قَالَ for all eight pronouns", "report what someone else said in everyday speech"],
@@ -4684,12 +4778,188 @@ function resetBS(){
   S.dlIdx=0; S.vIdx=0; S.vFlip=false; S.vKnown=new Set();
   const blk=getBlk(S.mId,S.uId,S.bId);
   if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=shuffle(blk.data.sentences[0]?.words||[]); }
+  if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
 }
 
 // ══════════════════════════════════════════════════════
 // LESSON DISPATCHER
 // ══════════════════════════════════════════════════════
-function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return div('','Block not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); return div('','?'); }
+// ══════════════════════════════════════════════════════
+// BLOCK 5: POSSESSIVE — tap the right suffix (introduced in Unit 1.5)
+// ══════════════════════════════════════════════════════
+function mkPossessive(blk){
+  const d=blk.data;
+  const total=d.sentences.length;
+  if(typeof S.posIdx === 'undefined'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
+  const cur=d.sentences[S.posIdx];
+  const pct=Math.round(S.posScore/total*100);
+  const w=div('stage');
+
+  // Back button
+  const topNav=div('');
+  topNav.style.cssText='display:flex;justify-content:flex-start;margin-bottom:4px;';
+  topNav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+    S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false;
+    S.view='blocks'; render();
+  }},'← Back'));
+  w.appendChild(topNav);
+
+  const ph=div('phase-label'); ph.appendChild(div('phase-dot'));
+  ph.appendChild(document.createTextNode(' Block 5 · Possessive Suffixes · '+(S.posIdx+1)+'/'+total));
+  w.appendChild(ph);
+  w.appendChild(el('h2',{className:'page-title'},'Tap the Right Suffix'));
+  w.appendChild(el('p',{className:'page-sub'},'Match the English meaning to the correct Arabic suffix.'));
+
+  // Score row
+  const sr=div('score-row');
+  [{v:S.posScore,l:'Correct',c:'var(--green)'},{v:S.posWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{
+    const si=div('sc-item');
+    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
+    si.appendChild(el('div',{className:'sc-lbl'},s.l));
+    sr.appendChild(si);
+  });
+  w.appendChild(sr);
+
+  // Reference table — always visible (the cheat sheet from the screenshot)
+  const ref=div('');
+  ref.style.cssText='background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:14px;padding:10px 14px;margin:12px 0;';
+  ref.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'8px',textAlign:'center'}},'Reference'));
+  const refRow=div('');
+  refRow.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:6px;direction:rtl;';
+  [
+    {suf:'ـِي', en:'my'},
+    {suf:'ـُكَ', en:'your (m)'},
+    {suf:'ـُهُ', en:'his'},
+    {suf:'ـُهَا', en:'her'},
+  ].forEach(item=>{
+    const cell=div('');
+    cell.style.cssText='text-align:center;padding:4px;';
+    cell.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'22px',color:'var(--gold)',lineHeight:'1.2'}},item.suf));
+    cell.appendChild(el('div',{style:{fontSize:'10px',color:'var(--dim)',marginTop:'2px',direction:'ltr'}},item.en));
+    refRow.appendChild(cell);
+  });
+  ref.appendChild(refRow);
+  w.appendChild(ref);
+
+  // English prompt
+  const prompt=div('en-prompt');
+  prompt.appendChild(el('span',{className:'lbl'},'Build in Arabic:'));
+  prompt.appendChild(document.createTextNode(cur.en));
+  w.appendChild(prompt);
+
+  // Display: Arabic word with slot
+  const wordBox=div('');
+  wordBox.style.cssText=`
+    background:rgba(10,14,24,.85);
+    border:1.5px solid ${S.posFb==='correct'?'var(--green)':S.posFb==='wrong'?'var(--red)':'rgba(212,163,74,.3)'};
+    border-radius:16px;padding:24px 16px;margin-top:14px;
+    direction:rtl;text-align:center;
+    font-family:'Amiri',serif;font-size:42px;color:var(--text);
+    line-height:1.4;
+  `;
+  if(S.posLocked){
+    // Show the final form (correct or what they chose)
+    const isRight = S.posChosen === cur.correct;
+    const finalText = isRight ? cur.finalForm : (cur.stem + (S.posChosen||''));
+    wordBox.appendChild(el('span',{style:{
+      color: isRight?'var(--green)':'var(--red)',
+      borderBottom: '2px solid '+(isRight?'var(--green)':'var(--red)'),
+      padding:'0 6px'
+    }}, finalText));
+  } else {
+    // Show stem + slot or chosen suffix
+    wordBox.appendChild(document.createTextNode(cur.stem));
+    const slot=el('span',{style:{
+      display:'inline-block',
+      minWidth:'52px',padding:'0 8px',marginRight:'4px',
+      borderBottom:'2px dashed rgba(212,163,74,.5)',
+      color: S.posChosen?'var(--gold)':'rgba(212,163,74,.4)',
+      fontFamily:"'Amiri',serif"
+    }}, S.posChosen || '___');
+    wordBox.appendChild(slot);
+  }
+  w.appendChild(wordBox);
+
+  // 4 suffix choices
+  if(!S.posLocked){
+    const choices=div('');
+    choices.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;';
+    ['ـِي','ـُكَ','ـُهُ','ـُهَا'].forEach(suf=>{
+      const isSel = S.posChosen===suf;
+      const btn=el('button',{
+        style:{
+          padding:'14px 8px',borderRadius:'14px',
+          border:'1.5px solid '+(isSel?'var(--gold)':'rgba(212,163,74,.25)'),
+          background:isSel?'rgba(212,163,74,.18)':'rgba(10,14,24,.6)',
+          color:isSel?'var(--gold)':'var(--text)',
+          fontFamily:"'Amiri',serif",fontSize:'28px',
+          direction:'rtl',cursor:'pointer',
+          transition:'all .15s'
+        },
+        onclick:()=>{ S.posChosen=suf; render(); }
+      }, suf);
+      choices.appendChild(btn);
+    });
+    w.appendChild(choices);
+  }
+
+  // Feedback
+  if(S.posFb){
+    const fb=div('cf '+(S.posFb==='correct'?'cf-ok':'cf-no'));
+    fb.style.marginTop='14px';
+    if(S.posFb==='correct'){
+      fb.innerHTML='✅ <strong>Correct!</strong> '+cur.finalForm+' — '+cur.en;
+    } else {
+      fb.innerHTML='❌ <strong>Not quite.</strong> The answer is <span style="font-family:\'Amiri\',serif;font-size:22px">'+cur.finalForm+'</span>';
+    }
+    w.appendChild(fb);
+  }
+
+  // Action buttons
+  const nav=div('action-row');
+  nav.style.marginTop='14px';
+  if(!S.posLocked){
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+      S.posChosen=cur.correct; S.posLocked=true; S.posFb='wrong'; S.posWrong++; render();
+    }},'Show Answer'));
+    nav.appendChild(el('button',{
+      className:'btn btn-primary',
+      style: S.posChosen ? {} : {opacity:'0.5',cursor:'not-allowed',pointerEvents:'none'},
+      onclick:()=>{
+        if(!S.posChosen) return;
+        const ok = S.posChosen===cur.correct;
+        S.posLocked=true;
+        S.posFb=ok?'correct':'wrong';
+        if(ok) S.posScore++; else S.posWrong++;
+        render();
+        if(ok) setTimeout(()=>advPos(d), 1100);
+      }
+    },'Check ✓'));
+  } else if(S.posFb==='wrong'){
+    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advPos(d)},'Next →'));
+  }
+  w.appendChild(nav);
+
+  return w;
+}
+
+function advPos(d){
+  S.posFb=null; S.posLocked=false; S.posChosen=null;
+  if(S.posIdx < d.sentences.length-1){
+    S.posIdx++; render();
+  } else {
+    const pct=Math.round(S.posScore/d.sentences.length*100);
+    if(pct >= (d.passing||70)){
+      S.posIdx=0; S.posScore=0; S.posWrong=0;
+      finishBlock();
+    } else {
+      S.posIdx=0; S.posScore=0; S.posWrong=0;
+      render();
+    }
+  }
+}
+
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return div('','Block not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); return div('','?'); }
 
 // ══════════════════════════════════════════════════════
 // BLOCK 1: DIALOGUE
