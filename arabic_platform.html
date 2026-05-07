@@ -667,33 +667,16 @@ html, body {
     radial-gradient(ellipse 80% 50% at 50% 20%, rgba(232,200,120,.025) 0%, transparent 70%) !important;
 }
 
-/* Sparse mosque hexagons — only on edges, clear middle */
+/* Pattern removed — clean solid #141821 background with subtle warm gradient only */
 body::after {
-  content: '' !important;
-  position: fixed !important;
-  inset: 0 !important;
-  background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23d4a347' stroke-width='1.2'%3E%3Cpolygon points='120,80 145,95 145,130 120,145 95,130 95,95'/%3E%3C/g%3E%3C/svg%3E") !important;
-  background-size: 240px 240px !important;
-  background-repeat: repeat !important;
-  background-position: 0 0 !important;
-  opacity: 0.10 !important;
-  pointer-events: none !important;
-  z-index: 0 !important;
-  font-size: 0 !important;
-  color: transparent !important;
-  filter: none !important;
-  transform: none !important;
-  white-space: normal !important;
-  -webkit-mask-image: radial-gradient(ellipse 55% 50% at center, transparent 0%, transparent 30%, rgba(0,0,0,0.6) 65%, black 100%) !important;
-  mask-image: radial-gradient(ellipse 55% 50% at center, transparent 0%, transparent 30%, rgba(0,0,0,0.6) 65%, black 100%) !important;
+  display: none !important;
+  content: none !important;
+  background-image: none !important;
 }
 
 @media (max-width: 600px) {
   body::after {
-    background-size: 160px 160px !important;
-    opacity: 0.08 !important;
-    -webkit-mask-image: radial-gradient(ellipse 65% 55% at center, transparent 0%, transparent 25%, rgba(0,0,0,0.5) 60%, black 100%) !important;
-    mask-image: radial-gradient(ellipse 65% 55% at center, transparent 0%, transparent 25%, rgba(0,0,0,0.5) 60%, black 100%) !important;
+    display: none !important;
   }
 }
 
