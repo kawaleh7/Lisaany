@@ -1633,15 +1633,24 @@ function mkTopbar(){
 }
 
 // ─── BOTTOM NAV ───
+// Consistent across the site: Home / Read / Speak / Profile.
+// "Read" stays inside this file (current platform). Others navigate to their HTML files.
 function mkBottomNav(){
   const nav=div('bottom-nav');
-  [{icon:'auto_awesome',lbl:'Home',p:'hub'},{icon:'menu_book',lbl:'Library'},{icon:'show_chart',lbl:'Progress'},{icon:'person',lbl:'Profile'}].forEach((t,i)=>{
-    const btn=div('nav-btn'+(S.phase==='hub'&&i===0?' active':''));
-    const ic=ms(t.icon,S.phase==='hub'&&i===0?1:0);
+  const tabs=[
+    {icon:'auto_awesome', lbl:'Home',    href:'index.html'},
+    {icon:'menu_book',    lbl:'Read',    href:null},          // current page
+    {icon:'translate',    lbl:'Speak',   href:'arabic_platform.html'},
+    {icon:'person',       lbl:'Profile', href:'auth.html'},
+  ];
+  tabs.forEach((t,i)=>{
+    const isActive = (i===1); // Read is the current platform
+    const btn=div('nav-btn'+(isActive?' active':''));
+    const ic=ms(t.icon, isActive?1:0);
     ic.style.fontSize='24px';
     btn.appendChild(ic);
     btn.appendChild(document.createTextNode(t.lbl));
-    if(t.p) btn.addEventListener('click',()=>{S.phase='hub';stopAudio();render();});
+    if(t.href){ btn.style.cursor='pointer'; btn.addEventListener('click',()=>{stopAudio(); window.location.href=t.href;}); }
     nav.appendChild(btn);
   });
   return nav;
