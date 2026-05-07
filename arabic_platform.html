@@ -4199,7 +4199,10 @@ const WORD_FREQ = (function(){
           (blk.data.keywords||[]).forEach(k=>bump(k.ar, loc));
         }
         if(blk.type==='vocab' && blk.data?.words){
-          blk.data.words.forEach(w=>bump(w.ar, loc));
+          blk.data.words.forEach(w=>{
+            // Split paired entries on " / " so each word is counted individually
+            (w.ar||'').split(' / ').forEach(part=>{ const t=part.trim(); if(t) bump(t, loc); });
+          });
         }
         if(blk.type==='grammar'){
           (blk.data?.examples||[]).forEach(ex=>{
@@ -4797,10 +4800,19 @@ function mkDl(blk){
 
   // Key terms extracted
   if(d.keywords?.length){
+    // Split paired keyword entries (e.g. "سُعَال / زُكَام" → "Cough / Cold") into individual rows
+    const keywords = d.keywords.flatMap(k=>{
+      const arParts = (k.ar || '').split(' / ').map(s=>s.trim()).filter(Boolean);
+      const enParts = (k.en || '').split(' / ').map(s=>s.trim()).filter(Boolean);
+      if(arParts.length > 1 && arParts.length === enParts.length){
+        return arParts.map((ar, i) => ({ ...k, ar, en: enParts[i] }));
+      }
+      return [k];
+    });
     const kw = div('');
     kw.style.cssText = 'background:rgba(10,14,24,.8);border:1px solid rgba(212,163,74,.2);border-radius:16px;padding:16px;margin-top:8px;';
     kw.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'2px',color:'var(--gold)',marginBottom:'12px'}},'KEY TERMS EXTRACTED'));
-    d.keywords.forEach(k=>{
+    keywords.forEach(k=>{
       const row2 = div('');
       row2.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);';
       const left2 = div('');
@@ -4832,7 +4844,18 @@ function mkDl(blk){
 // BLOCK 2: VOCABULARY
 // ══════════════════════════════════════════════════════
 function mkVocab(blk){
-  const d=blk.data; const words=d.words; const total=words.length;
+  const d=blk.data;
+  // ── Split paired entries (e.g. "أَب / أُم" → "Father / Mother") into individual cards ──
+  // Only splits when ar and en have matching multi-part counts. Other fields (root, cat, etc.) copy to each.
+  const words = (d.words || []).flatMap(entry => {
+    const arParts = (entry.ar || '').split(' / ').map(s=>s.trim()).filter(Boolean);
+    const enParts = (entry.en || '').split(' / ').map(s=>s.trim()).filter(Boolean);
+    if(arParts.length > 1 && arParts.length === enParts.length){
+      return arParts.map((ar, i) => ({ ...entry, ar, en: enParts[i] }));
+    }
+    return [entry];
+  });
+  const total=words.length;
   const cur=words[S.vIdx]; const pct=Math.round(S.vKnown.size/total*100);
   const w=div('stage');
   const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Block 2 · Vocabulary · '+S.vKnown.size+'/'+total+' known')); w.appendChild(ph);
@@ -5032,23 +5055,54 @@ function advClutter(d){
 // BLOCK 5: CLOZE (Listening Dictation — LINC method)
 // ════════════════════════════════════════════════════════
 function getClozeData(blk){
-  if(blk.data?.sentences) return blk.data;
-  const unit = getUnit(S.mId, S.uId);
-  const dialogueBlk = unit.blocks.find(b=>b.type==='dialogue');
-  if(!dialogueBlk?.data?.lines) return { sentences:[] };
-  const lines = dialogueBlk.data.lines.filter(l=>l.ar && l.ar.split(/\s+/).length >= 3).slice(0, 6);
-  const sentences = lines.map(ln=>{
+  // Memoize — without this, blanks AND choices would re-randomize on every render
+  if(blk._clzData) return blk._clzData;
+
+  const norm = s => s.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'');
+
+  let sentencesSrc;
+  if(blk.data?.sentences){
+    sentencesSrc = blk.data.sentences;
+  } else {
+    const unit = getUnit(S.mId, S.uId);
+    const dialogueBlk = unit.blocks.find(b=>b.type==='dialogue');
+    if(!dialogueBlk?.data?.lines){ blk._clzData = { sentences:[], passing:60 }; return blk._clzData; }
+    sentencesSrc = dialogueBlk.data.lines.filter(l=>l.ar && l.ar.split(/\s+/).length >= 3).slice(0, 6);
+  }
+
+  // Pool of all unique words across all source sentences — used for distractor choices
+  const allWords = [...new Set(
+    sentencesSrc.flatMap(s=>(s.ar||'').split(/\s+/).filter(w=>w.length>0))
+  )];
+
+  const sentences = sentencesSrc.map(ln=>{
     const words = ln.ar.split(/\s+/);
     const blankCount = Math.min(2, Math.max(1, Math.floor(words.length/3)));
-    const idx = [];
-    while(idx.length < blankCount && idx.length < words.length-1){
+    const blankIdx = [];
+    while(blankIdx.length < blankCount && blankIdx.length < words.length-1){
       const pick = 1 + Math.floor(Math.random()*(words.length-1));
-      if(!idx.includes(pick)) idx.push(pick);
+      if(!blankIdx.includes(pick)) blankIdx.push(pick);
     }
-    idx.sort((a,b)=>a-b);
-    return { ar: ln.ar, en: ln.en, words, blankIndices: idx, speaker: ln.spk };
+    blankIdx.sort((a,b)=>a-b);
+
+    // For each blank, build a 4-option pool: correct + 3 distractors, shuffled
+    const choicesPerBlank = blankIdx.map(bIdx=>{
+      const correct = words[bIdx];
+      const correctNorm = norm(correct);
+      const pool = allWords.filter(w => norm(w) !== correctNorm);
+      const picks = [];
+      while(picks.length < 3 && pool.length > 0){
+        const i = Math.floor(Math.random()*pool.length);
+        picks.push(pool.splice(i,1)[0]);
+      }
+      return [...picks, correct].sort(()=>Math.random()-0.5);
+    });
+
+    return { ar: ln.ar, en: ln.en, words, blankIndices: blankIdx, choicesPerBlank, speaker: ln.spk };
   });
-  return { sentences, passing: 60 };
+
+  blk._clzData = { sentences, passing: blk.data?.passing || 60 };
+  return blk._clzData;
 }
 
 function mkCloze(blk){
@@ -5064,11 +5118,20 @@ function mkCloze(blk){
   const pct = Math.round(S.clzScore/total*100);
   const w = div('stage');
 
+  // ── Back button (top) — returns to the unit's blocks list ──
+  const topNav = div('');
+  topNav.style.cssText = 'display:flex;justify-content:flex-start;margin-bottom:4px;';
+  topNav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+    S.clzIdx=0; S.clzAns=[]; S.clzFb=null; S.clzLocked=false;
+    S.view='blocks'; render();
+  }},'← Back'));
+  w.appendChild(topNav);
+
   const ph=div('phase-label'); ph.appendChild(div('phase-dot'));
   ph.appendChild(document.createTextNode(' Listening Dictation · '+(S.clzIdx+1)+'/'+total));
   w.appendChild(ph);
   w.appendChild(el('h2',{className:'page-title'},'Fill in What You Hear'));
-  w.appendChild(el('p',{className:'page-sub'},'Tap the audio button to listen, then type the missing words.'));
+  w.appendChild(el('p',{className:'page-sub'},'Tap the audio button to listen, then tap the missing words below.'));
 
   const sr = div('score-row');
   [{v:S.clzScore,l:'Correct',c:'var(--green)'},{v:S.clzWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{
@@ -5101,6 +5164,7 @@ function mkCloze(blk){
     w.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',marginBottom:'6px'}}, cur.speaker+' says…'));
   }
 
+  // ── Sentence box: blank slots show chosen word (or "___" placeholder) ──
   const sentenceBox = div('');
   sentenceBox.style.cssText = `
     background:rgba(10,14,24,.85);
@@ -5112,41 +5176,66 @@ function mkCloze(blk){
   cur.words.forEach((word, i)=>{
     if(cur.blankIndices.includes(i)){
       const idx = cur.blankIndices.indexOf(i);
+      const chosen = S.clzAns[idx];
+      let bg, color, border;
       if(S.clzLocked){
-        const span = el('span',{style:{
-          display:'inline-block',padding:'2px 12px',margin:'0 4px',
-          borderRadius:'8px',
-          background: S.clzAns[idx] === word ? 'rgba(127,168,134,.18)' : 'rgba(224,112,112,.15)',
-          color: S.clzAns[idx] === word ? 'var(--green)' : 'var(--red)',
-          border: '1px solid '+(S.clzAns[idx] === word ? 'var(--green)' : 'var(--red)'),
-          fontFamily:"'Amiri',serif"
-        }}, word);
-        sentenceBox.appendChild(span);
+        const isRight = chosen === word;
+        bg = isRight ? 'rgba(127,168,134,.18)' : 'rgba(224,112,112,.15)';
+        color = isRight ? 'var(--green)' : 'var(--red)';
+        border = isRight ? 'var(--green)' : 'var(--red)';
       } else {
-        const inp = el('input',{
-          type:'text',
-          value: S.clzAns[idx] || '',
-          placeholder:'…',
-          style:{
-            display:'inline-block',
-            width:'90px',padding:'4px 10px',margin:'0 4px',
-            background:'rgba(212,163,74,.08)',
-            border:'1px solid rgba(212,163,74,.4)',
-            borderRadius:'8px',
-            color:'var(--gold)',
-            fontFamily:"'Amiri',serif",fontSize:'22px',
-            textAlign:'center',direction:'rtl',
-            outline:'none'
-          },
-          oninput:(e)=>{ S.clzAns[idx] = e.target.value; }
-        });
-        sentenceBox.appendChild(inp);
+        bg = chosen ? 'rgba(212,163,74,.18)' : 'rgba(212,163,74,.05)';
+        color = chosen ? 'var(--gold)' : 'rgba(212,163,74,.5)';
+        border = 'rgba(212,163,74,.4)';
       }
+      const span = el('span',{style:{
+        display:'inline-block',padding:'2px 14px',margin:'0 4px',
+        minWidth:'70px',textAlign:'center',
+        borderRadius:'8px',background:bg,color:color,
+        border:'1px solid '+border,
+        fontFamily:"'Amiri',serif"
+      }}, chosen || '___');
+      sentenceBox.appendChild(span);
     } else {
       sentenceBox.appendChild(document.createTextNode(' '+word+' '));
     }
   });
   w.appendChild(sentenceBox);
+
+  // ── Word choice rows (one per blank) — only shown while unlocked ──
+  if(!S.clzLocked){
+    cur.blankIndices.forEach((wIdx, blankIdx)=>{
+      const choiceWrap = div('');
+      choiceWrap.style.cssText = 'margin-top:14px;';
+
+      if(cur.blankIndices.length > 1){
+        choiceWrap.appendChild(el('div',{
+          style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',marginBottom:'6px'}
+        }, 'For blank '+(blankIdx+1)));
+      }
+
+      const row = div('');
+      row.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;justify-content:center;';
+      cur.choicesPerBlank[blankIdx].forEach(choice=>{
+        const isSelected = S.clzAns[blankIdx] === choice;
+        const btn = el('button',{
+          style:{
+            padding:'10px 16px',borderRadius:'12px',
+            border:'1.5px solid '+(isSelected?'var(--gold)':'rgba(212,163,74,.25)'),
+            background:isSelected?'rgba(212,163,74,.18)':'rgba(10,14,24,.6)',
+            color:isSelected?'var(--gold)':'var(--text)',
+            fontFamily:"'Amiri',serif",fontSize:'22px',
+            direction:'rtl',cursor:'pointer',
+            transition:'all .15s'
+          },
+          onclick:()=>{ S.clzAns[blankIdx] = choice; render(); }
+        }, choice);
+        row.appendChild(btn);
+      });
+      choiceWrap.appendChild(row);
+      w.appendChild(choiceWrap);
+    });
+  }
 
   if(cur.en){
     w.appendChild(el('div',{style:{
@@ -5176,20 +5265,25 @@ function mkCloze(blk){
       S.clzWrong++;
       render();
     }}, 'Show Answer'));
-    nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>{
-      const allCorrect = cur.blankIndices.every((wIdx, ai)=>{
-        const userVal = (S.clzAns[ai]||'').trim();
-        const correctVal = cur.words[wIdx].trim();
+
+    const allChosen = cur.blankIndices.every((_, ai) => S.clzAns[ai] !== undefined);
+    nav.appendChild(el('button',{
+      className:'btn btn-primary',
+      style: allChosen ? {} : {opacity:'0.5',cursor:'not-allowed',pointerEvents:'none'},
+      onclick:()=>{
+        if(!allChosen) return;
         const norm = s=>s.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'');
-        return norm(userVal) === norm(correctVal);
-      });
-      S.clzLocked = true;
-      S.clzFb = allCorrect ? 'correct' : 'wrong';
-      if(allCorrect) S.clzScore++;
-      else S.clzWrong++;
-      render();
-      if(allCorrect) setTimeout(()=>advCloze(d), 1100);
-    }}, 'Check ✓'));
+        const allCorrect = cur.blankIndices.every((wIdx, ai)=>{
+          return norm((S.clzAns[ai]||'').trim()) === norm(cur.words[wIdx].trim());
+        });
+        S.clzLocked = true;
+        S.clzFb = allCorrect ? 'correct' : 'wrong';
+        if(allCorrect) S.clzScore++;
+        else S.clzWrong++;
+        render();
+        if(allCorrect) setTimeout(()=>advCloze(d), 1100);
+      }
+    }, 'Check ✓'));
   } else if(S.clzFb === 'wrong'){
     nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advCloze(d)}, 'Next →'));
   }
