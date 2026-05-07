@@ -1699,9 +1699,221 @@ const CUR = [
       }
     ]
   },
-  { id:3, title:"Home & Living", color:"#D4A34A", icon:"home",
+  { id:3, title:"Classroom & School", color:"#D4A34A", icon:"school",
     units:[
-      { id:"3.1", title:"Rooms of the House", icon:"home",
+      { id:"3.1", title:"In the Classroom", icon:"school",
+        desc:"داخل الفَصل — الأَدَوات والأَشخاص",
+        blocks:[
+          { id:1, type:"dialogue", title:"First Day of School", desc:"الطُّلَّاب يَتَعَرَّفُون في الفَصل", icon:"forum", color:"#D4A34A",
+            data:{ title:"اليَوم الأَوَّل في المَدرَسَة", setting:"الأُستاذ يُرَحِّب بِالطُّلَّاب الجُدُد",
+              lines:[
+                {spk:"Teacher",side:"left",ar:"صَباحَ الخَير يا طُلَّاب",en:"Good morning students"},
+                {spk:"Students",side:"right",ar:"صَباحَ النُّور يا أُستاذ",en:"Good morning teacher"},
+                {spk:"Teacher",side:"left",ar:"اسْمي الأُستاذ سامِر، أَهلاً بِكُم",en:"My name is teacher Samer, welcome"},
+                {spk:"Teacher",side:"left",ar:"أَنا مُدَرِّس اللُّغَة العَرَبِيَّة",en:"I am the Arabic language teacher"},
+                {spk:"Student",side:"right",ar:"أَهلاً بِكَ يا أُستاذ",en:"Welcome teacher"},
+                {spk:"Teacher",side:"left",ar:"اِفتَحوا كُتُبَكُم على الصَّفحَة الأُولى",en:"Open your books to page one"},
+                {spk:"Student",side:"right",ar:"حاضِر يا أُستاذ",en:"Yes, teacher"},
+                {spk:"Teacher",side:"left",ar:"مَن يُريد أَن يَقرَأ؟",en:"Who wants to read?"},
+                {spk:"Student",side:"right",ar:"أَنا يا أُستاذ",en:"Me, teacher"},
+                {spk:"Teacher",side:"left",ar:"تَفَضَّل يا أَحمَد",en:"Go ahead Ahmad"},
+              ],
+              keywords:[
+                {ar:"أُستاذ",en:"Teacher (m)"},
+                {ar:"مُدَرِّس",en:"Teacher / Instructor"},
+                {ar:"طالِب",en:"Student (m)"},
+                {ar:"كِتاب",en:"Book"},
+                {ar:"صَفحَة",en:"Page"},
+                {ar:"اِفتَح",en:"Open (command)"},
+                {ar:"تَفَضَّل",en:"Go ahead / Please"},
+              ]
+            }
+          },
+          { id:2, type:"dialogue", title:"Asking a Question", desc:"الطّالِب يَسأَل المُدَرِّس", icon:"forum", color:"#D4A34A",
+            data:{ title:"سُؤال في الفَصل", setting:"الطّالِب لا يَفهَم وَيَطلُب المُساعَدَة",
+              lines:[
+                {spk:"Student",side:"left",ar:"يا أُستاذ، عِندي سُؤال",en:"Teacher, I have a question"},
+                {spk:"Teacher",side:"right",ar:"تَفَضَّل، ما هُوَ سُؤالُكَ؟",en:"Go ahead, what is your question?"},
+                {spk:"Student",side:"left",ar:"لا أَفهَم هذِهِ الكَلِمَة",en:"I don't understand this word"},
+                {spk:"Teacher",side:"right",ar:"أَيُّ كَلِمَة؟",en:"Which word?"},
+                {spk:"Student",side:"left",ar:"كَلِمَة 'مَكتَبَة'",en:"The word 'maktaba' (library)"},
+                {spk:"Teacher",side:"right",ar:"المَكتَبَة هِيَ المَكان الَّذي فيهِ كُتُب كَثيرَة",en:"A library is the place that has many books"},
+                {spk:"Student",side:"left",ar:"شُكراً يا أُستاذ، فَهِمتُ الآن",en:"Thank you teacher, I understand now"},
+                {spk:"Teacher",side:"right",ar:"عَفواً، أَيُّ سُؤال آخَر؟",en:"You're welcome, any other question?"},
+                {spk:"Student",side:"left",ar:"لا، شُكراً، هذا كافٍ",en:"No, thank you, this is enough"},
+                {spk:"Teacher",side:"right",ar:"أَحسَنتَ، اِجلِس مِن فَضلِكَ",en:"Well done, please sit down"},
+              ],
+              keywords:[
+                {ar:"سُؤال",en:"Question"},
+                {ar:"أَفهَم",en:"I understand"},
+                {ar:"كَلِمَة",en:"Word"},
+                {ar:"مَكتَبَة",en:"Library"},
+                {ar:"عَفواً",en:"You're welcome"},
+                {ar:"أَحسَنتَ",en:"Well done"},
+              ]
+            }
+          },
+          { id:3, type:"vocab", title:"Classroom Vocabulary", desc:"١٠ كَلِمات عَن الفَصل", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"فَصل",en:"Classroom"},
+              {ar:"مَدرَسَة",en:"School"},
+              {ar:"أُستاذ",en:"Teacher (m)"},
+              {ar:"أُستاذَة",en:"Teacher (f)"},
+              {ar:"طالِب",en:"Student (m)"},
+              {ar:"طالِبَة",en:"Student (f)"},
+              {ar:"كِتاب",en:"Book"},
+              {ar:"دَفتَر",en:"Notebook"},
+              {ar:"قَلَم",en:"Pen"},
+              {ar:"سَبُّورَة",en:"Blackboard"},
+            ]}
+          },
+          { id:4, type:"grammar", title:"Command Form (Imperative)", desc:"اِفتَح، اِقرَأ، اُكتُب", icon:"psychology", color:"#D4A34A",
+            data:{ title:"The Command (Imperative)", titleAr:"فِعل الأَمر",
+              intro:"In the classroom, teachers use the command form constantly. The command tells someone to do something directly.",
+              table:{ cols:["Command","Meaning"], colW:"1fr 1.5fr",
+                rows:[
+                  {ar:"اِفتَح",en:"Open"},
+                  {ar:"اِقرَأ",en:"Read"},
+                  {ar:"اُكتُب",en:"Write"},
+                  {ar:"اُنظُر",en:"Look"},
+                  {ar:"اِسمَع",en:"Listen"},
+                  {ar:"تَكَلَّم",en:"Speak"},
+                  {ar:"اِجلِس",en:"Sit down"},
+                  {ar:"قِف",en:"Stand up"},
+                ]
+              },
+              keyRule:"To make the feminine, add ي at the end. For plural, add وا. So 'open' becomes اِفتَحي (f) or اِفتَحوا (pl).",
+              examples:[
+                {ar:"اِفتَح الكِتاب",en:"Open the book (m)"},
+                {ar:"اِقرَئي هذِهِ الجُملَة",en:"Read this sentence (f)"},
+                {ar:"اُكتُبوا الواجِب",en:"Write the homework (pl)"},
+                {ar:"اِسمَع جَيِّداً",en:"Listen carefully"},
+              ]
+            }
+          },
+          { id:5, type:"clutter", title:"Sentence Builder", desc:"جُمَل عَن الفَصل والمَدرَسَة", icon:"extension", color:"#D4A34A",
+            data:{ passing:70, sentences:[
+              {ar:"أَنا طالِب في المَدرَسَة", words:["أَنا","طالِب","في","المَدرَسَة"]},
+              {ar:"المُدَرِّس في الفَصل", words:["المُدَرِّس","في","الفَصل"]},
+              {ar:"اِفتَح الكِتاب يا أَحمَد", words:["اِفتَح","الكِتاب","يا","أَحمَد"]},
+              {ar:"الطّالِبَة تَكتُب الواجِب", words:["الطّالِبَة","تَكتُب","الواجِب"]},
+              {ar:"عِندي قَلَم وَدَفتَر", words:["عِندي","قَلَم","وَدَفتَر"]},
+              {ar:"المُدَرِّسَة تَشرَح الدَّرس", words:["المُدَرِّسَة","تَشرَح","الدَّرس"]},
+              {ar:"اُكتُبوا على السَّبُّورَة", words:["اُكتُبوا","على","السَّبُّورَة"]},
+              {ar:"الكِتاب على الطّاوِلَة", words:["الكِتاب","على","الطّاوِلَة"]},
+              {ar:"المَكتَبَة فيها كُتُب كَثيرَة", words:["المَكتَبَة","فيها","كُتُب","كَثيرَة"]},
+              {ar:"الطُّلَّاب يَدرُسُون اللُّغَة العَرَبِيَّة", words:["الطُّلَّاب","يَدرُسُون","اللُّغَة","العَرَبِيَّة"]},
+            ]}
+          }
+        ]
+      },
+      { id:"3.2", title:"Subjects & Schedule", icon:"calendar_month",
+        desc:"المَوادّ الدِّراسِيَّة والجَدوَل",
+        blocks:[
+          { id:1, type:"dialogue", title:"Favorite Subject", desc:"حِوار بَين زَميلَين عَن المَوادّ", icon:"forum", color:"#D4A34A",
+            data:{ title:"مادَّتي المُفَضَّلَة", setting:"طالِبان يَتَكَلَّمان عَن دُروسِهِما",
+              lines:[
+                {spk:"Sami",side:"left",ar:"ما مادَّتُكَ المُفَضَّلَة يا عُمَر؟",en:"What's your favorite subject Omar?"},
+                {spk:"Omar",side:"right",ar:"أُحِبُّ الرِّياضِيَّات كَثيراً",en:"I love mathematics a lot"},
+                {spk:"Sami",side:"left",ar:"حَقّاً؟ أَنا أَجِدُها صَعبَة",en:"Really? I find it difficult"},
+                {spk:"Omar",side:"right",ar:"وَأَنتَ، ما تُحِبّ؟",en:"And you, what do you like?"},
+                {spk:"Sami",side:"left",ar:"أُفَضِّل اللُّغَة العَرَبِيَّة وَالتَّاريخ",en:"I prefer Arabic and history"},
+                {spk:"Omar",side:"right",ar:"التَّاريخ مُمتِع جِدّاً",en:"History is very interesting"},
+                {spk:"Sami",side:"left",ar:"وَكَيفَ العُلوم عِندَك؟",en:"And how is science for you?"},
+                {spk:"Omar",side:"right",ar:"العُلوم سَهلَة لَكِنَّها تَحتاج تَركيز",en:"Science is easy but it needs focus"},
+                {spk:"Sami",side:"left",ar:"عِندَنا اِمتِحان غَداً",en:"We have an exam tomorrow"},
+                {spk:"Omar",side:"right",ar:"يَجِب أَن نَدرُس مَعاً",en:"We must study together"},
+              ],
+              keywords:[
+                {ar:"مادَّة",en:"Subject"},
+                {ar:"مُفَضَّل",en:"Favorite"},
+                {ar:"رِياضِيَّات",en:"Mathematics"},
+                {ar:"تَاريخ",en:"History"},
+                {ar:"عُلوم",en:"Science"},
+                {ar:"اِمتِحان",en:"Exam"},
+              ]
+            }
+          },
+          { id:2, type:"dialogue", title:"The Daily Schedule", desc:"التَّحَدُّث عَن جَدوَل الحِصَص", icon:"forum", color:"#D4A34A",
+            data:{ title:"جَدوَل اليَوم", setting:"طالِبَتان تَنظُران إِلى الجَدوَل",
+              lines:[
+                {spk:"Layla",side:"left",ar:"ما الحِصَّة الأُولى اليَوم؟",en:"What's the first class today?"},
+                {spk:"Sara",side:"right",ar:"الحِصَّة الأُولى عَرَبِيّ",en:"The first class is Arabic"},
+                {spk:"Layla",side:"left",ar:"وَبَعدَها؟",en:"And after it?"},
+                {spk:"Sara",side:"right",ar:"بَعدَها رِياضِيَّات ثُمَّ اِنجِليزِيّ",en:"After it mathematics then English"},
+                {spk:"Layla",side:"left",ar:"مَتى الفُرصَة؟",en:"When is the break?"},
+                {spk:"Sara",side:"right",ar:"الفُرصَة في العاشِرَة وَالنِّصف",en:"Break is at 10:30"},
+                {spk:"Layla",side:"left",ar:"وَمَتى نَنتَهي؟",en:"And when do we finish?"},
+                {spk:"Sara",side:"right",ar:"نَنتَهي في الواحِدَة بَعدَ الظُّهر",en:"We finish at one in the afternoon"},
+                {spk:"Layla",side:"left",ar:"يَوم طَويل!",en:"A long day!"},
+              ],
+              keywords:[
+                {ar:"حِصَّة",en:"Class period"},
+                {ar:"جَدوَل",en:"Schedule"},
+                {ar:"فُرصَة",en:"Break"},
+                {ar:"اِنجِليزِيّ",en:"English"},
+                {ar:"يَنتَهي",en:"To finish"},
+              ]
+            }
+          },
+          { id:3, type:"vocab", title:"School Subjects", desc:"المَوادّ الدِّراسِيَّة", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"اللُّغَة العَرَبِيَّة",en:"Arabic language"},
+              {ar:"اللُّغَة الاِنجِليزِيَّة",en:"English language"},
+              {ar:"الرِّياضِيَّات",en:"Mathematics"},
+              {ar:"العُلوم",en:"Science"},
+              {ar:"التَّاريخ",en:"History"},
+              {ar:"الجُغرافيا",en:"Geography"},
+              {ar:"الفَنّ",en:"Art"},
+              {ar:"الرِّياضَة",en:"Physical education"},
+              {ar:"الكيمياء",en:"Chemistry"},
+              {ar:"الفيزياء",en:"Physics"},
+            ]}
+          },
+          { id:4, type:"grammar", title:"Likes & Preferences", desc:"أُحِبّ، أُفَضِّل، أَكرَه", icon:"psychology", color:"#D4A34A",
+            data:{ title:"Expressing Likes", titleAr:"التَّعبير عَن المَحَبَّة",
+              intro:"To talk about what you like, dislike, or prefer, Arabic uses simple verbs followed by the thing you like.",
+              table:{ cols:["Verb","Meaning"], colW:"1fr 1.5fr",
+                rows:[
+                  {ar:"أُحِبّ",en:"I love / like"},
+                  {ar:"أُفَضِّل",en:"I prefer"},
+                  {ar:"أَكرَه",en:"I hate / dislike"},
+                  {ar:"لا أُحِبّ",en:"I don't like"},
+                  {ar:"يُحِبّ",en:"He loves"},
+                  {ar:"تُحِبّ",en:"She loves"},
+                ]
+              },
+              keyRule:"After these verbs, put 'الـ' (the) before the subject: أُحِبُّ الرِّياضِيَّات (I love mathematics).",
+              examples:[
+                {ar:"أُحِبُّ التَّاريخ",en:"I love history"},
+                {ar:"أُفَضِّل العَرَبِيَّة على الاِنجِليزِيَّة",en:"I prefer Arabic over English"},
+                {ar:"لا أُحِبُّ الاِمتِحانات",en:"I don't like exams"},
+                {ar:"يُحِبُّ أَخي الرِّياضَة",en:"My brother loves sports"},
+              ]
+            }
+          },
+          { id:5, type:"clutter", title:"Sentence Builder", desc:"جُمَل عَن المَوادّ والجَدوَل", icon:"extension", color:"#D4A34A",
+            data:{ passing:70, sentences:[
+              {ar:"أُحِبُّ اللُّغَة العَرَبِيَّة", words:["أُحِبُّ","اللُّغَة","العَرَبِيَّة"]},
+              {ar:"الحِصَّة الأُولى رِياضِيَّات", words:["الحِصَّة","الأُولى","رِياضِيَّات"]},
+              {ar:"عِندَنا اِمتِحان غَداً", words:["عِندَنا","اِمتِحان","غَداً"]},
+              {ar:"أُفَضِّل التَّاريخ على الجُغرافيا", words:["أُفَضِّل","التَّاريخ","على","الجُغرافيا"]},
+              {ar:"الفُرصَة في العاشِرَة", words:["الفُرصَة","في","العاشِرَة"]},
+              {ar:"يُحِبُّ أَخي الفيزياء", words:["يُحِبُّ","أَخي","الفيزياء"]},
+              {ar:"العُلوم تَحتاج تَركيز", words:["العُلوم","تَحتاج","تَركيز"]},
+              {ar:"نَنتَهي في الواحِدَة", words:["نَنتَهي","في","الواحِدَة"]},
+              {ar:"الجَدوَل في الفَصل", words:["الجَدوَل","في","الفَصل"]},
+              {ar:"يَجِب أَن نَدرُسَ مَعاً", words:["يَجِب","أَن","نَدرُسَ","مَعاً"]},
+            ]}
+          }
+        ]
+      }
+    ]
+  }
+,
+  { id:4, title:"Home & Living", color:"#D4A34A", icon:"home",
+    units:[
+      { id:"4.1", title:"Rooms of the House", icon:"home",
         desc:"وصف البيت — ٦-٧ كلمات",
         blocks:[
           { id:1, type:"dialogue", title:"The New Apartment", desc:"خالد يصف شقته لصديقه", icon:"forum", color:"#D4A34A",
@@ -1799,7 +2011,7 @@ const CUR = [
           }
         ]
       },
-      { id:"3.2", title:"Furniture & Belongings", icon:"chair",
+      { id:"4.2", title:"Furniture & Belongings", icon:"chair",
         desc:"الأثاث والضمائر المتصلة — ٧-٨ كلمات",
         blocks:[
           { id:1, type:"dialogue", title:"Shopping for Furniture", desc:"ليلى ورانيا يتسوقان", icon:"forum", color:"#D4A34A",
@@ -1901,7 +2113,7 @@ const CUR = [
       }
 
       ,
-      { id:"3.3", title:"Past Tense — فَعَلَ Pattern", icon:"history_edu",
+      { id:"4.3", title:"Past Tense — فَعَلَ Pattern", icon:"history_edu",
         desc:"نمط الفعل الماضي — مفتاح كل الأفعال",
         blocks:[
           { id:1, type:"dialogue", title:"What Did You Do Yesterday?", desc:"Friends talk about their day", icon:"forum", color:"#D4A34A",
@@ -2000,9 +2212,9 @@ const CUR = [
       }
     ]
   },
-  { id:4, title:"Food & Shopping", color:"#D4A34A", icon:"restaurant",
+  { id:5, title:"Food & Shopping", color:"#D4A34A", icon:"restaurant",
     units:[
-      { id:"4.1", title:"Food & Restaurant", icon:"restaurant",
+      { id:"5.1", title:"Food & Restaurant", icon:"restaurant",
         desc:"في المطعم — مطابقة الصفة — ٨-٩ كلمات",
         blocks:[
           { id:1, type:"dialogue", title:"At the Restaurant", desc:"أحمد وسارة يأكلان في مطعم", icon:"forum", color:"#D4A34A",
@@ -2102,7 +2314,7 @@ const CUR = [
           }
         ]
       },
-      { id:"4.2", title:"Shopping & Prices", icon:"shopping_cart",
+      { id:"5.2", title:"Shopping & Prices", icon:"shopping_cart",
         desc:"السوق والأعداد — ٩-١٠ كلمات",
         blocks:[
           { id:1, type:"dialogue", title:"At the Market", desc:"ليلى تتسوق الخضار والفاكهة", icon:"forum", color:"#D4A34A",
@@ -2205,7 +2417,7 @@ const CUR = [
       }
 
       ,
-      { id:"4.3", title:"Numbers 11-20", icon:"123",
+      { id:"5.3", title:"Numbers 11-20", icon:"123",
         desc:"الأعداد من ١١ إلى ٢٠ — في السوق والحياة",
         blocks:[
           { id:1, type:"dialogue", title:"At the Checkout", desc:"Paying at the supermarket", icon:"forum", color:"#D4A34A",
@@ -2281,9 +2493,9 @@ const CUR = [
       }
     ]
   },
-  { id:5, title:"Time & Daily Life", color:"#D4A34A", icon:"schedule",
+  { id:6, title:"Time & Daily Life", color:"#D4A34A", icon:"schedule",
     units:[
-      { id:"5.1", title:"Daily Routine", icon:"schedule",
+      { id:"6.1", title:"Daily Routine", icon:"schedule",
         desc:"الوقت والأنشطة — ١٠-١٢ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"My Daily Routine", desc:"سامي يصف روتينه اليومي", icon:"forum", color:"#D4A34A",
@@ -2398,7 +2610,7 @@ const CUR = [
           }
         ]
       },
-      { id:"5.2", title:"Travel & Directions", icon:"travel_explore",
+      { id:"6.2", title:"Travel & Directions", icon:"travel_explore",
         desc:"السفر والمستقبل — ١٢-١٥ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"Trip to Cairo", desc:"أحمد يخطط لرحلة", icon:"forum", color:"#D4A34A",
@@ -2503,7 +2715,7 @@ const CUR = [
       }
 
       ,
-      { id:"5.3", title:"Weather & Seasons", icon:"wb_sunny",
+      { id:"6.3", title:"Weather & Seasons", icon:"wb_sunny",
         desc:"الطقس والفصول — كلمات يومية",
         blocks:[
           { id:1, type:"dialogue", title:"How's the Weather?", desc:"Friends talk about the weather", icon:"forum", color:"#D4A34A",
@@ -2605,9 +2817,9 @@ const CUR = [
     ]
   }
 ,
-  { id:6, title:"Health & Medical", color:"#D4A34A", icon:"local_hospital",
+  { id:7, title:"Health & Medical", color:"#D4A34A", icon:"local_hospital",
     units:[
-      { id:"6.1", title:"Body & Symptoms", icon:"personal_injury",
+      { id:"7.1", title:"Body & Symptoms", icon:"personal_injury",
         desc:"Describing how you feel — 15-18 words",
         blocks:[
           { id:1, type:"dialogue", title:"I Don't Feel Well", desc:"Omar tells his wife he is sick", icon:"forum", color:"#D4A34A",
@@ -2710,7 +2922,7 @@ const CUR = [
           }
         ]
       },
-      { id:"6.2", title:"At the Doctor", icon:"medical_services",
+      { id:"7.2", title:"At the Doctor", icon:"medical_services",
         desc:"عند الطبيب — ١٦-١٨ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"Doctor's Appointment", desc:"Salma visits the doctor", icon:"forum", color:"#D4A34A",
@@ -2811,9 +3023,9 @@ const CUR = [
       }
     ]
   },
-  { id:7, title:"Grocery & Supermarket", color:"#D4A34A", icon:"local_grocery_store",
+  { id:8, title:"Grocery & Supermarket", color:"#D4A34A", icon:"local_grocery_store",
     units:[
-      { id:"7.1", title:"At the Supermarket", icon:"shopping_cart",
+      { id:"8.1", title:"At the Supermarket", icon:"shopping_cart",
         desc:"في السوبرماركت — ١٨-٢٠ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"Weekly Shopping", desc:"Rania does weekly grocery shopping", icon:"forum", color:"#D4A34A",
@@ -2913,7 +3125,7 @@ const CUR = [
           }
         ]
       },
-      { id:"7.2", title:"Fresh Market & Cooking", icon:"storefront",
+      { id:"8.2", title:"Fresh Market & Cooking", icon:"storefront",
         desc:"السوق الشعبي والطبخ — ١٨-٢٠ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"At the Fresh Market", desc:"Salma buys vegetables at the market", icon:"forum", color:"#D4A34A",
@@ -3012,9 +3224,9 @@ const CUR = [
       }
     ]
   },
-  { id:8, title:"Shopping & Mall", color:"#D4A34A", icon:"shopping_bag",
+  { id:9, title:"Shopping & Mall", color:"#D4A34A", icon:"shopping_bag",
     units:[
-      { id:"8.1", title:"At the Mall", icon:"store",
+      { id:"9.1", title:"At the Mall", icon:"store",
         desc:"في المول — ٢٠-٢٢ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"A Day at the Mall", desc:"Family spends the day at the mall", icon:"forum", color:"#D4A34A",
@@ -3113,7 +3325,7 @@ const CUR = [
           }
         ]
       },
-      { id:"8.2", title:"Clothes & Prices", icon:"sell",
+      { id:"9.2", title:"Clothes & Prices", icon:"sell",
         desc:"الملابس والأسعار — ٢٢-٢٥ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"Buying a Suit", desc:"Kareem buys a suit for work", icon:"forum", color:"#D4A34A",
@@ -3213,9 +3425,9 @@ const CUR = [
   }
 
 ,
-  { id:9, title:"Transportation", color:"#D4A34A", icon:"directions_car",
+  { id:10, title:"Transportation", color:"#D4A34A", icon:"directions_car",
     units:[
-      { id:"9.1", title:"Types of Vehicles", icon:"directions_car",
+      { id:"10.1", title:"Types of Vehicles", icon:"directions_car",
         desc:"وسائل النقل — ٢٠-٢٢ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"How Do We Get There?", desc:"Friends decide how to travel", icon:"forum", color:"#D4A34A",
@@ -3316,7 +3528,7 @@ const CUR = [
           }
         ]
       },
-      { id:"9.2", title:"Inside a Vehicle", icon:"airline_seat_recline_normal",
+      { id:"10.2", title:"Inside a Vehicle", icon:"airline_seat_recline_normal",
         desc:"داخل السيارة — كلمات يومية بسيطة",
         blocks:[
           { id:1, type:"dialogue", title:"First Driving Lesson", desc:"Father teaches son to drive", icon:"forum", color:"#D4A34A",
@@ -3420,9 +3632,9 @@ const CUR = [
   }
 
   ,
-  { id:10, title:"Nature & Outdoors", color:"#D4A34A", icon:"park",
+  { id:11, title:"Nature & Outdoors", color:"#D4A34A", icon:"park",
     units:[
-      { id:"10.1", title:"At the Farm", icon:"agriculture",
+      { id:"11.1", title:"At the Farm", icon:"agriculture",
         desc:"في المزرعة — ٢٢-٢٤ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"A Day at the Farm", desc:"Father and son visit a farm", icon:"forum", color:"#D4A34A",
@@ -3523,7 +3735,7 @@ const CUR = [
           }
         ]
       },
-      { id:"10.2", title:"At the Zoo", icon:"pets",
+      { id:"11.2", title:"At the Zoo", icon:"pets",
         desc:"في حديقة الحيوان — ٢٢-٢٥ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"Family Day at the Zoo", desc:"Family visits the zoo on a weekend", icon:"forum", color:"#D4A34A",
@@ -3623,7 +3835,7 @@ const CUR = [
           }
         ]
       },
-      { id:"10.3", title:"In the Garden", icon:"yard",
+      { id:"11.3", title:"In the Garden", icon:"yard",
         desc:"في الحديقة — ٢٢-٢٥ كلمة",
         blocks:[
           { id:1, type:"dialogue", title:"Neighbours Talk Gardens", desc:"Two neighbours discuss their gardens", icon:"forum", color:"#D4A34A",
@@ -3721,218 +3933,6 @@ const CUR = [
               {ar:"مَن زَرَعَ شَجَرَة فَكَأَنَّما أَحيا نَفساً وَأَحسَنَ إِلى البِيئَة", words:["مَن","زَرَعَ","شَجَرَة","فَكَأَنَّما","أَحيا","نَفساً","وَأَحسَنَ","إِلى","البِيئَة"]},
               {ar:"كانَ طِفلاً صَغِيراً وَأَصبَحَ اليَوم عالِماً كَبِيراً مَشهُوراً", words:["كانَ","طِفلاً","صَغِيراً","وَأَصبَحَ","اليَوم","عالِماً","كَبِيراً","مَشهُوراً"]},
               {ar:"الحَدِيقَة أَمانَة في أَيدِينا يَجِب أَن نَحفَظَها وَنَهتَمَّ بِها", words:["الحَدِيقَة","أَمانَة","في","أَيدِينا","يَجِب","أَن","نَحفَظَها","وَنَهتَمَّ","بِها"]},
-            ]}
-          }
-        ]
-      }
-    ]
-  }
-,
-  { id:11, title:"Classroom & School", color:"#D4A34A", icon:"school",
-    units:[
-      { id:"11.1", title:"In the Classroom", icon:"school",
-        desc:"داخل الفَصل — الأَدَوات والأَشخاص",
-        blocks:[
-          { id:1, type:"dialogue", title:"First Day of School", desc:"الطُّلَّاب يَتَعَرَّفُون في الفَصل", icon:"forum", color:"#D4A34A",
-            data:{ title:"اليَوم الأَوَّل في المَدرَسَة", setting:"الأُستاذ يُرَحِّب بِالطُّلَّاب الجُدُد",
-              lines:[
-                {spk:"Teacher",side:"left",ar:"صَباحَ الخَير يا طُلَّاب",en:"Good morning students"},
-                {spk:"Students",side:"right",ar:"صَباحَ النُّور يا أُستاذ",en:"Good morning teacher"},
-                {spk:"Teacher",side:"left",ar:"اسْمي الأُستاذ سامِر، أَهلاً بِكُم",en:"My name is teacher Samer, welcome"},
-                {spk:"Teacher",side:"left",ar:"أَنا مُدَرِّس اللُّغَة العَرَبِيَّة",en:"I am the Arabic language teacher"},
-                {spk:"Student",side:"right",ar:"أَهلاً بِكَ يا أُستاذ",en:"Welcome teacher"},
-                {spk:"Teacher",side:"left",ar:"اِفتَحوا كُتُبَكُم على الصَّفحَة الأُولى",en:"Open your books to page one"},
-                {spk:"Student",side:"right",ar:"حاضِر يا أُستاذ",en:"Yes, teacher"},
-                {spk:"Teacher",side:"left",ar:"مَن يُريد أَن يَقرَأ؟",en:"Who wants to read?"},
-                {spk:"Student",side:"right",ar:"أَنا يا أُستاذ",en:"Me, teacher"},
-                {spk:"Teacher",side:"left",ar:"تَفَضَّل يا أَحمَد",en:"Go ahead Ahmad"},
-              ],
-              keywords:[
-                {ar:"أُستاذ",en:"Teacher (m)"},
-                {ar:"مُدَرِّس",en:"Teacher / Instructor"},
-                {ar:"طالِب",en:"Student (m)"},
-                {ar:"كِتاب",en:"Book"},
-                {ar:"صَفحَة",en:"Page"},
-                {ar:"اِفتَح",en:"Open (command)"},
-                {ar:"تَفَضَّل",en:"Go ahead / Please"},
-              ]
-            }
-          },
-          { id:2, type:"dialogue", title:"Asking a Question", desc:"الطّالِب يَسأَل المُدَرِّس", icon:"forum", color:"#D4A34A",
-            data:{ title:"سُؤال في الفَصل", setting:"الطّالِب لا يَفهَم وَيَطلُب المُساعَدَة",
-              lines:[
-                {spk:"Student",side:"left",ar:"يا أُستاذ، عِندي سُؤال",en:"Teacher, I have a question"},
-                {spk:"Teacher",side:"right",ar:"تَفَضَّل، ما هُوَ سُؤالُكَ؟",en:"Go ahead, what is your question?"},
-                {spk:"Student",side:"left",ar:"لا أَفهَم هذِهِ الكَلِمَة",en:"I don't understand this word"},
-                {spk:"Teacher",side:"right",ar:"أَيُّ كَلِمَة؟",en:"Which word?"},
-                {spk:"Student",side:"left",ar:"كَلِمَة 'مَكتَبَة'",en:"The word 'maktaba' (library)"},
-                {spk:"Teacher",side:"right",ar:"المَكتَبَة هِيَ المَكان الَّذي فيهِ كُتُب كَثيرَة",en:"A library is the place that has many books"},
-                {spk:"Student",side:"left",ar:"شُكراً يا أُستاذ، فَهِمتُ الآن",en:"Thank you teacher, I understand now"},
-                {spk:"Teacher",side:"right",ar:"عَفواً، أَيُّ سُؤال آخَر؟",en:"You're welcome, any other question?"},
-                {spk:"Student",side:"left",ar:"لا، شُكراً، هذا كافٍ",en:"No, thank you, this is enough"},
-                {spk:"Teacher",side:"right",ar:"أَحسَنتَ، اِجلِس مِن فَضلِكَ",en:"Well done, please sit down"},
-              ],
-              keywords:[
-                {ar:"سُؤال",en:"Question"},
-                {ar:"أَفهَم",en:"I understand"},
-                {ar:"كَلِمَة",en:"Word"},
-                {ar:"مَكتَبَة",en:"Library"},
-                {ar:"عَفواً",en:"You're welcome"},
-                {ar:"أَحسَنتَ",en:"Well done"},
-              ]
-            }
-          },
-          { id:3, type:"vocab", title:"Classroom Vocabulary", desc:"١٠ كَلِمات عَن الفَصل", icon:"translate", color:"#D4A34A",
-            data:{ words:[
-              {ar:"فَصل",en:"Classroom"},
-              {ar:"مَدرَسَة",en:"School"},
-              {ar:"أُستاذ",en:"Teacher (m)"},
-              {ar:"أُستاذَة",en:"Teacher (f)"},
-              {ar:"طالِب",en:"Student (m)"},
-              {ar:"طالِبَة",en:"Student (f)"},
-              {ar:"كِتاب",en:"Book"},
-              {ar:"دَفتَر",en:"Notebook"},
-              {ar:"قَلَم",en:"Pen"},
-              {ar:"سَبُّورَة",en:"Blackboard"},
-            ]}
-          },
-          { id:4, type:"grammar", title:"Command Form (Imperative)", desc:"اِفتَح، اِقرَأ، اُكتُب", icon:"psychology", color:"#D4A34A",
-            data:{ title:"The Command (Imperative)", titleAr:"فِعل الأَمر",
-              intro:"In the classroom, teachers use the command form constantly. The command tells someone to do something directly.",
-              table:{ cols:["Command","Meaning"], colW:"1fr 1.5fr",
-                rows:[
-                  {ar:"اِفتَح",en:"Open"},
-                  {ar:"اِقرَأ",en:"Read"},
-                  {ar:"اُكتُب",en:"Write"},
-                  {ar:"اُنظُر",en:"Look"},
-                  {ar:"اِسمَع",en:"Listen"},
-                  {ar:"تَكَلَّم",en:"Speak"},
-                  {ar:"اِجلِس",en:"Sit down"},
-                  {ar:"قِف",en:"Stand up"},
-                ]
-              },
-              keyRule:"To make the feminine, add ي at the end. For plural, add وا. So 'open' becomes اِفتَحي (f) or اِفتَحوا (pl).",
-              examples:[
-                {ar:"اِفتَح الكِتاب",en:"Open the book (m)"},
-                {ar:"اِقرَئي هذِهِ الجُملَة",en:"Read this sentence (f)"},
-                {ar:"اُكتُبوا الواجِب",en:"Write the homework (pl)"},
-                {ar:"اِسمَع جَيِّداً",en:"Listen carefully"},
-              ]
-            }
-          },
-          { id:5, type:"clutter", title:"Sentence Builder", desc:"جُمَل عَن الفَصل والمَدرَسَة", icon:"extension", color:"#D4A34A",
-            data:{ passing:70, sentences:[
-              {ar:"أَنا طالِب في المَدرَسَة", words:["أَنا","طالِب","في","المَدرَسَة"]},
-              {ar:"المُدَرِّس في الفَصل", words:["المُدَرِّس","في","الفَصل"]},
-              {ar:"اِفتَح الكِتاب يا أَحمَد", words:["اِفتَح","الكِتاب","يا","أَحمَد"]},
-              {ar:"الطّالِبَة تَكتُب الواجِب", words:["الطّالِبَة","تَكتُب","الواجِب"]},
-              {ar:"عِندي قَلَم وَدَفتَر", words:["عِندي","قَلَم","وَدَفتَر"]},
-              {ar:"المُدَرِّسَة تَشرَح الدَّرس", words:["المُدَرِّسَة","تَشرَح","الدَّرس"]},
-              {ar:"اُكتُبوا على السَّبُّورَة", words:["اُكتُبوا","على","السَّبُّورَة"]},
-              {ar:"الكِتاب على الطّاوِلَة", words:["الكِتاب","على","الطّاوِلَة"]},
-              {ar:"المَكتَبَة فيها كُتُب كَثيرَة", words:["المَكتَبَة","فيها","كُتُب","كَثيرَة"]},
-              {ar:"الطُّلَّاب يَدرُسُون اللُّغَة العَرَبِيَّة", words:["الطُّلَّاب","يَدرُسُون","اللُّغَة","العَرَبِيَّة"]},
-            ]}
-          }
-        ]
-      },
-      { id:"11.2", title:"Subjects & Schedule", icon:"calendar_month",
-        desc:"المَوادّ الدِّراسِيَّة والجَدوَل",
-        blocks:[
-          { id:1, type:"dialogue", title:"Favorite Subject", desc:"حِوار بَين زَميلَين عَن المَوادّ", icon:"forum", color:"#D4A34A",
-            data:{ title:"مادَّتي المُفَضَّلَة", setting:"طالِبان يَتَكَلَّمان عَن دُروسِهِما",
-              lines:[
-                {spk:"Sami",side:"left",ar:"ما مادَّتُكَ المُفَضَّلَة يا عُمَر؟",en:"What's your favorite subject Omar?"},
-                {spk:"Omar",side:"right",ar:"أُحِبُّ الرِّياضِيَّات كَثيراً",en:"I love mathematics a lot"},
-                {spk:"Sami",side:"left",ar:"حَقّاً؟ أَنا أَجِدُها صَعبَة",en:"Really? I find it difficult"},
-                {spk:"Omar",side:"right",ar:"وَأَنتَ، ما تُحِبّ؟",en:"And you, what do you like?"},
-                {spk:"Sami",side:"left",ar:"أُفَضِّل اللُّغَة العَرَبِيَّة وَالتَّاريخ",en:"I prefer Arabic and history"},
-                {spk:"Omar",side:"right",ar:"التَّاريخ مُمتِع جِدّاً",en:"History is very interesting"},
-                {spk:"Sami",side:"left",ar:"وَكَيفَ العُلوم عِندَك؟",en:"And how is science for you?"},
-                {spk:"Omar",side:"right",ar:"العُلوم سَهلَة لَكِنَّها تَحتاج تَركيز",en:"Science is easy but it needs focus"},
-                {spk:"Sami",side:"left",ar:"عِندَنا اِمتِحان غَداً",en:"We have an exam tomorrow"},
-                {spk:"Omar",side:"right",ar:"يَجِب أَن نَدرُس مَعاً",en:"We must study together"},
-              ],
-              keywords:[
-                {ar:"مادَّة",en:"Subject"},
-                {ar:"مُفَضَّل",en:"Favorite"},
-                {ar:"رِياضِيَّات",en:"Mathematics"},
-                {ar:"تَاريخ",en:"History"},
-                {ar:"عُلوم",en:"Science"},
-                {ar:"اِمتِحان",en:"Exam"},
-              ]
-            }
-          },
-          { id:2, type:"dialogue", title:"The Daily Schedule", desc:"التَّحَدُّث عَن جَدوَل الحِصَص", icon:"forum", color:"#D4A34A",
-            data:{ title:"جَدوَل اليَوم", setting:"طالِبَتان تَنظُران إِلى الجَدوَل",
-              lines:[
-                {spk:"Layla",side:"left",ar:"ما الحِصَّة الأُولى اليَوم؟",en:"What's the first class today?"},
-                {spk:"Sara",side:"right",ar:"الحِصَّة الأُولى عَرَبِيّ",en:"The first class is Arabic"},
-                {spk:"Layla",side:"left",ar:"وَبَعدَها؟",en:"And after it?"},
-                {spk:"Sara",side:"right",ar:"بَعدَها رِياضِيَّات ثُمَّ اِنجِليزِيّ",en:"After it mathematics then English"},
-                {spk:"Layla",side:"left",ar:"مَتى الفُرصَة؟",en:"When is the break?"},
-                {spk:"Sara",side:"right",ar:"الفُرصَة في العاشِرَة وَالنِّصف",en:"Break is at 10:30"},
-                {spk:"Layla",side:"left",ar:"وَمَتى نَنتَهي؟",en:"And when do we finish?"},
-                {spk:"Sara",side:"right",ar:"نَنتَهي في الواحِدَة بَعدَ الظُّهر",en:"We finish at one in the afternoon"},
-                {spk:"Layla",side:"left",ar:"يَوم طَويل!",en:"A long day!"},
-              ],
-              keywords:[
-                {ar:"حِصَّة",en:"Class period"},
-                {ar:"جَدوَل",en:"Schedule"},
-                {ar:"فُرصَة",en:"Break"},
-                {ar:"اِنجِليزِيّ",en:"English"},
-                {ar:"يَنتَهي",en:"To finish"},
-              ]
-            }
-          },
-          { id:3, type:"vocab", title:"School Subjects", desc:"المَوادّ الدِّراسِيَّة", icon:"translate", color:"#D4A34A",
-            data:{ words:[
-              {ar:"اللُّغَة العَرَبِيَّة",en:"Arabic language"},
-              {ar:"اللُّغَة الاِنجِليزِيَّة",en:"English language"},
-              {ar:"الرِّياضِيَّات",en:"Mathematics"},
-              {ar:"العُلوم",en:"Science"},
-              {ar:"التَّاريخ",en:"History"},
-              {ar:"الجُغرافيا",en:"Geography"},
-              {ar:"الفَنّ",en:"Art"},
-              {ar:"الرِّياضَة",en:"Physical education"},
-              {ar:"الكيمياء",en:"Chemistry"},
-              {ar:"الفيزياء",en:"Physics"},
-            ]}
-          },
-          { id:4, type:"grammar", title:"Likes & Preferences", desc:"أُحِبّ، أُفَضِّل، أَكرَه", icon:"psychology", color:"#D4A34A",
-            data:{ title:"Expressing Likes", titleAr:"التَّعبير عَن المَحَبَّة",
-              intro:"To talk about what you like, dislike, or prefer, Arabic uses simple verbs followed by the thing you like.",
-              table:{ cols:["Verb","Meaning"], colW:"1fr 1.5fr",
-                rows:[
-                  {ar:"أُحِبّ",en:"I love / like"},
-                  {ar:"أُفَضِّل",en:"I prefer"},
-                  {ar:"أَكرَه",en:"I hate / dislike"},
-                  {ar:"لا أُحِبّ",en:"I don't like"},
-                  {ar:"يُحِبّ",en:"He loves"},
-                  {ar:"تُحِبّ",en:"She loves"},
-                ]
-              },
-              keyRule:"After these verbs, put 'الـ' (the) before the subject: أُحِبُّ الرِّياضِيَّات (I love mathematics).",
-              examples:[
-                {ar:"أُحِبُّ التَّاريخ",en:"I love history"},
-                {ar:"أُفَضِّل العَرَبِيَّة على الاِنجِليزِيَّة",en:"I prefer Arabic over English"},
-                {ar:"لا أُحِبُّ الاِمتِحانات",en:"I don't like exams"},
-                {ar:"يُحِبُّ أَخي الرِّياضَة",en:"My brother loves sports"},
-              ]
-            }
-          },
-          { id:5, type:"clutter", title:"Sentence Builder", desc:"جُمَل عَن المَوادّ والجَدوَل", icon:"extension", color:"#D4A34A",
-            data:{ passing:70, sentences:[
-              {ar:"أُحِبُّ اللُّغَة العَرَبِيَّة", words:["أُحِبُّ","اللُّغَة","العَرَبِيَّة"]},
-              {ar:"الحِصَّة الأُولى رِياضِيَّات", words:["الحِصَّة","الأُولى","رِياضِيَّات"]},
-              {ar:"عِندَنا اِمتِحان غَداً", words:["عِندَنا","اِمتِحان","غَداً"]},
-              {ar:"أُفَضِّل التَّاريخ على الجُغرافيا", words:["أُفَضِّل","التَّاريخ","على","الجُغرافيا"]},
-              {ar:"الفُرصَة في العاشِرَة", words:["الفُرصَة","في","العاشِرَة"]},
-              {ar:"يُحِبُّ أَخي الفيزياء", words:["يُحِبُّ","أَخي","الفيزياء"]},
-              {ar:"العُلوم تَحتاج تَركيز", words:["العُلوم","تَحتاج","تَركيز"]},
-              {ar:"نَنتَهي في الواحِدَة", words:["نَنتَهي","في","الواحِدَة"]},
-              {ar:"الجَدوَل في الفَصل", words:["الجَدوَل","في","الفَصل"]},
-              {ar:"يَجِب أَن نَدرُسَ مَعاً", words:["يَجِب","أَن","نَدرُسَ","مَعاً"]},
             ]}
           }
         ]
