@@ -1667,6 +1667,17 @@ function mkHub(){
   hero.appendChild(el('p',{className:'hub-sub'},'Your journey through the celestial script. Master the fundamentals of Quranic reading step by step.'));
   wrap.appendChild(hero);
 
+  // ── Streak-aware recommendation ──
+  const realStreak = parseInt(localStorage.getItem('lisaany_streak_real')||'0');
+  if (realStreak > 0 && COMPLETED.size < 8) {
+    const rec = div('');
+    rec.style.cssText = 'background:rgba(10,14,24,.8);border:1px solid rgba(212,163,74,.25);border-radius:18px;padding:16px 18px;margin:10px 0 20px;text-align:center;';
+    const nextLesson = LESSONS.find(l => !COMPLETED.has(l.id));
+    rec.innerHTML = `<span style="font-size:12px;color:#b8a884;">🔥 ${realStreak}-day streak!</span><br>
+    <span style="font-size:14px;color:#c4bca6;">Today’s recommendation: <strong>Lesson ${nextLesson ? nextLesson.id : '1'} — ${nextLesson ? nextLesson.title : 'The Alphabet'}</strong></span>`;
+    wrap.appendChild(rec);
+  }
+
   const road=div('roadmap');
   const activeId=S.lesson;
   LESSONS.forEach(meta=>{
@@ -1914,6 +1925,34 @@ function buildSlide(slide,el_){
 
 
 // ═══════════════════════════════════════════════
+// COACH TIP — pre-practice study hint per lesson
+// ═══════════════════════════════════════════════
+function mkCoachTip(lessonId) {
+  const tips = {
+    4: "Tip: A Sukun (ْ) silences a letter — like a mini pause inside the word.",
+    5: "Tip: Tanween only appears at the end of nouns. It adds the sound of Noon + vowel.",
+    6: "Tip: Shaddah (ّ) doubles a letter. Say 'rabb' not 'rab' — hold the consonant.",
+    7: "Tip: Hamzatul Wasl only appears at the beginning. If you connect from before, skip it!",
+    8: "Tip: Laam At-Taʿreef means 'the'. If the next letter is one of the Sun letters, the Laam is silent.",
+  };
+  const text = tips[lessonId];
+  if (!text) return null;
+  const card = div('');
+  card.style.cssText = 'background:rgba(10,14,24,.85);border:1px solid rgba(212,163,74,.3);border-radius:18px;padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:10px;';
+  const ic = el('span',{className:'prac-tip-icon'},'💡');
+  const p = el('p',{style:{fontSize:'14px',color:'var(--text)',lineHeight:'1.6'}});
+  p.innerHTML = text;
+  card.appendChild(ic);
+  card.appendChild(p);
+  // dismiss button
+  const x = el('button',{style:{marginLeft:'auto',background:'none',border:'none',color:'var(--dim)',cursor:'pointer',fontSize:'18px'}},'✕');
+  x.addEventListener('click',()=>{ S.coachTipDismissed = true; render(); });
+  card.appendChild(x);
+  return card;
+}
+
+
+// ═══════════════════════════════════════════════
 // LESSON
 // ═══════════════════════════════════════════════
 function mkLesson(){
@@ -1923,6 +1962,19 @@ function mkLesson(){
   if(meta.type==='morph')   return mkMaadLesson();
   // Rules lessons with a video play it first
   if(!S.videoWatched && LESSON_VIDEOS[S.lesson]) return mkLessonVideo();
+
+  // Rules lessons get a one-time coach tip prepended above the examples view
+  if (!S.coachTipDismissed) {
+    const tip = mkCoachTip(S.lesson);
+    if (tip) {
+      const view = mkExamplesView();
+      const tipPh = div('phase-label', [div('phase-dot'), document.createTextNode('Quick Tip')]);
+      // Prepend "Quick Tip" phase label and the tip card at the top of the existing stage
+      view.insertBefore(tip, view.firstChild);
+      view.insertBefore(tipPh, view.firstChild);
+      return view;
+    }
+  }
   return mkExamplesView();
 }
 
@@ -3124,6 +3176,22 @@ function mkComplete(){
   wrap.appendChild(barw);
   wrap.appendChild(el('p',{style:{fontSize:'12px',color:'var(--dim)',textAlign:'center'}},
     COMPLETED.size+' of 8 lessons complete'));
+
+  // ── Weak-area analysis ──
+  if (S.assessWrong > 0) {
+    const reviewCard = div('xp-card');
+    reviewCard.style.cssText = 'width:100%;margin-top:8px;';
+    reviewCard.appendChild(el('p',{style:{fontSize:'13px',color:'var(--dim)',lineHeight:'1.6',textAlign:'center'}},
+      `You missed ${S.assessWrong} question${S.assessWrong>1?'s':''}. Review the introduction slides again to strengthen your grasp.`));
+    const replayBtn = el('button',{className:'btn btn-ghost',style:{marginTop:'12px',width:'100%'}},'🔁 Replay Intro Slides');
+    replayBtn.addEventListener('click',()=>{
+      S.phase = 'intro';
+      S.slide = 0;
+      render();
+    });
+    reviewCard.appendChild(replayBtn);
+    wrap.appendChild(reviewCard);
+  }
 
   // Buttons
   const nav = div('action-row');
