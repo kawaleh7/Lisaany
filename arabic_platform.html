@@ -4854,6 +4854,7 @@ function render(){
   else if(v==='units') sc.appendChild(mkUnits());
   else if(v==='blocks') sc.appendChild(mkBlocks());
   else if(v==='lesson') sc.appendChild(mkLesson());
+  else if(v==='review') sc.appendChild(mkReview());
   else if(v==='complete') sc.appendChild(mkComplete());
   app.appendChild(sc);
   app.appendChild(mkNav());
@@ -6165,6 +6166,133 @@ function advCloze(d){
 }
 
 // ══════════════════════════════════════════════════════
+// PEDAGOGY: END-OF-UNIT REVIEW
+// ══════════════════════════════════════════════════════
+// 5 vocabulary items, tap-to-reveal flashcards, no scoring.
+// Surfaces between completing the last block of a unit and advancing to the next unit.
+// Pulls items from the unit's vocab block. If no vocab block exists, gracefully skips.
+function mkReview(){
+  const w = div('stage');
+  const unit = getUnit(S.mId, S.uId);
+
+  // Initialize review item pool on first entry
+  if(!S.reviewItems){
+    let pool = [];
+    if(unit){
+      const vocabBlk = unit.blocks.find(b => b.type === 'vocab');
+      if(vocabBlk){
+        (vocabBlk.data?.words || []).forEach(entry => {
+          const arParts = (entry.ar||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+          const enParts = (entry.en||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+          if(arParts.length > 1 && arParts.length === enParts.length){
+            arParts.forEach((ar, i) => pool.push({ar, en: enParts[i]}));
+          } else if(entry.ar && entry.en){
+            pool.push({ar: entry.ar, en: entry.en});
+          }
+        });
+      }
+    }
+    S.reviewItems = shuffle(pool).slice(0, Math.min(5, pool.length));
+    S.reviewIdx = 0;
+    S.reviewFlipped = false;
+  }
+
+  // Graceful exit if no review items available
+  if(!S.reviewItems || S.reviewItems.length === 0){
+    S.reviewItems = null;
+    S.view = 'units';
+    setTimeout(render, 0);
+    return w;
+  }
+
+  const items = S.reviewItems;
+  const total = items.length;
+  const cur = items[S.reviewIdx];
+
+  // Header
+  const ph = div('phase-label');
+  ph.appendChild(div('phase-dot'));
+  ph.appendChild(document.createTextNode(' Quick Review · ' + (S.reviewIdx+1) + ' / ' + total));
+  w.appendChild(ph);
+  w.appendChild(el('h2',{className:'page-title'},'Before you move on...'));
+  w.appendChild(el('p',{className:'page-sub'},'Tap each card to check your recall. No score, no penalty — just reinforcement.'));
+
+  // Progress bar
+  const pb = div('');
+  pb.style.cssText = 'height:4px;background:rgba(212,163,74,.12);border-radius:2px;margin:14px 0 24px;overflow:hidden;';
+  const pf = div('');
+  pf.style.cssText = `height:100%;background:var(--gold);width:${Math.round(((S.reviewIdx + (S.reviewFlipped ? 0.5 : 0))/total)*100)}%;transition:width .3s;`;
+  pb.appendChild(pf);
+  w.appendChild(pb);
+
+  // Flashcard
+  const card = div('');
+  card.style.cssText = `
+    background:linear-gradient(180deg,rgba(212,163,74,.06),rgba(212,163,74,.02));
+    border:1.5px solid rgba(212,163,74,.3);border-radius:18px;
+    padding:40px 24px;text-align:center;cursor:pointer;
+    min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    transition:all .25s;
+  `;
+  card.addEventListener('click', () => {
+    if(!S.reviewFlipped){
+      S.reviewFlipped = true;
+      try { speak(cur.ar); } catch(e){}
+      render();
+    } else {
+      if(S.reviewIdx < total - 1){
+        S.reviewIdx++;
+        S.reviewFlipped = false;
+        render();
+      } else {
+        // Review complete — clear state and advance
+        S.reviewItems = null;
+        S.reviewIdx = 0;
+        S.reviewFlipped = false;
+        S.view = 'units';
+        render();
+      }
+    }
+  });
+
+  // Arabic (always shown, large)
+  card.appendChild(el('div',{style:{
+    fontFamily:"'Amiri',serif",fontSize:'36px',color:'var(--gold)',
+    direction:'rtl',lineHeight:'1.4'
+  }}, cur.ar));
+
+  if(S.reviewFlipped){
+    card.appendChild(el('div',{style:{
+      fontSize:'18px',color:'var(--text)',fontStyle:'italic',lineHeight:'1.4'
+    }}, cur.en || '—'));
+    card.appendChild(el('div',{style:{
+      fontSize:'10px',color:'var(--dim)',letterSpacing:'.12em',textTransform:'uppercase',marginTop:'10px',fontWeight:'700'
+    }}, S.reviewIdx < total - 1 ? 'Tap for next →' : 'Tap to continue →'));
+  } else {
+    card.appendChild(el('div',{style:{
+      fontSize:'10px',color:'var(--dim)',letterSpacing:'.12em',textTransform:'uppercase',marginTop:'10px',fontWeight:'700'
+    }}, '✦ Tap to reveal meaning'));
+  }
+
+  w.appendChild(card);
+
+  // Skip link (small, ghost) for users who genuinely don't want it
+  const skip = el('button',{
+    style:{
+      width:'100%',marginTop:'18px',padding:'10px',border:'none',background:'transparent',
+      color:'var(--dim)',fontSize:'11px',letterSpacing:'.06em',cursor:'pointer',textDecoration:'underline'
+    },
+    onclick: ()=>{
+      S.reviewItems = null; S.reviewIdx = 0; S.reviewFlipped = false;
+      S.view = 'units'; render();
+    }
+  },'Skip review');
+  w.appendChild(skip);
+
+  return w;
+}
+
+// ══════════════════════════════════════════════════════
 // FINISH BLOCK
 // ══════════════════════════════════════════════════════
 function finishBlock(){ setBlock(S.mId,S.uId,S.bId,'done'); XP+=15; STREAK+=1; save(); S.view='complete'; render(); }
@@ -6193,7 +6321,13 @@ function mkComplete(){
   const nav=div('action-row');
   nav.appendChild(el('button',{className:'btn btn-ghost btn-block',onclick:()=>{S.view='blocks';render();}},'← All Blocks'));
   if(nextBId&&!allDone){ nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{ S.bId=nextBId; resetBS(); S.view='lesson'; render(); }},'Block '+nextBId+': '+getBlk(S.mId,S.uId,nextBId)?.title+' →')); }
-  else if(allDone){ nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{S.view='units';render();}},'Next Unit →')); }
+  else if(allDone){ nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{
+    S.reviewItems = null; // force fresh build for this unit
+    S.reviewIdx = 0;
+    S.reviewFlipped = false;
+    S.view='review';
+    render();
+  }},'Quick Review →')); }
   w.appendChild(nav);
   const st=div('stage'); st.appendChild(w); return st;
 }
