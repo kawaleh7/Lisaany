@@ -612,6 +612,8 @@ html, body {
 
 
 
+
+
 <div class="page">
 
   <!-- Nav -->
@@ -794,9 +796,9 @@ html, body {
 
   <!-- Quote card -->
   <div class="quote-card">
-    <div class="quote-ar">طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِم</div>
-    <div class="quote-en">"Seeking knowledge is an obligation upon every Muslim."</div>
-    <div class="quote-src">— Prophet Muhammad ﷺ · Sunan Ibn Majah, 224</div>
+    <div class="quote-ar">بِلِسَانٍ عَرَبِيٍّ مُبِينٍ</div>
+    <div class="quote-en">"In a clear Arabic tongue."</div>
+    <div class="quote-src">— Qur'an · Ash-Shu'arā</div>
   </div>
 
 </div>
@@ -873,8 +875,9 @@ try {
     parseInt(localStorage.getItem('lisaany_ap_str')||'0')
   );
 } catch(e){}
-const streakEl = document.getElementById('streak-val');
-if (streakEl) streakEl.textContent = streak;
+// Guard: streak-val element may not exist on every page state — write only if present
+const _stEl = document.getElementById('streak-val');
+if (_stEl) _stEl.textContent = streak;
 
 // ── Supabase auth ──
 const { createClient: createSbClient } = supabase;
