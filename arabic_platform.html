@@ -6527,7 +6527,10 @@ function finishBlock(){ setBlock(S.mId,S.uId,S.bId,'done'); XP+=15; STREAK+=1; s
 function mkComplete(){
   const blk=getBlk(S.mId,S.uId,S.bId); const unit=getUnit(S.mId,S.uId); const mod=getMod(S.mId);
   const allDone=unit.blocks.every(b=>getBlock_(S.mId,S.uId,b.id)==='done');
-  const nextBId=S.bId<4?S.bId+1:null;
+  // Find the next block in the unit's actual block array (not bId+1, since blocks are not always 1-4)
+  const curIdx = unit.blocks.findIndex(b => b.id === S.bId);
+  const nextBlk = (curIdx >= 0 && curIdx + 1 < unit.blocks.length) ? unit.blocks[curIdx + 1] : null;
+  const nextBId = nextBlk ? nextBlk.id : null;
   const w=div('cw');
   const iw=div('ci-wrap');
   const gl=div('ci-glow'); gl.style.background=allDone?'rgba(127,168,134,.14)':'rgba(212,163,74,.1)'; iw.appendChild(gl);
@@ -6544,7 +6547,7 @@ function mkComplete(){
   w.appendChild(el('p',{style:{fontSize:'11px',color:'var(--dim)',textAlign:'center'}},db+' of '+tb+' blocks complete'));
   const nav=div('action-row');
   nav.appendChild(el('button',{className:'btn btn-ghost btn-block',onclick:()=>{S.view='blocks';render();}},'← All Blocks'));
-  if(nextBId&&!allDone){ nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{ S.bId=nextBId; resetBS(); S.view='lesson'; render(); }},'Block '+nextBId+': '+getBlk(S.mId,S.uId,nextBId)?.title+' →')); }
+  if(nextBId&&!allDone){ nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{ S.bId=nextBId; resetBS(); S.view='lesson'; render(); }},'Block '+nextBId+': '+(nextBlk?.title||'')+' →')); }
   else if(allDone){ nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{
     S.reviewItems = null; // force fresh build for this unit
     S.reviewIdx = 0;
