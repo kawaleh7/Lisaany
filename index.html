@@ -637,19 +637,24 @@ html, body {
 
   <!-- Stats strip -->
   <div class="stats-strip">
+    <div class="stat" id="streak-stat" style="display:none;">
+      <span class="ms">local_fire_department</span>
+      <span><strong id="streak-val">0</strong> <span id="streak-label">day</span> streak</span>
+    </div>
+    <div class="stat-divider" id="streak-divider" style="display:none;"></div>
     <div class="stat">
-      <span class="ms">star</span>
-      <span><strong>4.9/5</strong> rating</span>
+      <span class="ms">auto_stories</span>
+      <span><strong>Quran-first</strong></span>
     </div>
     <div class="stat-divider"></div>
     <div class="stat">
       <span class="ms">menu_book</span>
-      <span><strong>8 lessons</strong> free</span>
+      <span><strong>Start free</strong></span>
     </div>
     <div class="stat-divider"></div>
     <div class="stat">
       <span class="ms">live_tv</span>
-      <span><strong>3 live</strong> /week</span>
+      <span><strong>Live tutors</strong></span>
     </div>
   </div>
 
@@ -872,12 +877,26 @@ let streak = 0;
 try {
   streak = Math.max(
     parseInt(localStorage.getItem('lisaany_streak')||'0'),
-    parseInt(localStorage.getItem('lisaany_ap_str')||'0')
+    parseInt(localStorage.getItem('lisaany_ap_str')||'0'),
+    parseInt(localStorage.getItem('lisaany_streak_real')||'0')
   );
 } catch(e){}
-// Guard: streak-val element may not exist on every page state — write only if present
+// Demo override for visual preview: ?demo_streak=N
+try {
+  const _demoMatch = window.location.search.match(/[?&]demo_streak=(\d+)/);
+  if (_demoMatch) streak = parseInt(_demoMatch[1], 10) || 0;
+} catch(e){}
+// Render: only show streak stat if user has a streak
 const _stEl = document.getElementById('streak-val');
-if (_stEl) _stEl.textContent = streak;
+const _stStat = document.getElementById('streak-stat');
+const _stDiv = document.getElementById('streak-divider');
+const _stLbl = document.getElementById('streak-label');
+if (_stEl && streak > 0) {
+  _stEl.textContent = streak;
+  if (_stLbl) _stLbl.textContent = streak === 1 ? 'day' : 'days';
+  if (_stStat) _stStat.style.display = 'flex';
+  if (_stDiv) _stDiv.style.display = 'block';
+}
 
 // ── Supabase auth ──
 const { createClient: createSbClient } = supabase;
