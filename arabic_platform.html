@@ -4855,7 +4855,6 @@ function render(){
   else if(v==='blocks') sc.appendChild(mkBlocks());
   else if(v==='lesson') sc.appendChild(mkLesson());
   else if(v==='review') sc.appendChild(mkReview());
-  else if(v==='diag') sc.appendChild(mkDiagnostic());
   else if(v==='complete') sc.appendChild(mkComplete());
   app.appendChild(sc);
   app.appendChild(mkNav());
@@ -4981,25 +4980,110 @@ function mkHub(){
 function mkUnits(){
   const mod=getMod(S.mId); const w=div('stage');
   w.appendChild(el('h2',{className:'page-title'},'Module '+mod.id+': '+mod.title));
-  w.appendChild(el('p',{className:'page-sub',style:{marginTop:'6px'}},'Complete each unit\'s 4 time blocks in order to unlock the next.'));
+  w.appendChild(el('p',{className:'page-sub',style:{marginTop:'6px'}},'Tap the highlighted unit to continue. Each unit unlocks the next.'));
+
+  // ── Module-level progress strip ──
+  const totalUnits = mod.units.length;
+  const doneUnits = mod.units.filter(u => unitPct(S.mId, u.id) === 100).length;
+  const modPct = Math.round((doneUnits / totalUnits) * 100);
+  const stripWrap = div('');
+  stripWrap.style.cssText = 'background:rgba(212,163,74,.05);border:1px solid rgba(212,163,74,.18);border-radius:14px;padding:14px 18px;margin:18px 0 24px;';
+  const stripTop = div('');
+  stripTop.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:12px;';
+  stripTop.appendChild(el('div',{style:{color:'var(--text)',fontWeight:'700',letterSpacing:'.04em'}}, doneUnits+' of '+totalUnits+' units complete'));
+  stripTop.appendChild(el('div',{style:{color:'var(--gold)',fontWeight:'700'}}, modPct+'%'));
+  stripWrap.appendChild(stripTop);
+  const sBar = div('');
+  sBar.style.cssText = 'height:5px;background:rgba(212,163,74,.12);border-radius:3px;overflow:hidden;';
+  const sFill = div('');
+  sFill.style.cssText = 'height:100%;background:linear-gradient(90deg,var(--gold),rgba(232,200,120,.85));width:'+modPct+'%;transition:width .4s;';
+  sBar.appendChild(sFill);
+  stripWrap.appendChild(sBar);
+  w.appendChild(stripWrap);
+
+  // ── Render each unit ──
   mod.units.forEach(unit=>{
     const ok=unitOk(S.mId,unit.id); const pct=unitPct(S.mId,unit.id); const done=pct===100;
-    const uc=div('uc'+(ok&&!done?' uc-on':done?' uc-on':'')+(!ok?' uc-lk':''));
-    const inn=div('uc-inner');
-    const ico=div('uc-ico'); ico.style.cssText='background:rgba(212,163,74,.04);border:1px solid rgba(212,163,74,.06);color:var(--gold);'; ico.appendChild(ms(unit.icon)); inn.appendChild(ico);
-    const txt=div('uc-txt');
+    const isActive = ok && !done; // The user's current focus (only one at a time due to gating)
+
+    // Determine status pill content + colors
+    let pillLabel, pillBg, pillBorder, pillColor;
+    if(done){
+      pillLabel = '✓ COMPLETE';
+      pillBg = 'rgba(74,138,110,.15)';
+      pillBorder = 'rgba(74,138,110,.5)';
+      pillColor = 'rgba(155,200,163,.95)';
+    } else if(isActive){
+      pillLabel = pct > 0 ? (pct + '% · CONTINUE') : 'UP NEXT';
+      pillBg = 'rgba(212,163,74,.15)';
+      pillBorder = 'var(--gold)';
+      pillColor = 'var(--gold)';
+    } else {
+      pillLabel = 'LOCKED';
+      pillBg = 'transparent';
+      pillBorder = 'rgba(255,255,255,.1)';
+      pillColor = 'var(--dim)';
+    }
+
+    const uc = div('uc'+(isActive ? ' uc-on' : '')+(done ? ' uc-on' : '')+(!ok ? ' uc-lk' : ''));
+    // Active-unit emphasis: gold glow box-shadow
+    if(isActive){
+      uc.style.cssText = 'box-shadow:0 0 24px rgba(212,163,74,.18);border-color:var(--gold);';
+    } else if(done){
+      uc.style.cssText = 'opacity:.65;';
+    }
+
+    const inn = div('uc-inner');
+
+    // Icon (color-coded by status)
+    const ico = div('uc-ico');
+    if(done){
+      ico.style.cssText = 'background:rgba(74,138,110,.1);border:1px solid rgba(74,138,110,.3);color:rgba(155,200,163,.95);';
+    } else if(isActive){
+      ico.style.cssText = 'background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.4);color:var(--gold);';
+    } else {
+      ico.style.cssText = 'background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);color:var(--dim);';
+    }
+    ico.appendChild(ms(unit.icon));
+    inn.appendChild(ico);
+
+    // Text container
+    const txt = div('uc-txt');
     txt.appendChild(el('div',{className:'uc-title'},'Unit '+unit.id+': '+unit.title));
-    txt.appendChild(el('div',{className:'uc-desc'},unit.desc));
-    const dots=div('uc-dots');
-    unit.blocks.forEach(b=>{ const st=getBlock_(S.mId,unit.id,b.id); const d=div('uc-dot'+(st==='done'?' done':st==='in-progress'?' act':'')); dots.appendChild(d); });
-    txt.appendChild(dots); inn.appendChild(txt);
-    const st=el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'20px',fontVariationSettings:"'FILL' 1",color:done?'var(--green)':ok?mod.color:'var(--dim)'}},done?'check_circle':ok?'play_circle':'lock');
-    inn.appendChild(st); uc.appendChild(inn);
+
+    // English byline: "N blocks · ~Y min" (gold, small)
+    const blockCount = unit.blocks.length;
+    const estMin = blockCount * 10;
+    const byline = blockCount + ' block' + (blockCount===1?'':'s') + ' · ~' + estMin + ' min';
+    txt.appendChild(el('div',{style:{fontSize:'10px',color:'rgba(212,163,74,.75)',fontWeight:'700',letterSpacing:'.06em',marginBottom:'3px',textTransform:'uppercase'}}, byline));
+
+    // Arabic description (kept — atmospheric, kept dim)
+    txt.appendChild(el('div',{className:'uc-desc'}, unit.desc));
+
+    // Per-unit progress bar (only if active and partially done)
+    if(isActive && pct > 0){
+      const upWrap = div('');
+      upWrap.style.cssText = 'margin-top:8px;height:3px;background:rgba(212,163,74,.1);border-radius:2px;overflow:hidden;';
+      const upFill = div('');
+      upFill.style.cssText = 'height:100%;background:var(--gold);width:'+pct+'%;transition:width .3s;';
+      upWrap.appendChild(upFill);
+      txt.appendChild(upWrap);
+    }
+    inn.appendChild(txt);
+
+    // Status pill (replaces the old play/check/lock icon)
+    const pill = div('');
+    pill.style.cssText = 'flex-shrink:0;padding:5px 10px;border-radius:999px;background:'+pillBg+';border:1.5px solid '+pillBorder+';color:'+pillColor+';font-size:9px;font-weight:800;letter-spacing:.12em;white-space:nowrap;align-self:center;';
+    pill.textContent = pillLabel;
+    inn.appendChild(pill);
+
+    uc.appendChild(inn);
+
+    // Click handlers (unchanged from prior version)
     if(ok && canAccess(S.mId, unit.id)){
       uc.addEventListener('click',()=>{ S.uId=unit.id; S.view='blocks'; render(); });
     } else if(ok && !canAccess(S.mId, unit.id)){
       uc.addEventListener('click',()=>{ S.view='upgrade'; render(); });
-      // premium badge added via DOM above
     }
     w.appendChild(uc);
   });
@@ -6167,229 +6251,6 @@ function advCloze(d){
 }
 
 // ══════════════════════════════════════════════════════
-// PEDAGOGY: DIAGNOSTIC PLACEMENT
-// ══════════════════════════════════════════════════════
-// 5-question intake quiz. Runs once per user on first visit to the speaking platform.
-// Score 0-1 → recommend Module 1. Score 2-3 → Module 2. Score 4-5 → Module 3.
-// Result stored in localStorage (lisaany_ap_diag); never re-prompts.
-const DIAG_QUESTIONS = [
-  {
-    ar: 'مَرْحَبا',
-    prompt: 'What does this mean in English?',
-    choices: ['Hello', 'Goodbye', 'Thank you', 'Please'],
-    correct: 0,
-    level: 'beginner'
-  },
-  {
-    ar: 'شُكْراً',
-    prompt: 'What does this mean in English?',
-    choices: ['Sorry', 'Thank you', 'Yes', 'No'],
-    correct: 1,
-    level: 'beginner'
-  },
-  {
-    ar: 'أَنا أُحِبُّ القَهْوَة',
-    prompt: 'What does this mean in English?',
-    choices: ['I drink water', 'I like coffee', 'I am tired', 'I have a book'],
-    correct: 1,
-    level: 'elementary'
-  },
-  {
-    ar: 'ذَهَبْتُ إِلى السُّوقِ أَمْسِ',
-    prompt: 'What does this mean in English?',
-    choices: ['I will go to the market tomorrow', 'I am at the market now', 'I went to the market yesterday', 'The market is closed today'],
-    correct: 2,
-    level: 'intermediate'
-  },
-  {
-    ar: 'لَوْ كُنْتُ أَعْلَمُ، لَأَخْبَرْتُكَ',
-    prompt: 'What does this mean in English?',
-    choices: ['Tell me what you know', 'I want to know more', 'If I had known, I would have told you', 'Knowledge is power'],
-    correct: 2,
-    level: 'advanced'
-  }
-];
-
-function mkDiagnostic(){
-  const w = div('stage');
-
-  // Initialize on entry
-  if(typeof S.diagIdx !== 'number'){
-    S.diagIdx = 0;
-    S.diagAnswers = [];
-    S.diagChosen = null;
-    S.diagLocked = false;
-  }
-
-  // ── Result screen ──
-  if(S.diagDone){
-    const correct = S.diagAnswers.filter(a => a.correct).length;
-    const recommended = correct <= 1 ? 1 : correct <= 3 ? 2 : 3;
-    const recLabel = correct <= 1 ? 'just starting out' : correct <= 3 ? 'building a foundation' : 'ready for more challenge';
-
-    w.appendChild(el('div',{style:{textAlign:'center',marginBottom:'8px',fontSize:'11px',letterSpacing:'.14em',textTransform:'uppercase',color:'rgba(155,200,163,.85)',fontWeight:'700'}},'✦ Placement complete'));
-    w.appendChild(el('h2',{className:'page-title',style:{textAlign:'center'}},`You scored ${correct} of ${DIAG_QUESTIONS.length}`));
-    w.appendChild(el('p',{className:'page-sub',style:{textAlign:'center'}},`Looks like you're ${recLabel}. We recommend starting at Module ${recommended}.`));
-
-    const recCard = div('');
-    recCard.style.cssText = `
-      background:linear-gradient(180deg,rgba(212,163,74,.1),rgba(212,163,74,.04));
-      border:1.5px solid rgba(212,163,74,.5);border-radius:18px;
-      padding:24px;margin:24px 0;text-align:center;
-    `;
-    recCard.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',marginBottom:'6px',letterSpacing:'.06em',textTransform:'uppercase',fontWeight:'700'}},'Recommended Start'));
-    const recMod = CUR.find(m => m.id === recommended);
-    recCard.appendChild(el('div',{style:{fontSize:'22px',fontFamily:"'Cormorant Garamond',serif",color:'var(--gold)',fontStyle:'italic',marginBottom:'4px'}}, recMod ? `Module ${recommended}` : `Module ${recommended}`));
-    recCard.appendChild(el('div',{style:{fontSize:'15px',color:'var(--text)',fontWeight:'600'}}, recMod?.title || ''));
-    if(recMod?.desc){
-      recCard.appendChild(el('div',{style:{fontSize:'12px',color:'var(--dim)',marginTop:'8px',lineHeight:'1.4'}}, recMod.desc));
-    }
-    w.appendChild(recCard);
-
-    const finishDiag = (targetMid) => {
-      try {
-        localStorage.setItem('lisaany_ap_diag', JSON.stringify({
-          score: correct,
-          recommended: recommended,
-          completedAt: Date.now()
-        }));
-      } catch(e){}
-      S.diagIdx = 0; S.diagAnswers = []; S.diagDone = false;
-      S.diagChosen = null; S.diagLocked = false;
-      S.mId = targetMid;
-      S.view = 'units';
-      render();
-    };
-
-    const nav = div('action-row');
-    nav.appendChild(el('button',{
-      className:'btn btn-primary btn-block',
-      onclick: ()=>finishDiag(recommended)
-    }, `Start at Module ${recommended} →`));
-    nav.appendChild(el('button',{
-      className:'btn btn-ghost btn-block',
-      onclick: ()=>finishDiag(1)
-    }, 'Start from Module 1 instead'));
-    w.appendChild(nav);
-
-    return w;
-  }
-
-  // ── Question screen ──
-  const q = DIAG_QUESTIONS[S.diagIdx];
-  const total = DIAG_QUESTIONS.length;
-
-  // Header
-  w.appendChild(el('div',{style:{textAlign:'center',marginBottom:'4px',fontSize:'11px',letterSpacing:'.14em',textTransform:'uppercase',color:'var(--dim)',fontWeight:'700'}},`Question ${S.diagIdx+1} of ${total}`));
-  w.appendChild(el('h2',{className:'page-title',style:{textAlign:'center',marginTop:'4px'}},'Quick Placement'));
-  w.appendChild(el('p',{className:'page-sub',style:{textAlign:'center'}},'Answer 5 quick questions so we can recommend where to start. No pressure — just helps us point you to the right module.'));
-
-  // Progress bar
-  const pb = div('');
-  pb.style.cssText = 'height:4px;background:rgba(212,163,74,.12);border-radius:2px;margin:18px 0 28px;overflow:hidden;';
-  const pf = div('');
-  pf.style.cssText = `height:100%;background:var(--gold);width:${Math.round((S.diagIdx/total)*100)}%;transition:width .3s;`;
-  pb.appendChild(pf);
-  w.appendChild(pb);
-
-  // Arabic prompt card
-  const arCard = div('');
-  arCard.style.cssText = `
-    background:linear-gradient(180deg,rgba(212,163,74,.06),rgba(212,163,74,.02));
-    border:1.5px solid rgba(212,163,74,.3);border-radius:18px;
-    padding:32px 20px;text-align:center;margin-bottom:18px;
-  `;
-  arCard.appendChild(el('div',{style:{
-    fontFamily:"'Amiri',serif",fontSize:'30px',color:'var(--gold)',
-    direction:'rtl',lineHeight:'1.5',marginBottom:'8px'
-  }}, q.ar));
-  arCard.appendChild(el('div',{style:{fontSize:'12px',color:'var(--dim)',marginTop:'6px'}}, q.prompt));
-  w.appendChild(arCard);
-
-  // Choices
-  const choicesWrap = div('');
-  choicesWrap.style.cssText = 'display:flex;flex-direction:column;gap:10px;margin-bottom:18px;';
-  q.choices.forEach((choice, idx) => {
-    const isChosen = S.diagChosen === idx;
-    const isCorrect = idx === q.correct;
-    let bg = 'rgba(255,255,255,.02)';
-    let border = 'rgba(212,163,74,.2)';
-    let textColor = 'var(--text)';
-    if(S.diagLocked){
-      if(isCorrect){ bg = 'rgba(74,138,110,.14)'; border = 'rgba(74,138,110,.6)'; textColor = 'rgba(155,200,163,.95)'; }
-      else if(isChosen){ bg = 'rgba(180,80,80,.1)'; border = 'rgba(180,80,80,.5)'; textColor = '#d4a4a4'; }
-    } else if(isChosen){
-      bg = 'rgba(212,163,74,.1)'; border = 'var(--gold)';
-    }
-    const btn = el('button',{
-      style:{
-        padding:'14px 18px',borderRadius:'12px',
-        background: bg, border:`1.5px solid ${border}`, color: textColor,
-        fontSize:'14px',fontWeight:'600',textAlign:'left',cursor: S.diagLocked ? 'default' : 'pointer',
-        transition:'all .2s'
-      },
-      onclick: ()=>{
-        if(S.diagLocked) return;
-        S.diagChosen = idx;
-        render();
-      }
-    }, choice);
-    choicesWrap.appendChild(btn);
-  });
-  w.appendChild(choicesWrap);
-
-  // Action row
-  const nav = div('action-row');
-  if(!S.diagLocked){
-    nav.appendChild(el('button',{
-      className:'btn btn-primary btn-block',
-      style: S.diagChosen !== null ? {} : {opacity:'0.4',cursor:'not-allowed',pointerEvents:'none'},
-      onclick: ()=>{
-        if(S.diagChosen === null) return;
-        S.diagAnswers.push({ chosen: S.diagChosen, correct: S.diagChosen === q.correct });
-        S.diagLocked = true;
-        render();
-      }
-    }, 'Submit ✓'));
-  } else {
-    nav.appendChild(el('button',{
-      className:'btn btn-primary btn-block',
-      onclick: ()=>{
-        S.diagChosen = null;
-        S.diagLocked = false;
-        if(S.diagIdx < total - 1){
-          S.diagIdx++;
-        } else {
-          S.diagDone = true;
-        }
-        render();
-      }
-    }, S.diagIdx < total - 1 ? 'Next →' : 'See Results →'));
-  }
-  w.appendChild(nav);
-
-  // Skip link
-  const skip = el('button',{
-    style:{
-      width:'100%',marginTop:'14px',padding:'10px',border:'none',background:'transparent',
-      color:'var(--dim)',fontSize:'11px',letterSpacing:'.06em',cursor:'pointer',textDecoration:'underline'
-    },
-    onclick: ()=>{
-      try {
-        localStorage.setItem('lisaany_ap_diag', JSON.stringify({ skipped: true, completedAt: Date.now() }));
-      } catch(e){}
-      S.diagIdx = 0; S.diagAnswers = []; S.diagDone = false;
-      S.diagChosen = null; S.diagLocked = false;
-      S.view = 'hub';
-      render();
-    }
-  }, 'Skip placement →');
-  w.appendChild(skip);
-
-  return w;
-}
-
-// ══════════════════════════════════════════════════════
 // PEDAGOGY: END-OF-UNIT REVIEW
 // ══════════════════════════════════════════════════════
 // 5 vocabulary items, tap-to-reveal flashcards, no scoring.
@@ -6565,20 +6426,6 @@ function mkComplete(){
     const sess=JSON.parse(localStorage.getItem('lisaany_ap_sess')||'null');
     if(sess&&sess.view==='hub'){ S.view='hub'; }
     // Only restore hub — don't drop mid-lesson
-  }catch(e){}
-})();
-
-// Diagnostic gate: route first-time users (no diag stored) to placement quiz.
-// ?reset_diag=1 in URL clears the stored result for testing.
-(function(){
-  try{
-    if(window.location.search.match(/[?&]reset_diag=1/)){
-      localStorage.removeItem('lisaany_ap_diag');
-    }
-    const diag = localStorage.getItem('lisaany_ap_diag');
-    if(!diag){
-      S.view = 'diag';
-    }
   }catch(e){}
 })();
 
