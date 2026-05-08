@@ -4705,6 +4705,56 @@ function ms(icon){const s=el('span',{style:{fontFamily:"'Material Symbols Outlin
 function shuffle(a){return a.slice().sort(()=>Math.random()-.5);}
 
 // ══════════════════════════════════════════════════════
+// PEDAGOGY: FAILURE SCAFFOLDING
+// ══════════════════════════════════════════════════════
+// After this many wrong attempts on the SAME item, surface a softer,
+// encouraging panel that breaks the frustration loop.
+const SCAFFOLD_THRESHOLD = 3;
+
+// Build the scaffold panel — appears above existing action buttons after threshold reached.
+// answerAr: the correct Arabic to read aloud
+// onContinue: callback when user taps "Got it" (advances without bumping wrong counter)
+function mkScaffoldPanel(answerAr, onContinue){
+  const panel = div('');
+  panel.style.cssText = `
+    background:linear-gradient(180deg, rgba(74,138,110,.08), rgba(74,138,110,.04));
+    border:1.5px solid rgba(74,138,110,.4);
+    border-radius:14px;padding:16px 18px;margin:14px 0;
+  `;
+  // Sprout icon + heading
+  const head = div('');
+  head.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:10px;';
+  head.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'20px',color:'rgba(155,200,163,.95)',fontVariationSettings:"'FILL' 1"}},'eco'));
+  head.appendChild(el('span',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.08em',textTransform:'uppercase',color:'rgba(155,200,163,.95)'}},'Take a breath'));
+  panel.appendChild(head);
+  // Encouraging copy
+  panel.appendChild(el('div',{style:{fontSize:'13px',color:'var(--text)',lineHeight:'1.55',marginBottom:'12px'}},
+    "This one's tricky. Listen to the correct answer once more, then we'll move forward together — no penalty."
+  ));
+  // Action row
+  const row = div('');
+  row.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap;';
+  // Hear answer button
+  if(answerAr){
+    const hear = el('button',{
+      style:{padding:'10px 14px',borderRadius:'10px',border:'1px solid rgba(155,200,163,.5)',background:'transparent',color:'rgba(155,200,163,.95)',fontWeight:'700',fontSize:'12px',letterSpacing:'.04em',cursor:'pointer',display:'flex',alignItems:'center',gap:'6px'},
+      onclick:(e)=>{ e.stopPropagation(); speak(answerAr); }
+    });
+    hear.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'16px',fontVariationSettings:"'FILL' 1"}},'volume_up'));
+    hear.appendChild(document.createTextNode('Hear it'));
+    row.appendChild(hear);
+  }
+  // Got it / next button
+  const got = el('button',{
+    style:{padding:'10px 18px',borderRadius:'10px',border:'none',background:'rgba(74,138,110,.85)',color:'#0a1024',fontWeight:'700',fontSize:'12px',letterSpacing:'.04em',cursor:'pointer',flex:'1',minWidth:'120px'},
+    onclick: onContinue
+  },'Got it — Next →');
+  row.appendChild(got);
+  panel.appendChild(row);
+  return panel;
+}
+
+// ══════════════════════════════════════════════════════
 // RENDER
 // ══════════════════════════════════════════════════════
 
@@ -5144,9 +5194,15 @@ function mkPossessive(blk){
   // Action buttons
   const nav=div('action-row');
   nav.style.marginTop='14px';
+  // Failure scaffolding: after threshold wrong attempts on this item, offer a graceful exit
+  if(S.posFb==='wrong' && (S.posAttempts||0) >= SCAFFOLD_THRESHOLD){
+    w.appendChild(mkScaffoldPanel(cur.correct, ()=>advPos(d)));
+  }
   if(!S.posLocked){
     nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
-      S.posChosen=cur.correct; S.posLocked=true; S.posFb='wrong'; S.posWrong++; render();
+      S.posChosen=cur.correct; S.posLocked=true; S.posFb='wrong';
+      S.posWrong++; S.posAttempts = (S.posAttempts||0) + 1;
+      render();
     }},'Show Answer'));
     nav.appendChild(el('button',{
       className:'btn btn-primary',
@@ -5156,12 +5212,13 @@ function mkPossessive(blk){
         const ok = S.posChosen===cur.correct;
         S.posLocked=true;
         S.posFb=ok?'correct':'wrong';
-        if(ok) S.posScore++; else S.posWrong++;
+        if(ok) S.posScore++;
+        else { S.posWrong++; S.posAttempts = (S.posAttempts||0) + 1; }
         render();
         if(ok) setTimeout(()=>advPos(d), 1100);
       }
     },'Check ✓'));
-  } else if(S.posFb==='wrong'){
+  } else if(S.posFb==='wrong' && (S.posAttempts||0) < SCAFFOLD_THRESHOLD){
     nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advPos(d)},'Next →'));
   }
   w.appendChild(nav);
@@ -5170,7 +5227,7 @@ function mkPossessive(blk){
 }
 
 function advPos(d){
-  S.posFb=null; S.posLocked=false; S.posChosen=null;
+  S.posFb=null; S.posLocked=false; S.posChosen=null; S.posAttempts=0;
   if(S.posIdx < d.sentences.length-1){
     S.posIdx++; render();
   } else {
@@ -5812,6 +5869,10 @@ function mkClutter(blk){
   S.cAns.forEach((wrd,i)=>{ const tok=el('span',{className:'token t-ans',onclick:()=>{ if(S.cLocked)return; S.cAns.splice(i,1); S.cBank.push(wrd); render(); }},wrd); az.appendChild(tok); });
   w.appendChild(az);
   if(S.cFb){ const fb=div('cf '+(S.cFb==='correct'?'cf-ok':'cf-no')); fb.innerHTML=S.cFb==='correct'?'✅ <strong>Correct!</strong> '+cur.ar:'❌ <strong>Try again.</strong> Correct: <span style="font-family:\'Amiri\',serif;font-size:18px">'+cur.ar+'</span>'; w.appendChild(fb); }
+  // Failure scaffolding: after threshold wrong attempts on this item, offer a graceful exit
+  if(S.cFb==='wrong' && (S.cAttempts||0) >= SCAFFOLD_THRESHOLD){
+    w.appendChild(mkScaffoldPanel(cur.ar, ()=>advClutter(d)));
+  }
   if(!S.cLocked){
     w.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center'}},'Word Bank — Tap to add:'));
     const bank=div('word-bank');
@@ -5823,18 +5884,19 @@ function mkClutter(blk){
     nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{ S.cAns=[]; S.cBank=shuffle(cur.words); render(); }},'Clear'));
     const chk=el('button',{className:'btn btn-primary btn-block',onclick:()=>{
       const ua=S.cAns.join(' '); const ca=cur.ar; const ok=ua===ca||S.cAns.join('')===ca.replace(/\s/g,'');
-      S.cFb=ok?'correct':'wrong'; S.cLocked=true; if(!ok)S.cWrong++;
+      S.cFb=ok?'correct':'wrong'; S.cLocked=true;
+      if(!ok){ S.cWrong++; S.cAttempts = (S.cAttempts||0) + 1; }
       render();
       if(ok) setTimeout(()=>{ S.cScore++; advClutter(d); },1200);
     }},'Check Answer ✓'); nav.appendChild(chk);
-  } else if(S.cFb==='wrong'){
+  } else if(S.cFb==='wrong' && (S.cAttempts||0) < SCAFFOLD_THRESHOLD){
     nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{ S.cAns=[]; S.cBank=shuffle(cur.words); S.cFb=null; S.cLocked=false; render(); }},'Try Again →'));
     nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>advClutter(d)},'Skip →'));
   }
   w.appendChild(nav); return w;
 }
 function advClutter(d){
-  S.cFb=null; S.cLocked=false;
+  S.cFb=null; S.cLocked=false; S.cAttempts=0;
   if(S.cIdx<d.sentences.length-1){ S.cIdx++; S.cAns=[]; S.cBank=shuffle(d.sentences[S.cIdx].words); render(); }
   else { const pct=Math.round(S.cScore/d.sentences.length*100); if(pct>=d.passing){ finishBlock(); } else { S.cIdx=0; S.cScore=0; S.cWrong=0; S.cAns=[]; S.cBank=shuffle(d.sentences[0].words); render(); } }
 }
@@ -6045,12 +6107,17 @@ function mkCloze(blk){
 
   const nav = div('action-row');
   nav.style.marginTop = '14px';
+  // Failure scaffolding: after threshold wrong attempts on this item, offer a graceful exit
+  if(S.clzFb === 'wrong' && (S.clzAttempts||0) >= SCAFFOLD_THRESHOLD){
+    w.appendChild(mkScaffoldPanel(cur.ar || cur.words?.join(' '), ()=>advCloze(d)));
+  }
   if(!S.clzLocked){
     nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
       S.clzAns = cur.blankIndices.map(i=>cur.words[i]);
       S.clzLocked = true;
       S.clzFb = 'wrong';
       S.clzWrong++;
+      S.clzAttempts = (S.clzAttempts||0) + 1;
       render();
     }}, 'Show Answer'));
 
@@ -6067,12 +6134,12 @@ function mkCloze(blk){
         S.clzLocked = true;
         S.clzFb = allCorrect ? 'correct' : 'wrong';
         if(allCorrect) S.clzScore++;
-        else S.clzWrong++;
+        else { S.clzWrong++; S.clzAttempts = (S.clzAttempts||0) + 1; }
         render();
         if(allCorrect) setTimeout(()=>advCloze(d), 1100);
       }
     }, 'Check ✓'));
-  } else if(S.clzFb === 'wrong'){
+  } else if(S.clzFb === 'wrong' && (S.clzAttempts||0) < SCAFFOLD_THRESHOLD){
     nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advCloze(d)}, 'Next →'));
   }
   w.appendChild(nav);
@@ -6081,7 +6148,7 @@ function mkCloze(blk){
 }
 
 function advCloze(d){
-  S.clzFb = null; S.clzLocked = false; S.clzAns = [];
+  S.clzFb = null; S.clzLocked = false; S.clzAns = []; S.clzAttempts = 0;
   if(S.clzIdx < d.sentences.length-1){
     S.clzIdx++;
     render();
