@@ -6013,7 +6013,18 @@ function getClozeData(blk){
 
   const sentences = sentencesSrc.map(ln=>{
     const words = ln.ar.split(/\s+/);
-    const blankCount = Math.min(2, Math.max(1, Math.floor(words.length/3)));
+    // Difficulty curve: more blanks as modules get harder
+    // Mod 1: 1 blank · Mod 2: 2 · Mod 3-4: 3 · Mod 5-6: 4 · Mod 7-8: 5 · Mod 9-10: 7 · Mod 11+: all
+    const cap = words.length - 1; // first word always shown as anchor
+    let maxBlanks;
+    if(S.mId === 1) maxBlanks = 1;
+    else if(S.mId === 2) maxBlanks = 2;
+    else if(S.mId <= 4) maxBlanks = 3;
+    else if(S.mId <= 6) maxBlanks = 4;
+    else if(S.mId <= 8) maxBlanks = 5;
+    else if(S.mId <= 10) maxBlanks = 7;
+    else maxBlanks = cap; // top tier: full dictation, all words missing
+    const blankCount = Math.max(1, Math.min(maxBlanks, cap));
     const blankIdx = [];
     while(blankIdx.length < blankCount && blankIdx.length < words.length-1){
       const pick = 1 + Math.floor(Math.random()*(words.length-1));
@@ -6285,7 +6296,9 @@ function mkReview(){
   // Graceful exit if no review items available
   if(!S.reviewItems || S.reviewItems.length === 0){
     S.reviewItems = null;
-    S.view = 'units';
+    const _u = getUnit(S.mId, S.uId);
+    const _allDone = _u && _u.blocks.every(b => getBlock_(S.mId, S.uId, b.id) === 'done');
+    S.view = _allDone ? 'units' : 'blocks';
     setTimeout(render, 0);
     return w;
   }
@@ -6330,11 +6343,13 @@ function mkReview(){
         S.reviewFlipped = false;
         render();
       } else {
-        // Review complete — clear state and advance
+        // Review complete — clear state and route somewhere useful
         S.reviewItems = null;
         S.reviewIdx = 0;
         S.reviewFlipped = false;
-        S.view = 'units';
+        const _u = getUnit(S.mId, S.uId);
+        const _allDone = _u && _u.blocks.every(b => getBlock_(S.mId, S.uId, b.id) === 'done');
+        S.view = _allDone ? 'units' : 'blocks';
         render();
       }
     }
@@ -6369,7 +6384,10 @@ function mkReview(){
     },
     onclick: ()=>{
       S.reviewItems = null; S.reviewIdx = 0; S.reviewFlipped = false;
-      S.view = 'units'; render();
+      const _u = getUnit(S.mId, S.uId);
+      const _allDone = _u && _u.blocks.every(b => getBlock_(S.mId, S.uId, b.id) === 'done');
+      S.view = _allDone ? 'units' : 'blocks';
+      render();
     }
   },'Skip review');
   w.appendChild(skip);
@@ -6387,11 +6405,10 @@ function finishBlock(){ setBlock(S.mId,S.uId,S.bId,'done'); XP+=15; STREAK+=1; s
 // ══════════════════════════════════════════════════════
 function mkComplete(){
   const blk=getBlk(S.mId,S.uId,S.bId); const unit=getUnit(S.mId,S.uId); const mod=getMod(S.mId);
-  const allDone=unit.blocks.every(b=>getBlock_(S.mId,S.uId,b.id)==='done');
-  // Find the next block in the unit's actual block array (not bId+1, since blocks are not always 1-4)
-  const curIdx = unit.blocks.findIndex(b => b.id === S.bId);
-  const nextBlk = (curIdx >= 0 && curIdx + 1 < unit.blocks.length) ? unit.blocks[curIdx + 1] : null;
-  const nextBId = nextBlk ? nextBlk.id : null;
+  // Unit progress
+  const blocksDone = unit.blocks.filter(b => getBlock_(S.mId, S.uId, b.id) === 'done').length;
+  const blocksTotal = unit.blocks.length;
+  const allDone = blocksDone === blocksTotal;
   const w=div('cw');
   const iw=div('ci-wrap');
   const gl=div('ci-glow'); gl.style.background=allDone?'rgba(127,168,134,.14)':'rgba(212,163,74,.1)'; iw.appendChild(gl);
@@ -6406,16 +6423,21 @@ function mkComplete(){
   const db=Object.values(PROG).reduce((a,m)=>a+Object.values(m).reduce((b,u)=>b+Object.values(u).filter(s=>s==='done').length,0),0);
   const pb=div('pb'); const pf=div('pb-fill'); pf.style.width=Math.round(db/tb*100)+'%'; pb.appendChild(pf); w.appendChild(pb);
   w.appendChild(el('p',{style:{fontSize:'11px',color:'var(--dim)',textAlign:'center'}},db+' of '+tb+' blocks complete'));
+
+  // Unit progress strip (informational)
+  const unitStrip = div('');
+  unitStrip.style.cssText = 'background:rgba(212,163,74,.05);border:1px solid rgba(212,163,74,.18);border-radius:12px;padding:12px 16px;margin:14px 0;text-align:center;';
+  unitStrip.appendChild(el('div',{style:{fontSize:'10px',color:'var(--dim)',letterSpacing:'.1em',marginBottom:'4px',textTransform:'uppercase',fontWeight:'700'}}, 'Unit '+unit.id+' Progress'));
+  unitStrip.appendChild(el('div',{style:{fontSize:'14px',color:allDone?'rgba(155,200,163,.95)':'var(--gold)',fontWeight:'700'}}, blocksDone+' of '+blocksTotal+' blocks complete'));
+  w.appendChild(unitStrip);
+
   const nav=div('action-row');
   nav.appendChild(el('button',{className:'btn btn-ghost btn-block',onclick:()=>{S.view='blocks';render();}},'← All Blocks'));
-  if(nextBId&&!allDone){ nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{ S.bId=nextBId; resetBS(); S.view='lesson'; render(); }},'Block '+nextBId+': '+(nextBlk?.title||'')+' →')); }
-  else if(allDone){ nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{
-    S.reviewItems = null; // force fresh build for this unit
-    S.reviewIdx = 0;
-    S.reviewFlipped = false;
-    S.view='review';
-    render();
-  }},'Quick Review →')); }
+  // Force review as the only forward path — every block ends with review
+  nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{
+    S.reviewItems = null; S.reviewIdx = 0; S.reviewFlipped = false;
+    S.view='review'; render();
+  }}, allDone ? 'Quick Review →' : 'Quick Review →'));
   w.appendChild(nav);
   const st=div('stage'); st.appendChild(w); return st;
 }
