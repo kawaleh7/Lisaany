@@ -1026,7 +1026,7 @@ body::after {
 }
 .lis-mobile-menu .lis-link:hover{background:rgba(212,163,74,.08)}
 
-</style>
+.nav-back-btn,.nav-home-btn{padding:7px 12px !important;font-size:12px !important;font-weight:700 !important;border:1px solid rgba(212,163,74,.4) !important;background:rgba(212,163,74,.08) !important;}.nav-home-btn{background:rgba(212,163,74,.15) !important;color:var(--gold) !important;}.nav-home-btn .ms{color:var(--gold) !important;}.nav-home-btn:hover{background:rgba(212,163,74,.25) !important;}.in-page-back{display:inline-flex;align-items:center;gap:6px;background:rgba(212,163,74,.10);border:1px solid rgba(212,163,74,.35);border-radius:999px;padding:8px 16px;color:var(--gold);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:.02em;cursor:pointer;margin-bottom:14px;transition:all .2s;}.in-page-back:hover{background:rgba(212,163,74,.20);border-color:var(--gold);transform:translateX(-2px);}.in-page-back .ms{color:var(--gold);}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,500;9..144,600;9..144,700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
@@ -1137,7 +1137,7 @@ const CUR = [
             }
           },
           { id:2, type:"dialogue", title:"Two Students Meet", desc:"سارة ومريم في المكتبة", icon:"forum", color:"#D4A34A",
-            data:{ title:"في المكتبة", setting:"سارة ومريم يلتقيان",
+            data:{ title:"في المكتبة", setting:"سارة ومريم يلتقيان", note:"Both speakers are women. In Arabic, pronouns change for gender: when speaking <strong>to a woman</strong>, your name becomes <strong>اسْمُكِ</strong> (with كِ), not اسْمُكَ (with كَ for a man). Watch the underlined endings as Sara and Maryam address each other.",
               lines:[
                 {spk:"Sara",side:"left",ar:"مَرحَباً",en:"Hello"},
                 {spk:"Maryam",side:"right",ar:"مَرحَباً بِكِ",en:"Hello to you"},
@@ -1332,7 +1332,7 @@ const CUR = [
             }
           },
           { id:2, type:"dialogue", title:"Two Ladies — Languages", desc:"Sara and Maria talk about languages", icon:"forum", color:"#D4A34A",
-            data:{ title:"اللُّغات", setting:"سارة تتحدث مع ماريا عن اللغات",
+            data:{ title:"اللُّغات", setting:"سارة تتحدث مع ماريا عن اللغات", note:"Both speakers are women. Notice the feminine endings: <strong>تَتَكَلَّمِينَ</strong> (you speak) instead of تَتَكَلَّمُ, and <strong>عِندَكِ</strong> (you have) instead of عِندَكَ. The ـِينَ and ـكِ endings tell you the listener is female.",
               lines:[
                 {spk:"Sara",side:"left",ar:"ماريا، هَل أَنتِ إِيطالِيَّة؟",en:"Maria, are you Italian?"},
                 {spk:"Maria",side:"right",ar:"نَعَم، أَنا إِيطالِيَّة مِن رُوما",en:"Yes, I am Italian from Rome."},
@@ -4727,6 +4727,53 @@ function div(cls,html){const d=document.createElement('div');if(cls)d.className=
 function ms(icon){const s=el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'inherit',lineHeight:'1',fontVariationSettings:"'FILL' 1"}},icon);return s;}
 function shuffle(a){return a.slice().sort(()=>Math.random()-.5);}
 
+// Build word bank with distractors from same-unit vocabulary
+// Forces students to think about WHICH words to pick, not just order
+function buildBankWithDistractors(answerWords, mId, uId) {
+  if(!answerWords || answerWords.length === 0) return [];
+  const answerSet = new Set(answerWords);
+  const candidates = [];
+  const unit = getUnit(mId, uId);
+  if(unit && unit.blocks) {
+    unit.blocks.forEach(b => {
+      if(b.type === 'vocab' && b.data?.words) {
+        b.data.words.forEach(w => {
+          if(w.ar && !answerSet.has(w.ar)) {
+            w.ar.split(/\s+/).forEach(token => {
+              if(token && !answerSet.has(token) && token.length > 1) {
+                candidates.push(token);
+              }
+            });
+          }
+        });
+      }
+      if(b.type === 'dialogue' && b.data?.lines) {
+        b.data.lines.forEach(line => {
+          if(line.ar) {
+            line.ar.split(/\s+/).forEach(token => {
+              const clean = token.replace(/[،.؟!:؛""'']/g, '').trim();
+              if(clean && !answerSet.has(clean) && clean.length > 1) {
+                candidates.push(clean);
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+  let distractorCount = 3;
+  if(answerWords.length >= 5) distractorCount = 2;
+  const uniqueCandidates = [...new Set(candidates)];
+  const shuffled = uniqueCandidates.sort(() => Math.random() - 0.5);
+  const chosen = [];
+  for(const w of shuffled) {
+    if(chosen.length >= distractorCount) break;
+    if(!chosen.includes(w)) chosen.push(w);
+  }
+  return shuffle([...answerWords, ...chosen]);
+}
+
+
 // ══════════════════════════════════════════════════════
 // PEDAGOGY: FAILURE SCAFFOLDING
 // ══════════════════════════════════════════════════════
@@ -4895,8 +4942,12 @@ function mkTop(){
   const rr=div('');
   rr.style.display='flex'; rr.style.alignItems='center'; rr.style.gap='8px';
   if(S.view!=='hub'){
-    const b=el('button',{className:'btn btn-ghost btn-sm',onclick:()=>{ if(S.view==='lesson')S.view='blocks'; else if(S.view==='blocks')S.view='units'; else S.view='hub'; render(); }});
+    // Back button: one step backward
+    const b=el('button',{className:'btn btn-ghost btn-sm nav-back-btn',onclick:()=>{ if(S.view==='lesson')S.view='blocks'; else if(S.view==='blocks')S.view='units'; else S.view='hub'; render(); }});
     b.appendChild(ms('arrow_back')); b.appendChild(document.createTextNode(' Back')); rr.appendChild(b);
+    // Home button: jump straight to platform hub (modules grid)
+    const h=el('button',{className:'btn btn-ghost btn-sm nav-home-btn',title:'Platform Home',onclick:()=>{ S.view='hub'; render(); }});
+    h.appendChild(ms('home')); h.appendChild(document.createTextNode(' Home')); rr.appendChild(h);
   }
   const xp=div('xp-chip'); xp.appendChild(ms('bolt')); xp.appendChild(document.createTextNode(' '+XP+'  🔥 '+STREAK)); rr.appendChild(xp);
   bar.appendChild(rr);
@@ -5003,6 +5054,14 @@ function mkHub(){
 // ══════════════════════════════════════════════════════
 function mkUnits(){
   const mod=getMod(S.mId); const w=div('stage');
+  // ── In-page back link to platform hub ──
+  const backLinkU=document.createElement('button');
+  backLinkU.className='in-page-back';
+  backLinkU.onclick=()=>{ S.view='hub'; render(); };
+  const arrowBackU=ms('arrow_back'); arrowBackU.style.fontSize='16px';
+  backLinkU.appendChild(arrowBackU);
+  backLinkU.appendChild(document.createTextNode(' Back to Modules'));
+  w.appendChild(backLinkU);
   w.appendChild(el('h2',{className:'page-title'},'Module '+mod.id+': '+mod.title));
   w.appendChild(el('p',{className:'page-sub',style:{marginTop:'6px'}},'Tap the highlighted unit to continue. Each unit unlocks the next.'));
 
@@ -5119,6 +5178,14 @@ function mkUnits(){
 // ══════════════════════════════════════════════════════
 function mkBlocks(){
   const mod=getMod(S.mId); const unit=getUnit(S.mId,S.uId); const w=div('stage');
+  // ── In-page back link to units list ──
+  const backLinkB=document.createElement('button');
+  backLinkB.className='in-page-back';
+  backLinkB.onclick=()=>{ S.view='units'; render(); };
+  const arrowBackB=ms('arrow_back'); arrowBackB.style.fontSize='16px';
+  backLinkB.appendChild(arrowBackB);
+  backLinkB.appendChild(document.createTextNode(' Back to Units'));
+  w.appendChild(backLinkB);
   const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Unit '+unit.id+' · '+unit.title)); w.appendChild(ph);
   w.appendChild(el('h2',{className:'page-title'},unit.title));
   w.appendChild(el('p',{className:'page-sub'},unit.desc));
@@ -5163,7 +5230,7 @@ function mkBlocks(){
 function resetBS(){
   S.dlIdx=0; S.vIdx=0; S.vFlip=false; S.vKnown=new Set();
   const blk=getBlk(S.mId,S.uId,S.bId);
-  if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=shuffle(blk.data.sentences[0]?.words||[]); }
+  if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=buildBankWithDistractors(blk.data.sentences[0]?.words||[], S.mId, S.uId); }
   if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
 }
 
@@ -5452,6 +5519,17 @@ function mkDl(blk){
   ph.appendChild(document.createTextNode(' Dialogue')); w.appendChild(ph);
   w.appendChild(el('h2',{className:'page-title'},d.title));
   w.appendChild(el('p',{className:'page-sub'},d.setting));
+
+  // ── Gender/grammar note (rendered when dialogue has a 'note' field) ──
+  if(d.note){
+    const noteWrap=div(''); noteWrap.style.cssText='background:rgba(212,163,74,.10);border:1.5px solid rgba(212,163,74,.4);border-radius:16px;padding:14px 18px;margin:14px 0 18px;font-size:13px;line-height:1.65;color:var(--text);';
+    const noteLbl=document.createElement('div'); noteLbl.style.cssText='font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase;display:flex;align-items:center;gap:6px;';
+    const ic=ms('lightbulb'); ic.style.fontSize='14px'; noteLbl.appendChild(ic); noteLbl.appendChild(document.createTextNode(' Notice'));
+    noteWrap.appendChild(noteLbl);
+    const noteBody=document.createElement('div'); noteBody.innerHTML=d.note;
+    noteWrap.appendChild(noteBody);
+    w.appendChild(noteWrap);
+  }
 
   // ── Play Through Mode toolbar ──
   if(!S.dlPlayMode){
@@ -5991,7 +6069,7 @@ function mkClutter(blk){
   }
   const nav=div('action-row');
   if(!S.cLocked&&!S.cFb){
-    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{ S.cAns=[]; S.cBank=shuffle(cur.words); render(); }},'Clear'));
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{ S.cAns=[]; S.cBank=buildBankWithDistractors(cur.words, S.mId, S.uId); render(); }},'Clear'));
     const chk=el('button',{className:'btn btn-primary btn-block',onclick:()=>{
       const ua=S.cAns.join(' '); const ca=cur.ar; const ok=ua===ca||S.cAns.join('')===ca.replace(/\s/g,'');
       S.cFb=ok?'correct':'wrong'; S.cLocked=true;
@@ -6000,15 +6078,15 @@ function mkClutter(blk){
       if(ok) setTimeout(()=>{ S.cScore++; advClutter(d); },1200);
     }},'Check Answer ✓'); nav.appendChild(chk);
   } else if(S.cFb==='wrong' && (S.cAttempts||0) < SCAFFOLD_THRESHOLD){
-    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{ S.cAns=[]; S.cBank=shuffle(cur.words); S.cFb=null; S.cLocked=false; render(); }},'Try Again →'));
+    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{ S.cAns=[]; S.cBank=buildBankWithDistractors(cur.words, S.mId, S.uId); S.cFb=null; S.cLocked=false; render(); }},'Try Again →'));
     nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>advClutter(d)},'Skip →'));
   }
   w.appendChild(nav); return w;
 }
 function advClutter(d){
   S.cFb=null; S.cLocked=false; S.cAttempts=0;
-  if(S.cIdx<d.sentences.length-1){ S.cIdx++; S.cAns=[]; S.cBank=shuffle(d.sentences[S.cIdx].words); render(); }
-  else { const pct=Math.round(S.cScore/d.sentences.length*100); if(pct>=d.passing){ finishBlock(); } else { S.cIdx=0; S.cScore=0; S.cWrong=0; S.cAns=[]; S.cBank=shuffle(d.sentences[0].words); render(); } }
+  if(S.cIdx<d.sentences.length-1){ S.cIdx++; S.cAns=[]; S.cBank=buildBankWithDistractors(d.sentences[S.cIdx].words, S.mId, S.uId); render(); }
+  else { const pct=Math.round(S.cScore/d.sentences.length*100); if(pct>=d.passing){ finishBlock(); } else { S.cIdx=0; S.cScore=0; S.cWrong=0; S.cAns=[]; S.cBank=buildBankWithDistractors(d.sentences[0].words, S.mId, S.uId); render(); } }
 }
 
 // ════════════════════════════════════════════════════════
