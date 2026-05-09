@@ -1212,22 +1212,25 @@ const CUR = [
         desc:"دول ومدن — ٣-٤ كلمات",
         blocks:[
           { id:1, type:"dialogue", title:"In the Classroom", desc:"المدرس يسأل الطلاب عن جنسياتهم", icon:"forum", color:"#D4A34A",
-            data:{ title:"في الفَصل الدِّراسِيّ", setting:"المدرس يسأل الطلاب عن أصولهم",
+            data:{ title:"في الفَصل الدِّراسِيّ", setting:"The teacher asks students about their origins",
               lines:[
                 {spk:"Teacher",side:"left",ar:"مِن أَيْنَ أَنْتَ يا أَحمَد؟",en:"Where are you from Ahmad?"},
                 {spk:"Ahmad",side:"right",ar:"أَنا مِن مِصْر",en:"I am from Egypt"},
-                {spk:"Teacher",side:"left",ar:"إِذَن أَنْتَ مِصْرِيّ",en:"So you are Egyptian"},
+                {spk:"Teacher",side:"left",ar:"فَأَنْتَ مِصْرِيّ",en:"And so you are Egyptian (m)"},
                 {spk:"Ahmad",side:"right",ar:"نَعَم، أَنا مِصْرِيّ",en:"Yes, I am Egyptian"},
                 {spk:"Teacher",side:"left",ar:"وَأَنْتِ يا لَيلى؟",en:"And you Layla?"},
                 {spk:"Layla",side:"right",ar:"أَنا مِن لُبنان",en:"I am from Lebanon"},
-                {spk:"Teacher",side:"left",ar:"إِذَن أَنْتِ لُبنانِيَّة",en:"So you are Lebanese"},
+                {spk:"Teacher",side:"left",ar:"فَأَنْتِ لُبنانِيَّة",en:"And so you are Lebanese (f)"},
                 {spk:"Layla",side:"right",ar:"نَعَم، أَنا لُبنانِيَّة",en:"Yes, I am Lebanese"},
                 {spk:"Teacher",side:"left",ar:"أَيْنَ تَسْكُن يا أَحمَد؟",en:"Where do you live Ahmad?"},
                 {spk:"Ahmad",side:"right",ar:"أَسْكُن في القاهِرَة",en:"I live in Cairo"},
               ],
               keywords:[
-                {ar:"مِن أَيْنَ أَنْتَ؟",en:"Where are you from?"},
-                {ar:"إِذَن",en:"So / Therefore"},
+                {ar:"مِن أَيْنَ أَنْتَ؟",en:"Where are you from? (to a man)"},
+                {ar:"مِن أَيْنَ أَنْتِ؟",en:"Where are you from? (to a woman)"},
+                {ar:"وَ",en:"Wa = and (joins words/sentences)"},
+                {ar:"فَـ",en:"Fa = and so / then (introduces conclusion)"},
+                {ar:"فِي",en:"Fi = in (location)"},
                 {ar:"أَيْنَ تَسْكُن؟",en:"Where do you live?"},
                 {ar:"أَسْكُن في",en:"I live in"},
               ]
@@ -1291,12 +1294,12 @@ const CUR = [
               {ar:"أَنا مِن مِصْر",en:"I am from Egypt", words:["أَنا","مِن","مِصْر"]},
               {ar:"هُوَ مِصْرِيّ",en:"He is Egyptian", words:["هُوَ","مِصْرِيّ"]},
               {ar:"هِيَ لُبنانِيَّة",en:"She is Lebanese", words:["هِيَ","لُبنانِيَّة"]},
-              {ar:"مِن أَيْنَ أَنْتِ؟",en:"Where are you from?", words:["مِن","أَيْنَ","أَنْتِ؟"]},
+              {ar:"مِن أَيْنَ أَنْتِ؟",en:"Where are you from? (f)", words:["مِن","أَيْنَ","أَنْتِ؟"]},
               {ar:"أَسْكُن في القاهِرَة",en:"I live in Cairo", words:["أَسْكُن","في","القاهِرَة"]},
-              {ar:"نَعَم، أَنا سُورِيَّة",en:"Yes, I am Syrian", words:["نَعَم،","أَنا","سُورِيَّة"]},
+              {ar:"نَعَم، أَنا سُورِيَّة",en:"Yes, I am Syrian (f)", words:["نَعَم،","أَنا","سُورِيَّة"]},
               {ar:"هُوَ طالِب أُرْدُنِيّ",en:"He is a Jordanian student", words:["هُوَ","طالِب","أُرْدُنِيّ"]},
               {ar:"هِيَ مِن الكُوَيت",en:"She is from Kuwait", words:["هِيَ","مِن","الكُوَيت"]},
-              {ar:"أَيْنَ تَسْكُن يا سامِي؟",en:"Where do you live, Sami?", words:["أَيْنَ","تَسْكُن","يا","سامِي؟"]},
+              {ar:"أَيْنَ تَسْكُن يا سامِي؟",en:"Where do you live, Sami? (m)", words:["أَيْنَ","تَسْكُن","يا","سامِي؟"]},
               {ar:"أَنا مِن الرِّياض عاصِمَة السُّعودِيَّة",en:"I am from Riyadh, the capital of Saudi Arabia", words:["أَنا","مِن","الرِّياض","عاصِمَة","السُّعودِيَّة"]},
             ]}
           }
@@ -6376,21 +6379,35 @@ function mkReview(){
   // Initialize review item pool on first entry
   if(!S.reviewItems){
     let pool = [];
+    const seen = new Set();  // dedupe by Arabic text
     if(unit){
+      // Pull from vocab blocks
       const vocabBlk = unit.blocks.find(b => b.type === 'vocab');
       if(vocabBlk){
         (vocabBlk.data?.words || []).forEach(entry => {
           const arParts = (entry.ar||'').split(' / ').map(s=>s.trim()).filter(Boolean);
           const enParts = (entry.en||'').split(' / ').map(s=>s.trim()).filter(Boolean);
           if(arParts.length > 1 && arParts.length === enParts.length){
-            arParts.forEach((ar, i) => pool.push({ar, en: enParts[i]}));
+            arParts.forEach((ar, i) => {
+              if(!seen.has(ar)){ seen.add(ar); pool.push({ar, en: enParts[i]}); }
+            });
           } else if(entry.ar && entry.en){
-            pool.push({ar: entry.ar, en: entry.en});
+            if(!seen.has(entry.ar)){ seen.add(entry.ar); pool.push({ar: entry.ar, en: entry.en}); }
           }
         });
       }
+      // Also pull from dialogue keywords (so connector words like وَ، فَـ، فِي appear in review)
+      unit.blocks.filter(b => b.type === 'dialogue').forEach(dlgBlk => {
+        (dlgBlk.data?.keywords || []).forEach(entry => {
+          if(entry.ar && entry.en && !seen.has(entry.ar)){
+            seen.add(entry.ar);
+            pool.push({ar: entry.ar, en: entry.en});
+          }
+        });
+      });
     }
-    S.reviewItems = shuffle(pool).slice(0, Math.min(5, pool.length));
+    // Bigger pool now — show up to 8 review items instead of 5
+    S.reviewItems = shuffle(pool).slice(0, Math.min(8, pool.length));
     S.reviewIdx = 0;
     S.reviewFlipped = false;
   }
