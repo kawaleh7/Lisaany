@@ -4904,4 +4904,1695 @@ function mkUpgrade(){
 
   // Free tier reminder
   const free = div('');
-  free.style.cssText = 'text-alig
+  free.style.cssText = 'text-align:center;font-size:12px;color:var(--dim);margin-bottom:16px;';
+  free.innerHTML = '✓ Module 1 is <strong style="color:var(--green)">always free</strong> — no credit card needed';
+  w.appendChild(free);
+
+  // Back button
+  const nav = div('action-row');
+  nav.appendChild(el('button',{className:'btn btn-ghost btn-block',onclick:()=>{S.view='hub';render();}},'← Back to Hub'));
+  w.appendChild(nav);
+
+  const stage = div('stage'); stage.appendChild(w); return stage;
+}
+
+function render(){
+  try{localStorage.setItem('lisaany_ap_sess',JSON.stringify({view:S.view,mId:S.mId,uId:S.uId}));}catch(e){}
+  const app=document.getElementById('app'); app.innerHTML='';
+  app.appendChild(mkTop());
+  const sc=div('scroll'); sc.id='main-scroll';
+  const v=S.view;
+  if(v==='hub') sc.appendChild(mkHub());
+  else if(v==='upgrade') sc.appendChild(mkUpgrade());
+  else if(v==='units') sc.appendChild(mkUnits());
+  else if(v==='blocks') sc.appendChild(mkBlocks());
+  else if(v==='lesson') sc.appendChild(mkLesson());
+  else if(v==='review') sc.appendChild(mkReview());
+  else if(v==='complete') sc.appendChild(mkComplete());
+  app.appendChild(sc);
+  app.appendChild(mkNav());
+  if(S.feedback) app.appendChild(mkFb());
+}
+
+// TOPBAR
+function mkTop(){
+  const bar=div('topbar');
+  const lr=div('logo-row');
+  lr.appendChild(el('span',{className:'logo-ar'},'عِلْم'));
+  lr.appendChild(el('span',{className:'logo-en'},'Lisaany'));
+  lr.appendChild(el('span',{className:'logo-tag'},'Arabic Path'));
+  bar.appendChild(lr);
+  const rr=div('');
+  rr.style.display='flex'; rr.style.alignItems='center'; rr.style.gap='8px';
+  if(S.view!=='hub'){
+    // Back button: one step backward
+    const b=el('button',{className:'btn btn-ghost btn-sm nav-back-btn',onclick:()=>{ if(S.view==='lesson')S.view='blocks'; else if(S.view==='blocks')S.view='units'; else S.view='hub'; render(); }});
+    b.appendChild(ms('arrow_back')); b.appendChild(document.createTextNode(' Back')); rr.appendChild(b);
+    // Home button: jump straight to platform hub (modules grid)
+    const h=el('button',{className:'btn btn-ghost btn-sm nav-home-btn',title:'Platform Home',onclick:()=>{ S.view='hub'; render(); }});
+    h.appendChild(ms('home')); h.appendChild(document.createTextNode(' Home')); rr.appendChild(h);
+  }
+  const xp=div('xp-chip'); xp.appendChild(ms('bolt')); xp.appendChild(document.createTextNode(' '+XP+'  🔥 '+STREAK)); rr.appendChild(xp);
+  bar.appendChild(rr);
+  return bar;
+}
+
+// BOTTOM NAV
+// Consistent across the site: Home / Read / Speak / Profile.
+// "Speak" stays inside this file (current platform). Others navigate to their HTML files.
+function mkNav(){
+  const nav=div('bottom-nav');
+  const tabs=[
+    {icon:'home',         lbl:'Home',    href:'index.html'},
+    {icon:'menu_book',    lbl:'Read',    href:'lisaany_new.html'},
+    {icon:'mic',          lbl:'Speak',   href:null},          // current page
+    {icon:'groups',       lbl:'Tutors',  href:'tutors.html'},
+    {icon:'person',       lbl:'Profile', href:'auth.html'},
+  ];
+  tabs.forEach((t,i)=>{
+    const isActive = (i===2); // Speak is the current platform
+    const b=div('nav-btn'+(isActive?' active':''));
+    const ic=ms(t.icon); ic.style.fontSize='24px';
+    b.appendChild(ic);
+    b.appendChild(document.createTextNode(t.lbl));
+    if(t.href){ b.style.cursor='pointer'; b.addEventListener('click',()=>{ window.location.href=t.href; }); }
+    nav.appendChild(b);
+  });
+  return nav;
+}
+
+// FEEDBACK
+function mkFb(){
+  const ov=div('fb-ov'); const c=div('fb-c '+(S.feedback==='ok'?'fb-ok':'fb-no')); c.textContent=S.feedback==='ok'?'✓':'✕'; ov.appendChild(c); return ov;
+}
+
+// ══════════════════════════════════════════════════════
+// HUB
+// ══════════════════════════════════════════════════════
+function mkHub(){
+  const w=div('stage');
+  const h=div('hub-hero');
+  h.appendChild(el('div',{className:'hub-eyebrow'},'Arabic Language Path'));
+  const hubTitle = el('h1',{className:'hub-title'});
+  hubTitle.innerHTML = 'Master <em>Modern Standard Arabic</em>';
+  h.appendChild(hubTitle);
+  h.appendChild(el('p',{className:'hub-sub'},'A structured journey built on Bayna Yadak and the Madina series. From first greetings to fluent sentences.'));
+  const stats=div('hub-stats');
+  const tb=CUR.reduce((a,m)=>a+m.units.reduce((b,u)=>b+u.blocks.length,0),0);
+  const db=Object.values(PROG).reduce((a,m)=>a+Object.values(m).reduce((b,u)=>b+Object.values(u).filter(s=>s==='done').length,0),0);
+  [{v:'5',l:'Modules'},{v:'10',l:'Units'},{v:tb,l:'Blocks'},{v:db,l:'Done'}].forEach(s=>{ const sc=div('hub-stat'); sc.appendChild(el('div',{className:'hub-stat-val'},String(s.v))); sc.appendChild(el('div',{className:'hub-stat-lbl'},s.l)); stats.appendChild(sc); });
+  h.appendChild(stats); w.appendChild(h);
+
+  CUR.forEach(mod=>{
+    const ok=modOk(mod.id);
+    const card=div('mc'+(ok?'':' lk'));
+    const pct=mod.units.reduce((a,u)=>a+unitPct(mod.id,u.id),0)/mod.units.length;
+    const hdr=div('mc-hdr');
+    const num=div('mc-num'); num.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(212,163,74,.5);color:var(--gold);'; num.textContent='M'+mod.id; hdr.appendChild(num);
+    const inf=div('mc-info');
+    // Level tag — cherry-picked from Al-Mu'allim
+    const level = mod.id <= 4 ? 'BEGINNER' : mod.id <= 8 ? 'INTERMEDIATE' : 'ADVANCED';
+    const levelColor = mod.id <= 4 ? 'rgba(74,138,110,.18)' : mod.id <= 8 ? 'rgba(212,163,74,.18)' : 'rgba(232,200,120,.22)';
+    const levelText  = mod.id <= 4 ? 'rgba(155,200,163,.95)' : mod.id <= 8 ? 'var(--gold)' : 'var(--gold)';
+    const levelTag = el('span',{style:{
+      display:'inline-block',fontSize:'9px',fontWeight:'800',letterSpacing:'.14em',
+      padding:'3px 9px',borderRadius:'999px',
+      background:levelColor,color:levelText,marginBottom:'4px'
+    }},level);
+    inf.appendChild(levelTag);
+    inf.appendChild(el('div',{className:'mc-title'},mod.title));
+    inf.appendChild(el('div',{className:'mc-sub'},mod.units.length+' units · '+mod.units.reduce((a,u)=>a+u.blocks.length,0)+' time blocks'));
+    hdr.appendChild(inf);
+    hdr.appendChild(ok?el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',color:mod.color}},'chevron_right'):el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',color:'var(--dim)',fontVariationSettings:"'FILL' 1"}},'lock'));
+    card.appendChild(hdr);
+    const pills=div('mc-units');
+    mod.units.forEach(u=>{ const up=unitPct(mod.id,u.id); const p=div('mc-pill'); p.style.cssText=`border-color:${up===100?'var(--green)':'rgba(212,163,74,.35)'};color:${up===100?'var(--green)':'var(--gold)'};background:${up===100?'rgba(167,209,166,.08)':'transparent'}`; p.textContent=u.id+(up===100?' ✓':''); pills.appendChild(p); });
+    card.appendChild(pills);
+    const pb=div('mc-pb'); const pf=div('mc-pb-fill'); pf.style.width=pct+'%'; pb.appendChild(pf); card.appendChild(pb);
+    if(ok && (isPremium() || isModFree(mod.id))){
+      card.addEventListener('click',()=>{ S.mId=mod.id; S.view='units'; render(); });
+    } else if(ok && !isModFree(mod.id)){
+      // Locked — show upgrade
+      card.addEventListener('click',()=>{ S.view='upgrade'; render(); });
+      // Add premium badge
+      const lkBadge = div('');
+      lkBadge.style.cssText='position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,#d4a347,#f2be62);color:#1a1000;font-size:10px;font-weight:800;letter-spacing:.08em;padding:4px 10px;border-radius:999px;';
+      const lkIcon = document.createElement('span');
+      lkIcon.style.fontFamily="'Material Symbols Outlined'";
+      lkIcon.style.fontSize='13px';
+      lkIcon.style.fontVariationSettings="'FILL' 1";
+      lkIcon.textContent='workspace_premium';
+      lkBadge.appendChild(lkIcon);
+      lkBadge.appendChild(document.createTextNode(' Unlock with Premium'));
+      card.style.position='relative';
+      card.appendChild(lkBadge);
+    }
+    w.appendChild(card);
+  });
+  return w;
+}
+
+// ══════════════════════════════════════════════════════
+// UNITS
+// ══════════════════════════════════════════════════════
+function mkUnits(){
+  const mod=getMod(S.mId); const w=div('stage');
+  // ── In-page back link to platform hub ──
+  const backLinkU=document.createElement('button');
+  backLinkU.className='in-page-back';
+  backLinkU.onclick=()=>{ S.view='hub'; render(); };
+  const arrowBackU=ms('arrow_back'); arrowBackU.style.fontSize='16px';
+  backLinkU.appendChild(arrowBackU);
+  backLinkU.appendChild(document.createTextNode(' Back to Modules'));
+  w.appendChild(backLinkU);
+  w.appendChild(el('h2',{className:'page-title'},'Module '+mod.id+': '+mod.title));
+  w.appendChild(el('p',{className:'page-sub',style:{marginTop:'6px'}},'Tap the highlighted unit to continue. Each unit unlocks the next.'));
+
+  // ── Module-level progress strip ──
+  const totalUnits = mod.units.length;
+  const doneUnits = mod.units.filter(u => unitPct(S.mId, u.id) === 100).length;
+  const modPct = Math.round((doneUnits / totalUnits) * 100);
+  const stripWrap = div('');
+  stripWrap.style.cssText = 'background:rgba(212,163,74,.05);border:1px solid rgba(212,163,74,.18);border-radius:14px;padding:14px 18px;margin:18px 0 24px;';
+  const stripTop = div('');
+  stripTop.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:12px;';
+  stripTop.appendChild(el('div',{style:{color:'var(--text)',fontWeight:'700',letterSpacing:'.04em'}}, doneUnits+' of '+totalUnits+' units complete'));
+  stripTop.appendChild(el('div',{style:{color:'var(--gold)',fontWeight:'700'}}, modPct+'%'));
+  stripWrap.appendChild(stripTop);
+  const sBar = div('');
+  sBar.style.cssText = 'height:5px;background:rgba(212,163,74,.12);border-radius:3px;overflow:hidden;';
+  const sFill = div('');
+  sFill.style.cssText = 'height:100%;background:linear-gradient(90deg,var(--gold),rgba(232,200,120,.85));width:'+modPct+'%;transition:width .4s;';
+  sBar.appendChild(sFill);
+  stripWrap.appendChild(sBar);
+  w.appendChild(stripWrap);
+
+  // ── Render each unit ──
+  mod.units.forEach(unit=>{
+    const ok=unitOk(S.mId,unit.id); const pct=unitPct(S.mId,unit.id); const done=pct===100;
+    const isActive = ok && !done; // The user's current focus (only one at a time due to gating)
+
+    // Determine status pill content + colors
+    let pillLabel, pillBg, pillBorder, pillColor;
+    if(done){
+      pillLabel = '✓ COMPLETE';
+      pillBg = 'rgba(74,138,110,.15)';
+      pillBorder = 'rgba(74,138,110,.5)';
+      pillColor = 'rgba(155,200,163,.95)';
+    } else if(isActive){
+      pillLabel = pct > 0 ? (pct + '% · CONTINUE') : 'UP NEXT';
+      pillBg = 'rgba(212,163,74,.15)';
+      pillBorder = 'var(--gold)';
+      pillColor = 'var(--gold)';
+    } else {
+      pillLabel = 'LOCKED';
+      pillBg = 'transparent';
+      pillBorder = 'rgba(255,255,255,.1)';
+      pillColor = 'var(--dim)';
+    }
+
+    const uc = div('uc'+(isActive ? ' uc-on' : '')+(done ? ' uc-on' : '')+(!ok ? ' uc-lk' : ''));
+    // Active-unit emphasis: gold glow box-shadow
+    if(isActive){
+      uc.style.cssText = 'box-shadow:0 0 24px rgba(212,163,74,.18);border-color:var(--gold);';
+    } else if(done){
+      uc.style.cssText = 'opacity:.65;';
+    }
+
+    const inn = div('uc-inner');
+
+    // Icon (color-coded by status)
+    const ico = div('uc-ico');
+    if(done){
+      ico.style.cssText = 'background:rgba(74,138,110,.1);border:1px solid rgba(74,138,110,.3);color:rgba(155,200,163,.95);';
+    } else if(isActive){
+      ico.style.cssText = 'background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.4);color:var(--gold);';
+    } else {
+      ico.style.cssText = 'background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);color:var(--dim);';
+    }
+    ico.appendChild(ms(unit.icon));
+    inn.appendChild(ico);
+
+    // Text container
+    const txt = div('uc-txt');
+    txt.appendChild(el('div',{className:'uc-title'},'Unit '+unit.id+': '+unit.title));
+
+    // English byline: "N blocks · ~Y min" (gold, small)
+    const blockCount = unit.blocks.length;
+    const estMin = blockCount * 10;
+    const byline = blockCount + ' block' + (blockCount===1?'':'s') + ' · ~' + estMin + ' min';
+    txt.appendChild(el('div',{style:{fontSize:'10px',color:'rgba(212,163,74,.75)',fontWeight:'700',letterSpacing:'.06em',marginBottom:'3px',textTransform:'uppercase'}}, byline));
+
+    // Arabic description (kept — atmospheric, kept dim)
+    txt.appendChild(el('div',{className:'uc-desc'}, unit.desc));
+
+    // Per-unit progress bar (only if active and partially done)
+    if(isActive && pct > 0){
+      const upWrap = div('');
+      upWrap.style.cssText = 'margin-top:8px;height:3px;background:rgba(212,163,74,.1);border-radius:2px;overflow:hidden;';
+      const upFill = div('');
+      upFill.style.cssText = 'height:100%;background:var(--gold);width:'+pct+'%;transition:width .3s;';
+      upWrap.appendChild(upFill);
+      txt.appendChild(upWrap);
+    }
+    inn.appendChild(txt);
+
+    // Status pill (replaces the old play/check/lock icon)
+    const pill = div('');
+    pill.style.cssText = 'flex-shrink:0;padding:5px 10px;border-radius:999px;background:'+pillBg+';border:1.5px solid '+pillBorder+';color:'+pillColor+';font-size:9px;font-weight:800;letter-spacing:.12em;white-space:nowrap;align-self:center;';
+    pill.textContent = pillLabel;
+    inn.appendChild(pill);
+
+    uc.appendChild(inn);
+
+    // Click handlers (unchanged from prior version)
+    if(ok && canAccess(S.mId, unit.id)){
+      uc.addEventListener('click',()=>{ S.uId=unit.id; S.view='blocks'; render(); });
+    } else if(ok && !canAccess(S.mId, unit.id)){
+      uc.addEventListener('click',()=>{ S.view='upgrade'; render(); });
+    }
+    w.appendChild(uc);
+  });
+  return w;
+}
+
+// ══════════════════════════════════════════════════════
+// BLOCKS
+// ══════════════════════════════════════════════════════
+function mkBlocks(){
+  const mod=getMod(S.mId); const unit=getUnit(S.mId,S.uId); const w=div('stage');
+  // ── In-page back link to units list ──
+  const backLinkB=document.createElement('button');
+  backLinkB.className='in-page-back';
+  backLinkB.onclick=()=>{ S.view='units'; render(); };
+  const arrowBackB=ms('arrow_back'); arrowBackB.style.fontSize='16px';
+  backLinkB.appendChild(arrowBackB);
+  backLinkB.appendChild(document.createTextNode(' Back to Units'));
+  w.appendChild(backLinkB);
+  const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Unit '+unit.id+' · '+unit.title)); w.appendChild(ph);
+  w.appendChild(el('h2',{className:'page-title'},unit.title));
+  w.appendChild(el('p',{className:'page-sub'},unit.desc));
+  // ── Lesson objectives card (LINC-style "By the end of this lesson, you can...") ──
+  if(unit.objectives && unit.objectives.length){
+    const objCard = div('unit-objectives');
+    const objLabel = div('unit-objectives-label');
+    objLabel.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'14px',fontVariationSettings:"'FILL' 1"}},'flag'));
+    objLabel.appendChild(document.createTextNode('Lesson Objectives'));
+    objCard.appendChild(objLabel);
+    objCard.appendChild(el('div',{className:'unit-objectives-title'},'By the end of this lesson, you can:'));
+    const ul = document.createElement('ul');
+    unit.objectives.forEach(obj=>{
+      const li = document.createElement('li');
+      li.textContent = obj;
+      ul.appendChild(li);
+    });
+    objCard.appendChild(ul);
+    w.appendChild(objCard);
+  }
+  const BMETA=[{icon:'forum',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'translate',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'psychology',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'extension',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'forum',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'}];
+  const grid=div('bgrid');
+  unit.blocks.forEach((blk,i)=>{
+    const ok=blockOk(S.mId,S.uId,blk.id); const st=getBlock_(S.mId,S.uId,blk.id); const bm=BMETA[i]||BMETA[0];
+    const card=div('bc'+(st==='done'?' bc-dn':'')+(!ok?' bc-lk':''));
+    const top=div('bc-top');
+    const ico=div('bc-ico'); ico.style.cssText=`background:${bm.ci};color:${bm.cb};`; ico.appendChild(ms(blk.icon || bm.icon)); top.appendChild(ico);
+    top.appendChild(el('div',{className:'bc-num'},'Block '+blk.id));
+    top.appendChild(el('div',{className:'bc-title'},blk.title));
+    top.appendChild(el('div',{className:'bc-desc'},blk.desc));
+    card.appendChild(top);
+    const bot=div('bc-bot');
+    const sl=div('bc-st'); sl.style.color=st==='done'?'var(--green)':ok?bm.cb:'var(--dim)'; sl.textContent=st==='done'?'✓ Done':ok?'Ready':'Locked'; bot.appendChild(sl);
+    if(ok){ const chv=el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'16px',color:bm.cb}},'chevron_right'); bot.appendChild(chv); }
+    card.appendChild(bot);
+    if(ok) card.addEventListener('click',()=>{ S.bId=blk.id; resetBS(); S.view='lesson'; render(); });
+    grid.appendChild(card);
+  });
+  w.appendChild(grid);
+  return w;
+}
+function resetBS(){
+  S.dlIdx=0; S.vIdx=0; S.vFlip=false; S.vKnown=new Set();
+  const blk=getBlk(S.mId,S.uId,S.bId);
+  if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=buildBankWithDistractors(blk.data.sentences[0]?.words||[], S.mId, S.uId); }
+  if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
+}
+
+// ══════════════════════════════════════════════════════
+// LESSON DISPATCHER
+// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════
+// BLOCK 5: POSSESSIVE — tap the right suffix (introduced in Unit 1.5)
+// ══════════════════════════════════════════════════════
+function mkPossessive(blk){
+  const d=blk.data;
+  const total=d.sentences.length;
+  if(typeof S.posIdx === 'undefined'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
+  const cur=d.sentences[S.posIdx];
+  const pct=Math.round(S.posScore/total*100);
+  const w=div('stage');
+
+  // Back button
+  const topNav=div('');
+  topNav.style.cssText='display:flex;justify-content:flex-start;margin-bottom:4px;';
+  topNav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+    S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false;
+    S.view='blocks'; render();
+  }},'← Back'));
+  w.appendChild(topNav);
+
+  const ph=div('phase-label'); ph.appendChild(div('phase-dot'));
+  ph.appendChild(document.createTextNode(' Block 5 · Possessive Suffixes · '+(S.posIdx+1)+'/'+total));
+  w.appendChild(ph);
+  w.appendChild(el('h2',{className:'page-title'},'Tap the Right Suffix'));
+  w.appendChild(el('p',{className:'page-sub'},'Match the English meaning to the correct Arabic suffix.'));
+
+  // Score row
+  const sr=div('score-row');
+  [{v:S.posScore,l:'Correct',c:'var(--green)'},{v:S.posWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{
+    const si=div('sc-item');
+    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
+    si.appendChild(el('div',{className:'sc-lbl'},s.l));
+    sr.appendChild(si);
+  });
+  w.appendChild(sr);
+
+  // Reference table — always visible (the cheat sheet from the screenshot)
+  const ref=div('');
+  ref.style.cssText='background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:14px;padding:10px 14px;margin:12px 0;';
+  ref.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'8px',textAlign:'center'}},'Reference'));
+  const refRow=div('');
+  refRow.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:6px;direction:rtl;';
+  [
+    {suf:'ـِي', en:'my'},
+    {suf:'ـُكَ', en:'your (m)'},
+    {suf:'ـُهُ', en:'his'},
+    {suf:'ـُهَا', en:'her'},
+  ].forEach(item=>{
+    const cell=div('');
+    cell.style.cssText='text-align:center;padding:4px;';
+    cell.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'22px',color:'var(--gold)',lineHeight:'1.2'}},item.suf));
+    cell.appendChild(el('div',{style:{fontSize:'10px',color:'var(--dim)',marginTop:'2px',direction:'ltr'}},item.en));
+    refRow.appendChild(cell);
+  });
+  ref.appendChild(refRow);
+  w.appendChild(ref);
+
+  // English prompt
+  const prompt=div('en-prompt');
+  prompt.appendChild(el('span',{className:'lbl'},'Build in Arabic:'));
+  prompt.appendChild(document.createTextNode(cur.en));
+  w.appendChild(prompt);
+
+  // Display: Arabic word with slot
+  const wordBox=div('');
+  wordBox.style.cssText=`
+    background:#0a1024;
+    border:1.5px solid ${S.posFb==='correct'?'var(--green)':S.posFb==='wrong'?'var(--red)':'rgba(212,163,74,.3)'};
+    border-radius:16px;padding:24px 16px;margin-top:14px;
+    direction:rtl;text-align:center;
+    font-family:'Amiri',serif;font-size:42px;color:var(--text);
+    line-height:1.4;
+  `;
+  if(S.posLocked){
+    // Show the final form (correct or what they chose)
+    const isRight = S.posChosen === cur.correct;
+    const finalText = isRight ? cur.finalForm : (cur.stem + (S.posChosen||''));
+    wordBox.appendChild(el('span',{style:{
+      color: isRight?'var(--green)':'var(--red)',
+      borderBottom: '2px solid '+(isRight?'var(--green)':'var(--red)'),
+      padding:'0 6px'
+    }}, finalText));
+  } else {
+    // Show stem + slot or chosen suffix
+    wordBox.appendChild(document.createTextNode(cur.stem));
+    const slot=el('span',{style:{
+      display:'inline-block',
+      minWidth:'52px',padding:'0 8px',marginRight:'4px',
+      borderBottom:'2px dashed rgba(212,163,74,.5)',
+      color: S.posChosen?'var(--gold)':'rgba(212,163,74,.4)',
+      fontFamily:"'Amiri',serif"
+    }}, S.posChosen || '___');
+    wordBox.appendChild(slot);
+  }
+  w.appendChild(wordBox);
+
+  // 4 suffix choices
+  if(!S.posLocked){
+    const choices=div('');
+    choices.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;';
+    ['ـِي','ـُكَ','ـُهُ','ـُهَا'].forEach(suf=>{
+      const isSel = S.posChosen===suf;
+      const btn=el('button',{
+        style:{
+          padding:'14px 8px',borderRadius:'14px',
+          border:'1.5px solid '+(isSel?'var(--gold)':'rgba(212,163,74,.25)'),
+          background:isSel?'rgba(212,163,74,.18)':'rgba(10,14,24,.6)',
+          color:isSel?'var(--gold)':'var(--text)',
+          fontFamily:"'Amiri',serif",fontSize:'28px',
+          direction:'rtl',cursor:'pointer',
+          transition:'all .15s'
+        },
+        onclick:()=>{ S.posChosen=suf; render(); }
+      }, suf);
+      choices.appendChild(btn);
+    });
+    w.appendChild(choices);
+  }
+
+  // Feedback
+  if(S.posFb){
+    const fb=div('cf '+(S.posFb==='correct'?'cf-ok':'cf-no'));
+    fb.style.marginTop='14px';
+    if(S.posFb==='correct'){
+      fb.innerHTML='✅ <strong>Correct!</strong> '+cur.finalForm+' — '+cur.en;
+    } else {
+      fb.innerHTML='❌ <strong>Not quite.</strong> The answer is <span style="font-family:\'Amiri\',serif;font-size:22px">'+cur.finalForm+'</span>';
+    }
+    w.appendChild(fb);
+  }
+
+  // Action buttons
+  const nav=div('action-row');
+  nav.style.marginTop='14px';
+  // Failure scaffolding: after threshold wrong attempts on this item, offer a graceful exit
+  if(S.posFb==='wrong' && (S.posAttempts||0) >= SCAFFOLD_THRESHOLD){
+    w.appendChild(mkScaffoldPanel(cur.correct, ()=>advPos(d)));
+  }
+  if(!S.posLocked){
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+      S.posChosen=cur.correct; S.posLocked=true; S.posFb='wrong';
+      S.posWrong++; S.posAttempts = (S.posAttempts||0) + 1;
+      render();
+    }},'Show Answer'));
+    nav.appendChild(el('button',{
+      className:'btn btn-primary',
+      style: S.posChosen ? {} : {opacity:'0.5',cursor:'not-allowed',pointerEvents:'none'},
+      onclick:()=>{
+        if(!S.posChosen) return;
+        const ok = S.posChosen===cur.correct;
+        S.posLocked=true;
+        S.posFb=ok?'correct':'wrong';
+        if(ok) S.posScore++;
+        else { S.posWrong++; S.posAttempts = (S.posAttempts||0) + 1; }
+        render();
+        if(ok) setTimeout(()=>advPos(d), 1100);
+      }
+    },'Check ✓'));
+  } else if(S.posFb==='wrong' && (S.posAttempts||0) < SCAFFOLD_THRESHOLD){
+    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advPos(d)},'Next →'));
+  }
+  w.appendChild(nav);
+
+  return w;
+}
+
+function advPos(d){
+  S.posFb=null; S.posLocked=false; S.posChosen=null; S.posAttempts=0;
+  if(S.posIdx < d.sentences.length-1){
+    S.posIdx++; render();
+  } else {
+    const pct=Math.round(S.posScore/d.sentences.length*100);
+    if(pct >= (d.passing||70)){
+      S.posIdx=0; S.posScore=0; S.posWrong=0;
+      finishBlock();
+    } else {
+      S.posIdx=0; S.posScore=0; S.posWrong=0;
+      render();
+    }
+  }
+}
+
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return div('','Block not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); return div('','?'); }
+
+// ══════════════════════════════════════════════════════
+// BLOCK 1: DIALOGUE
+// ══════════════════════════════════════════════════════
+
+// Strip Arabic diacritics + punctuation for word matching
+function normalizeAr(s){
+  return (s||'').replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'').replace(/[،.؟!"'()]/g,'').trim();
+}
+
+// Build a word→English map for the current unit (vocab + dialogue keywords)
+function buildWordIndex(mId, uId){
+  const unit = (CUR.find(m=>m.id===mId)?.units||[]).find(u=>u.id===uId);
+  if(!unit) return {};
+  const idx = {};
+  // From dialogue keywords
+  unit.blocks.filter(b=>b.type==='dialogue').forEach(b=>{
+    (b.data?.keywords||[]).forEach(k=>{
+      const arParts = (k.ar||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+      const enParts = (k.en||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+      arParts.forEach((ar,i)=>{
+        const key = normalizeAr(ar);
+        if(key) idx[key] = enParts[i] || enParts[0] || '';
+      });
+    });
+  });
+  // From vocab block
+  unit.blocks.filter(b=>b.type==='vocab').forEach(b=>{
+    (b.data?.words||[]).forEach(w=>{
+      const arParts = (w.ar||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+      const enParts = (w.en||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+      arParts.forEach((ar,i)=>{
+        const key = normalizeAr(ar);
+        if(key) idx[key] = enParts[i] || enParts[0] || '';
+      });
+    });
+  });
+  return idx;
+}
+
+// Play mode — async function that plays a line then waits for tap
+async function playLineAtIdx(){
+  const blk = getBlk(S.mId, S.uId, S.bId);
+  if(!blk || blk.type !== 'dialogue') return;
+  const lines = blk.data.lines || [];
+  const myIdx = S.dlPlayIdx;
+  const myMode = S.dlPlayMode;
+  const line = lines[myIdx];
+  if(!line) return;
+  S.dlAwaitingTap = false;
+  render();
+  await speak(line.ar);
+  // Only show the "tap to continue" cue if user is still on this line and still in play mode
+  if(S.dlPlayMode === myMode && S.dlPlayIdx === myIdx && myMode){
+    S.dlAwaitingTap = true;
+    render();
+  }
+}
+
+async function advancePlayLine(){
+  const blk = getBlk(S.mId, S.uId, S.bId);
+  if(!blk || blk.type !== 'dialogue') return;
+  const lines = blk.data.lines || [];
+  if(S.dlPlayIdx >= lines.length - 1){
+    S.dlPlayDone = true;
+    S.dlAwaitingTap = false;
+    render();
+    return;
+  }
+  S.dlPlayIdx++;
+  S.dlAwaitingTap = false;
+  await playLineAtIdx();
+}
+
+function exitPlayMode(){
+  S.dlPlayMode = false;
+  S.dlPlayIdx = 0;
+  S.dlAwaitingTap = false;
+  S.dlPlayDone = false;
+  render();
+}
+
+function mkDl(blk){
+  const d=blk.data; const w=div('stage');
+  // State init
+  if(typeof S.dlShowEn === 'undefined') S.dlShowEn = true;
+  if(typeof S.dlPlayMode === 'undefined') S.dlPlayMode = false;
+  if(typeof S.dlPlayIdx === 'undefined') S.dlPlayIdx = 0;
+  if(typeof S.dlAwaitingTap === 'undefined') S.dlAwaitingTap = false;
+  if(typeof S.dlPlayDone === 'undefined') S.dlPlayDone = false;
+  if(typeof S.dlActiveWord === 'undefined') S.dlActiveWord = null;
+  // Build word translation index for this unit
+  const wordIdx = buildWordIndex(S.mId, S.uId);
+
+  // Header
+  const ph=div('phase-label'); ph.appendChild(div('phase-dot'));
+  ph.appendChild(document.createTextNode(' Dialogue')); w.appendChild(ph);
+  w.appendChild(el('h2',{className:'page-title'},d.title));
+  w.appendChild(el('p',{className:'page-sub'},d.setting));
+
+  // ── Gender/grammar note (rendered when dialogue has a 'note' field) ──
+  if(d.note){
+    const noteWrap=div(''); noteWrap.style.cssText='background:rgba(212,163,74,.10);border:1.5px solid rgba(212,163,74,.4);border-radius:16px;padding:14px 18px;margin:14px 0 18px;font-size:13px;line-height:1.65;color:var(--text);';
+    const noteLbl=document.createElement('div'); noteLbl.style.cssText='font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase;display:flex;align-items:center;gap:6px;';
+    const ic=ms('lightbulb'); ic.style.fontSize='14px'; noteLbl.appendChild(ic); noteLbl.appendChild(document.createTextNode(' Notice'));
+    noteWrap.appendChild(noteLbl);
+    const noteBody=document.createElement('div'); noteBody.innerHTML=d.note;
+    noteWrap.appendChild(noteBody);
+    w.appendChild(noteWrap);
+  }
+
+  // ── Play Through Mode toolbar ──
+  if(!S.dlPlayMode){
+    const playBar = el('button',{
+      style:{
+        width:'100%',padding:'14px 18px',borderRadius:'14px',
+        border:'1.5px solid var(--gold)',
+        background:'linear-gradient(135deg,rgba(212,163,74,.18),rgba(212,163,74,.08))',
+        color:'var(--gold)',fontSize:'14px',fontWeight:'700',letterSpacing:'.04em',
+        cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:'10px',
+        marginTop:'14px',transition:'all .2s'
+      },
+      onclick: async ()=>{
+        S.dlPlayMode = true; S.dlPlayIdx = 0; S.dlAwaitingTap = false; S.dlPlayDone = false;
+        render();
+        await playLineAtIdx();
+      }
+    });
+    playBar.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'20px',fontVariationSettings:"'FILL' 1"}},'play_circle'));
+    playBar.appendChild(document.createTextNode('Play Through Dialogue'));
+    w.appendChild(playBar);
+  } else {
+    // Exit play mode bar
+    const exitBar = el('button',{
+      style:{
+        width:'100%',padding:'10px 14px',borderRadius:'12px',
+        border:'1px solid rgba(200,112,96,.4)',
+        background:'rgba(200,112,96,.08)',color:'rgba(200,112,96,.9)',
+        fontSize:'12px',fontWeight:'700',letterSpacing:'.06em',
+        cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:'8px',
+        marginTop:'14px'
+      },
+      onclick: ()=>exitPlayMode()
+    });
+    exitBar.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'16px'}},'close'));
+    exitBar.appendChild(document.createTextNode('Exit Play Mode'));
+    w.appendChild(exitBar);
+  }
+
+  // ── View Settings (cherry-picked from Al-Mu'allim) ──
+  const settings = div('');
+  settings.style.cssText = 'background:rgba(212,163,74,.04);border:1px solid rgba(212,163,74,.18);border-radius:14px;padding:10px 14px;margin:10px 0 14px;display:flex;align-items:center;justify-content:space-between;';
+  settings.appendChild(el('span',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.14em',textTransform:'uppercase',color:'var(--dim)'}},'View Settings'));
+  // Toggle pill
+  const toggleWrap = div('');
+  toggleWrap.style.cssText = 'display:flex;align-items:center;gap:10px;cursor:pointer;';
+  toggleWrap.appendChild(el('span',{style:{fontSize:'13px',color:'var(--text)'}},'Translation'));
+  const pill = div('');
+  pill.style.cssText = `width:36px;height:20px;border-radius:10px;position:relative;transition:background .2s;background:${S.dlShowEn?'var(--gold)':'rgba(255,255,255,.18)'};`;
+  const knob = div('');
+  knob.style.cssText = `position:absolute;top:2px;${S.dlShowEn?'right:2px':'left:2px'};width:16px;height:16px;border-radius:50%;background:#0a1024;transition:all .2s;`;
+  pill.appendChild(knob);
+  toggleWrap.appendChild(pill);
+  toggleWrap.addEventListener('click',()=>{ S.dlShowEn = !S.dlShowEn; render(); });
+  settings.appendChild(toggleWrap);
+  w.appendChild(settings);
+
+  // Hint about tap-to-translate (subtle, only shown if no word is currently active)
+  if(!S.dlActiveWord){
+    const hint = div('');
+    hint.style.cssText = 'font-size:10px;color:var(--dim);text-align:center;margin-bottom:10px;font-style:italic;';
+    hint.textContent = '✦ Tap any Arabic word for translation';
+    w.appendChild(hint);
+  }
+
+  // Get unique speakers for initials
+  const speakers = [...new Set(d.lines.map(l=>l.spk))];
+  const initials = {};
+  speakers.forEach(s=>{ initials[s]=s.charAt(0).toUpperCase(); });
+
+  // Timeline container
+  const timeline = div('');
+  timeline.style.cssText = 'position:relative;padding:10px 0 20px;';
+
+  // Center vertical line
+  const centerLine = div('dl-center-line');
+  centerLine.style.cssText = 'position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,rgba(212,163,74,.6),rgba(212,163,74,.1));transform:translateX(-50%);z-index:0;';
+  timeline.appendChild(centerLine);
+
+  d.lines.forEach((line,idx)=>{
+    // In play mode, only show lines up to and including the current play index
+    if(S.dlPlayMode && idx > S.dlPlayIdx) return;
+
+    const isRight = line.side==='right';
+    const isActive = S.dlPlayMode && idx === S.dlPlayIdx;
+    const row = div('dl-row');
+    row.style.cssText = 'display:flex;align-items:center;margin-bottom:24px;position:relative;z-index:1;';
+
+    // Left/right halves
+    const leftSide = div('dl-side-left');
+    leftSide.style.cssText = 'flex:1;display:flex;justify-content:flex-end;padding-right:28px;';
+    const rightSide = div('dl-side-right');
+    rightSide.style.cssText = 'flex:1;display:flex;justify-content:flex-start;padding-left:28px;';
+
+    // Initial badge in center
+    const badge = div('dl-badge');
+    badge.style.cssText = `
+      width:36px;height:36px;border-radius:8px;flex-shrink:0;
+      background:${isActive?'var(--gold)':'rgba(212,163,74,.04)'};
+      border:1.5px solid rgba(212,163,74,.5);
+      display:flex;align-items:center;justify-content:center;
+      font-family:'Cinzel',serif;font-size:13px;font-weight:700;
+      color:${isActive?'#0a1024':'var(--gold)'};z-index:2;
+      transition:all .3s;
+    `;
+    badge.textContent = initials[line.spk] || '?';
+
+    // Build bubble wrapper
+    const bubWrap = div('');
+    bubWrap.style.cssText = 'display:flex;flex-direction:column;max-width:100%;';
+
+    // Speaker name above
+    bubWrap.appendChild(el('div',{style:{
+      fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',
+      color:'rgba(212,163,74,.7)',marginBottom:'5px',
+      textAlign: isRight?'left':'right'
+    }},line.spk));
+
+    // Bubble — active line gets a glow
+    const bub = div('');
+    bub.style.cssText = `
+      background:rgba(12,18,32,.9);
+      border:1.5px solid ${isActive?'var(--gold)':isRight?'rgba(212,163,74,.35)':'rgba(255,255,255,.1)'};
+      border-radius:${isRight?'4px 16px 16px 16px':'16px 4px 16px 16px'};
+      padding:14px 16px 12px;
+      ${isActive?'box-shadow:0 0 24px rgba(212,163,74,.25);':''}
+      transition:all .3s;
+    `;
+
+    // ── Arabic line: word-by-word tappable ──
+    const arDiv = el('div',{style:{
+      fontFamily:"'Amiri',serif",fontSize:'24px',color:'var(--text)',
+      direction:'rtl',lineHeight:'1.7',marginBottom:'6px',textAlign:'right'
+    }});
+    // Split by spaces, keep word + space sequence
+    line.ar.split(/(\s+)/).forEach((token, ti)=>{
+      if(/^\s+$/.test(token)){
+        arDiv.appendChild(document.createTextNode(token));
+        return;
+      }
+      if(!token) return;
+      const key = normalizeAr(token);
+      const en = wordIdx[key];
+      const isActiveWord = S.dlActiveWord && S.dlActiveWord.lineIdx===idx && S.dlActiveWord.tokenIdx===ti;
+      const wSpan = el('span',{
+        style:{
+          position:'relative',cursor:'pointer',padding:'1px 2px',borderRadius:'4px',
+          background: isActiveWord ? 'rgba(212,163,74,.22)' : 'transparent',
+          transition:'background .15s'
+        },
+        onclick:(e)=>{
+          e.stopPropagation();
+          if(isActiveWord){
+            S.dlActiveWord = null;
+          } else {
+            S.dlActiveWord = { lineIdx: idx, tokenIdx: ti, ar: token, en: en || null };
+            // Play the word audio (TTS fallback for individual words)
+            try{
+              const u = new SpeechSynthesisUtterance(token);
+              u.lang='ar-SA'; u.rate=0.8;
+              window.speechSynthesis.cancel();
+              window.speechSynthesis.speak(u);
+            }catch(_){}
+          }
+          render();
+        }
+      }, token);
+      // Popover above active word
+      if(isActiveWord){
+        const pop = div('');
+        pop.style.cssText = `
+          position:absolute;bottom:100%;left:50%;transform:translateX(-50%);
+          margin-bottom:6px;
+          background:linear-gradient(180deg,#f5ecd6,#e8d9b0);
+          color:#0a1024;border-radius:10px;padding:8px 12px;
+          font-family:'Inter',sans-serif;font-style:normal;font-size:11px;line-height:1.4;
+          white-space:nowrap;direction:ltr;text-align:center;
+          box-shadow:0 6px 20px rgba(0,0,0,.5);
+          z-index:50;
+        `;
+        if(en){
+          pop.appendChild(el('div',{style:{fontWeight:'700',fontSize:'12px'}}, en));
+        } else {
+          pop.appendChild(el('div',{style:{fontWeight:'600',fontStyle:'italic',color:'#7a6b48'}}, '— not in this lesson —'));
+        }
+        // Pointer
+        const pointer = div('');
+        pointer.style.cssText = 'position:absolute;top:100%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #e8d9b0;';
+        pop.appendChild(pointer);
+        wSpan.appendChild(pop);
+      }
+      arDiv.appendChild(wSpan);
+    });
+    bub.appendChild(arDiv);
+
+    // English italic — toggled via View Settings
+    if(line.en && S.dlShowEn){
+      bub.appendChild(el('div',{style:{
+        fontSize:'12px',color:'rgba(154,142,120,.75)',fontStyle:'italic',lineHeight:'1.5'
+      }},line.en));
+    }
+
+    // Audio button row
+    const audioRow = div('');
+    audioRow.style.cssText = `display:flex;justify-content:${isRight?'flex-start':'flex-end'};margin-top:8px;`;
+    const playBtn = el('button',{style:{
+      width:'30px',height:'30px',borderRadius:'50%',border:'1px solid rgba(212,163,74,.35)',
+      background:'rgba(212,163,74,.1)',cursor:'pointer',
+      display:'flex',alignItems:'center',justifyContent:'center',transition:'all .2s'
+    }});
+    const playIc = el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'16px',color:'var(--gold)',fontVariationSettings:"'FILL' 1"}},'volume_up');
+    playBtn.appendChild(playIc);
+    playBtn.addEventListener('click',(e)=>{ e.stopPropagation(); speak(line.ar); });
+    audioRow.appendChild(playBtn);
+    bub.appendChild(audioRow);
+
+    bubWrap.appendChild(bub);
+    if(isRight){ rightSide.appendChild(bubWrap); } else { leftSide.appendChild(bubWrap); }
+    row.appendChild(leftSide);
+    row.appendChild(badge);
+    row.appendChild(rightSide);
+    timeline.appendChild(row);
+  });
+
+  // End dot — only shown when not in play mode or play is done
+  if(!S.dlPlayMode || S.dlPlayDone){
+    const endDot = div('');
+    endDot.style.cssText = 'width:10px;height:10px;border-radius:50%;background:var(--gold);margin:0 auto;position:relative;z-index:1;opacity:.5;';
+    timeline.appendChild(endDot);
+  }
+  w.appendChild(timeline);
+
+  // ── Play mode footer cues ──
+  if(S.dlPlayMode){
+    if(S.dlPlayDone){
+      // End-of-dialogue panel
+      const endPanel = div('');
+      endPanel.style.cssText = 'background:rgba(212,163,74,.08);border:1.5px solid var(--gold);border-radius:16px;padding:18px 16px;text-align:center;margin:16px 0;';
+      endPanel.appendChild(el('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'15px',fontWeight:'700',color:'var(--gold)',marginBottom:'12px'}},'Dialogue Complete'));
+      const btnRow = div('');
+      btnRow.style.cssText = 'display:flex;gap:10px;justify-content:center;';
+      btnRow.appendChild(el('button',{
+        style:{padding:'10px 18px',borderRadius:'10px',border:'1.5px solid var(--gold)',background:'transparent',color:'var(--gold)',fontWeight:'700',fontSize:'12px',letterSpacing:'.04em',cursor:'pointer'},
+        onclick: async ()=>{
+          S.dlPlayIdx = 0; S.dlPlayDone = false; S.dlAwaitingTap = false;
+          render();
+          await playLineAtIdx();
+        }
+      },'↻ Replay'));
+      btnRow.appendChild(el('button',{
+        style:{padding:'10px 18px',borderRadius:'10px',border:'none',background:'var(--gold)',color:'#0a1024',fontWeight:'700',fontSize:'12px',letterSpacing:'.04em',cursor:'pointer'},
+        onclick: ()=>exitPlayMode()
+      },'Done →'));
+      endPanel.appendChild(btnRow);
+      w.appendChild(endPanel);
+    } else if(S.dlAwaitingTap){
+      // "Tap to continue" cue
+      const tapCue = el('button',{
+        style:{
+          width:'100%',padding:'14px',borderRadius:'12px',
+          border:'1.5px dashed rgba(212,163,74,.5)',
+          background:'rgba(212,163,74,.05)',color:'var(--gold)',
+          fontSize:'13px',fontWeight:'700',letterSpacing:'.08em',
+          cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:'8px',
+          margin:'8px 0 16px',
+          animation:'pulse 1.6s infinite'
+        },
+        onclick: async ()=>{ await advancePlayLine(); }
+      });
+      tapCue.appendChild(document.createTextNode('TAP TO CONTINUE'));
+      tapCue.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',fontVariationSettings:"'FILL' 1"}},'arrow_downward'));
+      w.appendChild(tapCue);
+    } else {
+      // Audio is playing — show playing indicator
+      const playingCue = div('');
+      playingCue.style.cssText = 'text-align:center;padding:14px;color:var(--gold);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.7;';
+      playingCue.appendChild(document.createTextNode('● Listening...'));
+      w.appendChild(playingCue);
+    }
+  }
+
+  // Key terms extracted
+  if(d.keywords?.length){
+    // Split paired keyword entries (e.g. "سُعَال / زُكَام" → "Cough / Cold") into individual rows
+    const keywords = d.keywords.flatMap(k=>{
+      const arParts = (k.ar || '').split(' / ').map(s=>s.trim()).filter(Boolean);
+      const enParts = (k.en || '').split(' / ').map(s=>s.trim()).filter(Boolean);
+      if(arParts.length > 1 && arParts.length === enParts.length){
+        return arParts.map((ar, i) => ({ ...k, ar, en: enParts[i] }));
+      }
+      return [k];
+    });
+    const kw = div('');
+    kw.style.cssText = 'background:rgba(10,14,24,.8);border:1px solid rgba(212,163,74,.2);border-radius:16px;padding:16px;margin-top:8px;';
+    kw.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'2px',color:'var(--gold)',marginBottom:'12px'}},'KEY TERMS EXTRACTED'));
+    keywords.forEach(k=>{
+      const row2 = div('');
+      row2.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05);';
+      const left2 = div('');
+      left2.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'22px',color:'var(--text)',direction:'rtl',lineHeight:'1.3'}},k.ar));
+      if(k.en) left2.appendChild(el('div',{style:{fontSize:'11px',color:'var(--dim)',marginTop:'2px'}},k.en));
+      const audioBtn2 = el('button',{style:{width:'32px',height:'32px',borderRadius:'50%',border:'1px solid rgba(212,163,74,.3)',background:'transparent',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center'}});
+      audioBtn2.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'16px',color:'var(--gold)',fontVariationSettings:"'FILL' 1"}},'volume_up'));
+      audioBtn2.addEventListener('click',()=>speak(k.ar));
+      row2.appendChild(left2);
+      row2.appendChild(audioBtn2);
+      kw.appendChild(row2);
+    });
+    w.appendChild(kw);
+  }
+  // Show dialect note if present
+  if(d.styleNote){
+    const sn = div('dialect-note');
+    sn.textContent = d.styleNote;
+    w.appendChild(sn);
+  }
+
+  const nav=div('action-row');
+  nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{S.view='blocks';render();}},'← Back'));
+  nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>finishBlock()},'Complete Dialogue →'));
+  w.appendChild(nav); return w;
+}
+
+// ══════════════════════════════════════════════════════
+// BLOCK 2: VOCABULARY
+// ══════════════════════════════════════════════════════
+function mkVocab(blk){
+  const d=blk.data;
+  // ── Split paired entries (e.g. "أَب / أُم" → "Father / Mother") into individual cards ──
+  // Only splits when ar and en have matching multi-part counts. Other fields (root, cat, etc.) copy to each.
+  const words = (d.words || []).flatMap(entry => {
+    const arParts = (entry.ar || '').split(' / ').map(s=>s.trim()).filter(Boolean);
+    const enParts = (entry.en || '').split(' / ').map(s=>s.trim()).filter(Boolean);
+    if(arParts.length > 1 && arParts.length === enParts.length){
+      return arParts.map((ar, i) => ({ ...entry, ar, en: enParts[i] }));
+    }
+    return [entry];
+  });
+  const total=words.length;
+  const cur=words[S.vIdx]; const pct=Math.round(S.vKnown.size/total*100);
+  const w=div('stage');
+  const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Block 2 · Vocabulary · '+S.vKnown.size+'/'+total+' known')); w.appendChild(ph);
+  w.appendChild(el('h2',{className:'page-title'},'Vocabulary'));
+  w.appendChild(el('p',{className:'page-sub'},'Tap the card to reveal meaning. Mark what you know.'));
+  const pr=div('vpc-row'); pr.appendChild(document.createTextNode((S.vIdx+1)+' / '+total)); const vb=div('vpc-bar'); const vf=div('vpc-fill'); vf.style.width=pct+'%'; vb.appendChild(vf); pr.appendChild(vb); pr.appendChild(document.createTextNode(pct+'%')); w.appendChild(pr);
+  const fc=div('fc'); const fci=div('fci'+(S.vFlip?' flipped':''));
+  fci.addEventListener('click',()=>{ S.vFlip=!S.vFlip; if(S.vFlip)speak(cur.ar); render(); });
+  const front=div('fc-face fc-front');
+  front.appendChild(el('div',{className:'fc-cat'},cur.cat));
+  front.appendChild(el('div',{className:'fc-ar'},cur.ar));
+  front.appendChild(el('div',{className:'fc-cat',style:{marginTop:'6px'}},cur.roman));
+  front.appendChild(el('div',{className:'fc-hint'},'Tap to reveal'));
+  fci.appendChild(front);
+  const back=div('fc-face fc-back');
+  back.appendChild(el('div',{className:'fc-en'},cur.en));
+  back.appendChild(el('div',{className:'fc-roman'},cur.roman));
+  // Vocabulary Recycling badge
+  if(typeof getMastery === 'function'){
+    const mastery = getMastery(cur.ar);
+    const freq = getWordFreq(cur.ar);
+    if(freq > 0){
+      const badge = div('recycle-badge recycle-tier-'+mastery.tier);
+      const ic = el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'13px',fontVariationSettings:"'FILL' 1"}}, mastery.icon);
+      badge.appendChild(ic);
+      badge.appendChild(document.createTextNode(' '+mastery.label));
+      if(freq > 1){
+        const stat = el('span',{className:'recycle-stat'}, '· seen '+freq+' times');
+        badge.appendChild(stat);
+      }
+      back.appendChild(badge);
+    }
+  }
+  if(cur.masc||cur.fem){
+    const gr=div('fc-gr');
+    if(cur.masc){ const m=div(''); m.appendChild(el('div',{className:'fc-gr-lbl'},'Masc')); m.appendChild(el('div',{className:'fc-masc'},cur.masc)); gr.appendChild(m); }
+    if(cur.fem){ const f=div(''); f.appendChild(el('div',{className:'fc-gr-lbl'},'Fem')); f.appendChild(el('div',{className:'fc-fem'},cur.fem)); gr.appendChild(f); }
+    back.appendChild(gr);
+  }
+  const rep=el('button',{className:'btn btn-ghost btn-sm',style:{marginTop:'8px'},onclick:(e)=>{e.stopPropagation();speak(cur.ar);}}); rep.appendChild(ms('volume_up')); rep.appendChild(document.createTextNode(' Repeat')); back.appendChild(rep);
+  fci.appendChild(back); fc.appendChild(fci); w.appendChild(fc);
+  if(S.vFlip){
+    const tr=div('thumb-row');
+    const no=el('button',{className:'thumb-btn thumb-no',onclick:()=>{S.vFlip=false;S.vIdx=(S.vIdx+1)%total;render();}}); no.appendChild(ms('thumb_down')); no.appendChild(el('span',{className:'lbl'},' Again')); tr.appendChild(no);
+    const yes=el('button',{className:'thumb-btn thumb-yes',onclick:()=>{ S.vKnown.add(S.vIdx); S.vFlip=false; if(S.vKnown.size>=total){finishBlock();return;} S.vIdx=(S.vIdx+1)%total; while(S.vKnown.has(S.vIdx))S.vIdx=(S.vIdx+1)%total; render(); }}); yes.appendChild(ms('thumb_up')); yes.appendChild(el('span',{className:'lbl'},' Got it!')); tr.appendChild(yes);
+    w.appendChild(tr);
+  }
+  w.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center'}},'All Words'));
+  const mg=div('mini-grid');
+  words.forEach((wd,i)=>{ const mc=div('mini-card'+(S.vKnown.has(i)?' known':'')); mc.appendChild(el('div',{className:'mini-ar'},wd.ar)); mc.appendChild(el('div',{className:'mini-en'},wd.en)); mc.addEventListener('click',()=>{S.vIdx=i;S.vFlip=false;speak(wd.ar);render();}); mg.appendChild(mc); });
+  w.appendChild(mg);
+  const nav=div('action-row');
+  nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{S.view='blocks';render();}},'← Back'));
+  nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>finishBlock()},'I Know All Words ✓'));
+  w.appendChild(nav); return w;
+}
+
+// ══════════════════════════════════════════════════════
+// BLOCK 3: GRAMMAR
+// ══════════════════════════════════════════════════════
+function mkGrammar(blk){
+  const d=blk.data; const w=div('stage');
+  const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Block 3 · Grammar')); w.appendChild(ph);
+  const gh=div('gh');
+  const top=div('gh-top'); top.appendChild(div('gh-glow')); top.appendChild(el('div',{className:'gh-ar'},d.titleAr||'')); top.appendChild(el('div',{className:'gh-title'},d.title)); gh.appendChild(top); gh.appendChild(div('gh-div'));
+  gh.appendChild(el('div',{className:'gh-bot'},d.intro.substring(0,90)+'…')); w.appendChild(gh);
+  const intro=div('rule-card'); intro.innerHTML=d.intro; w.appendChild(intro);
+  if(d.keyRule){ const kr=div('rule-card'); kr.style.cssText='background:rgba(212,163,74,.07);border-color:rgba(212,163,74,.06);'; kr.innerHTML='💡 <strong>Key Rule:</strong> '+d.keyRule; w.appendChild(kr); }
+  if(d.table){
+    // Column headers
+    const colHdr = div('');
+    colHdr.style.cssText = 'display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-bottom:8px;align-items:center;';
+    colHdr.appendChild(el('div',{style:{fontSize:'9px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'left',paddingLeft:'8px'}},'← English'));
+    colHdr.appendChild(el('div',{},''));
+    colHdr.appendChild(el('div',{style:{fontSize:'9px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'right',paddingRight:'8px'}},'Arabic →'));
+    w.appendChild(colHdr);
+
+    // 2-box rows with arrow
+    d.table.rows.forEach(row=>{
+      const rowWrap = div('');
+      rowWrap.style.cssText = 'display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-bottom:10px;align-items:center;';
+
+      // Arabic box (right side visually — left in RTL flow)
+      const arBox = div('');
+      arBox.style.cssText = `
+        background:rgba(212,163,74,.07);border:1.5px solid rgba(212,163,74,.3);
+        border-radius:14px;padding:14px 12px;text-align:right;direction:rtl;
+        cursor:pointer;transition:all .2s;
+      `;
+      arBox.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'28px',color:'var(--gold)',lineHeight:'1.3',textAlign:'center',width:'100%'}},(row.ar||'')));
+      if(row.roman) arBox.appendChild(el('div',{style:{fontSize:'11px',color:'var(--dim)',marginTop:'4px',direction:'ltr',textAlign:'center'}},(row.roman||'')));
+      arBox.addEventListener('click',()=>speak(row.ar));
+
+      // Arrow
+      const arrow = el('div',{style:{
+        fontFamily:"'Material Symbols Outlined'",fontSize:'20px',
+        color:'rgba(212,163,74,.5)',textAlign:'center',flexShrink:'0',
+        fontVariationSettings:"'FILL' 1"
+      }},'arrow_forward');
+
+      // English box (left side)
+      const enBox = div('');
+      enBox.style.cssText = `
+        background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.08);
+        border-radius:14px;padding:14px 12px;text-align:left;
+        transition:all .2s;
+      `;
+      enBox.appendChild(el('div',{style:{fontSize:'15px',color:'var(--text)',fontWeight:'600',lineHeight:'1.3',textAlign:'center',width:'100%'}},(row.en||'')));
+      if(row.ex) enBox.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'13px',color:'var(--dim)',marginTop:'4px',direction:'rtl'}},(row.ex||'')));
+
+      rowWrap.appendChild(enBox);
+      rowWrap.appendChild(arrow);
+      rowWrap.appendChild(arBox);
+      w.appendChild(rowWrap);
+    });
+  }
+  if(d.examples?.length){
+    w.appendChild(el('div',{style:{fontSize:'9px',fontWeight:'700',letterSpacing:'.12em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',margin:'16px 0 10px'}},'Example Sentences'));
+    d.examples.forEach(ex=>{
+      const rowWrap = div('');
+      rowWrap.style.cssText = 'display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-bottom:10px;align-items:center;';
+
+      // Arabic box
+      const arBox = div('');
+      arBox.style.cssText = 'background:rgba(212,163,74,.07);border:1.5px solid rgba(212,163,74,.25);border-radius:14px;padding:12px 14px;text-align:center;direction:rtl;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;';
+      arBox.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'24px',color:'var(--text)',lineHeight:'1.5',textAlign:'center',width:'100%'}},ex.ar));
+      arBox.addEventListener('click',()=>speak(ex.ar));
+
+      // Arrow
+      const arrow = el('div',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',color:'rgba(212,163,74,.45)',textAlign:'center',flexShrink:'0',fontVariationSettings:"'FILL' 1"}},'arrow_forward');
+
+      // English box
+      const enBox = div('');
+      enBox.style.cssText = 'background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 14px;text-align:center;display:flex;align-items:center;justify-content:center;';
+      enBox.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',lineHeight:'1.5',textAlign:'center',width:'100%'}},ex.en||''));
+
+      rowWrap.appendChild(enBox);
+      rowWrap.appendChild(arrow);
+      rowWrap.appendChild(arBox);
+      w.appendChild(rowWrap);
+    });
+  }
+  const nav=div('action-row');
+  nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{S.view='blocks';render();}},'← Back'));
+  nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>finishBlock()},'Grammar Understood ✓'));
+  w.appendChild(nav); return w;
+}
+
+// ══════════════════════════════════════════════════════
+// BLOCK 4: CLUTTER
+// ══════════════════════════════════════════════════════
+function mkClutter(blk){
+  const d=blk.data; const total=d.sentences.length; const cur=d.sentences[S.cIdx];
+  const pct=Math.round(S.cScore/total*100); const w=div('stage');
+
+  // ── Resolve English prompt: explicit cur.en first, else lookup from same-unit dialogue ──
+  // Many clutter sentences mirror dialogue lines exactly — pull the en from there.
+  const norm = s => (s||'').replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'').replace(/\s+/g,' ').trim();
+  let enText = cur.en;
+  if(!enText){
+    const unit = getUnit(S.mId, S.uId);
+    const dialogueBlk = unit?.blocks.find(b => b.type === 'dialogue');
+    const lines = dialogueBlk?.data?.lines || [];
+    const match = lines.find(l => l.ar && norm(l.ar) === norm(cur.ar));
+    if(match?.en) enText = match.en;
+  }
+
+  const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Block 4 · Sentence Builder · '+(S.cIdx+1)+'/'+total)); w.appendChild(ph);
+  w.appendChild(el('h2',{className:'page-title'},'Build the Sentence'));
+  w.appendChild(el('p',{className:'page-sub'},'Tap Arabic words in the correct order to build the sentence.'));
+  const sr=div('score-row');
+  [{v:S.cScore,l:'Correct',c:'var(--green)'},{v:S.cWrong,l:'Retries',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{ const si=div('sc-item'); si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v))); si.appendChild(el('div',{className:'sc-lbl'},s.l)); sr.appendChild(si); });
+  w.appendChild(sr);
+  const pr=div('cpr-row'); pr.appendChild(document.createTextNode('Q '+(S.cIdx+1)+' / '+total)); const cb=div('c-bar'); const cf=div('c-fill'); cf.style.width=pct+'%'; cb.appendChild(cf); pr.appendChild(cb); pr.appendChild(document.createTextNode(pct+'%')); w.appendChild(pr);
+
+  // English prompt — shown only if we have a real English string (skips undefined entirely)
+  if(enText){
+    const ep=div('en-prompt');
+    ep.appendChild(el('span',{className:'lbl'},'Translate to Arabic:'));
+    ep.appendChild(document.createTextNode(enText));
+    w.appendChild(ep);
+  }
+  w.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)'}},'Your Answer:'));
+  const az=div('az'+(S.cFb==='correct'?' cz':S.cFb==='wrong'?' wz':''));
+  if(S.cAns.length===0){ az.appendChild(el('span',{style:{fontSize:'11px',color:'var(--dim)',fontStyle:'italic'}},'Tap words below to build →')); }
+  S.cAns.forEach((wrd,i)=>{ const tok=el('span',{className:'token t-ans',onclick:()=>{ if(S.cLocked)return; S.cAns.splice(i,1); S.cBank.push(wrd); render(); }},wrd); az.appendChild(tok); });
+  w.appendChild(az);
+  if(S.cFb){ const fb=div('cf '+(S.cFb==='correct'?'cf-ok':'cf-no')); fb.innerHTML=S.cFb==='correct'?'✅ <strong>Correct!</strong> '+cur.ar:'❌ <strong>Try again.</strong> Correct: <span style="font-family:\'Amiri\',serif;font-size:18px">'+cur.ar+'</span>'; w.appendChild(fb); }
+  // Failure scaffolding: after threshold wrong attempts on this item, offer a graceful exit
+  if(S.cFb==='wrong' && (S.cAttempts||0) >= SCAFFOLD_THRESHOLD){
+    w.appendChild(mkScaffoldPanel(cur.ar, ()=>advClutter(d)));
+  }
+  if(!S.cLocked){
+    w.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center'}},'Word Bank — Tap to add:'));
+    const bank=div('word-bank');
+    S.cBank.forEach((wrd,i)=>{ const tok=el('span',{className:'token t-bank',onclick:()=>{ S.cAns.push(wrd); S.cBank.splice(i,1); render(); }},wrd); bank.appendChild(tok); });
+    w.appendChild(bank);
+  }
+  const nav=div('action-row');
+  if(!S.cLocked&&!S.cFb){
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{ S.cAns=[]; S.cBank=buildBankWithDistractors(cur.words, S.mId, S.uId); render(); }},'Clear'));
+    const chk=el('button',{className:'btn btn-primary btn-block',onclick:()=>{
+      const ua=S.cAns.join(' '); const ca=cur.ar; const ok=ua===ca||S.cAns.join('')===ca.replace(/\s/g,'');
+      S.cFb=ok?'correct':'wrong'; S.cLocked=true;
+      if(!ok){ S.cWrong++; S.cAttempts = (S.cAttempts||0) + 1; }
+      render();
+      if(ok) setTimeout(()=>{ S.cScore++; advClutter(d); },1200);
+    }},'Check Answer ✓'); nav.appendChild(chk);
+  } else if(S.cFb==='wrong' && (S.cAttempts||0) < SCAFFOLD_THRESHOLD){
+    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{ S.cAns=[]; S.cBank=buildBankWithDistractors(cur.words, S.mId, S.uId); S.cFb=null; S.cLocked=false; render(); }},'Try Again →'));
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>advClutter(d)},'Skip →'));
+  }
+  w.appendChild(nav); return w;
+}
+function advClutter(d){
+  S.cFb=null; S.cLocked=false; S.cAttempts=0;
+  if(S.cIdx<d.sentences.length-1){ S.cIdx++; S.cAns=[]; S.cBank=buildBankWithDistractors(d.sentences[S.cIdx].words, S.mId, S.uId); render(); }
+  else { const pct=Math.round(S.cScore/d.sentences.length*100); if(pct>=d.passing){ finishBlock(); } else { S.cIdx=0; S.cScore=0; S.cWrong=0; S.cAns=[]; S.cBank=buildBankWithDistractors(d.sentences[0].words, S.mId, S.uId); render(); } }
+}
+
+// ════════════════════════════════════════════════════════
+// BLOCK 5: CLOZE (Listening Dictation — LINC method)
+// ════════════════════════════════════════════════════════
+function getClozeData(blk){
+  // Memoize — without this, blanks AND choices would re-randomize on every render
+  if(blk._clzData) return blk._clzData;
+
+  const norm = s => s.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'');
+
+  let sentencesSrc;
+  if(blk.data?.sentences){
+    sentencesSrc = blk.data.sentences;
+  } else {
+    const unit = getUnit(S.mId, S.uId);
+    const dialogueBlk = unit.blocks.find(b=>b.type==='dialogue');
+    if(!dialogueBlk?.data?.lines){ blk._clzData = { sentences:[], passing:60 }; return blk._clzData; }
+    sentencesSrc = dialogueBlk.data.lines.filter(l=>l.ar && l.ar.split(/\s+/).length >= 3).slice(0, 6);
+  }
+
+  // Pool of all unique words across all source sentences — used for distractor choices
+  const allWords = [...new Set(
+    sentencesSrc.flatMap(s=>(s.ar||'').split(/\s+/).filter(w=>w.length>0))
+  )];
+
+  const sentences = sentencesSrc.map(ln=>{
+    const words = ln.ar.split(/\s+/);
+    // Difficulty curve: more blanks as modules get harder
+    // Mod 1: 1 blank · Mod 2: 2 · Mod 3-4: 3 · Mod 5-6: 4 · Mod 7-8: 5 · Mod 9-10: 7 · Mod 11+: all
+    const cap = words.length - 1; // first word always shown as anchor
+    let maxBlanks;
+    if(S.mId === 1) maxBlanks = 1;
+    else if(S.mId === 2) maxBlanks = 2;
+    else if(S.mId <= 4) maxBlanks = 3;
+    else if(S.mId <= 6) maxBlanks = 4;
+    else if(S.mId <= 8) maxBlanks = 5;
+    else if(S.mId <= 10) maxBlanks = 7;
+    else maxBlanks = cap; // top tier: full dictation, all words missing
+    const blankCount = Math.max(1, Math.min(maxBlanks, cap));
+    const blankIdx = [];
+    while(blankIdx.length < blankCount && blankIdx.length < words.length-1){
+      const pick = 1 + Math.floor(Math.random()*(words.length-1));
+      if(!blankIdx.includes(pick)) blankIdx.push(pick);
+    }
+    blankIdx.sort((a,b)=>a-b);
+
+    // For each blank, build a 4-option pool: correct + 3 distractors, shuffled
+    const choicesPerBlank = blankIdx.map(bIdx=>{
+      const correct = words[bIdx];
+      const correctNorm = norm(correct);
+      const pool = allWords.filter(w => norm(w) !== correctNorm);
+      const picks = [];
+      while(picks.length < 3 && pool.length > 0){
+        const i = Math.floor(Math.random()*pool.length);
+        picks.push(pool.splice(i,1)[0]);
+      }
+      return [...picks, correct].sort(()=>Math.random()-0.5);
+    });
+
+    return { ar: ln.ar, en: ln.en, words, blankIndices: blankIdx, choicesPerBlank, speaker: ln.spk };
+  });
+
+  blk._clzData = { sentences, passing: blk.data?.passing || 60 };
+  return blk._clzData;
+}
+
+function mkCloze(blk){
+  const d = getClozeData(blk);
+  if(d.sentences.length === 0){
+    const w = div('stage');
+    w.appendChild(el('p',{className:'page-sub'},'No content available for this exercise.'));
+    return w;
+  }
+  if(typeof S.clzIdx === 'undefined'){ S.clzIdx=0; S.clzAns=[]; S.clzFb=null; S.clzLocked=false; S.clzScore=0; S.clzWrong=0; }
+  const total = d.sentences.length;
+  const cur = d.sentences[S.clzIdx];
+  const pct = Math.round(S.clzScore/total*100);
+  const w = div('stage');
+
+  // ── Back button (top) — returns to the unit's blocks list ──
+  const topNav = div('');
+  topNav.style.cssText = 'display:flex;justify-content:flex-start;margin-bottom:4px;';
+  topNav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+    S.clzIdx=0; S.clzAns=[]; S.clzFb=null; S.clzLocked=false;
+    S.view='blocks'; render();
+  }},'← Back'));
+  w.appendChild(topNav);
+
+  const ph=div('phase-label'); ph.appendChild(div('phase-dot'));
+  ph.appendChild(document.createTextNode(' Listening Dictation · '+(S.clzIdx+1)+'/'+total));
+  w.appendChild(ph);
+  w.appendChild(el('h2',{className:'page-title'},'Fill in What You Hear'));
+  w.appendChild(el('p',{className:'page-sub'},'Tap the audio button to listen, then tap the missing words below.'));
+
+  const sr = div('score-row');
+  [{v:S.clzScore,l:'Correct',c:'var(--green)'},{v:S.clzWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{
+    const si=div('sc-item');
+    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
+    si.appendChild(el('div',{className:'sc-lbl'},s.l));
+    sr.appendChild(si);
+  });
+  w.appendChild(sr);
+
+  const audioWrap = div('');
+  audioWrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:8px;margin:12px 0 18px;';
+  const audioBtn = el('button',{
+    style:{
+      width:'70px',height:'70px',borderRadius:'50%',
+      background:'linear-gradient(135deg,#f2be62,#d4a34a)',
+      border:'none',cursor:'pointer',
+      display:'flex',alignItems:'center',justifyContent:'center',
+      boxShadow:'0 4px 20px rgba(212,163,74,.4)',
+      transition:'transform .15s ease'
+    },
+    onclick:()=>speak(cur.ar)
+  });
+  audioBtn.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'34px',color:'#1a1000',fontVariationSettings:"'FILL' 1"}},'volume_up'));
+  audioWrap.appendChild(audioBtn);
+  audioWrap.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.14em',textTransform:'uppercase',color:'var(--gold)'}}, 'Tap to Listen'));
+  w.appendChild(audioWrap);
+
+  if(cur.speaker){
+    w.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',marginBottom:'6px'}}, cur.speaker+' says…'));
+  }
+
+  // ── Sentence box: blank slots show chosen word (or "___" placeholder) ──
+  const sentenceBox = div('');
+  sentenceBox.style.cssText = `
+    background:#0a1024;
+    border:1.5px solid ${S.clzFb==='correct'?'var(--green)':S.clzFb==='wrong'?'var(--red)':'rgba(212,163,74,.3)'};
+    border-radius:16px;padding:18px 16px;
+    direction:rtl;text-align:right;line-height:2.2;
+    font-family:'Amiri',serif;font-size:24px;color:var(--text);
+  `;
+  cur.words.forEach((word, i)=>{
+    if(cur.blankIndices.includes(i)){
+      const idx = cur.blankIndices.indexOf(i);
+      const chosen = S.clzAns[idx];
+      let bg, color, border;
+      if(S.clzLocked){
+        const isRight = chosen === word;
+        bg = isRight ? 'rgba(127,168,134,.18)' : 'rgba(224,112,112,.15)';
+        color = isRight ? 'var(--green)' : 'var(--red)';
+        border = isRight ? 'var(--green)' : 'var(--red)';
+      } else {
+        bg = chosen ? 'rgba(212,163,74,.18)' : 'rgba(212,163,74,.05)';
+        color = chosen ? 'var(--gold)' : 'rgba(212,163,74,.5)';
+        border = 'rgba(212,163,74,.4)';
+      }
+      const span = el('span',{style:{
+        display:'inline-block',padding:'2px 14px',margin:'0 4px',
+        minWidth:'70px',textAlign:'center',
+        borderRadius:'8px',background:bg,color:color,
+        border:'1px solid '+border,
+        fontFamily:"'Amiri',serif"
+      }}, chosen || '___');
+      sentenceBox.appendChild(span);
+    } else {
+      sentenceBox.appendChild(document.createTextNode(' '+word+' '));
+    }
+  });
+  w.appendChild(sentenceBox);
+
+  // ── Word choice rows (one per blank) — only shown while unlocked ──
+  if(!S.clzLocked){
+    cur.blankIndices.forEach((wIdx, blankIdx)=>{
+      const choiceWrap = div('');
+      choiceWrap.style.cssText = 'margin-top:14px;';
+
+      if(cur.blankIndices.length > 1){
+        choiceWrap.appendChild(el('div',{
+          style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',marginBottom:'6px'}
+        }, 'For blank '+(blankIdx+1)));
+      }
+
+      const row = div('');
+      row.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;justify-content:center;';
+      cur.choicesPerBlank[blankIdx].forEach(choice=>{
+        const isSelected = S.clzAns[blankIdx] === choice;
+        const btn = el('button',{
+          style:{
+            padding:'10px 16px',borderRadius:'12px',
+            border:'1.5px solid '+(isSelected?'var(--gold)':'rgba(212,163,74,.25)'),
+            background:isSelected?'rgba(212,163,74,.18)':'rgba(10,14,24,.6)',
+            color:isSelected?'var(--gold)':'var(--text)',
+            fontFamily:"'Amiri',serif",fontSize:'22px',
+            direction:'rtl',cursor:'pointer',
+            transition:'all .15s'
+          },
+          onclick:()=>{ S.clzAns[blankIdx] = choice; render(); }
+        }, choice);
+        row.appendChild(btn);
+      });
+      choiceWrap.appendChild(row);
+      w.appendChild(choiceWrap);
+    });
+  }
+
+  if(cur.en){
+    w.appendChild(el('div',{style:{
+      fontSize:'12px',color:'var(--dim)',fontStyle:'italic',
+      textAlign:'center',marginTop:'10px'
+    }}, '"'+cur.en+'"'));
+  }
+
+  if(S.clzFb){
+    const fb = div('cf '+(S.clzFb==='correct'?'cf-ok':'cf-no'));
+    fb.style.marginTop = '14px';
+    if(S.clzFb==='correct'){
+      fb.innerHTML = '✅ <strong>Correct!</strong>';
+    } else {
+      fb.innerHTML = '❌ <strong>Try listening again.</strong>';
+    }
+    w.appendChild(fb);
+  }
+
+  const nav = div('action-row');
+  nav.style.marginTop = '14px';
+  // Failure scaffolding: after threshold wrong attempts on this item, offer a graceful exit
+  if(S.clzFb === 'wrong' && (S.clzAttempts||0) >= SCAFFOLD_THRESHOLD){
+    w.appendChild(mkScaffoldPanel(cur.ar || cur.words?.join(' '), ()=>advCloze(d)));
+  }
+  if(!S.clzLocked){
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+      S.clzAns = cur.blankIndices.map(i=>cur.words[i]);
+      S.clzLocked = true;
+      S.clzFb = 'wrong';
+      S.clzWrong++;
+      S.clzAttempts = (S.clzAttempts||0) + 1;
+      render();
+    }}, 'Show Answer'));
+
+    const allChosen = cur.blankIndices.every((_, ai) => S.clzAns[ai] !== undefined);
+    nav.appendChild(el('button',{
+      className:'btn btn-primary',
+      style: allChosen ? {} : {opacity:'0.5',cursor:'not-allowed',pointerEvents:'none'},
+      onclick:()=>{
+        if(!allChosen) return;
+        const norm = s=>s.replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g,'');
+        const allCorrect = cur.blankIndices.every((wIdx, ai)=>{
+          return norm((S.clzAns[ai]||'').trim()) === norm(cur.words[wIdx].trim());
+        });
+        S.clzLocked = true;
+        S.clzFb = allCorrect ? 'correct' : 'wrong';
+        if(allCorrect) S.clzScore++;
+        else { S.clzWrong++; S.clzAttempts = (S.clzAttempts||0) + 1; }
+        render();
+        if(allCorrect) setTimeout(()=>advCloze(d), 1100);
+      }
+    }, 'Check ✓'));
+  } else if(S.clzFb === 'wrong' && (S.clzAttempts||0) < SCAFFOLD_THRESHOLD){
+    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advCloze(d)}, 'Next →'));
+  }
+  w.appendChild(nav);
+
+  return w;
+}
+
+function advCloze(d){
+  S.clzFb = null; S.clzLocked = false; S.clzAns = []; S.clzAttempts = 0;
+  if(S.clzIdx < d.sentences.length-1){
+    S.clzIdx++;
+    render();
+  } else {
+    const pct = Math.round(S.clzScore/d.sentences.length*100);
+    if(pct >= (d.passing||60)){
+      S.clzIdx=0; S.clzScore=0; S.clzWrong=0;
+      finishBlock();
+    } else {
+      S.clzIdx=0; S.clzScore=0; S.clzWrong=0;
+      render();
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// PEDAGOGY: END-OF-UNIT REVIEW
+// ══════════════════════════════════════════════════════
+// 5 vocabulary items, tap-to-reveal flashcards, no scoring.
+// Surfaces between completing the last block of a unit and advancing to the next unit.
+// Pulls items from the unit's vocab block. If no vocab block exists, gracefully skips.
+function mkReview(){
+  const w = div('stage');
+  const unit = getUnit(S.mId, S.uId);
+
+  // Initialize review item pool on first entry
+  if(!S.reviewItems){
+    let pool = [];
+    const seen = new Set();  // dedupe by Arabic text
+    if(unit){
+      // Pull from vocab blocks
+      const vocabBlk = unit.blocks.find(b => b.type === 'vocab');
+      if(vocabBlk){
+        (vocabBlk.data?.words || []).forEach(entry => {
+          const arParts = (entry.ar||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+          const enParts = (entry.en||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+          if(arParts.length > 1 && arParts.length === enParts.length){
+            arParts.forEach((ar, i) => {
+              if(!seen.has(ar)){ seen.add(ar); pool.push({ar, en: enParts[i]}); }
+            });
+          } else if(entry.ar && entry.en){
+            if(!seen.has(entry.ar)){ seen.add(entry.ar); pool.push({ar: entry.ar, en: entry.en}); }
+          }
+        });
+      }
+      // Also pull from dialogue keywords (so connector words like وَ، فَـ، فِي appear in review)
+      unit.blocks.filter(b => b.type === 'dialogue').forEach(dlgBlk => {
+        (dlgBlk.data?.keywords || []).forEach(entry => {
+          if(entry.ar && entry.en && !seen.has(entry.ar)){
+            seen.add(entry.ar);
+            pool.push({ar: entry.ar, en: entry.en});
+          }
+        });
+      });
+    }
+    // Bigger pool now — show up to 8 review items instead of 5
+    S.reviewItems = shuffle(pool).slice(0, Math.min(8, pool.length));
+    S.reviewIdx = 0;
+    S.reviewFlipped = false;
+  }
+
+  // Graceful exit if no review items available
+  if(!S.reviewItems || S.reviewItems.length === 0){
+    S.reviewItems = null;
+    const _u = getUnit(S.mId, S.uId);
+    const _allDone = _u && _u.blocks.every(b => getBlock_(S.mId, S.uId, b.id) === 'done');
+    S.view = _allDone ? 'units' : 'blocks';
+    setTimeout(render, 0);
+    return w;
+  }
+
+  const items = S.reviewItems;
+  const total = items.length;
+  const cur = items[S.reviewIdx];
+
+  // Header
+  const ph = div('phase-label');
+  ph.appendChild(div('phase-dot'));
+  ph.appendChild(document.createTextNode(' Quick Review · ' + (S.reviewIdx+1) + ' / ' + total));
+  w.appendChild(ph);
+  w.appendChild(el('h2',{className:'page-title'},'Before you move on...'));
+  w.appendChild(el('p',{className:'page-sub'},'Tap each card to check your recall. No score, no penalty — just reinforcement.'));
+
+  // Progress bar
+  const pb = div('');
+  pb.style.cssText = 'height:4px;background:rgba(212,163,74,.12);border-radius:2px;margin:14px 0 24px;overflow:hidden;';
+  const pf = div('');
+  pf.style.cssText = `height:100%;background:var(--gold);width:${Math.round(((S.reviewIdx + (S.reviewFlipped ? 0.5 : 0))/total)*100)}%;transition:width .3s;`;
+  pb.appendChild(pf);
+  w.appendChild(pb);
+
+  // Flashcard
+  const card = div('');
+  card.style.cssText = `
+    background:linear-gradient(180deg,rgba(212,163,74,.06),rgba(212,163,74,.02));
+    border:1.5px solid rgba(212,163,74,.3);border-radius:18px;
+    padding:40px 24px;text-align:center;cursor:pointer;
+    min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    transition:all .25s;
+  `;
+  card.addEventListener('click', () => {
+    if(!S.reviewFlipped){
+      S.reviewFlipped = true;
+      try { speak(cur.ar); } catch(e){}
+      render();
+    } else {
+      if(S.reviewIdx < total - 1){
+        S.reviewIdx++;
+        S.reviewFlipped = false;
+        render();
+      } else {
+        // Review complete — clear state and route somewhere useful
+        S.reviewItems = null;
+        S.reviewIdx = 0;
+        S.reviewFlipped = false;
+        const _u = getUnit(S.mId, S.uId);
+        const _allDone = _u && _u.blocks.every(b => getBlock_(S.mId, S.uId, b.id) === 'done');
+        S.view = _allDone ? 'units' : 'blocks';
+        render();
+      }
+    }
+  });
+
+  // Arabic (always shown, large)
+  card.appendChild(el('div',{style:{
+    fontFamily:"'Amiri',serif",fontSize:'36px',color:'var(--gold)',
+    direction:'rtl',lineHeight:'1.4'
+  }}, cur.ar));
+
+  if(S.reviewFlipped){
+    card.appendChild(el('div',{style:{
+      fontSize:'18px',color:'var(--text)',fontStyle:'italic',lineHeight:'1.4'
+    }}, cur.en || '—'));
+    card.appendChild(el('div',{style:{
+      fontSize:'10px',color:'var(--dim)',letterSpacing:'.12em',textTransform:'uppercase',marginTop:'10px',fontWeight:'700'
+    }}, S.reviewIdx < total - 1 ? 'Tap for next →' : 'Tap to continue →'));
+  } else {
+    card.appendChild(el('div',{style:{
+      fontSize:'10px',color:'var(--dim)',letterSpacing:'.12em',textTransform:'uppercase',marginTop:'10px',fontWeight:'700'
+    }}, '✦ Tap to reveal meaning'));
+  }
+
+  w.appendChild(card);
+
+  // Skip link (small, ghost) for users who genuinely don't want it
+  const skip = el('button',{
+    style:{
+      width:'100%',marginTop:'18px',padding:'10px',border:'none',background:'transparent',
+      color:'var(--dim)',fontSize:'11px',letterSpacing:'.06em',cursor:'pointer',textDecoration:'underline'
+    },
+    onclick: ()=>{
+      S.reviewItems = null; S.reviewIdx = 0; S.reviewFlipped = false;
+      const _u = getUnit(S.mId, S.uId);
+      const _allDone = _u && _u.blocks.every(b => getBlock_(S.mId, S.uId, b.id) === 'done');
+      S.view = _allDone ? 'units' : 'blocks';
+      render();
+    }
+  },'Skip review');
+  w.appendChild(skip);
+
+  return w;
+}
+
+// ══════════════════════════════════════════════════════
+// FINISH BLOCK
+// ══════════════════════════════════════════════════════
+function finishBlock(){ setBlock(S.mId,S.uId,S.bId,'done'); XP+=15; STREAK+=1; save(); S.view='complete'; render(); }
+
+// ══════════════════════════════════════════════════════
+// COMPLETE
+// ══════════════════════════════════════════════════════
+function mkComplete(){
+  const blk=getBlk(S.mId,S.uId,S.bId); const unit=getUnit(S.mId,S.uId); const mod=getMod(S.mId);
+  // Unit progress
+  const blocksDone = unit.blocks.filter(b => getBlock_(S.mId, S.uId, b.id) === 'done').length;
+  const blocksTotal = unit.blocks.length;
+  const allDone = blocksDone === blocksTotal;
+  const w=div('cw');
+  const iw=div('ci-wrap');
+  const gl=div('ci-glow'); gl.style.background=allDone?'rgba(127,168,134,.14)':'rgba(212,163,74,.1)'; iw.appendChild(gl);
+  const ci=div('ci'); ci.style.cssText=`border-color:${allDone?'var(--green)':'var(--gold)'};color:${allDone?'var(--green)':'var(--gold)'};box-shadow:0 0 32px ${allDone?'rgba(127,168,134,.25)':'rgba(212,163,74,.22)'};`; ci.textContent=allDone?'check_circle':'stars'; iw.appendChild(ci);
+  const star=div('ci-star'); star.textContent='star'; iw.appendChild(star); w.appendChild(iw);
+  w.appendChild(el('div',{className:'c-title'},allDone?'Unit Complete! 🎉':'Block '+S.bId+' Complete!'));
+  w.appendChild(el('p',{className:'c-sub'},allDone?'Excellent! You\'ve finished Unit '+unit.id+': '+unit.title+'.':'Great work on '+blk.title+'! Keep going.'));
+  const xg=div('xp-grid');
+  [{icon:'bolt',l:'XP Earned',v:'+15',c:'var(--green)'},{icon:'local_fire_department',l:'Streak',v:STREAK+' days',c:'var(--gold)'}].forEach(x=>{ const xc=div('xp-card'); const xi=el('span',{className:'xp-icon',style:{color:x.c,fontFamily:"'Material Symbols Outlined'",fontVariationSettings:"'FILL' 1"}},x.icon); xc.appendChild(xi); xc.appendChild(el('div',{className:'xp-lbl'},x.l)); xc.appendChild(el('div',{className:'xp-val',style:{color:x.c}},x.v)); xg.appendChild(xc); });
+  w.appendChild(xg);
+  const tb=CUR.reduce((a,m)=>a+m.units.reduce((b,u)=>b+u.blocks.length,0),0);
+  const db=Object.values(PROG).reduce((a,m)=>a+Object.values(m).reduce((b,u)=>b+Object.values(u).filter(s=>s==='done').length,0),0);
+  const pb=div('pb'); const pf=div('pb-fill'); pf.style.width=Math.round(db/tb*100)+'%'; pb.appendChild(pf); w.appendChild(pb);
+  w.appendChild(el('p',{style:{fontSize:'11px',color:'var(--dim)',textAlign:'center'}},db+' of '+tb+' blocks complete'));
+
+  // Unit progress strip (informational)
+  const unitStrip = div('');
+  unitStrip.style.cssText = 'background:rgba(212,163,74,.05);border:1px solid rgba(212,163,74,.18);border-radius:12px;padding:12px 16px;margin:14px 0;text-align:center;';
+  unitStrip.appendChild(el('div',{style:{fontSize:'10px',color:'var(--dim)',letterSpacing:'.1em',marginBottom:'4px',textTransform:'uppercase',fontWeight:'700'}}, 'Unit '+unit.id+' Progress'));
+  unitStrip.appendChild(el('div',{style:{fontSize:'14px',color:allDone?'rgba(155,200,163,.95)':'var(--gold)',fontWeight:'700'}}, blocksDone+' of '+blocksTotal+' blocks complete'));
+  w.appendChild(unitStrip);
+
+  const nav=div('action-row');
+  nav.appendChild(el('button',{className:'btn btn-ghost btn-block',onclick:()=>{S.view='blocks';render();}},'← All Blocks'));
+  // Force review as the only forward path — every block ends with review
+  nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{
+    S.reviewItems = null; S.reviewIdx = 0; S.reviewFlipped = false;
+    S.view='review'; render();
+  }}, allDone ? 'Quick Review →' : 'Quick Review →'));
+  w.appendChild(nav);
+  const st=div('stage'); st.appendChild(w); return st;
+}
+
+// Restore last view
+(function(){
+  try{
+    const sess=JSON.parse(localStorage.getItem('lisaany_ap_sess')||'null');
+    if(sess&&sess.view==='hub'){ S.view='hub'; }
+    // Only restore hub — don't drop mid-lesson
+  }catch(e){}
+})();
+
+
+render();
+
+// ── Supabase auth icon ──
+(async()=>{
+  try{
+    const {createClient:cSb}=supabase;
+    const sbApp=cSb('https://cfaxrzfqvoalwznkhwnx.supabase.co','sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa');
+    const {data:{session}}=await sbApp.auth.getSession();
+    const btn=document.getElementById('auth-btn');
+    if(!btn)return;
+    if(session){
+      const name=session.user.user_metadata?.name||session.user.email||'U';
+      btn.innerHTML=`<span style="font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--gold);">${name.charAt(0).toUpperCase()}</span>`;
+      btn.style.background='rgba(212,163,74,.04)';
+      btn.style.borderColor='rgba(212,163,74,.4)';
+      btn.onclick=async()=>{ if(confirm('Sign out?')){ await sbApp.auth.signOut(); location.reload(); }};
+    } else {
+      btn.onclick=()=>{ window.location.href='auth.html'; };
+    }
+  }catch(e){}
+})();
+
+</script>
+</body>
+</html>
