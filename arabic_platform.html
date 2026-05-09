@@ -5568,6 +5568,7 @@ function resetBS(){
   const blk=getBlk(S.mId,S.uId,S.bId);
   if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=buildBankWithDistractors(blk.data.sentences[0]?.words||[], S.mId, S.uId); }
   if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
+  if(blk?.type==='verbs'){ S.verbIdx=0; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -5583,80 +5584,101 @@ function resetBS(){
 // ══════════════════════════════════════════════════════
 function mkVerbs(blk){
   const d = blk.data;
+  const verbs = d.verbs || [];
+  const total = verbs.length;
+  
+  // Initialize index
+  if(typeof S.verbIdx === 'undefined' || S.verbIdx >= total) S.verbIdx = 0;
+  const cur = verbs[S.verbIdx];
+  const isLast = S.verbIdx === total - 1;
+  
   const w = div('stage');
   
-  // Phase label
+  // Phase label with progress
   const ph = div('phase-label');
   ph.appendChild(div('phase-dot'));
-  ph.appendChild(document.createTextNode(' Word Families'));
+  ph.appendChild(document.createTextNode(' Word Families · ' + (S.verbIdx + 1) + ' / ' + total));
   w.appendChild(ph);
   
-  // Title
-  w.appendChild(el('h2',{className:'page-title'},d.title || 'Verbs in this Lesson'));
-  if(d.titleAr) w.appendChild(el('p',{className:'page-sub',style:{fontFamily:"'Amiri',serif",fontSize:'18px',direction:'rtl'}},d.titleAr));
-  
-  // Intro card
-  if(d.intro){
-    const introCard = div('rule-card');
-    introCard.style.cssText = 'background:rgba(212,163,74,.1);border:1px solid rgba(212,163,74,.4);border-radius:14px;padding:14px 18px;margin:14px 0 20px;font-size:13px;line-height:1.65;color:var(--text);';
-    introCard.textContent = d.intro;
-    w.appendChild(introCard);
+  // Title (only on first card)
+  if(S.verbIdx === 0){
+    w.appendChild(el('h2',{className:'page-title'},'Word Families — الجُذور'));
+    if(d.intro){
+      const introCard = div('');
+      introCard.style.cssText = 'background:rgba(212,163,74,.1);border:1px solid rgba(212,163,74,.4);border-radius:12px;padding:12px 16px;margin:12px 0 16px;font-size:12px;line-height:1.55;color:var(--text);';
+      introCard.textContent = d.intro;
+      w.appendChild(introCard);
+    }
   }
   
-  // Each verb
-  (d.verbs||[]).forEach((v,idx)=>{
-    const card = div(''); 
-    card.style.cssText = 'background:rgba(20,28,45,.5);border:1.5px solid var(--border);border-radius:18px;padding:20px;margin-bottom:16px;';
-    
-    // Root display (3 letters separated by dashes)
-    const rootRow = div('');
-    rootRow.style.cssText = 'display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap;';
-    const rootLabel = el('span',{style:{fontSize:'10px',color:'var(--gold)',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase'}},'Root');
-    rootRow.appendChild(rootLabel);
-    const rootEl = el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'24px',color:'var(--gold-bright,#f2be62)',letterSpacing:'.3em',direction:'rtl',padding:'4px 12px',background:'rgba(212,163,74,.08)',borderRadius:'8px',border:'1px solid rgba(212,163,74,.3)'}},v.root);
-    rootRow.appendChild(rootEl);
-    card.appendChild(rootRow);
-    
-    // Dictionary form
-    const dictRow = div('');
-    dictRow.style.cssText = 'display:flex;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap;';
-    const dictAr = el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'28px',direction:'rtl',color:'var(--text)',fontWeight:'700'}},v.dict);
-    dictRow.appendChild(dictAr);
-    if(v.dictEn){
-      const dictEn = el('span',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic'}},'(' + v.dictEn + ')');
-      dictRow.appendChild(dictEn);
-    }
-    card.appendChild(dictRow);
-    
-    // Meaning
-    const meaning = el('div',{style:{fontSize:'15px',color:'var(--text)',marginBottom:'14px'}},'→ ' + v.meaning);
-    card.appendChild(meaning);
-    
-    // "You saw in this lesson" section
-    if(v.seen && v.seen.length){
-      const seenLabel = el('div',{style:{fontSize:'10px',color:'var(--gold)',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',marginBottom:'8px',marginTop:'4px',borderTop:'1px dashed var(--border)',paddingTop:'12px'}},'You saw in this lesson');
-      card.appendChild(seenLabel);
-      v.seen.forEach(s=>{
-        const seenItem = div('');
-        seenItem.style.cssText = 'display:flex;align-items:baseline;gap:10px;padding:6px 10px;background:rgba(0,0,0,.2);border-radius:8px;margin-bottom:6px;';
-        const seenAr = el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'18px',direction:'rtl',color:'var(--gold-bright,#f2be62)',flexShrink:'0'}},s.ar);
-        const seenEn = el('span',{style:{fontSize:'13px',color:'var(--dim)'}},'— ' + s.en);
-        seenItem.appendChild(seenAr);
-        seenItem.appendChild(seenEn);
-        card.appendChild(seenItem);
-      });
-    }
-    
-    w.appendChild(card);
-  });
+  // Progress bar
+  const pbWrap = div('');
+  pbWrap.style.cssText = 'background:rgba(255,255,255,.05);border-radius:10px;height:4px;margin:12px 0 18px;overflow:hidden;';
+  const pbFill = div('');
+  pbFill.style.cssText = 'height:100%;background:var(--gold);width:' + Math.round(((S.verbIdx+1)/total)*100) + '%;transition:width .3s;border-radius:10px;';
+  pbWrap.appendChild(pbFill);
+  w.appendChild(pbWrap);
   
-  // Bottom: complete button
-  const actions = div('action-row');
-  actions.style.cssText = 'display:flex;gap:10px;margin-top:20px;';
-  const completeBtn = el('button',{className:'btn btn-primary',onclick:()=>finishBlock()},'I understand the patterns ✓');
-  actions.appendChild(completeBtn);
-  w.appendChild(actions);
+  // Verb card — ONE verb, prominent
+  const card = div('');
+  card.style.cssText = 'background:rgba(20,28,45,.6);border:2px solid rgba(212,163,74,.4);border-radius:24px;padding:28px 22px;margin-bottom:18px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.3);';
   
+  // ROOT display — big, centered, the visual hero
+  const rootLabel = el('div',{style:{fontSize:'10px',color:'var(--gold)',fontWeight:'700',letterSpacing:'.18em',textTransform:'uppercase',marginBottom:'12px'}},'Root · الجَذر');
+  card.appendChild(rootLabel);
+  const rootEl = el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'42px',color:'var(--gold-bright,#f2be62)',letterSpacing:'.4em',direction:'rtl',padding:'14px 0',marginBottom:'18px',background:'rgba(212,163,74,.1)',borderRadius:'14px',border:'1px solid rgba(212,163,74,.3)'}},cur.root);
+  card.appendChild(rootEl);
+  
+  // Dictionary form
+  const dictAr = el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'34px',direction:'rtl',color:'var(--text)',fontWeight:'700',marginBottom:'4px'}},cur.dict);
+  card.appendChild(dictAr);
+  if(cur.dictEn){
+    const dictEn = el('div',{style:{fontSize:'12px',color:'var(--dim)',fontStyle:'italic',marginBottom:'10px'}},'(' + cur.dictEn + ')');
+    card.appendChild(dictEn);
+  }
+  
+  // Meaning
+  const meaning = el('div',{style:{fontSize:'15px',color:'var(--text)',marginBottom:'8px',fontWeight:'500'}},'→ ' + cur.meaning);
+  card.appendChild(meaning);
+  
+  w.appendChild(card);
+  
+  // "You saw" section (compact, below the main card)
+  if(cur.seen && cur.seen.length){
+    const seenWrap = div('');
+    seenWrap.style.cssText = 'background:rgba(0,0,0,.2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:18px;';
+    const seenLabel = el('div',{style:{fontSize:'10px',color:'var(--gold)',fontWeight:'700',letterSpacing:'.12em',textTransform:'uppercase',marginBottom:'10px'}},'You saw in this lesson');
+    seenWrap.appendChild(seenLabel);
+    cur.seen.forEach(s=>{
+      const item = div('');
+      item.style.cssText = 'display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.06);';
+      const ar = el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'18px',direction:'rtl',color:'var(--gold-bright,#f2be62)',flexShrink:'0'}},s.ar);
+      const en = el('span',{style:{fontSize:'12px',color:'var(--dim)',textAlign:'right'}},s.en);
+      item.appendChild(ar);
+      item.appendChild(en);
+      seenWrap.appendChild(item);
+    });
+    // Remove last border-bottom
+    if(seenWrap.lastChild) seenWrap.lastChild.style.borderBottom = 'none';
+    w.appendChild(seenWrap);
+  }
+  
+  // Navigation: Prev / Next (or Finish on last)
+  const nav = div('action-row');
+  nav.style.cssText = 'display:flex;gap:10px;';
+  
+  const prevBtn = el('button',{className:'btn btn-ghost',style:{flex:'1',opacity:S.verbIdx===0?'.5':'1',pointerEvents:S.verbIdx===0?'none':'auto'},onclick:()=>{ if(S.verbIdx>0){ S.verbIdx--; render(); }}},'← Previous');
+  nav.appendChild(prevBtn);
+  
+  if(isLast){
+    const finishBtn = el('button',{className:'btn btn-primary',style:{flex:'1.5'},onclick:()=>{ S.verbIdx=0; finishBlock(); }},'I understand ✓');
+    nav.appendChild(finishBtn);
+  } else {
+    const nextBtn = el('button',{className:'btn btn-primary',style:{flex:'1.5'},onclick:()=>{ S.verbIdx++; render(); }},'Next verb →');
+    nav.appendChild(nextBtn);
+  }
+  
+  w.appendChild(nav);
   return w;
 }
 
