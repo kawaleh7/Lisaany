@@ -558,6 +558,13 @@ html,body{background:#060e1b!important;}
 
 
 
+@media(max-width:600px){
+  /* Dialogue: switch from desktop-style "timeline" layout to vertical chat-stack on phones */
+  .dl-row{flex-direction:column!important;align-items:stretch!important;gap:0!important;}
+  .dl-side-left,.dl-side-right{flex:none!important;width:100%!important;padding:0!important;justify-content:center!important;}
+  .dl-center-line{display:none!important;}
+  .dl-badge{display:none!important;}
+}
 @media(max-width:480px){
   .topbar{padding:10px 14px!important;}
   .logo-ar{font-size:20px!important;}
@@ -5503,7 +5510,7 @@ function mkDl(blk){
   timeline.style.cssText = 'position:relative;padding:10px 0 20px;';
 
   // Center vertical line
-  const centerLine = div('');
+  const centerLine = div('dl-center-line');
   centerLine.style.cssText = 'position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,rgba(212,163,74,.6),rgba(212,163,74,.1));transform:translateX(-50%);z-index:0;';
   timeline.appendChild(centerLine);
 
@@ -5513,17 +5520,17 @@ function mkDl(blk){
 
     const isRight = line.side==='right';
     const isActive = S.dlPlayMode && idx === S.dlPlayIdx;
-    const row = div('');
+    const row = div('dl-row');
     row.style.cssText = 'display:flex;align-items:center;margin-bottom:24px;position:relative;z-index:1;';
 
     // Left/right halves
-    const leftSide = div('');
+    const leftSide = div('dl-side-left');
     leftSide.style.cssText = 'flex:1;display:flex;justify-content:flex-end;padding-right:28px;';
-    const rightSide = div('');
+    const rightSide = div('dl-side-right');
     rightSide.style.cssText = 'flex:1;display:flex;justify-content:flex-start;padding-left:28px;';
 
     // Initial badge in center
-    const badge = div('');
+    const badge = div('dl-badge');
     badge.style.cssText = `
       width:36px;height:36px;border-radius:8px;flex-shrink:0;
       background:${isActive?'var(--gold)':'rgba(212,163,74,.04)'};
