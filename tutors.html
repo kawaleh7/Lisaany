@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,300..700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://meet.jit.si/external_api.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -45,32 +46,33 @@ body::before{content:'';position:fixed;inset:0;
 
 /* LIVE NOW banner */
 .live-banner{
-  background:linear-gradient(135deg,rgba(167,217,166,.1),rgba(167,217,166,.05));
-  border:1.5px solid rgba(167,217,166,.3);border-radius:20px;
+  background:linear-gradient(135deg,rgba(255,82,82,.12),rgba(255,82,82,.05));
+  border:1.5px solid rgba(255,82,82,.4);border-radius:20px;
   padding:24px 28px;margin-bottom:32px;
   display:flex;align-items:center;gap:20px;
   animation:pulse-border 2s infinite;
 }
-@keyframes pulse-border{0%,100%{border-color:rgba(167,217,166,.3);}50%{border-color:rgba(167,217,166,.6);}}
-.live-dot-wrap{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:16px;background:rgba(167,217,166,.1);border:1px solid rgba(167,217,166,.2);flex-shrink:0;position:relative;}
-.live-dot{width:16px;height:16px;border-radius:50%;background:var(--green);}
-.live-ring{position:absolute;width:30px;height:30px;border-radius:50%;border:2px solid var(--green);animation:ring 1.5s infinite;opacity:0;}
+@keyframes pulse-border{0%,100%{border-color:rgba(255,82,82,.4);box-shadow:0 0 0 0 rgba(255,82,82,.4);}50%{border-color:rgba(255,82,82,.8);box-shadow:0 0 0 8px rgba(255,82,82,0);}}
+.live-dot-wrap{display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:16px;background:rgba(255,82,82,.12);border:1px solid rgba(255,82,82,.3);flex-shrink:0;position:relative;}
+.live-banner .live-dot{width:16px;height:16px;border-radius:50%;background:#ff5252;box-shadow:0 0 12px #ff5252;animation:dot-blink 1.2s ease-in-out infinite;}
+@keyframes dot-blink{0%,100%{opacity:1;}50%{opacity:.5;}}
+.live-ring{position:absolute;width:30px;height:30px;border-radius:50%;border:2px solid #ff5252;animation:ring 1.5s infinite;opacity:0;}
 @keyframes ring{0%{transform:scale(.8);opacity:.8;}100%{transform:scale(1.6);opacity:0;}}
 .live-info{flex:1;}
-.live-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:4px;}
+.live-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#ff5252;margin-bottom:4px;}
 .live-title{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px;}
 .live-meta{font-size:12px;color:var(--dim);}
 .btn-join-live{
   padding:14px 28px;border:none;border-radius:14px;
-  background:linear-gradient(135deg,var(--green),#8fd98f);
-  color:#0a2010;font-family:'Cinzel',serif;font-size:13px;font-weight:700;
+  background:linear-gradient(135deg,#ff5252,#ff7878);
+  color:#fff;font-family:'Cinzel',serif;font-size:13px;font-weight:700;
   letter-spacing:.08em;cursor:pointer;transition:all .3s;
-  box-shadow:0 4px 16px rgba(167,217,166,.25);
+  box-shadow:0 4px 16px rgba(255,82,82,.35);
   display:flex;align-items:center;gap:8px;flex-shrink:0;white-space:nowrap;
 }
-.btn-join-live:hover{box-shadow:0 6px 24px rgba(167,217,166,.4);transform:translateY(-1px);}
+.btn-join-live:hover{box-shadow:0 6px 24px rgba(255,82,82,.5);transform:translateY(-1px);}
 .btn-join-live .ms{font-size:18px;}
-.btn-join-live.disabled{opacity:.6;cursor:not-allowed;background:rgba(167,217,166,.2);color:var(--green);box-shadow:none;}
+.btn-join-live.disabled{opacity:.6;cursor:not-allowed;background:rgba(255,82,82,.2);color:#ff5252;box-shadow:none;}
 .btn-join-live.disabled:hover{transform:none;box-shadow:none;}
 
 /* Weekly schedule */
@@ -112,6 +114,10 @@ body::before{content:'';position:fixed;inset:0;
 .time-badge{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--text);text-align:right;}
 .time-tz{font-size:10px;color:var(--dim);}
 .countdown-badge{font-size:10px;font-weight:700;color:var(--green);background:rgba(167,217,166,.1);border:1px solid rgba(167,217,166,.2);border-radius:999px;padding:3px 10px;}
+.countdown-badge.live{color:#ff5252;background:rgba(255,82,82,.12);border-color:rgba(255,82,82,.4);display:inline-flex;align-items:center;gap:6px;animation:live-glow 2s ease-in-out infinite;}
+.countdown-badge.live .live-dot{width:7px;height:7px;border-radius:50%;background:#ff5252;display:inline-block;box-shadow:0 0 8px #ff5252;animation:live-pulse 1.2s ease-in-out infinite;}
+@keyframes live-pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.85);}}
+@keyframes live-glow{0%,100%{box-shadow:0 0 0 0 rgba(255,82,82,.4);}50%{box-shadow:0 0 0 6px rgba(255,82,82,0);}}
 .btn-remind{
   padding:8px 16px;border:1.5px solid var(--border);border-radius:10px;
   background:transparent;color:var(--dim);font-size:11px;font-weight:700;
@@ -494,13 +500,17 @@ body{padding-bottom:88px;}
 </div>
 
 <script>
-// ── Zoom link — replace with real tutor Zoom link ──
-const ZOOM_URL = 'https://zoom.us/j/PENDING';
+// ── Jitsi room (free, embedded, no account needed) ──
+const JITSI_ROOM = 'lisaany-live';
+const JITSI_DOMAIN = 'meet.jit.si';
 
-// Helper: is the link real or placeholder?
+// Always ready (Jitsi is free + open)
 function isZoomReady() {
-  return ZOOM_URL && !ZOOM_URL.includes('PENDING') && !ZOOM_URL.includes('1234567890');
+  return true;
 }
+
+// Track active Jitsi instance for proper teardown
+let jitsiApi = null;
 
 // ── Weekly schedule ──
 const SCHEDULE = [
@@ -554,7 +564,7 @@ function renderSchedule() {
       }
     }
 
-    const countdown = isLive ? '🔴 Live Now' :
+    const countdown = isLive ? '<span class="live-dot"></span>LIVE NOW' :
       isToday ? `Today at ${s.time}` :
       isTomorrow ? `Tomorrow at ${s.time}` :
       `${s.day} at ${s.time}`;
@@ -574,7 +584,7 @@ function renderSchedule() {
           <div class="session-meta-item"><span class="ms">person</span>Sheikh Ahmad</div>
           <div class="session-meta-item"><span class="ms">timer</span>60 min</div>
           <div class="session-meta-item"><span class="ms">groups</span>Group · max 15</div>
-          <div class="session-meta-item"><span class="ms">videocam</span>Zoom</div>
+          <div class="session-meta-item"><span class="ms">videocam</span>Live Video</div>
         </div>
       </div>
       <div class="session-right">
@@ -582,7 +592,7 @@ function renderSchedule() {
           <div class="time-badge">${s.time}</div>
           <div class="time-tz">${s.tz}</div>
         </div>
-        <div class="countdown-badge">${countdown}</div>
+        <div class="countdown-badge${isLive ? ' live' : ''}">${countdown}</div>
         ${isLive
           ? (isZoomReady()
               ? `<button class="btn-join-live" style="padding:10px 18px;font-size:11px;" onclick="joinSession()"><span class="ms" style="font-size:16px;">videocam</span>Join</button>`
@@ -596,11 +606,57 @@ function renderSchedule() {
 }
 
 function joinSession() {
-  if (!isZoomReady()) {
-    alert('The Zoom link will be posted here when the tutor goes live. Refresh shortly.');
-    return;
-  }
-  window.open(ZOOM_URL, '_blank');
+  // Get user info if logged in (for display name in Jitsi)
+  let displayName = 'Student';
+  try {
+    const session = localStorage.getItem('sb-cfaxrzfqvoalwznkhwnx-auth-token');
+    if(session) {
+      const parsed = JSON.parse(session);
+      const meta = parsed?.user?.user_metadata;
+      displayName = meta?.name || parsed?.user?.email?.split('@')[0] || 'Student';
+    }
+  } catch(e) { /* fallback to 'Student' */ }
+  
+  // Show modal
+  const modal = document.getElementById('jitsi-modal');
+  modal.style.display = 'flex';
+  
+  // Clear any previous instance
+  const container = document.getElementById('jitsi-container');
+  container.innerHTML = '';
+  if(jitsiApi) { try { jitsiApi.dispose(); } catch(e){} jitsiApi = null; }
+  
+  // Initialize Jitsi
+  const options = {
+    roomName: JITSI_ROOM,
+    parentNode: container,
+    width: '100%',
+    height: '100%',
+    userInfo: { displayName: displayName },
+    configOverwrite: {
+      prejoinPageEnabled: false,
+      startWithAudioMuted: true,
+      startWithVideoMuted: false,
+      disableDeepLinking: true
+    },
+    interfaceConfigOverwrite: {
+      SHOW_JITSI_WATERMARK: false,
+      DEFAULT_BACKGROUND: '#0a0e18',
+      TOOLBAR_BUTTONS: ['microphone','camera','desktop','fullscreen','hangup','chat','tileview','settings']
+    }
+  };
+  
+  jitsiApi = new JitsiMeetExternalAPI(JITSI_DOMAIN, options);
+  
+  // Auto-close modal when user hangs up
+  jitsiApi.addListener('readyToClose', closeJitsiModal);
+}
+
+function closeJitsiModal() {
+  const modal = document.getElementById('jitsi-modal');
+  modal.style.display = 'none';
+  if(jitsiApi) { try { jitsiApi.dispose(); } catch(e){} jitsiApi = null; }
+  document.getElementById('jitsi-container').innerHTML = '';
 }
 
 function setReminder(day, time, idx) {
@@ -650,5 +706,22 @@ checkPremium();
   </a>
 </div>
 
+
+<!-- Jitsi embedded video modal -->
+<div id="jitsi-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(5,8,12,.96);flex-direction:column;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(10,14,24,.9);border-bottom:1px solid rgba(212,163,74,.2);">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="width:8px;height:8px;border-radius:50%;background:#e07070;display:inline-block;animation:pulse 1.5s infinite;"></span>
+      <span style="color:#f2be62;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:.05em;">LISAANY LIVE SESSION</span>
+    </div>
+    <button onclick="closeJitsiModal()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;">
+      <span class="ms" style="font-size:16px;">close</span> Leave
+    </button>
+  </div>
+  <div id="jitsi-container" style="flex:1;width:100%;background:#000;"></div>
+</div>
+<style>
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
+</style>
 </body>
 </html>
