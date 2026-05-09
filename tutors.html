@@ -435,7 +435,7 @@ body{padding-bottom:88px;}
   <!-- Header -->
   <div class="hdr">
     <div class="hdr-eyebrow"><span class="ms" style="font-size:14px;">live_tv</span>Live Sessions</div>
-    <h1 class="hdr-title">Learn Live with Your Tutor</h1>
+    <h1 class="hdr-title">Learn <span style="color:#c44545;">Live</span> with Your Tutor</h1>
     <p class="hdr-desc">Weekly group sessions — fixed schedule, no booking needed. Just show up at the time and join. Recordings available after every session.</p>
   </div>
 
@@ -548,7 +548,9 @@ function renderSchedule() {
     const sessionStart = new Date(sessionDate);
     sessionStart.setHours(hour, min, 0, 0);
     const sessionEnd = new Date(sessionStart.getTime() + 60*60*1000);
-    const isLive = now >= sessionStart && now <= sessionEnd;
+    // TEST MODE: append ?test=live to URL to force all sessions live
+    const TEST_LIVE = new URLSearchParams(window.location.search).get('test') === 'live';
+    const isLive = TEST_LIVE || (now >= sessionStart && now <= sessionEnd);
 
     if(isLive) {
       const banner = document.getElementById('live-banner');
