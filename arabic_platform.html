@@ -1762,97 +1762,112 @@ const CUR = [
           }
         ]
       },
-      { id:"2.3", title:"قَالَ — The Verb Said", icon:"menu_book",
-        desc:"أكثر فعل في القرآن — تعلمه مبكراً",
+{ id:"2.3", title:"قَالَ — He Said, She Said", icon:"forum",
+        desc:"تعلم فعل قَالَ مع العَائلة — preparing for the Quran",
         blocks:[
-          { id:1, type:"dialogue", title:"From Surah Yusuf", desc:"قصة يوسف عليه السلام", icon:"forum", color:"#D4A34A",
-            data:{ title:"مِن سُورَة يُوسُف", setting:"من أجمل قصص القرآن الكريم — سورة يوسف",
+          { id:1, type:"dialogue", title:"What Mom and Dad Said", desc:"خالد وفاطمة في البيت", icon:"forum", color:"#D4A34A",
+            data:{ title:"ماذا قالَ أَبي وَأُمّي؟", setting:"فاطمة وأخوها خالد في البيت بعد المدرسة",
               lines:[
-                {spk:"Narrator",side:"left",ar:"قَالَ يُوسُفُ لِأَبِيهِ يَا أَبَتِ",en:"Yusuf said to his father: O my father"},
-                {spk:"Yusuf",side:"right",ar:"إِنِّي رَأَيْتُ أَحَدَ عَشَرَ كَوْكَبًا",en:"Indeed I saw eleven stars"},
-                {spk:"Father",side:"left",ar:"قَالَ أَبُوهُ لَا تَقْصُصْ رُؤْيَاكَ عَلَى إِخْوَتِكَ",en:"His father said: Do not tell your vision to your brothers"},
-                {spk:"Brothers",side:"right",ar:"قَالُوا لَيُوسُفُ وَأَخُوهُ أَحَبُّ إِلَى أَبِينَا",en:"They said: Yusuf and his brother are more loved by our father"},
-                {spk:"Narrator",side:"left",ar:"قَالَتِ امْرَأَةُ الْعَزِيزِ اخْرُجْ عَلَيْهِنَّ",en:"The wife of Al-Azeez said: Come out before them"},
-                {spk:"Women",side:"right",ar:"قُلْنَ حَاشَ لِلَّهِ مَا هَذَا بَشَرًا",en:"They said: Far is Allah from imperfection, this is not a human"},
-                {spk:"Yusuf",side:"left",ar:"قَالَ رَبِّ السِّجْنُ أَحَبُّ إِلَيَّ",en:"He said: My Lord, prison is more beloved to me"},
-                {spk:"King",side:"right",ar:"قَالَ الْمَلِكُ ائْتُونِي بِهِ",en:"The king said: Bring him to me"},
+                {spk:"Fatima",side:"left",ar:"ماذا قالَ أَبي يا خالِد؟",en:"What did Dad say, Khalid?"},
+                {spk:"Khalid",side:"right",ar:"قالَ أَبي: تَعالَ إِلى البَيت",en:"Dad said: Come home"},
+                {spk:"Fatima",side:"left",ar:"وَماذا قالَتْ أُمّي؟",en:"And what did Mom say?"},
+                {spk:"Khalid",side:"right",ar:"قالَتْ أُمّي: العَشاءُ جاهِز",en:"Mom said: Dinner is ready"},
+                {spk:"Fatima",side:"left",ar:"حَسَناً، شُكراً يا أَخي",en:"Okay, thanks brother"},
+                {spk:"Khalid",side:"right",ar:"أَهلاً وَسَهلاً يا أُختي",en:"You are welcome sister"}
               ],
               keywords:[
-                {ar:"قَالَ / قَالَتْ",en:"He said / She said"},
-                {ar:"قَالُوا / قُلْنَ",en:"They said (m) / They said (f)"},
-                {ar:"قُلْتُ",en:"I said"},
-                {ar:"رُؤْيَا",en:"Vision / Dream"},
+                {ar:"قالَ",en:"He said"},
+                {ar:"قالَتْ",en:"She said"},
+                {ar:"العَشاء",en:"Dinner"},
+                {ar:"جاهِز",en:"Ready"}
               ]
             }
           },
-          { id:2, type:"dialogue", title:"Everyday Conversation", desc:"Using قَالَ in daily life", icon:"forum", color:"#D4A34A",
-            data:{ title:"فِي الْحَيَاة الْيَوْمِيَّة", setting:"خالد يحكي لصديقه ما قاله المدرس",
+          { id:2, type:"dialogue", title:"What My Family Said", desc:"خالد ومريم يتحدثان عن العائلة", icon:"forum", color:"#D4A34A",
+            data:{ title:"ماذا قالَ كُلُّ واحِد؟", setting:"خالد وأخته مَريَم في البيت بعد المدرسة",
               lines:[
-                {spk:"Khalid",side:"left",ar:"قَالَ الْمُدَرِّسُ إِنَّ الِامْتِحَانَ غَدًا",en:"The teacher said that the exam is tomorrow"},
-                {spk:"Ahmad",side:"right",ar:"مَاذَا؟ قُلْتَ الِامْتِحَان غَدًا؟",en:"What? You said the exam is tomorrow?"},
-                {spk:"Khalid",side:"left",ar:"نَعَمْ، قَالَ ذَلِكَ فِي نِهَايَة الدَّرْس",en:"Yes, he said that at the end of the lesson"},
-                {spk:"Ahmad",side:"right",ar:"قُلْتُ لَكَ مِنْ قَبْلُ يَجِبُ أَنْ نُذَاكِرَ يَوْمِيًّا",en:"I said to you before we must study daily"},
-                {spk:"Khalid",side:"left",ar:"صَحِيح، وَقَالَتْ أُمِّي نَفْسَ الْكَلَام",en:"True, and my mother said the same thing"},
-                {spk:"Ahmad",side:"right",ar:"قُلْنَا لَكَ كَثِيرًا، الْآنَ تَعَالَ نُذَاكِرُ مَعًا",en:"We said to you many times, now come let's study together"},
+                {spk:"Maryam",side:"left",ar:"يا خالِد، ماذا قالَ جَدّي اليَوم؟",en:"Khalid, what did Grandpa say today?"},
+                {spk:"Khalid",side:"right",ar:"قالَ جَدّي: أُحِبُّكُم كَثيراً",en:"Grandpa said: I love you all very much"},
+                {spk:"Maryam",side:"left",ar:"ما شاءَ اللهُ! وَجَدَّتي؟",en:"Mashallah! And Grandma?"},
+                {spk:"Khalid",side:"right",ar:"قالَتْ جَدَّتي: تَعالَوا إِلى بَيتي يَوم الجُمُعة",en:"Grandma said: Come to my house on Friday"},
+                {spk:"Maryam",side:"left",ar:"جَميل! وَأَبي وَأُمّي؟",en:"Wonderful! And Mom and Dad?"},
+                {spk:"Khalid",side:"right",ar:"قالَ أَبي: نَعَم، حَسَناً",en:"Dad said: Yes, okay"},
+                {spk:"Maryam",side:"left",ar:"وَأُمّي؟",en:"And Mom?"},
+                {spk:"Khalid",side:"right",ar:"قالَتْ أُمّي: شُكراً، إِن شاءَ الله",en:"Mom said: Thank you, inshallah"}
               ],
               keywords:[
-                {ar:"قَالَ إِنَّ",en:"He said that"},
-                {ar:"قُلْتَ لِي",en:"You said to me"},
-                {ar:"نَفْس الْكَلَام",en:"The same thing"},
+                {ar:"جَدّ / جَدَّة",en:"Grandfather / Grandmother"},
+                {ar:"يَوم الجُمُعة",en:"Friday"},
+                {ar:"ما شاءَ الله",en:"Mashallah"},
+                {ar:"إِن شاءَ الله",en:"Inshallah"}
               ]
             }
           },
-          { id:3, type:"vocab", title:"Quran Vocabulary", desc:"كلمات من سورة يوسف", icon:"translate", color:"#D4A34A",
+          { id:3, type:"vocab", title:"Essential Words", desc:"كلمات أساسية", icon:"translate", color:"#D4A34A",
             data:{ words:[
-              {ar:"قَالَ / قَالَتْ",en:"He said / She said"},
-              {ar:"قُلْتُ / قُلْنَا",en:"I said / We said"},
-              {ar:"قَالُوا",en:"They said"},
-              {ar:"رُؤْيَا / حُلْم",en:"Vision / Dream"},
-              {ar:"كَوْكَب / نَجْم",en:"Planet / Star"},
-              {ar:"أَخ / إِخْوَة",en:"Brother / Brothers"},
-              {ar:"مَلِك / عَزِيز",en:"King / Noble"},
-              {ar:"سِجْن",en:"Prison"},
-              {ar:"حَاشَ لِلَّه",en:"Far is Allah from imperfection"},
-              {ar:"رَبِّ",en:"My Lord"},
+              {ar:"قالَ",en:"He said"},
+              {ar:"قالَتْ",en:"She said"},
+              {ar:"ماذا قالَ؟",en:"What did he say?"},
+              {ar:"ماذا قالَتْ؟",en:"What did she say?"},
+              {ar:"جَدّ",en:"Grandfather"},
+              {ar:"جَدَّة",en:"Grandmother"},
+              {ar:"العَشاء",en:"Dinner"},
+              {ar:"جاهِز",en:"Ready"},
+              {ar:"ما شاءَ الله",en:"Mashallah (expression of admiration)"},
+              {ar:"إِن شاءَ الله",en:"Inshallah (God willing)"}
             ]}
           },
-          { id:4, type:"grammar", title:"قَالَ — Full Conjugation", desc:"هُوَ قَالَ، هِيَ قَالَتْ، أَنَا قُلْتُ", icon:"psychology", color:"#D4A34A",
-            data:{ title:"The Verb قَالَ — All Forms", titleAr:"تَصْرِيف الْفِعْل قَالَ",
-              intro:"قَالَ is a hollow verb — its middle letter is ا. It follows its own pattern. It appears over 1600 times in the Quran.",
-              table:{ cols:["Arabic","Meaning"], colW:"1fr 1.5fr",
+          { id:4, type:"grammar", title:"Three Forms of قَالَ", desc:"هُوَ قالَ، هِيَ قالَتْ، أَنَا قُلتُ", icon:"psychology", color:"#D4A34A",
+            data:{ title:"قَالَ — Who Said It?", titleAr:"تَصْريف فِعل قَالَ",
+              intro:"قالَ is one of the most important verbs in Arabic — it appears over 1,600 times in the Quran. Today we learn three forms: he said, she said, and I said.",
+              table:{ cols:["Pronoun","Verb","Example"], colW:"1fr 1fr 1.8fr",
                 rows:[
-                  {ar:"قَالَ",en:"He said"},
-                  {ar:"قَالَتْ",en:"She said"},
-                  {ar:"قُلْتُ",en:"I said"},
-                  {ar:"قُلْتَ",en:"You said (m)"},
-                  {ar:"قُلْتِ",en:"You said (f)"},
-                  {ar:"قُلْنَا",en:"We said"},
-                  {ar:"قَالُوا",en:"They said (m)"},
-                  {ar:"قُلْنَ",en:"They said (f)"},
+                  {ar:"هُوَ — قالَ",en:"He said — قالَ أَبي (Dad said)"},
+                  {ar:"هِيَ — قالَتْ",en:"She said — قالَتْ أُمّي (Mom said)"},
+                  {ar:"أَنَا — قُلتُ",en:"I said — قُلتُ شُكراً (I said thank you)"}
                 ]
               },
-              keyRule:"قَالَ / قَالَتْ for 3rd person. قُلْتُ / قُلْتَ / قُلْتِ / قُلْنَا for 1st and 2nd person.",
+              keyRule:"Notice the pattern: قالَ for he (long ا). قالَتْ for she (add ـَتْ). قُلتُ for I (long ا becomes short ُ + add ـتُ).",
               examples:[
-                {ar:"قَالَ رَبِّ اشْرَحْ لِي صَدْرِي — سورة طه ٢٥",en:"He said: My Lord expand my chest — Quran 20:25"},
-                {ar:"قَالَتْ إِنِّي أَعُوذُ بِالرَّحْمَن — سورة مريم ١٨",en:"She said: I seek refuge in the Most Merciful — Quran 19:18"},
-                {ar:"قَالُوا آمَنَّا بِاللَّه — سورة البقرة ١٤",en:"They said: We believe in Allah — Quran 2:14"},
-                {ar:"قُلْنَا يَا نَارُ كُونِي بَرْدًا — سورة الأنبياء ٦٩",en:"We said: O fire be cool — Quran 21:69"},
+                {ar:"قالَ يُوسُفُ: يا أَبَتِ — سورة يوسف ٤",en:"Yusuf said: O my father — Quran 12:4"}
               ]
             }
           },
-          { id:5, type:"clutter", title:"Sentence Builder", desc:"تدريب على فعل قَالَ", icon:"extension", color:"#D4A34A",
+          { id:5, type:"clutter", title:"Sentence Builder", desc:"تدريب على قالَ، قالَتْ، قُلتُ", icon:"extension", color:"#D4A34A",
             data:{ passing:70, sentences:[
-              {ar:"قَالَ الْمُدَرِّسُ إِنَّ الِامْتِحَانَ غَدًا",en:"The teacher said that the exam is tomorrow", words:["قَالَ","الْمُدَرِّسُ","إِنَّ","الِامْتِحَانَ","غَدًا"]},
-              {ar:"قَالَتْ أُمِّي تَعَالَ إِلَى الْبَيْت الْآن",en:"My mother said come home now", words:["قَالَتْ","أُمِّي","تَعَالَ","إِلَى","الْبَيْت","الْآن"]},
-              {ar:"قُلْتُ لَهُ يَجِبُ أَنْ تَذْهَبَ إِلَى الطَّبِيب",en:"I told him you must go to the doctor", words:["قُلْتُ","لَهُ","يَجِبُ","أَنْ","تَذْهَبَ","إِلَى","الطَّبِيب"]},
-              {ar:"قَالُوا آمَنَّا بِاللَّه وَرَسُولِهِ",en:"They said we believed in God and His messenger", words:["قَالُوا","آمَنَّا","بِاللَّه","وَرَسُولِهِ"]},
-              {ar:"قُلْنَا لَكَ كَثِيرًا يَجِبُ أَنْ تُذَاكِرَ",en:"We told you many times you must study", words:["قُلْنَا","لَكَ","كَثِيرًا","يَجِبُ","أَنْ","تُذَاكِرَ"]},
-              {ar:"مَاذَا قَالَ الْمُدَرِّسُ فِي نِهَايَة الدَّرْس؟",en:"What did the teacher say at the end of the lesson?", words:["مَاذَا","قَالَ","الْمُدَرِّسُ","فِي","نِهَايَة","الدَّرْس؟"]},
-              {ar:"قَالَتْ رَبِّ إِنِّي وَضَعْتُهَا أُنْثَى",en:"She said: My Lord, I have given birth to a female", words:["قَالَتْ","رَبِّ","إِنِّي","وَضَعْتُهَا","أُنْثَى"]},
-              {ar:"قُلْتَ إِنَّكَ سَتَحْضُرُ لَكِنَّكَ لَمْ تَأْتِ",en:"You said you would come but you didn't come", words:["قُلْتَ","إِنَّكَ","سَتَحْضُرُ","لَكِنَّكَ","لَمْ","تَأْتِ"]},
-              {ar:"قَالَ يُوسُفُ لِأَبِيهِ إِنِّي رَأَيْتُ أَحَدَ عَشَرَ كَوْكَبًا",en:"Joseph said to his father: I saw eleven planets", words:["قَالَ","يُوسُفُ","لِأَبِيهِ","إِنِّي","رَأَيْتُ","أَحَدَ","عَشَرَ","كَوْكَبًا"]},
-              {ar:"قُلْنَا يَا نَارُ كُونِي بَرْدًا وَسَلَامًا",en:"We said: O fire, be cool and peaceful", words:["قُلْنَا","يَا","نَارُ","كُونِي","بَرْدًا","وَسَلَامًا"]},
+              {ar:"قالَ أَبي تَعالَ",en:"Dad said come", words:["قالَ","أَبي","تَعالَ"]},
+              {ar:"قالَتْ أُمّي العَشاءُ جاهِز",en:"Mom said dinner is ready", words:["قالَتْ","أُمّي","العَشاءُ","جاهِز"]},
+              {ar:"قُلتُ شُكراً يا أُمّي",en:"I said thank you Mom", words:["قُلتُ","شُكراً","يا","أُمّي"]},
+              {ar:"ماذا قالَ جَدّي؟",en:"What did Grandpa say?", words:["ماذا","قالَ","جَدّي؟"]},
+              {ar:"قالَتْ جَدَّتي ما شاءَ الله",en:"Grandma said Mashallah", words:["قالَتْ","جَدَّتي","ما","شاءَ","الله"]},
+              {ar:"قُلتُ السَّلامُ عَلَيكُم",en:"I said As-salaamu alaykum", words:["قُلتُ","السَّلامُ","عَلَيكُم"]},
+              {ar:"قالَ أَخي أَهلاً",en:"My brother said hello", words:["قالَ","أَخي","أَهلاً"]},
+              {ar:"قالَتْ أُختي مَرحَباً",en:"My sister said hi", words:["قالَتْ","أُختي","مَرحَباً"]},
+              {ar:"قُلتُ أَنا خالِد",en:"I said I am Khalid", words:["قُلتُ","أَنا","خالِد"]},
+              {ar:"قالَ يُوسُف يا أَبَتِ",en:"Yusuf said: O my father", words:["قالَ","يُوسُف","يا","أَبَتِ"]}
             ]}
+          },
+          { id:6, type:"grammar", title:"قُل — Say! (Imperative)", desc:"الأمر — قُل في القرآن", icon:"campaign", color:"#D4A34A",
+            data:{ title:"قُل — The Imperative \"Say!\"", titleAr:"فِعل الأَمر: قُل",
+              intro:"قُل means \"Say!\" — a command. It is the imperative form of قالَ. The Quran uses قُل over 300 times — Allah commanding the Prophet ﷺ to speak. Every Muslim recognizes these famous verses.",
+              table:{ cols:["Form","Arabic","Meaning"], colW:"1fr 1fr 1.4fr",
+                rows:[
+                  {ar:"Past — هُوَ",en:"قالَ — He said (already learned)"},
+                  {ar:"Past — هِيَ",en:"قالَتْ — She said (already learned)"},
+                  {ar:"Past — أَنَا",en:"قُلتُ — I said (already learned)"},
+                  {ar:"Imperative — to a man",en:"قُل — Say! (NEW)"},
+                  {ar:"Imperative — to a woman",en:"قولي — Say! (NEW)"}
+                ]
+              },
+              keyRule:"قُل is one syllable: \"qul.\" Notice: same root ق ل as قالَ and قُلتُ. The Quran starts many surahs with قُل — Allah telling the Prophet ﷺ to speak truth.",
+              examples:[
+                {ar:"قُل هُوَ اللهُ أَحَد — سورة الإخلاص ١",en:"Say: He is Allah, the One — Surah Al-Ikhlas 112:1"},
+                {ar:"قُل أَعوذُ بِرَبِّ النّاس — سورة الناس ١",en:"Say: I seek refuge in the Lord of mankind — Surah An-Nas 114:1"},
+                {ar:"قُل أَعوذُ بِرَبِّ الفَلَق — سورة الفلق ١",en:"Say: I seek refuge in the Lord of dawn — Surah Al-Falaq 113:1"},
+                {ar:"قُل: السَّلامُ عَلَيكُم",en:"Say: Peace be upon you (everyday use)"},
+                {ar:"قُل: بِسمِ الله",en:"Say: In the name of Allah"}
+              ]
+            }
           }
         ]
       }
