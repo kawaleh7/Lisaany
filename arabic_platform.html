@@ -5653,10 +5653,7 @@ function mkVerbs(blk){
   // Bottom: complete button
   const actions = div('action-row');
   actions.style.cssText = 'display:flex;gap:10px;margin-top:20px;';
-  const completeBtn = el('button',{className:'btn btn-primary',onclick:()=>{
-    finishBlock_();
-    S.view='complete'; render();
-  }},'I understand the patterns ✓');
+  const completeBtn = el('button',{className:'btn btn-primary',onclick:()=>finishBlock()},'I understand the patterns ✓');
   actions.appendChild(completeBtn);
   w.appendChild(actions);
   
