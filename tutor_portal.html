@@ -692,7 +692,7 @@ function initPortal(user) {
 const SCHEDULE = [
   { day:'Tuesday',  time:'7:00 PM', tz:'EST', topic:'Tajweed & Quran Reading',      level:'Beginner' },
   { day:'Thursday', time:'7:00 PM', tz:'EST', topic:'Arabic Conversation Practice',  level:'Beginner' },
-  { day:'Sunday',   time:'11:00 AM',tz:'EST', topic:'Arabic Grammar Deep Dive',      level:'Intermediate' },
+  { day:'Sunday',   time:'1:00 PM', tz:'EST', topic:'Arabic Grammar Deep Dive',      level:'Intermediate' },
 ];
 const DAY_IDX = {Sunday:0,Monday:1,Tuesday:2,Wednesday:3,Thursday:4,Friday:5,Saturday:6};
 
@@ -712,8 +712,19 @@ function renderSchedule() {
     let hour = parseInt(hStr) + (isPM && hStr !== '12' ? 12 : 0);
     if (!isPM && hStr === '12') hour = 0;
     const min = parseInt(mPart);
-    const start = new Date(sessionDate);
-    start.setHours(hour, min, 0, 0);
+    
+    // Build session time in true EST (handles DST automatically)
+    const yyyy = sessionDate.getFullYear();
+    const mm = String(sessionDate.getMonth() + 1).padStart(2, '0');
+    const dd = String(sessionDate.getDate()).padStart(2, '0');
+    const hh = String(hour).padStart(2, '0');
+    const mn = String(min).padStart(2, '0');
+    const nyFormat = new Intl.DateTimeFormat('en-US', {timeZone:'America/New_York', timeZoneName:'shortOffset'});
+    const offsetStr = nyFormat.formatToParts(now).find(p=>p.type==='timeZoneName').value;
+    const offsetHours = parseInt(offsetStr.replace('GMT','')) || -5;
+    const offsetSign = offsetHours >= 0 ? '+' : '-';
+    const offsetAbs = String(Math.abs(offsetHours)).padStart(2,'0');
+    const start = new Date(`${yyyy}-${mm}-${dd}T${hh}:${mn}:00${offsetSign}${offsetAbs}:00`);
     const end = new Date(start.getTime() + 60*60*1000);
     // TEST MODE: append ?test=live to URL to force all sessions live
     const TEST_LIVE = new URLSearchParams(window.location.search).get('test') === 'live';
@@ -741,7 +752,7 @@ function renderSchedule() {
           ? `<div class="live-badge"><div class="live-dot"></div>LIVE NOW</div>
              <button class="btn-start" onclick="startSession()"><span class="ms">videocam</span>Start Session</button>`
           : `<div class="time-badge">${isToday ? 'Today' : s.day}</div>
-             <button class="btn-upcoming" onclick="copyZoom()">Copy Zoom Link</button>`
+             <button class="btn-upcoming" onclick="copyMeetLink()">Copy Meet Link</button>`
         }
       </div>`;
     container.appendChild(card);
@@ -786,6 +797,14 @@ const MEET_URL = 'https://meet.google.com/dpm-fyoc-htv';
 function startSession() {
   // Open Google Meet in new tab — tutor hosts the room
   window.open(MEET_URL, '_blank');
+}
+
+function copyMeetLink() {
+  navigator.clipboard.writeText(MEET_URL).then(() => {
+    alert('✓ Meet link copied! Share with students if needed.');
+  }).catch(() => {
+    prompt('Copy this Meet link:', MEET_URL);
+  });
 }
 
 function saveNotes() {
