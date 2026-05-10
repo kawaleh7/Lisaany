@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,300..700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://meet.jit.si/external_api.js"></script>
+
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -496,7 +496,7 @@ body::before{content:'';position:fixed;inset:0;
     <div class="zoom-card" id="zoom-card">
       <div class="zoom-icon"><span class="ms">videocam</span></div>
       <div class="zoom-info">
-        <div class="zoom-title">Backup Zoom Link <span style="font-size:11px;color:var(--dim);font-weight:400;">(optional — live sessions use built-in video)</span></div>
+        <div class="zoom-title">Live Session Room <span style="font-size:11px;color:var(--green);font-weight:400;">— using Google Meet</span></div>
         <div class="zoom-link" id="zoom-link-display">No Zoom link saved yet — add yours below</div>
       </div>
       <div class="zoom-actions" id="zoom-view-actions">
@@ -780,58 +780,12 @@ function saveZoom() {
   document.getElementById('zoom-view-actions').style.display = 'flex';
 }
 
-// ── JITSI Live Session config (same room as student page) ──
-const JITSI_ROOM = 'lisaany-live';
-const JITSI_DOMAIN = 'meet.jit.si';
-let jitsiApi = null;
+// ── Google Meet session URL (same room as student page) ──
+const MEET_URL = 'https://meet.google.com/dpm-fyoc-htv';
 
 function startSession() {
-  // Get tutor display name from current Supabase session
-  let displayName = 'Tutor';
-  sb.auth.getSession().then(({data: {session}}) => {
-    if(session) {
-      displayName = session.user.user_metadata?.name || session.user.email.split('@')[0] || 'Tutor';
-    }
-  }).catch(()=>{});
-  
-  // Show modal
-  const modal = document.getElementById('jitsi-modal');
-  modal.style.display = 'flex';
-  
-  // Clear any previous instance
-  const container = document.getElementById('jitsi-container');
-  container.innerHTML = '';
-  if(jitsiApi) { try { jitsiApi.dispose(); } catch(e){} jitsiApi = null; }
-  
-  // Initialize Jitsi as host
-  const options = {
-    roomName: JITSI_ROOM,
-    parentNode: container,
-    width: '100%',
-    height: '100%',
-    userInfo: { displayName: displayName + ' (Tutor)' },
-    configOverwrite: {
-      prejoinPageEnabled: false,
-      startWithAudioMuted: false,
-      startWithVideoMuted: false,
-      disableDeepLinking: true
-    },
-    interfaceConfigOverwrite: {
-      SHOW_JITSI_WATERMARK: false,
-      DEFAULT_BACKGROUND: '#0a0e18',
-      TOOLBAR_BUTTONS: ['microphone','camera','desktop','fullscreen','hangup','chat','tileview','settings','raisehand','mute-everyone']
-    }
-  };
-  
-  jitsiApi = new JitsiMeetExternalAPI(JITSI_DOMAIN, options);
-  jitsiApi.addListener('readyToClose', closeJitsiModal);
-}
-
-function closeJitsiModal() {
-  const modal = document.getElementById('jitsi-modal');
-  modal.style.display = 'none';
-  if(jitsiApi) { try { jitsiApi.dispose(); } catch(e){} jitsiApi = null; }
-  document.getElementById('jitsi-container').innerHTML = '';
+  // Open Google Meet in new tab — tutor hosts the room
+  window.open(MEET_URL, '_blank');
 }
 
 function saveNotes() {
@@ -852,22 +806,7 @@ function saveNotes() {
 })();
 </script>
 
-<!-- Jitsi embedded video modal (tutor host view) -->
-<div id="jitsi-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(5,8,12,.96);flex-direction:column;">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(10,14,24,.9);border-bottom:1px solid rgba(255,82,82,.3);">
-    <div style="display:flex;align-items:center;gap:10px;">
-      <span style="width:8px;height:8px;border-radius:50%;background:#ff5252;display:inline-block;animation:tutor-pulse 1.5s infinite;box-shadow:0 0 8px #ff5252;"></span>
-      <span style="color:#f2be62;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:.05em;">LISAANY LIVE — TUTOR HOST</span>
-    </div>
-    <button onclick="closeJitsiModal()" style="background:rgba(255,82,82,.15);border:1px solid rgba(255,82,82,.4);color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px;">
-      <span class="ms" style="font-size:16px;">close</span> End Session
-    </button>
-  </div>
-  <div id="jitsi-container" style="flex:1;width:100%;background:#000;"></div>
-</div>
-<style>
-  @keyframes tutor-pulse { 0%,100%{opacity:1;} 50%{opacity:.4;} }
-</style>
+
 
 <!-- Bottom Navigation -->
 <div class="bottom-nav">
