@@ -13,83 +13,78 @@
     <style>
         :root {
             --bg: #060e1b;
-            --card: #0d1b32;
+            --card: rgba(13, 27, 50, 0.5);
             --gold: #d4a347;
             --text: #e8dcc8;
             --dim: #9a8e78;
             --red: #ff5252;
+            --border: rgba(212, 163, 74, 0.2);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: var(--bg) !important; /* Forces background to be dark */
+            background-color: var(--bg);
             color: var(--text);
             font-family: 'Inter', sans-serif;
-            padding: 40px 20px;
-            display: block !important; /* Prevents hidden body */
+            padding: 60px 20px;
         }
 
-        .container { max-width: 800px; margin: 0 auto; }
+        .container { max-width: 900px; margin: 0 auto; }
 
-        .hdr { margin-bottom: 40px; }
-        .hdr-title { font-family: 'Cinzel', serif; font-size: 28px; margin-bottom: 8px; }
-        .hdr-desc { color: var(--dim); }
+        /* Header Styling */
+        .hdr { margin-bottom: 50px; }
+        .hdr-title { font-family: 'Cinzel', serif; font-size: 36px; margin-bottom: 12px; font-weight: 700; letter-spacing: 2px; }
+        .hdr-desc { color: var(--dim); font-size: 18px; }
 
-        /* Banner */
-        .live-banner {
-            background: rgba(255, 82, 82, 0.1);
-            border: 1px solid var(--red);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-            display: none; /* Hidden by default, shown via JS */
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Schedule */
-        .schedule-list { display: flex; flex-direction: column; gap: 15px; }
+        /* Session Cards */
+        .schedule-list { display: flex; flex-direction: column; gap: 20px; }
         
         .card {
             background: var(--card);
-            border: 1px solid rgba(212, 163, 71, 0.2);
-            border-radius: 12px;
-            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 24px;
+            transition: all 0.3s ease;
         }
+
+        .card:hover { border-color: var(--gold); background: rgba(13, 27, 50, 0.8); }
 
         .date-box {
             text-align: center;
-            min-width: 60px;
-            border-right: 1px solid rgba(212, 163, 71, 0.2);
-            padding-right: 20px;
+            min-width: 85px;
+            border-right: 1px solid var(--border);
+            padding-right: 24px;
         }
 
-        .day-num { font-size: 24px; font-weight: 700; color: var(--gold); display: block; }
-        .day-name { font-size: 12px; text-transform: uppercase; color: var(--dim); }
+        .day-num { font-size: 32px; font-weight: 700; color: var(--gold); display: block; line-height: 1; }
+        .day-name { font-size: 14px; text-transform: uppercase; color: var(--dim); letter-spacing: 1px; margin-top: 4px; display: block;}
 
         .info { flex-grow: 1; }
-        .topic { font-family: 'Cinzel', serif; font-size: 18px; margin-bottom: 4px; }
-        .meta { font-size: 13px; color: var(--dim); display: flex; gap: 15px; }
+        .topic { font-family: 'Cinzel', serif; font-size: 20px; margin-bottom: 8px; letter-spacing: 0.5px; color: #fff; }
+        .meta { font-size: 14px; color: var(--dim); display: flex; gap: 20px; }
 
+        /* Button Styling */
         .btn {
             background: var(--gold);
             color: #000;
             border: none;
-            padding: 10px 18px;
-            border-radius: 6px;
+            padding: 12px 24px;
+            border-radius: 8px;
             font-weight: 700;
             cursor: pointer;
             font-family: 'Cinzel', serif;
-            font-size: 12px;
+            font-size: 13px;
+            transition: 0.3s;
+            min-width: 130px;
         }
 
-        .ms { font-family: 'Material Symbols Outlined'; vertical-align: middle; font-size: 18px; }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
 
-        /* Modal */
+        /* Classroom Modal */
         #jitsi-modal {
             display: none;
             position: fixed;
@@ -98,94 +93,25 @@
             z-index: 1000;
             flex-direction: column;
         }
+
+        .ms { font-family: 'Material Symbols Outlined'; vertical-align: middle; font-size: 20px; margin-right: 4px; color: var(--gold); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="hdr">
-        <h1 class="hdr-title">Learn <span style="color:var(--red)">Live</span></h1>
-        <p class="hdr-desc">Join our weekly interactive sessions.</p>
-    </div>
-
-    <div id="live-banner" class="live-banner">
-        <div>
-            <div style="color:var(--red); font-weight:bold; font-size:12px;">● LIVE NOW</div>
-            <div id="banner-topic" class="topic"></div>
-        </div>
-        <button class="btn" style="background:var(--red); color:#fff;" onclick="joinClass()">JOIN CLASS</button>
+        <h1 class="hdr-title">LEARN <span style="color:var(--red)">LIVE</span></h1>
+        <p class="hdr-desc">Join our weekly interactive sessions with Sheikh Ahmad.</p>
     </div>
 
     <div class="schedule-list" id="schedule-output"></div>
 </div>
 
 <div id="jitsi-modal">
-    <div style="padding:10px; background:#111; display:flex; justify-content:space-between; align-items:center;">
-        <span style="color:var(--gold); font-family:Cinzel;">Lisaany Live</span>
-        <button class="btn" style="background:var(--red); color:white;" onclick="closeClass()">LEAVE</button>
+    <div style="padding:15px 25px; background:#0a0e18; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--gold);">
+        <span style="color:var(--gold); font-family:Cinzel; font-weight:bold;">LISAANY LIVE CLASSROOM</span>
+        <button class="btn" style="background:var(--red); color:white;" onclick="closeClass()">LEAVE SESSION</button>
     </div>
     <div id="jitsi-container" style="flex:1;"></div>
 </div>
-
-<script>
-    const CLASSES = [
-        { day: 'Tuesday', time: '7:00 PM', topic: 'Tajweed & Quran Reading' },
-        { day: 'Thursday', time: '7:00 PM', topic: 'Arabic Conversation' },
-        { day: 'Sunday', time: '11:00 AM', topic: 'Grammar Deep Dive' }
-    ];
-
-    function render() {
-        const container = document.getElementById('schedule-output');
-        const now = new Date();
-        const currentDay = now.toLocaleDateString('en-US', { weekday: 'long' });
-
-        CLASSES.forEach(item => {
-            const isToday = item.day === currentDay;
-            
-            // Show banner if it's today (for demo purposes)
-            if (isToday) {
-                document.getElementById('live-banner').style.display = 'flex';
-                document.getElementById('banner-topic').innerText = item.topic;
-            }
-
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <div class="date-box">
-                    <span class="day-num">${now.getDate()}</span>
-                    <span class="day-name">${item.day.slice(0,3)}</span>
-                </div>
-                <div class="info">
-                    <div class="topic">${item.topic}</div>
-                    <div class="meta">
-                        <span><span class="ms">person</span> Sheikh Ahmad</span>
-                        <span><span class="ms">schedule</span> ${item.time}</span>
-                    </div>
-                </div>
-                <button class="btn" onclick="${isToday ? 'joinClass()' : 'alert(\'Reminder set!\')'}">
-                    ${isToday ? 'JOIN' : 'REMIND'}
-                </button>
-            `;
-            container.appendChild(card);
-        });
-    }
-
-    function joinClass() {
-        document.getElementById('jitsi-modal').style.display = 'flex';
-        new JitsiMeetExternalAPI("meet.jit.si", {
-            roomName: "LisaanyLiveSession",
-            parentNode: document.getElementById('jitsi-container'),
-            width: "100%", height: "100%"
-        });
-    }
-
-    function closeClass() {
-        document.getElementById('jitsi-modal').style.display = 'none';
-        document.getElementById('jitsi-container').innerHTML = '';
-    }
-
-    render();
-</script>
-
-</body>
-</html>
