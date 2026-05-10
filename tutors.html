@@ -1,11 +1,13 @@
-/* --- Missing Layout Styles --- */
+<style>
+/* ... keep your existing styles ... */
 
+/* --- THE FIX: Paste this part below your existing CSS --- */
 .schedule {
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 .session-card {
@@ -14,7 +16,7 @@
   border-radius: 16px;
   padding: 20px;
   display: flex;
-  align-items: center; /* Vertically centers the items */
+  align-items: center;
   gap: 20px;
 }
 
@@ -22,7 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 60px;
+  min-width: 70px;
   padding-right: 20px;
   border-right: 1px solid var(--border);
 }
@@ -31,7 +33,7 @@
 .day-num { font-size: 24px; font-weight: 700; color: var(--gold); }
 
 .session-info {
-  flex-grow: 1; /* Pushes the 'session-right' to the far right */
+  flex-grow: 1;
 }
 
 .session-title {
@@ -57,7 +59,7 @@
 .session-right {
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Aligns time and button to the right */
+  align-items: flex-end;
   gap: 10px;
 }
 
@@ -74,4 +76,10 @@
   border-radius: 8px;
   cursor: pointer;
   font-size: 12px;
+  transition: 0.3s;
 }
+
+.btn-remind:hover {
+  background: rgba(212, 163, 71, 0.1);
+}
+</style>
