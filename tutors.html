@@ -1,80 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lisaany — Live Sessions</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;600&display=swap">
+    
+    <style>
+        body {
+            background-color: #060e1b;
+            color: #e8dcc8;
+            font-family: 'Inter', sans-serif;
+            padding: 50px 20px;
+            margin: 0;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { margin-bottom: 40px; }
+        .header h1 { font-family: 'Cinzel', serif; font-size: 32px; color: #fff; margin-bottom: 10px; }
+        .header p { color: #9a8e78; font-size: 16px; }
+
+        .card {
+            background: rgba(13, 27, 50, 0.8);
+            border: 1px solid rgba(212, 163, 74, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .date-section {
+            border-right: 1px solid rgba(212, 163, 74, 0.2);
+            padding-right: 25px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .day-num { font-size: 28px; font-weight: 700; color: #d4a347; display: block; }
+        .day-name { font-size: 12px; color: #9a8e78; text-transform: uppercase; }
+
+        .info-section { flex-grow: 1; padding-left: 25px; }
+        .topic { font-family: 'Cinzel', serif; font-size: 18px; color: #fff; margin-bottom: 5px; }
+        .details { font-size: 13px; color: #9a8e78; }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+
+        /* The Live Red Button */
+        .btn-join {
+            background-color: #ff5252;
+            color: white;
+            box-shadow: 0 0 15px rgba(255, 82, 82, 0.3);
+        }
+
+        /* The Gold Remind Button */
+        .btn-remind {
+            background-color: #d4a347;
+            color: #000;
+        }
+
+        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        /* The Video Box */
+        #video-layer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 1000;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>LEARN <span style="color:#ff5252">LIVE</span></h1>
+        <p>Welcome back! Join your scheduled live sessions below.</p>
+    </div>
+
+    <div class="card">
+        <div class="date-section">
+            <span class="day-num">9</span>
+            <span class="day-name">SAT</span>
+        </div>
+        <div class="info-section">
+            <div class="topic">TAJWEED & QURAN READING</div>
+            <div class="details">Sheikh Ahmad • 7:00 PM</div>
+        </div>
+        <button class="btn btn-join" onclick="openClass()">JOIN NOW</button>
+    </div>
+
+    <div class="card">
+        <div class="date-section">
+            <span class="day-num">14</span>
+            <span class="day-name">THU</span>
+        </div>
+        <div class="info-section">
+            <div class="topic">ARABIC CONVERSATION</div>
+            <div class="details">Sheikh Ahmad • 7:00 PM</div>
+        </div>
+        <button class="btn btn-remind" onclick="alert('Reminder set!')">REMIND</button>
+    </div>
+
+    <div class="card">
+        <div class="date-section">
+            <span class="day-num">10</span>
+            <span class="day-name">SUN</span>
+        </div>
+        <div class="info-section">
+            <div class="topic">GRAMMAR DEEP DIVE</div>
+            <div class="details">Sheikh Ahmad • 11:00 AM</div>
+        </div>
+        <button class="btn btn-remind" onclick="alert('Reminder set!')">REMIND</button>
+    </div>
+</div>
+
+<div id="video-layer">
+    <div style="padding: 15px; background: #0a0e18; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #d4a347;">
+        <span style="color:#d4a347; font-family:Cinzel; font-weight:bold;">LISAANY LIVE CLASSROOM</span>
+        <button onclick="closeClass()" style="background:#ff5252; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">LEAVE CLASS</button>
+    </div>
+    <div id="jitsi-area" style="flex: 1;"></div>
+</div>
+
+<script src="https://meet.jit.si/external_api.js"></script>
+
 <script>
-    // Configuration
-    const CLASSES = [
-        { day: 6, time: '7:00 PM', topic: 'TAJWEED & QURAN READING', dayLabel: 'SAT' },
-        { day: 4, time: '7:00 PM', topic: 'ARABIC CONVERSATION', dayLabel: 'THU' },
-        { day: 0, time: '11:00 AM', topic: 'GRAMMAR DEEP DIVE', dayLabel: 'SUN' }
-    ];
-
-    function render() {
-        const container = document.getElementById('schedule-output');
-        const today = new Date().getDay();
-        container.innerHTML = '';
-
-        CLASSES.forEach(item => {
-            const isToday = (item.day === today);
-            const card = document.createElement('div');
-            card.className = 'card';
-            
-            const bStyle = isToday ? 'background-color: #ff5252; color: white;' : '';
-            const bText = isToday ? 'JOIN NOW' : 'REMIND';
-            
-            // This is the important change:
-            const clickAction = isToday ? "joinClass()" : "alert('Reminder set!')";
-
-            card.innerHTML = `
-                <div class="date-box">
-                    <span class="day-num">${new Date().getDate()}</span>
-                    <span class="day-name">${item.dayLabel}</span>
-                </div>
-                <div class="info">
-                    <div class="topic">${item.topic}</div>
-                    <div class="meta">
-                        <span><span class="ms">person</span>Sheikh Ahmad</span>
-                        <span><span class="ms">schedule</span>${item.time}</span>
-                    </div>
-                </div>
-                <button class="btn" style="${bStyle}" onclick="${clickAction}">
-                    ${bText}
-                </button>
-            `;
-            container.appendChild(card);
-        });
-    }
-
-    function joinClass() {
-        console.log("Join button clicked"); // This helps for debugging
+    function openClass() {
+        // 1. Show the black video layer
+        document.getElementById('video-layer').style.display = 'flex';
         
-        // 1. Try to open the modal
-        document.getElementById('jitsi-modal').style.display = 'flex';
-        
-        // 2. Try to load Jitsi
+        // 2. Start the video room
         if (window.JitsiMeetExternalAPI) {
-            try {
-                new JitsiMeetExternalAPI("meet.jit.si", {
-                    roomName: "LisaanyLiveClassRoom_SheikhAhmad",
-                    parentNode: document.getElementById('jitsi-container'),
-                    width: "100%", height: "100%"
-                });
-            } catch (e) {
-                console.error("Jitsi Error:", e);
-                fallbackJoin();
-            }
+            new JitsiMeetExternalAPI("meet.jit.si", {
+                roomName: "Lisaany_Live_Session_Ahmad",
+                parentNode: document.getElementById('jitsi-area'),
+                width: "100%",
+                height: "100%"
+            });
         } else {
-            fallbackJoin();
+            // If the script failed to load, just go to the website directly
+            window.open("https://meet.jit.si/Lisaany_Live_Session_Ahmad", "_blank");
         }
     }
 
-    // Emergency Fallback: If the window doesn't open, this opens a new tab
-    function fallbackJoin() {
-        alert("The classroom modal was blocked. Opening class in a new tab instead...");
-        window.open("https://meet.jit.si/LisaanyLiveClassRoom_SheikhAhmad", "_blank");
-    }
-
     function closeClass() {
-        document.getElementById('jitsi-modal').style.display = 'none';
-        document.getElementById('jitsi-container').innerHTML = '';
+        document.getElementById('video-layer').style.display = 'none';
+        document.getElementById('jitsi-area').innerHTML = '';
     }
-
-    window.onload = render;
 </script>
+
+</body>
+</html>
