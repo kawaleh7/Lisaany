@@ -1,217 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="google" content="notranslate">
-<title>Lisaany — Live Sessions</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,300..700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/umd/supabase-js.min.js"></script>
-<script src="https://meet.jit.si/external_api.js"></script>
+/* --- Missing Layout Styles --- */
 
-<style>
-/* (Your existing styles - unchanged) */
-*{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --bg:#060e1b;--card:rgba(13,27,50,.9);
-  --gold:#d4a347;--gold-lt:#f2d080;
-  --text:#e8dcc8;--dim:#9a8e78;
-  --border:rgba(212,163,74,.18);--blue-border:rgba(74,144,217,.35);--blue-glow:rgba(74,144,217,.08);
-  --green:#a7d9a6;--red:#e07070;
-}
-.ms{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;font-size:20px;line-height:1;display:inline-block;}
-body{background:#060e1b;color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;position:relative;}
-/* ... Keep all your existing CSS ... */
-.live-banner{
-  background:linear-gradient(135deg,rgba(255,82,82,.12),rgba(255,82,82,.05));
-  border:1.5px solid rgba(255,82,82,.4);border-radius:20px;
-  padding:24px 28px;margin-bottom:32px;
-  display:flex;align-items:center;gap:20px;
-  animation:pulse-border 2s infinite;
-}
-@keyframes pulse-border{0%,100%{border-color:rgba(255,82,82,.4);box-shadow:0 0 0 0 rgba(255,82,82,.4);}50%{border-color:rgba(255,82,82,.8);box-shadow:0 0 0 8px rgba(255,82,82,0);}}
-.btn-join-live{
-  padding:14px 28px;border:none;border-radius:14px;
-  background:linear-gradient(135deg,#ff5252,#ff7878);
-  color:#fff;font-family:'Cinzel',serif;font-size:13px;font-weight:700;
-  letter-spacing:.08em;cursor:pointer;transition:all .3s;
-  box-shadow:0 4px 16px rgba(255,82,82,.35);
-  display:flex;align-items:center;gap:8px;flex-shrink:0;white-space:nowrap;
-}
-.btn-join-live:hover{box-shadow:0 6px 24px rgba(255,82,82,.5);transform:translateY(-1px);}
-</style>
-</head>
-<body>
-<!-- Your existing nav and header (unchanged) -->
-
-<div class="page">
-  <div class="hdr">
-    <div class="hdr-eyebrow"><span class="ms" style="font-size:14px;">live_tv</span>Live Sessions</div>
-    <h1 class="hdr-title">Learn <span style="color:#c44545;">Live</span> with Your Tutor</h1>
-    <p class="hdr-desc">Weekly group sessions — fixed schedule, no booking needed.</p>
-  </div>
-
-  <!-- LIVE NOW BANNER -->
-  <div class="live-banner" id="live-banner" style="display:none;">
-    <div class="live-dot-wrap">
-      <div class="live-ring"></div>
-      <div class="live-dot"></div>
-    </div>
-    <div class="live-info">
-      <div class="live-label">● LIVE NOW</div>
-      <div class="live-title" id="live-title">Arabic Conversation Practice</div>
-      <div class="live-meta" id="live-meta">Sheikh Ahmad · Group Session</div>
-    </div>
-    <button class="btn-join-live" id="live-join-btn" onclick="joinSession()">
-      <span class="ms">videocam</span>
-      Join Live • Camera On
-    </button>
-  </div>
-
-  <!-- Rest of your content (schedule, etc.) -->
-  <div class="section-title"><span class="ms">calendar_month</span>Weekly Schedule</div>
-  <div class="schedule" id="schedule"></div>
-</div>
-
-<script>
-// ==================== CONFIG ====================
-const JITSI_ROOM = 'lisaany-live';
-const JITSI_DOMAIN = 'meet.jit.si';
-
-// ==================== SCHEDULE ====================
-const SCHEDULE = [
-  { day:'Tuesday',  time:'7:00 PM', tz:'EST', topic:'Tajweed & Quran Reading', level:'Beginner' },
-  { day:'Thursday', time:'7:00 PM', tz:'EST', topic:'Arabic Conversation Practice', level:'Beginner' },
-  { day:'Sunday',   time:'11:00 AM',tz:'EST', topic:'Arabic Grammar Deep Dive', level:'Intermediate' },
-];
-
-const DAY_INDEX = {Sunday:0,Monday:1,Tuesday:2,Wednesday:3,Thursday:4,Friday:5,Saturday:6};
-
-let jitsiApi = null;
-
-// ==================== RENDER SCHEDULE ====================
-function renderSchedule() {
-  const now = new Date();
-  const container = document.getElementById('schedule');
-  container.innerHTML = '';
-
-  SCHEDULE.forEach((s, index) => {
-    const dayIdx = DAY_INDEX[s.day];
-    const daysUntil = (dayIdx - now.getDay() + 7) % 7;
-    const sessionDate = new Date(now);
-    sessionDate.setDate(now.getDate() + daysUntil);
-
-    const [hourStr, minStr] = s.time.split(':');
-    let hour = parseInt(hourStr);
-    const isPM = s.time.includes('PM');
-    if (isPM && hour !== 12) hour += 12;
-    if (!isPM && hour === 12) hour = 0;
-
-    const sessionStart = new Date(sessionDate);
-    sessionStart.setHours(hour, parseInt(minStr), 0, 0);
-    const sessionEnd = new Date(sessionStart.getTime() + 60*60*1000);
-
-    const isLiveNow = (now >= sessionStart && now <= sessionEnd);
-
-    // === FORCE LIVE FOR TESTING ===
-    const forceLive = new URLSearchParams(window.location.search).get('live') === 'true' || index === 1;
-
-    if (isLiveNow || forceLive) {
-      showLiveBanner(s);
-    }
-
-    // Card HTML...
-    const card = document.createElement('div');
-    card.className = `session-card ${isLiveNow || forceLive ? 'today' : ''}`;
-    card.innerHTML = `
-      <div class="day-badge">
-        <span class="day-name">${s.day.slice(0,3)}</span>
-        <span class="day-num">${sessionDate.getDate()}</span>
-      </div>
-      <div class="session-info">
-        <div class="session-title">${s.topic}</div>
-        <div class="session-meta">
-          <div class="session-meta-item"><span class="ms">person</span>Sheikh Ahmad</div>
-          <div class="session-meta-item"><span class="ms">timer</span>60 min</div>
-        </div>
-      </div>
-      <div class="session-right">
-        <div class="time-badge">${s.time}</div>
-        ${isLiveNow || forceLive ? 
-          `<button class="btn-join-live" style="padding:10px 20px;font-size:12px;" onclick="joinSession()">Join Live</button>` : 
-          `<button class="btn-remind">Remind me</button>`
-        }
-      </div>
-    `;
-    container.appendChild(card);
-  });
+.schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-function showLiveBanner(session) {
-  const banner = document.getElementById('live-banner');
-  banner.style.display = 'flex';
-  document.getElementById('live-title').textContent = session.topic;
-  document.getElementById('live-meta').textContent = `Sheikh Ahmad · ${session.level} • Live Now`;
+.session-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center; /* Vertically centers the items */
+  gap: 20px;
 }
 
-// ==================== JOIN LIVE SESSION ====================
-function joinSession() {
-  const displayName = 'Student'; // You can improve this with Supabase user data later
-
-  const modal = document.getElementById('jitsi-modal');
-  modal.style.display = 'flex';
-
-  const container = document.getElementById('jitsi-container');
-  container.innerHTML = '';
-
-  if (jitsiApi) {
-    jitsiApi.dispose();
-  }
-
-  const options = {
-    roomName: JITSI_ROOM,
-    parentNode: container,
-    width: '100%',
-    height: '100%',
-    userInfo: { displayName },
-    configOverwrite: {
-      prejoinPageEnabled: false,
-      startWithAudioMuted: true,
-      startWithVideoMuted: false,
-    },
-    interfaceConfigOverwrite: {
-      SHOW_JITSI_WATERMARK: false,
-      TOOLBAR_BUTTONS: ['microphone','camera','desktop','fullscreen','hangup','chat','tileview']
-    }
-  };
-
-  jitsiApi = new JitsiMeetExternalAPI(JITSI_DOMAIN, options);
+.day-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+  padding-right: 20px;
+  border-right: 1px solid var(--border);
 }
 
-// Close modal
-function closeJitsiModal() {
-  document.getElementById('jitsi-modal').style.display = 'none';
-  if (jitsiApi) {
-    jitsiApi.dispose();
-    jitsiApi = null;
-  }
+.day-name { font-size: 12px; color: var(--dim); text-transform: uppercase; }
+.day-num { font-size: 24px; font-weight: 700; color: var(--gold); }
+
+.session-info {
+  flex-grow: 1; /* Pushes the 'session-right' to the far right */
 }
 
-// Initialize
-renderSchedule();
-</script>
+.session-title {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: var(--text);
+}
 
-<!-- Jitsi Modal -->
-<div id="jitsi-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(5,8,12,.97);flex-direction:column;">
-  <div style="padding:12px 20px;background:rgba(10,14,24,.95);border-bottom:1px solid #d4a347;display:flex;justify-content:space-between;align-items:center;">
-    <strong>Lisaany Live Session</strong>
-    <button onclick="closeJitsiModal()" style="background:#e07070;color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;">Leave Session</button>
-  </div>
-  <div id="jitsi-container" style="flex:1;background:#000;"></div>
-</div>
+.session-meta {
+  display: flex;
+  gap: 15px;
+}
 
-<!-- Bottom Nav (your existing one) -->
-</body>
-</html>
+.session-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--dim);
+}
+
+.session-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Aligns time and button to the right */
+  gap: 10px;
+}
+
+.time-badge {
+  font-weight: 600;
+  color: var(--gold-lt);
+}
+
+.btn-remind {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
