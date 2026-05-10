@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
@@ -55,6 +54,22 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .lis-mobile-menu.is-open{display:flex}
 .lis-mobile-menu .lis-link{padding:14px 16px;border-radius:8px;font-size:18px;text-align:left;}
 .lis-mobile-menu .lis-link:hover{background:rgba(212,163,74,.08)}
+
+/* ── Login chooser dropdown ── */
+.login-chooser-wrap{position:relative;display:inline-flex;align-items:center;}
+.login-chooser-btn{display:inline-flex;align-items:center;gap:8px;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;letter-spacing:.01em;color:#e8dcc8;background:none;border:none;padding:10px 4px;cursor:pointer;transition:color .2s ease;}
+.login-chooser-btn:hover{color:#f5e9c8;}
+.login-chooser-btn svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.login-chooser-btn .arrow{font-size:10px;transition:transform .25s;}
+.login-chooser-btn.open .arrow{transform:rotate(180deg);}
+.login-chooser-menu{position:absolute;top:calc(100% + 10px);right:0;background:rgba(14,16,24,.98);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid rgba(212,163,74,.3);border-radius:14px;padding:8px;min-width:220px;box-shadow:0 10px 40px rgba(0,0,0,.6);display:none;flex-direction:column;gap:2px;z-index:1001;}
+.login-chooser-menu.open{display:flex;}
+.login-chooser-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;text-decoration:none;color:#e8dcc8;font-family:'Inter',sans-serif;transition:background .2s, color .2s;}
+.login-chooser-item:hover{background:rgba(200,150,62,.1);color:#f5e9c8;}
+.login-chooser-item .ico{width:36px;height:36px;border-radius:10px;background:rgba(200,150,62,.1);border:1px solid rgba(200,150,62,.25);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.login-chooser-item-text{display:flex;flex-direction:column;gap:1px;}
+.login-chooser-item-text .label{font-weight:600;font-size:13.5px;}
+.login-chooser-item-text .sub{font-size:10.5px;color:#9a8e78;font-weight:400;letter-spacing:.3px;}
 
 /* ── Header ── */
 .hdr{text-align:center;margin-bottom:40px;position:relative;z-index:2;}
@@ -188,14 +203,33 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       <a href="sessions.html" class="lis-link">Sessions</a>
     </div>
     <div class="lis-actions">
-      <a href="auth.html" class="lis-login">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-          <path d="M10 17l5-5-5-5"/>
-          <path d="M15 12H3"/>
-        </svg>
-        <span>Log in</span>
-      </a>
+      <div class="login-chooser-wrap">
+        <button type="button" class="login-chooser-btn" id="loginChooserBtn" onclick="toggleLoginChooser(event)">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <path d="M10 17l5-5-5-5"/>
+            <path d="M15 12H3"/>
+          </svg>
+          <span>Log in</span>
+          <span class="arrow">&#9662;</span>
+        </button>
+        <div class="login-chooser-menu" id="loginChooserMenu">
+          <a href="auth.html" class="login-chooser-item">
+            <span class="ico" style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:#e2b04a;background:linear-gradient(145deg,rgba(200,150,62,0.15),rgba(200,150,62,0.05));border:1px solid rgba(200,150,62,0.4);">S</span>
+            <span class="login-chooser-item-text">
+              <span class="label">Student</span>
+              <span class="sub">Continue learning</span>
+            </span>
+          </a>
+          <a href="tutor_portal.html" class="login-chooser-item">
+            <span class="ico" style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:#e2b04a;background:linear-gradient(145deg,rgba(200,150,62,0.15),rgba(200,150,62,0.05));border:1px solid rgba(200,150,62,0.4);">T</span>
+            <span class="login-chooser-item-text">
+              <span class="label">Staff</span>
+              <span class="sub">Tutor portal</span>
+            </span>
+          </a>
+        </div>
+      </div>
       <a href="pricing.html" class="lis-cta">
         <span>Begin</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -230,7 +264,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       Your Arabic Journey
     </div>
     <h1 class="hdr-title">Read the <span class="accent">Quran</span>.<br>Speak Arabic.</h1>
-    <p class="hdr-desc">From the alphabet to the Quran — with a real teacher. Both paths, properly designed for genuine progress.</p>
+    <p class="hdr-desc">From the alphabet to the Quran &mdash; with a real teacher. Both paths, properly designed for genuine progress.</p>
     <button class="btn-primary" onclick="showOnboarding()">
       Find My Path <span class="ms">arrow_forward</span>
     </button>
@@ -258,7 +292,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       <span class="ms">menu_book</span>
     </div>
     <div class="path-info">
-      <div class="path-tag">Path 1 · Start here for Quran</div>
+      <div class="path-tag">Path 1 &middot; Start here for Quran</div>
       <div class="path-name">Learn to Read Arabic</div>
       <div class="path-desc">Master the Arabic alphabet, harakat, and tajweed rules. Everything you need to read the Quran with confidence and beauty.</div>
       <div class="path-pills">
@@ -280,9 +314,9 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       <span class="ms">mic</span>
     </div>
     <div class="path-info">
-      <div class="path-tag blue">Path 2 · Modern Arabic</div>
+      <div class="path-tag blue">Path 2 &middot; Modern Arabic</div>
       <div class="path-name">Speak Arabic Fluently</div>
-      <div class="path-desc">Structured 5-module course following Al-Arabiyyah Bayna Yadayk & Madina Arabic. From basics to real conversations.</div>
+      <div class="path-desc">Structured 5-module course following Al-Arabiyyah Bayna Yadayk &amp; Madina Arabic. From basics to real conversations.</div>
       <div class="path-pills">
         <span class="pill blue">5 Modules</span>
         <span class="pill blue">40 Blocks</span>
@@ -352,7 +386,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
         <div class="feat-mini-icon" style="background:rgba(184,160,204,0.12);color:var(--accent-purple);"><span class="ms">stars</span></div>
         <div class="feat-mini-text">
           <div class="feat-mini-title">Gamified Progress</div>
-          <div class="feat-mini-desc">XP, streaks, levels — daily motivation.</div>
+          <div class="feat-mini-desc">XP, streaks, levels &mdash; daily motivation.</div>
         </div>
       </div>
     </div>
@@ -361,7 +395,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   <div class="quote-card">
     <div class="quote-ar">طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِم</div>
     <div class="quote-en">"Seeking knowledge is an obligation upon every Muslim."</div>
-    <div class="quote-src">— Prophet Muhammad ﷺ · Sunan Ibn Majah, 224</div>
+    <div class="quote-src">&mdash; Prophet Muhammad &#65018; &middot; Sunan Ibn Majah, 224</div>
   </div>
 
 </div>
@@ -402,30 +436,30 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       <div class="ob-q">Why are you learning Arabic?</div>
       <div class="ob-sub">We'll personalise your learning path</div>
       <div class="ob-opts">
-        <button onclick="obSelect(1,'quran')" class="ob-opt">🕌 To read the Quran</button>
-        <button onclick="obSelect(1,'speak')" class="ob-opt">💬 To speak Modern Arabic</button>
-        <button onclick="obSelect(1,'both')" class="ob-opt">⭐ Both — Quran + Speaking</button>
-        <button onclick="obSelect(1,'culture')" class="ob-opt">🌍 Culture & travel</button>
+        <button onclick="obSelect(1,'quran')" class="ob-opt">&#128331; To read the Quran</button>
+        <button onclick="obSelect(1,'speak')" class="ob-opt">&#128172; To speak Modern Arabic</button>
+        <button onclick="obSelect(1,'both')" class="ob-opt">&#11088; Both &mdash; Quran + Speaking</button>
+        <button onclick="obSelect(1,'culture')" class="ob-opt">&#127757; Culture &amp; travel</button>
       </div>
     </div>
     <div id="ob-step2" style="display:none;">
       <div class="ob-q">What's your current level?</div>
-      <div class="ob-sub">Be honest — we'll start from the right place</div>
+      <div class="ob-sub">Be honest &mdash; we'll start from the right place</div>
       <div class="ob-opts">
-        <button onclick="obSelect(2,'zero')" class="ob-opt">🌱 Complete beginner</button>
-        <button onclick="obSelect(2,'some')" class="ob-opt">📖 I know the alphabet</button>
-        <button onclick="obSelect(2,'basic')" class="ob-opt">🗣️ I know basic words</button>
-        <button onclick="obSelect(2,'inter')" class="ob-opt">📚 Intermediate level</button>
+        <button onclick="obSelect(2,'zero')" class="ob-opt">&#127793; Complete beginner</button>
+        <button onclick="obSelect(2,'some')" class="ob-opt">&#128214; I know the alphabet</button>
+        <button onclick="obSelect(2,'basic')" class="ob-opt">&#128483;&#65039; I know basic words</button>
+        <button onclick="obSelect(2,'inter')" class="ob-opt">&#128218; Intermediate level</button>
       </div>
     </div>
     <div id="ob-step3" style="display:none;">
       <div class="ob-q">How much time per day?</div>
       <div class="ob-sub">Consistency beats intensity</div>
       <div class="ob-opts">
-        <button onclick="obSelect(3,'5')" class="ob-opt">⚡ 5 minutes — casual</button>
-        <button onclick="obSelect(3,'15')" class="ob-opt">🎯 15 minutes — regular</button>
-        <button onclick="obSelect(3,'30')" class="ob-opt">🔥 30 minutes — serious</button>
-        <button onclick="obSelect(3,'60')" class="ob-opt">💪 1 hour — intensive</button>
+        <button onclick="obSelect(3,'5')" class="ob-opt">&#9889; 5 minutes &mdash; casual</button>
+        <button onclick="obSelect(3,'15')" class="ob-opt">&#127919; 15 minutes &mdash; regular</button>
+        <button onclick="obSelect(3,'30')" class="ob-opt">&#128293; 30 minutes &mdash; serious</button>
+        <button onclick="obSelect(3,'60')" class="ob-opt">&#128170; 1 hour &mdash; intensive</button>
       </div>
     </div>
   </div>
@@ -478,6 +512,21 @@ function obSelect(step, value) {
 document.getElementById('onboarding-modal').addEventListener('click', function(e) {
   if (e.target === this) {
     this.style.display = 'none';
+  }
+});
+
+// Login chooser dropdown
+function toggleLoginChooser(e){
+  e.stopPropagation();
+  const btn = document.getElementById('loginChooserBtn');
+  const menu = document.getElementById('loginChooserMenu');
+  btn.classList.toggle('open');
+  menu.classList.toggle('open');
+}
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.login-chooser-wrap')){
+    document.getElementById('loginChooserBtn')?.classList.remove('open');
+    document.getElementById('loginChooserMenu')?.classList.remove('open');
   }
 });
 </script>
