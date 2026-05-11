@@ -6,15 +6,17 @@ export async function onRequest(context) {
     // This receives the data we send from the "Buy" button
     const { plan, isAnnual } = await context.request.json();
     
-    // REPLACE THESE WITH YOUR ACTUAL PRICE IDs FROM STRIPE
     let priceId = "";
     
     if (plan === 'basic') {
-      priceId = "PASTE_YOUR_BASIC_MONTHLY_ID_HERE"; 
+      // Basic Monthly ($12.99)
+      priceId = "price_1TVi45RpquEfxb9tIliL04RO"; 
     } else if (plan === 'pro' && isAnnual) {
-      priceId = "PASTE_YOUR_PRO_ANNUAL_ID_HERE"; 
+      // Pro Annual ($99.00)
+      priceId = "price_1TVi83RpquEfxb9t3bS6fTmK"; 
     } else if (plan === 'pro') {
-      priceId = "PASTE_YOUR_PRO_MONTHLY_ID_HERE"; 
+      // Pro Monthly ($15.00)
+      priceId = "price_1TVi7DRpquEfxb9tcHViOZ8S"; 
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -24,8 +26,9 @@ export async function onRequest(context) {
         quantity: 1,
       }],
       mode: 'subscription',
+      // Sends users back to your homepage after success/cancel
       success_url: `${new URL(context.request.url).origin}/index.html`,
-      cancel_url: `${new URL(context.request.url).origin}/pricing.html`,
+      cancel_url: `${new URL(context.request.url).origin}/index.html`,
     });
 
     return new Response(JSON.stringify({ url: session.url }), {
