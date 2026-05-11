@@ -9,3 +9,4 @@ compatibility_flags = ["nodejs_compat"]
 directory = "./"
 binding = "ASSETS"
 not_found_handling = "single-page-application"
+
