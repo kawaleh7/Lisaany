@@ -7,6 +7,7 @@
 <title>Lisaany — Pricing</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Cinzel:wght@700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
   :root {
     --bg: #0A122A;
@@ -78,6 +79,9 @@
     text-transform: uppercase;
     letter-spacing: 1px;
   }
+  .btn:disabled { opacity: 0.6; cursor: wait; }
+  .btn:disabled:hover { background: transparent; color: var(--gold); }
+  .btn.featured-btn:disabled:hover { background: var(--gold); color: var(--bg); }
   
   .featured-btn { 
     background: var(--gold); 
@@ -128,14 +132,14 @@
       <input type="checkbox" id="bill-toggle" hidden onchange="update()">
       <div class="toggle"></div>
     </label>
-    <span id="ann-label">Annual <span class="save-tag">(Save 59%)</span></span>
+    <span id="ann-label">Annual <span class="save-tag">(Save 67%)</span></span>
   </div>
 
   <div class="grid" id="grid">
     <div class="card" id="basic-card">
       <span class="tier">Basic</span>
       <div class="price-box">
-        <span class="price">$<span id="p1">12</span></span>
+        <span class="price">$<span id="p1">12.99</span></span>
         <span class="period" id="period1">/mo</span>
         <div class="price-sub" id="sub1">&nbsp;</div>
       </div>
@@ -144,13 +148,13 @@
         <li>Full Arabic platform</li>
         <li>Progress tracking</li>
       </ul>
-      <button class="btn" onclick="selectPlan('basic')">Begin</button>
+      <button class="btn" id="basic-btn" onclick="selectPlan('basic', this)">Begin</button>
     </div>
 
     <div class="card" id="pro-card" style="box-shadow: 0 15px 35px rgba(0,0,0,0.3);">
       <span class="tier">Pro</span>
       <div class="price-box">
-        <span class="price">$<span id="p2">20</span></span>
+        <span class="price">$<span id="p2">29.99</span></span>
         <span class="period" id="period2">/mo</span>
         <div class="price-sub" id="sub2">&nbsp;</div>
       </div>
@@ -159,7 +163,7 @@
         <li>Live Tutor sessions</li>
         <li>Recorded library</li>
       </ul>
-      <button class="btn featured-btn" onclick="selectPlan('pro')">Go Pro</button>
+      <button class="btn featured-btn" id="pro-btn" onclick="selectPlan('pro', this)">Go Pro</button>
     </div>
   </div>
 </div>
@@ -189,6 +193,21 @@
 </div>
 
 <script>
+  // ── Stripe price IDs (test mode) ──
+  // basic_monthly  = Self-Paced  $12.99/mo
+  // pro_monthly    = With Tutor  $29.99/mo
+  // pro_annual     = With Tutor  $119.99/yr
+  const PRICE_IDS = {
+    basic_monthly: 'price_1TVwYmRpquEfxb9t1DQDAgRE',
+    pro_monthly:   'price_1TVwcgRpquEfxb9tuJYp47Ui',
+    pro_annual:    'price_1TVwcgRpquEfxb9tWbqNnwwP',
+  };
+
+  // ── Supabase client (anon key — safe to expose) ──
+  const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
   let isAnnual = false;
 
   function update() {
@@ -202,14 +221,14 @@
     if (isAnnual) {
       basicCard.style.display = 'none';
       grid.classList.add('solo');
-      p2.innerText = '99';
+      p2.innerText = '119.99';
       period2.innerText = '/year';
-      sub2.innerText = 'just $8.25/mo';
+      sub2.innerText = 'just $10/mo';
     } else {
       basicCard.style.display = '';
       grid.classList.remove('solo');
-      document.getElementById('p1').innerText = '12';
-      p2.innerText = '20';
+      document.getElementById('p1').innerText = '12.99';
+      p2.innerText = '29.99';
       document.getElementById('period1').innerText = '/mo';
       period2.innerText = '/mo';
       sub2.innerHTML = '&nbsp;';
@@ -219,11 +238,88 @@
     document.getElementById('ann-label').classList.toggle('active-label', isAnnual);
   }
 
-  function selectPlan(plan) {
-    const name = plan === 'pro' ? 'Pro' : 'Basic';
+  // ── Checkout flow ──
+  async function selectPlan(plan, btn) {
     const billing = isAnnual ? 'annual' : 'monthly';
-    alert(`${name} selected (${billing}) — Stripe integration coming soon!`);
+    const priceKey = plan + '_' + billing;
+    const priceId = PRICE_IDS[priceKey];
+
+    if (!priceId) {
+      alert('That plan isn\'t available with this billing period.');
+      return;
+    }
+
+    const originalText = btn.innerText;
+    btn.disabled = true;
+    btn.innerText = 'Loading…';
+
+    try {
+      // Are they logged in?
+      const { data: { session } } = await sb.auth.getSession();
+
+      if (!session) {
+        // Save what they wanted, then bounce to auth
+        sessionStorage.setItem('pendingPriceId', priceId);
+        sessionStorage.setItem('pendingReturn', 'pricing.html');
+        window.location.href = 'auth.html';
+        return;
+      }
+
+      // Logged in — create checkout session
+      const res = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId: priceId,
+          userId: session.user.id,
+          userEmail: session.user.email,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Failed to create checkout session');
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+      alert('Something went wrong. Please try again or contact support.');
+      btn.disabled = false;
+      btn.innerText = originalText;
+    }
   }
+
+  // ── Resume pending checkout after sign-in ──
+  // If user clicked Buy → got bounced to auth → signed in → came back here,
+  // we resume the checkout automatically.
+  (async function resumePendingCheckout() {
+    const pending = sessionStorage.getItem('pendingPriceId');
+    if (!pending) return;
+
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) return; // still not logged in, leave the pending flag for next try
+
+    sessionStorage.removeItem('pendingPriceId');
+    sessionStorage.removeItem('pendingReturn');
+
+    try {
+      const res = await fetch('/api/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          priceId: pending,
+          userId: session.user.id,
+          userEmail: session.user.email,
+        }),
+      });
+      const data = await res.json();
+      if (data.url) window.location.href = data.url;
+    } catch (err) {
+      console.warn('Resume checkout failed:', err);
+    }
+  })();
 </script>
 
 </body>
