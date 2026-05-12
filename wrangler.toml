@@ -3,13 +3,13 @@ main = "src/index.js"
 compatibility_date = "2024-09-25"
 compatibility_flags = ["nodejs_compat"]
 
-# Serve your HTML files (in the repo root) as static assets.
-# Requests not matching /api/* will be served as static files.
 [assets]
-directory = "./"
+directory = "."
 binding = "ASSETS"
 not_found_handling = "single-page-application"
 
-
-
-
+[vars]
+PRICE_SELF_PACED_MONTHLY = "price_1TVwYmRpquEfxb9t1DQDAgRE"
+PRICE_WITH_TUTOR_MONTHLY = "price_1TVwcgRpquEfxb9tuJYp47Ui"
+PRICE_WITH_TUTOR_YEARLY = "price_1TVwcgRpquEfxb9tWbqNnwwP"
+SUPABASE_URL = "https://cfaxrzfqvoalwznkhwnx.supabase.co"
