@@ -4631,7 +4631,49 @@ CUR.forEach(mod=>{
 const FREE_MODULES = [1];          // Module 1 is free
 const FREE_UNITS = ['1.1','1.2','1.3','1.4','2.1','2.2','2.3','3.1','3.2','3.3','4.1','4.2','4.3','5.1','5.2','5.3','6.1','6.2','7.1','7.2','8.1','8.2','9.1','9.2','10.1','10.2','10.3']; // all unlocked
 
-function isPremium(){ return true; }
+function isPremium(){ return window.__IS_PREMIUM === true; }
+
+// ── Load real subscription status from Supabase ──
+// Default to non-premium (safe). When the check completes, we update the flag
+// and re-render the UI. This way, if Supabase is slow or fails, free users
+// still see free content; we never accidentally show premium content to free users.
+async function loadPremiumStatus() {
+  try {
+    if (typeof supabase === 'undefined') return;
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://cfaxrzfqvoalwznkhwnx.supabase.co',
+      'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa'
+    );
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session) {
+      window.__IS_PREMIUM = false;
+      return;
+    }
+    const { data, error } = await sb
+      .from('subscriptions')
+      .select('status, plan, current_period_end')
+      .eq('user_id', session.user.id)
+      .maybeSingle();
+    if (error) {
+      console.warn('Subscription lookup failed:', error.message);
+      return;
+    }
+    const status = data?.status;
+    const wasPremium = window.__IS_PREMIUM;
+    window.__IS_PREMIUM = (status === 'active' || status === 'trialing');
+    window.__USER_PLAN = data?.plan || null;
+    // If status changed since last render, refresh the UI
+    if (wasPremium !== window.__IS_PREMIUM && typeof render === 'function') {
+      try { render(); } catch(e) { console.warn('Re-render failed:', e); }
+    }
+  } catch (err) {
+    console.warn('loadPremiumStatus error:', err);
+  }
+}
+// Kick off the check immediately — render() is defined later in this same
+// script, so by the time the await on Supabase resolves, it'll be available.
+loadPremiumStatus();
 function isUnitFree(uId){ return FREE_UNITS.includes(uId); }
 function isModFree(mId){ return FREE_MODULES.includes(mId); }
 function canAccess(mId, uId){ return isPremium() || isUnitFree(uId); }
