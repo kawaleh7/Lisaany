@@ -23,8 +23,19 @@ export async function handleCreateCheckout(request, env) {
       env.PRICE_WITH_TUTOR_MONTHLY,
       env.PRICE_WITH_TUTOR_YEARLY,
     ]);
-    if (!allowedPrices.has(priceId)) {
-      return json({ error: 'Invalid priceId' }, 400);
+   if (!allowedPrices.has(priceId)) {
+      return json({ 
+        error: 'Invalid priceId',
+        debug: {
+          received: priceId,
+          envHasSelfPaced: !!env.PRICE_SELF_PACED_MONTHLY,
+          envHasTutorMonthly: !!env.PRICE_WITH_TUTOR_MONTHLY,
+          envHasTutorYearly: !!env.PRICE_WITH_TUTOR_YEARLY,
+          envSelfPacedFirst20: (env.PRICE_SELF_PACED_MONTHLY || '').slice(0, 20),
+          envTutorMonthlyFirst20: (env.PRICE_WITH_TUTOR_MONTHLY || '').slice(0, 20),
+          envTutorYearlyFirst20: (env.PRICE_WITH_TUTOR_YEARLY || '').slice(0, 20),
+        }
+      }, 400);
     }
 
     // Map each price to a plan name — stored in subscription metadata
