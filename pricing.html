@@ -51,6 +51,30 @@
     margin: 0 auto;
   }
 
+  /* Back button */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(212,163,74,.08);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 16px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .2s;
+    margin-bottom: 8px;
+  }
+  .back-btn:hover {
+    background: rgba(212,163,74,.15);
+    border-color: rgba(212,163,74,.4);
+  }
+  .back-btn .arrow { font-size: 18px; line-height: 1; }
+
   /* Hero */
   .hero { text-align: center; padding: 20px 0 28px; }
   .icon-wrap {
@@ -246,6 +270,12 @@
 
 <div class="stage">
 
+  <!-- Back button -->
+  <button type="button" class="back-btn" onclick="goBack()">
+    <span class="arrow">←</span>
+    Back
+  </button>
+
   <!-- Hero -->
   <div class="hero">
     <div class="icon-wrap">
@@ -361,6 +391,15 @@
 </div>
 
 <script>
+  // ── Back button ──
+  function goBack() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = 'index.html';
+    }
+  }
+
   // ── Stripe price IDs (test mode) ──
   const PRICE_IDS = {
     basic_monthly: 'price_1TVwYmRpquEfxb9t1DQDAgRE',
