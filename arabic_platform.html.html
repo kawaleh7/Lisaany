@@ -4892,38 +4892,26 @@ function mkUpgrade(){
   hero.appendChild(el('p',{style:{fontSize:'13px',color:'var(--dim)',lineHeight:'1.7',maxWidth:'300px',margin:'0 auto'}},'Get unlimited access to all 5 modules, 10 units, 40 time blocks — plus live tutor sessions when you\'re ready.'));
   w.appendChild(hero);
 
-  // Plans
-  const plans = [
-    { name:'Monthly', price:'$9', period:'/month', desc:'Cancel anytime', popular:false, color:'var(--border)' },
-    { name:'Annual', price:'$69', period:'/year', desc:'Save 36% · Best value', popular:true, color:'var(--gold)' },
-    { name:'Lifetime', price:'$149', period:'once', desc:'Pay once, learn forever', popular:false, color:'rgba(156,122,184,.6)' },
-  ];
-
-  plans.forEach(plan => {
-    const card = div('');
-    card.style.cssText = `border-radius:20px;border:1.5px solid ${plan.popular?'var(--gold)':'var(--border)'};background:${plan.popular?'rgba(212,163,74,.06)':'rgba(17,25,39,.6)'};padding:20px;margin-bottom:12px;position:relative;cursor:pointer;transition:all .2s;`;
-    if(plan.popular){
-      const badge = div('');
-      badge.style.cssText = 'position:absolute;top:-10px;right:16px;background:var(--gold);color:var(--on-gold);font-size:9px;font-weight:800;letter-spacing:.1em;padding:4px 12px;border-radius:999px;';
-      badge.textContent = 'MOST POPULAR';
-      card.appendChild(badge);
-    }
-    const row = div(''); row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;';
-    const left = div('');
-    left.appendChild(el('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'15px',fontWeight:'700',color:plan.popular?'var(--gold)':'var(--text)'}},plan.name));
-    left.appendChild(el('div',{style:{fontSize:'11px',color:'var(--dim)',marginTop:'3px'}},plan.desc));
-    const right = div(''); right.style.cssText = 'text-align:right;';
-    right.appendChild(el('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'24px',fontWeight:'700',color:plan.popular?'var(--gold)':'var(--text)'}},plan.price));
-    right.appendChild(el('div',{style:{fontSize:'10px',color:'var(--dim)'}},plan.period));
-    row.appendChild(left); row.appendChild(right); card.appendChild(row);
-    card.addEventListener('click',()=>{
-      // Simulate purchase — in production connect Stripe here
-      localStorage.setItem('lisaany_premium','true');
-      S.view='hub'; render();
-      alert('🎉 Welcome to Lisaany Premium! All modules unlocked.');
-    });
-    w.appendChild(card);
+  // View Plans CTA — links to real pricing page with Stripe checkout
+  const cta = div('');
+  cta.style.cssText = "background:linear-gradient(135deg,#d4a347,#f2d080);color:#1a1208;font-family:'Cinzel',serif;font-size:16px;font-weight:700;letter-spacing:.04em;padding:18px 24px;border-radius:14px;text-align:center;cursor:pointer;transition:all .2s;box-shadow:0 4px 18px rgba(212,163,74,.3);margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:10px;";
+  cta.innerHTML = "View Plans <span class=\"ms\" style=\"font-size:20px;font-variation-settings:'FILL' 1;\">arrow_forward</span>";
+  cta.addEventListener('click', () => { window.location.href = 'pricing.html'; });
+  cta.addEventListener('mouseenter', () => {
+    cta.style.transform = 'translateY(-1px)';
+    cta.style.boxShadow = '0 6px 24px rgba(212,163,74,.45)';
   });
+  cta.addEventListener('mouseleave', () => {
+    cta.style.transform = '';
+    cta.style.boxShadow = '0 4px 18px rgba(212,163,74,.3)';
+  });
+  w.appendChild(cta);
+
+  // Small note under CTA
+  const ctaNote = div('');
+  ctaNote.style.cssText = 'text-align:center;font-size:12px;color:var(--dim);margin-bottom:20px;';
+  ctaNote.textContent = 'Choose from monthly, annual, and Pro tiers';
+  w.appendChild(ctaNote);
 
   // What's included
   const inc = div('');
