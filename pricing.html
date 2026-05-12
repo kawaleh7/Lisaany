@@ -5,267 +5,394 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="google" content="notranslate">
 <title>Lisaany — Pricing</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Cinzel:wght@700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
   :root {
-    --bg: #0A122A;
-    --card-bg: #0F172E;
-    --gold: #C4A462;
-    --gold-dim: rgba(196, 164, 98, 0.5);
-    --text-white: #FFFFFF;
-    --text-muted: rgba(255, 255, 255, 0.6);
+    --bg: #060e1b;
+    --card: rgba(17,25,39,.6);
+    --gold: #d4a347;
+    --gold-lt: #f2d080;
+    --text: #e8dcc8;
+    --dim: #9a8e78;
+    --green: #a7d9a6;
+    --border: rgba(212,163,74,.18);
+    --on-gold: #1a1208;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { 
-    font-family: 'Plus Jakarta Sans', sans-serif; 
-    background: var(--bg); 
-    color: var(--text-white);
-    display: flex; justify-content: center; align-items: center; min-height: 100vh;
-    padding: 40px 20px 140px;
-  }
+  .ms { font-family: 'Material Symbols Outlined'; font-variation-settings: 'FILL' 1; line-height: 1; }
 
-  .ms { font-family: 'Material Symbols Rounded'; font-variation-settings: 'FILL' 1; }
-
-  .wrapper { width: 100%; max-width: 800px; text-align: center; }
-  
-  h1 { font-family: 'Cinzel', serif; font-size: 2.2rem; margin-bottom: 30px; color: var(--gold); }
-
-  .toggle-container { margin-bottom: 40px; display: flex; justify-content: center; align-items: center; gap: 15px; font-weight: 600; font-size: 14px; color: var(--text-muted); }
-  .active-label { color: var(--gold); }
-  .save-tag { color: var(--gold); font-weight: 700; }
-  .toggle { width: 44px; height: 24px; background: rgba(255,255,255,0.1); border-radius: 20px; position: relative; cursor: pointer; border: 1px solid var(--gold-dim); }
-  .toggle::after { content: ''; position: absolute; width: 16px; height: 16px; background: var(--gold); border-radius: 50%; top: 3px; left: 3px; transition: 0.3s; }
-  input:checked + .toggle::after { left: 23px; }
-
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; transition: max-width 0.3s ease; }
-  .grid.solo { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-
-  .card {
-    background: var(--card-bg);
-    padding: 40px 30px;
-    border-radius: 20px;
-    border: 1px solid var(--gold-dim);
-    text-align: left;
-    transition: 0.3s ease;
-    display: flex; flex-direction: column;
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 20px 110px;
     position: relative;
   }
-  .card:hover { border-color: var(--gold); transform: translateY(-5px); }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% -5%, rgba(232,200,120,.05) 0%, transparent 60%),
+      radial-gradient(ellipse 100% 100% at 50% 100%, rgba(5,8,20,.4) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-  .tier { font-family: 'Cinzel', serif; font-size: 14px; color: var(--gold); letter-spacing: 2px; }
-  .price-box { margin: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px; }
-  .price { font-size: 42px; font-weight: 700; color: var(--text-white); }
-  .period { color: var(--text-muted); font-size: 14px; }
-  .price-sub { color: var(--gold); font-size: 12px; margin-top: 6px; font-weight: 600; min-height: 16px; }
+  .stage {
+    position: relative;
+    z-index: 1;
+    max-width: 460px;
+    margin: 0 auto;
+  }
 
-  .list { list-style: none; margin-bottom: 30px; flex-grow: 1; }
-  .list li { margin-bottom: 15px; font-size: 14px; color: var(--text-muted); display: flex; align-items: center; }
-  .list li::before { content: '→'; color: var(--gold); margin-right: 12px; font-weight: bold; }
-
-  .btn {
-    background: transparent;
+  /* Hero */
+  .hero { text-align: center; padding: 20px 0 28px; }
+  .icon-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .icon-glow {
+    position: absolute;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(212,163,74,.06);
+    filter: blur(36px);
+  }
+  .icon {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1500, #2a2000);
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
     color: var(--gold);
-    border: 1.5px solid var(--gold);
-    padding: 16px;
-    border-radius: 12px;
+    font-size: 48px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 40px rgba(212,163,74,.3);
+  }
+  .hero h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
     font-weight: 700;
-    font-family: 'Plus Jakarta Sans';
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .hero p {
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.7;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  /* Plan cards */
+  .plan-card {
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    padding: 20px;
+    margin-bottom: 12px;
+    position: relative;
     cursor: pointer;
-    width: 100%;
-    transition: 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    transition: all .2s;
   }
-  .btn:disabled { opacity: 0.6; cursor: wait; }
-  .btn:disabled:hover { background: transparent; color: var(--gold); }
-  .btn.featured-btn:disabled:hover { background: var(--gold); color: var(--bg); }
-  
-  .featured-btn { 
-    background: var(--gold); 
-    color: var(--bg); 
+  .plan-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(212,163,74,.5);
   }
-  
-  .btn:hover { background: var(--gold); color: var(--bg); }
+  .plan-card.popular {
+    border-color: var(--gold);
+    background: rgba(212,163,74,.06);
+  }
+  .plan-card.loading {
+    pointer-events: none;
+    opacity: 0.55;
+  }
+  .popular-badge {
+    position: absolute;
+    top: -10px;
+    right: 16px;
+    background: var(--gold);
+    color: var(--on-gold);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+  .plan-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .plan-left { min-width: 0; }
+  .plan-name {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .plan-card.popular .plan-name { color: var(--gold); }
+  .plan-desc {
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .plan-right { text-align: right; flex-shrink: 0; }
+  .plan-price {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+  .plan-card.popular .plan-price { color: var(--gold); }
+  .plan-period {
+    font-size: 10px;
+    color: var(--dim);
+    margin-top: 4px;
+  }
+  .plan-loading {
+    font-size: 11px;
+    color: var(--gold);
+    margin-top: 6px;
+    font-weight: 600;
+    display: none;
+  }
+  .plan-card.loading .plan-loading { display: block; }
+
+  /* What's included */
+  .included {
+    background: rgba(17,25,39,.5);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 18px;
+    margin-bottom: 16px;
+  }
+  .included-title {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .feature-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 9px;
+  }
+  .feature-row:last-child { margin-bottom: 0; }
+  .feature-icon { font-size: 18px; }
+  .feature-icon.check { color: var(--green); }
+  .feature-icon.soon { color: var(--dim); }
+  .feature-text { font-size: 12px; color: var(--text); }
+  .feature-text.soon { color: var(--dim); }
+
+  /* Free reminder */
+  .free-reminder {
+    text-align: center;
+    font-size: 12px;
+    color: var(--dim);
+    margin-bottom: 16px;
+  }
+  .free-reminder strong { color: var(--green); }
 
   /* Bottom Navigation */
   .bottom-nav {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
     display: flex; align-items: center; justify-content: space-around;
     padding: 14px 20px 24px;
-    background: rgba(10, 18, 42, 0.96);
-    backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
-    border-top: 1px solid var(--gold-dim);
-    border-radius: 24px 24px 0 0;
-    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.5);
+    background: rgba(6,14,27,.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid var(--border);
+    border-radius: 28px 28px 0 0;
   }
   .nav-btn {
     display: flex; flex-direction: column; align-items: center; gap: 4px;
     background: none; border: none;
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 10px; font-weight: 700; letter-spacing: 0.7px; text-transform: uppercase;
-    text-decoration: none; transition: all .25s; cursor: pointer;
-    padding: 6px 10px; border-radius: 12px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: rgba(255,255,255,.4);
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .6px; text-transform: uppercase;
+    text-decoration: none;
+    transition: all .2s;
+    cursor: pointer;
   }
+  .nav-btn:hover { color: rgba(255,255,255,.7); }
   .nav-btn.active { color: var(--gold); }
-  .nav-btn:hover { color: var(--gold); background: rgba(196, 164, 98, 0.06); }
-  .nav-btn .ms { font-size: 24px; transition: all .25s; font-variation-settings: 'FILL' 0; }
-  .nav-btn.active .ms { font-variation-settings: 'FILL' 1; }
-
-  @media (max-width: 600px) { 
-    .grid { grid-template-columns: 1fr; }
-    h1 { font-size: 1.8rem; }
+  .nav-btn .ms { font-size: 26px; }
+  @media (max-width: 480px) {
+    .bottom-nav { padding: 10px 12px 16px; }
+    .nav-btn { font-size: 9px; }
+    .nav-btn .ms { font-size: 22px; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrapper">
-  <h1>Pricing</h1>
+<div class="stage">
 
-  <div class="toggle-container">
-    <span id="mo-label" class="active-label">Monthly</span>
-    <label>
-      <input type="checkbox" id="bill-toggle" hidden onchange="update()">
-      <div class="toggle"></div>
-    </label>
-    <span id="ann-label">Annual <span class="save-tag">(Save 67%)</span></span>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="icon-wrap">
+      <div class="icon-glow"></div>
+      <div class="icon"><span class="ms">workspace_premium</span></div>
+    </div>
+    <h2>Unlock Full Access</h2>
+    <p>Get unlimited access to all 5 modules, 10 units, 40 time blocks — plus live tutor sessions when you're ready.</p>
   </div>
 
-  <div class="grid" id="grid">
-    <div class="card" id="basic-card">
-      <span class="tier">Basic</span>
-      <div class="price-box">
-        <span class="price">$<span id="p1">12.99</span></span>
-        <span class="period" id="period1">/mo</span>
-        <div class="price-sub" id="sub1">&nbsp;</div>
+  <!-- Plan cards -->
+  <div class="plan-card" id="card-basic" onclick="selectPlan('basic_monthly', this)">
+    <div class="plan-row">
+      <div class="plan-left">
+        <div class="plan-name">Basic</div>
+        <div class="plan-desc">Self-paced · Cancel anytime</div>
       </div>
-      <ul class="list">
-        <li>All 8 Tajweed lessons</li>
-        <li>Full Arabic platform</li>
-        <li>Progress tracking</li>
-      </ul>
-      <button class="btn" id="basic-btn" onclick="selectPlan('basic', this)">Begin</button>
+      <div class="plan-right">
+        <div class="plan-price">$12.99</div>
+        <div class="plan-period">/month</div>
+      </div>
     </div>
+    <div class="plan-loading">Loading checkout…</div>
+  </div>
 
-    <div class="card" id="pro-card" style="box-shadow: 0 15px 35px rgba(0,0,0,0.3);">
-      <span class="tier">Pro</span>
-      <div class="price-box">
-        <span class="price">$<span id="p2">29.99</span></span>
-        <span class="period" id="period2">/mo</span>
-        <div class="price-sub" id="sub2">&nbsp;</div>
+  <div class="plan-card" id="card-pro-monthly" onclick="selectPlan('pro_monthly', this)">
+    <div class="plan-row">
+      <div class="plan-left">
+        <div class="plan-name">Pro Monthly</div>
+        <div class="plan-desc">With live tutor sessions</div>
       </div>
-      <ul class="list">
-        <li>Everything in Basic</li>
-        <li>Live Tutor sessions</li>
-        <li>Recorded library</li>
-      </ul>
-      <button class="btn featured-btn" id="pro-btn" onclick="selectPlan('pro', this)">Go Pro</button>
+      <div class="plan-right">
+        <div class="plan-price">$29.99</div>
+        <div class="plan-period">/month</div>
+      </div>
+    </div>
+    <div class="plan-loading">Loading checkout…</div>
+  </div>
+
+  <div class="plan-card popular" id="card-pro-annual" onclick="selectPlan('pro_annual', this)">
+    <div class="popular-badge">MOST POPULAR</div>
+    <div class="plan-row">
+      <div class="plan-left">
+        <div class="plan-name">Pro Annual</div>
+        <div class="plan-desc">Save 67% · Best value</div>
+      </div>
+      <div class="plan-right">
+        <div class="plan-price">$119.99</div>
+        <div class="plan-period">/year</div>
+      </div>
+    </div>
+    <div class="plan-loading">Loading checkout…</div>
+  </div>
+
+  <!-- What's Included -->
+  <div class="included">
+    <div class="included-title">What's Included</div>
+    <div class="feature-row">
+      <span class="ms feature-icon check">check_circle</span>
+      <span class="feature-text">5 Modules · 10 Units · 40 Time Blocks</span>
+    </div>
+    <div class="feature-row">
+      <span class="ms feature-icon check">check_circle</span>
+      <span class="feature-text">Real Arabic dialogues with audio</span>
+    </div>
+    <div class="feature-row">
+      <span class="ms feature-icon check">check_circle</span>
+      <span class="feature-text">Grammar tables + sentence builder</span>
+    </div>
+    <div class="feature-row">
+      <span class="ms feature-icon check">check_circle</span>
+      <span class="feature-text">Progress tracking + XP + Streaks</span>
+    </div>
+    <div class="feature-row">
+      <span class="ms feature-icon soon">schedule</span>
+      <span class="feature-text soon">Live tutor sessions (Pro only)</span>
+    </div>
+    <div class="feature-row">
+      <span class="ms feature-icon soon">schedule</span>
+      <span class="feature-text soon">Certificate of completion — coming soon</span>
     </div>
   </div>
+
+  <!-- Free tier reminder -->
+  <div class="free-reminder">
+    ✓ Module 1 is <strong>always free</strong> — no credit card needed
+  </div>
+
 </div>
 
 <!-- Bottom Navigation -->
 <div class="bottom-nav">
   <a href="index.html" class="nav-btn">
-    <span class="ms">home</span>
+    <span class="ms" style="font-variation-settings:'FILL' 0">home</span>
     Home
   </a>
   <a href="lisaany_new.html" class="nav-btn">
-    <span class="ms">menu_book</span>
+    <span class="ms" style="font-variation-settings:'FILL' 0">menu_book</span>
     Read
   </a>
   <a href="arabic_platform.html" class="nav-btn">
-    <span class="ms">mic</span>
+    <span class="ms" style="font-variation-settings:'FILL' 0">mic</span>
     Speak
   </a>
   <a href="tutors.html" class="nav-btn">
-    <span class="ms">groups</span>
-    Tutors
+    <span class="ms" style="font-variation-settings:'FILL' 0">groups</span>
+    Live Tutor
   </a>
   <a href="auth.html" class="nav-btn">
-    <span class="ms">person</span>
+    <span class="ms" style="font-variation-settings:'FILL' 0">person</span>
     Profile
   </a>
 </div>
 
 <script>
   // ── Stripe price IDs (test mode) ──
-  // basic_monthly  = Self-Paced  $12.99/mo
-  // pro_monthly    = With Tutor  $29.99/mo
-  // pro_annual     = With Tutor  $119.99/yr
   const PRICE_IDS = {
     basic_monthly: 'price_1TVwYmRpquEfxb9t1DQDAgRE',
     pro_monthly:   'price_1TVwcgRpquEfxb9tuJYp47Ui',
     pro_annual:    'price_1TVwcgRpquEfxb9tWbqNnwwP',
   };
 
-  // ── Supabase client (anon key — safe to expose) ──
+  // ── Supabase client ──
   const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  let isAnnual = false;
-
-  function update() {
-    isAnnual = document.getElementById('bill-toggle').checked;
-    const basicCard = document.getElementById('basic-card');
-    const grid = document.getElementById('grid');
-    const p2 = document.getElementById('p2');
-    const period2 = document.getElementById('period2');
-    const sub2 = document.getElementById('sub2');
-
-    if (isAnnual) {
-      basicCard.style.display = 'none';
-      grid.classList.add('solo');
-      p2.innerText = '119.99';
-      period2.innerText = '/year';
-      sub2.innerText = 'just $10/mo';
-    } else {
-      basicCard.style.display = '';
-      grid.classList.remove('solo');
-      document.getElementById('p1').innerText = '12.99';
-      p2.innerText = '29.99';
-      document.getElementById('period1').innerText = '/mo';
-      period2.innerText = '/mo';
-      sub2.innerHTML = '&nbsp;';
-    }
-
-    document.getElementById('mo-label').classList.toggle('active-label', !isAnnual);
-    document.getElementById('ann-label').classList.toggle('active-label', isAnnual);
-  }
-
   // ── Checkout flow ──
-  async function selectPlan(plan, btn) {
-    const billing = isAnnual ? 'annual' : 'monthly';
-    const priceKey = plan + '_' + billing;
-    const priceId = PRICE_IDS[priceKey];
-
+  async function selectPlan(planKey, cardEl) {
+    if (cardEl.classList.contains('loading')) return;
+    const priceId = PRICE_IDS[planKey];
     if (!priceId) {
-      alert('That plan isn\'t available with this billing period.');
+      alert('That plan is not configured. Please contact support.');
       return;
     }
 
-    const originalText = btn.innerText;
-    btn.disabled = true;
-    btn.innerText = 'Loading…';
+    cardEl.classList.add('loading');
 
     try {
-      // Are they logged in?
       const { data: { session } } = await sb.auth.getSession();
 
       if (!session) {
-        // Save what they wanted, then bounce to auth
         sessionStorage.setItem('pendingPriceId', priceId);
         sessionStorage.setItem('pendingReturn', 'pricing.html');
         window.location.href = 'auth.html';
         return;
       }
 
-      // Logged in — create checkout session
       const res = await fetch('/api/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -276,7 +403,9 @@
         }),
       });
 
-      const data = await res.json().catch(() => ({ error: 'Server returned non-JSON response (status ' + res.status + ')' }));
+      const data = await res.json().catch(() => ({
+        error: 'Server returned non-JSON response (status ' + res.status + ')'
+      }));
 
       if (data.url) {
         window.location.href = data.url;
@@ -286,20 +415,17 @@
     } catch (err) {
       console.error('Checkout error:', err);
       alert('Checkout failed.\n\nError: ' + (err.message || err) + '\n\nCheck the browser console for details, or screenshot this and send it.');
-      btn.disabled = false;
-      btn.innerText = originalText;
+      cardEl.classList.remove('loading');
     }
   }
 
   // ── Resume pending checkout after sign-in ──
-  // If user clicked Buy → got bounced to auth → signed in → came back here,
-  // we resume the checkout automatically.
   (async function resumePendingCheckout() {
     const pending = sessionStorage.getItem('pendingPriceId');
     if (!pending) return;
 
     const { data: { session } } = await sb.auth.getSession();
-    if (!session) return; // still not logged in, leave the pending flag for next try
+    if (!session) return;
 
     sessionStorage.removeItem('pendingPriceId');
     sessionStorage.removeItem('pendingReturn');
