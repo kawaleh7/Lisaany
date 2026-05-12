@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Lisaany — Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  :root {
+    --bg: #060e1b;
+    --card: rgba(17,25,39,.6);
+    --gold: #d4a347;
+    --gold-lt: #f2d080;
+    --text: #e8dcc8;
+    --dim: #c4b89a;
+    --green: #a7d9a6;
+    --red: #e07070;
+    --border: rgba(212,163,74,.18);
+    --on-gold: #1a1208;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .ms { font-family: 'Material Symbols Outlined'; font-variation-settings: 'FILL' 1; line-height: 1; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 20px 110px;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% -5%, rgba(232,200,120,.05) 0%, transparent 60%),
+      radial-gradient(ellipse 100% 100% at 50% 100%, rgba(5,8,20,.4) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stage {
+    position: relative;
+    z-index: 1;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  /* Back button */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(212,163,74,.08);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 16px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s;
+    margin-bottom: 8px;
+  }
+  .back-btn:hover { background: rgba(212,163,74,.15); border-color: rgba(212,163,74,.4); }
+  .back-btn .arrow { font-size: 18px; line-height: 1; }
+
+  /* Hero */
+  .hero { text-align: center; padding: 24px 0 28px; }
+  .hero-icon-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .hero-icon-glow {
+    position: absolute;
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: rgba(212,163,74,.06);
+    filter: blur(32px);
+  }
+  .hero-icon {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a1500, #2a2000);
+    border: 2px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold);
+    font-size: 42px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 0 36px rgba(212,163,74,.3);
+  }
+  .hero-icon.logged-in {
+    background: linear-gradient(135deg, #1a2010, #2a3520);
+    border-color: var(--green);
+    color: var(--green);
+    box-shadow: 0 0 36px rgba(167,217,166,.3);
+  }
+  .hero h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .hero p {
+    font-size: 14px;
+    color: var(--dim);
+    line-height: 1.6;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  /* Account info card (logged in) */
+  .account-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .account-label {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .account-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+  }
+  .account-row .ms {
+    font-size: 20px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .account-row-text {
+    font-size: 14px;
+    color: var(--text);
+    word-break: break-all;
+  }
+
+  /* Subscription card */
+  .sub-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+  .sub-card.active { border-color: rgba(167,217,166,.35); background: rgba(167,217,166,.04); }
+  .sub-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .sub-title {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .sub-badge {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .1em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+  }
+  .sub-badge.active { background: rgba(167,217,166,.15); color: var(--green); border: 1px solid rgba(167,217,166,.3); }
+  .sub-badge.canceled { background: rgba(224,112,112,.12); color: var(--red); border: 1px solid rgba(224,112,112,.3); }
+  .sub-badge.none { background: rgba(154,142,120,.12); color: var(--dim); border: 1px solid var(--border); }
+  .sub-detail {
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .sub-detail strong { color: var(--text); }
+
+  /* Buttons */
+  .btn {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--gold), var(--gold-lt));
+    color: var(--on-gold);
+    box-shadow: 0 4px 16px rgba(212,163,74,.25);
+  }
+  .btn-primary:hover { box-shadow: 0 6px 24px rgba(212,163,74,.4); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: .55; cursor: wait; }
+  .btn-primary:disabled:hover { box-shadow: 0 4px 16px rgba(212,163,74,.25); transform: none; }
+  .btn-ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .btn-ghost:hover { background: rgba(212,163,74,.06); border-color: rgba(212,163,74,.4); }
+  .btn-danger {
+    background: transparent;
+    border: 1px solid rgba(224,112,112,.3);
+    color: var(--red);
+  }
+  .btn-danger:hover { background: rgba(224,112,112,.08); border-color: var(--red); }
+
+  /* Picker cards (logged out) */
+  .picker-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all .2s;
+    cursor: pointer;
+  }
+  .picker-card:hover {
+    border-color: rgba(212,163,74,.5);
+    transform: translateY(-1px);
+  }
+  .picker-icon {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, rgba(200,150,62,0.15), rgba(200,150,62,0.05));
+    border: 1px solid rgba(200,150,62,0.4);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .picker-text { flex: 1; }
+  .picker-name {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .picker-sub {
+    font-size: 12px;
+    color: var(--dim);
+  }
+  .picker-arrow {
+    font-size: 20px;
+    color: var(--dim);
+  }
+
+  /* Loading state */
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--dim);
+    font-size: 14px;
+  }
+
+  /* Bottom Navigation */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-around;
+    padding: 14px 20px 24px;
+    background: rgba(6,14,27,.97);
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border-top: 1px solid var(--border);
+    border-radius: 28px 28px 0 0;
+  }
+  .nav-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    background: none; border: none;
+    color: rgba(255,255,255,.4);
+    font-family: 'Inter', sans-serif;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .6px; text-transform: uppercase;
+    text-decoration: none; transition: all .2s; cursor: pointer;
+  }
+  .nav-btn:hover { color: rgba(255,255,255,.7); }
+  .nav-btn.active { color: var(--gold); }
+  .nav-btn .ms { font-size: 26px; }
+  @media (max-width: 480px) {
+    .bottom-nav { padding: 10px 12px 16px; }
+    .nav-btn { font-size: 9px; }
+    .nav-btn .ms { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- Back button -->
+  <button type="button" class="back-btn" onclick="goBack()">
+    <span class="arrow">←</span>
+    Back
+  </button>
+
+  <!-- Loading state (shown briefly while we check session) -->
+  <div id="loadingState" class="loading">Loading…</div>
+
+  <!-- Logged-out state -->
+  <div id="loggedOutState" style="display:none;">
+    <div class="hero">
+      <div class="hero-icon-wrap">
+        <div class="hero-icon-glow"></div>
+        <div class="hero-icon"><span class="ms">person</span></div>
+      </div>
+      <h2>Welcome to Lisaany</h2>
+      <p>Sign in to continue your learning journey, or access the tutor portal.</p>
+    </div>
+
+    <a href="auth.html" class="picker-card">
+      <div class="picker-icon">S</div>
+      <div class="picker-text">
+        <div class="picker-name">Student</div>
+        <div class="picker-sub">Continue learning</div>
+      </div>
+      <span class="ms picker-arrow">arrow_forward</span>
+    </a>
+
+    <a href="tutor_portal.html" class="picker-card">
+      <div class="picker-icon">T</div>
+      <div class="picker-text">
+        <div class="picker-name">Staff</div>
+        <div class="picker-sub">Tutor portal</div>
+      </div>
+      <span class="ms picker-arrow">arrow_forward</span>
+    </a>
+  </div>
+
+  <!-- Logged-in state -->
+  <div id="loggedInState" style="display:none;">
+    <div class="hero">
+      <div class="hero-icon-wrap">
+        <div class="hero-icon-glow"></div>
+        <div class="hero-icon logged-in"><span class="ms">person</span></div>
+      </div>
+      <h2 id="greetingName">Hi there 👋</h2>
+      <p id="greetingEmail" style="word-break:break-all;">—</p>
+    </div>
+
+    <!-- Account -->
+    <div class="account-card">
+      <div class="account-label">Account</div>
+      <div class="account-row">
+        <span class="ms">mail</span>
+        <span class="account-row-text" id="acctEmail">—</span>
+      </div>
+      <div class="account-row">
+        <span class="ms">calendar_today</span>
+        <span class="account-row-text" id="acctJoined">—</span>
+      </div>
+    </div>
+
+    <!-- Subscription -->
+    <div class="sub-card" id="subCard">
+      <div class="sub-header">
+        <div class="sub-title">Subscription</div>
+        <div class="sub-badge none" id="subBadge">No plan</div>
+      </div>
+      <div class="sub-detail" id="subDetail">
+        You don't have an active subscription. Upgrade to unlock all modules and live tutor sessions.
+      </div>
+      <button type="button" class="btn btn-primary" id="subAction" onclick="goToPricing()">
+        <span class="ms">workspace_premium</span>
+        View Plans
+      </button>
+    </div>
+
+    <!-- Sign out -->
+    <button type="button" class="btn btn-danger" onclick="signOut()" style="margin-top:6px;">
+      <span class="ms">logout</span>
+      Sign out
+    </button>
+  </div>
+
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+  <a href="index.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">home</span>
+    Home
+  </a>
+  <a href="lisaany_new.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">menu_book</span>
+    Read
+  </a>
+  <a href="arabic_platform.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">mic</span>
+    Speak
+  </a>
+  <a href="tutors.html" class="nav-btn">
+    <span class="ms" style="font-variation-settings:'FILL' 0">groups</span>
+    Live Tutor
+  </a>
+  <a href="profile.html" class="nav-btn active">
+    <span class="ms">person</span>
+    Profile
+  </a>
+</div>
+
+<script>
+  // ── Supabase client ──
+  const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Plan display names
+  const PLAN_LABELS = {
+    self_paced: 'Basic · Self-Paced',
+    with_tutor: 'Pro · With Tutor',
+  };
+
+  // ── Back button ──
+  function goBack() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = 'index.html';
+    }
+  }
+
+  // ── Navigation ──
+  function goToPricing() {
+    window.location.href = 'pricing.html';
+  }
+
+  // ── Sign out ──
+  async function signOut() {
+    try { await sb.auth.signOut(); } catch(e) {}
+    window.location.reload();
+  }
+
+  // ── Manage subscription (Stripe Customer Portal) ──
+  async function openBillingPortal(btn) {
+    if (btn.disabled) return;
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="ms">hourglass_top</span>Loading portal…';
+
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) throw new Error('Not signed in');
+
+      const res = await fetch('/api/billing-portal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: session.user.id }),
+      });
+
+      const data = await res.json().catch(() => ({
+        error: 'Server returned non-JSON response (status ' + res.status + ')'
+      }));
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || ('HTTP ' + res.status));
+      }
+    } catch (err) {
+      console.error('Billing portal error:', err);
+      alert('Unable to open billing portal.\n\nError: ' + (err.message || err));
+      btn.disabled = false;
+      btn.innerHTML = originalHTML;
+    }
+  }
+
+  // ── Format date ──
+  function formatDate(dateStr) {
+    if (!dateStr) return '—';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  }
+
+  // ── Load profile on page load ──
+  (async function loadProfile() {
+    const loadingEl = document.getElementById('loadingState');
+    const loggedOutEl = document.getElementById('loggedOutState');
+    const loggedInEl = document.getElementById('loggedInState');
+
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+
+      if (!session || !session.user) {
+        // Logged out
+        loadingEl.style.display = 'none';
+        loggedOutEl.style.display = 'block';
+        return;
+      }
+
+      // Logged in — show the logged-in UI
+      const user = session.user;
+      const meta = user.user_metadata || {};
+      const name = meta.name || meta.full_name || (user.email || '').split('@')[0] || 'You';
+      const firstName = name.split(' ')[0];
+
+      document.getElementById('greetingName').textContent = 'Hi, ' + firstName + ' 👋';
+      document.getElementById('greetingEmail').textContent = user.email || '';
+      document.getElementById('acctEmail').textContent = user.email || '—';
+      document.getElementById('acctJoined').textContent = 'Joined ' + formatDate(user.created_at);
+
+      loadingEl.style.display = 'none';
+      loggedInEl.style.display = 'block';
+
+      // Query subscription
+      const { data: sub, error } = await sb
+        .from('subscriptions')
+        .select('plan, status, current_period_end, cancel_at_period_end')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.warn('Subscription lookup error:', error);
+        return;
+      }
+
+      updateSubscriptionUI(sub);
+    } catch (err) {
+      console.error('loadProfile error:', err);
+      loadingEl.textContent = 'Error loading profile. Please refresh.';
+    }
+  })();
+
+  function updateSubscriptionUI(sub) {
+    const card = document.getElementById('subCard');
+    const badge = document.getElementById('subBadge');
+    const detail = document.getElementById('subDetail');
+    const action = document.getElementById('subAction');
+
+    if (!sub || !sub.status) {
+      // No subscription
+      card.classList.remove('active');
+      badge.className = 'sub-badge none';
+      badge.textContent = 'No plan';
+      detail.innerHTML = 'You don\'t have an active subscription. Upgrade to unlock all modules and live tutor sessions.';
+      action.innerHTML = '<span class="ms">workspace_premium</span>View Plans';
+      action.onclick = goToPricing;
+      return;
+    }
+
+    const isActive = sub.status === 'active' || sub.status === 'trialing';
+    const planLabel = PLAN_LABELS[sub.plan] || sub.plan || 'Active plan';
+
+    if (isActive) {
+      card.classList.add('active');
+      if (sub.cancel_at_period_end) {
+        badge.className = 'sub-badge canceled';
+        badge.textContent = 'Canceling';
+        detail.innerHTML = '<strong>' + planLabel + '</strong> · Access ends ' + formatDate(sub.current_period_end);
+      } else {
+        badge.className = 'sub-badge active';
+        badge.textContent = 'Active';
+        detail.innerHTML = '<strong>' + planLabel + '</strong> · Renews ' + formatDate(sub.current_period_end);
+      }
+      action.innerHTML = '<span class="ms">settings</span>Manage subscription';
+      action.onclick = function() { openBillingPortal(action); };
+    } else {
+      // canceled, past_due, etc
+      card.classList.remove('active');
+      badge.className = 'sub-badge canceled';
+      badge.textContent = sub.status;
+      detail.innerHTML = 'Your subscription is ' + sub.status + '. Resubscribe to regain access.';
+      action.innerHTML = '<span class="ms">workspace_premium</span>View Plans';
+      action.onclick = goToPricing;
+    }
+  }
+</script>
+
+</body>
+</html>
