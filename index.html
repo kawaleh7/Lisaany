@@ -90,7 +90,7 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 .btn-primary:hover{box-shadow:0 8px 32px rgba(200,150,62,0.5),0 2px 8px rgba(0,0,0,0.4);transform:translateY(-2px);}
 .btn-primary:active{transform:translateY(0);box-shadow:0 4px 16px rgba(200,150,62,0.35);}
 .btn-primary .ms{font-size:15px;vertical-align:middle;margin-left:5px;transition:transform 0.3s;}
-.btn-primary:hover .ms{transform:translateX(3px);}
+.btn-primary:hover .ms{transform:translateY(3px);}
 
 /* ── Stats Strip ── */
 .stats-strip{background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);padding:16px 24px;display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:44px;font-size:13px;color:var(--text-secondary);box-shadow:var(--shadow-card);position:relative;z-index:2;}
@@ -191,6 +191,17 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
   .section-card{padding:22px 18px;}
   .quote-ar{font-size:19px;}
 }
+/* ── Brand Seal ── */
+.brand-seal{margin:8px auto 36px;text-align:center;padding:12px 0;position:relative;}
+.brand-seal-divider{position:relative;width:100%;max-width:380px;height:1px;margin:0 auto 26px;background:linear-gradient(90deg,transparent,rgba(212,163,74,.45) 30%,rgba(212,163,74,.65) 50%,rgba(212,163,74,.45) 70%,transparent);}
+.brand-seal-ornament{position:absolute;left:50%;top:50%;width:9px;height:9px;background:var(--gold-bright);transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 12px rgba(212,163,74,.6);}
+.brand-seal-name{font-family:'Cinzel',serif;font-size:46px;font-weight:700;color:var(--gold-bright);letter-spacing:.28em;margin-bottom:14px;line-height:1;padding-left:.28em;background:linear-gradient(160deg,#f0d78c 0%,#d4a347 50%,#b8862e 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.brand-seal-tagline{font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:var(--gold-bright);letter-spacing:.32em;opacity:.85;padding-left:.32em;}
+@media(max-width:480px){
+  .brand-seal{margin:40px auto 30px;}
+  .brand-seal-name{font-size:32px;letter-spacing:.22em;padding-left:.22em;}
+  .brand-seal-tagline{font-size:11px;letter-spacing:.25em;padding-left:.25em;}
+}
 </style>
 </head>
 <body>
@@ -283,16 +294,18 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 
 <div class="page">
 
-  <div class="hdr">
-    <div class="hdr-eyebrow">
-      <span class="ms">auto_awesome</span>
-      Your Arabic Journey
+  <!-- Brand Seal -->
+  <div class="brand-seal">
+    <div class="brand-seal-divider">
+      <span class="brand-seal-ornament"></span>
     </div>
+    <div class="brand-seal-name">LISAANY</div>
+    <div class="brand-seal-tagline">READ · SPEAK · MASTER</div>
+  </div>
+
+  <div class="hdr">
     <h1 class="hdr-title">Read the <span class="accent">Quran</span>.<br>Speak Arabic.</h1>
     <p class="hdr-desc">From the alphabet to the Quran &mdash; with a real teacher. Both paths, properly designed for genuine progress.</p>
-    <button class="btn-primary" onclick="showOnboarding()">
-      Find My Path <span class="ms">arrow_forward</span>
-    </button>
   </div>
 
   <div class="stats-strip">
@@ -310,6 +323,12 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
       <span class="ms">live_tv</span>
       <span><strong>3 live</strong> /week</span>
     </div>
+  </div>
+
+  <div style="text-align:center;margin:8px auto 36px;">
+    <button class="btn-primary" onclick="showOnboarding()">
+      Find My Path <span class="ms">arrow_downward</span>
+    </button>
   </div>
 
   <a href="lisaany_new.html" class="path-card">
