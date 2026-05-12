@@ -276,16 +276,16 @@
         }),
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({ error: 'Server returned non-JSON response (status ' + res.status + ')' }));
 
       if (data.url) {
         window.location.href = data.url;
       } else {
-        throw new Error(data.error || 'Failed to create checkout session');
+        throw new Error(data.error || ('HTTP ' + res.status + ' — no checkout URL returned'));
       }
     } catch (err) {
       console.error('Checkout error:', err);
-      alert('Something went wrong. Please try again or contact support.');
+      alert('Checkout failed.\n\nError: ' + (err.message || err) + '\n\nCheck the browser console for details, or screenshot this and send it.');
       btn.disabled = false;
       btn.innerText = originalText;
     }
