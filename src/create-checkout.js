@@ -38,13 +38,23 @@ export async function handleCreateCheckout(request, env) {
       httpClient: Stripe.createFetchHttpClient(),
     });
 
+    // ---- Find or create a Stripe Customer for this user ----
+    // Use customers.list with email (immediately consistent) instead of
+    // customers.search (which has a 30+ sec indexing delay and was causing
+    // duplicate customers on rapid clicks).
     let customerId;
-    const existing = await stripe.customers.search({
-      query: `metadata['supabase_user_id']:'${userId}'`,
+    const existing = await stripe.customers.list({
+      email: userEmail,
       limit: 1,
     });
     if (existing.data.length > 0) {
       customerId = existing.data[0].id;
+      // Make sure metadata is set (in case the customer was created before this code)
+      if (!existing.data[0].metadata?.supabase_user_id) {
+        await stripe.customers.update(customerId, {
+          metadata: { supabase_user_id: userId },
+        });
+      }
     } else {
       const created = await stripe.customers.create({
         email: userEmail,
@@ -53,6 +63,7 @@ export async function handleCreateCheckout(request, env) {
       customerId = created.id;
     }
 
+    // ---- Create the Checkout Session ----
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       customer: customerId,
