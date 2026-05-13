@@ -396,6 +396,12 @@
       </button>
     </div>
 
+    <!-- Admin Dashboard (hidden, only shown for admin emails) -->
+    <a href="admin.html" id="adminLink" class="btn btn-ghost" style="display:none; margin-top:6px; text-decoration:none;">
+      <span class="ms">admin_panel_settings</span>
+      Admin Dashboard
+    </a>
+
     <!-- Sign out -->
     <button type="button" class="btn btn-danger" onclick="signOut()" style="margin-top:6px;">
       <span class="ms">logout</span>
@@ -531,6 +537,12 @@
 
       loadingEl.style.display = 'none';
       loggedInEl.style.display = 'block';
+
+      // Show admin link for admin emails only
+      const ADMIN_EMAILS = ['ahmedstart163@gmail.com'];
+      if (ADMIN_EMAILS.includes((user.email || '').toLowerCase())) {
+        document.getElementById('adminLink').style.display = 'flex';
+      }
 
       // Query subscription
       const { data: sub, error } = await sb
