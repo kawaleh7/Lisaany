@@ -175,6 +175,12 @@
   .btn-refresh .ms { font-size: 16px; }
   .btn-refresh:disabled { opacity: .5; cursor: wait; }
 
+  /* Spin animation for refresh button */
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
   /* User cards */
   .users-list {
     display: flex;
@@ -372,7 +378,7 @@
     <!-- Toolbar -->
     <div class="toolbar">
       <input type="text" class="search-input" id="searchInput" placeholder="Search by email, name, or user ID…">
-      <button type="button" class="btn-refresh" id="refreshBtn" onclick="loadUsers()">
+      <button type="button" class="btn-refresh" id="refreshBtn" onclick="loadUsers(true)">
         <span class="ms">refresh</span>
         Refresh
       </button>
@@ -569,22 +575,44 @@
   }
 
   // ── Load users from Supabase ──
-  async function loadUsers() {
+  async function loadUsers(isRefresh) {
     const btn = document.getElementById('refreshBtn');
+    const originalHTML = btn.innerHTML;
     btn.disabled = true;
+    btn.innerHTML = '<span class="ms" style="animation:spin 0.8s linear infinite;">refresh</span>Loading…';
     try {
       const { data, error } = await sb.rpc('admin_get_users');
       if (error) throw error;
       allUsers = data || [];
       applyFilter();
       updateStats(allUsers);
+
+      // Visual confirmation flash
+      if (isRefresh) {
+        btn.innerHTML = '<span class="ms">check_circle</span>Updated';
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.disabled = false;
+        }, 1200);
+      } else {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      }
     } catch (err) {
       console.error('loadUsers error:', err);
-      document.getElementById('errorDetail').textContent = err.message || String(err);
-      document.getElementById('adminState').style.display = 'none';
-      document.getElementById('errorState').style.display = 'block';
-    } finally {
-      btn.disabled = false;
+      btn.innerHTML = '<span class="ms">error</span>Error';
+      setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      }, 2000);
+      // Only show full error page on initial load, not on refresh
+      if (!isRefresh) {
+        document.getElementById('errorDetail').textContent = err.message || String(err);
+        document.getElementById('adminState').style.display = 'none';
+        document.getElementById('errorState').style.display = 'block';
+      } else {
+        alert('Refresh failed: ' + (err.message || err));
+      }
     }
   }
 
