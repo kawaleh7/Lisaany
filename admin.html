@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Lisaany — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+  :root {
+    --bg: #060e1b;
+    --card: rgba(17,25,39,.6);
+    --gold: #d4a347;
+    --gold-lt: #f2d080;
+    --text: #e8dcc8;
+    --dim: #c4b89a;
+    --green: #a7d9a6;
+    --red: #e07070;
+    --orange: #e0a070;
+    --border: rgba(212,163,74,.18);
+    --on-gold: #1a1208;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .ms { font-family: 'Material Symbols Outlined'; font-variation-settings: 'FILL' 1; line-height: 1; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 20px 60px;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse 90% 55% at 50% -5%, rgba(232,200,120,.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stage {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .admin-brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .admin-brand-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .25em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .admin-brand-name {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: .02em;
+  }
+  .admin-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--dim);
+  }
+  .admin-info strong { color: var(--text); font-weight: 500; }
+  .admin-info .btn-out {
+    background: transparent;
+    border: 1px solid rgba(224,112,112,.3);
+    color: var(--red);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .admin-info .btn-out:hover { background: rgba(224,112,112,.08); border-color: var(--red); }
+
+  /* Stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  .stat-value {
+    font-family: 'Cinzel', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  @media (max-width: 720px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-value { font-size: 22px; }
+  }
+
+  /* Search bar */
+  .toolbar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    align-items: center;
+  }
+  .search-input {
+    flex: 1;
+    padding: 11px 16px;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: all .2s;
+  }
+  .search-input:focus { border-color: rgba(212,163,74,.5); }
+  .search-input::placeholder { color: var(--dim); }
+  .btn-refresh {
+    background: rgba(212,163,74,.08);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 11px 16px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-refresh:hover { background: rgba(212,163,74,.15); border-color: rgba(212,163,74,.4); }
+  .btn-refresh .ms { font-size: 16px; }
+  .btn-refresh:disabled { opacity: .5; cursor: wait; }
+
+  /* User cards */
+  .users-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .user-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 16px;
+    align-items: center;
+    transition: border-color .2s;
+  }
+  .user-card:hover { border-color: rgba(212,163,74,.35); }
+  .user-card.expanded { border-color: rgba(212,163,74,.4); background: rgba(212,163,74,.04); }
+  .user-main { min-width: 0; cursor: pointer; }
+  .user-email {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 3px;
+  }
+  .user-meta {
+    font-size: 11px;
+    color: var(--dim);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .badge.active { background: rgba(167,217,166,.15); color: var(--green); border: 1px solid rgba(167,217,166,.3); }
+  .badge.canceled, .badge.canceling { background: rgba(224,160,112,.15); color: var(--orange); border: 1px solid rgba(224,160,112,.3); }
+  .badge.incomplete, .badge.past_due { background: rgba(224,112,112,.12); color: var(--red); border: 1px solid rgba(224,112,112,.3); }
+  .badge.none { background: rgba(196,184,154,.08); color: var(--dim); border: 1px solid var(--border); }
+  .user-plan {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .user-plan.no-plan { color: var(--dim); font-style: italic; font-weight: 400; }
+
+  /* Expanded details */
+  .user-detail {
+    display: none;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    grid-column: 1 / -1;
+  }
+  .user-card.expanded .user-detail { display: block; }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px 24px;
+  }
+  .detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+  .detail-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+  .detail-value {
+    font-size: 13px;
+    color: var(--text);
+    word-break: break-all;
+  }
+  .detail-value.mono { font-family: 'Courier New', monospace; font-size: 12px; }
+  .detail-value a { color: var(--gold); text-decoration: none; }
+  .detail-value a:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .user-card { grid-template-columns: 1fr; gap: 10px; }
+    .user-main, .badge, .user-plan { width: 100%; }
+    .user-plan { font-size: 14px; }
+    .badge { width: fit-content; }
+    .detail-grid { grid-template-columns: 1fr; }
+  }
+
+  /* States */
+  .state-msg {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--dim);
+  }
+  .state-msg .ms { font-size: 48px; color: rgba(212,163,74,.3); display: block; margin-bottom: 14px; }
+  .state-msg h2 { font-family: 'Cinzel', serif; font-size: 20px; color: var(--text); margin-bottom: 8px; font-weight: 700; }
+  .state-msg p { font-size: 13px; line-height: 1.6; max-width: 360px; margin: 0 auto; }
+  .state-msg.error { color: var(--red); }
+  .state-msg.error .ms { color: var(--red); }
+
+  /* Coming soon badge */
+  .coming-soon-note {
+    background: rgba(212,163,74,.06);
+    border: 1px dashed rgba(212,163,74,.3);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 24px;
+    text-align: center;
+    color: var(--dim);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .coming-soon-note strong { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- Loading -->
+  <div id="loadingState" class="state-msg">
+    <span class="ms">hourglass_top</span>
+    <h2>Loading admin dashboard…</h2>
+  </div>
+
+  <!-- Not signed in -->
+  <div id="signedOutState" class="state-msg" style="display:none;">
+    <span class="ms">lock</span>
+    <h2>Sign in required</h2>
+    <p>You need to be signed in to access the admin dashboard. Redirecting…</p>
+  </div>
+
+  <!-- Not authorized -->
+  <div id="unauthorizedState" class="state-msg error" style="display:none;">
+    <span class="ms">block</span>
+    <h2>Not authorized</h2>
+    <p>This area is restricted to admins. Returning you to the homepage.</p>
+  </div>
+
+  <!-- Error -->
+  <div id="errorState" class="state-msg error" style="display:none;">
+    <span class="ms">error</span>
+    <h2>Couldn't load admin data</h2>
+    <p id="errorDetail">—</p>
+  </div>
+
+  <!-- Admin dashboard -->
+  <div id="adminState" style="display:none;">
+
+    <!-- Header -->
+    <div class="admin-header">
+      <div class="admin-brand">
+        <span class="admin-brand-eyebrow">Admin</span>
+        <span class="admin-brand-name">Lisaany</span>
+      </div>
+      <div class="admin-info">
+        <span>Signed in as <strong id="adminEmail">—</strong></span>
+        <button type="button" class="btn-out" onclick="signOut()">Sign out</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotalUsers">—</div>
+        <div class="stat-label">Total users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statActive">—</div>
+        <div class="stat-label">Active subscribers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statMrr">—</div>
+        <div class="stat-label">Est. monthly revenue</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statNew">—</div>
+        <div class="stat-label">New last 30 days</div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <input type="text" class="search-input" id="searchInput" placeholder="Search by email, name, or user ID…">
+      <button type="button" class="btn-refresh" id="refreshBtn" onclick="loadUsers()">
+        <span class="ms">refresh</span>
+        Refresh
+      </button>
+    </div>
+
+    <!-- Users list -->
+    <div class="users-list" id="usersList"></div>
+
+    <!-- Note about future features -->
+    <div class="coming-soon-note">
+      <strong>Read-only mode.</strong> Rename, suspend, refund, and delete actions will be added once the Cloudflare backend deploy issue is resolved.
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // ── Config ──
+  const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Frontend admin email gate. Real security is in the SQL function.
+  const ADMIN_EMAILS = ['ahmedstart163@gmail.com'];
+
+  // Plan pricing for MRR calculation (test mode prices)
+  const PLAN_PRICES = {
+    self_paced: 12.99,
+    with_tutor: 29.99,
+  };
+
+  const PLAN_LABELS = {
+    self_paced: 'Basic',
+    with_tutor: 'Pro',
+  };
+
+  let allUsers = [];
+  let expandedUserId = null;
+
+  // ── Sign out ──
+  async function signOut() {
+    try { await sb.auth.signOut(); } catch(e) {}
+    window.location.href = 'index.html';
+  }
+
+  // ── Format helpers ──
+  function formatDate(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+  }
+  function formatDateTime(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleString(undefined, { year:'numeric', month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+  }
+  function escapeHtml(s) {
+    if (!s) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // ── Stats ──
+  function updateStats(users) {
+    const total = users.length;
+    const active = users.filter(u => u.status === 'active' || u.status === 'trialing').length;
+
+    let mrr = 0;
+    users.forEach(u => {
+      if ((u.status === 'active' || u.status === 'trialing') && !u.cancel_at_period_end) {
+        const price = PLAN_PRICES[u.plan] || 0;
+        // Annual gets divided across 12 months for MRR calc — simplified: assume monthly here
+        mrr += price;
+      }
+    });
+
+    const monthAgo = new Date();
+    monthAgo.setDate(monthAgo.getDate() - 30);
+    const newCount = users.filter(u => new Date(u.user_created_at) > monthAgo).length;
+
+    document.getElementById('statTotalUsers').textContent = total;
+    document.getElementById('statActive').textContent = active;
+    document.getElementById('statMrr').textContent = '$' + mrr.toFixed(0);
+    document.getElementById('statNew').textContent = newCount;
+  }
+
+  // ── Render user list ──
+  function renderUsers(users) {
+    const list = document.getElementById('usersList');
+    if (!users || users.length === 0) {
+      list.innerHTML = '<div class="state-msg"><span class="ms">person_off</span><h2>No users found</h2><p>No matches for that search.</p></div>';
+      return;
+    }
+    list.innerHTML = users.map(u => userCard(u)).join('');
+  }
+
+  function statusBadge(status, cancelAtEnd) {
+    if (!status) return '<span class="badge none">No plan</span>';
+    if ((status === 'active' || status === 'trialing') && cancelAtEnd) {
+      return '<span class="badge canceling">Canceling</span>';
+    }
+    const cls = ['active','trialing'].includes(status) ? 'active'
+              : ['canceled','canceling'].includes(status) ? 'canceled'
+              : ['incomplete','incomplete_expired','past_due','unpaid'].includes(status) ? 'incomplete'
+              : 'none';
+    return `<span class="badge ${cls}">${escapeHtml(status)}</span>`;
+  }
+
+  function userCard(u) {
+    const planLabel = u.plan ? PLAN_LABELS[u.plan] || u.plan : null;
+    const planHtml = planLabel
+      ? `<div class="user-plan">${escapeHtml(planLabel)}</div>`
+      : `<div class="user-plan no-plan">Free</div>`;
+
+    const isExpanded = u.user_id === expandedUserId;
+    const stripeCustLink = u.stripe_customer_id
+      ? `<a href="https://dashboard.stripe.com/test/customers/${escapeHtml(u.stripe_customer_id)}" target="_blank">${escapeHtml(u.stripe_customer_id)} ↗</a>`
+      : '—';
+    const stripeSubLink = u.stripe_subscription_id
+      ? `<a href="https://dashboard.stripe.com/test/subscriptions/${escapeHtml(u.stripe_subscription_id)}" target="_blank">${escapeHtml(u.stripe_subscription_id)} ↗</a>`
+      : '—';
+
+    return `
+      <div class="user-card ${isExpanded ? 'expanded' : ''}" data-id="${escapeHtml(u.user_id)}">
+        <div class="user-main" onclick="toggleExpand('${escapeHtml(u.user_id)}')">
+          <div class="user-email">${escapeHtml(u.email || u.user_id)}</div>
+          <div class="user-meta">
+            ${escapeHtml(u.name || '—')} · Joined ${formatDate(u.user_created_at)}
+          </div>
+        </div>
+        ${statusBadge(u.status, u.cancel_at_period_end)}
+        ${planHtml}
+        <div class="user-detail">
+          <div class="detail-grid">
+            <div class="detail-row">
+              <div class="detail-label">User ID</div>
+              <div class="detail-value mono">${escapeHtml(u.user_id)}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Display name</div>
+              <div class="detail-value">${escapeHtml(u.name || '—')}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Joined</div>
+              <div class="detail-value">${formatDateTime(u.user_created_at)}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Plan</div>
+              <div class="detail-value">${escapeHtml(planLabel || 'Free / no subscription')}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Subscription status</div>
+              <div class="detail-value">${escapeHtml(u.status || '—')}${u.cancel_at_period_end ? ' (canceling at period end)' : ''}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">${u.cancel_at_period_end ? 'Access ends' : 'Next renewal'}</div>
+              <div class="detail-value">${formatDate(u.current_period_end)}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Stripe customer</div>
+              <div class="detail-value mono">${stripeCustLink}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Stripe subscription</div>
+              <div class="detail-value mono">${stripeSubLink}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">Last updated</div>
+              <div class="detail-value">${formatDateTime(u.sub_updated_at)}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function toggleExpand(userId) {
+    expandedUserId = (expandedUserId === userId) ? null : userId;
+    applyFilter();
+  }
+
+  // ── Search filter ──
+  function applyFilter() {
+    const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+    if (!q) {
+      renderUsers(allUsers);
+      return;
+    }
+    const filtered = allUsers.filter(u =>
+      (u.email || '').toLowerCase().includes(q) ||
+      (u.name || '').toLowerCase().includes(q) ||
+      (u.user_id || '').toLowerCase().includes(q) ||
+      (u.stripe_customer_id || '').toLowerCase().includes(q) ||
+      (u.stripe_subscription_id || '').toLowerCase().includes(q)
+    );
+    renderUsers(filtered);
+  }
+
+  // ── Load users from Supabase ──
+  async function loadUsers() {
+    const btn = document.getElementById('refreshBtn');
+    btn.disabled = true;
+    try {
+      const { data, error } = await sb.rpc('admin_get_users');
+      if (error) throw error;
+      allUsers = data || [];
+      applyFilter();
+      updateStats(allUsers);
+    } catch (err) {
+      console.error('loadUsers error:', err);
+      document.getElementById('errorDetail').textContent = err.message || String(err);
+      document.getElementById('adminState').style.display = 'none';
+      document.getElementById('errorState').style.display = 'block';
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // ── Init: check session + admin status, then load ──
+  (async function init() {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+
+      if (!session || !session.user) {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('signedOutState').style.display = 'block';
+        setTimeout(() => { window.location.href = 'auth.html'; }, 2000);
+        return;
+      }
+
+      if (!ADMIN_EMAILS.includes(session.user.email)) {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('unauthorizedState').style.display = 'block';
+        setTimeout(() => { window.location.href = 'index.html'; }, 3000);
+        return;
+      }
+
+      document.getElementById('adminEmail').textContent = session.user.email;
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('adminState').style.display = 'block';
+
+      // Wire search input
+      document.getElementById('searchInput').addEventListener('input', applyFilter);
+
+      await loadUsers();
+    } catch (err) {
+      console.error('init error:', err);
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('errorDetail').textContent = err.message || String(err);
+      document.getElementById('errorState').style.display = 'block';
+    }
+  })();
+</script>
+
+</body>
+</html>
