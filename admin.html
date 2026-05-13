@@ -51,6 +51,23 @@
     margin: 0 auto;
   }
 
+  /* Back button */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(212,163,74,.08);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 16px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s;
+    margin-bottom: 16px;
+  }
+  .back-btn:hover { background: rgba(212,163,74,.15); border-color: rgba(212,163,74,.4); }
+  .back-btn .arrow { font-size: 18px; line-height: 1; }
+
   /* Header */
   .admin-header {
     display: flex;
@@ -62,32 +79,21 @@
     gap: 12px;
     flex-wrap: wrap;
   }
-  .admin-brand {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-  }
+  .admin-brand { display: flex; align-items: baseline; gap: 10px; }
   .admin-brand-eyebrow {
     font-family: 'Cinzel', serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .25em;
-    text-transform: uppercase;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .25em; text-transform: uppercase;
     color: var(--gold);
   }
   .admin-brand-name {
     font-family: 'Cinzel', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: .02em;
+    font-size: 22px; font-weight: 700;
+    color: var(--text); letter-spacing: .02em;
   }
   .admin-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 13px;
-    color: var(--dim);
+    display: flex; align-items: center; gap: 12px;
+    font-size: 13px; color: var(--dim);
   }
   .admin-info strong { color: var(--text); font-weight: 500; }
   .admin-info .btn-out {
@@ -97,19 +103,14 @@
     padding: 6px 14px;
     border-radius: 8px;
     font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all .2s;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
   }
   .admin-info .btn-out:hover { background: rgba(224,112,112,.08); border-color: var(--red); }
 
-  /* Stats */
   .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 28px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 14px; margin-bottom: 28px;
   }
   .stat-card {
     background: var(--card);
@@ -119,17 +120,12 @@
   }
   .stat-value {
     font-family: 'Cinzel', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: 6px;
+    font-size: 28px; font-weight: 700;
+    color: var(--gold); line-height: 1; margin-bottom: 6px;
   }
   .stat-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .08em;
-    text-transform: uppercase;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
     color: var(--dim);
   }
   @media (max-width: 720px) {
@@ -137,12 +133,9 @@
     .stat-value { font-size: 22px; }
   }
 
-  /* Search bar */
   .toolbar {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 18px;
-    align-items: center;
+    display: flex; gap: 10px;
+    margin-bottom: 18px; align-items: center;
   }
   .search-input {
     flex: 1;
@@ -152,8 +145,7 @@
     border-radius: 12px;
     color: var(--text);
     font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    outline: none;
+    font-size: 14px; outline: none;
     transition: all .2s;
   }
   .search-input:focus { border-color: rgba(212,163,74,.5); }
@@ -165,28 +157,20 @@
     padding: 11px 16px;
     border-radius: 12px;
     font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all .2s;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
     display: flex; align-items: center; gap: 6px;
   }
   .btn-refresh:hover { background: rgba(212,163,74,.15); border-color: rgba(212,163,74,.4); }
   .btn-refresh .ms { font-size: 16px; }
   .btn-refresh:disabled { opacity: .5; cursor: wait; }
 
-  /* Spin animation for refresh button */
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
 
-  /* User cards */
-  .users-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  .users-list { display: flex; flex-direction: column; gap: 8px; }
   .user-card {
     background: var(--card);
     border: 1.5px solid var(--border);
@@ -194,36 +178,25 @@
     padding: 16px 18px;
     display: grid;
     grid-template-columns: 1fr auto auto;
-    gap: 16px;
-    align-items: center;
+    gap: 16px; align-items: center;
     transition: border-color .2s;
   }
   .user-card:hover { border-color: rgba(212,163,74,.35); }
   .user-card.expanded { border-color: rgba(212,163,74,.4); background: rgba(212,163,74,.04); }
   .user-main { min-width: 0; cursor: pointer; }
   .user-email {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 14px; font-weight: 600; color: var(--text);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     margin-bottom: 3px;
   }
   .user-meta {
-    font-size: 11px;
-    color: var(--dim);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    font-size: 11px; color: var(--dim);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
   .badge {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    padding: 4px 10px;
-    border-radius: 999px;
-    text-transform: uppercase;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .08em; padding: 4px 10px;
+    border-radius: 999px; text-transform: uppercase;
     white-space: nowrap;
   }
   .badge.active { background: rgba(167,217,166,.15); color: var(--green); border: 1px solid rgba(167,217,166,.3); }
@@ -232,45 +205,26 @@
   .badge.none { background: rgba(196,184,154,.08); color: var(--dim); border: 1px solid var(--border); }
   .user-plan {
     font-family: 'Cinzel', serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--gold);
-    white-space: nowrap;
+    font-size: 13px; font-weight: 700;
+    color: var(--gold); white-space: nowrap;
   }
   .user-plan.no-plan { color: var(--dim); font-style: italic; font-weight: 400; }
 
-  /* Expanded details */
   .user-detail {
     display: none;
-    margin-top: 14px;
-    padding-top: 14px;
+    margin-top: 14px; padding-top: 14px;
     border-top: 1px solid var(--border);
     grid-column: 1 / -1;
   }
   .user-card.expanded .user-detail { display: block; }
-  .detail-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px 24px;
-  }
-  .detail-row {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    min-width: 0;
-  }
+  .detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 24px; }
+  .detail-row { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
   .detail-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    text-transform: uppercase;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
     color: var(--dim);
   }
-  .detail-value {
-    font-size: 13px;
-    color: var(--text);
-    word-break: break-all;
-  }
+  .detail-value { font-size: 13px; color: var(--text); word-break: break-all; }
   .detail-value.mono { font-family: 'Courier New', monospace; font-size: 12px; }
   .detail-value a { color: var(--gold); text-decoration: none; }
   .detail-value a:hover { text-decoration: underline; }
@@ -282,19 +236,13 @@
     .detail-grid { grid-template-columns: 1fr; }
   }
 
-  /* States */
-  .state-msg {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--dim);
-  }
+  .state-msg { text-align: center; padding: 60px 20px; color: var(--dim); }
   .state-msg .ms { font-size: 48px; color: rgba(212,163,74,.3); display: block; margin-bottom: 14px; }
   .state-msg h2 { font-family: 'Cinzel', serif; font-size: 20px; color: var(--text); margin-bottom: 8px; font-weight: 700; }
   .state-msg p { font-size: 13px; line-height: 1.6; max-width: 360px; margin: 0 auto; }
   .state-msg.error { color: var(--red); }
   .state-msg.error .ms { color: var(--red); }
 
-  /* Coming soon badge */
   .coming-soon-note {
     background: rgba(212,163,74,.06);
     border: 1px dashed rgba(212,163,74,.3);
@@ -303,8 +251,7 @@
     margin-top: 24px;
     text-align: center;
     color: var(--dim);
-    font-size: 12px;
-    line-height: 1.6;
+    font-size: 12px; line-height: 1.6;
   }
   .coming-soon-note strong { color: var(--gold); }
 </style>
@@ -312,6 +259,12 @@
 <body>
 
 <div class="stage">
+
+  <!-- Back button (always visible) -->
+  <button type="button" class="back-btn" onclick="goBack()">
+    <span class="arrow">←</span>
+    Back
+  </button>
 
   <!-- Loading -->
   <div id="loadingState" class="state-msg">
@@ -343,7 +296,6 @@
   <!-- Admin dashboard -->
   <div id="adminState" style="display:none;">
 
-    <!-- Header -->
     <div class="admin-header">
       <div class="admin-brand">
         <span class="admin-brand-eyebrow">Admin</span>
@@ -355,7 +307,6 @@
       </div>
     </div>
 
-    <!-- Stats -->
     <div class="stats-grid">
       <div class="stat-card">
         <div class="stat-value" id="statTotalUsers">—</div>
@@ -375,7 +326,6 @@
       </div>
     </div>
 
-    <!-- Toolbar -->
     <div class="toolbar">
       <input type="text" class="search-input" id="searchInput" placeholder="Search by email, name, or user ID…">
       <button type="button" class="btn-refresh" id="refreshBtn" onclick="loadUsers(true)">
@@ -384,10 +334,8 @@
       </button>
     </div>
 
-    <!-- Users list -->
     <div class="users-list" id="usersList"></div>
 
-    <!-- Note about future features -->
     <div class="coming-soon-note">
       <strong>Read-only mode.</strong> Rename, suspend, refund, and delete actions will be added once the Cloudflare backend deploy issue is resolved.
     </div>
@@ -396,35 +344,32 @@
 </div>
 
 <script>
-  // ── Config ──
   const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // Frontend admin email gate. Real security is in the SQL function.
   const ADMIN_EMAILS = ['ahmedstart163@gmail.com'];
 
-  // Plan pricing for MRR calculation (test mode prices)
-  const PLAN_PRICES = {
-    self_paced: 12.99,
-    with_tutor: 29.99,
-  };
-
-  const PLAN_LABELS = {
-    self_paced: 'Basic',
-    with_tutor: 'Pro',
-  };
+  const PLAN_PRICES = { self_paced: 12.99, with_tutor: 29.99 };
+  const PLAN_LABELS = { self_paced: 'Basic', with_tutor: 'Pro' };
 
   let allUsers = [];
   let expandedUserId = null;
 
-  // ── Sign out ──
+  // ── Back button ──
+  function goBack() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = 'profile.html';
+    }
+  }
+
   async function signOut() {
     try { await sb.auth.signOut(); } catch(e) {}
     window.location.href = 'index.html';
   }
 
-  // ── Format helpers ──
   function formatDate(d) {
     if (!d) return '—';
     return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
@@ -438,31 +383,24 @@
     return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
-  // ── Stats ──
   function updateStats(users) {
     const total = users.length;
     const active = users.filter(u => u.status === 'active' || u.status === 'trialing').length;
-
     let mrr = 0;
     users.forEach(u => {
       if ((u.status === 'active' || u.status === 'trialing') && !u.cancel_at_period_end) {
-        const price = PLAN_PRICES[u.plan] || 0;
-        // Annual gets divided across 12 months for MRR calc — simplified: assume monthly here
-        mrr += price;
+        mrr += PLAN_PRICES[u.plan] || 0;
       }
     });
-
     const monthAgo = new Date();
     monthAgo.setDate(monthAgo.getDate() - 30);
     const newCount = users.filter(u => new Date(u.user_created_at) > monthAgo).length;
-
     document.getElementById('statTotalUsers').textContent = total;
     document.getElementById('statActive').textContent = active;
     document.getElementById('statMrr').textContent = '$' + mrr.toFixed(0);
     document.getElementById('statNew').textContent = newCount;
   }
 
-  // ── Render user list ──
   function renderUsers(users) {
     const list = document.getElementById('usersList');
     if (!users || users.length === 0) {
@@ -489,7 +427,6 @@
     const planHtml = planLabel
       ? `<div class="user-plan">${escapeHtml(planLabel)}</div>`
       : `<div class="user-plan no-plan">Free</div>`;
-
     const isExpanded = u.user_id === expandedUserId;
     const stripeCustLink = u.stripe_customer_id
       ? `<a href="https://dashboard.stripe.com/test/customers/${escapeHtml(u.stripe_customer_id)}" target="_blank">${escapeHtml(u.stripe_customer_id)} ↗</a>`
@@ -497,55 +434,25 @@
     const stripeSubLink = u.stripe_subscription_id
       ? `<a href="https://dashboard.stripe.com/test/subscriptions/${escapeHtml(u.stripe_subscription_id)}" target="_blank">${escapeHtml(u.stripe_subscription_id)} ↗</a>`
       : '—';
-
     return `
       <div class="user-card ${isExpanded ? 'expanded' : ''}" data-id="${escapeHtml(u.user_id)}">
         <div class="user-main" onclick="toggleExpand('${escapeHtml(u.user_id)}')">
           <div class="user-email">${escapeHtml(u.email || u.user_id)}</div>
-          <div class="user-meta">
-            ${escapeHtml(u.name || '—')} · Joined ${formatDate(u.user_created_at)}
-          </div>
+          <div class="user-meta">${escapeHtml(u.name || '—')} · Joined ${formatDate(u.user_created_at)}</div>
         </div>
         ${statusBadge(u.status, u.cancel_at_period_end)}
         ${planHtml}
         <div class="user-detail">
           <div class="detail-grid">
-            <div class="detail-row">
-              <div class="detail-label">User ID</div>
-              <div class="detail-value mono">${escapeHtml(u.user_id)}</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Display name</div>
-              <div class="detail-value">${escapeHtml(u.name || '—')}</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Joined</div>
-              <div class="detail-value">${formatDateTime(u.user_created_at)}</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Plan</div>
-              <div class="detail-value">${escapeHtml(planLabel || 'Free / no subscription')}</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Subscription status</div>
-              <div class="detail-value">${escapeHtml(u.status || '—')}${u.cancel_at_period_end ? ' (canceling at period end)' : ''}</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">${u.cancel_at_period_end ? 'Access ends' : 'Next renewal'}</div>
-              <div class="detail-value">${formatDate(u.current_period_end)}</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Stripe customer</div>
-              <div class="detail-value mono">${stripeCustLink}</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Stripe subscription</div>
-              <div class="detail-value mono">${stripeSubLink}</div>
-            </div>
-            <div class="detail-row">
-              <div class="detail-label">Last updated</div>
-              <div class="detail-value">${formatDateTime(u.sub_updated_at)}</div>
-            </div>
+            <div class="detail-row"><div class="detail-label">User ID</div><div class="detail-value mono">${escapeHtml(u.user_id)}</div></div>
+            <div class="detail-row"><div class="detail-label">Display name</div><div class="detail-value">${escapeHtml(u.name || '—')}</div></div>
+            <div class="detail-row"><div class="detail-label">Joined</div><div class="detail-value">${formatDateTime(u.user_created_at)}</div></div>
+            <div class="detail-row"><div class="detail-label">Plan</div><div class="detail-value">${escapeHtml(planLabel || 'Free / no subscription')}</div></div>
+            <div class="detail-row"><div class="detail-label">Subscription status</div><div class="detail-value">${escapeHtml(u.status || '—')}${u.cancel_at_period_end ? ' (canceling at period end)' : ''}</div></div>
+            <div class="detail-row"><div class="detail-label">${u.cancel_at_period_end ? 'Access ends' : 'Next renewal'}</div><div class="detail-value">${formatDate(u.current_period_end)}</div></div>
+            <div class="detail-row"><div class="detail-label">Stripe customer</div><div class="detail-value mono">${stripeCustLink}</div></div>
+            <div class="detail-row"><div class="detail-label">Stripe subscription</div><div class="detail-value mono">${stripeSubLink}</div></div>
+            <div class="detail-row"><div class="detail-label">Last updated</div><div class="detail-value">${formatDateTime(u.sub_updated_at)}</div></div>
           </div>
         </div>
       </div>
@@ -557,13 +464,9 @@
     applyFilter();
   }
 
-  // ── Search filter ──
   function applyFilter() {
     const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
-    if (!q) {
-      renderUsers(allUsers);
-      return;
-    }
+    if (!q) { renderUsers(allUsers); return; }
     const filtered = allUsers.filter(u =>
       (u.email || '').toLowerCase().includes(q) ||
       (u.name || '').toLowerCase().includes(q) ||
@@ -574,7 +477,6 @@
     renderUsers(filtered);
   }
 
-  // ── Load users from Supabase ──
   async function loadUsers(isRefresh) {
     const btn = document.getElementById('refreshBtn');
     const originalHTML = btn.innerHTML;
@@ -586,14 +488,9 @@
       allUsers = data || [];
       applyFilter();
       updateStats(allUsers);
-
-      // Visual confirmation flash
       if (isRefresh) {
         btn.innerHTML = '<span class="ms">check_circle</span>Updated';
-        setTimeout(() => {
-          btn.innerHTML = originalHTML;
-          btn.disabled = false;
-        }, 1200);
+        setTimeout(() => { btn.innerHTML = originalHTML; btn.disabled = false; }, 1200);
       } else {
         btn.innerHTML = originalHTML;
         btn.disabled = false;
@@ -601,11 +498,7 @@
     } catch (err) {
       console.error('loadUsers error:', err);
       btn.innerHTML = '<span class="ms">error</span>Error';
-      setTimeout(() => {
-        btn.innerHTML = originalHTML;
-        btn.disabled = false;
-      }, 2000);
-      // Only show full error page on initial load, not on refresh
+      setTimeout(() => { btn.innerHTML = originalHTML; btn.disabled = false; }, 2000);
       if (!isRefresh) {
         document.getElementById('errorDetail').textContent = err.message || String(err);
         document.getElementById('adminState').style.display = 'none';
@@ -616,32 +509,25 @@
     }
   }
 
-  // ── Init: check session + admin status, then load ──
   (async function init() {
     try {
       const { data: { session } } = await sb.auth.getSession();
-
       if (!session || !session.user) {
         document.getElementById('loadingState').style.display = 'none';
         document.getElementById('signedOutState').style.display = 'block';
         setTimeout(() => { window.location.href = 'auth.html'; }, 2000);
         return;
       }
-
       if (!ADMIN_EMAILS.includes(session.user.email)) {
         document.getElementById('loadingState').style.display = 'none';
         document.getElementById('unauthorizedState').style.display = 'block';
         setTimeout(() => { window.location.href = 'index.html'; }, 3000);
         return;
       }
-
       document.getElementById('adminEmail').textContent = session.user.email;
       document.getElementById('loadingState').style.display = 'none';
       document.getElementById('adminState').style.display = 'block';
-
-      // Wire search input
       document.getElementById('searchInput').addEventListener('input', applyFilter);
-
       await loadUsers();
     } catch (err) {
       console.error('init error:', err);
