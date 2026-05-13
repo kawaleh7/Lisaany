@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Lisaany — Learn Arabic</title>
+<title>Quran Norania — Lisaany</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;500;700&display=swap">
@@ -1021,6 +1021,81 @@ body { padding-bottom: 90px !important; }
 /* Hide the redundant in-app topbar (old logo + streak badge) */
 .topbar { display: none !important; }
 
+/* ════════════════════════════════════════════════════════════════
+   PROFILE INDICATOR (red when logged out, green pulsing when in)
+   ════════════════════════════════════════════════════════════════ */
+.lis-profile {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212,163,74,.06);
+  border: 1px solid rgba(212,163,74,.2);
+  color: #e8dcc8;
+  cursor: pointer;
+  transition: all .2s ease;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.lis-profile:hover {
+  background: rgba(212,163,74,.14);
+  border-color: rgba(212,163,74,.5);
+  transform: translateY(-1px);
+}
+.lis-profile-icon {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.lis-profile-initial {
+  display: none;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #d4a347;
+  letter-spacing: 0;
+}
+.lis-profile-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #e07070;
+  border: 2px solid #0a0a0a;
+  box-shadow: 0 0 6px rgba(224,112,112,.5);
+  transition: all .3s;
+}
+.lis-profile.online .lis-profile-icon { display: none; }
+.lis-profile.online .lis-profile-initial { display: inline; }
+.lis-profile.online {
+  background: linear-gradient(135deg, rgba(212,163,74,.18), rgba(212,163,74,.06));
+  border-color: rgba(212,163,74,.5);
+}
+.lis-profile.online .lis-profile-dot {
+  background: #a7d9a6;
+  box-shadow: 0 0 8px rgba(167,217,166,.6);
+  animation: lis-pulse-dot 2s ease-in-out infinite;
+}
+@keyframes lis-pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+@media (max-width: 480px) {
+  .lis-profile { width: 38px; height: 38px; }
+  .lis-profile-icon { width: 16px; height: 16px; }
+  .lis-profile-initial { font-size: 13px; }
+  .lis-profile-dot { width: 8px; height: 8px; top: 3px; right: 3px; }
+}
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1051,12 +1126,13 @@ body { padding-bottom: 90px !important; }
         </svg>
         <span>Log in</span>
       </a>
-      <a href="pricing.html" class="lis-cta">
-        <span>Begin</span>
-        <svg class="lis-ico" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M5 12h14"/>
-          <path d="M13 5l7 7-7 7"/>
+      <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile">
+        <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 21v-1a8 8 0 0 1 16 0v1"/>
         </svg>
+        <span class="lis-profile-initial" id="lis-profile-initial"></span>
+        <span class="lis-profile-dot" id="lis-profile-dot"></span>
       </a>
       <button class="lis-menu-btn" aria-label="Menu" onclick="document.getElementById('lisMobileMenu').classList.toggle('is-open')">
         <svg class="lis-ico" viewBox="0 0 24 24" aria-hidden="true">
@@ -3293,6 +3369,24 @@ render();
     const {createClient:cSb}=supabase;
     const sbApp=cSb('https://cfaxrzfqvoalwznkhwnx.supabase.co','sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa');
     const {data:{session}}=await sbApp.auth.getSession();
+
+    // Update lis-nav profile indicator (red dot / green dot + initial)
+    const profileBtn = document.getElementById('lis-profile-btn');
+    const profileInitial = document.getElementById('lis-profile-initial');
+    if (profileBtn) {
+      if (session) {
+        const name = session.user.user_metadata?.name || session.user.email || 'U';
+        const initial = name.charAt(0).toUpperCase();
+        if (profileInitial) profileInitial.textContent = initial;
+        profileBtn.classList.add('online');
+        profileBtn.title = `Signed in as ${name}`;
+      } else {
+        profileBtn.classList.remove('online');
+        profileBtn.title = 'Sign in';
+      }
+    }
+
+    // Update old in-app auth-btn if still present (legacy)
     const btn=document.getElementById('auth-btn');
     if(!btn)return;
     if(session){
