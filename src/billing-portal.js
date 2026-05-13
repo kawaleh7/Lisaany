@@ -16,24 +16,34 @@ export async function handleBillingPortal(request, env) {
       return json({ error: 'Missing userId' }, 400);
     }
 
+    // Look up the customer ID from Supabase (the source of truth)
+    // instead of using Stripe customers.search (which has indexing lag).
+    const supaRes = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/subscriptions?user_id=eq.${userId}&select=stripe_customer_id&limit=1`,
+      {
+        headers: {
+          'apikey': env.SUPABASE_SERVICE_ROLE_KEY,
+          'Authorization': `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+        },
+      }
+    );
+
+    if (!supaRes.ok) {
+      return json({ error: 'Failed to look up customer' }, 500);
+    }
+
+    const rows = await supaRes.json();
+    if (!rows || rows.length === 0 || !rows[0].stripe_customer_id) {
+      return json({ error: 'No subscription found for this user' }, 404);
+    }
+
+    const customerId = rows[0].stripe_customer_id;
+
     const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
       apiVersion: '2024-06-20',
       httpClient: Stripe.createFetchHttpClient(),
     });
 
-    // Find the Stripe customer for this Supabase user
-    const customers = await stripe.customers.search({
-      query: `metadata['supabase_user_id']:'${userId}'`,
-      limit: 1,
-    });
-
-    if (customers.data.length === 0) {
-      return json({ error: 'No Stripe customer found for this user' }, 404);
-    }
-
-    const customerId = customers.data[0].id;
-
-    // Create a portal session
     const session = await stripe.billingPortal.sessions.create({
       customer: customerId,
       return_url: 'https://lisaany.com/profile.html',
