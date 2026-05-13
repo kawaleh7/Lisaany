@@ -952,6 +952,75 @@ body::after {
   letter-spacing: 0.08em;
 }
 
+/* ════════════════════════════════════════════════════════════════
+   BOTTOM NAV — Fixed positioning, admin-style colors, bigger icons
+   Appended at end so these rules win the cascade.
+   ════════════════════════════════════════════════════════════════ */
+
+.bottom-nav {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 100 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  padding: 14px 20px 24px !important;
+  background: rgba(6,14,27,.97) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-top: 1px solid rgba(212,163,74,.18) !important;
+  border-radius: 28px 28px 0 0 !important;
+  box-shadow: 0 -10px 40px rgba(0,0,0,.6) !important;
+}
+
+.nav-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 5px !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  color: rgba(255,255,255,.4) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: .6px !important;
+  text-transform: uppercase !important;
+  transition: all .2s !important;
+  padding: 4px 8px !important;
+  min-width: 56px !important;
+}
+
+.nav-btn:hover {
+  color: rgba(255,255,255,.75) !important;
+}
+
+.nav-btn.active {
+  color: #d4a347 !important;
+}
+
+.nav-btn .ms {
+  font-family: 'Material Symbols Outlined' !important;
+  font-size: 28px !important;
+  line-height: 1 !important;
+}
+
+@media (max-width: 480px) {
+  .bottom-nav { padding: 12px 12px 20px !important; }
+  .nav-btn { font-size: 10px !important; gap: 4px !important; padding: 2px 4px !important; min-width: 48px !important; }
+  .nav-btn .ms { font-size: 26px !important; }
+}
+
+/* Ensure scrolling content clears the fixed nav */
+body { padding-bottom: 90px !important; }
+.scroll { padding-bottom: 130px !important; }
+
+/* Hide the redundant in-app topbar (old logo + streak badge) */
+.topbar { display: none !important; }
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1633,13 +1702,13 @@ function mkBottomNav(){
     {icon:'home',         lbl:'Home',    href:'index.html'},
     {icon:'menu_book',    lbl:'Read',    href:null},          // current page
     {icon:'translate',    lbl:'Speak',   href:'arabic_platform.html'},
-    {icon:'person',       lbl:'Profile', href:'auth.html'},
+    {icon:'groups',       lbl:'Live Tutor', href:'tutors.html'},
+    {icon:'person',       lbl:'Profile', href:'profile.html'},
   ];
   tabs.forEach((t,i)=>{
     const isActive = (i===1); // Read is the current platform
     const btn=div('nav-btn'+(isActive?' active':''));
     const ic=ms(t.icon, isActive?1:0);
-    ic.style.fontSize='24px';
     btn.appendChild(ic);
     btn.appendChild(document.createTextNode(t.lbl));
     if(t.href){ btn.style.cursor='pointer'; btn.addEventListener('click',()=>{stopAudio(); window.location.href=t.href;}); }
