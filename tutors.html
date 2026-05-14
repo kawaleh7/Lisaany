@@ -265,43 +265,12 @@ body::before{content:'';position:fixed;inset:0;
 .lis-link.is-active{color:#f2be62;font-weight:600}
 .lis-link.is-active::after{transform:scaleX(1) skewX(-8deg)}
 .lis-actions{display:inline-flex;align-items:center;gap:14px}
-.lis-login{
-  font-family:'Inter',sans-serif;
-  font-size:13px;font-weight:500;
-  color:#9a8e78;text-decoration:none;
-  padding:8px 4px;letter-spacing:.01em;
-  display:inline-flex;align-items:center;gap:6px;
-  transition:color .2s ease;cursor:pointer;
-  background:none;border:none;
-}
-.lis-login:hover{color:#f5ecd6}
 .lis-ico{
   width:16px;height:16px;display:inline-block;flex-shrink:0;
   stroke:currentColor;stroke-width:1.8;fill:none;
   stroke-linecap:round;stroke-linejoin:round;
   vertical-align:middle;
 }
-.lis-cta{
-  font-family:'Inter',sans-serif;
-  font-size:13px;font-weight:600;letter-spacing:.02em;
-  color:#0e1018;background:#f5ecd6;
-  text-decoration:none;
-  padding:11px 22px;border-radius:999px;
-  display:inline-flex;align-items:center;gap:8px;
-  transition:all .25s cubic-bezier(.2,.8,.2,1);
-  position:relative;overflow:hidden;
-  border:none;cursor:pointer;
-}
-.lis-cta::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,#f2be62,#d4a347);
-  opacity:0;transition:opacity .25s ease;
-}
-.lis-cta > *{position:relative;z-index:1;transition:transform .25s ease, color .25s ease}
-.lis-cta:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(212,163,74,.35);}
-.lis-cta:hover::before{opacity:1}
-.lis-cta:hover > *{color:#0e1018}
-.lis-cta:hover .lis-ico{transform:translateX(3px)}
 .lis-menu-btn{
   display:none;background:none;
   border:1px solid rgba(212,163,74,.18);border-radius:8px;
@@ -320,7 +289,6 @@ body::before{content:'';position:fixed;inset:0;
     height:68px;padding:0 20px;gap:0;
   }
   .lis-menu-btn{display:inline-flex}
-  .lis-login{display:none}
   .lis-brand-mark{height:42px}
   .lis-brand-text{font-size:20px}
   .lis-brand-divider{height:26px}
@@ -328,7 +296,6 @@ body::before{content:'';position:fixed;inset:0;
 @media(max-width:480px){
   .lis-brand-text{display:none}
   .lis-brand-divider{display:none}
-  .lis-cta{padding:9px 16px;font-size:12px}
 }
 /* Mobile menu drawer */
 .lis-mobile-menu{
@@ -376,28 +343,16 @@ body{padding-bottom:88px;}
   body{padding-bottom:74px;}
 }
 
-/* Login chooser dropdown */
-.login-chooser-wrap{position:relative;display:inline-flex;align-items:center;}
-.login-chooser-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:500;letter-spacing:.01em;color:#e8dcc8;background:none;border:none;padding:8px 6px;cursor:pointer;transition:color .2s ease;white-space:nowrap;}
-.login-chooser-btn .login-svg{width:22px;height:22px;}
-.login-chooser-btn:hover{color:#f5e9c8;}
-.login-chooser-btn svg{stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;}
-.login-chooser-btn .arrow{font-size:10px;transition:transform .25s;}
-.login-chooser-btn.open .arrow{transform:rotate(180deg);}
-.login-chooser-btn .status-dot{width:8px;height:8px;border-radius:50%;background:#e53935;display:inline-block;flex-shrink:0;transition:all .25s;box-shadow:0 0 6px rgba(229,57,53,.6);}
-.login-chooser-btn.is-logged-in .status-dot{background:#8cc995;box-shadow:0 0 8px rgba(140,201,149,.6);animation:status-pulse 2.5s ease-in-out infinite;}
-@keyframes status-pulse{0%,100%{box-shadow:0 0 8px rgba(140,201,149,.6);}50%{box-shadow:0 0 14px rgba(140,201,149,.9);}}
-.login-chooser-btn .user-initial{display:none;width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#8cc995,#5fa86c);color:#0a1410;font-family:'Cinzel',serif;font-size:12px;font-weight:700;align-items:center;justify-content:center;flex-shrink:0;border:1.5px solid rgba(140,201,149,.4);}
-.login-chooser-btn.is-logged-in .user-initial{display:inline-flex;}
-.login-chooser-btn.is-logged-in .login-svg{display:none;}
-.login-chooser-menu{position:fixed;top:74px;right:12px;left:auto;background:rgba(14,16,24,.98);backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);border:1px solid rgba(212,163,74,.3);border-radius:14px;padding:8px;min-width:220px;max-width:calc(100vw - 24px);box-shadow:0 10px 40px rgba(0,0,0,.6);display:none;flex-direction:column;gap:2px;z-index:1001;}
-.login-chooser-menu.open{display:flex;}
-.login-chooser-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;text-decoration:none;color:#e8dcc8;font-family:'Inter',sans-serif;transition:background .2s, color .2s;}
-.login-chooser-item:hover{background:rgba(200,150,62,.1);color:#f5e9c8;}
-.login-chooser-item .ico{width:36px;height:36px;border-radius:10px;background:rgba(200,150,62,.1);border:1px solid rgba(200,150,62,.25);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.login-chooser-item-text{display:flex;flex-direction:column;gap:1px;}
-.login-chooser-item-text .label{font-weight:600;font-size:13.5px;}
-.login-chooser-item-text .sub{font-size:10.5px;color:#9a8e78;font-weight:400;letter-spacing:.3px;}
+/* ── PROFILE INDICATOR (red/green dot, click → profile.html) ── */
+.lis-profile{position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.3);cursor:pointer;text-decoration:none;transition:all .25s;flex-shrink:0;}
+.lis-profile:hover{border-color:var(--gold);background:rgba(212,163,74,.15);}
+.lis-profile-icon{width:18px;height:18px;stroke:rgba(232,220,200,.85);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.lis-profile-initial{display:none;font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.02em;}
+.lis-profile-dot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#e07070;border:2px solid #0e1018;box-sizing:border-box;}
+.lis-profile.online .lis-profile-icon{display:none;}
+.lis-profile.online .lis-profile-initial{display:inline-flex;}
+.lis-profile.online .lis-profile-dot{background:#6dbe7d;animation:lis-profile-pulse 2s infinite;}
+@keyframes lis-profile-pulse{0%,100%{box-shadow:0 0 0 0 rgba(109,190,125,.55);}50%{box-shadow:0 0 0 6px rgba(109,190,125,0);}}
 
 /* ── Mobile fixes (NEW) ── */
 @media (max-width: 640px) {
@@ -495,55 +450,14 @@ body{padding-bottom:88px;}
       <a href="tutors.html" class="lis-link is-active">Live Tutor</a>
     </div>
     <div class="lis-actions">
-      <div class="login-chooser-wrap">
-        <button type="button" class="login-chooser-btn" id="loginChooserBtn" onclick="toggleLoginChooser(event)" aria-label="Account menu">
-          <span class="status-dot" aria-hidden="true"></span>
-          <svg viewBox="0 0 24 24" aria-hidden="true" class="login-svg">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 21c0-4 4-7 8-7s8 3 8 7"/>
-          </svg>
-          <span class="user-initial" id="userInitial" aria-hidden="true">?</span>
-          <span class="arrow">&#9662;</span>
-        </button>
-        <div class="login-chooser-menu" id="loginChooserMenu">
-          <div id="menuLoggedOut">
-            <a href="auth.html" class="login-chooser-item">
-              <span class="ico" style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:#e2b04a;background:linear-gradient(145deg,rgba(200,150,62,0.15),rgba(200,150,62,0.05));border:1px solid rgba(200,150,62,0.4);">S</span>
-              <span class="login-chooser-item-text">
-                <span class="label">Student</span>
-                <span class="sub">Continue learning</span>
-              </span>
-            </a>
-            <a href="tutor_portal.html" class="login-chooser-item">
-              <span class="ico" style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:#e2b04a;background:linear-gradient(145deg,rgba(200,150,62,0.15),rgba(200,150,62,0.05));border:1px solid rgba(200,150,62,0.4);">T</span>
-              <span class="login-chooser-item-text">
-                <span class="label">Staff</span>
-                <span class="sub">Tutor portal</span>
-              </span>
-            </a>
-          </div>
-          <div id="menuLoggedIn" style="display:none;">
-            <div style="padding:8px 14px 12px;border-bottom:1px solid rgba(212,163,74,.15);margin-bottom:6px;">
-              <div style="font-size:11px;color:#9a8e78;font-weight:500;letter-spacing:.5px;text-transform:uppercase;">Signed in as</div>
-              <div id="signedInName" style="font-size:13px;color:#e8dcc8;font-weight:600;margin-top:2px;word-break:break-all;">&mdash;</div>
-            </div>
-            <a href="auth.html" class="login-chooser-item">
-              <span class="ico" style="font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:#8cc995;background:linear-gradient(145deg,rgba(140,201,149,0.12),rgba(140,201,149,0.04));border:1px solid rgba(140,201,149,0.35);">P</span>
-              <span class="login-chooser-item-text">
-                <span class="label">Profile</span>
-                <span class="sub">View account</span>
-              </span>
-            </a>
-            <button type="button" onclick="doSignOutFromHome(event)" class="login-chooser-item" style="background:none;border:none;width:100%;text-align:left;cursor:pointer;font-family:inherit;">
-              <span class="ico" style="font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:#d4a0a0;background:rgba(212,160,160,0.08);border:1px solid rgba(212,160,160,0.3);">&#8599;</span>
-              <span class="login-chooser-item-text">
-                <span class="label">Sign out</span>
-                <span class="sub">End session</span>
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
+      <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
+        <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="lis-profile-initial"></span>
+        <span class="lis-profile-dot"></span>
+      </a>
       <button class="lis-menu-btn" aria-label="Menu" onclick="document.getElementById('lisMobileMenu').classList.toggle('is-open')">
         <svg class="lis-ico" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M3 6h18"/>
@@ -754,56 +668,43 @@ async function checkPremium() {
 renderSchedule();
 checkPremium();
 
-function toggleLoginChooser(e){
-  e.stopPropagation();
-  const btn = document.getElementById('loginChooserBtn');
-  const menu = document.getElementById('loginChooserMenu');
-  btn.classList.toggle('open');
-  menu.classList.toggle('open');
-}
-document.addEventListener('click', function(e){
-  if(!e.target.closest('.login-chooser-wrap')){
-    document.getElementById('loginChooserBtn')?.classList.remove('open');
-    document.getElementById('loginChooserMenu')?.classList.remove('open');
-  }
-});
-const HOME_SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
-const HOME_SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
-(async function checkLoginStatus() {
-  try {
-    let chooserSB = null;
-    try { if (typeof sb !== 'undefined' && sb && sb.auth) chooserSB = sb; } catch(e) {}
-    if (!chooserSB) {
-      if (typeof supabase === 'undefined' || !supabase.createClient) return;
-      chooserSB = supabase.createClient(HOME_SUPABASE_URL, HOME_SUPABASE_KEY);
-    }
-    const { data: { session } } = await chooserSB.auth.getSession();
-    const btn = document.getElementById('loginChooserBtn');
-    const initialEl = document.getElementById('userInitial');
-    const nameEl = document.getElementById('signedInName');
-    const loggedOutMenu = document.getElementById('menuLoggedOut');
-    const loggedInMenu = document.getElementById('menuLoggedIn');
-    if (session && session.user && btn) {
+// ── Profile indicator (red dot = logged out, green pulsing + initial = logged in) ──
+// Always links to profile.html. Navigation is handled by the anchor's href natively.
+(async()=>{
+  try{
+    const btn = document.getElementById('lis-profile-btn');
+    if(!btn) return;
+    if(typeof supabase === 'undefined') return;
+    const {createClient:cSb} = supabase;
+    const sbApp = cSb(
+      'https://cfaxrzfqvoalwznkhwnx.supabase.co',
+      'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa'
+    );
+    const {data:{session}} = await sbApp.auth.getSession();
+    const initialSpan = btn.querySelector('.lis-profile-initial');
+    if(session){
       const meta = session.user.user_metadata || {};
-      const name = meta.name || meta.full_name || (session.user.email || '').split('@')[0] || 'You';
-      const initial = (name[0] || '?').toUpperCase();
-      btn.classList.add('is-logged-in');
-      if (initialEl) initialEl.textContent = initial;
-      if (nameEl) nameEl.textContent = name + ' (' + (session.user.email || '') + ')';
-      if (loggedOutMenu) loggedOutMenu.style.display = 'none';
-      if (loggedInMenu) loggedInMenu.style.display = 'block';
-      window.__lisaanyHomeSB = chooserSB;
+      const name = meta.name || meta.full_name || session.user.email || 'U';
+      const initial = name.trim().charAt(0).toUpperCase() || 'U';
+      if(initialSpan) initialSpan.textContent = initial;
+      btn.classList.add('online');
     }
-  } catch (err) { console.warn('Login status check failed:', err); }
-})();
-async function doSignOutFromHome(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  if (window.__lisaanyHomeSB) {
-    try { await window.__lisaanyHomeSB.auth.signOut(); } catch(err) {}
+    sbApp.auth.onAuthStateChange((_event, newSession) => {
+      if(newSession){
+        const meta = newSession.user.user_metadata || {};
+        const name = meta.name || meta.full_name || newSession.user.email || 'U';
+        const initial = name.trim().charAt(0).toUpperCase() || 'U';
+        if(initialSpan) initialSpan.textContent = initial;
+        btn.classList.add('online');
+      } else {
+        if(initialSpan) initialSpan.textContent = '';
+        btn.classList.remove('online');
+      }
+    });
+  }catch(e){
+    console.warn('Profile indicator init failed:', e);
   }
-  window.location.reload();
-}
+})();
 </script>
 
 <div class="bottom-nav">
