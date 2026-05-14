@@ -157,6 +157,48 @@ body::after{
 
 .auth-wrap{width:100%;max-width:420px;}
 
+/* ── MODE SELECTOR: Student vs Tutor (same style as auth-tabs) ── */
+.mode-tabs{
+  display:flex;gap:4px;
+  background:#243447;
+  border:1px solid rgba(212,163,74,.2);
+  border-radius:14px;padding:4px;margin-bottom:12px;
+  box-shadow:0 4px 20px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.03);
+  box-shadow:var(--shadow-sm);
+  animation:fadeSlideUp 0.8s cubic-bezier(.22,1,.36,1) .7s both;
+}
+.mode-tab{
+  flex:1;border:none;background:transparent;
+  padding:11px 14px;border-radius:10px;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:.5px;
+  color:#8a7d6b;cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.mode-tab:hover{color:#e0b252;}
+.mode-tab.active{
+  background:linear-gradient(135deg,var(--accent-soft),rgba(212,163,74,.09));
+  color:var(--accent);
+  box-shadow:0 1px 4px rgba(212,163,74,.15);
+}
+.mode-tab .ms{font-size:16px;font-variation-settings:'FILL' 0;}
+.mode-tab.active .ms{font-variation-settings:'FILL' 1;}
+
+/* Staff signup note */
+.staff-signup-note{
+  display:none;
+  background:rgba(212,163,74,.06);
+  border:1px dashed rgba(212,163,74,.35);
+  border-radius:12px;
+  padding:14px 16px;
+  margin-bottom:18px;
+  font-size:12px;
+  color:#cdbf9a;
+  line-height:1.6;
+}
+.staff-signup-note.show{display:block;}
+.staff-signup-note strong{color:#e0b252;font-weight:700;}
+
 .auth-tabs{
   display:flex;gap:4px;
   background:rgba(34,50,80,.7);
@@ -647,6 +689,19 @@ body::after{
     </div>
 
     <div id="loggedout-view" style="display:none;">
+
+      <!-- Student / Tutor mode tabs (same style as Sign In / Create Account) -->
+      <div class="mode-tabs">
+        <button class="mode-tab active" id="mode-student-btn" onclick="setMode('student')">
+          <span class="ms">school</span>
+          Student
+        </button>
+        <button class="mode-tab" id="mode-staff-btn" onclick="setMode('staff')">
+          <span class="ms">groups</span>
+          Tutor
+        </button>
+      </div>
+
       <div class="auth-tabs">
         <button class="auth-tab active" onclick="showTab('login',this)">Sign In</button>
         <button class="auth-tab" onclick="showTab('signup',this)">Create Account</button>
@@ -676,17 +731,12 @@ body::after{
           <div style="clear:both;"></div>
         </div>
 
-        <!-- Staff code toggle -->
-        <div class="staff-toggle" id="staff-toggle" onclick="toggleStaffCode()">
-          <span class="ms">school</span>
-          <span>Staff member? Enter your code</span>
-          <span class="ms chev">expand_more</span>
-        </div>
+        <!-- Staff code (shown automatically when 'I'm a Tutor' mode is active) -->
         <div class="staff-code-group" id="staff-code-group">
           <label>Staff Code</label>
           <input type="text" id="staff-code" placeholder="XXXXXX-XXXX" autocomplete="off">
           <div class="staff-code-hint">
-            You must create a regular account first. Sign in with your code to activate staff access.
+            Required for first-time tutor activation. Leave blank if you've already activated.
           </div>
         </div>
 
@@ -716,6 +766,11 @@ body::after{
         <div class="free-banner">
           <span class="ms">check_circle</span>
           Module 1 is free — start today
+        </div>
+
+        <!-- Note shown only when signing up as Tutor -->
+        <div class="staff-signup-note" id="staff-signup-note">
+          <strong>For tutors:</strong> Create your account first. After confirming your email, return here and sign in with your staff code to activate tutor access.
         </div>
 
         <div class="msg msg-err" id="signup-err"></div>
@@ -923,18 +978,31 @@ function togglePass(id, icon) {
   icon.textContent = isPass ? 'visibility_off' : 'visibility';
 }
 
-// ── Staff code toggle ──
-function toggleStaffCode() {
-  const toggle = document.getElementById('staff-toggle');
-  const group = document.getElementById('staff-code-group');
-  const isOpen = group.classList.contains('show');
-  if (isOpen) {
-    group.classList.remove('show');
-    toggle.classList.remove('open');
+// ── Mode (Student / Tutor) ──
+let currentMode = 'student';
+
+function setMode(mode) {
+  currentMode = mode;
+  const studentBtn = document.getElementById('mode-student-btn');
+  const staffBtn = document.getElementById('mode-staff-btn');
+  const codeGroup = document.getElementById('staff-code-group');
+  const signupNote = document.getElementById('staff-signup-note');
+  const freeBanner = document.querySelector('.free-banner');
+
+  if (mode === 'staff') {
+    studentBtn.classList.remove('active');
+    staffBtn.classList.add('active');
+    codeGroup.classList.add('show');
+    signupNote.classList.add('show');
+    if (freeBanner) freeBanner.style.display = 'none';
   } else {
-    group.classList.add('show');
-    toggle.classList.add('open');
-    setTimeout(() => document.getElementById('staff-code').focus(), 100);
+    staffBtn.classList.remove('active');
+    studentBtn.classList.add('active');
+    codeGroup.classList.remove('show');
+    signupNote.classList.remove('show');
+    if (freeBanner) freeBanner.style.display = '';
+    const codeEl = document.getElementById('staff-code');
+    if (codeEl) codeEl.value = '';
   }
 }
 
@@ -1024,6 +1092,7 @@ async function handleLogin() {
   const email = document.getElementById('login-email').value.trim();
   const pass  = document.getElementById('login-pass').value;
   const staffCode = document.getElementById('staff-code').value.trim();
+  const isStaffMode = (currentMode === 'staff');
 
   if (!email || !pass) { showMsg('login-err', 'Please fill in all fields.', 'err'); showToast('Please fill in all fields', 'err'); return; }
   if (!email.includes('@')) { showMsg('login-err', 'Please enter a valid email.', 'err'); showToast('Please enter a valid email', 'err'); return; }
@@ -1038,50 +1107,66 @@ async function handleLogin() {
     return;
   }
 
-  // If staff code provided, try to redeem
-  if (staffCode) {
-    try {
-      const { data: result, error: rpcError } = await sb.rpc('redeem_staff_code', { code: staffCode });
-      if (rpcError) {
+  const user = data.user;
+  const userEmail = (user.email || '').toLowerCase();
+  const existingRole = user.app_metadata?.role;
+
+  // Staff mode flow
+  if (isStaffMode) {
+    // If user provided a code, try to redeem it
+    if (staffCode) {
+      try {
+        const { data: result, error: rpcError } = await sb.rpc('redeem_staff_code', { code: staffCode });
+        if (rpcError) {
+          setLoading('login-btn', false);
+          showMsg('login-err', 'Staff code error: ' + rpcError.message, 'err');
+          showToast('Staff code error', 'err');
+          return;
+        }
+        if (!result || !result.success) {
+          setLoading('login-btn', false);
+          showMsg('login-err', (result && result.error) || 'Invalid staff code', 'err');
+          showToast('Invalid staff code', 'err');
+          return;
+        }
+        await sb.auth.refreshSession();
         setLoading('login-btn', false);
-        showMsg('login-err', 'Staff code error: ' + rpcError.message, 'err');
-        showToast('Staff code error', 'err');
+        showToast('Tutor access activated', 'ok');
+        setTimeout(() => { window.location.href = 'staff.html'; }, 700);
+        return;
+      } catch (e) {
+        setLoading('login-btn', false);
+        showMsg('login-err', 'Staff redemption failed: ' + e.message, 'err');
         return;
       }
-      if (!result || !result.success) {
-        setLoading('login-btn', false);
-        showMsg('login-err', (result && result.error) || 'Invalid staff code', 'err');
-        showToast('Invalid staff code', 'err');
-        return;
-      }
-      // Success — refresh session to pick up new app_metadata, then redirect
-      await sb.auth.refreshSession();
+    }
+    // No code provided — check if already staff
+    if (existingRole === 'staff' || OWNER_EMAILS.includes(userEmail)) {
       setLoading('login-btn', false);
-      showToast('Staff access activated', 'ok');
-      setTimeout(() => { window.location.href = 'staff.html'; }, 800);
-      return;
-    } catch (e) {
-      setLoading('login-btn', false);
-      showMsg('login-err', 'Staff redemption failed: ' + e.message, 'err');
+      showToast('Welcome back', 'ok');
+      setTimeout(() => { window.location.href = 'staff.html'; }, 500);
       return;
     }
+    // Neither code nor existing staff role — reject
+    setLoading('login-btn', false);
+    await sb.auth.signOut(); // sign them back out
+    showMsg('login-err', 'Tutor sign-in requires a staff code. Get one from the owner.', 'err');
+    showToast('Staff code required', 'err');
+    return;
   }
 
+  // Student mode flow
   setLoading('login-btn', false);
   showToast('Welcome back!', 'ok');
 
-  // Route by role (in case they were already staff before this login)
-  if (data && data.user) {
-    const redirect = routeUserByRole(data.user);
-    if (redirect) {
-      setTimeout(() => { window.location.href = redirect; }, 600);
-      return;
-    }
-    document.getElementById('loggedout-view').style.display = 'none';
-    showProfile(data.user);
-  } else {
-    window.location.reload();
+  // Route by existing role (in case they signed in via Student tab but are actually staff)
+  const redirect = routeUserByRole(data.user);
+  if (redirect) {
+    setTimeout(() => { window.location.href = redirect; }, 600);
+    return;
   }
+  document.getElementById('loggedout-view').style.display = 'none';
+  showProfile(data.user);
 }
 
 async function handleSignup() {
