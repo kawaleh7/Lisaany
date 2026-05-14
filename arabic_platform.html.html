@@ -1046,6 +1046,7 @@ body::after {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,500;9..144,600;9..144,700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
 <script src="plan.js" defer></script>
 <script src="paywall.js" defer></script>
+<script src="nav-role.js" defer></script>
 </head>
 <body>
 <!-- LISAANY BANNER -->
@@ -1060,8 +1061,7 @@ body::after {
       <a href="index.html" class="lis-link">Home</a>
       <a href="arabic_platform.html" class="lis-link is-active">Learn</a>
       <a href="pricing.html" class="lis-link">Pricing</a>
-      <a href="tutors.html" class="lis-link">Tutors</a>
-      <a href="sessions.html" class="lis-link">Sessions</a>
+      <a href="tutors.html" class="lis-link">Live Tutor</a>
     </div>
     <div class="lis-actions">
       <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
@@ -1093,8 +1093,7 @@ body::after {
   <a href="index.html" class="lis-link">Home</a>
   <a href="arabic_platform.html" class="lis-link is-active">Learn</a>
   <a href="pricing.html" class="lis-link">Pricing</a>
-  <a href="tutors.html" class="lis-link">Tutors</a>
-  <a href="sessions.html" class="lis-link">Sessions</a>
+  <a href="tutors.html" class="lis-link">Live Tutor</a>
 </div>
 <!-- /LISAANY BANNER -->
 
@@ -5011,7 +5010,7 @@ function mkNav(){
     {icon:'home',         lbl:'Home',    href:'index.html'},
     {icon:'menu_book',    lbl:'Read',    href:'lisaany_new.html'},
     {icon:'mic',          lbl:'Speak',   href:null},          // current page
-    {icon:'groups',       lbl:'Tutors',  href:'tutors.html'},
+    {icon:'groups',       lbl:'Live Tutor',  href:'tutors.html'},
     {icon:'person',       lbl:'Profile', href:'auth.html'},
   ];
   tabs.forEach((t,i)=>{
