@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,300..700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="plan.js" defer></script>
+<script src="paywall.js" defer></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -28,7 +30,7 @@ body::before{content:'';position:fixed;inset:0;
              radial-gradient(ellipse 100% 100% at 50% 100%,rgba(5,8,20,.4) 0%,transparent 70%);
   pointer-events:none;z-index:0;opacity:1;}
 
-.page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 80px;}
+.page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 80px;transition:filter .3s ease;}
 
 /* Nav */
 .nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;}
@@ -642,7 +644,15 @@ function renderSchedule() {
 
 const MEET_URL = 'https://meet.google.com/dpm-fyoc-htv';
 
-function joinSession() {
+async function joinSession() {
+  // === GATE: Live Tutor is Premium-only ===
+  // Defense in depth — page is also blurred for non-premium users below.
+  if (window.lisaanyPlan && !(await window.lisaanyPlan.hasLiveTutor())) {
+    if (window.lisaanyPaywall) {
+      window.lisaanyPaywall.show({ context: 'live_tutor' });
+    }
+    return;
+  }
   window.open(MEET_URL, '_blank');
 }
 
@@ -654,19 +664,47 @@ function setReminder(day, time, idx) {
 }
 
 async function checkPremium() {
+  // Show recordings section only for users with Live Tutor access
   try {
-    const { createClient } = supabase;
-    const sb = createClient('https://cfaxrzfqvoalwznkhwnx.supabase.co','sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa');
-    const { data: { session } } = await sb.auth.getSession();
-    if(session?.user?.user_metadata?.plan === 'premium') {
+    if (!window.lisaanyPlan) return;
+    const hasAccess = await window.lisaanyPlan.hasLiveTutor();
+    if (hasAccess) {
       document.getElementById('premium-gate').style.display = 'none';
       document.getElementById('recordings').style.display = 'flex';
     }
-  } catch(e) {}
+  } catch(e) { console.warn('checkPremium error:', e); }
 }
 
 renderSchedule();
-checkPremium();
+
+// === LIVE TUTOR PAGE GATE ===
+// Free and Basic users see the upgrade modal with the page content blurred behind.
+// Premium monthly/yearly users see the page normally.
+window.addEventListener('load', async function gateLiveTutorPage() {
+  // Wait briefly for plan.js to load (it's deferred)
+  for (let i = 0; i < 30 && !window.lisaanyPlan; i++) {
+    await new Promise(r => setTimeout(r, 100));
+  }
+  if (!window.lisaanyPlan) {
+    console.warn('plan.js did not load — failing open');
+    return;
+  }
+  const hasAccess = await window.lisaanyPlan.hasLiveTutor();
+  if (!hasAccess) {
+    const page = document.querySelector('.page');
+    if (page) {
+      page.style.filter = 'blur(8px)';
+      page.style.pointerEvents = 'none';
+      page.style.userSelect = 'none';
+    }
+    if (window.lisaanyPaywall) {
+      window.lisaanyPaywall.show({ context: 'live_tutor' });
+    }
+  } else {
+    // Premium user — also check recordings gate
+    checkPremium();
+  }
+});
 
 // ── Profile indicator (red dot = logged out, green pulsing + initial = logged in) ──
 // Always links to profile.html. Navigation is handled by the anchor's href natively.
