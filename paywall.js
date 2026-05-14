@@ -273,9 +273,9 @@
     if (window.lisaanyPlan) {
       currentPlan = await window.lisaanyPlan.getPlan();
     }
-    // Don't show to premium users — paying customers shouldn't see paywalls
-    if (currentPlan === 'premium_monthly' || currentPlan === 'premium_yearly') {
-      console.warn('paywall.show() ignored for premium user');
+    // Don't show to premium or staff users — paying customers + tutors shouldn't see paywalls
+    if (currentPlan === 'premium_monthly' || currentPlan === 'premium_yearly' || currentPlan === 'staff') {
+      console.warn('paywall.show() ignored for', currentPlan, 'user');
       return;
     }
 
