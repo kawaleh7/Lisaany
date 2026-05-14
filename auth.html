@@ -1041,7 +1041,7 @@ function routeUserByRole(user) {
     return null;
   }
   if (role === 'staff') {
-    return 'staff.html';
+    return 'tutor_portal.html';
   }
   return null; // student: stay on profile view
 }
@@ -1132,7 +1132,7 @@ async function handleLogin() {
         await sb.auth.refreshSession();
         setLoading('login-btn', false);
         showToast('Tutor access activated', 'ok');
-        setTimeout(() => { window.location.href = 'staff.html'; }, 700);
+        setTimeout(() => { window.location.href = 'tutor_portal.html'; }, 700);
         return;
       } catch (e) {
         setLoading('login-btn', false);
@@ -1144,7 +1144,7 @@ async function handleLogin() {
     if (existingRole === 'staff' || OWNER_EMAILS.includes(userEmail)) {
       setLoading('login-btn', false);
       showToast('Welcome back', 'ok');
-      setTimeout(() => { window.location.href = 'staff.html'; }, 500);
+      setTimeout(() => { window.location.href = 'tutor_portal.html'; }, 500);
       return;
     }
     // Neither code nor existing staff role — reject
