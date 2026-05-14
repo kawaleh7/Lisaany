@@ -597,7 +597,8 @@ function renderSchedule() {
     
     const localTimeStr = sessionStart.toLocaleTimeString([], {hour:'numeric', minute:'2-digit', hour12:true});
     const TEST_LIVE = new URLSearchParams(window.location.search).get('test') === 'live';
-    const isLive = TEST_LIVE || (now >= sessionStart && now <= sessionEnd);
+    const tenMinBefore = new Date(sessionStart.getTime() - 10*60*1000);
+    const isLive = TEST_LIVE || (now >= tenMinBefore && now <= sessionEnd);
 
     if(isLive) {
       const banner = document.getElementById('live-banner');
