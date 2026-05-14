@@ -2,30 +2,41 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google" content="notranslate">
 <title>Lisaany — Pricing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&family=Cormorant+Garamond:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="plan.js" defer></script>
+<script src="paywall.js" defer></script>
+<script src="nav-role.js" defer></script>
 <style>
   :root {
     --bg: #060e1b;
-    --card: rgba(17,25,39,.6);
+    --bg-2: #0a1426;
+    --card: rgba(17,25,39,.55);
+    --card-elevated: rgba(25,38,62,.7);
     --gold: #d4a347;
     --gold-lt: #f2d080;
-    --text: #e8dcc8;
-    --dim: #c4b89a;
-    --green: #a7d9a6;
-    --border: rgba(212,163,74,.18);
+    --gold-bright: #f2be62;
+    --text: #f0e6cf;
+    --text-2: #d5cab0;
+    --dim: #9c8e74;
+    --dim-2: #6f654f;
+    --green: #7bc89e;
+    --green-bg: rgba(125,200,158,.12);
+    --border: rgba(212,163,74,.15);
+    --border-strong: rgba(212,163,74,.4);
     --on-gold: #1a1208;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   .ms { font-family: 'Material Symbols Outlined'; font-variation-settings: 'FILL' 1; line-height: 1; }
 
+  html { scroll-behavior: smooth; }
   body {
     font-family: 'Inter', sans-serif;
     background: var(--bg);
@@ -33,13 +44,15 @@
     min-height: 100vh;
     padding: 24px 20px 110px;
     position: relative;
+    -webkit-font-smoothing: antialiased;
   }
   body::before {
     content: '';
     position: fixed; inset: 0;
     background:
-      radial-gradient(ellipse 90% 55% at 50% -5%, rgba(232,200,120,.05) 0%, transparent 60%),
-      radial-gradient(ellipse 100% 100% at 50% 100%, rgba(5,8,20,.4) 0%, transparent 70%);
+      radial-gradient(ellipse 90% 50% at 50% -10%, rgba(232,200,120,.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(212,163,74,.04) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 0% 100%, rgba(74,144,217,.025) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
@@ -47,190 +60,500 @@
   .stage {
     position: relative;
     z-index: 1;
-    max-width: 460px;
+    max-width: 1100px;
     margin: 0 auto;
   }
 
-  /* Back button */
+  /* Top bar */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
   .back-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: rgba(212,163,74,.08);
+    gap: 8px;
+    background: rgba(212,163,74,.06);
     border: 1px solid var(--border);
-    color: var(--text);
-    padding: 9px 16px;
-    border-radius: 10px;
+    color: var(--text-2);
+    padding: 10px 16px;
+    border-radius: 12px;
     font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
-    transition: all .2s;
-    margin-bottom: 8px;
+    transition: all .25s;
   }
   .back-btn:hover {
-    background: rgba(212,163,74,.15);
-    border-color: rgba(212,163,74,.4);
+    background: rgba(212,163,74,.12);
+    border-color: var(--border-strong);
+    color: var(--text);
+    transform: translateX(-2px);
   }
-  .back-btn .arrow { font-size: 18px; line-height: 1; }
+  .topbar-right {
+    font-size: 12px;
+    color: var(--dim);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .topbar-right .ms { font-size: 14px; color: var(--green); }
 
   /* Hero */
-  .hero { text-align: center; padding: 20px 0 28px; }
-  .icon-wrap {
-    position: relative;
-    display: inline-flex;
+  .hero {
+    text-align: center;
+    padding: 32px 0 56px;
+    animation: fadeUp .7s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Brand display block — diamond divider + LISAANY + tagline */
+  .brand-display {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+    gap: 16px;
+    margin-bottom: 38px;
+    animation: brandReveal 1s cubic-bezier(.22,1,.36,1) both;
   }
-  .icon-glow {
-    position: absolute;
-    width: 120px; height: 120px;
-    border-radius: 50%;
-    background: rgba(212,163,74,.06);
-    filter: blur(36px);
+  @keyframes brandReveal {
+    from { opacity: 0; transform: translateY(-12px) scale(.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
   }
-  .icon {
-    width: 100px; height: 100px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #1a1500, #2a2000);
-    border: 2px solid var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    color: var(--gold);
-    font-size: 48px;
-    position: relative;
-    z-index: 1;
-    box-shadow: 0 0 40px rgba(212,163,74,.3);
+
+  .brand-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 220px;
+    height: 12px;
+    animation: dividerGrow 1.2s cubic-bezier(.22,1,.36,1) .15s both;
   }
-  .hero h2 {
+  @keyframes dividerGrow {
+    from { opacity: 0; width: 0; }
+    to   { opacity: 1; width: 220px; }
+  }
+  .brand-divider .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212,163,74,.55), transparent);
+  }
+  .brand-divider .diamond {
+    width: 6px;
+    height: 6px;
+    background: #e0b252;
+    transform: rotate(45deg);
+    box-shadow: 0 0 10px rgba(242,190,98,.7), 0 0 20px rgba(242,190,98,.35);
+    flex-shrink: 0;
+  }
+
+  .brand-name {
     font-family: 'Cinzel', serif;
-    font-size: 26px;
+    font-size: clamp(38px, 7vw, 56px);
+    font-weight: 700;
+    letter-spacing: .32em;
+    margin-left: .32em; /* compensate for trailing letter-spacing */
+    line-height: 1;
+    background: linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #e0b252 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 18px rgba(242,190,98,.4)) drop-shadow(0 0 40px rgba(242,190,98,.18));
+    animation: brandReveal 1s cubic-bezier(.22,1,.36,1) .3s both, glowPulseBrand 5s ease-in-out 1.5s infinite;
+  }
+  @keyframes glowPulseBrand {
+    0%, 100% { filter: drop-shadow(0 0 18px rgba(242,190,98,.4)) drop-shadow(0 0 40px rgba(242,190,98,.18)); }
+    50%      { filter: drop-shadow(0 0 24px rgba(242,190,98,.55)) drop-shadow(0 0 52px rgba(242,190,98,.25)); }
+  }
+
+  .brand-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .35em;
+    margin-left: .35em;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #e0b252 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 8px rgba(242,190,98,.35));
+    animation: brandReveal 1s cubic-bezier(.22,1,.36,1) .5s both;
+  }
+
+  .hero h1, .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 5vw, 44px);
     font-weight: 700;
     color: var(--text);
-    margin-bottom: 10px;
+    margin-bottom: 14px;
+    letter-spacing: -.5px;
+    line-height: 1.2;
   }
-  .hero p {
-    font-size: 14px;
+  .hero h1 .accent, .hero-title .accent {
+    background: linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #e0b252 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 14px rgba(242,190,98,.45)) drop-shadow(0 0 28px rgba(242,190,98,.2));
+    letter-spacing: .04em;
+  }
+  .hero-sub {
+    font-size: 15px;
     color: var(--dim);
-    line-height: 1.65;
-    max-width: 320px;
+    line-height: 1.7;
+    max-width: 520px;
     margin: 0 auto;
   }
 
-  /* Plan cards */
-  .plan-card {
-    border-radius: 20px;
-    border: 1.5px solid var(--border);
+  /* Plans grid */
+  .plans-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 56px;
+    align-items: stretch;
+  }
+  @media (min-width: 820px) {
+    .plans-grid {
+      grid-template-columns: 1fr 1.05fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+  }
+
+  .plan {
     background: var(--card);
-    padding: 20px;
-    margin-bottom: 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 22px;
+    padding: 28px 24px 24px;
+    display: flex;
+    flex-direction: column;
     position: relative;
-    cursor: pointer;
-    transition: all .2s;
+    transition: all .35s cubic-bezier(.22,1,.36,1);
+    opacity: 0;
+    transform: translateY(14px);
+    animation: planIn .55s cubic-bezier(.22,1,.36,1) forwards;
   }
-  .plan-card:hover {
-    transform: translateY(-1px);
-    border-color: rgba(212,163,74,.5);
+  .plan:nth-child(1) { animation-delay: .1s; }
+  .plan:nth-child(2) { animation-delay: .2s; }
+  .plan:nth-child(3) { animation-delay: .3s; }
+  @keyframes planIn { to { opacity: 1; transform: translateY(0); } }
+
+  .plan:hover {
+    border-color: rgba(212,163,74,.45);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,.32);
   }
-  .plan-card.popular {
-    border-color: var(--gold);
-    background: rgba(212,163,74,.06);
+  .plan.featured {
+    border-color: rgba(242,190,98,.5);
+    background: linear-gradient(180deg, rgba(212,163,74,.08), rgba(212,163,74,.02));
+    box-shadow: 0 0 0 1px rgba(242,190,98,.18), 0 16px 50px rgba(212,163,74,.12);
   }
-  .plan-card.loading {
-    pointer-events: none;
-    opacity: 0.55;
+  @media (min-width: 820px) {
+    .plan.featured {
+      transform: translateY(-12px) scale(1.02);
+      padding: 32px 26px 26px;
+      z-index: 2;
+    }
+    .plan.featured:hover {
+      transform: translateY(-16px) scale(1.02);
+    }
   }
-  .popular-badge {
+  .plan.featured:hover {
+    border-color: var(--gold-bright);
+    box-shadow: 0 0 0 1px rgba(242,190,98,.35), 0 22px 60px rgba(212,163,74,.2);
+  }
+  .plan.loading { pointer-events: none; opacity: .5; }
+
+  .plan-badge {
     position: absolute;
-    top: -11px;
-    right: 16px;
-    background: var(--gold);
-    color: var(--on-gold);
-    font-size: 10.5px;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
     font-weight: 800;
-    letter-spacing: .1em;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
     padding: 5px 14px;
     border-radius: 999px;
-  }
-  .plan-row {
-    display: flex;
+    line-height: 1;
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 5px;
+    white-space: nowrap;
   }
-  .plan-left { min-width: 0; }
+  .plan-badge.popular {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+    color: var(--on-gold);
+    box-shadow: 0 4px 14px rgba(212,163,74,.4);
+  }
+  .plan-badge.savings {
+    background: linear-gradient(135deg, var(--green), #5fa882);
+    color: #07241a;
+    box-shadow: 0 4px 14px rgba(76,168,122,.35);
+  }
+
+  .plan-header { margin-bottom: 16px; }
   .plan-name {
     font-family: 'Cinzel', serif;
     font-size: 17px;
     font-weight: 700;
     color: var(--text);
+    letter-spacing: .4px;
+    margin-bottom: 4px;
   }
-  .plan-card.popular .plan-name { color: var(--gold); }
-  .plan-desc {
-    font-size: 13px;
+  .plan.featured .plan-name { color: var(--gold-bright); }
+  .plan-tagline {
+    font-size: 12.5px;
     color: var(--dim);
-    margin-top: 4px;
     line-height: 1.4;
   }
-  .plan-right { text-align: right; flex-shrink: 0; }
+
   .plan-price {
-    font-family: 'Cinzel', serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--text);
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 6px;
     line-height: 1;
   }
-  .plan-card.popular .plan-price { color: var(--gold); }
-  .plan-period {
-    font-size: 12px;
-    color: var(--dim);
-    margin-top: 5px;
-  }
-  .plan-loading {
-    font-size: 13px;
-    color: var(--gold);
-    margin-top: 8px;
-    font-weight: 600;
-    display: none;
-  }
-  .plan-card.loading .plan-loading { display: block; }
-
-  /* What's included */
-  .included {
-    background: rgba(17,25,39,.5);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 18px;
-    margin-bottom: 16px;
-  }
-  .included-title {
+  .plan-price-main {
     font-family: 'Cinzel', serif;
-    font-size: 15px;
+    font-size: 38px;
     font-weight: 700;
-    color: var(--gold);
-    margin-bottom: 14px;
+    color: var(--text);
+    letter-spacing: -1px;
   }
-  .feature-row {
+  .plan.featured .plan-price-main { color: var(--gold-lt); }
+  .plan-price-period {
+    font-size: 13px;
+    color: var(--dim);
+    font-weight: 500;
+  }
+  .plan-price-note {
+    font-size: 11.5px;
+    color: var(--green);
+    margin-bottom: 22px;
+    font-weight: 600;
+    min-height: 16px;
+  }
+  .plan-price-note.empty { color: var(--dim-2); font-weight: 500; }
+
+  .plan-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .plan-features li {
+    font-size: 13.5px;
+    color: var(--text-2);
+    line-height: 1.45;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .plan-features li .ms {
+    font-size: 17px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .plan-features li .ms.check { color: var(--green); }
+  .plan-features li .ms.dim { color: var(--dim-2); }
+  .plan-features li.dim { color: var(--dim); }
+
+  .plan-cta {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 11px;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 18px;
+    border-radius: 13px;
+    background: transparent;
+    border: 1.5px solid var(--border-strong);
+    color: var(--gold-lt);
+    font-family: 'Cinzel', serif;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all .25s;
+    width: 100%;
   }
-  .feature-row:last-child { margin-bottom: 0; }
-  .feature-icon { font-size: 20px; }
-  .feature-icon.check { color: var(--green); }
-  .feature-icon.soon { color: var(--dim); }
-  .feature-text { font-size: 14px; color: var(--text); line-height: 1.4; }
-  .feature-text.soon { color: var(--dim); }
+  .plan-cta:hover {
+    border-color: var(--gold-bright);
+    background: rgba(212,163,74,.1);
+    color: #fff;
+  }
+  .plan.featured .plan-cta {
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+    color: var(--on-gold);
+    border-color: transparent;
+    box-shadow: 0 6px 20px rgba(212,163,74,.3);
+  }
+  .plan.featured .plan-cta:hover {
+    background: linear-gradient(135deg, var(--gold-lt), var(--gold-bright));
+    box-shadow: 0 8px 26px rgba(212,163,74,.45);
+    transform: translateY(-1px);
+  }
+  .plan-cta .arr {
+    transition: transform .25s;
+    font-size: 14px;
+  }
+  .plan:hover .plan-cta .arr { transform: translateX(3px); }
+  .plan-cta-loading {
+    display: none;
+    align-items: center;
+    gap: 8px;
+  }
+  .plan.loading .plan-cta-text { display: none; }
+  .plan.loading .plan-cta-loading { display: inline-flex; }
+  .spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,.25);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Free reminder */
-  .free-reminder {
+  /* Trust strip */
+  .trust {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-bottom: 64px;
+    padding: 18px;
+    background: rgba(17,25,39,.4);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--text-2);
+    font-weight: 500;
+  }
+  .trust-item .ms { font-size: 18px; color: var(--green); }
+  @media (max-width: 600px) {
+    .trust { gap: 14px; padding: 14px; }
+    .trust-item { font-size: 11.5px; }
+  }
+
+  /* Section title */
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
     text-align: center;
+    margin-bottom: 36px;
+    letter-spacing: -.2px;
+  }
+  .section-sub {
     font-size: 14px;
     color: var(--dim);
-    margin-bottom: 16px;
-    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 36px;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  /* FAQ */
+  .faq-wrap {
+    max-width: 720px;
+    margin: 0 auto 56px;
+  }
+  .faq-item {
+    background: rgba(17,25,39,.4);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color .25s;
+  }
+  .faq-item:hover { border-color: var(--border-strong); }
+  .faq-q {
+    padding: 18px 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text);
+    transition: color .2s;
+    user-select: none;
+  }
+  .faq-q:hover { color: var(--gold-lt); }
+  .faq-q .ms {
+    font-size: 22px;
+    color: var(--gold);
+    transition: transform .3s;
+    flex-shrink: 0;
+  }
+  .faq-item.open .faq-q .ms { transform: rotate(45deg); }
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s cubic-bezier(.22,1,.36,1);
+  }
+  .faq-item.open .faq-a { max-height: 400px; }
+  .faq-a-inner {
+    padding: 0 22px 18px;
+    font-size: 13.5px;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  /* Free-tier reminder card */
+  .free-reminder {
+    background: linear-gradient(135deg, rgba(125,200,158,.06), rgba(125,200,158,.02));
+    border: 1.5px solid rgba(125,200,158,.2);
+    border-radius: 18px;
+    padding: 24px;
+    text-align: center;
+    margin-bottom: 32px;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .free-reminder .ms {
+    font-size: 28px;
+    color: var(--green);
+    margin-bottom: 8px;
+    display: inline-block;
+  }
+  .free-reminder-title {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .free-reminder-text {
+    font-size: 13px;
+    color: var(--dim);
+    line-height: 1.6;
   }
   .free-reminder strong { color: var(--green); }
 
@@ -264,105 +587,143 @@
     .nav-btn { font-size: 9px; }
     .nav-btn .ms { font-size: 22px; }
   }
+
+  /* Mobile tweaks */
+  @media (max-width: 480px) {
+    body { padding: 18px 16px 100px; }
+    .plan { padding: 24px 20px 20px; }
+    .plan-price-main { font-size: 34px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="stage">
 
-  <!-- Back button -->
-  <button type="button" class="back-btn" onclick="goBack()">
-    <span class="arrow">←</span>
-    Back
-  </button>
+  <!-- Top bar -->
+  <div class="topbar">
+    <button type="button" class="back-btn" onclick="goBack()">
+      <span class="ms" style="font-size:18px;">arrow_back</span>
+      Back
+    </button>
+    <div class="topbar-right">
+      <span class="ms">lock</span>
+      Secure checkout · SSL encrypted
+    </div>
+  </div>
 
   <!-- Hero -->
   <div class="hero">
-    <div class="icon-wrap">
-      <div class="icon-glow"></div>
-      <div class="icon"><span class="ms">workspace_premium</span></div>
+    <div class="brand-display">
+      <div class="brand-divider">
+        <span class="line"></span>
+        <span class="diamond"></span>
+        <span class="line"></span>
+      </div>
+      <div class="brand-name">LISAANY</div>
+      <div class="brand-tag">Read · Speak · Master</div>
     </div>
-    <h2>Unlock Full Access</h2>
-    <p>Get unlimited access to all 5 modules, 10 units, 40 time blocks — plus live tutor sessions when you're ready.</p>
+    <h1 class="hero-title">Master Arabic <span class="accent">NOW</span></h1>
   </div>
 
-  <!-- Plan cards -->
-  <div class="plan-card" id="card-basic" onclick="selectPlan('basic_monthly', this)">
-    <div class="plan-row">
-      <div class="plan-left">
+  <!-- Plans grid -->
+  <div class="plans-grid">
+
+    <!-- BASIC -->
+    <div class="plan" id="card-basic">
+      <div class="plan-header">
         <div class="plan-name">Basic</div>
-        <div class="plan-desc">Self-paced · Cancel anytime</div>
+        <div class="plan-tagline">Self-paced learning</div>
       </div>
-      <div class="plan-right">
-        <div class="plan-price">$12.99</div>
-        <div class="plan-period">/month</div>
+      <div class="plan-price">
+        <span class="plan-price-main">$12.99</span>
+        <span class="plan-price-period">/month</span>
       </div>
+      <div class="plan-price-note empty">Billed monthly</div>
+      <ul class="plan-features">
+        <li><span class="ms check">check_circle</span>Full Arabic curriculum (5 modules · 40 units)</li>
+        <li><span class="ms check">check_circle</span>Complete Tajweed lesson library</li>
+        <li><span class="ms check">check_circle</span>Real Arabic dialogues with audio</li>
+        <li><span class="ms check">check_circle</span>Grammar tables + sentence builder</li>
+        <li><span class="ms check">check_circle</span>Progress tracking, XP, streaks</li>
+        <li class="dim"><span class="ms dim">remove_circle_outline</span>No live tutor sessions</li>
+      </ul>
+      <button class="plan-cta" onclick="selectPlan('basic_monthly', this.closest('.plan'))">
+        <span class="plan-cta-text"><span>Choose Basic</span> <span class="ms arr">arrow_forward</span></span>
+        <span class="plan-cta-loading"><span class="spinner"></span>Loading…</span>
+      </button>
     </div>
-    <div class="plan-loading">Loading checkout…</div>
+
+    <!-- PREMIUM MONTHLY (featured) -->
+    <div class="plan featured" id="card-premium-monthly">
+      <div class="plan-badge popular">★ Most Popular</div>
+      <div class="plan-header">
+        <div class="plan-name">Premium</div>
+        <div class="plan-tagline">Everything + Live Tutor</div>
+      </div>
+      <div class="plan-price">
+        <span class="plan-price-main">$29.99</span>
+        <span class="plan-price-period">/month</span>
+      </div>
+      <div class="plan-price-note empty">Billed monthly</div>
+      <ul class="plan-features">
+        <li><span class="ms check">check_circle</span>Everything in Basic</li>
+        <li><span class="ms check">check_circle</span>Live group tutor sessions (3 per week)</li>
+        <li><span class="ms check">check_circle</span>Real Arabic teacher feedback</li>
+        <li><span class="ms check">check_circle</span>Recorded session library</li>
+        <li><span class="ms check">check_circle</span>Priority email support</li>
+        <li><span class="ms check">check_circle</span>Certificate of completion (coming soon)</li>
+      </ul>
+      <button class="plan-cta" onclick="selectPlan('premium_monthly', this.closest('.plan'))">
+        <span class="plan-cta-text"><span>Start Premium</span> <span class="ms arr">arrow_forward</span></span>
+        <span class="plan-cta-loading"><span class="spinner"></span>Loading…</span>
+      </button>
+    </div>
+
+    <!-- PREMIUM YEARLY -->
+    <div class="plan" id="card-premium-yearly">
+      <div class="plan-badge savings">Save 67%</div>
+      <div class="plan-header">
+        <div class="plan-name">Premium Yearly</div>
+        <div class="plan-tagline">Best value · 12 months</div>
+      </div>
+      <div class="plan-price">
+        <span class="plan-price-main">$119.99</span>
+        <span class="plan-price-period">/year</span>
+      </div>
+      <div class="plan-price-note">Just $9.99/month · Save $239</div>
+      <ul class="plan-features">
+        <li><span class="ms check">check_circle</span>Everything in Premium</li>
+        <li><span class="ms check">check_circle</span>Two months free</li>
+        <li><span class="ms check">check_circle</span>Lock in $9.99/mo equivalent</li>
+        <li><span class="ms check">check_circle</span>Cancel anytime before renewal</li>
+        <li><span class="ms check">check_circle</span>Priority email support</li>
+        <li><span class="ms check">check_circle</span>Certificate of completion (coming soon)</li>
+      </ul>
+      <button class="plan-cta" onclick="selectPlan('premium_yearly', this.closest('.plan'))">
+        <span class="plan-cta-text"><span>Get Best Value</span> <span class="ms arr">arrow_forward</span></span>
+        <span class="plan-cta-loading"><span class="spinner"></span>Loading…</span>
+      </button>
+    </div>
+
   </div>
 
-  <div class="plan-card popular" id="card-pro-monthly" onclick="selectPlan('pro_monthly', this)">
-    <div class="popular-badge">MOST POPULAR</div>
-    <div class="plan-row">
-      <div class="plan-left">
-        <div class="plan-name">Pro Monthly</div>
-        <div class="plan-desc">With live tutor sessions</div>
-      </div>
-      <div class="plan-right">
-        <div class="plan-price">$29.99</div>
-        <div class="plan-period">/month</div>
-      </div>
-    </div>
-    <div class="plan-loading">Loading checkout…</div>
+  <!-- Trust strip -->
+  <div class="trust">
+    <div class="trust-item"><span class="ms">check_circle</span>Cancel anytime</div>
+    <div class="trust-item"><span class="ms">lock</span>Secure Stripe checkout</div>
+    <div class="trust-item"><span class="ms">credit_card</span>All major cards accepted</div>
   </div>
 
-  <div class="plan-card" id="card-pro-annual" onclick="selectPlan('pro_annual', this)">
-    <div class="plan-row">
-      <div class="plan-left">
-        <div class="plan-name">Pro Annual</div>
-        <div class="plan-desc">Save 67% · Best value</div>
-      </div>
-      <div class="plan-right">
-        <div class="plan-price">$119.99</div>
-        <div class="plan-period">/year</div>
-      </div>
-    </div>
-    <div class="plan-loading">Loading checkout…</div>
-  </div>
-
-  <!-- What's Included -->
-  <div class="included">
-    <div class="included-title">What's Included</div>
-    <div class="feature-row">
-      <span class="ms feature-icon check">check_circle</span>
-      <span class="feature-text">5 Modules · 10 Units · 40 Time Blocks</span>
-    </div>
-    <div class="feature-row">
-      <span class="ms feature-icon check">check_circle</span>
-      <span class="feature-text">Real Arabic dialogues with audio</span>
-    </div>
-    <div class="feature-row">
-      <span class="ms feature-icon check">check_circle</span>
-      <span class="feature-text">Grammar tables + sentence builder</span>
-    </div>
-    <div class="feature-row">
-      <span class="ms feature-icon check">check_circle</span>
-      <span class="feature-text">Progress tracking + XP + Streaks</span>
-    </div>
-    <div class="feature-row">
-      <span class="ms feature-icon soon">schedule</span>
-      <span class="feature-text soon">Live tutor sessions (Pro only)</span>
-    </div>
-    <div class="feature-row">
-      <span class="ms feature-icon soon">schedule</span>
-      <span class="feature-text soon">Certificate of completion — coming soon</span>
-    </div>
-  </div>
-
-  <!-- Free tier reminder -->
+  <!-- Free-tier reminder -->
   <div class="free-reminder">
-    ✓ Module 1 is <strong>always free</strong> — no credit card needed
+    <span class="ms">redeem</span>
+    <div class="free-reminder-title">Try before you buy</div>
+    <div class="free-reminder-text">
+      <strong>Module 1</strong> and the first two Tajweed lessons are <strong>always free</strong> — no credit card needed.
+    </div>
   </div>
+
 
 </div>
 
@@ -393,21 +754,27 @@
 <script>
   // ── Back button ──
   function goBack() {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = 'index.html';
-    }
+    if (window.history.length > 1) window.history.back();
+    else window.location.href = 'index.html';
+  }
+
+  // ── FAQ toggle ──
+  function toggleFaq(qEl) {
+    const item = qEl.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Optionally close others first for accordion behavior:
+    // document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    item.classList.toggle('open', !isOpen);
   }
 
   // ── Stripe price IDs (test mode) ──
   const PRICE_IDS = {
-    basic_monthly: 'price_1TVwYmRpquEfxb9t1DQDAgRE',
-    pro_monthly:   'price_1TVwcgRpquEfxb9tuJYp47Ui',
-    pro_annual:    'price_1TVwcgRpquEfxb9tWbqNnwwP',
+    basic_monthly:    'price_1TVwYmRpquEfxb9t1DQDAgRE',
+    premium_monthly:  'price_1TVwcgRpquEfxb9tuJYp47Ui',
+    premium_yearly:   'price_1TVwcgRpquEfxb9tWbqNnwwP',
   };
 
-  // ── Supabase client ──
+  // ── Supabase ──
   const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -454,7 +821,7 @@
       }
     } catch (err) {
       console.error('Checkout error:', err);
-      alert('Checkout failed.\n\nError: ' + (err.message || err) + '\n\nCheck the browser console for details, or screenshot this and send it.');
+      alert('Checkout failed.\n\nError: ' + (err.message || err) + '\n\nCheck the browser console for details.');
       cardEl.classList.remove('loading');
     }
   }
@@ -484,6 +851,23 @@
       if (data.url) window.location.href = data.url;
     } catch (err) {
       console.warn('Resume checkout failed:', err);
+    }
+  })();
+
+  // ── If premium user lands here, gently redirect to profile ──
+  (async function premiumGuard() {
+    // Wait briefly for plan.js to load
+    for (let i = 0; i < 20 && !window.lisaanyPlan; i++) {
+      await new Promise(r => setTimeout(r, 100));
+    }
+    if (!window.lisaanyPlan) return;
+    const plan = await window.lisaanyPlan.getPlan();
+    if (plan === 'premium_monthly' || plan === 'premium_yearly') {
+      // They already have top-tier access — show a banner instead of redirecting
+      const banner = document.createElement('div');
+      banner.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);background:rgba(125,200,158,.12);border:1px solid rgba(125,200,158,.4);color:#7bc89e;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:100;backdrop-filter:blur(10px);';
+      banner.innerHTML = '✓ You\'re on Premium · <a href="profile.html" style="color:#f2d080;text-decoration:underline;">Manage subscription</a>';
+      document.body.appendChild(banner);
     }
   })();
 </script>
