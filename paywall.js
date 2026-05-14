@@ -217,7 +217,7 @@
       const res = await fetch(STRIPE_CHECKOUT_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ priceId, userId: user.id }),
+        body: JSON.stringify({ priceId, userId: user.id, userEmail: user.email }),
       });
       if (!res.ok) throw new Error('Checkout failed (HTTP ' + res.status + ')');
       const data = await res.json();
