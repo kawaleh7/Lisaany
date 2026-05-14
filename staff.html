@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutor Dashboard — Lisaany</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --bg:#060e1b;
+  --bg-warm:#0a1424;
+  --card:rgba(17,25,39,.6);
+  --card-elevated:rgba(22,32,48,.7);
+  --gold:#d4a347;
+  --gold-lt:#f2d080;
+  --text:#e8dcc8;
+  --text-dim:#b8a884;
+  --text-mute:#8a7d6b;
+  --border:rgba(212,163,74,.18);
+  --border-active:rgba(212,163,74,.5);
+  --green:#a7d9a6;
+  --red:#e07070;
+}
+
+html,body{background:var(--bg);min-height:100vh;}
+body{
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+  padding:24px 20px 80px;
+}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 10%, rgba(212,163,74,.05) 0%, transparent 60%),
+    radial-gradient(ellipse 700px 500px at 80% 90%, rgba(212,163,74,.04) 0%, transparent 60%);
+  pointer-events:none;
+}
+
+.ms{
+  font-family:'Material Symbols Outlined';
+  font-variation-settings:'FILL' 1;
+  font-size:20px;line-height:1;
+  user-select:none;
+}
+
+.wrap{
+  position:relative;z-index:1;
+  max-width:680px;margin:0 auto;
+}
+
+/* ── Header ── */
+.head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:28px;padding-bottom:20px;
+  border-bottom:1px solid var(--border);
+}
+.head-left{display:flex;align-items:center;gap:14px;}
+.avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg, var(--gold), var(--gold-lt));
+  display:flex;align-items:center;justify-content:center;
+  color:#0a1424;font-family:'Cinzel',serif;font-size:20px;font-weight:700;
+  flex-shrink:0;
+  box-shadow:0 4px 16px rgba(212,163,74,.25);
+}
+.head-text h1{
+  font-family:'Cinzel',serif;font-size:18px;font-weight:600;
+  color:var(--gold);letter-spacing:.02em;line-height:1.2;
+}
+.head-text .role{
+  font-size:11px;color:var(--text-mute);
+  letter-spacing:.15em;text-transform:uppercase;font-weight:600;
+  margin-top:2px;
+}
+.role-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 8px;border-radius:12px;
+  background:rgba(212,163,74,.1);
+  border:1px solid var(--border);
+  color:var(--gold);font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+}
+.role-badge .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 6px rgba(167,217,166,.6);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.4);opacity:.6;}
+}
+
+.btn-signout{
+  background:rgba(224,112,112,.08);
+  border:1px solid rgba(224,112,112,.25);
+  color:var(--red);
+  padding:9px 14px;border-radius:10px;
+  font-size:12px;font-weight:600;letter-spacing:.05em;
+  cursor:pointer;transition:all .2s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.btn-signout:hover{
+  background:rgba(224,112,112,.14);
+  border-color:rgba(224,112,112,.4);
+  transform:translateY(-1px);
+}
+.btn-signout .ms{font-size:15px;}
+
+/* ── Section ── */
+.section{margin-bottom:32px;}
+.section-label{
+  font-size:11px;font-weight:700;color:var(--gold);
+  letter-spacing:.2em;text-transform:uppercase;
+  margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.section-label::before{
+  content:'';width:18px;height:1px;background:var(--gold);
+  opacity:.5;
+}
+
+/* ── Session Card ── */
+.session{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;margin-bottom:12px;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  transition:all .25s;
+}
+.session:hover{
+  border-color:var(--border-active);
+  background:var(--card-elevated);
+  transform:translateY(-1px);
+}
+
+.session-title{
+  font-family:'Cinzel',serif;font-size:17px;font-weight:600;
+  color:var(--gold);margin-bottom:6px;
+}
+.session-time{
+  font-size:13px;color:var(--text-dim);
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:14px;
+}
+.session-time .ms{font-size:15px;color:var(--gold);font-variation-settings:'FILL' 0;}
+
+.session-meta{
+  display:flex;gap:14px;font-size:11px;color:var(--text-mute);
+  margin-bottom:14px;letter-spacing:.04em;
+}
+.session-meta span{display:inline-flex;align-items:center;gap:4px;}
+.session-meta .ms{font-size:14px;color:var(--gold);font-variation-settings:'FILL' 0;}
+
+.btn-meet{
+  display:inline-flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg, var(--gold), var(--gold-lt));
+  color:#0a1424;
+  border:none;padding:10px 18px;border-radius:12px;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:700;
+  letter-spacing:.05em;cursor:pointer;
+  text-decoration:none;
+  transition:all .2s;
+  box-shadow:0 4px 14px rgba(212,163,74,.22);
+}
+.btn-meet:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(212,163,74,.36);
+}
+.btn-meet .ms{font-size:16px;}
+
+/* ── Empty State ── */
+.empty{
+  background:var(--card);
+  border:1px dashed var(--border);
+  border-radius:16px;
+  padding:32px 20px;text-align:center;
+  color:var(--text-mute);font-size:13px;
+}
+.empty .ms{font-size:28px;color:var(--gold);opacity:.5;margin-bottom:8px;display:block;font-variation-settings:'FILL' 0;}
+
+/* ── Loading / unauthorized ── */
+.center-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:40px 24px;text-align:center;
+  margin-top:60px;
+}
+.center-card h2{
+  font-family:'Cinzel',serif;color:var(--gold);
+  font-size:18px;margin-bottom:8px;
+}
+.center-card p{font-size:13px;color:var(--text-dim);line-height:1.5;margin-bottom:16px;}
+.center-card a{
+  color:var(--gold);text-decoration:none;font-weight:600;font-size:13px;
+}
+.center-card a:hover{text-decoration:underline;}
+
+.spinner{
+  width:32px;height:32px;
+  border:3px solid var(--border);
+  border-top-color:var(--gold);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+  margin:0 auto 14px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── Footer note ── */
+.note{
+  text-align:center;font-size:11px;color:var(--text-mute);
+  margin-top:36px;line-height:1.6;
+  padding:14px 20px;
+  background:rgba(17,25,39,.4);
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+.note .ms{font-size:14px;vertical-align:middle;color:var(--gold);font-variation-settings:'FILL' 0;}
+
+@media (max-width:480px){
+  body{padding:18px 14px 70px;}
+  .head{flex-direction:column;align-items:flex-start;gap:14px;}
+  .head-left{width:100%;}
+  .btn-signout{align-self:flex-end;}
+  .session{padding:16px;}
+  .session-title{font-size:15px;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- Loading state -->
+  <div id="loading" class="center-card">
+    <div class="spinner"></div>
+    <p>Loading your dashboard...</p>
+  </div>
+
+  <!-- Not authorized state -->
+  <div id="unauthorized" class="center-card" style="display:none;">
+    <h2>Access required</h2>
+    <p>This page is for staff only. Sign in with your staff code to continue.</p>
+    <a href="auth.html">→ Go to sign in</a>
+  </div>
+
+  <!-- Main dashboard -->
+  <div id="dashboard" style="display:none;">
+
+    <div class="head">
+      <div class="head-left">
+        <div class="avatar" id="staff-avatar">T</div>
+        <div class="head-text">
+          <h1 id="staff-name">Tutor</h1>
+          <div class="role">
+            <span class="role-badge">
+              <span class="dot"></span>
+              Staff
+            </span>
+          </div>
+        </div>
+      </div>
+      <button class="btn-signout" onclick="signOut()">
+        <span class="ms">logout</span>
+        Sign out
+      </button>
+    </div>
+
+    <!-- Today -->
+    <div class="section">
+      <div class="section-label">Today</div>
+      <div id="today-list">
+        <!-- Sessions render here -->
+      </div>
+    </div>
+
+    <!-- This Week -->
+    <div class="section">
+      <div class="section-label">This Week</div>
+      <div id="week-list">
+        <!-- Sessions render here -->
+      </div>
+    </div>
+
+    <div class="note">
+      <span class="ms">info</span>
+      Sessions and Google Meet links are managed by the owner. Contact admin to add or update your schedule.
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const { createClient } = supabase;
+const sb = createClient('https://cfaxrzfqvoalwznkhwnx.supabase.co', 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa');
+
+const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
+
+// ── Placeholder sessions (replace with DB query later) ──
+// To make this real, create a `live_sessions` table in Supabase and query it here
+const PLACEHOLDER_SESSIONS = [
+  // {
+  //   id: 1,
+  //   title: 'Tajweed Basics',
+  //   start_time: new Date().toISOString(), // today
+  //   meet_link: 'https://meet.google.com/abc-defg-hij',
+  //   enrolled: 12
+  // }
+];
+
+(async () => {
+  try {
+    const { data: { session } } = await sb.auth.getSession();
+    if (!session || !session.user) {
+      showUnauthorized();
+      return;
+    }
+    const user = session.user;
+    const email = (user.email || '').toLowerCase();
+    const role = user.app_metadata?.role;
+    const isOwner = OWNER_EMAILS.includes(email);
+    const isStaff = role === 'staff';
+
+    if (!isStaff && !isOwner) {
+      showUnauthorized();
+      return;
+    }
+
+    showDashboard(user);
+  } catch (err) {
+    console.error('Session check failed:', err);
+    showUnauthorized();
+  }
+})();
+
+function showUnauthorized() {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('unauthorized').style.display = 'block';
+}
+
+function showDashboard(user) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+
+  const meta = user.user_metadata || {};
+  const name = meta.name || meta.full_name || (user.email ? user.email.split('@')[0] : 'Tutor');
+  const initial = (name && name[0]) ? name[0].toUpperCase() : 'T';
+
+  document.getElementById('staff-name').textContent = name;
+  document.getElementById('staff-avatar').textContent = initial;
+
+  renderSessions();
+}
+
+function renderSessions() {
+  const today = document.getElementById('today-list');
+  const week = document.getElementById('week-list');
+
+  // Filter placeholder sessions (when you have real data, replace this)
+  const todaySessions = filterToday(PLACEHOLDER_SESSIONS);
+  const weekSessions = filterWeek(PLACEHOLDER_SESSIONS);
+
+  // Render today
+  if (todaySessions.length === 0) {
+    today.innerHTML = `
+      <div class="empty">
+        <span class="ms">event_busy</span>
+        No sessions scheduled for today
+      </div>`;
+  } else {
+    today.innerHTML = todaySessions.map(sessionHTML).join('');
+  }
+
+  // Render this week
+  if (weekSessions.length === 0) {
+    week.innerHTML = `
+      <div class="empty">
+        <span class="ms">calendar_today</span>
+        No upcoming sessions this week
+      </div>`;
+  } else {
+    week.innerHTML = weekSessions.map(sessionHTML).join('');
+  }
+}
+
+function sessionHTML(s) {
+  const time = new Date(s.start_time);
+  const formatted = time.toLocaleString(undefined, {
+    weekday: 'short',
+    hour: 'numeric',
+    minute: '2-digit'
+  });
+  return `
+    <div class="session">
+      <div class="session-title">${escapeHTML(s.title)}</div>
+      <div class="session-time">
+        <span class="ms">schedule</span>
+        ${formatted}
+      </div>
+      <div class="session-meta">
+        <span><span class="ms">groups</span> ${s.enrolled || 0} enrolled</span>
+      </div>
+      <a href="${escapeHTML(s.meet_link)}" target="_blank" rel="noopener" class="btn-meet">
+        <span class="ms">videocam</span>
+        Open Google Meet
+      </a>
+    </div>`;
+}
+
+function filterToday(sessions) {
+  const now = new Date();
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const endOfDay = new Date(startOfDay.getTime() + 24*60*60*1000);
+  return sessions.filter(s => {
+    const t = new Date(s.start_time);
+    return t >= startOfDay && t < endOfDay;
+  });
+}
+
+function filterWeek(sessions) {
+  const now = new Date();
+  const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  const endOfWeek = new Date(endOfToday.getTime() + 7*24*60*60*1000);
+  return sessions.filter(s => {
+    const t = new Date(s.start_time);
+    return t >= endOfToday && t < endOfWeek;
+  });
+}
+
+function escapeHTML(s) {
+  if (!s) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+async function signOut() {
+  if (!confirm('Sign out?')) return;
+  await sb.auth.signOut();
+  window.location.href = 'auth.html';
+}
+</script>
+</body>
+</html>

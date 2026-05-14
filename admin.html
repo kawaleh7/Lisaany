@@ -254,6 +254,168 @@
     font-size: 12px; line-height: 1.6;
   }
   .coming-soon-note strong { color: var(--gold); }
+
+  /* ═══════ STAFF MANAGEMENT ═══════ */
+  .staff-section {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .staff-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .staff-title {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: .04em;
+  }
+  .staff-refresh-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .staff-refresh-btn:hover {
+    border-color: var(--gold);
+    background: rgba(212,163,74,.08);
+  }
+  .staff-refresh-btn .material-symbols-outlined { font-size: 18px; }
+
+  .staff-code-display {
+    background: rgba(212,163,74,.05);
+    border: 1px dashed rgba(212,163,74,.3);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+  }
+  .staff-code-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    margin-bottom: 8px;
+  }
+  .staff-code-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .staff-code-value {
+    flex: 1;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    letter-spacing: .08em;
+    color: var(--gold-lt);
+    background: rgba(0,0,0,.25);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    user-select: all;
+  }
+  .btn-code-action {
+    width: 38px;
+    height: 38px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-code-action:hover {
+    border-color: var(--gold);
+    background: rgba(212,163,74,.1);
+    color: var(--gold);
+  }
+  .btn-code-action .material-symbols-outlined { font-size: 18px; }
+  .staff-code-hint {
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .staff-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .staff-empty {
+    text-align: center;
+    padding: 24px;
+    color: var(--dim);
+    font-size: 13px;
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+  .staff-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: all .2s;
+  }
+  .staff-row:hover {
+    border-color: rgba(212,163,74,.35);
+  }
+  .staff-row-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .staff-row-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .staff-row-email {
+    font-size: 12px;
+    color: var(--dim);
+    word-break: break-all;
+  }
+  .btn-demote {
+    background: rgba(224,112,112,.08);
+    border: 1px solid rgba(224,112,112,.25);
+    color: #e07070;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .btn-demote:hover {
+    background: rgba(224,112,112,.16);
+    border-color: rgba(224,112,112,.45);
+  }
+  .btn-demote:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
 </style>
 </head>
 <body>
@@ -335,6 +497,37 @@
     </div>
 
     <div class="users-list" id="usersList"></div>
+
+    <!-- ═══════════════════ STAFF MANAGEMENT ═══════════════════ -->
+    <div class="staff-section">
+      <div class="staff-section-header">
+        <h2 class="staff-title">Staff Management</h2>
+        <button class="staff-refresh-btn" onclick="loadStaff()" title="Refresh">
+          <span class="material-symbols-outlined">refresh</span>
+        </button>
+      </div>
+
+      <!-- Master code display -->
+      <div class="staff-code-display">
+        <div class="staff-code-label">Master Staff Code</div>
+        <div class="staff-code-row">
+          <div class="staff-code-value" id="masterCode">••••••••</div>
+          <button class="btn-code-action" onclick="toggleCodeVisible()" id="codeToggleBtn" title="Show/hide">
+            <span class="material-symbols-outlined" id="codeToggleIcon">visibility</span>
+          </button>
+          <button class="btn-code-action" onclick="rotateCode()" title="Rotate code">
+            <span class="material-symbols-outlined">autorenew</span>
+          </button>
+        </div>
+        <div class="staff-code-hint">Tutors enter this code on the Sign In page to activate staff access. Rotate if compromised.</div>
+      </div>
+
+      <!-- Staff list -->
+      <div class="staff-list" id="staffList">
+        <div class="staff-empty">Loading staff...</div>
+      </div>
+    </div>
+    <!-- ═══════════════════ END STAFF MANAGEMENT ═══════════════════ -->
 
     <div class="coming-soon-note">
       <strong>Read-only mode.</strong> Rename, suspend, refund, and delete actions will be added once the Cloudflare backend deploy issue is resolved.
@@ -529,6 +722,8 @@
       document.getElementById('adminState').style.display = 'block';
       document.getElementById('searchInput').addEventListener('input', applyFilter);
       await loadUsers();
+      await loadStaff();
+      await loadStaffCode();
     } catch (err) {
       console.error('init error:', err);
       document.getElementById('loadingState').style.display = 'none';
@@ -536,6 +731,111 @@
       document.getElementById('errorState').style.display = 'block';
     }
   })();
+
+  // ═══════════════ STAFF MANAGEMENT ═══════════════
+  let codeVisible = false;
+  let cachedCode = '';
+
+  async function loadStaff() {
+    const list = document.getElementById('staffList');
+    list.innerHTML = '<div class="staff-empty">Loading staff...</div>';
+    try {
+      const { data, error } = await sb.rpc('admin_get_staff');
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        list.innerHTML = '<div class="staff-empty">No staff members yet. Share the master code with your tutors.</div>';
+        return;
+      }
+
+      list.innerHTML = data.map(s => {
+        const name = s.name || (s.email ? s.email.split('@')[0] : 'Tutor');
+        return `
+          <div class="staff-row">
+            <div class="staff-row-info">
+              <div class="staff-row-name">${escapeHTML(name)}</div>
+              <div class="staff-row-email">${escapeHTML(s.email || '')}</div>
+            </div>
+            <button class="btn-demote" onclick="demoteStaff('${s.user_id}', '${escapeHTML(name).replace(/'/g, "\\'")}')">
+              Demote
+            </button>
+          </div>`;
+      }).join('');
+    } catch (err) {
+      console.error('loadStaff error:', err);
+      list.innerHTML = `<div class="staff-empty">Failed to load: ${escapeHTML(err.message || String(err))}</div>`;
+    }
+  }
+
+  async function loadStaffCode() {
+    try {
+      const { data, error } = await sb.rpc('admin_get_staff_code');
+      if (error) throw error;
+      cachedCode = data || '';
+      updateCodeDisplay();
+    } catch (err) {
+      console.error('loadStaffCode error:', err);
+      cachedCode = '(failed to load)';
+      updateCodeDisplay();
+    }
+  }
+
+  function updateCodeDisplay() {
+    const el = document.getElementById('masterCode');
+    if (codeVisible) {
+      el.textContent = cachedCode || '(empty)';
+    } else {
+      el.textContent = '••••••••••••';
+    }
+    document.getElementById('codeToggleIcon').textContent = codeVisible ? 'visibility_off' : 'visibility';
+  }
+
+  function toggleCodeVisible() {
+    codeVisible = !codeVisible;
+    updateCodeDisplay();
+  }
+
+  async function rotateCode() {
+    const newCode = prompt('Enter the new master staff code (min 4 chars):', '');
+    if (newCode === null) return;
+    const trimmed = newCode.trim();
+    if (trimmed.length < 4) {
+      alert('Code must be at least 4 characters.');
+      return;
+    }
+    if (!confirm(`Set master staff code to: ${trimmed}\n\nExisting staff will keep their access. Only NEW staff signups will need to use the new code.`)) return;
+    try {
+      const { data, error } = await sb.rpc('admin_rotate_staff_code', { new_code: trimmed });
+      if (error) throw error;
+      cachedCode = trimmed;
+      codeVisible = true;
+      updateCodeDisplay();
+      alert('Master code updated.');
+    } catch (err) {
+      alert('Failed to rotate code: ' + (err.message || err));
+    }
+  }
+
+  async function demoteStaff(userId, name) {
+    if (!confirm(`Demote "${name}" from staff back to student?\n\nThey'll lose access to the staff dashboard immediately on next login.`)) return;
+    try {
+      const { data, error } = await sb.rpc('admin_demote_staff', { target_user_id: userId });
+      if (error) throw error;
+      await loadStaff();
+    } catch (err) {
+      alert('Failed to demote: ' + (err.message || err));
+    }
+  }
+
+  function escapeHTML(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
 </script>
 
 </body>
