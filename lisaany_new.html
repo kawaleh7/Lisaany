@@ -1100,6 +1100,8 @@ body { padding-bottom: 90px !important; }
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,500;9..144,600;9..144,700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
+<script src="plan.js" defer></script>
+<script src="paywall.js" defer></script>
 </head>
 <body>
 <!-- LISAANY BANNER -->
@@ -1855,7 +1857,14 @@ function mkHub(){
     node.appendChild(circleWrap);
     node.appendChild(el('div',{className:'rn-label'},'L'+meta.id+' · '+meta.title));
 
-    const goLesson=()=>{
+    const goLesson=async ()=>{
+      // Gate: Lessons 3+ require a paid plan
+      if (meta.id > 2 && window.lisaanyPlan && !(await window.lisaanyPlan.isPaid())) {
+        if (window.lisaanyPaywall) {
+          window.lisaanyPaywall.show({ context: 'premium_module' });
+        }
+        return;
+      }
       S.lesson=meta.id;S.slide=0;S.harakatIdx=0;S.scStep=0;S.scPlayed=false;
       S.morphIdx=0;S.morphed=false;S.vmSecIdx=0;S.vmPage=0;S.maadType=0;
       S.maadCard=0;S.videoWatched=false;S._pracPool=null;
