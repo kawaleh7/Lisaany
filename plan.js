@@ -5,18 +5,14 @@
 // Returns one of: 'free' | 'basic' | 'premium_monthly' | 'premium_yearly'
 // Plus helpers: hasLiveTutor(), hasFullCurriculum(), isPaid()
 //
-// Stripe price ID → plan mapping (matches Cloudflare Worker env vars)
+// Maps Supabase `subscriptions.plan` text values to our four-state model:
+//   self_paced              → basic
+//   anything with 'year'    → premium_yearly
+//   anything else (tutor)   → premium_monthly
+//   no row / not active     → free
 (function () {
   const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
-
-  // Map Stripe price IDs to plan tier names.
-  // Update these if you rotate Stripe price IDs.
-  const PRICE_TO_PLAN = {
-    'price_1TVwYmRpquEfxb9t1DQDAgRE': 'basic',             // $12.99 Self-Paced
-    'price_1TVwcgRpquEfxb9tuJYp47Ui': 'premium_monthly',   // $29.99 With Tutor monthly
-    'price_1TVwcgRpquEfxb9tWbqNnwwP': 'premium_yearly',    // $119.99 With Tutor yearly
-  };
 
   let cached = null;
   let cachedAt = 0;
@@ -33,8 +29,16 @@
     });
   }
 
+  function mapPlanString(rawPlan) {
+    const p = String(rawPlan || '').toLowerCase().trim();
+    if (!p) return 'free';
+    if (p === 'self_paced' || p === 'basic') return 'basic';
+    if (p.includes('year') || p.includes('annual') || p.includes('yearly')) return 'premium_yearly';
+    // Default: any other active plan (with_tutor, premium, tutor, etc.) → monthly premium
+    return 'premium_monthly';
+  }
+
   async function getPlan() {
-    // Use cache if fresh
     if (cached && (Date.now() - cachedAt < CACHE_MS)) {
       return cached;
     }
@@ -44,34 +48,35 @@
       const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
       const { data: { user } } = await sb.auth.getUser();
 
-      // Not signed in → free
       if (!user) {
         cached = 'free';
         cachedAt = Date.now();
         return cached;
       }
 
-      // Query active subscription for this user
       const { data, error } = await sb
         .from('subscriptions')
-        .select('status, price_id, plan')
+        .select('status, plan, stripe_subscription_id')
         .eq('user_id', user.id)
         .in('status', ['active', 'trialing'])
-        .order('created_at', { ascending: false })
         .limit(1)
         .maybeSingle();
 
-      if (error || !data) {
+      if (error) {
+        console.warn('plan.js query error:', error);
+        cached = 'free';
+        cachedAt = Date.now();
+        return cached;
+      }
+      if (!data) {
         cached = 'free';
         cachedAt = Date.now();
         return cached;
       }
 
-      // Prefer explicit plan column if it exists; otherwise map from price_id
-      let plan = data.plan || PRICE_TO_PLAN[data.price_id] || 'free';
-      cached = plan;
+      cached = mapPlanString(data.plan);
       cachedAt = Date.now();
-      return plan;
+      return cached;
     } catch (err) {
       console.warn('getPlan() error:', err);
       cached = 'free';
@@ -87,7 +92,7 @@
 
   async function hasFullCurriculum() {
     const p = await getPlan();
-    return p !== 'free'; // basic and premium both have full lessons
+    return p !== 'free';
   }
 
   async function isPaid() {
@@ -100,9 +105,7 @@
     cachedAt = 0;
   }
 
-  // Free preview units (arabic_platform.html)
-  const FREE_UNITS = ['1.1', '1.2'];
-  // Free preview lessons (lisaany_new.html — Tajweed)
+  const FREE_UNITS = ['1.1'];
   const FREE_TAJWEED_LESSONS = [1, 2];
 
   function isUnitFree(unitId) {
@@ -121,7 +124,6 @@
     return isTajweedLessonFree(lessonId) || await isPaid();
   }
 
-  // Expose globally
   window.lisaanyPlan = {
     getPlan,
     hasLiveTutor,
