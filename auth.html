@@ -1043,7 +1043,7 @@ function routeUserByRole(user) {
   if (role === 'staff') {
     return 'tutor_portal.html';
   }
-  return null; // student: stay on profile view
+  return 'index.html'; // student → home
 }
 
 // ── On load: check session ──
