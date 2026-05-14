@@ -23,10 +23,8 @@
     --border: rgba(212,163,74,.18);
     --on-gold: #1a1208;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
   .ms { font-family: 'Material Symbols Outlined'; font-variation-settings: 'FILL' 1; line-height: 1; }
-
   body {
     font-family: 'Inter', sans-serif;
     background: var(--bg);
@@ -44,15 +42,12 @@
     pointer-events: none;
     z-index: 0;
   }
-
   .stage {
     position: relative;
     z-index: 1;
     max-width: 460px;
     margin: 0 auto;
   }
-
-  /* Back button */
   .back-btn {
     display: inline-flex; align-items: center; gap: 6px;
     background: rgba(212,163,74,.08);
@@ -68,8 +63,6 @@
   }
   .back-btn:hover { background: rgba(212,163,74,.15); border-color: rgba(212,163,74,.4); }
   .back-btn .arrow { font-size: 18px; line-height: 1; }
-
-  /* Hero */
   .hero { text-align: center; padding: 24px 0 28px; }
   .hero-icon-wrap {
     position: relative;
@@ -117,8 +110,6 @@
     max-width: 320px;
     margin: 0 auto;
   }
-
-  /* Account info card (logged in) */
   .account-card {
     background: var(--card);
     border: 1.5px solid var(--border);
@@ -151,8 +142,6 @@
     color: var(--text);
     word-break: break-all;
   }
-
-  /* Subscription card */
   .sub-card {
     background: var(--card);
     border: 1.5px solid var(--border);
@@ -191,8 +180,6 @@
     margin-bottom: 14px;
   }
   .sub-detail strong { color: var(--text); }
-
-  /* Buttons */
   .btn {
     width: 100%;
     padding: 14px 20px;
@@ -207,6 +194,7 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+    text-decoration: none;
   }
   .btn-primary {
     background: linear-gradient(135deg, var(--gold), var(--gold-lt));
@@ -228,64 +216,30 @@
     color: var(--red);
   }
   .btn-danger:hover { background: rgba(224,112,112,.08); border-color: var(--red); }
-
-  /* Picker cards (logged out) */
-  .picker-card {
+  /* Auth CTA stack (logged out) */
+  .auth-cta-stack {
     display: flex;
-    align-items: center;
-    gap: 16px;
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 18px;
-    padding: 18px 20px;
-    margin-bottom: 12px;
-    text-decoration: none;
-    color: var(--text);
-    transition: all .2s;
-    cursor: pointer;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 320px;
+    margin: 0 auto;
   }
-  .picker-card:hover {
-    border-color: rgba(212,163,74,.5);
-    transform: translateY(-1px);
-  }
-  .picker-icon {
-    width: 48px; height: 48px;
-    border-radius: 12px;
-    background: linear-gradient(145deg, rgba(200,150,62,0.15), rgba(200,150,62,0.05));
-    border: 1px solid rgba(200,150,62,0.4);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Cinzel', serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-  .picker-text { flex: 1; }
-  .picker-name {
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 3px;
-  }
-  .picker-sub {
-    font-size: 12px;
+  .auth-cta-hint {
+    text-align: center;
+    font-size: 11px;
     color: var(--dim);
+    margin-top: 14px;
+    line-height: 1.6;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  .picker-arrow {
-    font-size: 20px;
-    color: var(--dim);
-  }
-
-  /* Loading state */
   .loading {
     text-align: center;
     padding: 60px 20px;
     color: var(--dim);
     font-size: 14px;
   }
-
-  /* Bottom Navigation */
   .bottom-nav {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
     display: flex; align-items: center; justify-content: space-around;
@@ -315,19 +269,15 @@
 </style>
 </head>
 <body>
-
 <div class="stage">
-
-  <!-- Back button -->
   <button type="button" class="back-btn" onclick="goBack()">
     <span class="arrow">←</span>
     Back
   </button>
 
-  <!-- Loading state (shown briefly while we check session) -->
   <div id="loadingState" class="loading">Loading…</div>
 
-  <!-- Logged-out state -->
+  <!-- Logged-out state: clean sign-in CTA, no Student/Staff picker -->
   <div id="loggedOutState" style="display:none;">
     <div class="hero">
       <div class="hero-icon-wrap">
@@ -335,26 +285,23 @@
         <div class="hero-icon"><span class="ms">person</span></div>
       </div>
       <h2>Welcome to Lisaany</h2>
-      <p>Sign in to continue your learning journey, or access the tutor portal.</p>
+      <p>Sign in to continue your learning journey.</p>
     </div>
 
-    <a href="auth.html" class="picker-card">
-      <div class="picker-icon">S</div>
-      <div class="picker-text">
-        <div class="picker-name">Student</div>
-        <div class="picker-sub">Continue learning</div>
-      </div>
-      <span class="ms picker-arrow">arrow_forward</span>
-    </a>
+    <div class="auth-cta-stack">
+      <a href="auth.html" class="btn btn-primary">
+        <span class="ms">login</span>
+        Sign in
+      </a>
+      <a href="auth.html" class="btn btn-ghost">
+        <span class="ms">person_add</span>
+        Create account
+      </a>
+    </div>
 
-    <a href="tutor_portal.html" class="picker-card">
-      <div class="picker-icon">T</div>
-      <div class="picker-text">
-        <div class="picker-name">Staff</div>
-        <div class="picker-sub">Tutor portal</div>
-      </div>
-      <span class="ms picker-arrow">arrow_forward</span>
-    </a>
+    <div class="auth-cta-hint">
+      Tutor? Sign in normally — you'll enter your staff code on the sign-in page.
+    </div>
   </div>
 
   <!-- Logged-in state -->
@@ -368,7 +315,6 @@
       <p id="greetingEmail" style="word-break:break-all;">—</p>
     </div>
 
-    <!-- Account -->
     <div class="account-card">
       <div class="account-label">Account</div>
       <div class="account-row">
@@ -381,7 +327,6 @@
       </div>
     </div>
 
-    <!-- Subscription -->
     <div class="sub-card" id="subCard">
       <div class="sub-header">
         <div class="sub-title">Subscription</div>
@@ -396,22 +341,24 @@
       </button>
     </div>
 
-    <!-- Admin Dashboard (hidden, only shown for admin emails) -->
-    <a href="admin.html" id="adminLink" class="btn btn-ghost" style="display:none; margin-top:6px; text-decoration:none;">
+    <!-- Admin Dashboard (only shown for owner) -->
+    <a href="admin.html" id="adminLink" class="btn btn-ghost" style="display:none; margin-top:6px;">
       <span class="ms">admin_panel_settings</span>
       Admin Dashboard
     </a>
+    <!-- Staff Dashboard (only shown for staff role) -->
+    <a href="staff.html" id="staffLink" class="btn btn-ghost" style="display:none; margin-top:6px;">
+      <span class="ms">school</span>
+      Tutor Dashboard
+    </a>
 
-    <!-- Sign out -->
     <button type="button" class="btn btn-danger" onclick="signOut()" style="margin-top:6px;">
       <span class="ms">logout</span>
       Sign out
     </button>
   </div>
-
 </div>
 
-<!-- Bottom Navigation -->
 <div class="bottom-nav">
   <a href="index.html" class="nav-btn">
     <span class="ms" style="font-variation-settings:'FILL' 0">home</span>
@@ -436,18 +383,16 @@
 </div>
 
 <script>
-  // ── Supabase client ──
   const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // Plan display names
   const PLAN_LABELS = {
     self_paced: 'Basic · Self-Paced',
     with_tutor: 'Pro · With Tutor',
   };
+  const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
 
-  // ── Back button ──
   function goBack() {
     if (window.history.length > 1) {
       window.history.back();
@@ -455,39 +400,29 @@
       window.location.href = 'index.html';
     }
   }
-
-  // ── Navigation ──
   function goToPricing() {
     window.location.href = 'pricing.html';
   }
-
-  // ── Sign out ──
   async function signOut() {
     try { await sb.auth.signOut(); } catch(e) {}
     window.location.reload();
   }
-
-  // ── Manage subscription (Stripe Customer Portal) ──
   async function openBillingPortal(btn) {
     if (btn.disabled) return;
     const originalHTML = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span class="ms">hourglass_top</span>Loading portal…';
-
     try {
       const { data: { session } } = await sb.auth.getSession();
       if (!session) throw new Error('Not signed in');
-
       const res = await fetch('/api/billing-portal', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: session.user.id }),
       });
-
       const data = await res.json().catch(() => ({
         error: 'Server returned non-JSON response (status ' + res.status + ')'
       }));
-
       if (data.url) {
         window.location.href = data.url;
       } else {
@@ -500,77 +435,64 @@
       btn.innerHTML = originalHTML;
     }
   }
-
-  // ── Format date ──
   function formatDate(dateStr) {
     if (!dateStr) return '—';
     const d = new Date(dateStr);
     return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
   }
-
-  // ── Load profile on page load ──
   (async function loadProfile() {
     const loadingEl = document.getElementById('loadingState');
     const loggedOutEl = document.getElementById('loggedOutState');
     const loggedInEl = document.getElementById('loggedInState');
-
     try {
       const { data: { session } } = await sb.auth.getSession();
-
       if (!session || !session.user) {
-        // Logged out
         loadingEl.style.display = 'none';
         loggedOutEl.style.display = 'block';
         return;
       }
-
-      // Logged in — show the logged-in UI
       const user = session.user;
       const meta = user.user_metadata || {};
       const name = meta.name || meta.full_name || (user.email || '').split('@')[0] || 'You';
       const firstName = name.split(' ')[0];
-
       document.getElementById('greetingName').textContent = 'Hi, ' + firstName + ' 👋';
       document.getElementById('greetingEmail').textContent = user.email || '';
       document.getElementById('acctEmail').textContent = user.email || '—';
       document.getElementById('acctJoined').textContent = 'Joined ' + formatDate(user.created_at);
-
       loadingEl.style.display = 'none';
       loggedInEl.style.display = 'block';
 
-      // Show admin link for admin emails only
-      const ADMIN_EMAILS = ['ahmedstart163@gmail.com'];
-      if (ADMIN_EMAILS.includes((user.email || '').toLowerCase())) {
+      const email = (user.email || '').toLowerCase();
+      const role = user.app_metadata?.role;
+
+      if (OWNER_EMAILS.includes(email)) {
         document.getElementById('adminLink').style.display = 'flex';
       }
+      if (role === 'staff') {
+        document.getElementById('staffLink').style.display = 'flex';
+      }
 
-      // Query subscription
       const { data: sub, error } = await sb
         .from('subscriptions')
         .select('plan, status, current_period_end, cancel_at_period_end')
         .eq('user_id', user.id)
         .maybeSingle();
-
       if (error) {
         console.warn('Subscription lookup error:', error);
         return;
       }
-
       updateSubscriptionUI(sub);
     } catch (err) {
       console.error('loadProfile error:', err);
       loadingEl.textContent = 'Error loading profile. Please refresh.';
     }
   })();
-
   function updateSubscriptionUI(sub) {
     const card = document.getElementById('subCard');
     const badge = document.getElementById('subBadge');
     const detail = document.getElementById('subDetail');
     const action = document.getElementById('subAction');
-
     if (!sub || !sub.status) {
-      // No subscription
       card.classList.remove('active');
       badge.className = 'sub-badge none';
       badge.textContent = 'No plan';
@@ -579,10 +501,8 @@
       action.onclick = goToPricing;
       return;
     }
-
     const isActive = sub.status === 'active' || sub.status === 'trialing';
     const planLabel = PLAN_LABELS[sub.plan] || sub.plan || 'Active plan';
-
     if (isActive) {
       card.classList.add('active');
       if (sub.cancel_at_period_end) {
@@ -597,7 +517,6 @@
       action.innerHTML = '<span class="ms">settings</span>Manage subscription';
       action.onclick = function() { openBillingPortal(action); };
     } else {
-      // canceled, past_due, etc
       card.classList.remove('active');
       badge.className = 'sub-badge canceled';
       badge.textContent = sub.status;
@@ -607,6 +526,5 @@
     }
   }
 </script>
-
 </body>
 </html>
