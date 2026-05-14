@@ -1044,6 +1044,8 @@ body::after {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,500;9..144,600;9..144,700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
+<script src="plan.js" defer></script>
+<script src="paywall.js" defer></script>
 </head>
 <body>
 <!-- LISAANY BANNER -->
@@ -5076,7 +5078,7 @@ function mkHub(){
       card.addEventListener('click',()=>{ S.mId=mod.id; S.view='units'; render(); });
     } else if(ok && !isModFree(mod.id)){
       // Locked — show upgrade
-      card.addEventListener('click',()=>{ S.view='upgrade'; render(); });
+      card.addEventListener('click',()=>{ if(window.lisaanyPaywall) window.lisaanyPaywall.show({ context: 'premium_module' }); else { S.view='upgrade'; render(); } });
       // Add premium badge
       const lkBadge = div('');
       lkBadge.style.cssText='position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,#d4a347,#f2be62);color:#1a1000;font-size:10px;font-weight:800;letter-spacing:.08em;padding:4px 10px;border-radius:999px;';
@@ -5212,7 +5214,7 @@ function mkUnits(){
     if(ok && canAccess(S.mId, unit.id)){
       uc.addEventListener('click',()=>{ S.uId=unit.id; S.view='blocks'; render(); });
     } else if(ok && !canAccess(S.mId, unit.id)){
-      uc.addEventListener('click',()=>{ S.view='upgrade'; render(); });
+      uc.addEventListener('click',()=>{ if(window.lisaanyPaywall) window.lisaanyPaywall.show({ context: 'premium_unit' }); else { S.view='upgrade'; render(); } });
     }
     w.appendChild(uc);
   });
