@@ -54,6 +54,14 @@
         return cached;
       }
 
+      // Staff users (tutors, owners) bypass all paywalls — full access everywhere.
+      // Activated via auth.html Tutor tab + staff code; sets app_metadata.role='staff'.
+      if (user.app_metadata && user.app_metadata.role === 'staff') {
+        cached = 'staff';
+        cachedAt = Date.now();
+        return cached;
+      }
+
       const { data, error } = await sb
         .from('subscriptions')
         .select('status, plan, stripe_subscription_id')
@@ -87,7 +95,7 @@
 
   async function hasLiveTutor() {
     const p = await getPlan();
-    return p === 'premium_monthly' || p === 'premium_yearly';
+    return p === 'staff' || p === 'premium_monthly' || p === 'premium_yearly';
   }
 
   async function hasFullCurriculum() {
@@ -98,6 +106,11 @@
   async function isPaid() {
     const p = await getPlan();
     return p !== 'free';
+  }
+
+  async function isStaff() {
+    const p = await getPlan();
+    return p === 'staff';
   }
 
   function invalidateCache() {
@@ -129,6 +142,7 @@
     hasLiveTutor,
     hasFullCurriculum,
     isPaid,
+    isStaff,
     isUnitFree,
     isTajweedLessonFree,
     canAccessUnit,
