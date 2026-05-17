@@ -1127,6 +1127,69 @@ body{
 }
 /* ─── /INTRO BOXES ─── */
 
+/* ─── RULE EXAMPLES VIEW (Lessons 4-8) ─── */
+.rule-examples-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+}
+.rule-example-card{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:18px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  transition:all .2s;
+}
+.rule-example-card:hover{
+  border-color:var(--gold);
+  background:rgba(242,190,98,.04);
+  transform:translateY(-2px);
+  box-shadow:0 4px 20px var(--gold-glow);
+}
+.rule-example-word-wrap{
+  padding:28px 12px 16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  min-height:120px;
+  text-align:center;
+}
+.rule-example-ar{
+  font-family:'Amiri',serif;
+  font-size:42px;color:var(--gold);
+  direction:rtl;line-height:1.4;
+  filter:drop-shadow(0 0 12px rgba(242,190,98,.35));
+}
+.rule-example-en{
+  font:500 12px/1.3 'Inter',sans-serif;
+  color:var(--dim);
+  font-style:italic;
+}
+.rule-example-play-row{
+  padding:12px 14px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.rule-example-play-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg, var(--gold), var(--gold2));
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color:#3a2400;
+  box-shadow:0 2px 12px rgba(242,190,98,.35);
+  transition:all .15s;
+  flex-shrink:0;
+}
+.rule-example-play-btn:hover{transform:scale(1.08);}
+.rule-example-play-btn svg{width:16px;height:16px;margin-left:2px;}
+.rule-example-play-label{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);
+}
+@media (max-width:560px){
+  .rule-example-ar{font-size:36px;}
+  .rule-examples-grid{grid-template-columns:1fr;}
+}
+/* ─── /RULE EXAMPLES VIEW ─── */
+
 /* 3-choice row (harakat) */
 .choices-row{display:flex;gap:12px;width:100%;}
 .choice{
@@ -1287,7 +1350,6 @@ html,body{background:#0d1932!important;}
 .geo-bg-anim svg{
   position:absolute;top:-10%;left:-10%;width:120%;height:120%;
   opacity:.08;
-  animation:geo-drift 80s linear infinite;
 }
 @keyframes geo-drift{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
@@ -3781,7 +3843,6 @@ function mkLessonVideo(){
 function mkExamplesView(){
   const meta=getLessonMeta(S.lesson);
   const slides=getSlides(S.lesson);
-  const GOLD='#D4A34A';
   const exPage = S.exPage||0;
   const PER_PAGE = 4;
 
@@ -3794,47 +3855,31 @@ function mkExamplesView(){
 
   const wrap=div('stage');
   const ph=div('phase-label'); ph.appendChild(div('phase-dot'));
-  ph.appendChild(document.createTextNode('Lesson · '+meta.title));
+  ph.appendChild(document.createTextNode(meta.title + ' · Lesson ' + S.lesson));
   wrap.appendChild(ph);
 
-  // 2x2 grid of letter-detail cards
-  const grid=div('');
-  grid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:14px;';
+  // Heading
+  wrap.appendChild(el('h2', {className:'journey-heading'}, 'Examples — tap to hear'));
 
-  pageEx.forEach(ex=>{
-    const card=div('');
-    card.style.cssText=`
-      background:rgba(12,16,28,.85);border:1px solid rgba(212,163,74,.22);
-      border-radius:20px;overflow:visible;display:flex;flex-direction:column;
-      align-items:center;
-    `;
+  // 2x2 grid of example cards
+  const grid = div('rule-examples-grid');
+  pageEx.forEach(ex => {
+    const card = div('rule-example-card');
 
-    // Arabic word — large, centered
-    const wordWrap=div('');
-    wordWrap.style.cssText='width:100%;padding:36px 12px 20px;display:flex;align-items:center;justify-content:center;background:rgba(6,10,20,.5);min-height:120px;border-radius:20px 20px 0 0;';
-    wordWrap.appendChild(el('div',{style:{
-      fontFamily:"'Scheherazade New','Amiri',serif",fontSize:'44px',
-      color:GOLD,direction:'rtl',lineHeight:'2.0',
-      filter:'drop-shadow(0 0 10px rgba(212,163,74,.4))'
-    }},ex.ar));
+    const wordWrap = div('rule-example-word-wrap');
+    wordWrap.appendChild(el('div', {className:'rule-example-ar'}, ex.ar));
+    if (ex.en || ex.roman) {
+      wordWrap.appendChild(el('div', {className:'rule-example-en'}, ex.en || ex.roman));
+    }
     card.appendChild(wordWrap);
 
-    // Divider
-    const dv=div(''); dv.style.cssText='width:100%;height:1px;background:rgba(212,163,74,.06);'; card.appendChild(dv);
-
     // Play button row
-    const pb=div('');
-    pb.style.cssText='width:100%;padding:12px;display:flex;align-items:center;justify-content:center;';
-    const btn=el('button',{style:{
-      width:'42px',height:'42px',borderRadius:'50%',
-      background:'var(--gold)',border:'none',cursor:'pointer',
-      display:'flex',alignItems:'center',justifyContent:'center',
-      boxShadow:'0 0 16px rgba(212,163,74,.35)',transition:'all .2s'
-    }});
-    const ic=el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'22px',color:'#1a1000',fontVariationSettings:"'FILL' 1"}},'play_arrow');
-    btn.appendChild(ic);
-    btn.addEventListener('click',()=>speak(ex.ar));
+    const pb = div('rule-example-play-row');
+    const btn = el('button', {className:'rule-example-play-btn'});
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+    btn.addEventListener('click', () => speak(ex.ar));
     pb.appendChild(btn);
+    pb.appendChild(el('span', {className:'rule-example-play-label'}, 'Listen'));
     card.appendChild(pb);
 
     grid.appendChild(card);
@@ -3842,27 +3887,25 @@ function mkExamplesView(){
   wrap.appendChild(grid);
 
   // Page dots
-  if(totalPages>1){
-    const dots=div('');
-    dots.style.cssText='display:flex;justify-content:center;gap:6px;margin:10px 0;';
-    for(let i=0;i<totalPages;i++){
-      const d=div('');
-      d.style.cssText=`width:${i===exPage?'20px':'7px'};height:7px;border-radius:999px;background:${i===exPage?GOLD:'rgba(255,255,255,.15)'};transition:all .3s;`;
+  if (totalPages > 1) {
+    const dots = div('vm-page-row');
+    for (let i = 0; i < totalPages; i++) {
+      const d = div('vm-page-dot' + (i === exPage ? ' active' : ''));
       dots.appendChild(d);
     }
     wrap.appendChild(dots);
   }
 
-  const nav=div('action-row');
-  if(exPage>0){
-    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{S.exPage=(S.exPage||0)-1;render();}}, '← Back'));
+  const nav = div('action-row');
+  if (exPage > 0) {
+    nav.appendChild(el('button', {className:'btn btn-ghost', onclick:()=>{S.exPage=(S.exPage||0)-1;render();}}, '← Back'));
   } else {
-    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{ S.phase=getSlides(S.lesson).length?'intro':'hub'; S.slide=getSlides(S.lesson).length-1; render(); }},'← Intro'));
+    nav.appendChild(el('button', {className:'btn btn-ghost', onclick:()=>{ S.phase = getSlides(S.lesson).length?'intro':'hub'; S.slide = getSlides(S.lesson).length-1; render(); }}, '← Intro'));
   }
-  if(exPage<totalPages-1){
-    nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>{S.exPage=(S.exPage||0)+1;render();}},'More →'));
+  if (exPage < totalPages - 1) {
+    nav.appendChild(el('button', {className:'btn btn-primary', onclick:()=>{S.exPage=(S.exPage||0)+1;render();}}, 'More →'));
   } else {
-    nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>{S.exPage=0;startPractice();render();}},'Practice →'));
+    nav.appendChild(el('button', {className:'btn btn-primary', onclick:()=>{S.exPage=0;startPractice();render();}}, 'Start Practice →'));
   }
   wrap.appendChild(nav);
   return wrap;
@@ -4011,20 +4054,18 @@ function mkRulePractice(){
 
   if(q.type==='word_pick4'){
     // ── 4-box word pick practice ──
-    wrap.appendChild(el('div',{className:'rule-q-label',style:{textAlign:'center',marginBottom:'16px'}},q.q||q.question||'Which word has Tanween?'));
+    wrap.appendChild(el('div',{className:'rule-q-label'},q.q||q.question||'Which word has Tanween?'));
     const allP4=[...(q.distractors||[])];
     allP4.splice(q.ans,0,q.correct);
     const pIdx4=q.ans;
-    const pg4=div('');
-    pg4.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px;';
+    const pg4=div('options-grid');
     allP4.forEach((c,i)=>{
       const isCorrect=i===pIdx4,isChosen=i===S.pracChosen;
       let cls='opt';
       if(S.pracLocked){if(isCorrect)cls+=' correct';else if(isChosen&&!isCorrect)cls+=' wrong';}
       if(S.pracLocked)cls+=' locked';
       const o=div(cls);
-      o.style.cssText='display:flex;align-items:center;justify-content:center;padding:20px 10px;min-height:90px;cursor:pointer;';
-      o.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'40px',color:'var(--text)',direction:'rtl',lineHeight:'1.2'}},c.ar));
+      o.appendChild(el('div',{className:'opt-ar'},c.ar));
       if(!S.pracLocked){o.addEventListener('click',()=>{
         S.pracChosen=i;S.pracLocked=true;
         const right=i===pIdx4;if(right)S.pracScore++;
@@ -4036,9 +4077,8 @@ function mkRulePractice(){
     wrap.appendChild(pg4);
   } else if(q.type==='word_pick'){
     // ── Word pick practice — 2 Arabic word boxes ──
-    wrap.appendChild(el('div',{className:'rule-q-label',style:{textAlign:'center',marginBottom:'16px'}},q.q||'Which word has a Sukun?'));
-    const wpGrid=div('');
-    wpGrid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px;';
+    wrap.appendChild(el('div',{className:'rule-q-label'},q.q||'Which word has a Sukun?'));
+    const wpGrid=div('options-grid');
     const wpChoices = q.ans===0 ? [q.correct,q.distractor] : [q.distractor,q.correct];
     const wpAns = q.ans;
     wpChoices.forEach((c,i)=>{
@@ -4048,8 +4088,7 @@ function mkRulePractice(){
       if(S.pracLocked){ if(isCorrect) cls+=' correct'; else if(isChosen&&!isCorrect) cls+=' wrong'; }
       if(S.pracLocked) cls+=' locked';
       const o=div(cls);
-      o.style.cssText='display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:24px 12px;min-height:120px;cursor:pointer;';
-      o.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'48px',color:'var(--text)',direction:'rtl',lineHeight:'1.2'}},c.ar));
+      o.appendChild(el('div',{className:'opt-ar'},c.ar));
       if(!S.pracLocked){ o.addEventListener('click',()=>{
         S.pracChosen=i; S.pracLocked=true;
         const right=i===wpAns; if(right)S.pracScore++;
