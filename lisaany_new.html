@@ -2753,10 +2753,15 @@ function advanceAssessment(right){
 // ═══════════════════════════════════════════════
 function render(){
   saveSession();
+  // Blur any focused button so browser doesn't auto-scroll to keep it visible
+  if (document.activeElement && document.activeElement.blur) {
+    try { document.activeElement.blur(); } catch(e) {}
+  }
   const app=document.getElementById('app');
   app.innerHTML='';
   app.appendChild(mkTopbar());
   const scroll=div('scroll');
+  scroll.id='main-scroll';
   const phase=S.phase;
   if(phase==='hub')        scroll.appendChild(mkHub());
   else if(phase==='intro') scroll.appendChild(mkIntro());
@@ -2767,6 +2772,8 @@ function render(){
   app.appendChild(scroll);
   app.appendChild(mkBottomNav());
   if(S.feedback){ app.appendChild(mkFeedback()); }
+  // Always scroll to top after rendering new content
+  requestAnimationFrame(() => { scroll.scrollTop = 0; });
 }
 
 // ─── TOPBAR ───
