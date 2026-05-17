@@ -52,28 +52,245 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
 .rule-card strong{color:var(--text);}
 .phase-label{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);}
 .phase-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
-/* HUB */
-.hub-hero{text-align:center;padding:6px 0 24px;}
-.hub-eyebrow{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
-.hub-title{font-family:'Cinzel',serif;font-size:28px;font-weight:700;line-height:1.2;color:var(--text);margin-bottom:8px;}
-.hub-title em{font-family:'Cormorant Garamond','Cinzel',serif;font-style:italic;font-weight:500;color:var(--gold);}
-.hub-sub{font-size:12px;color:var(--dim);line-height:1.7;max-width:290px;margin:0 auto;}
-.hub-stats{display:flex;gap:7px;justify-content:center;margin-top:14px;flex-wrap:wrap;}
-.hub-stat{background:var(--faint);border:1px solid var(--border);border-radius:11px;padding:7px 12px;text-align:center;}
-.hub-stat-val{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);}
-.hub-stat-lbl{font-size:9px;color:var(--dim);font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-top:1px;}
-.mc{border-radius:20px;overflow:hidden;background:rgba(17,25,39,.6);border:1px solid var(--border);transition:all .2s;cursor:pointer;margin-bottom:10px;}
-.mc:hover{border-color:rgba(242,190,98,.3);box-shadow:0 0 18px rgba(212,163,74,.07);}
-.mc.lk{opacity:.5;cursor:not-allowed;}
-.mc-hdr{padding:16px 18px 12px;display:flex;align-items:center;gap:12px;}
-.mc-num{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:13px;font-weight:700;flex-shrink:0;}
-.mc-info{flex:1;}
-.mc-title{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;}
-.mc-sub{font-size:10px;color:var(--dim);}
-.mc-units{display:flex;gap:6px;padding:0 18px 12px;flex-wrap:wrap;}
-.mc-pill{padding:3px 9px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border:1px solid;}
-.mc-pb{height:2px;background:rgba(255,255,255,.05);margin:0 18px 12px;border-radius:999px;overflow:hidden;}
-.mc-pb-fill{height:100%;border-radius:999px;background:var(--gold);}
+/* HUB — Redesigned to match learnarabic preview */
+.hub-header{
+  text-align:center; padding:28px 0 36px;
+  border-bottom:1px solid var(--border);
+  margin-bottom:30px; position:relative;
+}
+.hub-header::before{
+  content:''; position:absolute; left:50%; bottom:-1px;
+  transform:translateX(-50%); width:80px; height:1px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.hub-eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'Cinzel',serif; font-size:11px; font-weight:600;
+  letter-spacing:.28em; text-transform:uppercase; color:var(--gold);
+  margin-bottom:14px;
+}
+.hub-eyebrow::before, .hub-eyebrow::after{
+  content:''; width:24px; height:1px;
+  background:currentColor; opacity:.4;
+}
+.hub-title{
+  font-family:'Cinzel',serif; font-size:34px; font-weight:600;
+  color:#f5e8c5; line-height:1.2;
+  margin-bottom:12px;
+}
+.hub-arabic{
+  font-family:'Amiri',serif; font-size:24px;
+  color:var(--gold); margin-bottom:14px;
+}
+.hub-sub{
+  color:var(--dim); max-width:540px;
+  margin:0 auto; font-size:13px; line-height:1.6;
+}
+
+/* Journey bar */
+.journey-bar{
+  background:linear-gradient(135deg, rgba(242,190,98,.08), rgba(242,190,98,.02));
+  border:1px solid var(--gold-glow);
+  border-radius:18px;
+  padding:18px 22px;
+  margin-bottom:18px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:20px;
+}
+.journey-bar-meta{
+  font:600 10px/1 'Inter',sans-serif;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:6px;
+}
+.journey-bar-num{
+  font-family:'Cinzel',serif; font-size:20px; font-weight:600;
+  color:var(--text);
+}
+.journey-bar-track{
+  height:8px; background:rgba(255,255,255,.05);
+  border-radius:99px; overflow:hidden; position:relative;
+}
+.journey-bar-fill{
+  height:100%;
+  background:linear-gradient(90deg, var(--gold-soft), var(--gold));
+  border-radius:99px; box-shadow:0 0 12px var(--gold-glow);
+  transition:width .4s ease;
+}
+.journey-bar-pct{
+  font-family:'Cinzel',serif; font-size:18px;
+  color:var(--gold); font-variant-numeric:tabular-nums;
+}
+@media (max-width:560px){
+  .journey-bar{grid-template-columns:1fr;text-align:center;gap:10px;}
+}
+
+/* Continue card */
+.continue-card{
+  display:flex; align-items:center; gap:16px;
+  background:linear-gradient(135deg, rgba(242,190,98,.12), rgba(242,190,98,.04));
+  border:1px solid var(--gold-glow); border-radius:18px;
+  padding:16px 20px; margin-bottom:30px;
+  cursor:pointer; transition:all .2s;
+  text-decoration:none; color:inherit;
+}
+.continue-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 4px 24px var(--gold-glow);
+  border-color:var(--gold);
+}
+.continue-card-icon{
+  width:44px; height:44px; border-radius:50%;
+  background:linear-gradient(135deg, var(--gold), var(--gold-soft));
+  display:flex; align-items:center; justify-content:center;
+  color:#3a2400; font-size:22px; flex-shrink:0;
+}
+.continue-card-body{flex:1;min-width:0;}
+.continue-card-eyebrow{
+  font:600 10px/1 'Inter',sans-serif;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:5px;
+}
+.continue-card-title{
+  font-family:'Cinzel',serif; font-size:16px; font-weight:500;
+  color:var(--text); margin-bottom:3px;
+}
+.continue-card-meta{
+  font:400 12px/1.3 'Inter',sans-serif; color:var(--dim);
+  overflow:hidden; text-overflow:ellipsis;
+}
+.continue-card-arrow{
+  color:var(--gold); font-size:22px;
+  flex-shrink:0;
+}
+
+/* Section heading */
+.section-heading{
+  font-family:'Cinzel',serif; font-size:12px; font-weight:600;
+  letter-spacing:.22em; text-transform:uppercase; color:var(--dim);
+  margin:8px 0 16px; display:flex; align-items:center; gap:12px;
+}
+.section-heading::after{
+  content:''; flex:1; height:1px;
+  background:linear-gradient(90deg, var(--border), transparent);
+}
+
+/* Modules grid */
+.modules-grid{
+  display:flex; flex-direction:column; gap:10px;
+}
+
+/* Module card */
+.module-card{
+  display:grid; grid-template-columns:auto 1fr auto;
+  gap:16px; align-items:center;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px 18px;
+  cursor:pointer; transition:all .2s;
+  text-decoration:none; color:inherit;
+  position:relative; overflow:hidden;
+}
+.module-card::before{
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px; background:transparent; transition:background .2s;
+}
+.module-card:hover{
+  border-color:var(--border-strong);
+  transform:translateY(-1px);
+  background:rgba(20,32,64,.85);
+}
+.module-card.completed::before{background:var(--green);}
+.module-card.in-progress::before{background:var(--gold);}
+.module-card.locked{opacity:.55; cursor:pointer;}
+
+.module-icon{
+  width:46px; height:46px; border-radius:13px;
+  background:linear-gradient(135deg, rgba(242,190,98,.15), rgba(242,190,98,.05));
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:22px;
+  flex-shrink:0;
+}
+.module-card.locked .module-icon{
+  background:rgba(255,255,255,.03);
+  border-color:var(--border);
+  color:var(--dim);
+}
+.module-icon span{font-size:22px;}
+
+.module-body{min-width:0;}
+.module-num{
+  font-family:'Cinzel',serif; font-size:10px; font-weight:600;
+  letter-spacing:.22em; color:var(--gold-soft);
+  margin-bottom:3px;
+}
+.module-card.locked .module-num{color:var(--dim);}
+.module-title{
+  font-family:'Cinzel',serif; font-size:15px; font-weight:500;
+  color:var(--text); margin-bottom:6px;
+}
+.module-meta{
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  font:500 11px/1 'Inter',sans-serif;
+  letter-spacing:.04em; color:var(--dim);
+}
+.module-meta-pill{
+  padding:3px 8px; border-radius:99px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  font-weight:600;
+}
+.module-meta-pill.free{
+  color:var(--green);
+  border-color:rgba(127,201,156,.3);
+  background:var(--green-soft);
+}
+.module-meta-pill.premium{
+  color:var(--gold);
+  border-color:var(--gold-glow);
+  background:rgba(242,190,98,.05);
+}
+
+.module-status{
+  display:flex; flex-direction:column;
+  align-items:flex-end; gap:5px;
+  flex-shrink:0;
+}
+.module-status-icon{
+  width:28px; height:28px; border-radius:50%;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border-strong);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:var(--dim);
+}
+.module-status-icon.done{
+  background:var(--green-soft);
+  border-color:var(--green);
+  color:var(--green);
+}
+.module-status-icon.progress{
+  background:rgba(242,190,98,.12);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.module-status-icon.locked{color:var(--dim);}
+.module-progress-mini{
+  font-family:'Cinzel',serif; font-size:11px;
+  color:var(--gold); font-weight:600;
+  font-variant-numeric:tabular-nums;
+}
+.module-card.locked .module-progress-mini{color:var(--dim);}
+
+@media (max-width:560px){
+  .hub-title{font-size:26px;}
+  .hub-arabic{font-size:20px;}
+  .module-card{grid-template-columns:auto 1fr auto;gap:12px;padding:14px;}
+  .module-icon{width:40px;height:40px;}
+}
+/* /HUB */
 /* UNITS */
 .uc{border-radius:18px;overflow:hidden;border:1px solid var(--border);background:rgba(17,25,39,.6);cursor:pointer;transition:all .2s;margin-bottom:9px;}
 .uc:hover:not(.uc-lk){border-color:rgba(242,190,98,.3);}
@@ -5032,65 +5249,159 @@ function mkFb(){
 // HUB
 // ══════════════════════════════════════════════════════
 function mkHub(){
-  const w=div('stage');
-  const h=div('hub-hero');
-  h.appendChild(el('div',{className:'hub-eyebrow'},'Arabic Language Path'));
-  const hubTitle = el('h1',{className:'hub-title'});
-  hubTitle.innerHTML = 'Master <em>Modern Standard Arabic</em>';
-  h.appendChild(hubTitle);
-  h.appendChild(el('p',{className:'hub-sub'},'A structured journey built on Bayna Yadak and the Madina series. From first greetings to fluent sentences.'));
-  const stats=div('hub-stats');
-  const tb=CUR.reduce((a,m)=>a+m.units.reduce((b,u)=>b+u.blocks.length,0),0);
-  const db=Object.values(PROG).reduce((a,m)=>a+Object.values(m).reduce((b,u)=>b+Object.values(u).filter(s=>s==='done').length,0),0);
-  [{v:'5',l:'Modules'},{v:'10',l:'Units'},{v:tb,l:'Blocks'},{v:db,l:'Done'}].forEach(s=>{ const sc=div('hub-stat'); sc.appendChild(el('div',{className:'hub-stat-val'},String(s.v))); sc.appendChild(el('div',{className:'hub-stat-lbl'},s.l)); stats.appendChild(sc); });
-  h.appendChild(stats); w.appendChild(h);
+  const w = div('stage');
 
-  CUR.forEach(mod=>{
-    const ok=modOk(mod.id);
-    const card=div('mc'+(ok?'':' lk'));
-    const pct=mod.units.reduce((a,u)=>a+unitPct(mod.id,u.id),0)/mod.units.length;
-    const hdr=div('mc-hdr');
-    const num=div('mc-num'); num.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(212,163,74,.5);color:var(--gold);'; num.textContent='M'+mod.id; hdr.appendChild(num);
-    const inf=div('mc-info');
-    // Level tag — cherry-picked from Al-Mu'allim
-    const level = mod.id <= 4 ? 'BEGINNER' : mod.id <= 8 ? 'INTERMEDIATE' : 'ADVANCED';
-    const levelColor = mod.id <= 4 ? 'rgba(74,138,110,.18)' : mod.id <= 8 ? 'rgba(212,163,74,.18)' : 'rgba(232,200,120,.22)';
-    const levelText  = mod.id <= 4 ? 'rgba(155,200,163,.95)' : mod.id <= 8 ? 'var(--gold)' : 'var(--gold)';
-    const levelTag = el('span',{style:{
-      display:'inline-block',fontSize:'9px',fontWeight:'800',letterSpacing:'.14em',
-      padding:'3px 9px',borderRadius:'999px',
-      background:levelColor,color:levelText,marginBottom:'4px'
-    }},level);
-    inf.appendChild(levelTag);
-    inf.appendChild(el('div',{className:'mc-title'},mod.title));
-    inf.appendChild(el('div',{className:'mc-sub'},mod.units.length+' units · '+mod.units.reduce((a,u)=>a+u.blocks.length,0)+' time blocks'));
-    hdr.appendChild(inf);
-    hdr.appendChild(ok?el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',color:mod.color}},'chevron_right'):el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',color:'var(--dim)',fontVariationSettings:"'FILL' 1"}},'lock'));
-    card.appendChild(hdr);
-    const pills=div('mc-units');
-    mod.units.forEach(u=>{ const up=unitPct(mod.id,u.id); const p=div('mc-pill'); p.style.cssText=`border-color:${up===100?'var(--green)':'rgba(212,163,74,.35)'};color:${up===100?'var(--green)':'var(--gold)'};background:${up===100?'rgba(167,209,166,.08)':'transparent'}`; p.textContent=u.id+(up===100?' ✓':''); pills.appendChild(p); });
-    card.appendChild(pills);
-    const pb=div('mc-pb'); const pf=div('mc-pb-fill'); pf.style.width=pct+'%'; pb.appendChild(pf); card.appendChild(pb);
-    if(ok && (isPremium() || isModFree(mod.id))){
-      card.addEventListener('click',()=>{ S.mId=mod.id; S.view='units'; render(); });
-    } else if(ok && !isModFree(mod.id)){
-      // Locked — show upgrade
-      card.addEventListener('click',()=>{ S.view='upgrade'; render(); });
-      // Add premium badge
-      const lkBadge = div('');
-      lkBadge.style.cssText='position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:5px;background:linear-gradient(135deg,#d4a347,#f2be62);color:#1a1000;font-size:10px;font-weight:800;letter-spacing:.08em;padding:4px 10px;border-radius:999px;';
-      const lkIcon = document.createElement('span');
-      lkIcon.style.fontFamily="'Material Symbols Outlined'";
-      lkIcon.style.fontSize='13px';
-      lkIcon.style.fontVariationSettings="'FILL' 1";
-      lkIcon.textContent='workspace_premium';
-      lkBadge.appendChild(lkIcon);
-      lkBadge.appendChild(document.createTextNode(' Unlock with Premium'));
-      card.style.position='relative';
-      card.appendChild(lkBadge);
-    }
-    w.appendChild(card);
+  // ── Hub header ──
+  const hdr = div('hub-header');
+  hdr.appendChild(el('div', {className:'hub-eyebrow'}, 'Conversational Arabic'));
+  hdr.appendChild(el('h1', {className:'hub-title'}, 'Learn Arabic'));
+  hdr.appendChild(el('div', {className:'hub-arabic'}, 'تَعَلَّم العَرَبِيَّة'));
+  hdr.appendChild(el('p', {className:'hub-sub'}, 'From your first hello to full conversations — twelve modules, one journey, real Arabic from the start.'));
+  w.appendChild(hdr);
+
+  // ── Compute progress totals ──
+  let totalUnits = 0, doneUnits = 0;
+  CUR.forEach(mod => {
+    mod.units.forEach(u => {
+      totalUnits++;
+      if (unitPct(mod.id, u.id) === 100) doneUnits++;
+    });
   });
+  const overallPct = totalUnits > 0 ? Math.round(doneUnits/totalUnits*100) : 0;
+
+  // ── Journey bar ──
+  const jb = div('journey-bar');
+  const jbLeft = div('');
+  jbLeft.appendChild(el('div', {className:'journey-bar-meta'}, 'Your Journey'));
+  jbLeft.appendChild(el('div', {className:'journey-bar-num'}, doneUnits + ' / ' + totalUnits + ' units'));
+  jb.appendChild(jbLeft);
+  const jbTrack = div('journey-bar-track');
+  const jbFill = div('journey-bar-fill');
+  jbFill.style.width = overallPct + '%';
+  jbTrack.appendChild(jbFill);
+  jb.appendChild(jbTrack);
+  jb.appendChild(el('div', {className:'journey-bar-pct'}, overallPct + '%'));
+  w.appendChild(jb);
+
+  // ── Continue card (if there's an in-progress module accessible) ──
+  let continueMod = null, continueUnit = null;
+  for (const mod of CUR) {
+    if (!modOk(mod.id) || (!isPremium() && !isModFree(mod.id))) continue;
+    const inProgressUnit = mod.units.find(u => {
+      const p = unitPct(mod.id, u.id);
+      return p > 0 && p < 100;
+    });
+    if (inProgressUnit) {
+      continueMod = mod;
+      continueUnit = inProgressUnit;
+      break;
+    }
+  }
+  if (continueMod && continueUnit) {
+    const totalBlocks = continueUnit.blocks.length;
+    const doneBlocks = (PROG[continueMod.id] && PROG[continueMod.id][continueUnit.id])
+      ? Object.values(PROG[continueMod.id][continueUnit.id]).filter(s => s === 'done').length
+      : 0;
+
+    const cc = div('continue-card');
+    const ccIcon = div('continue-card-icon');
+    ccIcon.appendChild(ms('play_arrow'));
+    cc.appendChild(ccIcon);
+    const ccBody = div('continue-card-body');
+    ccBody.appendChild(el('div', {className:'continue-card-eyebrow'}, 'Continue · Unit ' + continueMod.id + '.' + continueUnit.id));
+    ccBody.appendChild(el('div', {className:'continue-card-title'}, continueUnit.title || 'Unit ' + continueUnit.id));
+    ccBody.appendChild(el('div', {className:'continue-card-meta'}, 'Module ' + continueMod.id + ' · ' + continueMod.title + ' · ' + doneBlocks + ' of ' + totalBlocks + ' blocks'));
+    cc.appendChild(ccBody);
+    const ccArrow = div('continue-card-arrow');
+    ccArrow.appendChild(ms('arrow_forward'));
+    cc.appendChild(ccArrow);
+    cc.addEventListener('click', () => {
+      S.mId = continueMod.id;
+      S.uId = continueUnit.id;
+      S.view = 'blocks';
+      render();
+    });
+    w.appendChild(cc);
+  }
+
+  // ── Section heading ──
+  w.appendChild(el('h2', {className:'section-heading'}, 'All Modules'));
+
+  // ── Modules grid ──
+  const grid = div('modules-grid');
+  CUR.forEach(mod => {
+    const ok = modOk(mod.id);
+    const isFree = isModFree(mod.id);
+    const isUnlocked = ok && (isPremium() || isFree);
+
+    // Progress
+    const totalBlocks = mod.units.reduce((a, u) => a + u.blocks.length, 0);
+    const doneBlocks = mod.units.reduce((a, u) => {
+      if (!PROG[mod.id] || !PROG[mod.id][u.id]) return a;
+      return a + Object.values(PROG[mod.id][u.id]).filter(s => s === 'done').length;
+    }, 0);
+
+    const isCompleted = totalBlocks > 0 && doneBlocks === totalBlocks;
+    const isInProgress = doneBlocks > 0 && doneBlocks < totalBlocks;
+    const isLocked = !isUnlocked;
+
+    let cardClass = 'module-card';
+    if (isCompleted) cardClass += ' completed';
+    else if (isInProgress) cardClass += ' in-progress';
+    if (isLocked) cardClass += ' locked';
+
+    const card = div(cardClass);
+
+    // Icon
+    const iconBox = div('module-icon');
+    iconBox.appendChild(ms(mod.icon || 'school'));
+    card.appendChild(iconBox);
+
+    // Body
+    const body = div('module-body');
+    body.appendChild(el('div', {className:'module-num'}, 'MODULE ' + String(mod.id).padStart(2, '0')));
+    body.appendChild(el('div', {className:'module-title'}, mod.title));
+    const meta = div('module-meta');
+    const pill = el('span', {className: 'module-meta-pill ' + (isFree ? 'free' : 'premium')}, isFree ? 'Free' : 'Premium');
+    meta.appendChild(pill);
+    meta.appendChild(el('span', {}, mod.units.length + ' units · ' + totalBlocks + ' blocks'));
+    body.appendChild(meta);
+    card.appendChild(body);
+
+    // Status
+    const status = div('module-status');
+    if (isCompleted) {
+      status.appendChild(el('div', {className:'module-progress-mini'}, doneBlocks + '/' + totalBlocks));
+      const ic = div('module-status-icon done');
+      ic.appendChild(ms('check'));
+      status.appendChild(ic);
+    } else if (isInProgress && !isLocked) {
+      status.appendChild(el('div', {className:'module-progress-mini'}, doneBlocks + '/' + totalBlocks));
+      const ic = div('module-status-icon progress');
+      ic.appendChild(ms('play_arrow'));
+      status.appendChild(ic);
+    } else if (isLocked) {
+      const ic = div('module-status-icon locked');
+      ic.appendChild(ms('lock'));
+      status.appendChild(ic);
+    } else {
+      const ic = div('module-status-icon');
+      ic.appendChild(ms('chevron_right'));
+      status.appendChild(ic);
+    }
+    card.appendChild(status);
+
+    // Click handler
+    if (isUnlocked) {
+      card.addEventListener('click', () => { S.mId = mod.id; S.view = 'units'; render(); });
+    } else if (ok && !isFree) {
+      card.addEventListener('click', () => { S.view = 'upgrade'; render(); });
+    }
+
+    grid.appendChild(card);
+  });
+  w.appendChild(grid);
+
   return w;
 }
 
