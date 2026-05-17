@@ -310,6 +310,233 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
   .section-heading{font-size:13px;}
 }
 /* /HUB */
+
+/* MODULE VIEW (Units list inside a module) */
+.module-hero{
+  text-align:center; padding:30px 24px;
+  background:linear-gradient(180deg, rgba(23,39,73,.7), rgba(19,32,64,.7));
+  border:1px solid var(--gold-glow); border-radius:22px;
+  margin-bottom:28px; position:relative; overflow:hidden;
+}
+.module-hero-icon{
+  width:64px; height:64px; border-radius:18px; margin:0 auto 16px;
+  background:linear-gradient(135deg, rgba(242,190,98,.2), rgba(242,190,98,.05));
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:32px;
+}
+.module-hero-icon span{font-size:32px;}
+.module-hero-eyebrow{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.28em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:10px;
+}
+.module-hero-title{
+  font-family:'Cinzel',serif;
+  font-size:28px; font-weight:600;
+  color:#f5e8c5; margin-bottom:8px; line-height:1.2;
+}
+.module-hero-arabic{
+  font-family:'Amiri',serif;
+  font-size:20px; color:var(--gold);
+  margin-bottom:12px;
+}
+.module-hero-sub{
+  color:var(--dim); max-width:540px;
+  margin:0 auto; font-size:13px; line-height:1.5;
+}
+
+.units-list{
+  display:flex; flex-direction:column; gap:10px;
+}
+.unit-card{
+  display:grid; grid-template-columns:auto 1fr auto;
+  gap:18px; align-items:center;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px 20px;
+  cursor:pointer; transition:all .2s;
+  position:relative; overflow:hidden;
+}
+.unit-card::before{
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px; background:transparent; transition:background .2s;
+}
+.unit-card:hover{
+  border-color:var(--border-strong);
+  background:rgba(20,32,64,.85);
+  transform:translateX(2px);
+}
+.unit-card.completed::before{background:var(--green);}
+.unit-card.in-progress::before{background:var(--gold);}
+.unit-card.locked{opacity:.55;}
+.unit-id{
+  font-family:'Cinzel',serif;
+  font-size:14px; font-weight:600;
+  color:var(--gold);
+  width:36px; text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+.unit-card.locked .unit-id{color:var(--dim);}
+.unit-title{
+  font-family:'Cinzel',serif;
+  font-size:15px; font-weight:500;
+  color:var(--text); margin-bottom:3px;
+}
+.unit-blocks-count{
+  font:600 10px/1 'Inter',sans-serif;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--gold-soft);
+}
+.unit-card.completed .unit-blocks-count{color:var(--green);}
+.unit-card.locked .unit-blocks-count{color:var(--dim);}
+.unit-icon-small{
+  width:32px; height:32px; border-radius:10px;
+  background:rgba(242,190,98,.08);
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:16px;
+}
+.unit-icon-small.done{
+  background:var(--green-soft);
+  border-color:var(--green);
+  color:var(--green);
+}
+.unit-icon-small.progress{
+  background:rgba(242,190,98,.15);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+/* UNIT VIEW (Blocks list inside a unit) */
+.unit-hero{
+  padding:24px 22px;
+  margin-bottom:24px;
+  background:linear-gradient(180deg, rgba(23,39,73,.7), rgba(19,32,64,.7));
+  border:1px solid var(--border);
+  border-radius:22px;
+}
+.unit-hero-eyebrow{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:10px;
+}
+.unit-hero-title{
+  font-family:'Cinzel',serif;
+  font-size:24px; font-weight:600;
+  color:#f5e8c5; margin-bottom:8px; line-height:1.2;
+}
+.unit-hero-arabic{
+  font-family:'Amiri',serif;
+  font-size:17px; color:var(--gold);
+  margin-bottom:14px; direction:rtl;
+}
+.unit-objectives-list{
+  margin-top:14px; padding-top:14px;
+  border-top:1px dashed var(--border);
+}
+.unit-objectives-heading{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--gold); margin:0 0 10px;
+}
+.unit-objectives-list ul{
+  margin:0; padding-left:18px;
+  color:var(--dim); font-size:13px;
+  line-height:1.6;
+}
+.unit-objectives-list li{margin-bottom:4px;}
+
+.blocks-list{
+  display:flex; flex-direction:column; gap:10px;
+}
+.block-card{
+  display:grid; grid-template-columns:auto 1fr auto;
+  gap:14px; align-items:center;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 18px;
+  cursor:pointer; transition:all .2s;
+  position:relative; overflow:hidden;
+}
+.block-card::before{
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px; background:transparent; transition:background .2s;
+}
+.block-card:hover{
+  border-color:var(--border-strong);
+  background:rgba(20,32,64,.85);
+  transform:translateX(2px);
+}
+.block-card.completed::before{background:var(--green);}
+.block-card.active::before{background:var(--gold);}
+.block-card.locked{opacity:.55;}
+.block-icon{
+  width:44px; height:44px; border-radius:12px;
+  background:rgba(242,190,98,.08);
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:22px;
+  flex-shrink:0;
+}
+.block-icon span{font-size:22px;}
+.block-icon.done{
+  background:var(--green-soft);
+  border-color:rgba(127,201,156,.3);
+  color:var(--green);
+}
+.block-type-tag{
+  font:600 10px/1 'Inter',sans-serif;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold-soft); margin-bottom:4px;
+}
+.block-card.completed .block-type-tag{color:var(--green);}
+.block-title{
+  font-family:'Cinzel',serif;
+  font-size:15px; font-weight:500;
+  color:var(--text); margin-bottom:2px;
+}
+.block-desc{
+  font:400 12px/1.4 'Inter',sans-serif;
+  color:var(--dim); direction:rtl; text-align:left;
+}
+.block-status-icon{
+  width:30px; height:30px; border-radius:50%;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border-strong);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:var(--dim);
+  flex-shrink:0;
+}
+.block-status-icon.done{
+  background:var(--green-soft);
+  border-color:var(--green);
+  color:var(--green);
+}
+.block-status-icon.active{
+  background:rgba(242,190,98,.12);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+@media (max-width:560px){
+  .module-hero{padding:24px 18px;}
+  .module-hero-title{font-size:24px;}
+  .module-hero-arabic{font-size:18px;}
+  .unit-card{padding:14px 16px;gap:12px;}
+  .unit-id{width:30px;font-size:13px;}
+  .unit-title{font-size:14px;}
+  .unit-hero{padding:20px 18px;}
+  .unit-hero-title{font-size:21px;}
+  .unit-hero-arabic{font-size:15px;}
+  .block-card{padding:12px 14px;gap:12px;}
+  .block-icon{width:40px;height:40px;}
+  .block-title{font-size:14px;}
+  .block-desc{font-size:11px;}
+}
+/* /UNIT VIEW */
 /* UNITS */
 .uc{border-radius:18px;overflow:hidden;border:1px solid var(--border);background:rgba(17,25,39,.6);cursor:pointer;transition:all .2s;margin-bottom:9px;}
 .uc:hover:not(.uc-lk){border-color:rgba(242,190,98,.3);}
@@ -5423,123 +5650,88 @@ function mkHub(){
 // UNITS
 // ══════════════════════════════════════════════════════
 function mkUnits(){
-  const mod=getMod(S.mId); const w=div('stage');
+  const mod = getMod(S.mId);
+  const w = div('stage');
+
   // ── In-page back link to platform hub ──
-  const backLinkU=document.createElement('button');
-  backLinkU.className='in-page-back';
-  backLinkU.onclick=()=>{ S.view='hub'; render(); };
-  const arrowBackU=ms('arrow_back'); arrowBackU.style.fontSize='16px';
-  backLinkU.appendChild(arrowBackU);
-  backLinkU.appendChild(document.createTextNode(' Back to Modules'));
-  w.appendChild(backLinkU);
-  w.appendChild(el('h2',{className:'page-title'},'Module '+mod.id+': '+mod.title));
-  w.appendChild(el('p',{className:'page-sub',style:{marginTop:'6px'}},'Tap the highlighted unit to continue. Each unit unlocks the next.'));
+  const backLink = document.createElement('button');
+  backLink.className = 'in-page-back';
+  backLink.onclick = () => { S.view='hub'; render(); };
+  const arrowBack = ms('arrow_back'); arrowBack.style.fontSize='16px';
+  backLink.appendChild(arrowBack);
+  backLink.appendChild(document.createTextNode(' All Modules'));
+  w.appendChild(backLink);
 
-  // ── Module-level progress strip ──
-  const totalUnits = mod.units.length;
-  const doneUnits = mod.units.filter(u => unitPct(S.mId, u.id) === 100).length;
-  const modPct = Math.round((doneUnits / totalUnits) * 100);
-  const stripWrap = div('');
-  stripWrap.style.cssText = 'background:rgba(212,163,74,.05);border:1px solid rgba(212,163,74,.18);border-radius:14px;padding:14px 18px;margin:18px 0 24px;';
-  const stripTop = div('');
-  stripTop.style.cssText = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:12px;';
-  stripTop.appendChild(el('div',{style:{color:'var(--text)',fontWeight:'700',letterSpacing:'.04em'}}, doneUnits+' of '+totalUnits+' units complete'));
-  stripTop.appendChild(el('div',{style:{color:'var(--gold)',fontWeight:'700'}}, modPct+'%'));
-  stripWrap.appendChild(stripTop);
-  const sBar = div('');
-  sBar.style.cssText = 'height:5px;background:rgba(212,163,74,.12);border-radius:3px;overflow:hidden;';
-  const sFill = div('');
-  sFill.style.cssText = 'height:100%;background:linear-gradient(90deg,var(--gold),rgba(232,200,120,.85));width:'+modPct+'%;transition:width .4s;';
-  sBar.appendChild(sFill);
-  stripWrap.appendChild(sBar);
-  w.appendChild(stripWrap);
+  // ── Module hero ──
+  const hero = div('module-hero');
+  const heroIcon = div('module-hero-icon');
+  heroIcon.appendChild(ms(mod.icon || 'school'));
+  hero.appendChild(heroIcon);
+  const isFree = isModFree(mod.id);
+  hero.appendChild(el('div', {className:'module-hero-eyebrow'}, 'Module ' + String(mod.id).padStart(2,'0') + ' · ' + (isFree ? 'Free' : 'Premium')));
+  hero.appendChild(el('h1', {className:'module-hero-title'}, mod.title));
+  if (mod.titleAr) hero.appendChild(el('div', {className:'module-hero-arabic'}, mod.titleAr));
+  if (mod.desc) hero.appendChild(el('p', {className:'module-hero-sub'}, mod.desc));
+  w.appendChild(hero);
 
-  // ── Render each unit ──
-  mod.units.forEach(unit=>{
-    const ok=unitOk(S.mId,unit.id); const pct=unitPct(S.mId,unit.id); const done=pct===100;
-    const isActive = ok && !done; // The user's current focus (only one at a time due to gating)
+  // ── Section heading ──
+  w.appendChild(el('h2', {className:'section-heading'}, 'Units in this module'));
 
-    // Determine status pill content + colors
-    let pillLabel, pillBg, pillBorder, pillColor;
-    if(done){
-      pillLabel = '✓ COMPLETE';
-      pillBg = 'rgba(74,138,110,.15)';
-      pillBorder = 'rgba(74,138,110,.5)';
-      pillColor = 'rgba(155,200,163,.95)';
-    } else if(isActive){
-      pillLabel = pct > 0 ? (pct + '% · CONTINUE') : 'UP NEXT';
-      pillBg = 'rgba(212,163,74,.15)';
-      pillBorder = 'var(--gold)';
-      pillColor = 'var(--gold)';
+  // ── Units list ──
+  const list = div('units-list');
+  mod.units.forEach(unit => {
+    const ok = unitOk(S.mId, unit.id);
+    const pct = unitPct(S.mId, unit.id);
+    const done = pct === 100;
+    const inProgress = pct > 0 && pct < 100;
+    const canAcc = ok && canAccess(S.mId, unit.id);
+
+    let cardClass = 'unit-card';
+    if (done) cardClass += ' completed';
+    else if (inProgress) cardClass += ' in-progress';
+    if (!ok) cardClass += ' locked';
+
+    const card = div(cardClass);
+
+    // Unit ID column (e.g. "2.1")
+    card.appendChild(el('div', {className:'unit-id'}, mod.id + '.' + unit.id));
+
+    // Body
+    const body = div('');
+    body.appendChild(el('div', {className:'unit-title'}, unit.title));
+    let countLabel;
+    if (done) {
+      countLabel = unit.blocks.length + ' blocks · completed';
+    } else if (inProgress) {
+      const doneBlocks = unit.blocks.filter(b => getBlock_(S.mId, unit.id, b.id) === 'done').length;
+      countLabel = doneBlocks + ' of ' + unit.blocks.length + ' blocks · in progress';
+    } else if (!canAcc) {
+      countLabel = unit.blocks.length + ' blocks · premium';
     } else {
-      pillLabel = 'LOCKED';
-      pillBg = 'transparent';
-      pillBorder = 'rgba(255,255,255,.1)';
-      pillColor = 'var(--dim)';
+      countLabel = unit.blocks.length + ' blocks · next up';
+    }
+    body.appendChild(el('div', {className:'unit-blocks-count'}, countLabel));
+    card.appendChild(body);
+
+    // Status icon
+    const icoWrap = div('unit-icon-small' + (done ? ' done' : inProgress ? ' progress' : ''));
+    if (done) icoWrap.appendChild(ms('check'));
+    else if (inProgress) icoWrap.appendChild(ms('play_arrow'));
+    else if (!canAcc) icoWrap.appendChild(ms('lock'));
+    else icoWrap.appendChild(ms('arrow_forward'));
+    card.appendChild(icoWrap);
+
+    // Click handlers
+    if (ok && canAcc) {
+      card.addEventListener('click', () => { S.uId = unit.id; S.view = 'blocks'; render(); });
+    } else if (ok && !canAcc) {
+      card.addEventListener('click', () => { S.view = 'upgrade'; render(); });
     }
 
-    const uc = div('uc'+(isActive ? ' uc-on' : '')+(done ? ' uc-on' : '')+(!ok ? ' uc-lk' : ''));
-    // Active-unit emphasis: gold glow box-shadow
-    if(isActive){
-      uc.style.cssText = 'box-shadow:0 0 24px rgba(212,163,74,.18);border-color:var(--gold);';
-    } else if(done){
-      uc.style.cssText = 'opacity:.65;';
-    }
-
-    const inn = div('uc-inner');
-
-    // Icon (color-coded by status)
-    const ico = div('uc-ico');
-    if(done){
-      ico.style.cssText = 'background:rgba(74,138,110,.1);border:1px solid rgba(74,138,110,.3);color:rgba(155,200,163,.95);';
-    } else if(isActive){
-      ico.style.cssText = 'background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.4);color:var(--gold);';
-    } else {
-      ico.style.cssText = 'background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);color:var(--dim);';
-    }
-    ico.appendChild(ms(unit.icon));
-    inn.appendChild(ico);
-
-    // Text container
-    const txt = div('uc-txt');
-    txt.appendChild(el('div',{className:'uc-title'},'Unit '+unit.id+': '+unit.title));
-
-    // English byline: "N blocks · ~Y min" (gold, small)
-    const blockCount = unit.blocks.length;
-    const estMin = blockCount * 10;
-    const byline = blockCount + ' block' + (blockCount===1?'':'s') + ' · ~' + estMin + ' min';
-    txt.appendChild(el('div',{style:{fontSize:'10px',color:'rgba(212,163,74,.75)',fontWeight:'700',letterSpacing:'.06em',marginBottom:'3px',textTransform:'uppercase'}}, byline));
-
-    // Arabic description (kept — atmospheric, kept dim)
-    txt.appendChild(el('div',{className:'uc-desc'}, unit.desc));
-
-    // Per-unit progress bar (only if active and partially done)
-    if(isActive && pct > 0){
-      const upWrap = div('');
-      upWrap.style.cssText = 'margin-top:8px;height:3px;background:rgba(212,163,74,.1);border-radius:2px;overflow:hidden;';
-      const upFill = div('');
-      upFill.style.cssText = 'height:100%;background:var(--gold);width:'+pct+'%;transition:width .3s;';
-      upWrap.appendChild(upFill);
-      txt.appendChild(upWrap);
-    }
-    inn.appendChild(txt);
-
-    // Status pill (replaces the old play/check/lock icon)
-    const pill = div('');
-    pill.style.cssText = 'flex-shrink:0;padding:5px 10px;border-radius:999px;background:'+pillBg+';border:1.5px solid '+pillBorder+';color:'+pillColor+';font-size:9px;font-weight:800;letter-spacing:.12em;white-space:nowrap;align-self:center;';
-    pill.textContent = pillLabel;
-    inn.appendChild(pill);
-
-    uc.appendChild(inn);
-
-    // Click handlers (unchanged from prior version)
-    if(ok && canAccess(S.mId, unit.id)){
-      uc.addEventListener('click',()=>{ S.uId=unit.id; S.view='blocks'; render(); });
-    } else if(ok && !canAccess(S.mId, unit.id)){
-      uc.addEventListener('click',()=>{ S.view='upgrade'; render(); });
-    }
-    w.appendChild(uc);
+    list.appendChild(card);
   });
+  w.appendChild(list);
+
   return w;
 }
 
@@ -5547,54 +5739,92 @@ function mkUnits(){
 // BLOCKS
 // ══════════════════════════════════════════════════════
 function mkBlocks(){
-  const mod=getMod(S.mId); const unit=getUnit(S.mId,S.uId); const w=div('stage');
+  const mod = getMod(S.mId);
+  const unit = getUnit(S.mId, S.uId);
+  const w = div('stage');
+
   // ── In-page back link to units list ──
-  const backLinkB=document.createElement('button');
-  backLinkB.className='in-page-back';
-  backLinkB.onclick=()=>{ S.view='units'; render(); };
-  const arrowBackB=ms('arrow_back'); arrowBackB.style.fontSize='16px';
-  backLinkB.appendChild(arrowBackB);
-  backLinkB.appendChild(document.createTextNode(' Back to Units'));
-  w.appendChild(backLinkB);
-  const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Unit '+unit.id+' · '+unit.title)); w.appendChild(ph);
-  w.appendChild(el('h2',{className:'page-title'},unit.title));
-  w.appendChild(el('p',{className:'page-sub'},unit.desc));
-  // ── Lesson objectives card (LINC-style "By the end of this lesson, you can...") ──
-  if(unit.objectives && unit.objectives.length){
-    const objCard = div('unit-objectives');
-    const objLabel = div('unit-objectives-label');
-    objLabel.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'14px',fontVariationSettings:"'FILL' 1"}},'flag'));
-    objLabel.appendChild(document.createTextNode('Lesson Objectives'));
-    objCard.appendChild(objLabel);
-    objCard.appendChild(el('div',{className:'unit-objectives-title'},'By the end of this lesson, you can:'));
+  const backLink = document.createElement('button');
+  backLink.className = 'in-page-back';
+  backLink.onclick = () => { S.view='units'; render(); };
+  const arrowBack = ms('arrow_back'); arrowBack.style.fontSize='16px';
+  backLink.appendChild(arrowBack);
+  backLink.appendChild(document.createTextNode(' ' + mod.title));
+  w.appendChild(backLink);
+
+  // ── Unit hero ──
+  const hero = div('unit-hero');
+  hero.appendChild(el('div', {className:'unit-hero-eyebrow'}, 'Unit ' + mod.id + '.' + unit.id));
+  hero.appendChild(el('h1', {className:'unit-hero-title'}, unit.title));
+  if (unit.desc) hero.appendChild(el('div', {className:'unit-hero-arabic'}, unit.desc));
+
+  // Objectives
+  if (unit.objectives && unit.objectives.length) {
+    const objs = div('unit-objectives-list');
+    objs.appendChild(el('h5', {className:'unit-objectives-heading'}, 'By the end of this unit, you will be able to'));
     const ul = document.createElement('ul');
-    unit.objectives.forEach(obj=>{
+    unit.objectives.forEach(obj => {
       const li = document.createElement('li');
       li.textContent = obj;
       ul.appendChild(li);
     });
-    objCard.appendChild(ul);
-    w.appendChild(objCard);
+    objs.appendChild(ul);
+    hero.appendChild(objs);
   }
-  const BMETA=[{icon:'forum',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'translate',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'psychology',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'extension',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'},{icon:'forum',cb:'#D4A34A',ci:'rgba(212,163,74,.04)'}];
-  const grid=div('bgrid');
-  unit.blocks.forEach((blk,i)=>{
-    const ok=blockOk(S.mId,S.uId,blk.id); const st=getBlock_(S.mId,S.uId,blk.id); const bm=BMETA[i]||BMETA[0];
-    const card=div('bc'+(st==='done'?' bc-dn':'')+(!ok?' bc-lk':''));
-    const top=div('bc-top');
-    const ico=div('bc-ico'); ico.style.cssText=`background:${bm.ci};color:${bm.cb};`; ico.appendChild(ms(blk.icon || bm.icon)); top.appendChild(ico);
-    top.appendChild(el('div',{className:'bc-num'},'Block '+blk.id));
-    top.appendChild(el('div',{className:'bc-title'},blk.title));
-    top.appendChild(el('div',{className:'bc-desc'},blk.desc));
-    card.appendChild(top);
-    const bot=div('bc-bot');
-    const sl=div('bc-st'); sl.style.color=st==='done'?'var(--green)':ok?bm.cb:'var(--dim)'; sl.textContent=st==='done'?'✓ Done':ok?'Ready':'Locked'; bot.appendChild(sl);
-    if(ok){ const chv=el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'16px',color:bm.cb}},'chevron_right'); bot.appendChild(chv); }
-    card.appendChild(bot);
-    if(ok) card.addEventListener('click',()=>{ S.bId=blk.id; resetBS(); S.view='lesson'; render(); });
-    grid.appendChild(card);
+  w.appendChild(hero);
+
+  // ── Section heading ──
+  w.appendChild(el('h2', {className:'section-heading'}, 'Blocks · ' + unit.blocks.length + ' total'));
+
+  // ── Block list ──
+  const list = div('blocks-list');
+  unit.blocks.forEach((blk, i) => {
+    const ok = blockOk(S.mId, S.uId, blk.id);
+    const st = getBlock_(S.mId, S.uId, blk.id);
+    const done = st === 'done';
+    const isActive = ok && !done;
+
+    let cardClass = 'block-card';
+    if (done) cardClass += ' completed';
+    else if (isActive) cardClass += ' active';
+    if (!ok) cardClass += ' locked';
+
+    const card = div(cardClass);
+
+    // Icon
+    const ico = div('block-icon' + (done ? ' done' : ''));
+    ico.appendChild(ms(blk.icon || 'school'));
+    card.appendChild(ico);
+
+    // Body
+    const body = div('');
+    // Type tag - capitalize type
+    const typeMap = {
+      dialogue: 'Dialogue', vocab: 'Vocabulary', grammar: 'Grammar',
+      clutter: 'Sentence Builder', possessive: 'Suffix Tap', cloze: 'Fill Blank'
+    };
+    const typeLabel = (typeMap[blk.type] || 'Block') + ' · ' + String(blk.id).padStart(2,'0');
+    body.appendChild(el('div', {className:'block-type-tag'}, typeLabel));
+    body.appendChild(el('div', {className:'block-title'}, blk.title));
+    if (blk.desc) body.appendChild(el('div', {className:'block-desc'}, blk.desc));
+    card.appendChild(body);
+
+    // Status icon
+    const statusIco = div('block-status-icon' + (done ? ' done' : isActive ? ' active' : ''));
+    if (done) statusIco.appendChild(ms('check'));
+    else if (isActive) statusIco.appendChild(ms('play_arrow'));
+    else if (!ok) statusIco.appendChild(ms('lock'));
+    else statusIco.appendChild(ms('arrow_forward'));
+    card.appendChild(statusIco);
+
+    if (ok) {
+      card.addEventListener('click', () => { S.bId = blk.id; resetBS(); S.view = 'lesson'; render(); });
+    }
+
+    list.appendChild(card);
   });
-  w.appendChild(grid);
+  w.appendChild(list);
+
   return w;
 }
 function resetBS(){
