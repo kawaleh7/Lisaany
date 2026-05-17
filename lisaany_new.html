@@ -884,31 +884,32 @@ body{
 /* ─── MAADA LESSON (Lesson 3) ─── */
 .maad-main-card{
   border-radius:22px;
-  border:1px solid rgba(255,255,255,.09);
-  background:var(--card);
+  background:transparent;
+  border:1px solid var(--gold-glow);
   overflow:hidden;
   display:flex;flex-direction:column;
 }
 .maad-card-top{
-  display:flex;align-items:center;justify-content:center;gap:18px;
-  padding:32px 20px 18px;
+  display:flex;align-items:center;justify-content:center;gap:24px;
+  padding:36px 20px 20px;
   direction:rtl;
 }
 .maad-letter{
   font-family:'Amiri',serif;
-  font-size:64px;color:var(--gold);
+  font-size:72px;color:var(--gold);
   line-height:1.2;
 }
 .maad-letter-highlight{
-  text-shadow:0 0 18px rgba(242,190,98,.45);
+  color:var(--gold);
+  filter:drop-shadow(0 0 18px rgba(242,190,98,.45));
 }
 .maad-plus{
-  font-size:28px;color:var(--gold);opacity:.5;
+  font-size:28px;color:var(--gold);opacity:.4;
   font-family:'Inter',sans-serif;font-weight:300;
 }
 .maad-label-row{
   display:flex;gap:10px;align-items:center;justify-content:center;
-  padding:6px 16px 12px;direction:rtl;
+  padding:0 16px 14px;direction:rtl;
 }
 .maad-label{
   font:600 10px/1 'Inter',sans-serif;
@@ -927,17 +928,17 @@ body{
   opacity:.7;
 }
 .maad-result{
-  background:linear-gradient(180deg, rgba(242,190,98,.1), rgba(242,190,98,.04));
+  background:linear-gradient(180deg, rgba(242,190,98,.08), rgba(242,190,98,.02));
   border-top:1px solid var(--gold);
   display:flex;flex-direction:column;align-items:center;
-  padding:24px 16px 20px;
-  gap:6px;
+  padding:28px 16px 24px;
+  gap:8px;
 }
 .maad-result-ar{
   font-family:'Amiri',serif;
-  font-size:88px;color:var(--gold);
+  font-size:96px;color:var(--gold);
   line-height:1.1;
-  text-shadow:0 0 28px rgba(242,190,98,.5);
+  filter:drop-shadow(0 0 28px rgba(242,190,98,.5));
 }
 .maad-result-roman{
   font-family:'Cinzel',serif;
@@ -963,7 +964,7 @@ body{
 }
 .maad-example{
   flex:1;
-  background:var(--card);
+  background:rgba(255,255,255,.02);
   border:1px solid rgba(255,255,255,.09);
   border-radius:14px;
   display:flex;align-items:center;justify-content:center;
@@ -973,7 +974,7 @@ body{
 }
 .maad-example:hover{
   border-color:var(--gold);
-  background:var(--card-hover);
+  background:rgba(242,190,98,.04);
 }
 .maad-example-ar{
   font-family:'Amiri',serif;
@@ -981,97 +982,150 @@ body{
   line-height:1.2;direction:rtl;
 }
 @media (max-width:560px){
-  .maad-letter{font-size:50px;}
-  .maad-result-ar{font-size:68px;}
+  .maad-letter{font-size:56px;}
+  .maad-result-ar{font-size:72px;}
   .maad-example-ar{font-size:26px;}
 }
 /* ─── /MAADA LESSON ─── */
 
-/* ─── INTRO BOXES GRID (Maad connect/separate) ─── */
-.boxes-col-hdr{
-  display:grid;grid-template-columns:1fr 1fr;gap:12px;
-  width:100%;margin-bottom:6px;
-}
-.boxes-col-hdr-cell{
-  font:600 11px/1 'Inter',sans-serif;
-  letter-spacing:.18em;text-transform:uppercase;
-  text-align:center;padding:8px;
-  border-radius:999px;
-}
-.boxes-col-yes{color:var(--green);background:rgba(127,201,156,.08);border:1px solid rgba(127,201,156,.2);}
-.boxes-col-no{color:var(--dim);background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.09);}
-
-.boxes-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;
-}
-.boxes-card{
+/* ─── INTRO BOXES — Maad CONNECTS/SEPARATE sections ─── */
+.maad-section{
   background:var(--card);
   border:1px solid rgba(255,255,255,.09);
   border-radius:20px;
+  padding:22px 24px;
+  margin-bottom:14px;
+  position:relative;
   overflow:hidden;
-  display:flex;flex-direction:column;
-  min-height:200px;
 }
-.boxes-card.connects{
-  border-color:var(--gold);
-  box-shadow:0 0 24px var(--gold-glow);
+.maad-section-connects{
+  border-color:rgba(127,201,156,.3);
+  background:
+    linear-gradient(180deg, rgba(127,201,156,.05), transparent 30%),
+    var(--card);
 }
-.boxes-card.separate{
-  opacity:.7;
+.maad-section-separate{
+  border-color:rgba(217,122,122,.25);
+  opacity:.92;
 }
-.boxes-card-top{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  direction:rtl;padding:18px 10px 12px;
-  flex:1;
+.maad-section-header{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding-bottom:14px;
+  border-bottom:1px dashed rgba(255,255,255,.09);
+  margin-bottom:8px;
+  flex-wrap:wrap;
 }
-.boxes-from{
-  font-family:'Amiri',serif;font-size:38px;
-  color:var(--text);line-height:1.2;
+.maad-section-title{
+  display:flex;align-items:center;gap:12px;
 }
-.boxes-plus{
-  font-size:18px;color:rgba(255,255,255,.4);
-  font-weight:300;margin:0 2px;
+.maad-section-icon{
+  width:32px;height:32px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;flex-shrink:0;
 }
-.boxes-maad{
-  font-family:'Amiri',serif;font-size:38px;
-  color:rgba(255,255,255,.55);line-height:1.2;
+.maad-section-icon.connects{
+  background:rgba(127,201,156,.12);
+  color:var(--green);
+  border:1px solid var(--green);
 }
-.boxes-card.connects .boxes-maad{color:var(--gold);opacity:.8;}
-.boxes-divider{
-  width:100%;height:1px;
-  background:rgba(242,190,98,.3);
-  position:relative;flex-shrink:0;
+.maad-section-icon.separate{
+  background:rgba(217,122,122,.12);
+  color:#d97a7a;
+  border:1px solid #d97a7a;
 }
-.boxes-card.connects .boxes-divider{background:var(--gold);}
-.boxes-divider-arrow{
-  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
-  font-family:'Material Symbols Outlined';font-size:18px;
-  color:var(--gold);font-variation-settings:'FILL' 1;
-  background:var(--card);padding:0 4px;
-}
-.boxes-card-bot{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:14px 8px 18px;flex:1;gap:6px;
-}
-.boxes-result{
-  font-family:'Amiri',serif;font-size:52px;
-  color:rgba(226,210,180,.5);direction:rtl;line-height:1.2;
-}
-.boxes-card.connects .boxes-result{
-  color:var(--gold);
-  text-shadow:0 0 18px rgba(242,190,98,.4);
-}
-.boxes-roman{
-  font-family:'Cinzel',serif;font-size:11px;font-weight:600;
+.maad-section-label{
+  font-family:'Cinzel',serif;
+  font-size:14px;font-weight:600;
   letter-spacing:.2em;text-transform:uppercase;
+}
+.maad-section-connects .maad-section-label{color:var(--green);}
+.maad-section-separate .maad-section-label{color:#d97a7a;}
+.maad-section-rule{
+  font:400 13px/1.4 'Inter',sans-serif;
+  color:var(--dim);
+  font-style:italic;
+}
+
+.maad-example{
+  display:grid;grid-template-columns:minmax(80px,1fr) 2.5fr auto;
+  align-items:center;gap:16px;
+  padding:18px 0;
+}
+.maad-example + .maad-example{
+  border-top:1px dashed rgba(255,255,255,.06);
+}
+.maad-example-input{
+  display:flex;align-items:center;justify-content:flex-start;gap:8px;
+  direction:rtl;
+}
+.maad-input-letter{
+  font-family:'Amiri',serif;font-size:34px;
+  color:var(--text);line-height:1;
+}
+.maad-input-letter.dim{color:rgba(226,210,180,.65);}
+.maad-input-plus{
+  color:var(--gold);font-size:18px;font-weight:300;
+  font-family:'Inter',sans-serif;
+  opacity:.6;
+}
+.maad-join-viz{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.maad-join-result{
+  font-family:'Amiri',serif;font-size:54px;
+  color:var(--gold);line-height:1;
+  text-shadow:0 0 16px rgba(242,190,98,.3);
+}
+.maad-join-result.separate{
+  color:rgba(226,210,180,.65);
+  text-shadow:none;
+}
+.maad-join-annotation{
+  width:120px;height:18px;
+}
+.maad-join-annotation svg{
+  width:100%;height:100%;
+  display:block;
+}
+.maad-join-label{
+  font:600 10px/1 'Inter',sans-serif;
+  letter-spacing:.18em;text-transform:uppercase;
+  margin-top:2px;
+}
+.maad-join-label.connects{color:var(--green);}
+.maad-join-label.separate{color:#d97a7a;}
+.maad-transliteration{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.22em;text-transform:uppercase;
   color:var(--dim);
 }
-.boxes-card.connects .boxes-roman{color:var(--gold);}
-@media (max-width:560px){
-  .boxes-from,.boxes-maad{font-size:30px;}
-  .boxes-result{font-size:42px;}
+.maad-play-btn{
+  width:46px;height:46px;border-radius:50%;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border-strong);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;
+  color:var(--gold);
+  flex-shrink:0;
 }
-/* ─── /INTRO BOXES GRID ─── */
+.maad-play-btn:hover{
+  background:rgba(242,190,98,.12);
+  border-color:var(--gold);
+  transform:scale(1.05);
+}
+.maad-play-btn svg{
+  width:18px;height:18px;
+  margin-left:2px;
+}
+@media (max-width:560px){
+  .maad-example{grid-template-columns:1fr; gap:12px; text-align:center;}
+  .maad-example-input{justify-content:center;}
+  .maad-join-viz{margin:0 auto;}
+  .maad-play-btn{margin:0 auto;}
+  .maad-section{padding:18px 16px;}
+  .maad-section-header{flex-direction:column;align-items:flex-start;}
+}
+/* ─── /INTRO BOXES ─── */
 
 /* 3-choice row (harakat) */
 .choices-row{display:flex;gap:12px;width:100%;}
@@ -2944,48 +2998,98 @@ function buildSlide(slide,el_){
 
   // ── EXAMPLES / BOXES ──
   if(slide.boxes){
-    // Maad 4-box connect/separate grid
-    const colHdr = div('boxes-col-hdr');
-    colHdr.appendChild(el('div',{className:'boxes-col-hdr-cell boxes-col-yes'},'✓ Connects'));
-    colHdr.appendChild(el('div',{className:'boxes-col-hdr-cell boxes-col-no'},'✗ Stays Separate'));
-    el_.appendChild(colHdr);
-
-    const grid = div('boxes-grid');
-
     const connectBoxes = slide.boxes.filter(b=>b.connects);
     const separateBoxes = slide.boxes.filter(b=>!b.connects);
-    const orderedBoxes = [];
-    const maxRows = Math.max(connectBoxes.length, separateBoxes.length);
-    for(let r=0;r<maxRows;r++){
-      if(connectBoxes[r]) orderedBoxes.push(connectBoxes[r]);
-      if(separateBoxes[r]) orderedBoxes.push(separateBoxes[r]);
+
+    // ─── CONNECTS section ───
+    if (connectBoxes.length > 0) {
+      const section = div('maad-section maad-section-connects');
+
+      const hdr = div('maad-section-header');
+      const title = div('maad-section-title');
+      title.appendChild(el('span', {className:'maad-section-icon connects'}, '✓'));
+      title.appendChild(el('span', {className:'maad-section-label'}, 'Connects'));
+      hdr.appendChild(title);
+      hdr.appendChild(el('div', {className:'maad-section-rule'}, 'letter flows into the alif'));
+      section.appendChild(hdr);
+
+      connectBoxes.forEach(b => {
+        const row = div('maad-example');
+
+        const input = div('maad-example-input');
+        input.appendChild(el('span', {className:'maad-input-letter dim'}, b.from));
+        input.appendChild(el('span', {className:'maad-input-plus'}, '+'));
+        input.appendChild(el('span', {className:'maad-input-letter dim'}, b.maad));
+        row.appendChild(input);
+
+        const viz = div('maad-join-viz');
+        viz.appendChild(el('div', {className:'maad-join-result'}, b.result));
+        const curve = document.createElement('div');
+        curve.className = 'maad-join-annotation';
+        curve.innerHTML = '<svg viewBox="0 0 120 18" preserveAspectRatio="none"><path d="M 10 4 Q 60 16 110 4" stroke="#7fc99c" stroke-width="2" fill="none" stroke-linecap="round" opacity=".85"/><circle cx="60" cy="12" r="2.5" fill="#7fc99c"/></svg>';
+        viz.appendChild(curve);
+        viz.appendChild(el('div', {className:'maad-join-label connects'}, 'Joined here'));
+        if (b.roman) viz.appendChild(el('div', {className:'maad-transliteration'}, b.roman));
+        row.appendChild(viz);
+
+        const playBtn = el('button', {className:'maad-play-btn'});
+        playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+        playBtn.addEventListener('click', () => {
+          if (window._synth) window._synth.cancel();
+          speak(b.roman || b.result);
+        });
+        row.appendChild(playBtn);
+
+        section.appendChild(row);
+      });
+
+      el_.appendChild(section);
     }
 
-    orderedBoxes.forEach(b=>{
-      const box = div('boxes-card' + (b.connects ? ' connects' : ' separate'));
+    // ─── SEPARATE section ───
+    if (separateBoxes.length > 0) {
+      const section = div('maad-section maad-section-separate');
 
-      // Top half: from + plus + maad letter
-      const topHalf = div('boxes-card-top');
-      topHalf.appendChild(el('span',{className:'boxes-from'},b.from));
-      topHalf.appendChild(el('span',{className:'boxes-plus'},'+'));
-      topHalf.appendChild(el('span',{className:'boxes-maad'},b.maad));
-      box.appendChild(topHalf);
+      const hdr = div('maad-section-header');
+      const title = div('maad-section-title');
+      title.appendChild(el('span', {className:'maad-section-icon separate'}, '✗'));
+      title.appendChild(el('span', {className:'maad-section-label'}, 'Stays Separate'));
+      hdr.appendChild(title);
+      hdr.appendChild(el('div', {className:'maad-section-rule'}, 'letter stops, alif starts fresh'));
+      section.appendChild(hdr);
 
-      // Divider with arrow
-      const divLine = div('boxes-divider');
-      const divArrow = el('span', {className:'boxes-divider-arrow'},'arrow_downward');
-      divLine.appendChild(divArrow);
-      box.appendChild(divLine);
+      separateBoxes.forEach(b => {
+        const row = div('maad-example');
 
-      // Bottom half: result + roman
-      const botHalf = div('boxes-card-bot');
-      botHalf.appendChild(el('div',{className:'boxes-result'},b.result));
-      if(b.roman) botHalf.appendChild(el('div',{className:'boxes-roman'},b.roman));
-      box.appendChild(botHalf);
+        const input = div('maad-example-input');
+        input.appendChild(el('span', {className:'maad-input-letter dim'}, b.from));
+        input.appendChild(el('span', {className:'maad-input-plus'}, '+'));
+        input.appendChild(el('span', {className:'maad-input-letter dim'}, b.maad));
+        row.appendChild(input);
 
-      grid.appendChild(box);
-    });
-    el_.appendChild(grid);
+        const viz = div('maad-join-viz');
+        viz.appendChild(el('div', {className:'maad-join-result separate'}, b.result));
+        const gap = document.createElement('div');
+        gap.className = 'maad-join-annotation';
+        gap.innerHTML = '<svg viewBox="0 0 120 18" preserveAspectRatio="none"><path d="M 10 8 L 50 8" stroke="#d97a7a" stroke-width="2" stroke-linecap="round" opacity=".85"/><path d="M 70 8 L 110 8" stroke="#d97a7a" stroke-width="2" stroke-linecap="round" opacity=".85"/><line x1="56" y1="3" x2="64" y2="13" stroke="#d97a7a" stroke-width="2" stroke-linecap="round"/><line x1="64" y1="3" x2="56" y2="13" stroke="#d97a7a" stroke-width="2" stroke-linecap="round"/></svg>';
+        viz.appendChild(gap);
+        viz.appendChild(el('div', {className:'maad-join-label separate'}, 'Gap — no join'));
+        if (b.roman) viz.appendChild(el('div', {className:'maad-transliteration'}, b.roman));
+        row.appendChild(viz);
+
+        const playBtn = el('button', {className:'maad-play-btn'});
+        playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+        playBtn.addEventListener('click', () => {
+          if (window._synth) window._synth.cancel();
+          speak(b.roman || b.result);
+        });
+        row.appendChild(playBtn);
+
+        section.appendChild(row);
+      });
+
+      el_.appendChild(section);
+    }
 
   } else if(slide.examples && slide.examples.length > 0){
     // Standard 2-column example boxes
