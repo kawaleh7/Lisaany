@@ -36,6 +36,22 @@
   padding:12px 20px; background:rgba(6,14,27,.92); backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border); z-index:30;
 }
+.topbar-back{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:999px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.09);
+  color:var(--text);
+  font:600 12px/1 'Inter',sans-serif;letter-spacing:.06em;
+  cursor:pointer;transition:all .15s;
+}
+.topbar-back:hover{
+  background:rgba(242,190,98,.08);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.topbar-back .ms{font-size:18px;}
+.topbar-back-label{font-weight:700;}
 
 .logo{display:flex; align-items:center; gap:8px;}
 .logo-ar{font-family:'Amiri',serif; font-size:22px; background:linear-gradient(135deg,#f2be62,#d4a34a); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
@@ -657,9 +673,9 @@
 .letter-focus-ar-wrap{
   display:flex;align-items:center;justify-content:center;
   width:140px;height:140px;border-radius:50%;
-  background:linear-gradient(135deg, rgba(242,190,98,.15), rgba(242,190,98,.04));
-  border:1.5px solid var(--gold);
-  box-shadow:0 0 40px var(--gold-glow);
+  background:radial-gradient(circle at center, #0a1421 0%, #050a14 100%);
+  border:2px solid var(--gold);
+  box-shadow:0 0 40px var(--gold-glow), inset 0 0 30px rgba(0,0,0,.6);
 }
 .letter-focus-ar{
   font-family:'Scheherazade New','Amiri',serif;
@@ -857,6 +873,112 @@
   .vm-conn-word{font-size:28px;}
 }
 /* ─── /HARAKAT LESSON ─── */
+
+/* ─── MAADA LESSON (Lesson 3) ─── */
+.maad-main-card{
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.09);
+  background:var(--card);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.maad-card-top{
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  padding:32px 20px 18px;
+  direction:rtl;
+}
+.maad-letter{
+  font-family:'Amiri',serif;
+  font-size:64px;color:var(--gold);
+  line-height:1.2;
+}
+.maad-letter-highlight{
+  text-shadow:0 0 18px rgba(242,190,98,.45);
+}
+.maad-plus{
+  font-size:28px;color:var(--gold);opacity:.5;
+  font-family:'Inter',sans-serif;font-weight:300;
+}
+.maad-label-row{
+  display:flex;gap:10px;align-items:center;justify-content:center;
+  padding:6px 16px 12px;direction:rtl;
+}
+.maad-label{
+  font:600 10px/1 'Inter',sans-serif;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);
+}
+.maad-label-gold{color:var(--gold);}
+.maad-sep{color:var(--dim);font-size:12px;opacity:.5;}
+.maad-arrow-row{
+  display:flex;justify-content:center;
+  padding:8px 0;
+}
+.maad-arrow-row .ms{
+  font-size:24px;color:var(--gold);
+  font-variation-settings:'FILL' 1;
+  opacity:.7;
+}
+.maad-result{
+  background:linear-gradient(180deg, rgba(242,190,98,.1), rgba(242,190,98,.04));
+  border-top:1px solid var(--gold);
+  display:flex;flex-direction:column;align-items:center;
+  padding:24px 16px 20px;
+  gap:6px;
+}
+.maad-result-ar{
+  font-family:'Amiri',serif;
+  font-size:88px;color:var(--gold);
+  line-height:1.1;
+  text-shadow:0 0 28px rgba(242,190,98,.5);
+}
+.maad-result-roman{
+  font-family:'Cinzel',serif;
+  font-size:16px;font-weight:600;
+  color:#f5e8c5;
+  letter-spacing:.14em;
+}
+.maad-result-tag{
+  font:500 10px/1 'Inter',sans-serif;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--dim);
+}
+.maad-examples-heading{
+  font-family:'Cinzel',serif;
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);
+  text-align:center;
+  margin-top:8px;
+}
+.maad-examples-row{
+  display:flex;gap:10px;width:100%;
+}
+.maad-example{
+  flex:1;
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  padding:18px 8px;
+  min-height:70px;
+  transition:all .15s;
+}
+.maad-example:hover{
+  border-color:var(--gold);
+  background:var(--card-hover);
+}
+.maad-example-ar{
+  font-family:'Amiri',serif;
+  font-size:30px;color:var(--text);
+  line-height:1.2;direction:rtl;
+}
+@media (max-width:560px){
+  .maad-letter{font-size:50px;}
+  .maad-result-ar{font-size:68px;}
+  .maad-example-ar{font-size:26px;}
+}
+/* ─── /MAADA LESSON ─── */
 
 /* 3-choice row (harakat) */
 .choices-row{display:flex;gap:12px;width:100%;}
@@ -2436,6 +2558,21 @@ function render(){
 // ─── TOPBAR ───
 function mkTopbar(){
   const bar=div('topbar');
+
+  // Back button — visible on all non-hub screens
+  if (S.phase !== 'hub') {
+    const back = el('button', {className:'topbar-back'});
+    back.appendChild(ms('arrow_back', 0));
+    back.appendChild(el('span', {className:'topbar-back-label'}, 'Hub'));
+    back.addEventListener('click', () => {
+      stopAudio();
+      S.phase = 'hub';
+      S.playingIdx = -1;
+      render();
+    });
+    bar.appendChild(back);
+  }
+
   const logo=div('logo');
   logo.appendChild(el('span',{className:'logo-ar'},'عِلْم'));
   logo.appendChild(el('span',{className:'logo-en'},'Lisaany'));
@@ -2659,7 +2796,7 @@ function buildSlide(slide,el_){
   glow.style.cssText = 'position:absolute;width:160px;height:160px;border-radius:50%;filter:blur(40px);background:rgba(242,190,98,.18);pointer-events:none;';
 
   const circle = div('');
-  circle.style.cssText = `width:104px;height:104px;border-radius:50%;background:linear-gradient(135deg, rgba(242,190,98,.18), rgba(242,190,98,.04));border:1.5px solid ${GOLD};display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 40px rgba(242,190,98,.2);`;
+  circle.style.cssText = `width:104px;height:104px;border-radius:50%;background:radial-gradient(circle at center, #0a1421 0%, #050a14 100%);border:2px solid ${GOLD};display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 40px rgba(242,190,98,.2), inset 0 0 24px rgba(0,0,0,.6);`;
 
   const circlePos = div(''); circlePos.style.cssText='position:relative;display:flex;align-items:center;justify-content:center;';
   circlePos.appendChild(glow);
@@ -3287,10 +3424,6 @@ const MAAD_DATA = {
 const MAAD_TYPES = ['alif','waw','yaa'];
 
 function mkMaadLesson(){
-  const GOLD = '#D4A34A';
-  const NAVY = 'rgba(10,16,35,.85)';
-  const BORDER = 'rgba(212,163,74,.25)';
-
   const typeIdx = S.maadType ?? 0;
   const cardIdx = S.maadCard ?? 0;
   const type    = MAAD_TYPES[typeIdx];
@@ -3301,95 +3434,81 @@ function mkMaadLesson(){
 
   const wrap = div('stage');
 
-  // Phase label
+  // Phase pill
   const ph = div('phase-label'); ph.appendChild(div('phase-dot'));
-  ph.appendChild(document.createTextNode('Lesson · Maada — '+section.name));
+  ph.appendChild(document.createTextNode('Maada — Elongation · Lesson 3'));
   wrap.appendChild(ph);
 
-  // Progress: type dots + card counter
-  const typeRow = div('');
-  typeRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;';
-  const typeDots = div('intro-dots');
-  MAAD_TYPES.forEach((t,i) => {
-    const d = div('intro-dot'+(i===typeIdx?' active':''));
-    d.style.background = i<=typeIdx ? GOLD : 'var(--s4)';
-    d.style.opacity = i<typeIdx ? '0.4' : '1';
-    typeDots.appendChild(d);
+  // Header: section name + counter
+  const hdr = div('vm-header');
+  const nameWrap = div('vm-name-wrap');
+  nameWrap.appendChild(el('div', {className:'vm-section-eyebrow'}, 'Type ' + (typeIdx+1) + ' of ' + MAAD_TYPES.length + ' · Card ' + (cardIdx+1) + ' of ' + section.cards.length));
+  nameWrap.appendChild(el('h2', {className:'vm-section-name'}, section.name));
+  nameWrap.appendChild(el('p', {className:'vm-section-ar'}, section.nameAr));
+  hdr.appendChild(nameWrap);
+  wrap.appendChild(hdr);
+
+  // Type step dots
+  const dotsRow = div('intro-dots');
+  MAAD_TYPES.forEach((_,i)=>{
+    const d = div('intro-dot'+(i<typeIdx?' done':i===typeIdx?' active':''));
+    dotsRow.appendChild(d);
   });
-  typeRow.appendChild(typeDots);
-  typeRow.appendChild(el('span',{style:{fontSize:'11px',color:'var(--dim)',fontWeight:'700'}},
-    (cardIdx+1)+' / '+section.cards.length));
-  wrap.appendChild(typeRow);
+  wrap.appendChild(dotsRow);
 
-  // Rule banner
-  wrap.appendChild(el('div',{style:{
-    fontSize:'12px',fontWeight:'700',color:GOLD,
-    background:'rgba(212,163,74,.07)',border:'1px solid rgba(212,163,74,.25)',
-    borderRadius:'999px',padding:'6px 16px',textAlign:'center',letterSpacing:'.04em'
-  }}, section.rule));
+  // Rule pill
+  wrap.appendChild(el('div', {className:'vm-desc-pill'}, section.rule));
 
-  // ── BEFORE card ──
-  const mainCard = div('');
-  mainCard.style.cssText = `border-radius:22px;border:1.5px solid ${BORDER};background:${NAVY};overflow:hidden;`;
+  // ── MAIN CARD: from + maad → result ──
+  const mainCard = div('maad-main-card');
 
-  // Top: from + plus + maad letter
-  const cardTop = div('');
-  cardTop.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:12px;padding:24px 16px 18px;direction:rtl;';
-  cardTop.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'58px',color:GOLD,lineHeight:'1.2'}}), card.from.ar);
-  cardTop.lastChild.textContent = card.from.ar;
-  const plusEl = el('div',{style:{fontSize:'22px',color:'rgba(212,163,74,.6)',fontWeight:'300'}},'+');
-  cardTop.appendChild(plusEl);
-  cardTop.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'58px',color:GOLD,lineHeight:'1.2',filter:'drop-shadow(0 0 12px rgba(212,163,74,.5))'}}, card.maad.ar));
+  // Top row: from + plus + maad
+  const cardTop = div('maad-card-top');
+  cardTop.appendChild(el('span', {className:'maad-letter'}, card.from.ar));
+  cardTop.appendChild(el('span', {className:'maad-plus'}, '+'));
+  cardTop.appendChild(el('span', {className:'maad-letter maad-letter-highlight'}, card.maad.ar));
   mainCard.appendChild(cardTop);
 
-  // Divider
-  const divEl = div(''); divEl.style.cssText = 'height:1px;background:rgba(212,163,74,.2);margin:0 16px;'; mainCard.appendChild(divEl);
-
   // Labels row
-  const lblRow = div('');
-  lblRow.style.cssText = 'display:flex;gap:8px;align-items:center;justify-content:center;padding:10px 16px;direction:rtl;';
-  lblRow.appendChild(el('span',{style:{fontSize:'10px',fontWeight:'700',color:'var(--dim)',letterSpacing:'.08em',textTransform:'uppercase'}},card.from.lbl));
-  lblRow.appendChild(el('span',{style:{color:'var(--dim)',fontSize:'12px'}},'·'));
-  lblRow.appendChild(el('span',{style:{fontSize:'10px',fontWeight:'700',color:GOLD,letterSpacing:'.08em',textTransform:'uppercase'}},card.maad.lbl));
+  const lblRow = div('maad-label-row');
+  lblRow.appendChild(el('span', {className:'maad-label'}, card.from.lbl));
+  lblRow.appendChild(el('span', {className:'maad-sep'}, '·'));
+  lblRow.appendChild(el('span', {className:'maad-label maad-label-gold'}, card.maad.lbl));
   mainCard.appendChild(lblRow);
 
   // Arrow
-  const arrowRow = div('');
-  arrowRow.style.cssText = 'display:flex;justify-content:center;padding:4px 0;';
-  arrowRow.appendChild(el('div',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'22px',color:'rgba(212,163,74,.5)',fontVariationSettings:"'FILL' 1"}},'arrow_downward'));
+  const arrowRow = div('maad-arrow-row');
+  arrowRow.appendChild(ms('arrow_downward', 1));
   mainCard.appendChild(arrowRow);
 
   // Result
-  const resultRow = div('');
-  resultRow.style.cssText = 'background:rgba(212,163,74,.06);border-top:1px solid rgba(212,163,74,.2);display:flex;flex-direction:column;align-items:center;padding:18px 16px 16px;gap:4px;';
-  resultRow.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'82px',color:GOLD,lineHeight:'1.2',filter:'drop-shadow(0 0 18px rgba(212,163,74,.55))'}}, card.result));
-  resultRow.appendChild(el('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'14px',fontWeight:'700',color:GOLD,letterSpacing:'.08em'}}, card.resultRoman));
-  resultRow.appendChild(el('div',{style:{fontSize:'10px',color:'var(--dim)',letterSpacing:'.06em',textTransform:'uppercase'}},'Long vowel'));
+  const resultRow = div('maad-result');
+  resultRow.appendChild(el('div', {className:'maad-result-ar'}, card.result));
+  resultRow.appendChild(el('div', {className:'maad-result-roman'}, card.resultRoman));
+  resultRow.appendChild(el('div', {className:'maad-result-tag'}, 'Long vowel'));
   mainCard.appendChild(resultRow);
+
   wrap.appendChild(mainCard);
 
-  // ── Examples ──
-  wrap.appendChild(el('div',{style:{fontSize:'10px',fontWeight:'700',letterSpacing:'.14em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center'}},'Examples'));
+  // Examples heading
+  wrap.appendChild(el('div', {className:'maad-examples-heading'}, 'Examples'));
 
-  const exRow = div('');
-  exRow.style.cssText = 'display:flex;gap:10px;width:100%;';
+  // Examples row
+  const exRow = div('maad-examples-row');
   card.examples.forEach(ex => {
-    const ec = div('');
-    ec.style.cssText = `flex:1;border-radius:16px;border:1px solid ${BORDER};background:${NAVY};display:flex;flex-direction:column;align-items:center;padding:14px 6px 10px;gap:4px;`;
-    ec.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'32px',color:'var(--text)',lineHeight:'1.2',direction:'rtl'}}, ex.ar));
-    const exDivEl = div(''); exDivEl.style.cssText = 'height:1px;width:80%;background:rgba(212,163,74,.2);'; ec.appendChild(exDivEl);
-    // English/roman removed
+    const ec = div('maad-example');
+    ec.appendChild(el('div', {className:'maad-example-ar'}, ex.ar));
     exRow.appendChild(ec);
   });
   wrap.appendChild(exRow);
 
-  // ── Nav ──
+  // Nav
   const nav = div('action-row');
   nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
     if(cardIdx > 0){ S.maadCard--; render(); }
     else if(typeIdx > 0){ S.maadType--; S.maadCard=MAAD_DATA[MAAD_TYPES[S.maadType]].cards.length-1; render(); }
     else{ S.phase=getSlides(S.lesson).length?'intro':'hub'; S.slide=getSlides(S.lesson).length-1; render(); }
-  }},'←'));
+  }}, cardIdx > 0 ? '← Previous' : typeIdx > 0 ? '← '+MAAD_DATA[MAAD_TYPES[typeIdx-1]].name : '← Intro'));
 
   let ctaLbl;
   if(!isLastCard) ctaLbl = 'Next →';
