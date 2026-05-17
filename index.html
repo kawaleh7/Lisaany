@@ -64,7 +64,6 @@ body{
   backdrop-filter:blur(20px) saturate(160%);
   -webkit-backdrop-filter:blur(20px) saturate(160%);
 }
-/* Ornamental gold gradient line at the bottom edge */
 .lis-nav::after{
   content:''; position:absolute; left:0; right:0; bottom:0;
   height:1px;
@@ -77,7 +76,6 @@ body{
     transparent 100%);
   pointer-events:none;
 }
-/* Glowing gold diamond at the center of the line */
 .lis-nav::before{
   content:''; position:absolute; left:50%; bottom:-5px;
   width:10px; height:10px;
@@ -301,6 +299,33 @@ body{
   background:linear-gradient(135deg, rgba(122,163,217,.2), rgba(122,163,217,.05));
   border-color:rgba(122,163,217,.3);
   color:var(--blue);
+}
+.path-number-badge{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 16px 8px 8px;
+  background:linear-gradient(135deg, rgba(242,190,98,.15), rgba(242,190,98,.05));
+  border:1px solid var(--gold);
+  border-radius:99px;
+  margin-bottom:14px;
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold);
+  align-self:flex-start;
+}
+.path-number-badge .num-circle{
+  width:26px; height:26px; border-radius:50%;
+  background:var(--gold); color:var(--bg-deep);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cinzel',serif; font-size:14px; font-weight:700;
+  letter-spacing:0;
+}
+.path-number-badge.blue{
+  background:linear-gradient(135deg, rgba(122,163,217,.15), rgba(122,163,217,.05));
+  border-color:var(--blue);
+  color:var(--blue);
+}
+.path-number-badge.blue .num-circle{
+  background:var(--blue); color:var(--bg-deep);
 }
 .path-tag{ font:600 10px/1 'Inter',sans-serif; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
 .path-tag.blue{ color:var(--blue); }
@@ -628,7 +653,8 @@ body{
 
     <a href="lisaany_new.html" class="path-card featured">
       <div class="path-icon"><span class="mi">menu_book</span></div>
-      <div class="path-tag">Path 1 · Begin here for Quran</div>
+      <div class="path-number-badge"><span class="num-circle">1</span><span>Course 1 of 2</span></div>
+      <div class="path-tag">Begin here for Quran</div>
       <h3 class="path-name">Quran Norania</h3>
       <div class="path-name-ar">القاعدة النورانية</div>
       <p class="path-desc">Master the Arabic alphabet, the harakat, and the rules of recitation. Eight classical lessons that take you from your first letter to reading the Quran with confidence.</p>
@@ -646,7 +672,8 @@ body{
 
     <a href="arabic_platform.html" class="path-card">
       <div class="path-icon blue"><span class="mi">mic</span></div>
-      <div class="path-tag blue">Path 2 · Begin here to converse</div>
+      <div class="path-number-badge"><span class="num-circle">2</span><span>Course 2 of 2</span></div>
+      <div class="path-tag blue">Begin here to converse</div>
       <h3 class="path-name">Learn Arabic</h3>
       <div class="path-name-ar">تَعَلَّم العَرَبِيَّة</div>
       <p class="path-desc">A structured 12-module course following Al-Arabiyyah Bayna Yadayk and Madina Arabic. Real dialogues, real vocabulary, real grammar — from your first hello to full conversation.</p>
@@ -886,7 +913,6 @@ document.getElementById('onboarding-modal').addEventListener('click', function(e
 });
 
 // ── Profile indicator (red dot = logged out, green pulsing + initial = logged in) ──
-// Always links to profile.html. Navigation is handled by the anchor's href natively.
 const HOME_SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
 const HOME_SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
 
