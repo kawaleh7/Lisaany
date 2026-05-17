@@ -83,22 +83,39 @@
 
 /* Phase Label */
 .phase-label{
-  display:flex; align-items:center; gap:8px;
-  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
-  color:var(--dim);
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:'Cinzel',serif;
+  font-size:11px; font-weight:600; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold);
+  padding:8px 16px;
+  background:rgba(242,190,98,.06);
+  border:1px solid var(--gold-glow);
+  border-radius:999px;
+  align-self:center;
+  margin-bottom:8px;
 }
-.phase-dot{width:6px; height:6px; border-radius:50%; background:var(--gold);}
+.phase-dot{width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 8px var(--gold);}
 
 /* Buttons */
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  padding:14px 22px; border-radius:999px; border:none; cursor:pointer;
-  font-family:'Inter',sans-serif; font-size:14px; font-weight:700;
+  padding:14px 26px; border-radius:999px; border:none; cursor:pointer;
+  font-family:'Inter',sans-serif; font-size:13px; font-weight:600;
+  letter-spacing:.06em;
   transition:all .15s;
 }
 .btn:active{transform:scale(.97);}
-.btn-primary{background:var(--gold); color:var(--on-gold); box-shadow:0 0 20px rgba(212,163,74,.35);}
-.btn-ghost{background:var(--faint); color:var(--text); border:1px solid var(--border);}
+.btn-primary{
+  background:linear-gradient(135deg, var(--gold), var(--gold2));
+  color:#3a2400;
+  box-shadow:0 4px 24px var(--gold-glow);
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 32px rgba(242,190,98,.35); }
+.btn-ghost{
+  background:transparent; color:var(--text);
+  border:1px solid var(--border-strong);
+}
+.btn-ghost:hover{ color:var(--gold); border-color:var(--gold); background:rgba(255,255,255,.03); }
 .btn-block{width:100%;}
 .btn-sm{padding:9px 16px; font-size:12px;}
 .action-row{display:flex; gap:12px; width:100%;}
@@ -355,7 +372,7 @@
 .rn-btn:active{transform:scale(.96);}
 
 /* ═══ INTRO SLIDES ═══ */
-.intro-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;}
+.intro-wrap{display:flex;flex-direction:column;align-items:center;gap:24px;padding:8px 0;}
 .slide{display:flex;flex-direction:column;align-items:stretch;gap:16px;width:100%;animation:fade-up .35s ease both;}
 .slide-hero{width:100%;border-radius:var(--r-lg);overflow:hidden;background:rgba(6,14,27,.7);border:1px solid var(--border);}
 .slide-hero-top{padding:28px 20px 20px;display:flex;align-items:center;justify-content:center;gap:20px;background:rgba(6,14,27,.5);}
@@ -378,10 +395,10 @@
 .slide-trio-div{height:1px;background:var(--border);}
 .slide-trio-bot{padding:8px;text-align:center;}
 .slide-trio-name{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;}
-.intro-dots{display:flex;gap:8px;align-items:center;justify-content:center;}
-.intro-dot{width:7px;height:7px;border-radius:50%;background:var(--s4);cursor:pointer;transition:all .3s;}
-.intro-dot.active{width:22px;border-radius:4px;background:var(--gold);}
-.intro-dot.done{background:var(--green);}
+.intro-dots{display:flex;gap:8px;align-items:center;justify-content:center;padding:8px 0;}
+.intro-dot{width:8px;height:8px;border-radius:50%;background:var(--border-strong);cursor:pointer;transition:all .25s;}
+.intro-dot.active{width:28px;border-radius:4px;background:var(--gold);box-shadow:0 0 12px var(--gold-glow);}
+.intro-dot.done{background:var(--gold2);opacity:.7;}
 /* ═══ LETTER GRID (L1) ═══ */
 .letters-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .letter-tile{aspect-ratio:1;border-radius:18px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;background:rgba(17,25,39,.7);border:1px solid var(--border);transition:all .18s;}
@@ -468,70 +485,381 @@
 .prac-audio-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
 .prac-question{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--text);text-align:center;}
 /* 2x2 options */
-.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;width:100%;}
-.opt{background:rgba(17,25,39,.7);border:1.5px solid var(--border);border-radius:20px;border-top:2px solid rgba(74,144,217,.4);padding:20px 10px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;transition:all .15s;}
-.opt:hover:not(.locked){border-color:rgba(242,190,98,.4);}
-.opt-ar{font-family:'Amiri',serif;font-size:48px;color:var(--text);line-height:1.1;padding-bottom:4px;}
-.opt-name{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);}
-.opt.correct{border-color:var(--green)!important;background:rgba(127,168,127,.1)!important;box-shadow:0 0 18px rgba(127,168,127,.15);}
+/* ─── ASSESSMENT — new design ─── */
+.options-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;}
+.opt{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:18px;
+  padding:22px 12px 16px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  cursor:pointer;transition:all .2s;
+}
+.opt:hover:not(.locked){
+  border-color:var(--gold);
+  background:var(--card-hover);
+  transform:translateY(-2px);
+  box-shadow:0 4px 20px var(--gold-glow);
+}
+.opt-ar{font-family:'Amiri',serif;font-size:46px;color:var(--gold);line-height:1.1;}
+.opt-name{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--dim);
+}
+.opt.correct{
+  border-color:var(--green)!important;
+  background:var(--green-soft)!important;
+  box-shadow:0 0 24px rgba(127,201,156,.2);
+}
 .opt.correct .opt-ar,.opt.correct .opt-name{color:var(--green);}
-.opt.wrong{border-color:var(--red)!important;background:rgba(224,112,112,.08)!important;}
+.opt.wrong{
+  border-color:var(--red)!important;
+  background:rgba(224,112,112,.08)!important;
+}
 .opt.wrong .opt-ar,.opt.wrong .opt-name{color:var(--red);}
 .opt.locked{cursor:default;}
-/* 3-choice row (harakat) */
-.choices-row{display:flex;gap:10px;width:100%;}
-.choice{flex:1;border-radius:20px;padding:16px 6px;background:rgba(17,25,39,.7);border:1.5px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .15s;}
-.choice:hover:not(.locked){border-color:rgba(242,190,98,.4);}
-.choice-ar{font-family:'Amiri',serif;font-size:44px;line-height:1;}
-.choice-name{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
-.choice.correct{border-color:var(--green)!important;background:rgba(127,168,127,.1)!important;}
-.choice.correct .choice-ar,.choice.correct .choice-name{color:var(--green);}
-.choice.wrong{border-color:var(--red)!important;background:rgba(224,112,112,.08)!important;}
-.choice.wrong .choice-ar,.choice.wrong .choice-name{color:var(--red);}
-.choice.locked{cursor:default;}
-/* Rule choices (text) */
-.rule-choices{display:flex;flex-direction:column;gap:9px;width:100%;}
-.rule-choice{background:rgba(17,25,39,.7);border:1.5px solid var(--border);border-radius:16px;border-top:2px solid rgba(74,144,217,.3);padding:14px 18px;font-size:13px;color:var(--text);cursor:pointer;transition:all .15s;text-align:left;line-height:1.5;}
-.rule-choice:hover:not(.locked){border-color:rgba(242,190,98,.4);background:rgba(242,190,98,.04);}
-.rule-choice.correct{border-color:var(--green)!important;background:rgba(127,168,127,.1)!important;}
-.rule-choice.wrong{border-color:var(--red)!important;background:rgba(224,112,112,.08)!important;}
+
+.rule-choices{display:flex;flex-direction:column;gap:10px;width:100%;}
+.rule-choice{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;
+  padding:16px 20px;
+  font:500 14px/1.5 'Inter',sans-serif;
+  color:var(--text);
+  cursor:pointer;transition:all .2s;
+  text-align:left;
+}
+.rule-choice:hover:not(.locked){
+  border-color:var(--gold);
+  background:var(--card-hover);
+  transform:translateX(2px);
+}
+.rule-choice.correct{
+  border-color:var(--green)!important;
+  background:var(--green-soft)!important;
+  color:var(--green);
+}
+.rule-choice.wrong{
+  border-color:var(--red)!important;
+  background:rgba(224,112,112,.08)!important;
+  color:var(--red);
+}
 .rule-choice.locked{cursor:default;}
-.rule-q-word{font-family:'Amiri',serif;font-size:64px;color:var(--text);text-align:center;line-height:1.3;}
-.rule-q-focus{font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-align:center;}
-.rule-q-label{font-family:'Cinzel',serif;font-size:16px;font-weight:600;color:var(--text);text-align:center;line-height:1.5;}
-/* Hint card */
-.hint-card{display:flex;align-items:flex-start;gap:10px;background:rgba(6,14,27,.5);border:1px solid var(--border);border-radius:16px;border-top:2px solid rgba(74,144,217,.3);padding:13px 16px;font-size:12px;color:var(--dim);line-height:1.6;}
-/* Prac feedback rule */
-.prac-rule{width:100%;border-radius:14px;padding:12px 16px;font-size:12px;color:var(--dim);line-height:1.6;text-align:center;background:var(--faint);border:1px solid var(--border);}
+
+.rule-q-word{font-family:'Amiri',serif;font-size:64px;color:var(--gold);text-align:center;line-height:1.3;text-shadow:0 0 24px rgba(242,190,98,.25);}
+.rule-q-focus{
+  font:600 11px/1 'Inter',sans-serif;
+  color:var(--gold);letter-spacing:.18em;text-transform:uppercase;text-align:center;
+  padding:6px 14px;
+  background:rgba(242,190,98,.08);
+  border:1px solid var(--gold-glow);
+  border-radius:999px;
+  align-self:center;
+  display:inline-block;
+  margin:0 auto;
+}
+.rule-q-label{
+  font-family:'Cinzel',serif;font-size:18px;font-weight:500;
+  color:var(--text);text-align:center;line-height:1.5;
+}
+
+.hint-card{
+  display:flex;align-items:flex-start;gap:12px;
+  background:rgba(242,190,98,.04);
+  border:1px solid var(--gold-glow);
+  border-radius:14px;
+  padding:14px 18px;
+  font:400 13px/1.6 'Inter',sans-serif;
+  color:var(--dim);
+}
+.prac-rule{
+  width:100%;
+  border-radius:14px;
+  padding:14px 18px;
+  font:400 13px/1.6 'Inter',sans-serif;
+  color:var(--dim);
+  text-align:center;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.09);
+}
 .prac-rule strong{color:var(--text);}
-/* ═══ ASSESSMENT ═══ */
-.assess-prog-row{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+
+.assess-prog-row{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:'Cinzel',serif;
+  font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+}
 .assess-prog-label{color:var(--dim);}
 .assess-prog-pct{color:var(--gold);}
-.assess-bar{height:6px;border-radius:999px;background:var(--faint);overflow:hidden;margin-top:6px;}
-.assess-fill{height:100%;border-radius:999px;background:var(--green);box-shadow:0 0 10px rgba(167,209,166,.4);transition:width .5s ease;}
-.assess-hero{border-radius:var(--r-lg);background:rgba(6,14,27,.8);border:1px solid rgba(212,163,74,.2);padding:32px 20px 22px;display:flex;flex-direction:column;align-items:center;gap:10px;}
-.assess-hero-ar{font-family:'Amiri',serif;font-size:130px;color:var(--gold);line-height:1;filter:drop-shadow(0 0 18px rgba(242,190,98,.35));}
-.assess-hero-name{font-family:'Cinzel',serif;font-size:22px;font-weight:600;color:var(--text);letter-spacing:.04em;}
-.assess-audio-btn{width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;background:var(--gold);color:var(--on-gold);display:flex;align-items:center;justify-content:center;font-family:'Material Symbols Outlined';font-size:26px;font-variation-settings:'FILL' 1;box-shadow:0 0 24px rgba(212,163,74,.4);animation:pulse-audio 2s infinite;transition:all .15s;}
-.assess-audio-btn:active{transform:scale(.9);}
-.assess-audio-label{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);}
-.assess-question{font-family:'Cinzel',serif;font-size:21px;font-weight:700;color:var(--text);text-align:center;line-height:1.3;}
+.assess-bar{
+  height:6px;border-radius:999px;
+  background:rgba(255,255,255,.06);
+  overflow:hidden;margin-top:6px;
+}
+.assess-fill{
+  height:100%;border-radius:999px;
+  background:linear-gradient(90deg, var(--gold2), var(--gold));
+  box-shadow:0 0 12px var(--gold-glow);
+  transition:width .5s ease;
+}
+
+.assess-hero{
+  border-radius:22px;
+  background:linear-gradient(180deg, rgba(23,39,73,.7), rgba(19,32,64,.7));
+  border:1px solid var(--gold-glow);
+  padding:36px 20px 24px;
+  display:flex;flex-direction:column;align-items:center;gap:12px;
+}
+.assess-hero-ar{
+  font-family:'Amiri',serif;font-size:120px;
+  color:var(--gold);line-height:1;
+  text-shadow:0 0 24px rgba(242,190,98,.35);
+}
+.assess-hero-name{
+  font-family:'Cinzel',serif;font-size:20px;font-weight:500;
+  color:var(--text);letter-spacing:.04em;
+}
+.assess-audio-btn{
+  width:68px;height:68px;border-radius:50%;
+  border:none;cursor:pointer;
+  background:linear-gradient(135deg, var(--gold), var(--gold2));
+  color:#3a2400;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Material Symbols Outlined';font-size:30px;
+  font-variation-settings:'FILL' 1;
+  box-shadow:0 4px 28px rgba(242,190,98,.4);
+  animation:pulse-audio 2s infinite;transition:all .15s;
+}
+.assess-audio-btn:hover{transform:scale(1.05);}
+.assess-audio-btn:active{transform:scale(.92);}
+.assess-audio-label{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);
+}
+.assess-question{
+  font-family:'Cinzel',serif;font-size:22px;font-weight:500;
+  color:var(--text);text-align:center;line-height:1.4;
+  margin-top:4px;
+}
+/* ─── /ASSESSMENT ─── */
+
+/* ─── LETTERS LESSON (Lesson 1) ─── */
+.letter-focus-card{
+  background:linear-gradient(180deg, rgba(242,190,98,.08), rgba(242,190,98,.02));
+  border:1px solid var(--gold-glow);
+  border-radius:24px;
+  padding:28px 24px;
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+  text-align:center;
+}
+.letter-focus-ar-wrap{
+  display:flex;align-items:center;justify-content:center;
+  width:140px;height:140px;border-radius:50%;
+  background:linear-gradient(135deg, rgba(242,190,98,.15), rgba(242,190,98,.04));
+  border:1.5px solid var(--gold);
+  box-shadow:0 0 40px var(--gold-glow);
+}
+.letter-focus-ar{
+  font-family:'Scheherazade New','Amiri',serif;
+  font-size:88px;line-height:1;color:var(--gold);
+  text-shadow:0 0 24px rgba(242,190,98,.4);
+}
+.letter-focus-name{
+  font-family:'Cinzel',serif;
+  font-size:24px;font-weight:600;
+  background:linear-gradient(180deg, #f5e8c5, #d4a34a);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:.04em;
+}
+.letter-focus-play{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:12px 24px;border-radius:999px;
+  background:linear-gradient(135deg, var(--gold), var(--gold2));
+  color:#3a2400;
+  border:none;cursor:pointer;
+  font:600 13px/1 'Inter',sans-serif;letter-spacing:.08em;
+  box-shadow:0 4px 24px var(--gold-glow);
+  transition:all .15s;
+}
+.letter-focus-play .ms{font-size:24px;}
+.letter-focus-play:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(242,190,98,.35);}
+.letter-focus-play.playing{animation:pulse-audio 1.5s infinite;}
+.letter-focus-play-label{font-weight:700;}
+.letter-focus-hint{
+  font:400 13px/1.6 'Inter',sans-serif;color:var(--dim);
+  max-width:360px;margin-top:4px;
+}
+
+.letter-grid{
+  display:grid;grid-template-columns:repeat(7, 1fr);gap:8px;
+  margin-bottom:12px;
+}
+.letter-tile{
+  aspect-ratio:1;
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;
+  padding:6px;
+  position:relative;overflow:hidden;
+}
+.letter-tile:hover{
+  background:var(--card-hover);
+  border-color:var(--gold);
+  transform:translateY(-2px);
+  box-shadow:0 4px 16px var(--gold-glow);
+}
+.letter-tile.selected{
+  background:linear-gradient(135deg, rgba(242,190,98,.18), rgba(242,190,98,.05));
+  border-color:var(--gold);
+  box-shadow:0 0 20px var(--gold-glow);
+}
+.letter-tile.playing{
+  border-color:var(--gold);
+  box-shadow:0 0 24px rgba(242,190,98,.45);
+  animation:pulse-audio 1.2s infinite;
+}
+.letter-tile .letter-ar{
+  font-family:'Scheherazade New','Amiri',serif;
+  font-size:34px;line-height:1;color:var(--gold);
+  margin-bottom:4px;
+}
+.letter-tile .letter-name{
+  font:600 9px/1 'Inter',sans-serif;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--dim);
+}
+.letter-tile.selected .letter-name,
+.letter-tile.playing .letter-name{color:var(--gold);}
+
+@media (max-width:560px){
+  .letter-grid{grid-template-columns:repeat(4, 1fr);gap:8px;}
+  .letter-tile .letter-ar{font-size:30px;}
+  .letter-focus-ar-wrap{width:120px;height:120px;}
+  .letter-focus-ar{font-size:74px;}
+}
+/* ─── /LETTERS LESSON ─── */
+
+/* 3-choice row (harakat) */
+.choices-row{display:flex;gap:12px;width:100%;}
+.choice{
+  flex:1;border-radius:18px;padding:18px 8px;
+  background:var(--card);
+  border:1.5px solid rgba(255,255,255,.09);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  cursor:pointer;transition:all .2s;
+}
+.choice:hover:not(.locked){
+  border-color:var(--gold);
+  background:var(--card-hover);
+  transform:translateY(-2px);
+  box-shadow:0 4px 20px var(--gold-glow);
+}
+.choice-ar{font-family:'Amiri',serif;font-size:42px;line-height:1;color:var(--gold);}
+.choice-name{font:600 10px/1 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);}
+.choice.correct{
+  border-color:var(--green)!important;
+  background:var(--green-soft)!important;
+  box-shadow:0 0 24px rgba(127,201,156,.2);
+}
+.choice.correct .choice-ar,.choice.correct .choice-name{color:var(--green);}
+.choice.wrong{
+  border-color:var(--red)!important;
+  background:rgba(224,112,112,.1)!important;
+}
+.choice.wrong .choice-ar,.choice.wrong .choice-name{color:var(--red);}
+.choice.locked{cursor:default;}
 /* ═══ COMPLETE ═══ */
-.complete-wrap{display:flex;flex-direction:column;align-items:center;gap:22px;text-align:center;padding:12px 0;}
-.complete-icon-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin:12px 0 4px;}
-.complete-glow{position:absolute;width:140px;height:140px;border-radius:50%;background:rgba(167,209,166,.14);filter:blur(38px);}
-.complete-icon{width:110px;height:110px;border-radius:50%;background:rgba(17,25,39,.8);border:3px solid var(--green);display:flex;align-items:center;justify-content:center;font-family:'Material Symbols Outlined';font-size:52px;color:var(--green);font-variation-settings:'FILL' 1;box-shadow:0 0 40px rgba(127,168,127,.3);position:relative;z-index:1;}
-.complete-star{position:absolute;top:-6px;right:-6px;width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Material Symbols Outlined';font-size:18px;color:var(--on-gold);font-variation-settings:'FILL' 1;box-shadow:0 0 16px rgba(212,163,74,.5);z-index:2;}
-.complete-title{font-family:'Cinzel',serif;font-size:28px;font-weight:700;background:linear-gradient(135deg,#f2e0b0,#f2be62);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.complete-sub{font-size:13px;color:var(--dim);line-height:1.6;max-width:300px;}
-.xp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;}
-.xp-card{background:var(--faint);border:1px solid var(--border);border-radius:18px;padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:6px;}
-.xp-icon{font-family:'Material Symbols Outlined';font-size:28px;font-variation-settings:'FILL' 1;}
-.xp-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);}
-.xp-val{font-family:'Cinzel',serif;font-size:26px;font-weight:700;}
-.xp-bar{width:100%;height:6px;border-radius:999px;background:var(--faint);overflow:hidden;}
-.xp-bar-fill{height:100%;border-radius:999px;background:var(--green);box-shadow:0 0 10px rgba(167,209,166,.5);}
+/* ─── COMPLETE — new medal-based design ─── */
+.complete-wrap{
+  display:flex; flex-direction:column; align-items:center;
+  gap:20px; text-align:center;
+  padding:32px 20px 20px;
+  max-width:680px; margin:0 auto;
+}
+.complete-medal{
+  width:96px; height:96px; border-radius:50%;
+  background:linear-gradient(135deg, var(--gold), #a87f2e);
+  display:flex; align-items:center; justify-content:center;
+  font-size:48px;
+  color:#3a2400;
+  box-shadow:0 0 60px var(--gold-glow), inset 0 4px 16px rgba(255,255,255,.2);
+  margin-bottom:8px;
+}
+.complete-medal .ms{ font-variation-settings:'FILL' 1; font-size:48px; }
+.complete-eyebrow{
+  font-family:'Cinzel',serif; font-size:11px; font-weight:600;
+  letter-spacing:.28em; text-transform:uppercase; color:var(--gold);
+}
+.complete-title{
+  font-family:'Cinzel',serif; font-size:30px; font-weight:600;
+  background:linear-gradient(180deg, #f5e8c5, #d4a34a);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  line-height:1.1;
+}
+.complete-sub{
+  font-size:15px; color:var(--dim);
+  line-height:1.5; max-width:480px;
+}
+.complete-stats{
+  display:grid; grid-template-columns:repeat(3, 1fr);
+  gap:12px; width:100%; margin-top:6px;
+}
+.complete-stat{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:16px;
+  padding:18px 14px;
+  text-align:center;
+}
+.complete-stat-num{
+  font-family:'Cinzel',serif; font-size:24px; font-weight:600;
+  color:var(--gold); line-height:1;
+  margin-bottom:6px;
+}
+.complete-stat-label{
+  font:500 11px/1 'Inter',sans-serif;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:var(--dim);
+}
+.complete-review-card{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;
+  padding:16px 18px;
+  width:100%;
+  text-align:center;
+}
+.complete-review-text{ font:400 13px/1.5 'Inter',sans-serif; color:var(--dim); margin-bottom:10px; }
+.complete-actions{ display:flex; gap:10px; width:100%; margin-top:8px; }
+.complete-btn{
+  flex:1;
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:14px 18px; border-radius:999px;
+  font:600 13px/1 'Inter',sans-serif;
+  letter-spacing:.06em;
+  cursor:pointer; transition:all .15s;
+  border:none;
+}
+.complete-btn-ghost{
+  background:transparent; color:var(--text);
+  border:1px solid var(--border-strong);
+}
+.complete-btn-ghost:hover{ color:var(--gold); border-color:var(--gold); }
+.complete-btn-primary{
+  background:linear-gradient(135deg, var(--gold), var(--gold2));
+  color:#3a2400;
+  box-shadow:0 4px 24px var(--gold-glow);
+}
+.complete-btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 32px rgba(242,190,98,.35); }
+@media (max-width:560px){
+  .complete-title{ font-size:24px; }
+  .complete-stats{ grid-template-columns:1fr; gap:10px; }
+  .complete-actions{ flex-direction:column; }
+}
+/* ─── /COMPLETE ─── */
 /* ═══ VOWEL MASTERCLASS ═══ */
 .vm-section{border-radius:var(--r-lg);overflow:hidden;background:rgba(17,25,39,.6);border:1px solid var(--border);display:flex;flex-direction:column;gap:0;}
 .vm-section-hdr{display:flex;align-items:center;gap:10px;padding:16px 18px 12px;}
@@ -2205,17 +2533,17 @@ function mkIntro(){
 }
 
 function buildSlide(slide,el_){
-  const GOLD = slide.color || '#D4A34A';
+  const GOLD = slide.color || '#f2be62';
 
   // ── GOLD CIRCLE: Arabic letter (concept) or 💡 (tip/title) ──
   const circleWrap = div('');
-  circleWrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:4px;';
+  circleWrap.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:16px;margin-bottom:8px;';
 
   const glow = div('');
-  glow.style.cssText = 'position:absolute;width:100px;height:100px;border-radius:50%;filter:blur(30px);background:rgba(212,163,74,.04);pointer-events:none;';
+  glow.style.cssText = 'position:absolute;width:160px;height:160px;border-radius:50%;filter:blur(40px);background:rgba(242,190,98,.18);pointer-events:none;';
 
   const circle = div('');
-  circle.style.cssText = `width:80px;height:80px;border-radius:50%;background:rgba(17,25,39,.9);border:2px solid ${GOLD}66;display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 24px rgba(212,163,74,.04);`;
+  circle.style.cssText = `width:104px;height:104px;border-radius:50%;background:linear-gradient(135deg, rgba(242,190,98,.18), rgba(242,190,98,.04));border:1.5px solid ${GOLD};display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 40px rgba(242,190,98,.2);`;
 
   const circlePos = div(''); circlePos.style.cssText='position:relative;display:flex;align-items:center;justify-content:center;';
   circlePos.appendChild(glow);
@@ -2224,13 +2552,13 @@ function buildSlide(slide,el_){
   if(slide.ar && slide.type !== 'title'){
     // Arabic letter in circle
     const arEl = document.createElement('div');
-    arEl.style.cssText = `font-family:'Scheherazade New','Amiri',serif;font-size:46px;color:${GOLD};line-height:1.3;direction:rtl;padding-top:6px;`;
+    arEl.style.cssText = `font-family:'Scheherazade New','Amiri',serif;font-size:64px;color:${GOLD};line-height:1.1;direction:rtl;text-shadow:0 0 20px rgba(242,190,98,.4);`;
     arEl.textContent = slide.ar;
     circle.appendChild(arEl);
   } else {
     // Lightbulb icon
     const ic = document.createElement('span');
-    ic.style.cssText = `font-family:'Material Symbols Outlined';font-size:32px;color:${GOLD};font-variation-settings:'FILL' 1;`;
+    ic.style.cssText = `font-family:'Material Symbols Outlined';font-size:44px;color:${GOLD};font-variation-settings:'FILL' 1;`;
     ic.textContent = 'lightbulb';
     circle.appendChild(ic);
   }
@@ -2238,7 +2566,7 @@ function buildSlide(slide,el_){
 
   // Title below circle
   const titleEl = document.createElement('div');
-  titleEl.style.cssText = `font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:${GOLD};text-align:center;letter-spacing:.06em;`;
+  titleEl.style.cssText = `font-family:'Cinzel',serif;font-size:24px;font-weight:600;background:linear-gradient(180deg, #f5e8c5 0%, #d4a34a 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-align:center;letter-spacing:.02em;`;
   titleEl.textContent = slide.name || slide.title || '';
   circleWrap.appendChild(titleEl);
 
@@ -2247,16 +2575,16 @@ function buildSlide(slide,el_){
   // ── RULE CARD ──
   if(slide.rule || slide.content || slide.sub){
     const ruleCard = div('');
-    ruleCard.style.cssText = `background:rgba(10,14,24,.7);border:1px solid rgba(212,163,74,.06);border-radius:18px;padding:18px 20px;width:100%;`;
+    ruleCard.style.cssText = `background:linear-gradient(180deg, rgba(23,39,73,.7), rgba(19,32,64,.7));border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:22px 26px;width:100%;`;
     const ruleEl = document.createElement('div');
-    ruleEl.style.cssText = 'font-size:14px;color:var(--text);line-height:1.8;text-align:center;';
+    ruleEl.style.cssText = 'font-size:15px;color:var(--text);line-height:1.7;text-align:center;';
     ruleEl.innerHTML = slide.rule || slide.content || slide.sub || '';
     ruleCard.appendChild(ruleEl);
 
     // Pos label for concept slides
     if(slide.pos){
       const posEl = document.createElement('div');
-      posEl.style.cssText = `font-size:12px;font-weight:700;color:${GOLD};text-align:center;margin-bottom:8px;`;
+      posEl.style.cssText = `font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:${GOLD};text-align:center;margin-bottom:12px;`;
       posEl.innerHTML = '📍 ' + slide.pos;
       ruleCard.insertBefore(posEl, ruleEl);
     }
@@ -2415,168 +2743,98 @@ function mkLesson(){
 
 // ─── L1: Letter Grid — 4-per-page with play button ───
 function mkLetterGrid(){
-  const PAGE = 4;
   const total = LETTER_AUDIO.length;            // 28
-  const page  = S.letterPage ?? 0;
-  const letters = LETTER_AUDIO.slice(page*PAGE, page*PAGE+PAGE);
-  const totalPages = Math.ceil(total/PAGE);
-  const selIdx = S.letterSel ?? 0;              // index within current page
-  const sel = letters[selIdx];
+  const selIdx = S.letterSel ?? 0;              // global index now
+  const sel = LETTER_AUDIO[selIdx];
+  const isPlayingSel = S.playingIdx === selIdx;
 
   const wrap = div('stage');
 
-  // ── Phase label + progress bar ──
-  const ph = div('phase-label'); ph.appendChild(div('phase-dot'));
-  ph.appendChild(document.createTextNode('Lesson 1 of 1 · Learn'));
+  // ─── Phase pill ───
+  const ph = div('phase-label');
+  ph.appendChild(div('phase-dot'));
+  ph.appendChild(document.createTextNode('The Arabic Alphabet · Lesson 1'));
   wrap.appendChild(ph);
 
-  // Progress bar row
+  // ─── Progress strip ───
   const progRow = div('prac-prog-row');
-  progRow.appendChild(document.createTextNode('Letter '+(page*PAGE+selIdx+1)+' / '+total));
-  const bar = div('prac-bar'); const fill = div('prac-fill');
-  fill.style.width = ((page*PAGE+selIdx+1)/total*100)+'%';
-  bar.appendChild(fill); progRow.appendChild(bar);
-  progRow.appendChild(document.createTextNode((page*PAGE+selIdx+1)+' / '+total));
+  progRow.appendChild(el('span', {className:'prac-prog-label'}, 'Letter ' + (selIdx+1) + ' of ' + total));
+  progRow.appendChild(el('span', {className:'prac-prog-pct'}, sel ? sel.name : ''));
   wrap.appendChild(progRow);
+  const bar = div('prac-bar');
+  const fill = div('prac-fill');
+  fill.style.width = ((selIdx+1)/total*100) + '%';
+  bar.appendChild(fill);
+  wrap.appendChild(bar);
 
-  // ── Tip card ──
-  const tip = div('prac-tip');
-  tip.appendChild(el('span',{className:'prac-tip-icon'},'💡'));
-  const tp = el('p'); tp.innerHTML = '<strong>Tip:</strong> Tap a letter to hear it. Use the play button to replay anytime.';
-  tip.appendChild(tp);
-  wrap.appendChild(tip);
+  // ─── Focused letter card (current selected) ───
+  const focusCard = div('letter-focus-card');
 
-  // ── Play card (waveform-style) ──
-  const playCard = div('');
-  playCard.style.cssText = 'background:rgba(17,25,39,.8);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;margin-bottom:6px;';
+  const focusArWrap = div('letter-focus-ar-wrap');
+  const focusAr = el('div', {className:'letter-focus-ar'}, sel.ar);
+  focusArWrap.appendChild(focusAr);
+  focusCard.appendChild(focusArWrap);
 
-  // Selected letter big display + play button
-  const playerRow = div('');
-  playerRow.style.cssText = 'display:flex;flex-direction:column;align-items:center;gap:12px;';
+  focusCard.appendChild(el('div', {className:'letter-focus-name'}, sel.name));
 
-  // Play button
-  const playBtn = el('button',{className:'prac-audio-btn'+(S.playingIdx===page*PAGE+selIdx?' playing':'')});
-  const isPlay = S.playingIdx===page*PAGE+selIdx;
-  const iconEl = document.createElement('span');
-  iconEl.className = 'ms';
-  iconEl.style.fontSize = '28px';
-  iconEl.style.fontVariationSettings = "'FILL' 1";
-  iconEl.textContent = isPlay ? 'pause_circle' : 'play_circle';
-  playBtn.appendChild(iconEl);
-  playBtn.style.cssText = 'width:64px;height:64px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--on-gold);box-shadow:0 0 24px rgba(212,163,74,.4);transition:all .2s;';
-  playBtn.addEventListener('click',()=>{
-    const globalIdx = page*PAGE+selIdx;
-    if(S.playingIdx===globalIdx){ stopAudio(); S.playingIdx=-1; render(); return; }
-    S.playingIdx=globalIdx; render();
-    playLetter(sel,()=>{ S.playingIdx=-1; render(); });
+  // Audio play button
+  const playBtn = el('button', {className:'letter-focus-play' + (isPlayingSel ? ' playing' : '')});
+  const playIcon = document.createElement('span');
+  playIcon.className = 'ms';
+  playIcon.style.fontVariationSettings = "'FILL' 1";
+  playIcon.textContent = isPlayingSel ? 'pause_circle' : 'play_circle';
+  playBtn.appendChild(playIcon);
+  playBtn.appendChild(el('span', {className:'letter-focus-play-label'}, isPlayingSel ? 'Playing…' : 'Listen'));
+  playBtn.addEventListener('click', () => {
+    if (S.playingIdx === selIdx) { stopAudio(); S.playingIdx = -1; render(); return; }
+    S.playingIdx = selIdx; render();
+    playLetter(sel, () => { S.playingIdx = -1; render(); });
   });
-  playerRow.appendChild(playBtn);
+  focusCard.appendChild(playBtn);
 
-  // Waveform bars (decorative, animate when playing)
-  const waveWrap = div('');
-  waveWrap.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:3px;height:36px;width:100%;';
-  const isPlaying = S.playingIdx === page*PAGE+selIdx;
-  const heights = [8,14,22,28,20,32,24,16,28,20,12,26,18,30,22,14,20,28,16,24,18,12,22,28,16];
-  heights.forEach((h,i)=>{
-    const bar2 = div('');
-    bar2.style.cssText = `width:3px;border-radius:2px;background:var(--gold);opacity:${isPlaying?'0.9':'0.35'};height:${h}px;transition:all .3s;${isPlaying?'animation:waveBar '+(0.6+i%3*0.2)+'s ease-in-out infinite alternate;':''}`;
-    waveWrap.appendChild(bar2);
-  });
-  playerRow.appendChild(waveWrap);
+  // Hint (if available)
+  const hint = LETTER_HINTS[sel.ar];
+  if (hint) {
+    focusCard.appendChild(el('div', {className:'letter-focus-hint'}, hint));
+  }
 
-  // Pronunciation label + letter name
-  const labelRow = div('');
-  labelRow.style.cssText = 'display:flex;align-items:center;justify-content:space-between;width:100%;';
-  labelRow.appendChild(el('span',{style:{fontSize:'12px',color:'var(--dim)',fontWeight:'700',letterSpacing:'.06em'}},'Pronunciation'));
-  const durEl = el('span',{style:{fontSize:'12px',color:'var(--gold)',fontWeight:'700',fontFamily:"'Cinzel',serif"}}, sel ? sel.name : '');
-  labelRow.appendChild(durEl);
-  playerRow.appendChild(labelRow);
+  wrap.appendChild(focusCard);
 
-  playCard.appendChild(playerRow);
-  wrap.appendChild(playCard);
+  // ─── All 28 letters grid ───
+  wrap.appendChild(el('h2', {className:'journey-heading'}, 'All Letters'));
 
-  // ── 2×2 Letter grid ──
-  const g = div('');
-  g.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px;';
+  const grid = div('letter-grid');
+  LETTER_AUDIO.forEach((l, idx) => {
+    const isSel = idx === selIdx;
+    const isPlaying = S.playingIdx === idx;
 
-  letters.forEach((l,i)=>{
-    const globalIdx = page*PAGE+i;
-    const isSelected = i===selIdx;
-    const isAudioPlaying = S.playingIdx===globalIdx;
+    let tileClass = 'letter-tile';
+    if (isSel) tileClass += ' selected';
+    if (isPlaying) tileClass += ' playing';
 
-    const box = div('');
-    box.style.cssText = `
-      background:${isSelected?'rgba(212,163,74,.1)':'rgba(17,25,39,.8)'};
-      border:${isSelected?'2px solid var(--gold)':'1.5px solid var(--border)'};
-      border-radius:var(--r-md);
-      padding:16px 12px 16px;
-      display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:8px;min-height:120px;
-      cursor:pointer;transition:all .2s;
-      ${isAudioPlaying?'box-shadow:0 0 20px rgba(212,163,74,.3);':''}
-    `;
+    const tile = div(tileClass);
+    tile.appendChild(el('div', {className:'letter-ar'}, l.ar));
+    tile.appendChild(el('div', {className:'letter-name'}, l.name));
 
-    // Arabic letter
-    const arEl = el('div',{style:{
-      fontFamily:"'Amiri',serif",
-      fontSize:'46px',
-      lineHeight:'1.1',
-      color: isSelected ? 'var(--gold)' : 'var(--text)',
-      transition:'color .2s',
-      direction:'rtl',
-      marginBottom:'4px'
-    }}, l.ar);
-    box.appendChild(arEl);
-
-    // Divider
-    const divLine = div('');
-    divLine.style.cssText = `height:1px;width:70%;background:${isSelected?'rgba(212,163,74,.3)':'var(--border)'};`;
-    box.appendChild(divLine);
-
-    // Letter name
-    box.appendChild(el('div',{style:{
-      fontSize:'11px',
-      fontWeight:'800',
-      letterSpacing:'.1em',
-      textTransform:'uppercase',
-      color: isSelected ? 'var(--gold)' : 'var(--dim)',
-    }}, l.name));
-
-    box.addEventListener('click',()=>{
-      S.letterSel = i;
-      S.playingIdx = globalIdx;
-      render();
-      playLetter(l,()=>{ S.playingIdx=-1; render(); });
+    tile.addEventListener('click', () => {
+      S.letterSel = idx;
+      S.playingIdx = idx; render();
+      playLetter(l, () => { S.playingIdx = -1; render(); });
     });
 
-    g.appendChild(box);
+    grid.appendChild(tile);
   });
-  wrap.appendChild(g);
+  wrap.appendChild(grid);
 
-  // ── Navigation ──
+  // ─── Navigation ───
   const nav = div('action-row');
+  const backBtn = el('button', {className:'btn btn-ghost'}, '← Hub');
+  backBtn.addEventListener('click', () => { stopAudio(); S.phase = 'hub'; render(); });
+  nav.appendChild(backBtn);
 
-  if(page > 0){
-    const prevBtn = el('button',{className:'btn btn-ghost'},
-      '← '+(page>0 ? LETTER_AUDIO[(page-1)*PAGE].ar+' – '+LETTER_AUDIO[Math.min((page)*PAGE-1,total-1)].ar : ''));
-    prevBtn.addEventListener('click',()=>{ stopAudio(); S.letterPage=page-1; S.letterSel=0; S.playingIdx=-1; render(); });
-    nav.appendChild(prevBtn);
-  } else {
-    const backBtn = el('button',{className:'btn btn-ghost'},
-      '← Hub');
-    backBtn.addEventListener('click',()=>{ stopAudio(); S.phase='hub'; render(); });
-    nav.appendChild(backBtn);
-  }
-
-  if(page < totalPages-1){
-    const nextBtn = el('button',{className:'btn btn-primary'},
-      'Next: '+LETTER_AUDIO[(page+1)*PAGE].ar+' – '+LETTER_AUDIO[Math.min((page+2)*PAGE-1,total-1)].ar+' →');
-    nextBtn.addEventListener('click',()=>{ stopAudio(); S.letterPage=page+1; S.letterSel=0; S.playingIdx=-1; render(); });
-    nav.appendChild(nextBtn);
-  } else {
-    const practiceBtn = el('button',{className:'btn btn-primary'},'Practice →');
-    practiceBtn.addEventListener('click',()=>{ stopAudio(); S.letterPage=0; S.letterSel=0; startPractice(); render(); });
-    nav.appendChild(practiceBtn);
-  }
+  const practiceBtn = el('button', {className:'btn btn-primary'}, 'Start Practice →');
+  practiceBtn.addEventListener('click', () => { stopAudio(); S.playingIdx = -1; startPractice(); render(); });
+  nav.appendChild(practiceBtn);
 
   wrap.appendChild(nav);
   return wrap;
@@ -3570,79 +3828,79 @@ function mkComplete(){
   const next = LESSONS.find(l => l.id === S.lesson + 1);
   const wrap = div('complete-wrap');
 
-  // Icon + glow
-  const iconWrap = div('complete-icon-wrap');
-  iconWrap.appendChild(div('complete-glow'));
-  const icon = div('complete-icon'); icon.textContent = 'check_circle'; iconWrap.appendChild(icon);
-  const star = div('complete-star'); star.textContent = 'star'; iconWrap.appendChild(star);
-  wrap.appendChild(iconWrap);
+  // Medal (single gold disc with award icon)
+  const medal = div('complete-medal');
+  medal.appendChild(ms('workspace_premium', 1));
+  wrap.appendChild(medal);
 
-  // Title
-  wrap.appendChild(el('div',{className:'complete-title'},'Lesson '+S.lesson+' Complete!'));
-  wrap.appendChild(el('p',{className:'complete-sub'},
-    'Great work on '+meta.title+'! '+(S.assessWrong===0?'Perfect score!':'You corrected '+S.assessWrong+' answer'+(S.assessWrong===1?'':'s')+' along the way.')
-  ));
+  // Eyebrow + Title + Sub
+  wrap.appendChild(el('div', {className:'complete-eyebrow'}, 'Lesson ' + S.lesson + ' Complete'));
+  wrap.appendChild(el('h1', {className:'complete-title'}, meta.title));
 
-  // XP + Gems cards
-  const xpg = div('xp-grid');
+  const subText = next
+    ? `You've completed ${meta.title}. ${S.assessWrong===0?"Perfect score! ":""}Next up: ${next.title}.`
+    : `You've completed ${meta.title}. ${S.assessWrong===0?"Perfect score! ":""}You finished all eight lessons of Quran Norania.`;
+  wrap.appendChild(el('p', {className:'complete-sub'}, subText));
 
-  const xc = div('xp-card');
-  const xi = el('span',{className:'xp-icon',style:{color:'var(--green)'}},'bolt');
-  xi.style.fontVariationSettings="'FILL' 1";
-  xc.appendChild(xi);
-  xc.appendChild(el('div',{className:'xp-lbl'},'XP Gained'));
-  xc.appendChild(el('div',{className:'xp-val',style:{color:'var(--green)'}},'+15'));
-  xpg.appendChild(xc);
+  // 3 stat cards
+  const stats = div('complete-stats');
+  const totalAssess = (S.assessTotal || 5);
+  const correctAssess = totalAssess - (S.assessWrong || 0);
 
-  const gc = div('xp-card');
-  const gi = el('span',{className:'xp-icon',style:{color:'var(--gold)'}},'diamond');
-  gi.style.fontVariationSettings="'FILL' 1";
-  gc.appendChild(gi);
-  gc.appendChild(el('div',{className:'xp-lbl'},'Gems Earned'));
-  gc.appendChild(el('div',{className:'xp-val',style:{color:'var(--gold)'}},'+5'));
-  xpg.appendChild(gc);
-  wrap.appendChild(xpg);
+  const s1 = div('complete-stat');
+  s1.appendChild(el('div', {className:'complete-stat-num'}, correctAssess + '/' + totalAssess));
+  s1.appendChild(el('div', {className:'complete-stat-label'}, 'Final Check'));
+  stats.appendChild(s1);
 
-  // Progress bar + label
-  const barw = div('xp-bar');
-  const barf = div('xp-bar-fill');
-  barf.style.width = Math.round(COMPLETED.size / 8 * 100) + '%';
-  barw.appendChild(barf);
-  wrap.appendChild(barw);
-  wrap.appendChild(el('p',{style:{fontSize:'12px',color:'var(--dim)',textAlign:'center'}},
-    COMPLETED.size+' of 8 lessons complete'));
+  const s2 = div('complete-stat');
+  s2.appendChild(el('div', {className:'complete-stat-num'}, '+20'));
+  s2.appendChild(el('div', {className:'complete-stat-label'}, 'XP Earned'));
+  stats.appendChild(s2);
 
-  // ── Weak-area analysis ──
+  const s3 = div('complete-stat');
+  s3.appendChild(el('div', {className:'complete-stat-num'}, COMPLETED.size + '/8'));
+  s3.appendChild(el('div', {className:'complete-stat-label'}, 'Journey'));
+  stats.appendChild(s3);
+
+  wrap.appendChild(stats);
+
+  // Optional: review prompt if missed questions
   if (S.assessWrong > 0) {
-    const reviewCard = div('xp-card');
-    reviewCard.style.cssText = 'width:100%;margin-top:8px;';
-    reviewCard.appendChild(el('p',{style:{fontSize:'13px',color:'var(--dim)',lineHeight:'1.6',textAlign:'center'}},
+    const review = div('complete-review-card');
+    review.appendChild(el('p', {className:'complete-review-text'},
       `You missed ${S.assessWrong} question${S.assessWrong>1?'s':''}. Review the introduction slides again to strengthen your grasp.`));
-    const replayBtn = el('button',{className:'btn btn-ghost',style:{marginTop:'12px',width:'100%'}},'🔁 Replay Intro Slides');
-    replayBtn.addEventListener('click',()=>{
-      S.phase = 'intro';
-      S.slide = 0;
+    const replayBtn = el('button', {className:'complete-btn complete-btn-ghost'}, '🔁 Replay Intro Slides');
+    replayBtn.style.width = '100%';
+    replayBtn.addEventListener('click', () => {
+      S.phase = 'intro'; S.slide = 0; render();
+    });
+    review.appendChild(replayBtn);
+    wrap.appendChild(review);
+  }
+
+  // Action buttons
+  const actions = div('complete-actions');
+  const homeBtn = el('button', {className:'complete-btn complete-btn-ghost'}, 'Back to Hub');
+  homeBtn.addEventListener('click', () => { S.phase = 'hub'; render(); });
+  actions.appendChild(homeBtn);
+
+  if (next) {
+    const nextBtn = el('button', {className:'complete-btn complete-btn-primary'});
+    nextBtn.appendChild(document.createTextNode('Next: ' + next.title));
+    const arr = document.createElement('span');
+    arr.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    nextBtn.appendChild(arr);
+    nextBtn.addEventListener('click', () => {
+      S.lesson = next.id;
+      S.slide=0; S.harakatIdx=0; S.scStep=0; S.scPlayed=false;
+      S.morphIdx=0; S.morphed=false; S._pracPool=null;
+      S.vmSecIdx=0; S.vmPage=0; S.maadType=0; S.maadCard=0; S.videoWatched=false;
+      S.phase = next.hasIntro ? 'intro' : 'lesson';
       render();
     });
-    reviewCard.appendChild(replayBtn);
-    wrap.appendChild(reviewCard);
+    actions.appendChild(nextBtn);
   }
-
-  // Buttons
-  const nav = div('action-row');
-  nav.appendChild(el('button',{className:'btn btn-ghost btn-block',onclick:()=>{
-    S.phase='hub'; render();
-  }},'← Home'));
-  if(next){
-    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>{
-      S.lesson=next.id;
-      S.slide=0;S.harakatIdx=0;S.scStep=0;S.scPlayed=false;
-      S.morphIdx=0;S.morphed=false;S._pracPool=null;S.vmSecIdx=0;S.vmPage=0;S.maadType=0;S.maadCard=0;S.videoWatched=false;S._pracPool=null;
-      if(next.hasIntro){ S.phase='intro'; } else{ S.phase='lesson'; }
-      render();
-    }},'Next: '+next.title+' →'));
-  }
-  wrap.appendChild(nav);
+  wrap.appendChild(actions);
 
   const stage = div('stage'); stage.appendChild(wrap); return stage;
 }
