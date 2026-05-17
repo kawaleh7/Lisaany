@@ -25,10 +25,17 @@
   --r-sm:14px; --r-md:20px; --r-lg:26px;
 }
 
+body{
+  background:#0d1932;
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+}
+
 /* ── Core Layout ── */
 #app{
   position:fixed; inset:0; display:flex; flex-direction:column; overflow:hidden;
-  background:#0d1932; color:var(--text); font-family:'Inter',sans-serif; font-size:14px;
+  background:transparent; color:var(--text); font-family:'Inter',sans-serif; font-size:14px;
+  z-index:1;
 }
 
 .topbar{
@@ -980,6 +987,92 @@
 }
 /* ─── /MAADA LESSON ─── */
 
+/* ─── INTRO BOXES GRID (Maad connect/separate) ─── */
+.boxes-col-hdr{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  width:100%;margin-bottom:6px;
+}
+.boxes-col-hdr-cell{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.18em;text-transform:uppercase;
+  text-align:center;padding:8px;
+  border-radius:999px;
+}
+.boxes-col-yes{color:var(--green);background:rgba(127,201,156,.08);border:1px solid rgba(127,201,156,.2);}
+.boxes-col-no{color:var(--dim);background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.09);}
+
+.boxes-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;
+}
+.boxes-card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  min-height:200px;
+}
+.boxes-card.connects{
+  border-color:var(--gold);
+  box-shadow:0 0 24px var(--gold-glow);
+}
+.boxes-card.separate{
+  opacity:.7;
+}
+.boxes-card-top{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  direction:rtl;padding:18px 10px 12px;
+  flex:1;
+}
+.boxes-from{
+  font-family:'Amiri',serif;font-size:38px;
+  color:var(--text);line-height:1.2;
+}
+.boxes-plus{
+  font-size:18px;color:rgba(255,255,255,.4);
+  font-weight:300;margin:0 2px;
+}
+.boxes-maad{
+  font-family:'Amiri',serif;font-size:38px;
+  color:rgba(255,255,255,.55);line-height:1.2;
+}
+.boxes-card.connects .boxes-maad{color:var(--gold);opacity:.8;}
+.boxes-divider{
+  width:100%;height:1px;
+  background:rgba(242,190,98,.3);
+  position:relative;flex-shrink:0;
+}
+.boxes-card.connects .boxes-divider{background:var(--gold);}
+.boxes-divider-arrow{
+  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  font-family:'Material Symbols Outlined';font-size:18px;
+  color:var(--gold);font-variation-settings:'FILL' 1;
+  background:var(--card);padding:0 4px;
+}
+.boxes-card-bot{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:14px 8px 18px;flex:1;gap:6px;
+}
+.boxes-result{
+  font-family:'Amiri',serif;font-size:52px;
+  color:rgba(226,210,180,.5);direction:rtl;line-height:1.2;
+}
+.boxes-card.connects .boxes-result{
+  color:var(--gold);
+  text-shadow:0 0 18px rgba(242,190,98,.4);
+}
+.boxes-roman{
+  font-family:'Cinzel',serif;font-size:11px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);
+}
+.boxes-card.connects .boxes-roman{color:var(--gold);}
+@media (max-width:560px){
+  .boxes-from,.boxes-maad{font-size:30px;}
+  .boxes-result{font-size:42px;}
+}
+/* ─── /INTRO BOXES GRID ─── */
+
 /* 3-choice row (harakat) */
 .choices-row{display:flex;gap:12px;width:100%;}
 .choice{
@@ -1139,8 +1232,8 @@ html,body{background:#0d1932!important;}
 }
 .geo-bg-anim svg{
   position:absolute;top:-10%;left:-10%;width:120%;height:120%;
-  opacity:.02;
-  animation:geo-drift 40s linear infinite;
+  opacity:.08;
+  animation:geo-drift 80s linear infinite;
 }
 @keyframes geo-drift{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
@@ -1504,10 +1597,15 @@ html,body{background:#0d1932!important;}
    ════════════════════════════════════════════════════════ */
 
 /* Hide the busy SVG geometric backgrounds and decorative pattern divs */
-.bg-stars, .geo-pattern, .geo-bg-anim,
+.bg-stars, .geo-pattern,
 .geo-header::before, .geo-header::after,
 .star-dot, .geo-pattern-sides {
   display: none !important;
+}
+
+/* Keep the geometric pattern visible — subtle ambient decoration like index.html */
+.geo-bg-anim {
+  display: block !important;
 }
 
 /* Kill the busy 8-point star pattern overlay on #app::before */
@@ -2847,14 +2945,12 @@ function buildSlide(slide,el_){
   // ── EXAMPLES / BOXES ──
   if(slide.boxes){
     // Maad 4-box connect/separate grid
-    const colHdr = div('');
-    colHdr.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;width:100%;';
-    colHdr.appendChild(el('div',{style:{fontSize:'11px',fontWeight:'800',letterSpacing:'1.5px',textTransform:'uppercase',color:'#a8d5a2',textAlign:'center'}},'✓ Connects'));
-    colHdr.appendChild(el('div',{style:{fontSize:'11px',fontWeight:'800',letterSpacing:'1.5px',textTransform:'uppercase',color:'#a8d5a2',textAlign:'center'}},'✗ Stays Separate'));
+    const colHdr = div('boxes-col-hdr');
+    colHdr.appendChild(el('div',{className:'boxes-col-hdr-cell boxes-col-yes'},'✓ Connects'));
+    colHdr.appendChild(el('div',{className:'boxes-col-hdr-cell boxes-col-no'},'✗ Stays Separate'));
     el_.appendChild(colHdr);
 
-    const grid = div('');
-    grid.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;';
+    const grid = div('boxes-grid');
 
     const connectBoxes = slide.boxes.filter(b=>b.connects);
     const separateBoxes = slide.boxes.filter(b=>!b.connects);
@@ -2866,27 +2962,27 @@ function buildSlide(slide,el_){
     }
 
     orderedBoxes.forEach(b=>{
-      const box = div('');
-      box.style.cssText = `background:rgba(10,14,24,.8);border:1.5px solid rgba(212,163,74,.45);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:space-between;flex:1;min-height:200px;`;
+      const box = div('boxes-card' + (b.connects ? ' connects' : ' separate'));
 
-      const topHalf = div('');
-      topHalf.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:6px;direction:rtl;padding:14px 8px 10px;flex:1;';
-      topHalf.appendChild(el('span',{style:{fontFamily:"'Scheherazade New','Amiri',serif",fontSize:'34px',color:'var(--text)',lineHeight:'1.3'}},b.from));
-      topHalf.appendChild(el('span',{style:{fontSize:'16px',color:'rgba(255,255,255,.35)',fontWeight:'300',margin:'0 2px'}},'+'));
-      topHalf.appendChild(el('span',{style:{fontFamily:"'Scheherazade New','Amiri',serif",fontSize:'34px',color:'rgba(255,255,255,.5)',lineHeight:'1.3'}},b.maad));
+      // Top half: from + plus + maad letter
+      const topHalf = div('boxes-card-top');
+      topHalf.appendChild(el('span',{className:'boxes-from'},b.from));
+      topHalf.appendChild(el('span',{className:'boxes-plus'},'+'));
+      topHalf.appendChild(el('span',{className:'boxes-maad'},b.maad));
       box.appendChild(topHalf);
 
-      const divLine = div('');
-      divLine.style.cssText = 'width:100%;height:1.5px;background:rgba(212,163,74,.55);position:relative;flex-shrink:0;';
-      const divArrow = el('span',{style:{position:'absolute',top:'-9px',left:'50%',transform:'translateX(-50%)',fontFamily:"'Material Symbols Outlined'",fontSize:'16px',color:'rgba(212,163,74,.7)',fontVariationSettings:"'FILL' 1",background:'rgba(10,14,24,.9)',padding:'0 2px'}},'arrow_downward');
+      // Divider with arrow
+      const divLine = div('boxes-divider');
+      const divArrow = el('span', {className:'boxes-divider-arrow'},'arrow_downward');
       divLine.appendChild(divArrow);
       box.appendChild(divLine);
 
-      const botHalf = div('');
-      botHalf.style.cssText = 'display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 8px 14px;flex:1;gap:4px;';
-      botHalf.appendChild(el('div',{style:{fontFamily:"'Scheherazade New','Amiri',serif",fontSize:'48px',color:b.connects?'#f2d080':'rgba(226,210,180,.6)',direction:'rtl',lineHeight:'1.2',filter:b.connects?'drop-shadow(0 0 12px rgba(212,163,74,.35))':'none'}},b.result));
-      if(b.roman) botHalf.appendChild(el('div',{style:{fontFamily:"'Cinzel',serif",fontSize:'10px',fontWeight:'700',letterSpacing:'2px',textTransform:'uppercase',color:b.connects?'rgba(212,163,74,.6)':'rgba(255,255,255,.25)'}},b.roman));
+      // Bottom half: result + roman
+      const botHalf = div('boxes-card-bot');
+      botHalf.appendChild(el('div',{className:'boxes-result'},b.result));
+      if(b.roman) botHalf.appendChild(el('div',{className:'boxes-roman'},b.roman));
       box.appendChild(botHalf);
+
       grid.appendChild(box);
     });
     el_.appendChild(grid);
