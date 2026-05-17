@@ -537,6 +537,47 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
   .block-desc{font-size:11px;}
 }
 /* /UNIT VIEW */
+
+/* LESSON HEADER (used by dialogue, vocab, grammar, clutter, possessive) */
+.lesson-hdr{
+  background:linear-gradient(180deg, var(--card-elev), var(--card));
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:22px 24px;
+  margin-bottom:22px;
+  display:flex; align-items:center; gap:18px;
+}
+.lesson-hdr-icon{
+  width:48px; height:48px; border-radius:14px;
+  background:rgba(242,190,98,.1);
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:24px;
+  flex-shrink:0;
+}
+.lesson-hdr-icon span{font-size:24px;}
+.lesson-hdr-body{flex:1;min-width:0;}
+.lesson-hdr-eyebrow{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:6px;
+}
+.lesson-hdr-title{
+  font-family:'Cinzel',serif;
+  font-size:21px; font-weight:500;
+  color:#f5e8c5; margin-bottom:4px;
+}
+.lesson-hdr-arabic{
+  font-family:'Amiri',serif;
+  font-size:15px; color:var(--gold-soft);
+  direction:rtl; text-align:left;
+}
+@media (max-width:560px){
+  .lesson-hdr{padding:18px 18px;gap:14px;}
+  .lesson-hdr-icon{width:42px;height:42px;}
+  .lesson-hdr-title{font-size:18px;}
+}
+/* /LESSON HEADER */
 /* UNITS */
 .uc{border-radius:18px;overflow:hidden;border:1px solid var(--border);background:rgba(17,25,39,.6);cursor:pointer;transition:all .2s;margin-bottom:9px;}
 .uc:hover:not(.uc-lk){border-color:rgba(242,190,98,.3);}
@@ -5859,9 +5900,15 @@ function mkPossessive(blk){
 
   const ph=div('phase-label'); ph.appendChild(div('phase-dot'));
   ph.appendChild(document.createTextNode(' Block 5 · Possessive Suffixes · '+(S.posIdx+1)+'/'+total));
-  w.appendChild(ph);
-  w.appendChild(el('h2',{className:'page-title'},'Tap the Right Suffix'));
-  w.appendChild(el('p',{className:'page-sub'},'Match the English meaning to the correct Arabic suffix.'));
+  // Header — new design (replaces phase-label + page-title + page-sub)
+  const _hdr = div('lesson-hdr');
+  const _hi = div('lesson-hdr-icon'); _hi.appendChild(ms('touch_app')); _hdr.appendChild(_hi);
+  const _hb = div('lesson-hdr-body');
+  _hb.appendChild(el('div', {className:'lesson-hdr-eyebrow'}, 'Suffix Tap · ' + (S.posIdx+1) + ' of ' + total));
+  _hb.appendChild(el('div', {className:'lesson-hdr-title'}, 'Tap the Right Suffix'));
+  _hb.appendChild(el('div', {className:'lesson-hdr-arabic'}, 'Match English to Arabic'));
+  _hdr.appendChild(_hb);
+  w.appendChild(_hdr);
 
   // Score row
   const sr=div('score-row');
@@ -6114,11 +6161,17 @@ function mkDl(blk){
   // Build word translation index for this unit
   const wordIdx = buildWordIndex(S.mId, S.uId);
 
-  // Header
-  const ph=div('phase-label'); ph.appendChild(div('phase-dot'));
-  ph.appendChild(document.createTextNode(' Dialogue')); w.appendChild(ph);
-  w.appendChild(el('h2',{className:'page-title'},d.title));
-  w.appendChild(el('p',{className:'page-sub'},d.setting));
+  // Header — new design
+  const hdr = div('lesson-hdr');
+  const hdrIcon = div('lesson-hdr-icon');
+  hdrIcon.appendChild(ms('forum'));
+  hdr.appendChild(hdrIcon);
+  const hdrBody = div('lesson-hdr-body');
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-eyebrow'}, 'Dialogue · ' + d.lines.length + ' lines'));
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-title'}, d.title));
+  if (d.setting) hdrBody.appendChild(el('div', {className:'lesson-hdr-arabic'}, d.setting));
+  hdr.appendChild(hdrBody);
+  w.appendChild(hdr);
 
   // ── Gender/grammar note (rendered when dialogue has a 'note' field) ──
   if(d.note){
@@ -6471,9 +6524,17 @@ function mkVocab(blk){
   const total=words.length;
   const cur=words[S.vIdx]; const pct=Math.round(S.vKnown.size/total*100);
   const w=div('stage');
-  const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Block 2 · Vocabulary · '+S.vKnown.size+'/'+total+' known')); w.appendChild(ph);
-  w.appendChild(el('h2',{className:'page-title'},'Vocabulary'));
-  w.appendChild(el('p',{className:'page-sub'},'Tap the card to reveal meaning. Mark what you know.'));
+  // Header — new design
+  const hdr = div('lesson-hdr');
+  const hdrIcon = div('lesson-hdr-icon');
+  hdrIcon.appendChild(ms('translate'));
+  hdr.appendChild(hdrIcon);
+  const hdrBody = div('lesson-hdr-body');
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-eyebrow'}, 'Vocabulary · ' + total + ' words · ' + S.vKnown.size + ' known'));
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-title'}, 'Vocabulary'));
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-arabic'}, 'Tap a card to reveal · mark what you know'));
+  hdr.appendChild(hdrBody);
+  w.appendChild(hdr);
   const pr=div('vpc-row'); pr.appendChild(document.createTextNode((S.vIdx+1)+' / '+total)); const vb=div('vpc-bar'); const vf=div('vpc-fill'); vf.style.width=pct+'%'; vb.appendChild(vf); pr.appendChild(vb); pr.appendChild(document.createTextNode(pct+'%')); w.appendChild(pr);
   const fc=div('fc'); const fci=div('fci'+(S.vFlip?' flipped':''));
   fci.addEventListener('click',()=>{ S.vFlip=!S.vFlip; if(S.vFlip)speak(cur.ar); render(); });
@@ -6531,10 +6592,17 @@ function mkVocab(blk){
 // ══════════════════════════════════════════════════════
 function mkGrammar(blk){
   const d=blk.data; const w=div('stage');
-  const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Block 3 · Grammar')); w.appendChild(ph);
-  const gh=div('gh');
-  const top=div('gh-top'); top.appendChild(div('gh-glow')); top.appendChild(el('div',{className:'gh-ar'},d.titleAr||'')); top.appendChild(el('div',{className:'gh-title'},d.title)); gh.appendChild(top); gh.appendChild(div('gh-div'));
-  gh.appendChild(el('div',{className:'gh-bot'},d.intro.substring(0,90)+'…')); w.appendChild(gh);
+  // Header — new design
+  const hdr = div('lesson-hdr');
+  const hdrIcon = div('lesson-hdr-icon');
+  hdrIcon.appendChild(ms('psychology'));
+  hdr.appendChild(hdrIcon);
+  const hdrBody = div('lesson-hdr-body');
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-eyebrow'}, 'Grammar · ' + d.title));
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-title'}, d.title));
+  if (d.titleAr) hdrBody.appendChild(el('div', {className:'lesson-hdr-arabic'}, d.titleAr));
+  hdr.appendChild(hdrBody);
+  w.appendChild(hdr);
   const intro=div('rule-card'); intro.innerHTML=d.intro; w.appendChild(intro);
   if(d.keyRule){ const kr=div('rule-card'); kr.style.cssText='background:rgba(212,163,74,.07);border-color:rgba(212,163,74,.06);'; kr.innerHTML='💡 <strong>Key Rule:</strong> '+d.keyRule; w.appendChild(kr); }
   if(d.table){
@@ -6636,9 +6704,17 @@ function mkClutter(blk){
     if(match?.en) enText = match.en;
   }
 
-  const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Block 4 · Sentence Builder · '+(S.cIdx+1)+'/'+total)); w.appendChild(ph);
-  w.appendChild(el('h2',{className:'page-title'},'Build the Sentence'));
-  w.appendChild(el('p',{className:'page-sub'},'Tap Arabic words in the correct order to build the sentence.'));
+  // Header — new design
+  const hdr = div('lesson-hdr');
+  const hdrIcon = div('lesson-hdr-icon');
+  hdrIcon.appendChild(ms('extension'));
+  hdr.appendChild(hdrIcon);
+  const hdrBody = div('lesson-hdr-body');
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-eyebrow'}, 'Sentence Builder · ' + (S.cIdx+1) + ' of ' + total));
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-title'}, 'Build the Sentence'));
+  hdrBody.appendChild(el('div', {className:'lesson-hdr-arabic'}, 'Tap words in order'));
+  hdr.appendChild(hdrBody);
+  w.appendChild(hdr);
   const sr=div('score-row');
   [{v:S.cScore,l:'Correct',c:'var(--green)'},{v:S.cWrong,l:'Retries',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{ const si=div('sc-item'); si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v))); si.appendChild(el('div',{className:'sc-lbl'},s.l)); sr.appendChild(si); });
   w.appendChild(sr);
