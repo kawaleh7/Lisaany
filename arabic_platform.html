@@ -5563,7 +5563,21 @@ function render(){
   else if(v==='upgrade') sc.appendChild(mkUpgrade());
   else if(v==='units') sc.appendChild(mkUnits());
   else if(v==='blocks') sc.appendChild(mkBlocks());
-  else if(v==='lesson') sc.appendChild(mkLesson());
+  else if(v==='lesson') {
+    sc.appendChild(mkLesson());
+    // Back to Blocks button at bottom of every lesson
+    const backWrap = div('');
+    backWrap.style.cssText = 'max-width:920px;margin:24px auto 40px;padding:0 14px;display:flex;justify-content:center;';
+    const backBtn = document.createElement('button');
+    backBtn.className = 'in-page-back';
+    backBtn.style.cssText = 'font-size:14px;padding:10px 20px;';
+    backBtn.onclick = () => { S.view='blocks'; render(); };
+    const ic = ms('arrow_back'); ic.style.fontSize='16px';
+    backBtn.appendChild(ic);
+    backBtn.appendChild(document.createTextNode(' Back to Blocks'));
+    backWrap.appendChild(backBtn);
+    sc.appendChild(backWrap);
+  }
   else if(v==='review') sc.appendChild(mkReview());
   else if(v==='complete') sc.appendChild(mkComplete());
   app.appendChild(sc);
@@ -6252,15 +6266,6 @@ function mkDl(blk){
   // Build word translation index for this unit
   const wordIdx = buildWordIndex(S.mId, S.uId);
 
-  // In-page back link to blocks list
-  const backLinkDl = document.createElement('button');
-  backLinkDl.className = 'in-page-back';
-  backLinkDl.onclick = () => { S.view='blocks'; render(); };
-  const arrowBackDl = ms('arrow_back'); arrowBackDl.style.fontSize='16px';
-  backLinkDl.appendChild(arrowBackDl);
-  backLinkDl.appendChild(document.createTextNode(' Back to Blocks'));
-  w.appendChild(backLinkDl);
-
   // Header — new design
   const hdr = div('lesson-hdr');
   const hdrIcon = div('lesson-hdr-icon');
@@ -6624,15 +6629,6 @@ function mkVocab(blk){
   const total=words.length;
   const cur=words[S.vIdx]; const pct=Math.round(S.vKnown.size/total*100);
   const w=div('stage');
-  // In-page back link to blocks list
-  const backLinkV = document.createElement('button');
-  backLinkV.className = 'in-page-back';
-  backLinkV.onclick = () => { S.view='blocks'; render(); };
-  const arrowBackV = ms('arrow_back'); arrowBackV.style.fontSize='16px';
-  backLinkV.appendChild(arrowBackV);
-  backLinkV.appendChild(document.createTextNode(' Back to Blocks'));
-  w.appendChild(backLinkV);
-
   // Header — new design
   const hdr = div('lesson-hdr');
   const hdrIcon = div('lesson-hdr-icon');
@@ -6701,15 +6697,6 @@ function mkVocab(blk){
 // ══════════════════════════════════════════════════════
 function mkGrammar(blk){
   const d=blk.data; const w=div('stage');
-  // In-page back link to blocks list
-  const backLinkG = document.createElement('button');
-  backLinkG.className = 'in-page-back';
-  backLinkG.onclick = () => { S.view='blocks'; render(); };
-  const arrowBackG = ms('arrow_back'); arrowBackG.style.fontSize='16px';
-  backLinkG.appendChild(arrowBackG);
-  backLinkG.appendChild(document.createTextNode(' Back to Blocks'));
-  w.appendChild(backLinkG);
-
   // Header — new design
   const hdr = div('lesson-hdr');
   const hdrIcon = div('lesson-hdr-icon');
@@ -6821,15 +6808,6 @@ function mkClutter(blk){
     const match = lines.find(l => l.ar && norm(l.ar) === norm(cur.ar));
     if(match?.en) enText = match.en;
   }
-
-  // In-page back link to blocks list
-  const backLink = document.createElement('button');
-  backLink.className = 'in-page-back';
-  backLink.onclick = () => { S.view='blocks'; render(); };
-  const arrowBack = ms('arrow_back'); arrowBack.style.fontSize='16px';
-  backLink.appendChild(arrowBack);
-  backLink.appendChild(document.createTextNode(' Back to Blocks'));
-  w.appendChild(backLink);
 
   // Header — new design
   const hdr = div('lesson-hdr');
