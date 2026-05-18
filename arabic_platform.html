@@ -310,6 +310,382 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
   .section-heading{font-size:13px;}
 }
 /* /HUB */
+
+/* MODULE VIEW (Units list inside a module) */
+.module-hero{
+  text-align:center; padding:30px 24px;
+  background:linear-gradient(180deg, rgba(23,39,73,.7), rgba(19,32,64,.7));
+  border:1px solid var(--gold-glow); border-radius:22px;
+  margin-bottom:28px; position:relative; overflow:hidden;
+}
+.module-hero-icon{
+  width:64px; height:64px; border-radius:18px; margin:0 auto 16px;
+  background:linear-gradient(135deg, rgba(242,190,98,.2), rgba(242,190,98,.05));
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:32px;
+}
+.module-hero-icon span{font-size:32px;}
+.module-hero-eyebrow{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.28em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:10px;
+}
+.module-hero-title{
+  font-family:'Cinzel',serif;
+  font-size:28px; font-weight:600;
+  color:#f5e8c5; margin-bottom:8px; line-height:1.2;
+}
+.module-hero-arabic{
+  font-family:'Amiri',serif;
+  font-size:20px; color:var(--gold);
+  margin-bottom:12px;
+}
+.module-hero-sub{
+  color:var(--dim); max-width:540px;
+  margin:0 auto; font-size:13px; line-height:1.5;
+}
+
+.units-list{
+  display:flex; flex-direction:column; gap:10px;
+}
+.unit-card{
+  display:grid; grid-template-columns:auto 1fr auto;
+  gap:18px; align-items:center;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px 20px;
+  cursor:pointer; transition:all .2s;
+  position:relative; overflow:hidden;
+}
+.unit-card::before{
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px; background:transparent; transition:background .2s;
+}
+.unit-card:hover{
+  border-color:var(--border-strong);
+  background:rgba(20,32,64,.85);
+  transform:translateX(2px);
+}
+.unit-card.completed::before{background:var(--green);}
+.unit-card.in-progress::before{background:var(--gold);}
+.unit-card.locked{opacity:.55;}
+.unit-id{
+  font-family:'Cinzel',serif;
+  font-size:14px; font-weight:600;
+  color:var(--gold);
+  width:36px; text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+.unit-card.locked .unit-id{color:var(--dim);}
+.unit-title{
+  font-family:'Cinzel',serif;
+  font-size:15px; font-weight:500;
+  color:var(--text); margin-bottom:3px;
+}
+.unit-blocks-count{
+  font:600 10px/1 'Inter',sans-serif;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--gold-soft);
+}
+.unit-card.completed .unit-blocks-count{color:var(--green);}
+.unit-card.locked .unit-blocks-count{color:var(--dim);}
+.unit-icon-small{
+  width:32px; height:32px; border-radius:10px;
+  background:rgba(242,190,98,.08);
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:16px;
+}
+.unit-icon-small.done{
+  background:var(--green-soft);
+  border-color:var(--green);
+  color:var(--green);
+}
+.unit-icon-small.progress{
+  background:rgba(242,190,98,.15);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+/* UNIT VIEW (Blocks list inside a unit) */
+.unit-hero{
+  padding:24px 22px;
+  margin-bottom:24px;
+  background:linear-gradient(180deg, rgba(23,39,73,.7), rgba(19,32,64,.7));
+  border:1px solid var(--border);
+  border-radius:22px;
+}
+.unit-hero-eyebrow{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:10px;
+}
+.unit-hero-title{
+  font-family:'Cinzel',serif;
+  font-size:24px; font-weight:600;
+  color:#f5e8c5; margin-bottom:8px; line-height:1.2;
+}
+.unit-hero-arabic{
+  font-family:'Amiri',serif;
+  font-size:17px; color:var(--gold);
+  margin-bottom:14px; direction:rtl;
+}
+.unit-objectives-list{
+  margin-top:14px; padding-top:14px;
+  border-top:1px dashed var(--border);
+}
+.unit-objectives-heading{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:var(--gold); margin:0 0 10px;
+}
+.unit-objectives-list ul{
+  margin:0; padding-left:18px;
+  color:var(--dim); font-size:13px;
+  line-height:1.6;
+}
+.unit-objectives-list li{margin-bottom:4px;}
+
+.blocks-list{
+  display:flex; flex-direction:column; gap:10px;
+}
+.block-card{
+  display:grid; grid-template-columns:auto 1fr auto;
+  gap:14px; align-items:center;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px 18px;
+  cursor:pointer; transition:all .2s;
+  position:relative; overflow:hidden;
+}
+.block-card::before{
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px; background:transparent; transition:background .2s;
+}
+.block-card:hover{
+  border-color:var(--border-strong);
+  background:rgba(20,32,64,.85);
+  transform:translateX(2px);
+}
+.block-card.completed::before{background:var(--green);}
+.block-card.active::before{background:var(--gold);}
+.block-card.locked{opacity:.55;}
+.block-icon{
+  width:44px; height:44px; border-radius:12px;
+  background:rgba(242,190,98,.08);
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:22px;
+  flex-shrink:0;
+}
+.block-icon span{font-size:22px;}
+.block-icon.done{
+  background:var(--green-soft);
+  border-color:rgba(127,201,156,.3);
+  color:var(--green);
+}
+.block-type-tag{
+  font:600 10px/1 'Inter',sans-serif;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--gold-soft); margin-bottom:4px;
+}
+.block-card.completed .block-type-tag{color:var(--green);}
+.block-title{
+  font-family:'Cinzel',serif;
+  font-size:15px; font-weight:500;
+  color:var(--text); margin-bottom:2px;
+}
+.block-desc{
+  font:400 12px/1.4 'Inter',sans-serif;
+  color:var(--dim); direction:rtl; text-align:left;
+}
+.block-status-icon{
+  width:30px; height:30px; border-radius:50%;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border-strong);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:var(--dim);
+  flex-shrink:0;
+}
+.block-status-icon.done{
+  background:var(--green-soft);
+  border-color:var(--green);
+  color:var(--green);
+}
+.block-status-icon.active{
+  background:rgba(242,190,98,.12);
+  border-color:var(--gold);
+  color:var(--gold);
+}
+
+@media (max-width:560px){
+  .module-hero{padding:24px 18px;}
+  .module-hero-title{font-size:24px;}
+  .module-hero-arabic{font-size:18px;}
+  .unit-card{padding:14px 16px;gap:12px;}
+  .unit-id{width:30px;font-size:13px;}
+  .unit-title{font-size:14px;}
+  .unit-hero{padding:20px 18px;}
+  .unit-hero-title{font-size:21px;}
+  .unit-hero-arabic{font-size:15px;}
+  .block-card{padding:12px 14px;gap:12px;}
+  .block-icon{width:40px;height:40px;}
+  .block-title{font-size:14px;}
+  .block-desc{font-size:11px;}
+}
+/* /UNIT VIEW */
+
+/* LESSON HEADER (used by dialogue, vocab, grammar, clutter, possessive) */
+.lesson-hdr{
+  background:linear-gradient(180deg, var(--card-elev), var(--card));
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:22px 24px;
+  margin-bottom:22px;
+  display:flex; align-items:center; gap:18px;
+}
+.lesson-hdr-icon{
+  width:48px; height:48px; border-radius:14px;
+  background:rgba(242,190,98,.1);
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:24px;
+  flex-shrink:0;
+}
+.lesson-hdr-icon span{font-size:24px;}
+.lesson-hdr-body{flex:1;min-width:0;}
+.lesson-hdr-eyebrow{
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:6px;
+}
+.lesson-hdr-title{
+  font-family:'Cinzel',serif;
+  font-size:21px; font-weight:500;
+  color:#f5e8c5; margin-bottom:4px;
+}
+.lesson-hdr-arabic{
+  font-family:'Amiri',serif;
+  font-size:15px; color:var(--gold-soft);
+  direction:rtl; text-align:left;
+}
+@media (max-width:560px){
+  .lesson-hdr{padding:18px 18px;gap:14px;}
+  .lesson-hdr-icon{width:42px;height:42px;}
+  .lesson-hdr-title{font-size:18px;}
+}
+/* /LESSON HEADER */
+
+/* COMPLETE */
+.complete-wrap{
+  display:flex; flex-direction:column;
+  align-items:center; gap:18px;
+  text-align:center; padding:30px 16px;
+  max-width:600px; margin:0 auto;
+}
+.complete-medal{
+  width:108px; height:108px; border-radius:50%;
+  background:linear-gradient(135deg, var(--gold), var(--gold-deep));
+  display:flex; align-items:center; justify-content:center;
+  font-size:56px; color:#3a2400;
+  box-shadow:0 0 60px var(--gold-glow), inset 0 4px 16px rgba(255,255,255,.2);
+}
+.complete-medal span{font-size:56px;}
+.complete-eyebrow{
+  font-family:'Cinzel',serif;
+  font-size:11px; font-weight:600;
+  letter-spacing:.28em; text-transform:uppercase;
+  color:var(--gold);
+}
+.complete-title{
+  font-family:'Cinzel',serif;
+  font-size:32px; font-weight:600;
+  color:#f5e8c5; line-height:1.2;
+}
+.complete-sub{
+  color:var(--dim); font-size:14px; line-height:1.6;
+}
+.complete-stats{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:12px; width:100%; margin-top:6px;
+}
+.complete-stat{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px; text-align:center;
+}
+.complete-stat-num{
+  font-family:'Cinzel',serif;
+  font-size:24px; font-weight:600;
+  color:var(--gold); line-height:1; margin-bottom:6px;
+}
+.complete-stat-label{
+  font:500 10px/1 'Inter',sans-serif;
+  letter-spacing:.16em; text-transform:uppercase;
+  color:var(--dim);
+}
+
+/* UPGRADE */
+.upgrade-wrap{
+  display:flex; flex-direction:column;
+  align-items:center; gap:20px;
+  text-align:center; padding:30px 16px;
+  max-width:520px; margin:0 auto;
+}
+.upgrade-lock{
+  width:80px; height:80px; border-radius:50%;
+  background:linear-gradient(135deg, rgba(242,190,98,.2), rgba(242,190,98,.05));
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold);
+}
+.upgrade-lock span{font-size:42px;}
+.upgrade-eyebrow{
+  font-family:'Cinzel',serif;
+  font-size:11px; font-weight:600;
+  letter-spacing:.28em; text-transform:uppercase;
+  color:var(--gold);
+}
+.upgrade-title{
+  font-family:'Cinzel',serif;
+  font-size:28px; font-weight:600;
+  color:#f5e8c5; line-height:1.2;
+}
+.upgrade-sub{
+  color:var(--dim); max-width:420px;
+  font-size:14px; line-height:1.6;
+}
+.upgrade-features{
+  display:flex; flex-direction:column; gap:10px;
+  width:100%;
+  background:rgba(255,255,255,.02);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px 20px;
+  text-align:left;
+}
+.upgrade-feature{
+  display:flex; align-items:center; gap:12px;
+  font:400 14px/1.4 'Inter',sans-serif;
+  color:var(--text);
+}
+.upgrade-feature .check-ic{
+  color:var(--green); font-size:18px; flex-shrink:0;
+}
+.upgrade-price{
+  font-family:'Cinzel',serif;
+  font-size:36px; color:var(--gold);
+  font-weight:600; margin:6px 0;
+}
+.upgrade-price-sub{
+  font:400 13px/1 'Inter',sans-serif;
+  color:var(--dim);
+}
+/* /COMPLETE + UPGRADE */
 /* UNITS */
 .uc{border-radius:18px;overflow:hidden;border:1px solid var(--border);background:rgba(17,25,39,.6);cursor:pointer;transition:all .2s;margin-bottom:9px;}
 .uc:hover:not(.uc-lk){border-color:rgba(242,190,98,.3);}
@@ -1485,194 +1861,49 @@ const CUR = [
               ]
             }
           },
-          { id:2, type:"dialogue", title:"Students from Different Countries", desc:"محادثة بين طلاب دوليين", icon:"forum", color:"#D4A34A",
-            data:{ title:"طُلَّاب مِن كُلِّ مَكان", setting:"مجموعة طلاب يتعرفون على بعضهم",
+          { id:2, type:"dialogue", title:"Students from Different Countries", desc:"رانيا وخالد يتعرفان", icon:"forum", color:"#D4A34A",
+            data:{ title:"طُلَّابٌ مِنْ كُلِّ مَكَانٍ", setting:"رانيا وخالد يلتقيان في الفصل",
               lines:[
-                {spk:"Sami",side:"left",ar:"أَنا سامِي، أَنا مِن السُّعودِيَّة",en:"I am Sami, I am from Saudi Arabia."},
-                {spk:"Rania",side:"right",ar:"أَنا رانِيا، أَنا مِن الأُرْدُن",en:"I am Rania, I am from Jordan."},
-                {spk:"Karim",side:"left",ar:"وَأَنا كَرِيم مِن المَغرِب",en:"And I am Karim from Morocco."},
-                {spk:"Sami",side:"right",ar:"أَنْتِ مَغرِبِيَّة يا رانِيا؟",en:"Are you Moroccan Rania?"},
-                {spk:"Rania",side:"left",ar:"لا، أَنا أُرْدُنِيَّة",en:"No, I am Jordanian"},
-                {spk:"Karim",side:"right",ar:"وَأَنتَ يا سامِي؟ سُعودِيّ؟",en:"And you Sami, Saudi?"},
-                {spk:"Sami",side:"left",ar:"نَعَم، أَنا سُعودِيّ مِن الرِّياض",en:"Yes, I am Saudi from Riyadh."},
-                {spk:"Rania",side:"right",ar:"وَأَنا مِن عَمَّان، عاصِمَة الأُرْدُن",en:"And I am from Amman, capital of Jordan."},
+                {spk:"Rania",side:"left",ar:"أَنَا رَانِيَا، مِنَ الْأُرْدُنِّ، مِنْ عَمَّانَ.",en:"I am Rania, from Jordan, from Amman."},
+                {spk:"Khalid",side:"right",ar:"أَنْتِ مَغْرِبِيَّةٌ يَا رَانِيَا؟",en:"Are you Moroccan, Rania?"},
+                {spk:"Rania",side:"left",ar:"لَا، أَنَا أُرْدُنِيَّةٌ.",en:"No, I am Jordanian."},
+                {spk:"Rania",side:"left",ar:"وَأَنْتَ؟",en:"And you?"},
+                {spk:"Khalid",side:"right",ar:"أَنَا خَالِدٌ، مِنْ مِصْرَ.",en:"I am Khalid, from Egypt."},
+                {spk:"Teacher",side:"left",ar:"أَهْلًا بِكُمَا فِي الْفَصْلِ!",en:"Welcome to the class, both of you!"},
               ],
               keywords:[
-                {ar:"عاصِمَة",en:"Capital city"},
-                {ar:"لا",en:"No"},
-                {ar:"مِن كُلِّ مَكان",en:"From everywhere"},
+                {ar:"لَا",en:"No"},
+                {ar:"أَنَا أُرْدُنِيَّةٌ",en:"I am Jordanian (f)"},
+                {ar:"وَأَنْتَ؟",en:"And you? (m)"},
+                {ar:"أَهْلًا بِكُمَا",en:"Welcome to you both"},
               ]
             }
           },
-          { id:3, type:"vocab", title:"Countries & Nationalities", desc:"10 دول عربية وجنسياتها", icon:"translate", color:"#D4A34A",
+          { id:3, type:"vocab", title:"Countries & Nationalities", desc:"6 دول وجنسياتها", icon:"translate", color:"#D4A34A",
             data:{ words:[
-              {ar:"مِصْر",en:"Egypt", masc:"مِصْرِيّ", fem:"مِصْرِيَّة"},
-              {ar:"السُّعودِيَّة",en:"Saudi Arabia", masc:"سُعودِيّ", fem:"سُعودِيَّة"},
-              {ar:"الأُرْدُن",en:"Jordan", masc:"أُرْدُنِيّ", fem:"أُرْدُنِيَّة"},
-              {ar:"لُبنان",en:"Lebanon", masc:"لُبنانِيّ", fem:"لُبنانِيَّة"},
-              {ar:"سُورِيا",en:"Syria", masc:"سُورِيّ", fem:"سُورِيَّة"},
-              {ar:"المَغرِب",en:"Morocco", masc:"مَغرِبِيّ", fem:"مَغرِبِيَّة"},
-              {ar:"الكُوَيت",en:"Kuwait", masc:"كُوَيتِيّ", fem:"كُوَيتِيَّة"},
-              {ar:"الإِمارات",en:"UAE", masc:"إِماراتِيّ", fem:"إِماراتِيَّة"},
-              {ar:"العِراق",en:"Iraq", masc:"عِراقِيّ", fem:"عِراقِيَّة"},
-              {ar:"تُونِس",en:"Tunisia", masc:"تُونِسِيّ", fem:"تُونِسِيَّة"},
+              {ar:"مِصْرُ",en:"Egypt", masc:"مِصْرِيٌّ", fem:"مِصْرِيَّةٌ"},
+              {ar:"السَّعُودِيَّةُ",en:"Saudi Arabia", masc:"سَعُودِيٌّ", fem:"سَعُودِيَّةٌ"},
+              {ar:"الْأُرْدُنُّ",en:"Jordan", masc:"أُرْدُنِّيٌّ", fem:"أُرْدُنِّيَّةٌ"},
+              {ar:"سُورِيَا",en:"Syria", masc:"سُورِيٌّ", fem:"سُورِيَّةٌ"},
+              {ar:"الْمَغْرِبُ",en:"Morocco", masc:"مَغْرِبِيٌّ", fem:"مَغْرِبِيَّةٌ"},
+              {ar:"الْإِمَارَاتُ الْعَرَبِيَّةُ الْمُتَّحِدَةُ",en:"United Arab Emirates", masc:"إِمَارَاتِيٌّ", fem:"إِمَارَاتِيَّةٌ"},
             ]}
           },
-          { id:4, type:"grammar", title:"Masculine & Feminine", desc:"الجنسيات — ذكر وأنثى", icon:"psychology", color:"#D4A34A",
-            data:{ title:"Masculine & Feminine", titleAr:"المُذَكَّر والمُؤَنَّث",
+          { id:4, type:"grammar", title:"Masculine & Feminine", desc:"الْمُذَكَّر والْمُؤَنَّث", icon:"psychology", color:"#D4A34A",
+            data:{ title:"Masculine & Feminine", titleAr:"الْمُذَكَّرُ وَالْمُؤَنَّثُ",
               intro:"Arabic adjectives and nationalities change based on gender. Add ة to make words feminine.",
               table:{ cols:["Masculine","Feminine","Rule"], colW:"1fr 1fr 1.5fr",
                 rows:[
-                  {ar:"مِصْرِيّ",roman:"مِصْرِيَّة",en:"Egypt → add ة"},
-                  {ar:"لُبنانِيّ",roman:"لُبنانِيَّة",en:"Lebanon → add ة"},
-                  {ar:"سُعودِيّ",roman:"سُعودِيَّة",en:"Saudi → add ة"},
-                  {ar:"طالِب",roman:"طالِبَة",en:"Student → add ة"},
+                  {ar:"مِصْرِيٌّ",roman:"مِصْرِيَّةٌ",en:"Egypt → add ة"},
+                  {ar:"سَعُودِيٌّ",roman:"سَعُودِيَّةٌ",en:"Saudi → add ة"},
+                  {ar:"أُرْدُنِّيٌّ",roman:"أُرْدُنِّيَّةٌ",en:"Jordan → add ة"},
+                  {ar:"طَالِبٌ",roman:"طَالِبَةٌ",en:"Student → add ة"},
                 ]
               },
               keyRule:"Add ة to make an adjective or nationality feminine.",
               examples:[
-                {ar:"هُوَ مِصْرِيّ",en:"He is Egyptian"},
-                {ar:"هِيَ مِصْرِيَّة",en:"She is Egyptian"},
-                {ar:"هُوَ طالِب سُعودِيّ",en:"He is a Saudi student"},
-                {ar:"هِيَ طالِبَة أُرْدُنِيَّة",en:"She is a Jordanian student."},
-              ]
-            }
-          },
-          { id:5, type:"clutter", title:"Sentence Builder", desc:"جمل 3-4 كلمات", icon:"extension", color:"#D4A34A",
-            data:{ passing:70, sentences:[
-              {ar:"أَنا مِن مِصْر",en:"I am from Egypt", words:["أَنا","مِن","مِصْر"]},
-              {ar:"هُوَ مِصْرِيّ",en:"He is Egyptian", words:["هُوَ","مِصْرِيّ"]},
-              {ar:"هِيَ لُبنانِيَّة",en:"She is Lebanese", words:["هِيَ","لُبنانِيَّة"]},
-              {ar:"مِن أَيْنَ أَنْتِ؟",en:"Where are you from? (f)", words:["مِن","أَيْنَ","أَنْتِ؟"]},
-              {ar:"أَسْكُن في القاهِرَة",en:"I live in Cairo", words:["أَسْكُن","في","القاهِرَة"]},
-              {ar:"نَعَم، أَنا سُورِيَّة",en:"Yes, I am Syrian (f)", words:["نَعَم،","أَنا","سُورِيَّة"]},
-              {ar:"هُوَ طالِب أُرْدُنِيّ",en:"He is a Jordanian student", words:["هُوَ","طالِب","أُرْدُنِيّ"]},
-              {ar:"هِيَ مِن الكُوَيت",en:"She is from Kuwait", words:["هِيَ","مِن","الكُوَيت"]},
-              {ar:"أَيْنَ تَسْكُن يا سامِي؟",en:"Where do you live, Sami? (m)", words:["أَيْنَ","تَسْكُن","يا","سامِي؟"]},
-              {ar:"أَنا مِن الرِّياض عاصِمَة السُّعودِيَّة",en:"I am from Riyadh, the capital of Saudi Arabia", words:["أَنا","مِن","الرِّياض","عاصِمَة","السُّعودِيَّة"]},
-            ]}
-          }
-        ]
-      }
-
-
-      ,
-      { id:"1.3", title:"Yes, No & Languages", icon:"record_voice_over",
-        desc:"نعم ولا واللغات — أول حوار حقيقي",
-        blocks:[
-          { id:1, type:"dialogue", title:"Do You Speak Arabic?", desc:"Khalid meets an international student", icon:"forum", color:"#D4A34A",
-            data:{ title:"هَل تَتَكَلَّم العَرَبِيَّة؟", setting:"خالد يلتقي بطالب دولي في الجامعة",
-              lines:[
-                {spk:"Khalid",side:"left",ar:"مَرحَباً، هَل تَتَكَلَّم العَرَبِيَّة؟",en:"Hello, do you speak Arabic?"},
-                {spk:"James",side:"right",ar:"لا، لا أَتَكَلَّم العَرَبِيَّة جَيِّداً",en:"No, I don't speak Arabic well."},
-                {spk:"Khalid",side:"left",ar:"هَل تَتَكَلَّم الإِنجِلِيزِيَّة؟",en:"Do you speak English?"},
-                {spk:"James",side:"right",ar:"نَعَم، أَتَكَلَّم الإِنجِلِيزِيَّة، هِيَ لُغَتِي الأُولى",en:"Yes, I speak English, it is my first language."},
-                {spk:"Khalid",side:"left",ar:"وَهَل تَتَكَلَّم الفَرَنسِيَّة أَيضاً؟",en:"And do you also speak French?"},
-                {spk:"James",side:"right",ar:"لا، لا أَتَكَلَّم الفَرَنسِيَّة، لَكِن أَتَكَلَّم قَلِيلاً مِن الإِسبانِيَّة",en:"No, I don't speak French, but I speak a little Spanish."},
-                {spk:"Khalid",side:"left",ar:"رائِع، وَأَنا أَتَكَلَّم العَرَبِيَّة وَالإِنجِلِيزِيَّة فَقَط",en:"Wonderful, and I speak Arabic and English only."},
-                {spk:"James",side:"right",ar:"هَل يُمكِنُكَ أَن تُعَلِّمَنِي العَرَبِيَّة؟",en:"Can you teach me Arabic?"},
-                {spk:"Khalid",side:"left",ar:"بِكُلِّ سُرُور، وَتُعَلِّمُنِي الإِنجِلِيزِيَّة أَكثَر",en:"With great pleasure, and you teach me more English."},
-                {spk:"James",side:"right",ar:"اتِّفاق! نَبدَأ مِن غَداً إِن شاءَ اللَّه",en:"Deal! We start from tomorrow, in shaa Allah."},
-              ],
-              keywords:[
-                {ar:"نَعَم",en:"Yes"},
-                {ar:"لا",en:"No"},
-                {ar:"هَل تَتَكَلَّم؟",en:"Do you speak?"},
-                {ar:"أَتَكَلَّم / لا أَتَكَلَّم",en:"I speak / I don't speak"},
-                {ar:"إِن شاءَ اللَّه",en:"In shaa Allah"},
-              ]
-            }
-          },
-          { id:2, type:"dialogue", title:"Two Ladies — Languages", desc:"Sara and Maria talk about languages", icon:"forum", color:"#D4A34A",
-            data:{ title:"اللُّغات", setting:"سارة تتحدث مع ماريا عن اللغات", note:"Both speakers are women. Notice the feminine endings: <strong>تَتَكَلَّمِينَ</strong> (you speak) instead of تَتَكَلَّمُ, and <strong>عِندَكِ</strong> (you have) instead of عِندَكَ. The ـِينَ and ـكِ endings tell you the listener is female.",
-              lines:[
-                {spk:"Sara",side:"left",ar:"ماريا، هَل أَنتِ إِيطالِيَّة؟",en:"Maria, are you Italian?"},
-                {spk:"Maria",side:"right",ar:"نَعَم، أَنا إِيطالِيَّة مِن رُوما",en:"Yes, I am Italian from Rome."},
-                {spk:"Sara",side:"left",ar:"هَل تَتَكَلَّمِين الإِيطالِيَّة وَالإِنجِلِيزِيَّة؟",en:"Do you speak Italian and English?"},
-                {spk:"Maria",side:"right",ar:"نَعَم، وَأَيضاً أَتَكَلَّم الفَرَنسِيَّة قَلِيلاً",en:"Yes, and I also speak a little French."},
-                {spk:"Sara",side:"left",ar:"هَل تَتَكَلَّمِين العَرَبِيَّة؟",en:"Do you speak Arabic?"},
-                {spk:"Maria",side:"right",ar:"لا، لا أَتَكَلَّم العَرَبِيَّة، هَل هِيَ صَعبَة؟",en:"No, I don't speak Arabic, is it difficult?"},
-                {spk:"Sara",side:"left",ar:"لا، لَيسَت صَعبَة، هِيَ جَمِيلَة وَمُمتِعَة",en:"No, it's not difficult, it's beautiful and enjoyable."},
-                {spk:"Maria",side:"right",ar:"هَل تُعَلِّمِينَنِي كَلِمات بَسِيطَة؟",en:"Will you teach me simple words?"},
-              ],
-              keywords:[
-                {ar:"لَيسَ صَعباً",en:"It's not difficult"},
-                {ar:"جَمِيل وَمُمتِع",en:"Beautiful and enjoyable"},
-                {ar:"كَلِمات بَسِيطَة",en:"Simple words"},
-                {ar:"قَلِيلاً",en:"A little"},
-              ]
-            }
-          },
-          { id:3, type:"vocab", title:"Yes, No & Languages", desc:"نعم، لا، واللغات العالمية", icon:"translate", color:"#D4A34A",
-            data:{ words:[
-              {ar:"نَعَم",en:"Yes"},
-              {ar:"لا",en:"No"},
-              {ar:"أَيوَه",en:"Yes (colloquial)"},
-              {ar:"العَرَبِيَّة",en:"Arabic"},
-              {ar:"الإِنجِلِيزِيَّة",en:"English"},
-              {ar:"الفَرَنسِيَّة",en:"French"},
-              {ar:"الإِسبانِيَّة",en:"Spanish"},
-              {ar:"الإِيطالِيَّة",en:"Italian"},
-              {ar:"أَتَكَلَّم",en:"I speak"},
-              {ar:"لا أَتَكَلَّم",en:"I don't speak"},
-            ]}
-          },
-          { id:4, type:"grammar", title:"نَعَم وَلا — Yes and No", desc:"Answering questions in Arabic", icon:"psychology", color:"#D4A34A",
-            data:{ title:"Yes and No in Arabic", titleAr:"نَعَم وَلا",
-              intro:"نَعَم = Yes. لا = No. To say 'No I don't', repeat لا before the verb. To say 'Yes I do', use نَعَم then the verb.",
-              table:{ cols:["Question","Yes answer","No answer"], colW:"1.2fr 1fr 1fr",
-                rows:[
-                  {ar:"هَل تَتَكَلَّم؟",roman:"نَعَم، أَتَكَلَّم",en:"لا، لا أَتَكَلَّم"},
-                  {ar:"هَل تَعرِف؟",roman:"نَعَم، أَعرِف",en:"لا، لا أَعرِف"},
-                  {ar:"هَل عِندَكَ؟",roman:"نَعَم، عِندِي",en:"لا، لَيس عِندِي"},
-                  {ar:"هَل أَنتَ...؟",roman:"نَعَم، أَنا...",en:"لا، لَستُ..."},
-                ]
-              },
-              keyRule:"لا + verb = I don't/not. نَعَم + verb = Yes I do. لَيس = is not (for nouns).",
-              examples:[
-                {ar:"هَل تَتَكَلَّم الفَرَنسِيَّة؟ لا، لا أَتَكَلَّمُها",en:"Do you speak French? No, I don't speak it."},
-                {ar:"هَل تَعرِف العَرَبِيَّة؟ نَعَم، أَعرِف قَلِيلاً",en:"Do you know Arabic? Yes, I know a little."},
-                {ar:"هَل عِندَكَ كِتاب؟ لا، لَيس عِندِي",en:"Do you have a book? No, I don't have one."},
-                {ar:"هَل أَنتَ مِصرِيّ؟ لا، لَستُ مِصرِيًّا",en:"Are you Egyptian? No, I am not Egyptian."},
-              ]
-            }
-          },
-          { id:5, type:"clutter", title:"Sentence Builder", desc:"تدريب على نعم ولا", icon:"extension", color:"#D4A34A",
-            data:{ passing:70, sentences:[
-              {ar:"نَعَم، أَتَكَلَّم الإِنجِلِيزِيَّة جَيِّداً",en:"Yes, I speak English well", words:["نَعَم،","أَتَكَلَّم","الإِنجِلِيزِيَّة","جَيِّداً"]},
-              {ar:"لا، لا أَتَكَلَّم الفَرَنسِيَّة",en:"No, I don't speak French", words:["لا،","لا","أَتَكَلَّم","الفَرَنسِيَّة"]},
-              {ar:"هَل تَتَكَلَّم العَرَبِيَّة؟",en:"Do you speak Arabic?", words:["هَل","تَتَكَلَّم","العَرَبِيَّة؟"]},
-              {ar:"نَعَم، أَتَكَلَّم قَلِيلاً مِن الإِسبانِيَّة",en:"Yes, I speak a little Spanish", words:["نَعَم،","أَتَكَلَّم","قَلِيلاً","مِن","الإِسبانِيَّة"]},
-              {ar:"لا، لَيس عِندِي كِتاب عَرَبِيّ",en:"No, I don't have an Arabic book", words:["لا،","لَيس","عِندِي","كِتاب","عَرَبِيّ"]},
-              {ar:"هَل أَنتِ إِيطالِيَّة؟ نَعَم، مِن رُوما",en:"Are you Italian? Yes, from Rome", words:["هَل","أَنتِ","إِيطالِيَّة؟","نَعَم،","مِن","رُوما"]},
-              {ar:"لا، لَستُ مِصرِيًّا، أَنا أُردُنِيّ",en:"No, I'm not Egyptian, I'm Jordanian", words:["لا،","لَستُ","مِصرِيًّا،","أَنا","أُردُنِيّ"]},
-              {ar:"هَل تَعرِف الفَرَنسِيَّة؟ لا، لا أَعرِفُها",en:"Do you know French? No, I don't know it", words:["هَل","تَعرِف","الفَرَنسِيَّة؟","لا،","لا","أَعرِفُها"]},
-              {ar:"نَعَم، أَتَكَلَّم العَرَبِيَّة وَالإِنجِلِيزِيَّة",en:"Yes, I speak Arabic and English", words:["نَعَم،","أَتَكَلَّم","العَرَبِيَّة","وَالإِنجِلِيزِيَّة"]},
-              {ar:"هَل هِيَ صَعبَة؟ لا، هِيَ جَمِيلَة وَمُمتِعَة",en:"Is it difficult? No, it is beautiful and enjoyable", words:["هَل","هِيَ","صَعبَة؟","لا،","هِيَ","جَمِيلَة","وَمُمتِعَة"]},
-            ]}
-          }
-        ]
-      }
-      ,
-      { id:"1.4", title:"Numbers 1-10", icon:"123",
-        desc:"الأعداد من 1 إلى 10 — في سياق حقيقي",
-        blocks:[
-          { id:1, type:"vocab", title:"Numbers 1-10", desc:"الأعداد من 1 إلى 10", icon:"translate", color:"#D4A34A",
-            data:{ words:[
-              {ar:"واحِد / 1",en:"One"},
-              {ar:"اثنَان / 2",en:"Two"},
-              {ar:"ثَلاثَة / 3",en:"Three"},
-              {ar:"أَربَعَة / 4",en:"Four"},
-              {ar:"خَمسَة / 5",en:"Five"},
-              {ar:"سِتَّة / 6",en:"Six"},
-              {ar:"سَبعَة / 7",en:"Seven"},
-              {ar:"ثَمانِيَة / 8",en:"Eight"},
-              {ar:"تِسعَة / 9",en:"Nine"},
-              {ar:"عَشَرَة / 10",en:"Ten"},
-            ]}
-          },
-          { id:2, type:"dialogue", title:"How Old Are You?", desc:"Friends talk about ages and numbers", icon:"forum", color:"#D4A34A",
-            data:{ title:"كَم عُمرُكَ؟", setting:"أحمد وخالد طالبان صغيران يتحدثان عن أعمارهم وأرقام هواتفهم",
-              lines:[
-                {spk:"Ahmad",side:"left",ar:"خالِد، كَم عُمرُكَ؟",en:"Khalid, how old are you?"},
-                {spk:"Khalid",side:"right",ar:"عُمرِي تِسع
+                {ar:"هُوَ طَالِبٌ سُعُودِيٌّ.",en:"He is a Saudi student."},
+                {ar:"هِيَ طَالِبَةٌ أُرْدُنِّيَّةٌ.",en:"She is a Jordanian student."},
+                {ar:"أَنْتَ مُدَرِّسٌ مِصْرِيٌّ.",en:"You are an Egyptian teacher (m)."},
+                {ar:"أَنْتِ مُدَرِّسَةٌ مَغْرِبِيَّةٌ.",en:"You are a Moroccan teacher (f)."},
+                {ar:"أَنَا طَبِيبٌ.
