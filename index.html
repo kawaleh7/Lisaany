@@ -580,6 +580,7 @@ body{
     <a href="arabic_platform.html" class="lis-link">Learn</a>
     <a href="pricing.html" class="lis-link">Pricing</a>
     <a href="tutors.html" class="lis-link">Live Tutor</a>
+      <a href="tutor_portal.html" class="lis-link lis-staff-only" style="display:none">Portal</a>
   </div>
   <div class="lis-actions">
     <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
@@ -605,6 +606,7 @@ body{
   <a href="arabic_platform.html" class="lis-link">Learn</a>
   <a href="pricing.html" class="lis-link">Pricing</a>
   <a href="tutors.html" class="lis-link">Live Tutor</a>
+      <a href="tutor_portal.html" class="lis-link lis-staff-only" style="display:none">Portal</a>
 </div>
 
 <!-- Decorative geometric background -->
@@ -922,7 +924,18 @@ const HOME_SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
     if(!btn) return;
     if(typeof supabase === 'undefined') return;
     const sbApp = supabase.createClient(HOME_SUPABASE_URL, HOME_SUPABASE_KEY);
+    // ── Staff-only nav items (Portal link) ──
+    const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
+    const showStaffLinks = (sess) => {
+      const email = (sess?.user?.email || '').toLowerCase();
+      const role = sess?.user?.app_metadata?.role;
+      const isStaff = role === 'staff' || OWNER_EMAILS.includes(email);
+      document.querySelectorAll('.lis-staff-only').forEach(el => {
+        el.style.display = isStaff ? '' : 'none';
+      });
+    };
     const {data:{session}} = await sbApp.auth.getSession();
+    showStaffLinks(session);
     const initialSpan = btn.querySelector('.lis-profile-initial');
     if(session){
       const meta = session.user.user_metadata || {};
@@ -932,6 +945,7 @@ const HOME_SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
       btn.classList.add('online');
     }
     sbApp.auth.onAuthStateChange((_event, newSession) => {
+      showStaffLinks(newSession);
       if(newSession){
         const meta = newSession.user.user_metadata || {};
         const name = meta.name || meta.full_name || newSession.user.email || 'U';
