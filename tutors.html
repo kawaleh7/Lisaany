@@ -13,20 +13,25 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#060e1b;--card:rgba(13,27,50,.9);
-  --gold:#d4a347;--gold-lt:#f2d080;
-  --text:#e8dcc8;--dim:#9a8e78;
+  --bg:#0a1730;--bg-deep:#070f22;
+  --card:rgba(13,27,50,.9);
+  --gold:#f2be62;--gold-lt:#f2d080;--gold-soft:#d4a34a;
+  --text:#e8eef9;--dim:#9a8e78;
   --border:rgba(212,163,74,.18);--blue-border:rgba(74,144,217,.35);--blue-glow:rgba(74,144,217,.08);
-  --green:#a7d9a6;--red:#e07070;
+  --green:#7fc99c;--red:#e07070;
   --blue:rgba(74,144,217,.15);
 }
 .ms{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;font-size:20px;line-height:1;display:inline-block;}
 
-body{background:#060e1b;color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;position:relative;}
-body::before{content:'';position:fixed;inset:0;
-  background:radial-gradient(ellipse 90% 55% at 50% -5%,rgba(232,200,120,.05) 0%,transparent 60%),
-             radial-gradient(ellipse 100% 100% at 50% 100%,rgba(5,8,20,.4) 0%,transparent 70%);
-  pointer-events:none;z-index:0;opacity:1;}
+body{
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(212,163,74,.10), transparent 50%),
+    radial-gradient(ellipse at 0% 50%, rgba(56,89,150,.08), transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(212,163,74,.06), transparent 50%),
+    var(--bg);
+  color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;position:relative;
+}
+body::before{display:none;}
 
 .page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 80px;}
 
