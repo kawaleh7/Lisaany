@@ -453,7 +453,6 @@ body{padding-bottom:88px;}
       <a href="arabic_platform.html" class="lis-link">Learn</a>
       <a href="pricing.html" class="lis-link">Pricing</a>
       <a href="tutors.html" class="lis-link is-active">Live Tutor</a>
-      <a href="tutor_portal.html" class="lis-link lis-staff-only" style="display:none">Portal</a>
     </div>
     <div class="lis-actions">
       <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
@@ -688,16 +687,6 @@ checkPremium();
     );
     const {data:{session}} = await sbApp.auth.getSession();
     const initialSpan = btn.querySelector('.lis-profile-initial');
-    const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
-    const showStaffLinks = (sess) => {
-      const email = (sess?.user?.email || '').toLowerCase();
-      const role = sess?.user?.app_metadata?.role;
-      const isStaff = role === 'staff' || OWNER_EMAILS.includes(email);
-      document.querySelectorAll('.lis-staff-only').forEach(el => {
-        el.style.display = isStaff ? '' : 'none';
-      });
-    };
-    showStaffLinks(session);
     if(session){
       const meta = session.user.user_metadata || {};
       const name = meta.name || meta.full_name || session.user.email || 'U';
@@ -706,7 +695,6 @@ checkPremium();
       btn.classList.add('online');
     }
     sbApp.auth.onAuthStateChange((_event, newSession) => {
-      showStaffLinks(newSession);
       if(newSession){
         const meta = newSession.user.user_metadata || {};
         const name = meta.name || meta.full_name || newSession.user.email || 'U';
