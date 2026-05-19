@@ -9,10 +9,6 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,300..700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="plan.js" defer></script>
-<script src="paywall.js" defer></script>
-<script src="nav-role.js" defer></script>
-<script src="session.js" defer></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -32,7 +28,7 @@ body::before{content:'';position:fixed;inset:0;
              radial-gradient(ellipse 100% 100% at 50% 100%,rgba(5,8,20,.4) 0%,transparent 70%);
   pointer-events:none;z-index:0;opacity:1;}
 
-.page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 80px;transition:filter .3s ease;}
+.page{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:40px 24px 80px;}
 
 /* Nav */
 .nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;}
@@ -201,121 +197,121 @@ body::before{content:'';position:fixed;inset:0;
 
 
 
-/* ════ LISAANY BANNER ════ */
+/* ════════ LISAANY TOP NAV (matches index.html) ════════ */
 .lis-nav{
-  position:sticky;top:0;z-index:1000;
-  background:rgba(14,16,24,.85);
-  backdrop-filter:blur(24px) saturate(160%);
-  -webkit-backdrop-filter:blur(24px) saturate(160%);
-  border-bottom:1px solid rgba(212,163,74,.18);
-  font-family:'Inter',sans-serif;
+  position:sticky; top:0; z-index:100;
+  height:68px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 36px;
+  background:rgba(10,23,48,.78);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+}
+.lis-nav::after{
+  content:''; position:absolute; left:0; right:0; bottom:0;
+  height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(242,190,98,0.25) 18%,
+    rgba(242,190,98,0.75) 48%,
+    rgba(242,190,98,0.75) 52%,
+    rgba(242,190,98,0.25) 82%,
+    transparent 100%);
+  pointer-events:none;
 }
 .lis-nav::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,
-    transparent 0%,rgba(212,163,74,.5) 35%,
-    #f2be62 50%,rgba(212,163,74,.5) 65%,transparent 100%);
-}
-.lis-nav-inner{
-  max-width:1320px;margin:0 auto;
-  height:80px;padding:0 36px;
-  display:grid;grid-template-columns:auto 1fr auto;
-  align-items:center;gap:56px;
+  content:''; position:absolute; left:50%; bottom:-5px;
+  width:10px; height:10px;
+  transform:translateX(-50%) rotate(45deg);
+  background:linear-gradient(135deg, #f5d488, #d4a34a);
+  box-shadow:
+    0 0 0 1px rgba(7,15,34,1),
+    0 0 14px rgba(242,190,98,.85),
+    0 0 28px rgba(242,190,98,.45);
+  pointer-events:none;
+  z-index:1;
 }
 .lis-brand{
-  display:inline-flex;align-items:center;gap:14px;
-  text-decoration:none;position:relative;padding:6px 0;
-  transition:opacity .2s ease;
+  display:inline-flex; align-items:center; gap:14px;
+  text-decoration:none;
+  font-family:'Cinzel',serif; font-weight:600;
+  transition:opacity .2s;
 }
-.lis-brand:hover{opacity:.9}
-.lis-brand-mark{
-  height:54px;width:auto;display:block;
-  filter:drop-shadow(0 2px 8px rgba(212,163,74,.25));
-  transition:transform .4s cubic-bezier(.2,.8,.2,1);
+.lis-brand:hover{ opacity:.85; }
+.brand-mark{
+  width:40px; height:40px; border-radius:50%;
+  background:linear-gradient(135deg, #f5d488, #d4a34a);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 24px rgba(242,190,98,.18);
+  flex-shrink:0;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1);
 }
-.lis-brand:hover .lis-brand-mark{transform:translateY(-1px)}
-.lis-brand-text{
-  font-family:'Fraunces',serif;
-  font-size:24px;font-weight:500;
-  font-variation-settings:'opsz' 144,'SOFT' 50;
-  letter-spacing:-.005em;color:#f5ecd6;
-  line-height:1;padding-top:6px;
-}
-.lis-brand-divider{
-  width:1px;height:32px;
-  background:linear-gradient(to bottom,transparent,rgba(212,163,74,.5) 50%,transparent);
-}
-.lis-links{
-  display:flex;align-items:center;justify-content:center;gap:4px;
-  justify-self:center;
-}
+.lis-brand:hover .brand-mark{ transform:translateY(-1px); }
+.brand-mark svg{ width:62%; height:62%; }
+.brand-name{ font-size:18px; letter-spacing:.04em; color:#e8eef9; }
+@media (max-width:840px){ .brand-mark{ width:36px; height:36px; } }
+.lis-links{ display:flex; gap:4px; }
 .lis-link{
-  font-family:'Cormorant Garamond',serif;
-  font-size:18px;font-weight:500;letter-spacing:.01em;
-  color:#e8dcc8;text-decoration:none;
-  padding:10px 18px;border-radius:6px;
-  position:relative;transition:color .2s ease;
+  font:500 13px/1 'Inter',sans-serif; letter-spacing:.04em;
+  color:#9ba8be; text-decoration:none;
+  padding:10px 16px; border-radius:99px;
+  transition:all .15s;
 }
-.lis-link::after{
-  content:'';position:absolute;
-  left:18px;right:18px;bottom:6px;height:1.5px;
-  background:linear-gradient(90deg,transparent,#d4a347 20%,#f2be62 50%,#d4a347 80%,transparent);
-  transform:scaleX(0) skewX(-8deg);
-  transform-origin:left center;
-  transition:transform .45s cubic-bezier(.2,.8,.2,1);
+.lis-link:hover{ color:#f2be62; background:rgba(255,255,255,.05); }
+.lis-link.is-active{ color:#f2be62; background:rgba(255,255,255,.05); }
+.lis-actions{ display:flex; align-items:center; gap:10px; }
+.lis-profile{
+  position:relative;
+  width:40px; height:40px; border-radius:50%;
+  background:#132040; border:1px solid rgba(255,255,255,.14);
+  display:inline-flex; align-items:center; justify-content:center;
+  cursor:pointer; text-decoration:none; transition:all .15s;
+  flex-shrink:0;
 }
-.lis-link:hover{color:#f5ecd6}
-.lis-link:hover::after{transform:scaleX(1) skewX(-8deg)}
-.lis-link.is-active{color:#f2be62;font-weight:600}
-.lis-link.is-active::after{transform:scaleX(1) skewX(-8deg)}
-.lis-actions{display:inline-flex;align-items:center;gap:14px}
-.lis-ico{
-  width:16px;height:16px;display:inline-block;flex-shrink:0;
-  stroke:currentColor;stroke-width:1.8;fill:none;
-  stroke-linecap:round;stroke-linejoin:round;
-  vertical-align:middle;
+.lis-profile:hover{ border-color:#f2be62; background:#1b2d54; }
+.lis-profile-icon{ width:18px; height:18px; stroke:#9ba8be; stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.lis-profile-initial{ display:none; font-family:'Cinzel',serif; font-size:14px; font-weight:700; color:#f2be62; letter-spacing:.02em; }
+.lis-profile-dot{
+  position:absolute; top:1px; right:1px;
+  width:10px; height:10px; border-radius:50%;
+  background:#e07070;
+  border:2px solid #0a1730;
 }
+.lis-profile.online .lis-profile-icon{ display:none; }
+.lis-profile.online .lis-profile-initial{ display:inline-flex; }
+.lis-profile.online .lis-profile-dot{ background:#7fc99c; animation:lis-pulse 2s infinite; }
+@keyframes lis-pulse{ 0%,100%{box-shadow:0 0 0 0 rgba(127,201,156,.55);} 50%{box-shadow:0 0 0 6px rgba(127,201,156,0);} }
 .lis-menu-btn{
-  display:none;background:none;
-  border:1px solid rgba(212,163,74,.18);border-radius:8px;
-  width:40px;height:40px;
-  align-items:center;justify-content:center;
-  color:#e8dcc8;cursor:pointer;
-  transition:border-color .2s ease, color .2s ease;
+  display:none;
+  width:40px; height:40px; border-radius:10px;
+  background:transparent; border:1px solid rgba(255,255,255,.14);
+  color:#f2be62; cursor:pointer;
+  align-items:center; justify-content:center;
+  transition:all .15s;
 }
-.lis-menu-btn:hover{border-color:rgba(212,163,74,.5);color:#f5ecd6}
-.lis-menu-btn .lis-ico{width:20px;height:20px;stroke-width:2}
-@media(max-width:980px){
-  .lis-links{display:none}
-  .lis-nav-inner{
-    grid-template-columns:auto auto;
-    justify-content:space-between;
-    height:68px;padding:0 20px;gap:0;
-  }
-  .lis-menu-btn{display:inline-flex}
-  .lis-brand-mark{height:42px}
-  .lis-brand-text{font-size:20px}
-  .lis-brand-divider{height:26px}
-}
-@media(max-width:480px){
-  .lis-brand-text{display:none}
-  .lis-brand-divider{display:none}
-}
-/* Mobile menu drawer */
+.lis-menu-btn:hover{ border-color:#f2be62; background:rgba(255,255,255,.05); }
+.lis-menu-btn svg{ width:22px; height:22px; stroke:currentColor; stroke-width:1.8; fill:none; stroke-linecap:round; }
 .lis-mobile-menu{
-  display:none;position:fixed;top:68px;left:0;right:0;
-  background:rgba(14,16,24,.98);
-  backdrop-filter:blur(24px);
-  border-bottom:1px solid rgba(212,163,74,.18);
-  padding:18px 20px;z-index:999;
-  flex-direction:column;gap:4px;
+  display:none;
+  position:fixed; top:60px; left:0; right:0;
+  background:rgba(7,15,34,.98); backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  padding:12px 18px;
+  z-index:99;
+  flex-direction:column; gap:4px;
 }
-.lis-mobile-menu.is-open{display:flex}
-.lis-mobile-menu .lis-link{
-  padding:14px 16px;border-radius:8px;
-  font-size:18px;text-align:left;
+.lis-mobile-menu.is-open{ display:flex; }
+.lis-mobile-menu .lis-link{ padding:14px 16px; border-radius:10px; font-size:15px; text-align:left; }
+.lis-mobile-menu .lis-link:hover{ background:rgba(255,255,255,.05); }
+@media (max-width:980px){
+  .lis-links{ display:none; }
+  .lis-menu-btn{ display:flex; }
 }
-.lis-mobile-menu .lis-link:hover{background:rgba(212,163,74,.08)}
+@media (max-width:840px){
+  .lis-nav{ padding:0 18px; height:60px; }
+}
+/* ════════ END LISAANY TOP NAV ════════ */
+
 
 
 /* ── BOTTOM NAV ── */
@@ -442,34 +438,40 @@ body{padding-bottom:88px;}
 </style>
 </head>
 <body>
+<!-- ════════ LISAANY TOP NAV ════════ -->
 <nav class="lis-nav">
-  <div class="lis-nav-inner">
-    <a href="index.html" class="lis-brand" title="Back to home">
-      <span class="lis-brand-text">Lisaany</span>
+  <a href="index.html" class="lis-brand" title="Lisaany Home">
+    <div class="brand-mark">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <polygon points="50,15 85,50 50,85 15,50" fill="#3a2400"/>
+        <polygon points="50,5 73,28 73,72 50,95 27,72 27,28" fill="none" stroke="#3a2400" stroke-width="3"/>
+        <circle cx="50" cy="50" r="5" fill="#f5d488"/>
+      </svg>
+    </div>
+    <span class="brand-name">Lisaany</span>
+  </a>
+  <div class="lis-links">
+    <a href="index.html" class="lis-link">Home</a>
+    <a href="arabic_platform.html" class="lis-link">Learn</a>
+    <a href="pricing.html" class="lis-link">Pricing</a>
+    <a href="tutors.html" class="lis-link is-active">Live Tutor</a>
+  </div>
+  <div class="lis-actions">
+    <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
+      <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span class="lis-profile-initial"></span>
+      <span class="lis-profile-dot"></span>
     </a>
-    <div class="lis-links">
-      <a href="index.html" class="lis-link">Home</a>
-      <a href="arabic_platform.html" class="lis-link">Learn</a>
-      <a href="pricing.html" class="lis-link">Pricing</a>
-      <a href="tutors.html" class="lis-link is-active">Live Tutor</a>
-    </div>
-    <div class="lis-actions">
-      <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
-        <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
-        <span class="lis-profile-initial"></span>
-        <span class="lis-profile-dot"></span>
-      </a>
-      <button class="lis-menu-btn" aria-label="Menu" onclick="document.getElementById('lisMobileMenu').classList.toggle('is-open')">
-        <svg class="lis-ico" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M3 6h18"/>
-          <path d="M3 12h18"/>
-          <path d="M3 18h18"/>
-        </svg>
-      </button>
-    </div>
+    <button class="lis-menu-btn" aria-label="Menu" onclick="document.getElementById('lisMobileMenu').classList.toggle('is-open')">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 6h18"/>
+        <path d="M3 12h18"/>
+        <path d="M3 18h18"/>
+      </svg>
+    </button>
   </div>
 </nav>
 <div class="lis-mobile-menu" id="lisMobileMenu">
@@ -599,8 +601,7 @@ function renderSchedule() {
     
     const localTimeStr = sessionStart.toLocaleTimeString([], {hour:'numeric', minute:'2-digit', hour12:true});
     const TEST_LIVE = new URLSearchParams(window.location.search).get('test') === 'live';
-    const tenMinBefore = new Date(sessionStart.getTime() - 10*60*1000);
-    const isLive = TEST_LIVE || (now >= tenMinBefore && now <= sessionEnd);
+    const isLive = TEST_LIVE || (now >= sessionStart && now <= sessionEnd);
 
     if(isLive) {
       const banner = document.getElementById('live-banner');
@@ -647,15 +648,7 @@ function renderSchedule() {
 
 const MEET_URL = 'https://meet.google.com/dpm-fyoc-htv';
 
-async function joinSession() {
-  // === GATE: Live Tutor is Premium-only ===
-  // Defense in depth — page is also blurred for non-premium users below.
-  if (window.lisaanyPlan && !(await window.lisaanyPlan.hasLiveTutor())) {
-    if (window.lisaanyPaywall) {
-      window.lisaanyPaywall.show({ context: 'live_tutor' });
-    }
-    return;
-  }
+function joinSession() {
   window.open(MEET_URL, '_blank');
 }
 
@@ -667,47 +660,19 @@ function setReminder(day, time, idx) {
 }
 
 async function checkPremium() {
-  // Show recordings section only for users with Live Tutor access
   try {
-    if (!window.lisaanyPlan) return;
-    const hasAccess = await window.lisaanyPlan.hasLiveTutor();
-    if (hasAccess) {
+    const { createClient } = supabase;
+    const sb = createClient('https://cfaxrzfqvoalwznkhwnx.supabase.co','sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa');
+    const { data: { session } } = await sb.auth.getSession();
+    if(session?.user?.user_metadata?.plan === 'premium') {
       document.getElementById('premium-gate').style.display = 'none';
       document.getElementById('recordings').style.display = 'flex';
     }
-  } catch(e) { console.warn('checkPremium error:', e); }
+  } catch(e) {}
 }
 
 renderSchedule();
-
-// === LIVE TUTOR PAGE GATE ===
-// Free and Basic users see the upgrade modal with the page content blurred behind.
-// Premium monthly/yearly users see the page normally.
-window.addEventListener('load', async function gateLiveTutorPage() {
-  // Wait briefly for plan.js to load (it's deferred)
-  for (let i = 0; i < 30 && !window.lisaanyPlan; i++) {
-    await new Promise(r => setTimeout(r, 100));
-  }
-  if (!window.lisaanyPlan) {
-    console.warn('plan.js did not load — failing open');
-    return;
-  }
-  const hasAccess = await window.lisaanyPlan.hasLiveTutor();
-  if (!hasAccess) {
-    const page = document.querySelector('.page');
-    if (page) {
-      page.style.filter = 'blur(8px)';
-      page.style.pointerEvents = 'none';
-      page.style.userSelect = 'none';
-    }
-    if (window.lisaanyPaywall) {
-      window.lisaanyPaywall.show({ context: 'live_tutor' });
-    }
-  } else {
-    // Premium user — also check recordings gate
-    checkPremium();
-  }
-});
+checkPremium();
 
 // ── Profile indicator (red dot = logged out, green pulsing + initial = logged in) ──
 // Always links to profile.html. Navigation is handled by the anchor's href natively.
