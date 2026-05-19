@@ -197,121 +197,121 @@ body::before{content:'';position:fixed;inset:0;
 
 
 
-/* ════════ LISAANY TOP NAV (matches index.html) ════════ */
+/* ════ LISAANY BANNER ════ */
 .lis-nav{
-  position:sticky; top:0; z-index:100;
-  height:68px;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 36px;
-  background:rgba(10,23,48,.78);
-  backdrop-filter:blur(20px) saturate(160%);
-  -webkit-backdrop-filter:blur(20px) saturate(160%);
-}
-.lis-nav::after{
-  content:''; position:absolute; left:0; right:0; bottom:0;
-  height:1px;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    rgba(242,190,98,0.25) 18%,
-    rgba(242,190,98,0.75) 48%,
-    rgba(242,190,98,0.75) 52%,
-    rgba(242,190,98,0.25) 82%,
-    transparent 100%);
-  pointer-events:none;
+  position:sticky;top:0;z-index:1000;
+  background:rgba(14,16,24,.85);
+  backdrop-filter:blur(24px) saturate(160%);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
+  border-bottom:1px solid rgba(212,163,74,.18);
+  font-family:'Inter',sans-serif;
 }
 .lis-nav::before{
-  content:''; position:absolute; left:50%; bottom:-5px;
-  width:10px; height:10px;
-  transform:translateX(-50%) rotate(45deg);
-  background:linear-gradient(135deg, #f5d488, #d4a34a);
-  box-shadow:
-    0 0 0 1px rgba(7,15,34,1),
-    0 0 14px rgba(242,190,98,.85),
-    0 0 28px rgba(242,190,98,.45);
-  pointer-events:none;
-  z-index:1;
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,rgba(212,163,74,.5) 35%,
+    #f2be62 50%,rgba(212,163,74,.5) 65%,transparent 100%);
+}
+.lis-nav-inner{
+  max-width:1320px;margin:0 auto;
+  height:80px;padding:0 36px;
+  display:grid;grid-template-columns:auto 1fr auto;
+  align-items:center;gap:56px;
 }
 .lis-brand{
-  display:inline-flex; align-items:center; gap:14px;
-  text-decoration:none;
-  font-family:'Cinzel',serif; font-weight:600;
-  transition:opacity .2s;
+  display:inline-flex;align-items:center;gap:14px;
+  text-decoration:none;position:relative;padding:6px 0;
+  transition:opacity .2s ease;
 }
-.lis-brand:hover{ opacity:.85; }
-.brand-mark{
-  width:40px; height:40px; border-radius:50%;
-  background:linear-gradient(135deg, #f5d488, #d4a34a);
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 24px rgba(242,190,98,.18);
-  flex-shrink:0;
-  transition:transform .3s cubic-bezier(.2,.8,.2,1);
+.lis-brand:hover{opacity:.9}
+.lis-brand-mark{
+  height:54px;width:auto;display:block;
+  filter:drop-shadow(0 2px 8px rgba(212,163,74,.25));
+  transition:transform .4s cubic-bezier(.2,.8,.2,1);
 }
-.lis-brand:hover .brand-mark{ transform:translateY(-1px); }
-.brand-mark svg{ width:62%; height:62%; }
-.brand-name{ font-size:18px; letter-spacing:.04em; color:#e8eef9; }
-@media (max-width:840px){ .brand-mark{ width:36px; height:36px; } }
-.lis-links{ display:flex; gap:4px; }
+.lis-brand:hover .lis-brand-mark{transform:translateY(-1px)}
+.lis-brand-text{
+  font-family:'Fraunces',serif;
+  font-size:24px;font-weight:500;
+  font-variation-settings:'opsz' 144,'SOFT' 50;
+  letter-spacing:-.005em;color:#f5ecd6;
+  line-height:1;padding-top:6px;
+}
+.lis-brand-divider{
+  width:1px;height:32px;
+  background:linear-gradient(to bottom,transparent,rgba(212,163,74,.5) 50%,transparent);
+}
+.lis-links{
+  display:flex;align-items:center;justify-content:center;gap:4px;
+  justify-self:center;
+}
 .lis-link{
-  font:500 13px/1 'Inter',sans-serif; letter-spacing:.04em;
-  color:#9ba8be; text-decoration:none;
-  padding:10px 16px; border-radius:99px;
-  transition:all .15s;
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:500;letter-spacing:.01em;
+  color:#e8dcc8;text-decoration:none;
+  padding:10px 18px;border-radius:6px;
+  position:relative;transition:color .2s ease;
 }
-.lis-link:hover{ color:#f2be62; background:rgba(255,255,255,.05); }
-.lis-link.is-active{ color:#f2be62; background:rgba(255,255,255,.05); }
-.lis-actions{ display:flex; align-items:center; gap:10px; }
-.lis-profile{
-  position:relative;
-  width:40px; height:40px; border-radius:50%;
-  background:#132040; border:1px solid rgba(255,255,255,.14);
-  display:inline-flex; align-items:center; justify-content:center;
-  cursor:pointer; text-decoration:none; transition:all .15s;
-  flex-shrink:0;
+.lis-link::after{
+  content:'';position:absolute;
+  left:18px;right:18px;bottom:6px;height:1.5px;
+  background:linear-gradient(90deg,transparent,#d4a347 20%,#f2be62 50%,#d4a347 80%,transparent);
+  transform:scaleX(0) skewX(-8deg);
+  transform-origin:left center;
+  transition:transform .45s cubic-bezier(.2,.8,.2,1);
 }
-.lis-profile:hover{ border-color:#f2be62; background:#1b2d54; }
-.lis-profile-icon{ width:18px; height:18px; stroke:#9ba8be; stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
-.lis-profile-initial{ display:none; font-family:'Cinzel',serif; font-size:14px; font-weight:700; color:#f2be62; letter-spacing:.02em; }
-.lis-profile-dot{
-  position:absolute; top:1px; right:1px;
-  width:10px; height:10px; border-radius:50%;
-  background:#e07070;
-  border:2px solid #0a1730;
+.lis-link:hover{color:#f5ecd6}
+.lis-link:hover::after{transform:scaleX(1) skewX(-8deg)}
+.lis-link.is-active{color:#f2be62;font-weight:600}
+.lis-link.is-active::after{transform:scaleX(1) skewX(-8deg)}
+.lis-actions{display:inline-flex;align-items:center;gap:14px}
+.lis-ico{
+  width:16px;height:16px;display:inline-block;flex-shrink:0;
+  stroke:currentColor;stroke-width:1.8;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+  vertical-align:middle;
 }
-.lis-profile.online .lis-profile-icon{ display:none; }
-.lis-profile.online .lis-profile-initial{ display:inline-flex; }
-.lis-profile.online .lis-profile-dot{ background:#7fc99c; animation:lis-pulse 2s infinite; }
-@keyframes lis-pulse{ 0%,100%{box-shadow:0 0 0 0 rgba(127,201,156,.55);} 50%{box-shadow:0 0 0 6px rgba(127,201,156,0);} }
 .lis-menu-btn{
-  display:none;
-  width:40px; height:40px; border-radius:10px;
-  background:transparent; border:1px solid rgba(255,255,255,.14);
-  color:#f2be62; cursor:pointer;
-  align-items:center; justify-content:center;
-  transition:all .15s;
+  display:none;background:none;
+  border:1px solid rgba(212,163,74,.18);border-radius:8px;
+  width:40px;height:40px;
+  align-items:center;justify-content:center;
+  color:#e8dcc8;cursor:pointer;
+  transition:border-color .2s ease, color .2s ease;
 }
-.lis-menu-btn:hover{ border-color:#f2be62; background:rgba(255,255,255,.05); }
-.lis-menu-btn svg{ width:22px; height:22px; stroke:currentColor; stroke-width:1.8; fill:none; stroke-linecap:round; }
+.lis-menu-btn:hover{border-color:rgba(212,163,74,.5);color:#f5ecd6}
+.lis-menu-btn .lis-ico{width:20px;height:20px;stroke-width:2}
+@media(max-width:980px){
+  .lis-links{display:none}
+  .lis-nav-inner{
+    grid-template-columns:auto auto;
+    justify-content:space-between;
+    height:68px;padding:0 20px;gap:0;
+  }
+  .lis-menu-btn{display:inline-flex}
+  .lis-brand-mark{height:42px}
+  .lis-brand-text{font-size:20px}
+  .lis-brand-divider{height:26px}
+}
+@media(max-width:480px){
+  .lis-brand-text{display:none}
+  .lis-brand-divider{display:none}
+}
+/* Mobile menu drawer */
 .lis-mobile-menu{
-  display:none;
-  position:fixed; top:60px; left:0; right:0;
-  background:rgba(7,15,34,.98); backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(255,255,255,.08);
-  padding:12px 18px;
-  z-index:99;
-  flex-direction:column; gap:4px;
+  display:none;position:fixed;top:68px;left:0;right:0;
+  background:rgba(14,16,24,.98);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(212,163,74,.18);
+  padding:18px 20px;z-index:999;
+  flex-direction:column;gap:4px;
 }
-.lis-mobile-menu.is-open{ display:flex; }
-.lis-mobile-menu .lis-link{ padding:14px 16px; border-radius:10px; font-size:15px; text-align:left; }
-.lis-mobile-menu .lis-link:hover{ background:rgba(255,255,255,.05); }
-@media (max-width:980px){
-  .lis-links{ display:none; }
-  .lis-menu-btn{ display:flex; }
+.lis-mobile-menu.is-open{display:flex}
+.lis-mobile-menu .lis-link{
+  padding:14px 16px;border-radius:8px;
+  font-size:18px;text-align:left;
 }
-@media (max-width:840px){
-  .lis-nav{ padding:0 18px; height:60px; }
-}
-/* ════════ END LISAANY TOP NAV ════════ */
-
+.lis-mobile-menu .lis-link:hover{background:rgba(212,163,74,.08)}
 
 
 /* ── BOTTOM NAV ── */
@@ -438,40 +438,35 @@ body{padding-bottom:88px;}
 </style>
 </head>
 <body>
-<!-- ════════ LISAANY TOP NAV ════════ -->
 <nav class="lis-nav">
-  <a href="index.html" class="lis-brand" title="Lisaany Home">
-    <div class="brand-mark">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        <polygon points="50,15 85,50 50,85 15,50" fill="#3a2400"/>
-        <polygon points="50,5 73,28 73,72 50,95 27,72 27,28" fill="none" stroke="#3a2400" stroke-width="3"/>
-        <circle cx="50" cy="50" r="5" fill="#f5d488"/>
-      </svg>
-    </div>
-    <span class="brand-name">Lisaany</span>
-  </a>
-  <div class="lis-links">
-    <a href="index.html" class="lis-link">Home</a>
-    <a href="arabic_platform.html" class="lis-link">Learn</a>
-    <a href="pricing.html" class="lis-link">Pricing</a>
-    <a href="tutors.html" class="lis-link is-active">Live Tutor</a>
-  </div>
-  <div class="lis-actions">
-    <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
-      <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
-      <span class="lis-profile-initial"></span>
-      <span class="lis-profile-dot"></span>
+  <div class="lis-nav-inner">
+    <a href="index.html" class="lis-brand" title="Back to home">
+      <span class="lis-brand-text">Lisaany</span>
     </a>
-    <button class="lis-menu-btn" aria-label="Menu" onclick="document.getElementById('lisMobileMenu').classList.toggle('is-open')">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M3 6h18"/>
-        <path d="M3 12h18"/>
-        <path d="M3 18h18"/>
-      </svg>
-    </button>
+    <div class="lis-links">
+      <a href="index.html" class="lis-link">Home</a>
+      <a href="arabic_platform.html" class="lis-link">Learn</a>
+      <a href="pricing.html" class="lis-link">Pricing</a>
+      <a href="tutors.html" class="lis-link is-active">Live Tutor</a>
+      <a href="tutor_portal.html" class="lis-link lis-staff-only" style="display:none">Portal</a>
+    </div>
+    <div class="lis-actions">
+      <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
+        <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="lis-profile-initial"></span>
+        <span class="lis-profile-dot"></span>
+      </a>
+      <button class="lis-menu-btn" aria-label="Menu" onclick="document.getElementById('lisMobileMenu').classList.toggle('is-open')">
+        <svg class="lis-ico" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6h18"/>
+          <path d="M3 12h18"/>
+          <path d="M3 18h18"/>
+        </svg>
+      </button>
+    </div>
   </div>
 </nav>
 <div class="lis-mobile-menu" id="lisMobileMenu">
@@ -479,6 +474,7 @@ body{padding-bottom:88px;}
   <a href="arabic_platform.html" class="lis-link">Learn</a>
   <a href="pricing.html" class="lis-link">Pricing</a>
   <a href="tutors.html" class="lis-link is-active">Live Tutor</a>
+  <a href="tutor_portal.html" class="lis-link lis-staff-only" style="display:none">Portal</a>
 </div>
 <!-- /LISAANY BANNER -->
 
@@ -688,6 +684,16 @@ checkPremium();
     );
     const {data:{session}} = await sbApp.auth.getSession();
     const initialSpan = btn.querySelector('.lis-profile-initial');
+    const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
+    const showStaffLinks = (sess) => {
+      const email = (sess?.user?.email || '').toLowerCase();
+      const role = sess?.user?.app_metadata?.role;
+      const isStaff = role === 'staff' || OWNER_EMAILS.includes(email);
+      document.querySelectorAll('.lis-staff-only').forEach(el => {
+        el.style.display = isStaff ? '' : 'none';
+      });
+    };
+    showStaffLinks(session);
     if(session){
       const meta = session.user.user_metadata || {};
       const name = meta.name || meta.full_name || session.user.email || 'U';
@@ -696,6 +702,7 @@ checkPremium();
       btn.classList.add('online');
     }
     sbApp.auth.onAuthStateChange((_event, newSession) => {
+      showStaffLinks(newSession);
       if(newSession){
         const meta = newSession.user.user_metadata || {};
         const name = meta.name || meta.full_name || newSession.user.email || 'U';
