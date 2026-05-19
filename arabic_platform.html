@@ -1628,7 +1628,6 @@ body::after {
     <a href="arabic_platform.html" class="lis-link is-active">Learn</a>
     <a href="pricing.html" class="lis-link">Pricing</a>
     <a href="tutors.html" class="lis-link">Live Tutor</a>
-    <a href="tutor_portal.html" class="lis-link lis-staff-only" style="display:none">Portal</a>
   </div>
   <div class="lis-actions">
     <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
@@ -7398,29 +7397,6 @@ render();
 })();
 
 </script>
-<script>
-// ── Show staff-only nav items (e.g. "Portal" link) when user is staff ──
-(async()=>{
-  try{
-    if(typeof supabase === 'undefined') return;
-    const sbStaff = supabase.createClient(
-      'https://cfaxrzfqvoalwznkhwnx.supabase.co',
-      'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa'
-    );
-    const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
-    const apply = (sess) => {
-      const email = (sess?.user?.email || '').toLowerCase();
-      const role = sess?.user?.app_metadata?.role;
-      const isStaff = role === 'staff' || OWNER_EMAILS.includes(email);
-      document.querySelectorAll('.lis-staff-only').forEach(el => {
-        el.style.display = isStaff ? '' : 'none';
-      });
-    };
-    const {data:{session}} = await sbStaff.auth.getSession();
-    apply(session);
-    sbStaff.auth.onAuthStateChange((_e, newSess) => apply(newSess));
-  }catch(e){ console.warn('Staff link visibility init failed:', e); }
-})();
-</script>
+
 </body>
 </html>
