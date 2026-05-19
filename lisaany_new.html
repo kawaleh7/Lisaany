@@ -2152,7 +2152,6 @@ body { padding-bottom: 90px !important; }
       <a href="arabic_platform.html" class="lis-link">Learn</a>
       <a href="pricing.html" class="lis-link">Pricing</a>
       <a href="tutors.html" class="lis-link">Live Tutor</a>
-      <a href="tutor_portal.html" class="lis-link lis-staff-only" style="display:none">Portal</a>
     </div>
     <div class="lis-actions">
       <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile">
@@ -4401,18 +4400,6 @@ render();
     const {createClient:cSb}=supabase;
     const sbApp=cSb('https://cfaxrzfqvoalwznkhwnx.supabase.co','sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa');
     const {data:{session}}=await sbApp.auth.getSession();
-
-    // ── Staff-only nav items (Portal link) ──
-    const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
-    const showStaffLinks = (sess) => {
-      const email = (sess?.user?.email || '').toLowerCase();
-      const role = sess?.user?.app_metadata?.role;
-      const isStaff = role === 'staff' || OWNER_EMAILS.includes(email);
-      document.querySelectorAll('.lis-staff-only').forEach(el => {
-        el.style.display = isStaff ? '' : 'none';
-      });
-    };
-    showStaffLinks(session);
 
     // Update lis-nav profile indicator (red dot / green dot + initial)
     const profileBtn = document.getElementById('lis-profile-btn');
