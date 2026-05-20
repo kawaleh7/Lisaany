@@ -748,6 +748,7 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
 .fc-front{background:rgba(6,14,27,.85);border:1.5px solid rgba(212,163,74,.2);}
 .fc-back{background:rgba(6,14,27,.85);border:1.5px solid rgba(127,168,134,.25);transform:rotateY(180deg);}
 .fc-ar{font-family:'Amiri',serif;font-size:58px;color:var(--gold);line-height:1;filter:drop-shadow(0 0 13px rgba(242,190,98,.28));}
+.fc-emoji{font-size:38px;line-height:1;margin-bottom:8px;filter:drop-shadow(0 3px 8px rgba(0,0,0,.35));}
 .fc-cat{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);}
 .fc-hint{font-size:13px;color:var(--dim);font-style:italic;}
 .fc-en{font-family:'Cinzel',serif;font-size:19px;font-weight:700;color:var(--green);}
@@ -5378,6 +5379,102 @@ async function _speakCore(t){
 try { window.speak = speak; } catch(e) {}
 
 // ══════════════════════════════════════════════════════
+// VOCAB EMOJI MAPPER — concrete nouns get an emoji; abstract words get none
+// ══════════════════════════════════════════════════════
+const VOCAB_EMOJI = {
+  // Family
+  'father':'👨','dad':'👨','mother':'👩','mom':'👩','brother':'👦','sister':'👧',
+  'son':'👦','daughter':'👧','grandfather':'👴','grandmother':'👵','grandpa':'👴','grandma':'👵',
+  'uncle':'🧔','aunt':'👩','family':'👨‍👩‍👧‍👦','husband':'🤵','wife':'👰','child':'🧒','baby':'👶',
+  'boy':'👦','girl':'👧','man':'👨','woman':'👩','parents':'👨‍👩‍👧','cousin':'🧑','friend':'🧑‍🤝‍🧑',
+  // Professions
+  'teacher':'👨‍🏫','doctor':'👨‍⚕️','engineer':'👷','student':'🎓','nurse':'👩‍⚕️','lawyer':'⚖️',
+  'police':'👮','policeman':'👮','chef':'👨‍🍳','cook':'👨‍🍳','driver':'🚗','farmer':'👨‍🌾',
+  'pilot':'👨‍✈️','soldier':'💂','merchant':'🧑‍💼','seller':'🧑‍💼','worker':'👷','artist':'🧑‍🎨',
+  'writer':'✍️','singer':'🎤','accountant':'🧮','dentist':'🦷','pharmacist':'💊',
+  // Classroom / school
+  'book':'📚','pen':'🖊️','pencil':'✏️','notebook':'📓','desk':'🪑','chair':'🪑','board':'📋',
+  'paper':'📄','bag':'🎒','backpack':'🎒','ruler':'📏','school':'🏫','eraser':'🧽','classroom':'🏫',
+  'lesson':'📖','homework':'📝','exam':'📝','test':'📝','library':'📚','map':'🗺️','dictionary':'📖',
+  // Home
+  'house':'🏠','home':'🏠','door':'🚪','window':'🪟','room':'🛏️','kitchen':'🍳','bed':'🛏️',
+  'table':'🪑','sofa':'🛋️','couch':'🛋️','lamp':'💡','key':'🔑','bathroom':'🚿','garden':'🌳',
+  'wall':'🧱','floor':'🟫','roof':'🏠','stairs':'🪜','mirror':'🪞','clock':'🕐','television':'📺','tv':'📺',
+  'refrigerator':'🧊','fridge':'🧊','stove':'🍳','oven':'🍞','sink':'🚰','toilet':'🚽','shower':'🚿',
+  // Food & drink
+  'bread':'🍞','water':'💧','milk':'🥛','coffee':'☕','tea':'🍵','rice':'🍚','meat':'🥩',
+  'chicken':'🍗','fish':'🐟','egg':'🥚','apple':'🍎','banana':'🍌','orange':'🍊','grape':'🍇',
+  'tomato':'🍅','potato':'🥔','onion':'🧅','carrot':'🥕','cheese':'🧀','butter':'🧈','sugar':'🍬',
+  'salt':'🧂','oil':'🫒','soup':'🍲','salad':'🥗','fruit':'🍎','vegetable':'🥦','vegetables':'🥦',
+  'cake':'🍰','cookie':'🍪','chocolate':'🍫','ice cream':'🍦','honey':'🍯','juice':'🧃','food':'🍽️',
+  'lemon':'🍋','watermelon':'🍉','strawberry':'🍓','date':'🌴','olive':'🫒','grapes':'🍇',
+  'coffee shop':'☕','restaurant':'🍴','market':'🏪','menu':'📋','plate':'🍽️','cup':'☕','glass':'🥃',
+  'spoon':'🥄','fork':'🍴','knife':'🔪','breakfast':'🍳','lunch':'🍽️','dinner':'🍽️',
+  // Body / health
+  'head':'🗣️','hand':'✋','foot':'🦶','eye':'👁️','nose':'👃','mouth':'👄','ear':'👂',
+  'hair':'💇','arm':'💪','leg':'🦵','finger':'☝️','heart':'❤️','stomach':'🫃','tooth':'🦷',
+  'teeth':'🦷','tongue':'👅','face':'😀','neck':'🧣','back':'🔙','knee':'🦵','shoulder':'💪',
+  'medicine':'💊','pill':'💊','hospital':'🏥','fever':'🤒','pain':'🤕','sick':'🤢','blood':'🩸',
+  'bone':'🦴','brain':'🧠','skin':'🫆','headache':'🤕','cough':'😷','cold':'🤧',
+  // Clothing
+  'shirt':'👕','tshirt':'👕','pants':'👖','trousers':'👖','shoes':'👟','shoe':'👟','dress':'👗',
+  'hat':'🎩','coat':'🧥','jacket':'🧥','sock':'🧦','socks':'🧦','glove':'🧤','gloves':'🧤',
+  'scarf':'🧣','belt':'🩹','tie':'👔','skirt':'👗','shorts':'🩳','glasses':'👓','watch':'⌚',
+  'ring':'💍','bag ':'👜','clothes':'👕','boot':'🥾','boots':'🥾','sandal':'🩴','sweater':'🧥',
+  // Nature
+  'sun':'☀️','moon':'🌙','star':'⭐','tree':'🌳','flower':'🌸','sea':'🌊','ocean':'🌊',
+  'mountain':'⛰️','sky':'☁️','rain':'🌧️','cloud':'☁️','fire':'🔥','river':'🏞️','lake':'🏞️',
+  'beach':'🏖️','desert':'🏜️','forest':'🌲','grass':'🌱','leaf':'🍃','wind':'💨','snow':'❄️',
+  'ice':'🧊','earth':'🌍','land':'🏞️','rock':'🪨','stone':'🪨','sand':'🏖️','plant':'🌱',
+  'rose':'🌹','garden ':'🌷','wood':'🪵','stars':'🌟','rainbow':'🌈','thunder':'⛈️','storm':'⛈️',
+  // Animals
+  'cat':'🐈','dog':'🐕','bird':'🐦','horse':'🐎','camel':'🐪','lion':'🦁','cow':'🐄',
+  'sheep':'🐑','goat':'🐐','chicken ':'🐓','duck':'🦆','rabbit':'🐰','mouse':'🐭','elephant':'🐘',
+  'monkey':'🐒','snake':'🐍','tiger':'🐅','bear':'🐻','wolf':'🐺','fox':'🦊','deer':'🦌',
+  'donkey':'🫏','animal':'🐾','insect':'🐛','bee':'🐝','butterfly':'🦋','spider':'🕷️',
+  // Transportation
+  'car':'🚗','bus':'🚌','train':'🚆','plane':'✈️','airplane':'✈️','bike':'🚲','bicycle':'🚲',
+  'boat':'⛵','ship':'🚢','taxi':'🚕','truck':'🚚','motorcycle':'🏍️','subway':'🚇','metro':'🚇',
+  'airport':'🛫','station':'🚉','road':'🛣️','street':'🛣️','bridge':'🌉','traffic':'🚦','ticket':'🎫',
+  // Sports
+  'ball':'⚽','football':'⚽','soccer':'⚽','basketball':'🏀','swimming':'🏊','running':'🏃',
+  'tennis':'🎾','game':'🎮','sport':'🏅','sports':'🏅','team':'👥','race':'🏁','gym':'🏋️',
+  'win':'🏆','winner':'🏆','medal':'🏅','cycling':'🚴','volleyball':'🏐','boxing':'🥊',
+  // Time
+  'day':'📅','night':'🌃','morning':'🌅','evening':'🌆','hour':'🕐','minute':'⏱️','week':'📆',
+  'month':'🗓️','year':'📅','today':'📅','tomorrow':'➡️','yesterday':'⬅️','time':'⏰','calendar':'📆',
+  'noon':'🕛','midnight':'🕛','afternoon':'🌇','season':'🍂','spring':'🌸','summer':'☀️',
+  'autumn':'🍂','fall':'🍂','winter':'❄️','holiday':'🎉','weekend':'🛌',
+  // Colors
+  'red':'🔴','blue':'🔵','green':'🟢','yellow':'🟡','orange ':'🟠','purple':'🟣','black':'⚫',
+  'white':'⚪','brown':'🟤','pink':'🩷','gray':'⚪','grey':'⚪','color':'🎨','gold':'🟡','silver':'⚪',
+  // Misc useful
+  'money':'💰','phone':'📱','mobile':'📱','computer':'💻','laptop':'💻','email':'📧','letter':'✉️',
+  'gift':'🎁','present':'🎁','party':'🎉','music':'🎵','song':'🎶','picture':'🖼️','photo':'📷',
+  'camera':'📷','newspaper':'📰','city':'🏙️','country':'🗺️','village':'🏘️','mosque':'🕌','quran':'📖',
+  'prayer':'🤲','sun ':'☀️','question':'❓','answer':'✅','number':'🔢','name':'🏷️','work':'💼',
+  'job':'💼','office':'🏢','shop':'🏪','store':'🏬','bank':'🏦','hotel':'🏨','key ':'🔑',
+};
+const EMOJI_KEYS_SORTED = Object.keys(VOCAB_EMOJI).sort((a,b)=>b.length-a.length); // longest first
+function emojiFor(en){
+  if(!en) return '';
+  let s = (' ' + en.toLowerCase() + ' ')
+    .replace(/\([^)]*\)/g, ' ')          // drop parentheticals like "(m)" "(suffix)"
+    .replace(/[^a-z\s]/g, ' ');           // keep letters/spaces
+  // Skip obvious phrases/sentences (too long = likely a sentence, not a noun)
+  const wordCount = s.trim().split(/\s+/).filter(Boolean).length;
+  if(wordCount > 4) return '';
+  for(const key of EMOJI_KEYS_SORTED){
+    // word-boundary-ish match
+    if(s.includes(' ' + key.trim() + ' ') || s.includes(' ' + key.trim() + 's ')){
+      return VOCAB_EMOJI[key];
+    }
+  }
+  return '';
+}
+try { window.emojiFor = emojiFor; } catch(e){}
+
+// ══════════════════════════════════════════════════════
 // HELPERS
 // ══════════════════════════════════════════════════════
 function el(tag,props,html){const e=document.createElement(tag);if(props)Object.entries(props).forEach(([k,v])=>{if(k==='style'&&typeof v==='object')Object.assign(e.style,v);else if(k.startsWith('on'))e.addEventListener(k.slice(2).toLowerCase(),v);else e[k]=v;});if(html!==undefined)e.innerHTML=html;return e;}
@@ -6648,6 +6745,8 @@ function mkVocab(blk){
   fci.addEventListener('click',()=>{ S.vFlip=!S.vFlip; if(S.vFlip)speak(cur.ar); render(); });
   const front=div('fc-face fc-front');
   front.appendChild(el('div',{className:'fc-cat'},cur.cat));
+  const _emo = (typeof emojiFor==='function') ? emojiFor(cur.en) : '';
+  if(_emo){ front.appendChild(el('div',{className:'fc-emoji'},_emo)); }
   front.appendChild(el('div',{className:'fc-ar'},cur.ar));
   front.appendChild(el('div',{className:'fc-cat',style:{marginTop:'6px'}},cur.roman));
   front.appendChild(el('div',{className:'fc-hint'},'Tap to reveal'));
@@ -7542,6 +7641,7 @@ render();
   display:flex;align-items:center;justify-content:center;transition:all .2s;
 }
 .lis-hero-close:hover{ background:rgba(224,112,112,.18);border-color:#e07070;color:#e07070; }
+.lis-hero-emoji{ font-size:clamp(56px,14vw,96px);line-height:1;margin-bottom:10px;filter:drop-shadow(0 6px 18px rgba(0,0,0,.4)); }
 .lis-hero-ar{
   font-family:'Amiri',serif;
   font-size:clamp(64px, 16vw, 132px);line-height:1.25;
@@ -7816,6 +7916,7 @@ render();
     heroOverlay.innerHTML = `
       <div class="lis-hero-card">
         <button class="lis-hero-close" aria-label="Close">&times;</button>
+        <div class="lis-hero-emoji" id="lis-hero-emoji"></div>
         <div class="lis-hero-ar" id="lis-hero-ar"></div>
         <div class="lis-hero-roman" id="lis-hero-roman"></div>
         <div class="lis-hero-en" id="lis-hero-en"></div>
@@ -7853,6 +7954,9 @@ render();
     if(!data || !data.ar) return;
     if(!heroOverlay) buildHero();
     document.getElementById('lis-hero-ar').textContent = data.ar;
+    const emojiEl = document.getElementById('lis-hero-emoji');
+    const emo = (typeof window.emojiFor === 'function') ? window.emojiFor(data.en) : '';
+    if(emojiEl){ emojiEl.textContent = emo || ''; emojiEl.style.display = emo ? '' : 'none'; }
     const romanEl = document.getElementById('lis-hero-roman');
     const enEl = document.getElementById('lis-hero-en');
     romanEl.textContent = data.roman || '';
