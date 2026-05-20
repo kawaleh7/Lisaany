@@ -5701,9 +5701,9 @@ function mkUpgrade(){
   });
   wrap.appendChild(features);
 
-  // Price
-  wrap.appendChild(el('div', {className:'upgrade-price'}, '$9 / month'));
-  wrap.appendChild(el('div', {className:'upgrade-price-sub'}, 'or $79 / year — save 27%'));
+  // Price — no hard-coded numbers here; pricing.html is the single source of truth
+  wrap.appendChild(el('div', {className:'upgrade-price'}, 'Unlock everything'));
+  wrap.appendChild(el('div', {className:'upgrade-price-sub'}, 'Choose a plan that fits — monthly or yearly'));
 
   // Actions
   const actions = div('action-row');
