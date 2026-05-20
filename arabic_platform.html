@@ -2758,6 +2758,20 @@ const CUR = [
       { id:"4.1", title:"Rooms of the House", icon:"home",
         desc:"وصف البيت — 6-7 كلمات",
         blocks:[
+          { id:3, type:"vocab", title:"Rooms of the House", desc:"10 كلمات عن البيت", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"غُرْفَة النَّوْم",en:"Bedroom"},
+              {ar:"الْمَطْبَخ",en:"Kitchen"},
+              {ar:"الْحَمَّام",en:"Bathroom"},
+              {ar:"الصَّالَة",en:"Living room"},
+              {ar:"الشُّرْفَة",en:"Balcony"},
+              {ar:"الْمَدْخَل",en:"Entrance"},
+              {ar:"الْحَدِيقَة",en:"Garden"},
+              {ar:"السَّطْح",en:"Roof / Terrace"},
+              {ar:"الطَّابِق",en:"Floor / Story"},
+              {ar:"الْمِصْعَد",en:"Elevator"},
+            ]}
+          },
           { id:1, type:"dialogue", title:"The New Apartment", desc:"خالد يصف شقته لصديقه", icon:"forum", color:"#D4A34A",
             data:{ title:"شَقَّتِي الْجَدِيدَة", setting:"خالد يصف شقته الجديدة لصديقه سعيد",
               lines:[
@@ -2800,20 +2814,6 @@ const CUR = [
                 {ar:"حُنِين",en:"Nostalgia"},
               ]
             }
-          },
-          { id:3, type:"vocab", title:"Rooms of the House", desc:"10 كلمات عن البيت", icon:"translate", color:"#D4A34A",
-            data:{ words:[
-              {ar:"غُرْفَة النَّوْم",en:"Bedroom"},
-              {ar:"الْمَطْبَخ",en:"Kitchen"},
-              {ar:"الْحَمَّام",en:"Bathroom"},
-              {ar:"الصَّالَة",en:"Living room"},
-              {ar:"الشُّرْفَة",en:"Balcony"},
-              {ar:"الْمَدْخَل",en:"Entrance"},
-              {ar:"الْحَدِيقَة",en:"Garden"},
-              {ar:"السَّطْح",en:"Roof / Terrace"},
-              {ar:"الطَّابِق",en:"Floor / Story"},
-              {ar:"الْمِصْعَد",en:"Elevator"},
-            ]}
           },
           { id:4, type:"grammar", title:"Prepositions of Place", desc:"فِي، عَلَى، تَحْتَ، فَوْقَ، أَمَامَ، خَلْفَ", icon:"psychology", color:"#D4A34A",
             data:{ title:"Prepositions of Place", titleAr:"حُرُوف الْجَرِّ الْمَكَانِيَّة",
@@ -5910,12 +5910,8 @@ function mkHub(){
     w.appendChild(cc);
   }
 
-  // ── Section heading ──
-  w.appendChild(el('h2', {className:'section-heading'}, 'All Modules'));
-
-  // ── Modules grid ──
-  const grid = div('modules-grid');
-  CUR.forEach(mod => {
+  // ── Tiered modules ──
+  const makeCard = (mod) => {
     const ok = modOk(mod.id);
     const isFree = isModFree(mod.id);
     const isUnlocked = ok && (isPremium() || isFree);
@@ -5979,9 +5975,30 @@ function mkHub(){
       card.addEventListener('click', () => { S.view = 'upgrade'; render(); });
     }
 
-    grid.appendChild(card);
+    return card;
+  };
+
+  // Three learning tiers
+  const TIERS = [
+    { label:'Beginner',     ar:'مُبْتَدِئ',   desc:'Greetings, family, school & home',       ids:[1,2,3,4] },
+    { label:'Intermediate', ar:'مُتَوَسِّط',  desc:'Food, daily life, health & groceries',   ids:[5,6,7,8] },
+    { label:'Advanced',     ar:'مُتَقَدِّم',   desc:'Malls, travel, nature & hobbies',        ids:[9,10,11,12] },
+  ];
+  TIERS.forEach((tier, ti) => {
+    const head = div('tier-header');
+    head.style.cssText = 'margin:' + (ti===0 ? '6px 0 14px' : '32px 0 14px') + ';';
+    const labelRow = div('');
+    labelRow.style.cssText = 'display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;';
+    labelRow.appendChild(el('div', {style:{fontFamily:"'Cinzel',serif",fontSize:'19px',fontWeight:'700',color:'var(--gold)',letterSpacing:'.02em'}}, tier.label));
+    labelRow.appendChild(el('div', {style:{fontFamily:"'Amiri',serif",fontSize:'15px',color:'var(--dim)',direction:'rtl'}}, tier.ar));
+    head.appendChild(labelRow);
+    head.appendChild(el('div', {style:{fontSize:'12.5px',color:'var(--dim)',marginTop:'3px'}}, tier.desc));
+    w.appendChild(head);
+
+    const grid = div('modules-grid');
+    CUR.filter(m => tier.ids.includes(m.id)).forEach(mod => grid.appendChild(makeCard(mod)));
+    w.appendChild(grid);
   });
-  w.appendChild(grid);
 
   return w;
 }
