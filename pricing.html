@@ -16,21 +16,21 @@
 <script src="session.js" defer></script>
 <style>
   :root {
-    --bg: #060e1b;
-    --bg-2: #0a1426;
-    --card: rgba(17,25,39,.55);
-    --card-elevated: rgba(25,38,62,.7);
-    --gold: #d4a347;
+    --bg: #0a1730;
+    --bg-2: #070f22;
+    --card: rgba(13,27,50,.55);
+    --card-elevated: rgba(20,35,60,.7);
+    --gold: #f2be62;
     --gold-lt: #f2d080;
-    --gold-bright: #f2be62;
-    --text: #f0e6cf;
-    --text-2: #d5cab0;
-    --dim: #9c8e74;
-    --dim-2: #6f654f;
-    --green: #7bc89e;
-    --green-bg: rgba(125,200,158,.12);
-    --border: rgba(212,163,74,.15);
-    --border-strong: rgba(212,163,74,.4);
+    --gold-bright: #f5d488;
+    --text: #e8eef9;
+    --text-2: #c5d0e3;
+    --dim: #9ba8be;
+    --dim-2: #5f6b82;
+    --green: #7fc99c;
+    --green-bg: rgba(127,201,156,.12);
+    --border: rgba(242,190,98,.18);
+    --border-strong: rgba(242,190,98,.4);
     --on-gold: #1a1208;
   }
 
@@ -51,12 +51,27 @@
     content: '';
     position: fixed; inset: 0;
     background:
-      radial-gradient(ellipse 90% 50% at 50% -10%, rgba(232,200,120,.06) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(212,163,74,.04) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 50% at 0% 100%, rgba(74,144,217,.025) 0%, transparent 70%);
+      radial-gradient(ellipse 90% 50% at 50% -10%, rgba(242,190,98,.10) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 100% 100%, rgba(242,190,98,.06) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 50% at 0% 100%, rgba(56,89,150,.10) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
+
+  /* ── Subtle twinkling starfield ── */
+  .stars-far,.stars-mid{position:fixed;inset:0;z-index:0;pointer-events:none;background-repeat:repeat;}
+  .stars-far{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='440' height='760'><g fill='%23cdd6ee'><circle cx='165' cy='154' r='0.8' opacity='0.32'/><circle cx='37' cy='548' r='0.6' opacity='0.26'/><circle cx='29' cy='519' r='0.6' opacity='0.19'/><circle cx='222' cy='428' r='0.6' opacity='0.23'/><circle cx='282' cy='434' r='0.6' opacity='0.36'/><circle cx='63' cy='228' r='0.6' opacity='0.31'/><circle cx='203' cy='50' r='0.6' opacity='0.19'/><circle cx='439' cy='136' r='0.8' opacity='0.27'/><circle cx='276' cy='120' r='0.8' opacity='0.30'/><circle cx='349' cy='185' r='0.6' opacity='0.31'/><circle cx='327' cy='192' r='0.8' opacity='0.20'/><circle cx='364' cy='64' r='0.6' opacity='0.32'/><circle cx='254' cy='696' r='0.8' opacity='0.35'/><circle cx='238' cy='599' r='0.8' opacity='0.26'/><circle cx='127' cy='184' r='0.6' opacity='0.20'/><circle cx='153' cy='537' r='0.8' opacity='0.37'/><circle cx='373' cy='459' r='0.8' opacity='0.31'/><circle cx='37' cy='120' r='0.8' opacity='0.22'/></g></svg>");background-size:440px 760px;opacity:.55;animation:floatY 95s linear infinite;}
+  .stars-mid{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='440' height='760'><g fill='%23f2d080'><circle cx='175' cy='155' r='1.3' opacity='0.53'/><circle cx='342' cy='79' r='1.3' opacity='0.50'/><circle cx='179' cy='608' r='1.3' opacity='0.57'/><circle cx='233' cy='70' r='1.0' opacity='0.68'/><circle cx='242' cy='713' r='1.0' opacity='0.42'/><circle cx='359' cy='317' r='1.3' opacity='0.49'/><circle cx='197' cy='684' r='1.3' opacity='0.41'/><circle cx='236' cy='363' r='1.0' opacity='0.58'/></g></svg>");background-size:440px 760px;opacity:.7;animation:floatY 62s linear infinite;}
+  @keyframes floatY{from{background-position:0 0;}to{background-position:0 -760px;}}
+  .spark{position:fixed;z-index:0;pointer-events:none;width:13px;height:13px;
+    background:radial-gradient(circle,#ffe9b8 0%,#f2d080 30%,transparent 60%);
+    clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
+    animation:twk 4.5s ease-in-out infinite;}
+  .spark.s1{top:14%;left:18%;animation-delay:0s;}
+  .spark.s2{top:24%;left:84%;animation-delay:2.2s;transform:scale(.75);}
+  @keyframes twk{0%,100%{opacity:.2;transform:scale(.7);}50%{opacity:.9;transform:scale(1);}}
+  @media (prefers-reduced-motion:reduce){.stars-far,.stars-mid{animation:none;}.spark{animation:none;}}
+
 
   .stage {
     position: relative;
@@ -78,7 +93,7 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(212,163,74,.06);
+    background: rgba(242,190,98,.06);
     border: 1px solid var(--border);
     color: var(--text-2);
     padding: 10px 16px;
@@ -91,7 +106,7 @@
     transition: all .25s;
   }
   .back-btn:hover {
-    background: rgba(212,163,74,.12);
+    background: rgba(242,190,98,.12);
     border-color: var(--border-strong);
     color: var(--text);
     transform: translateX(-2px);
@@ -142,12 +157,12 @@
   .brand-divider .line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212,163,74,.55), transparent);
+    background: linear-gradient(90deg, transparent, rgba(242,190,98,.55), transparent);
   }
   .brand-divider .diamond {
     width: 6px;
     height: 6px;
-    background: #e0b252;
+    background: #f5d488;
     transform: rotate(45deg);
     box-shadow: 0 0 10px rgba(242,190,98,.7), 0 0 20px rgba(242,190,98,.35);
     flex-shrink: 0;
@@ -160,7 +175,7 @@
     letter-spacing: .32em;
     margin-left: .32em; /* compensate for trailing letter-spacing */
     line-height: 1;
-    background: linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #e0b252 100%);
+    background: linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #f2d080 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -180,7 +195,7 @@
     letter-spacing: .35em;
     margin-left: .35em;
     text-transform: uppercase;
-    background: linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #e0b252 100%);
+    background: linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #f2d080 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -199,7 +214,7 @@
     line-height: 1.2;
   }
   .hero h1 .accent, .hero-title .accent {
-    background: linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #e0b252 100%);
+    background: linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #f2d080 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -242,6 +257,8 @@
     opacity: 0;
     transform: translateY(14px);
     animation: planIn .55s cubic-bezier(.22,1,.36,1) forwards;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
   .plan:nth-child(1) { animation-delay: .1s; }
   .plan:nth-child(2) { animation-delay: .2s; }
@@ -249,14 +266,14 @@
   @keyframes planIn { to { opacity: 1; transform: translateY(0); } }
 
   .plan:hover {
-    border-color: rgba(212,163,74,.45);
+    border-color: rgba(242,190,98,.45);
     transform: translateY(-4px);
     box-shadow: 0 16px 40px rgba(0,0,0,.32);
   }
   .plan.featured {
     border-color: rgba(242,190,98,.5);
-    background: linear-gradient(180deg, rgba(212,163,74,.08), rgba(212,163,74,.02));
-    box-shadow: 0 0 0 1px rgba(242,190,98,.18), 0 16px 50px rgba(212,163,74,.12);
+    background: linear-gradient(180deg, rgba(242,190,98,.08), rgba(242,190,98,.02));
+    box-shadow: 0 0 0 1px rgba(242,190,98,.18), 0 16px 50px rgba(242,190,98,.12);
   }
   @media (min-width: 820px) {
     .plan.featured {
@@ -270,7 +287,7 @@
   }
   .plan.featured:hover {
     border-color: var(--gold-bright);
-    box-shadow: 0 0 0 1px rgba(242,190,98,.35), 0 22px 60px rgba(212,163,74,.2);
+    box-shadow: 0 0 0 1px rgba(242,190,98,.35), 0 22px 60px rgba(242,190,98,.2);
   }
   .plan.loading { pointer-events: none; opacity: .5; }
 
@@ -294,12 +311,12 @@
   .plan-badge.popular {
     background: linear-gradient(135deg, var(--gold-bright), var(--gold));
     color: var(--on-gold);
-    box-shadow: 0 4px 14px rgba(212,163,74,.4);
+    box-shadow: 0 4px 14px rgba(242,190,98,.4);
   }
   .plan-badge.savings {
     background: linear-gradient(135deg, var(--green), #5fa882);
     color: #07241a;
-    box-shadow: 0 4px 14px rgba(76,168,122,.35);
+    box-shadow: 0 4px 14px rgba(127,201,156,.35);
   }
 
   .plan-header { margin-bottom: 16px; }
@@ -394,18 +411,18 @@
   }
   .plan-cta:hover {
     border-color: var(--gold-bright);
-    background: rgba(212,163,74,.1);
+    background: rgba(242,190,98,.1);
     color: #fff;
   }
   .plan.featured .plan-cta {
     background: linear-gradient(135deg, var(--gold-bright), var(--gold));
     color: var(--on-gold);
     border-color: transparent;
-    box-shadow: 0 6px 20px rgba(212,163,74,.3);
+    box-shadow: 0 6px 20px rgba(242,190,98,.3);
   }
   .plan.featured .plan-cta:hover {
     background: linear-gradient(135deg, var(--gold-lt), var(--gold-bright));
-    box-shadow: 0 8px 26px rgba(212,163,74,.45);
+    box-shadow: 0 8px 26px rgba(242,190,98,.45);
     transform: translateY(-1px);
   }
   .plan-cta .arr {
@@ -439,7 +456,7 @@
     flex-wrap: wrap;
     margin-bottom: 64px;
     padding: 18px;
-    background: rgba(17,25,39,.4);
+    background: rgba(13,27,50,.4);
     border: 1px solid var(--border);
     border-radius: 16px;
   }
@@ -484,7 +501,7 @@
     margin: 0 auto 56px;
   }
   .faq-item {
-    background: rgba(17,25,39,.4);
+    background: rgba(13,27,50,.4);
     border: 1px solid var(--border);
     border-radius: 14px;
     margin-bottom: 10px;
@@ -528,8 +545,8 @@
 
   /* Free-tier reminder card */
   .free-reminder {
-    background: linear-gradient(135deg, rgba(125,200,158,.06), rgba(125,200,158,.02));
-    border: 1.5px solid rgba(125,200,158,.2);
+    background: linear-gradient(135deg, rgba(127,201,156,.06), rgba(127,201,156,.02));
+    border: 1.5px solid rgba(127,201,156,.2);
     border-radius: 18px;
     padding: 24px;
     text-align: center;
@@ -563,7 +580,7 @@
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
     display: flex; align-items: center; justify-content: space-around;
     padding: 14px 20px 24px;
-    background: rgba(6,14,27,.97);
+    background: rgba(7,15,34,.97);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border-top: 1px solid var(--border);
@@ -598,6 +615,9 @@
 </style>
 </head>
 <body>
+<div class="stars-far"></div>
+<div class="stars-mid"></div>
+<div class="spark s1"></div><div class="spark s2"></div>
 
 <div class="stage">
 
@@ -763,8 +783,6 @@
   function toggleFaq(qEl) {
     const item = qEl.closest('.faq-item');
     const isOpen = item.classList.contains('open');
-    // Optionally close others first for accordion behavior:
-    // document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
     item.classList.toggle('open', !isOpen);
   }
 
@@ -857,16 +875,14 @@
 
   // ── If premium user lands here, gently redirect to profile ──
   (async function premiumGuard() {
-    // Wait briefly for plan.js to load
     for (let i = 0; i < 20 && !window.lisaanyPlan; i++) {
       await new Promise(r => setTimeout(r, 100));
     }
     if (!window.lisaanyPlan) return;
     const plan = await window.lisaanyPlan.getPlan();
     if (plan === 'premium_monthly' || plan === 'premium_yearly') {
-      // They already have top-tier access — show a banner instead of redirecting
       const banner = document.createElement('div');
-      banner.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);background:rgba(125,200,158,.12);border:1px solid rgba(125,200,158,.4);color:#7bc89e;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:100;backdrop-filter:blur(10px);';
+      banner.style.cssText = 'position:fixed;top:16px;left:50%;transform:translateX(-50%);background:rgba(127,201,156,.12);border:1px solid rgba(127,201,156,.4);color:#7fc99c;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:600;z-index:100;backdrop-filter:blur(10px);';
       banner.innerHTML = '✓ You\'re on Premium · <a href="profile.html" style="color:#f2d080;text-decoration:underline;">Manage subscription</a>';
       document.body.appendChild(banner);
     }
