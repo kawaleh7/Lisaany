@@ -5,19 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" content="notranslate">
   <title>Lisaany — Profile</title>
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-
   <style>
     :root {
       --bg: #0a1730;
       --bg-deep: #070f22;
-      --card: rgba(13, 27, 50, 0.75);
+      --card: rgba(15, 30, 56, 0.55);
       --gold: #f2be62;
       --gold-lt: #f2d080;
       --gold-soft: #d4a34a;
@@ -25,350 +22,181 @@
       --dim: #9ba8be;
       --green: #7fc99c;
       --red: #e07070;
-      --border: rgba(242, 190, 98, 0.18);
+      --border: rgba(242, 190, 98, 0.16);
       --on-gold: #1a1208;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    
     body {
       font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100dvh;
-      padding-bottom: 110px;
+      padding-bottom: 116px;
       position: relative;
-      background-image: 
-        radial-gradient(ellipse at 50% -10%, rgba(212,163,74,.10), transparent 50%),
-        radial-gradient(ellipse at 0% 50%, rgba(56,89,150,.08), transparent 50%),
-        radial-gradient(ellipse at 100% 100%, rgba(212,163,74,.06), transparent 50%);
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -8%, rgba(242,190,98,.12), transparent 55%),
+        radial-gradient(ellipse 70% 60% at -10% 40%, rgba(56,89,150,.12), transparent 55%),
+        radial-gradient(ellipse 90% 60% at 110% 100%, rgba(242,190,98,.07), transparent 55%);
     }
-
+    /* grain texture overlay */
+    body::after {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
     .ms { font-family: 'Material Symbols Outlined'; font-variation-settings: 'FILL' 1; line-height: 1; vertical-align: middle; }
 
-    /* Top Bar */
+    /* ── Top bar ── */
     .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 22px;
-      background: rgba(10, 23, 48, 0.85);
-      backdrop-filter: blur(20px) saturate(160%);
-      border-bottom: 1px solid rgba(242,190,98,.15);
+      position: sticky; top: 0; z-index: 100; height: 64px;
+      display: flex; align-items: center; justify-content: space-between; padding: 0 22px;
+      background: rgba(10, 23, 48, 0.7);
+      backdrop-filter: blur(22px) saturate(170%); -webkit-backdrop-filter: blur(22px) saturate(170%);
+      border-bottom: 1px solid rgba(242,190,98,.12);
     }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: inherit;
-    }
-
+    .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
     .brand-mark {
-      width: 36px; height: 36px;
-      border-radius: 50%;
+      width: 36px; height: 36px; border-radius: 50%;
       background: linear-gradient(135deg, #f5d488, #d4a34a);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       box-shadow: 0 0 20px rgba(242,190,98,.25);
     }
-
     .back-btn {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,.14);
-      color: var(--dim);
-      padding: 8px 16px;
-      border-radius: 9999px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12);
+      color: var(--dim); padding: 8px 16px; border-radius: 9999px;
+      font-size: 13px; font-weight: 600; cursor: pointer;
+      transition: all .25s cubic-bezier(.4,0,.2,1);
     }
+    .back-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(242,190,98,.08); }
 
-    .back-btn:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(242,190,98,.08);
+    .stage { position: relative; z-index: 2; max-width: 480px; margin: 0 auto; padding: 0 20px; }
+
+    /* ── Entrance animation ── */
+    @keyframes riseIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; animation: riseIn .6s cubic-bezier(.22,1,.36,1) forwards; }
+    .d1 { animation-delay: .05s; } .d2 { animation-delay: .13s; } .d3 { animation-delay: .21s; }
+    .d4 { animation-delay: .29s; } .d5 { animation-delay: .37s; } .d6 { animation-delay: .45s; }
+
+    /* ── Hero with cover banner ── */
+    .cover {
+      position: relative; margin: 18px 0 0; height: 116px; border-radius: 22px; overflow: hidden;
+      border: 1px solid var(--border);
+      background:
+        radial-gradient(circle at 78% 130%, rgba(242,190,98,.4), transparent 55%),
+        radial-gradient(circle at 15% -20%, rgba(127,160,220,.25), transparent 50%),
+        linear-gradient(120deg, #16294b, #1a3358 55%, #102544);
     }
-
-    /* Main Content */
-    .stage {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 12px 20px 0;
+    .cover::before {
+      content: ''; position: absolute; inset: 0; opacity: .5;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23f2be62' stroke-width='0.6' opacity='0.3'%3E%3Cpolygon points='30,4 56,30 30,56 4,30'/%3E%3Cpolygon points='30,16 44,30 30,44 16,30'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 60px 60px;
+      -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
+      mask-image: linear-gradient(to bottom, #000, transparent);
     }
-
-    /* Hero */
-    .hero {
-      text-align: center;
-      padding: 32px 0 24px;
-    }
-
-    .avatar-wrap {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 20px;
-    }
-
-    .avatar-glow {
-      position: absolute;
-      inset: -18px;
-      background: radial-gradient(circle, rgba(242,190,98,.18) 30%, transparent 70%);
-      border-radius: 50%;
-      filter: blur(28px);
-      z-index: 0;
-    }
-
+    .hero { text-align: center; margin-top: -52px; padding-bottom: 22px; position: relative; z-index: 3; }
+    .avatar-wrap { position: relative; display: inline-block; margin-bottom: 14px; }
+    .ring { position: absolute; inset: -8px; transform: rotate(-90deg); pointer-events: none; }
+    .ring circle { fill: none; stroke-width: 4; stroke-linecap: round; }
+    .ring .track { stroke: rgba(255,255,255,.08); }
+    .ring .prog { stroke: url(#ringGrad); stroke-dasharray: 339.292; stroke-dashoffset: 339.292; transition: stroke-dashoffset 1.1s cubic-bezier(.22,1,.36,1) .35s; }
     .avatar {
-      width: 96px; height: 96px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #132040, #0d1830);
-      border: 3px solid var(--gold);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 0 40px rgba(242,190,98,.3);
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      width: 104px; height: 104px; border-radius: 50%;
+      background: linear-gradient(135deg, #14254a, #0c1830);
+      border: 3px solid var(--bg); display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1; box-shadow: 0 8px 32px rgba(0,0,0,.45);
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1);
     }
-
-    .avatar.logged-in {
-      background: linear-gradient(135deg, #15281c, #102818);
-      border-color: var(--green);
-      box-shadow: 0 0 40px rgba(127,201,156,.35);
-    }
-
-    .avatar .ms { font-size: 48px; color: var(--gold); }
-    .avatar-initial {
-      font-family: 'Cinzel', serif;
-      font-size: 42px;
-      font-weight: 700;
-      color: var(--green);
-      display: none;
-    }
+    .avatar:hover { transform: scale(1.04); }
+    .avatar .ms { font-size: 50px; color: var(--gold); }
+    .avatar-initial { font-family: 'Cinzel', serif; font-size: 44px; font-weight: 700; color: var(--green); display: none; text-shadow: 0 2px 12px rgba(127,201,156,.4); }
     .avatar.logged-in .ms { display: none; }
     .avatar.logged-in .avatar-initial { display: block; }
+    .hero h2 { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 700; margin-bottom: 5px; letter-spacing: .01em; }
+    .hero p { color: var(--dim); font-size: 14px; line-height: 1.5; word-break: break-all; }
 
-    .hero h2 {
-      font-family: 'Cinzel', serif;
-      font-size: 26px;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .hero p {
-      color: var(--dim);
-      font-size: 14.5px;
-      line-height: 1.55;
-      word-break: break-all;
-    }
-
-    /* Stats */
-    .stat-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin: 8px 0 24px;
-    }
-
+    /* ── Stats ── */
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 4px 0 18px; }
     .stat {
-      background: var(--card);
-      border: 1.5px solid var(--border);
-      border-radius: 18px;
-      padding: 18px 14px;
-      text-align: center;
-      transition: all 0.3s ease;
+      background: var(--card); border: 1.5px solid var(--border); border-radius: 18px;
+      padding: 18px 14px; text-align: center;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      transition: transform .3s cubic-bezier(.34,1.4,.64,1), border-color .3s, background .3s;
     }
-
-    .stat.active {
-      border-color: rgba(127,201,156,.4);
-      background: rgba(127,201,156,.06);
-    }
-
-    .stat-num {
-      font-family: 'Cinzel', serif;
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1;
-    }
-
-    .stat-label {
-      font-size: 10.5px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-top: 8px;
-    }
-    .stat-icon { font-size: 22px; margin-bottom: 4px; }
-    #streakStat .stat-icon { filter: grayscale(1) opacity(.5); transition: filter .3s; }
-    #streakStat.active .stat-icon { filter: none; }
+    .stat:hover { transform: translateY(-3px); }
+    .stat.active { border-color: rgba(127,201,156,.4); background: rgba(127,201,156,.07); }
+    .stat-icon { font-size: 24px; margin-bottom: 5px; display: inline-block; }
+    #streakStat .stat-icon { filter: grayscale(1) opacity(.45); transition: filter .3s; }
+    #streakStat.active .stat-icon { filter: none; animation: flicker 2.2s ease-in-out infinite; transform-origin: 50% 80%; }
+    @keyframes flicker { 0%,100%{ transform: scale(1) rotate(-1deg);} 25%{ transform: scale(1.08) rotate(2deg);} 50%{ transform: scale(.97) rotate(-2deg);} 75%{ transform: scale(1.05) rotate(1deg);} }
+    .stat-num { font-family: 'Cinzel', serif; font-size: 28px; font-weight: 700; line-height: 1; }
     #streakStat.active .stat-num { color: var(--gold); }
+    #planStat.active .stat-num { color: var(--green); }
+    .stat-label { font-size: 10.5px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--dim); margin-top: 8px; }
 
-    /* Cards */
+    /* ── Cards ── */
     .card {
-      background: var(--card);
-      border: 1.5px solid var(--border);
-      border-radius: 20px;
-      padding: 20px;
-      margin-bottom: 16px;
-      position: relative;
-      overflow: hidden;
+      background: var(--card); border: 1.5px solid var(--border); border-radius: 20px;
+      padding: 20px; margin-bottom: 16px; position: relative; overflow: hidden;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      transition: border-color .3s, transform .3s, box-shadow .3s;
     }
-
-    .card.active {
-      border-color: rgba(127,201,156,.45);
-      background: rgba(127,201,156,.05);
-    }
-
-    .card-label {
-      font-family: 'Cinzel', serif;
-      font-size: 11.5px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 14px;
-    }
-
-    .row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 10px 0;
-    }
-
-    .row .ms { font-size: 22px; color: var(--gold); width: 28px; }
-
-    .sub-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .sub-badge {
-      font-size: 10px;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
+    .card:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(0,0,0,.28); border-color: rgba(242,190,98,.3); }
+    .card.active { border-color: rgba(127,201,156,.4); background: rgba(127,201,156,.055); }
+    .card-label { font-family: 'Cinzel', serif; font-size: 11.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .row { display: flex; align-items: center; gap: 14px; padding: 9px 0; }
+    .row + .row { border-top: 1px solid rgba(255,255,255,.05); }
+    .row .ms { font-size: 21px; color: var(--gold); width: 26px; }
+    .row span:not(.ms) { font-size: 14px; }
+    .sub-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .sub-badge { font-size: 10px; font-weight: 800; padding: 5px 12px; border-radius: 9999px; text-transform: uppercase; letter-spacing: .4px; }
     .sub-badge.active { background: rgba(127,201,156,.15); color: var(--green); border: 1px solid rgba(127,201,156,.4); }
     .sub-badge.canceled { background: rgba(224,112,112,.12); color: var(--red); border: 1px solid rgba(224,112,112,.4); }
     .sub-badge.none { background: rgba(155,168,190,.1); color: var(--dim); border: 1px solid var(--border); }
 
-    /* Buttons */
+    /* ── Buttons ── */
     .btn {
-      width: 100%;
-      padding: 15px 20px;
-      border-radius: 14px;
-      font-weight: 600;
-      font-size: 14.5px;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: none;
-      text-decoration: none;
+      width: 100%; padding: 15px 20px; border-radius: 14px; font-weight: 600; font-size: 14.5px;
+      cursor: pointer; transition: all .25s cubic-bezier(.4,0,.2,1);
+      display: flex; align-items: center; justify-content: center; gap: 8px; border: none; text-decoration: none;
     }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--gold), var(--gold-lt));
-      color: var(--on-gold);
-      box-shadow: 0 6px 20px rgba(242,190,98,.3);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(242,190,98,.4);
-    }
-    .btn-primary:disabled { opacity: .55; cursor: wait; }
-    .btn-primary:disabled:hover { transform: none; box-shadow: 0 6px 20px rgba(242,190,98,.3); }
-
-    .btn-ghost {
-      background: transparent;
-      border: 1.5px solid var(--border);
-      color: var(--text);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(242,190,98,.08);
-      border-color: var(--gold);
-    }
-
-    .btn-danger {
-      background: transparent;
-      border: 1.5px solid rgba(224,112,112,.35);
-      color: var(--red);
-    }
+    .btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-lt)); color: var(--on-gold); box-shadow: 0 6px 22px rgba(242,190,98,.32); position: relative; overflow: hidden; }
+    .btn-primary::after { content:''; position:absolute; top:0; left:-120%; width:60%; height:100%; background:linear-gradient(100deg, transparent, rgba(255,255,255,.45), transparent); transform:skewX(-20deg); transition:left .6s; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(242,190,98,.45); }
+    .btn-primary:hover::after { left: 130%; }
+    .btn-primary:disabled { opacity: .55; cursor: wait; transform: none; }
+    .btn-ghost { background: rgba(255,255,255,.03); border: 1.5px solid var(--border); color: var(--text); }
+    .btn-ghost:hover { background: rgba(242,190,98,.08); border-color: var(--gold); }
+    .btn-danger { background: transparent; border: 1.5px solid rgba(224,112,112,.3); color: var(--red); }
     .btn-danger:hover { background: rgba(224,112,112,.08); border-color: var(--red); }
 
-    /* Bottom Nav */
+    /* ── Bottom nav ── */
     .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: space-around;
-      padding: 12px 16px 20px;
-      background: rgba(7,15,34,0.98);
-      backdrop-filter: blur(24px);
-      border-top: 1px solid var(--border);
-      z-index: 100;
+      position: fixed; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around;
+      padding: 12px 16px 22px; background: rgba(7,15,34,.96);
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--border); border-radius: 26px 26px 0 0; z-index: 100;
     }
-
-    .nav-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      color: rgba(255,255,255,.45);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.6px;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
-
-    .nav-btn.active,
-    .nav-btn:hover {
-      color: var(--gold);
-    }
-
+    .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; color: rgba(255,255,255,.45); font-size: 10px; font-weight: 700; letter-spacing: .6px; text-decoration: none; transition: all .2s; }
+    .nav-btn.active, .nav-btn:hover { color: var(--gold); }
     .nav-btn .ms { font-size: 26px; }
-
-    .loading {
-      text-align: center;
-      padding: 100px 20px;
-      color: var(--dim);
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    .loading { text-align: center; padding: 110px 20px; color: var(--dim); }
+    @keyframes spin { to { transform: rotate(360deg); } }
     @media (prefers-reduced-motion: reduce) {
-      .avatar, .btn, .back-btn, .stat { transition: none; }
+      .reveal { animation: none; opacity: 1; }
+      .avatar, .btn, .back-btn, .stat, .card { transition: none; }
+      #streakStat.active .stat-icon { animation: none; }
+      .ring .prog { transition: none; }
     }
   </style>
 </head>
 <body>
-  <!-- Top Bar -->
+  <svg width="0" height="0" style="position:absolute"><defs>
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f2d080"/><stop offset="100%" stop-color="#d4a34a"/>
+    </linearGradient>
+  </defs></svg>
+
   <header class="topbar">
     <a href="index.html" class="brand" aria-label="Lisaany Home">
       <div class="brand-mark">
@@ -380,41 +208,43 @@
       </div>
       <span class="brand-name" style="font-family:'Cinzel',serif; font-weight:600; font-size:17px;">Lisaany</span>
     </a>
-    <button class="back-btn" onclick="goBack()" aria-label="Go back">
-      ← Back
-    </button>
+    <button class="back-btn" onclick="goBack()" aria-label="Go back">← Back</button>
   </header>
 
   <main class="stage">
     <div id="loadingState" class="loading">
-      <div style="width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px;"></div>
+      <div style="width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px;"></div>
       Loading your profile…
     </div>
 
     <!-- Logged Out -->
     <div id="loggedOutState" style="display:none;">
-      <div class="hero">
+      <div class="cover reveal d1" style="margin-bottom:-52px;"></div>
+      <div class="hero reveal d2">
         <div class="avatar-wrap">
-          <div class="avatar-glow"></div>
           <div class="avatar"><span class="ms">person</span></div>
         </div>
         <h2>Welcome to Lisaany</h2>
         <p>Sign in to continue your learning journey.</p>
       </div>
-      <div style="display:flex; flex-direction:column; gap:12px; max-width:320px; margin:0 auto;">
+      <div class="reveal d3" style="display:flex; flex-direction:column; gap:12px; max-width:320px; margin:0 auto;">
         <a href="auth.html" class="btn btn-primary"><span class="ms">login</span> Sign in</a>
         <a href="auth.html" class="btn btn-ghost"><span class="ms">person_add</span> Create account</a>
       </div>
-      <div style="text-align:center; font-size:11px; color:var(--dim); margin:16px auto 0; max-width:320px; line-height:1.6;">
+      <div class="reveal d4" style="text-align:center; font-size:11px; color:var(--dim); margin:16px auto 0; max-width:320px; line-height:1.6;">
         Tutor? Sign in normally — you'll enter your staff code on the sign-in page.
       </div>
     </div>
 
     <!-- Logged In -->
     <div id="loggedInState" style="display:none;">
-      <div class="hero">
+      <div class="cover reveal d1"></div>
+      <div class="hero reveal d2">
         <div class="avatar-wrap">
-          <div class="avatar-glow"></div>
+          <svg class="ring" width="120" height="120" viewBox="0 0 120 120">
+            <circle class="track" cx="60" cy="60" r="54"/>
+            <circle class="prog" id="ringProg" cx="60" cy="60" r="54"/>
+          </svg>
           <div class="avatar logged-in" id="avatar">
             <span class="ms">person</span>
             <span class="avatar-initial" id="avatarInitial"></span>
@@ -424,11 +254,11 @@
         <p id="greetingEmail"></p>
       </div>
 
-      <div class="stat-row">
+      <div class="stat-row reveal d3">
         <div class="stat" id="streakStat">
           <div class="stat-icon">🔥</div>
           <div class="stat-num" id="streakNum">0</div>
-          <div class="stat-label">Day Streak</div>
+          <div class="stat-label" id="streakLabel">Day Streak</div>
         </div>
         <div class="stat" id="planStat">
           <div class="stat-icon">✦</div>
@@ -437,39 +267,37 @@
         </div>
       </div>
 
-      <!-- Account Card -->
-      <div class="card">
+      <div class="card reveal d4">
         <div class="card-label">Account</div>
         <div class="row"><span class="ms">mail</span><span id="acctEmail" style="word-break:break-all;"></span></div>
         <div class="row"><span class="ms">calendar_today</span><span id="acctJoined"></span></div>
       </div>
 
-      <!-- Subscription Card -->
-      <div class="card" id="subCard">
+      <div class="card reveal d5" id="subCard">
         <div class="sub-header">
-          <div class="card-label">Subscription</div>
+          <div class="card-label" style="margin-bottom:0;">Subscription</div>
           <div class="sub-badge none" id="subBadge">No plan</div>
         </div>
-        <div class="row" style="padding:0 0 12px;">
+        <div style="padding:4px 0 14px;">
           <span id="subDetail" style="color:var(--dim); font-size:14px; line-height:1.5;"></span>
         </div>
         <button class="btn btn-primary" id="subAction">View Plans</button>
       </div>
 
-      <a href="admin.html" id="adminLink" class="btn btn-ghost" style="display:none; margin-top:8px;">
-        <span class="ms">admin_panel_settings</span> Admin Dashboard
-      </a>
-      <a href="tutor_portal.html" id="staffLink" class="btn btn-ghost" style="display:none; margin-top:8px;">
-        <span class="ms">school</span> Tutor Dashboard
-      </a>
-
-      <button onclick="signOut()" class="btn btn-danger" style="margin-top:12px;">
-        <span class="ms">logout</span> Sign out
-      </button>
+      <div class="reveal d6">
+        <a href="admin.html" id="adminLink" class="btn btn-ghost" style="display:none; margin-top:8px;">
+          <span class="ms">admin_panel_settings</span> Admin Dashboard
+        </a>
+        <a href="tutor_portal.html" id="staffLink" class="btn btn-ghost" style="display:none; margin-top:8px;">
+          <span class="ms">school</span> Tutor Dashboard
+        </a>
+        <button onclick="signOut()" class="btn btn-danger" style="margin-top:12px;">
+          <span class="ms">logout</span> Sign out
+        </button>
+      </div>
     </div>
   </main>
 
-  <!-- Bottom Navigation -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-btn"><span class="ms">home</span><span>Home</span></a>
     <a href="lisaany_new.html" class="nav-btn"><span class="ms">menu_book</span><span>Read</span></a>
@@ -486,18 +314,12 @@
     const PLAN_LABELS = { self_paced: 'Basic · Self-Paced', with_tutor: 'Pro · With Tutor' };
     const PLAN_SHORT = { self_paced: 'Basic', with_tutor: 'Pro' };
     const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
+    const MILESTONES = [3, 7, 14, 30, 50, 100, 200, 365];
+    const RING_CIRC = 2 * Math.PI * 54; // 339.292
 
-    function goBack() {
-      if (history.length > 1) history.back();
-      else location.href = 'index.html';
-    }
-
+    function goBack() { if (history.length > 1) history.back(); else location.href = 'index.html'; }
     function goToPricing() { location.href = 'pricing.html'; }
-
-    async function signOut() {
-      try { await sb.auth.signOut(); } catch(e) {}
-      location.reload();
-    }
+    async function signOut() { try { await sb.auth.signOut(); } catch(e) {} location.reload(); }
 
     async function openBillingPortal(btn) {
       if (btn.disabled) return;
@@ -508,8 +330,7 @@
         const { data: { session } } = await sb.auth.getSession();
         if (!session) throw new Error('Not signed in');
         const res = await fetch('/api/billing-portal', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId: session.user.id }),
         });
         const data = await res.json().catch(() => ({ error: 'Server returned non-JSON response (status ' + res.status + ')' }));
@@ -518,8 +339,7 @@
       } catch (err) {
         console.error('Billing portal error:', err);
         alert('Unable to open billing portal.\n\nError: ' + (err.message || err));
-        btn.disabled = false;
-        btn.innerHTML = originalHTML;
+        btn.disabled = false; btn.innerHTML = originalHTML;
       }
     }
 
@@ -542,52 +362,48 @@
       const n = loadStreak();
       const numEl = document.getElementById('streakNum');
       const stat = document.getElementById('streakStat');
+      const label = document.getElementById('streakLabel');
+      const ring = document.getElementById('ringProg');
       if (numEl) numEl.textContent = n;
       if (stat) stat.classList.toggle('active', n > 0);
+      // progress ring toward next milestone
+      const next = MILESTONES.find(m => m > n) || (n + 1);
+      const prev = [...MILESTONES].reverse().find(m => m <= n) || 0;
+      const frac = next > prev ? Math.min(1, (n - prev) / (next - prev)) : 0;
+      if (ring) ring.style.strokeDashoffset = RING_CIRC * (1 - frac);
+      if (label) label.textContent = n > 0 ? (next - n) + ' to ' + next + ' 🔥' : 'Day Streak';
     }
 
     async function loadProfile() {
       const loading = document.getElementById('loadingState');
       const loggedOut = document.getElementById('loggedOutState');
       const loggedIn = document.getElementById('loggedInState');
-
       try {
         const { data: { session } } = await sb.auth.getSession();
-        if (!session?.user) {
-          loading.style.display = 'none';
-          loggedOut.style.display = 'block';
-          return;
-        }
-
+        if (!session?.user) { loading.style.display = 'none'; loggedOut.style.display = 'block'; return; }
         const user = session.user;
         const meta = user.user_metadata || {};
         const name = meta.name || meta.full_name || user.email?.split('@')[0] || 'Student';
         const firstName = name.split(' ')[0] || 'Student';
         const initial = (firstName || 'U').trim().charAt(0).toUpperCase() || 'U';
-
         document.getElementById('avatarInitial').textContent = initial;
         document.getElementById('avatar').classList.add('logged-in');
         document.getElementById('greetingName').textContent = `Hi, ${firstName} 👋`;
         document.getElementById('greetingEmail').textContent = user.email || '';
         document.getElementById('acctEmail').textContent = user.email || '—';
         document.getElementById('acctJoined').textContent = `Joined ${formatDate(user.created_at)}`;
-
         loading.style.display = 'none';
         loggedIn.style.display = 'block';
         renderStreak();
-
         const email = user.email?.toLowerCase();
         if (OWNER_EMAILS.includes(email)) document.getElementById('adminLink').style.display = 'flex';
         if (user.app_metadata?.role === 'staff') document.getElementById('staffLink').style.display = 'flex';
-
         const { data: sub, error } = await sb
           .from('subscriptions')
           .select('plan, status, current_period_end, cancel_at_period_end')
-          .eq('user_id', user.id)
-          .maybeSingle();
-        if (error) { console.warn('Subscription lookup error:', error); }
+          .eq('user_id', user.id).maybeSingle();
+        if (error) console.warn('Subscription lookup error:', error);
         updateSubscriptionUI(sub);
-
       } catch (err) {
         console.error(err);
         loading.innerHTML = 'Failed to load profile. <button onclick="location.reload()" style="background:none;border:1px solid var(--gold);color:var(--gold);padding:6px 14px;border-radius:8px;cursor:pointer;margin-left:8px;">Retry</button>';
@@ -601,42 +417,33 @@
       const action = document.getElementById('subAction');
       const planNum = document.getElementById('planNum');
       const planStat = document.getElementById('planStat');
-
-      // No subscription
       if (!sub || !sub.status) {
         card.classList.remove('active');
-        badge.className = 'sub-badge none';
-        badge.textContent = 'Free';
+        badge.className = 'sub-badge none'; badge.textContent = 'Free';
         detail.innerHTML = 'Upgrade to unlock all modules and live tutor sessions.';
         action.innerHTML = '<span class="ms">workspace_premium</span> View Plans';
         action.onclick = goToPricing;
         if (planNum) planNum.textContent = 'Free';
         return;
       }
-
       const isActive = sub.status === 'active' || sub.status === 'trialing';
       const planLabel = PLAN_LABELS[sub.plan] || sub.plan || 'Active plan';
       if (planNum) planNum.textContent = PLAN_SHORT[sub.plan] || (isActive ? 'Active' : 'Free');
-
       if (isActive) {
         card.classList.add('active');
         if (planStat) planStat.classList.add('active');
         if (sub.cancel_at_period_end) {
-          badge.className = 'sub-badge canceled';
-          badge.textContent = 'Canceling';
+          badge.className = 'sub-badge canceled'; badge.textContent = 'Canceling';
           detail.innerHTML = '<strong style="color:var(--text);">' + planLabel + '</strong> · Access ends ' + formatDate(sub.current_period_end);
         } else {
-          badge.className = 'sub-badge active';
-          badge.textContent = 'Active';
+          badge.className = 'sub-badge active'; badge.textContent = 'Active';
           detail.innerHTML = '<strong style="color:var(--text);">' + planLabel + '</strong> · Renews ' + formatDate(sub.current_period_end);
         }
         action.innerHTML = '<span class="ms">settings</span> Manage subscription';
         action.onclick = function() { openBillingPortal(action); };
       } else {
-        // Past due, canceled, etc.
         card.classList.remove('active');
-        badge.className = 'sub-badge canceled';
-        badge.textContent = sub.status;
+        badge.className = 'sub-badge canceled'; badge.textContent = sub.status;
         detail.innerHTML = 'Your subscription is ' + sub.status + '. Resubscribe to regain access.';
         action.innerHTML = '<span class="ms">workspace_premium</span> View Plans';
         action.onclick = goToPricing;
