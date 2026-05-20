@@ -6920,10 +6920,19 @@ function mkVocab(blk){
     const yes=el('button',{className:'thumb-btn thumb-yes',onclick:()=>{ S.vKnown.add(S.vIdx); S.vFlip=false; if(S.vKnown.size>=total){finishBlock();return;} S.vIdx=(S.vIdx+1)%total; while(S.vKnown.has(S.vIdx))S.vIdx=(S.vIdx+1)%total; render(); }}); yes.appendChild(ms('thumb_up')); yes.appendChild(el('span',{className:'lbl'},' Got it!')); tr.appendChild(yes);
     w.appendChild(tr);
   }
-  w.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center'}},'All Words'));
+  const PER=4, vPages=Math.max(1,Math.ceil(words.length/PER));
+  if(S.vPage==null||S.vPage>=vPages||S.vPage<0) S.vPage=Math.min(Math.max(0,Math.floor(S.vIdx/PER)),vPages-1);
+  const vhead=div(''); vhead.style.cssText='display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
+  vhead.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)'}},'All Words'));
+  vhead.appendChild(el('div',{style:{fontSize:'12px',color:'var(--dim)'}},(S.vPage+1)+' / '+vPages));
+  w.appendChild(vhead);
   const mg=div('mini-grid');
-  words.forEach((wd,i)=>{ const mc=div('mini-card'+(S.vKnown.has(i)?' known':'')); const _me=(typeof emojiFor==='function')?emojiFor(wd.en):''; if(_me) mc.appendChild(el('div',{className:'mini-emoji'},_me)); mc.appendChild(el('div',{className:'mini-ar'},wd.ar)); mc.appendChild(el('div',{className:'mini-en'},wd.en)); const spk=document.createElement('span'); spk.className='mini-spk'; spk.innerHTML='<svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"currentColor\"><path d=\"M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z\"/></svg>'; mc.appendChild(spk); mc.addEventListener('click',()=>{S.vIdx=i;S.vFlip=false;speak(wd.ar);render();}); mg.appendChild(mc); });
+  words.slice(S.vPage*PER,S.vPage*PER+PER).forEach((wd,j)=>{ const i=S.vPage*PER+j; const mc=div('mini-card'+(S.vKnown.has(i)?' known':'')); const _me=(typeof emojiFor==='function')?emojiFor(wd.en):''; if(_me) mc.appendChild(el('div',{className:'mini-emoji'},_me)); mc.appendChild(el('div',{className:'mini-ar'},wd.ar)); mc.appendChild(el('div',{className:'mini-en'},wd.en)); const spk=document.createElement('span'); spk.className='mini-spk'; spk.innerHTML='<svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"currentColor\"><path d=\"M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z\"/></svg>'; mc.appendChild(spk); mc.addEventListener('click',()=>{S.vIdx=i;S.vFlip=false;speak(wd.ar);render();}); mg.appendChild(mc); });
   w.appendChild(mg);
+  if(vPages>1){ const vpg=div(''); vpg.style.cssText='display:flex;gap:10px;margin-top:12px;';
+    vpg.appendChild(el('button',{className:'btn btn-ghost btn-sm',style:{flex:'1'},onclick:()=>{S.vPage=(S.vPage-1+vPages)%vPages;render();}},'‹ Prev'));
+    vpg.appendChild(el('button',{className:'btn btn-ghost btn-sm',style:{flex:'1'},onclick:()=>{S.vPage=(S.vPage+1)%vPages;render();}},'Next ›'));
+    w.appendChild(vpg); }
   const nav=div('action-row');
   nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{S.view='blocks';render();}},'← Back'));
   nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>finishBlock()},'I Know All Words ✓'));
