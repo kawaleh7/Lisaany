@@ -7,257 +7,178 @@
 <title>Lisaany — Profile</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
   :root {
-    --bg: #060e1b;
-    --card: rgba(17,25,39,.6);
-    --gold: #d4a347;
+    --bg: #0a1730;
+    --bg-deep: #070f22;
+    --card: rgba(13,27,50,.72);
+    --gold: #f2be62;
     --gold-lt: #f2d080;
-    --text: #e8dcc8;
-    --dim: #c4b89a;
-    --green: #a7d9a6;
+    --gold-soft: #d4a34a;
+    --text: #e8eef9;
+    --dim: #9ba8be;
+    --green: #7fc99c;
     --red: #e07070;
-    --border: rgba(212,163,74,.18);
+    --border: rgba(242,190,98,.18);
     --on-gold: #1a1208;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   .ms { font-family: 'Material Symbols Outlined'; font-variation-settings: 'FILL' 1; line-height: 1; }
   body {
     font-family: 'Inter', sans-serif;
-    background: var(--bg);
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(212,163,74,.10), transparent 50%),
+      radial-gradient(ellipse at 0% 50%, rgba(56,89,150,.08), transparent 50%),
+      radial-gradient(ellipse at 100% 100%, rgba(212,163,74,.06), transparent 50%),
+      var(--bg);
     color: var(--text);
     min-height: 100vh;
-    padding: 24px 20px 110px;
+    padding-bottom: 110px;
     position: relative;
   }
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background:
-      radial-gradient(ellipse 90% 55% at 50% -5%, rgba(232,200,120,.05) 0%, transparent 60%),
-      radial-gradient(ellipse 100% 100% at 50% 100%, rgba(5,8,20,.4) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
+
+  /* ── Top bar ── */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    height: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 22px;
+    background: rgba(10,23,48,.78);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
   }
-  .stage {
-    position: relative;
+  .topbar::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(242,190,98,.25) 18%, rgba(242,190,98,.7) 48%, rgba(242,190,98,.7) 52%, rgba(242,190,98,.25) 82%, transparent);
+  }
+  .topbar::before {
+    content: ''; position: absolute; left: 50%; bottom: -5px;
+    width: 10px; height: 10px; transform: translateX(-50%) rotate(45deg);
+    background: linear-gradient(135deg, #f5d488, #d4a34a);
+    box-shadow: 0 0 0 1px var(--bg-deep), 0 0 14px rgba(242,190,98,.85), 0 0 28px rgba(242,190,98,.45);
     z-index: 1;
-    max-width: 460px;
-    margin: 0 auto;
   }
+  .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; }
+  .brand-mark {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #f5d488, #d4a34a);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 20px rgba(242,190,98,.18); flex-shrink: 0;
+  }
+  .brand-mark svg { width: 62%; height: 62%; }
+  .brand-name { font-family: 'Cinzel', serif; font-weight: 600; font-size: 17px; letter-spacing: .04em; color: var(--text); }
   .back-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(212,163,74,.08);
-    border: 1px solid var(--border);
-    color: var(--text);
-    padding: 9px 16px;
-    border-radius: 10px;
-    font-family: 'Inter', sans-serif;
-    font-size: 13px; font-weight: 600;
-    cursor: pointer; text-decoration: none;
-    transition: all .2s;
-    margin-bottom: 8px;
+    display: inline-flex; align-items: center; gap: 5px;
+    background: transparent; border: 1px solid rgba(255,255,255,.14);
+    color: var(--dim); padding: 8px 14px; border-radius: 99px;
+    font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+    cursor: pointer; text-decoration: none; transition: all .2s;
   }
-  .back-btn:hover { background: rgba(212,163,74,.15); border-color: rgba(212,163,74,.4); }
-  .back-btn .arrow { font-size: 18px; line-height: 1; }
-  .hero { text-align: center; padding: 24px 0 28px; }
-  .hero-icon-wrap {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 18px;
-  }
-  .hero-icon-glow {
-    position: absolute;
-    width: 110px; height: 110px;
-    border-radius: 50%;
-    background: rgba(212,163,74,.06);
-    filter: blur(32px);
-  }
-  .hero-icon {
-    width: 88px; height: 88px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #1a1500, #2a2000);
+  .back-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(242,190,98,.06); }
+
+  .stage { position: relative; z-index: 1; max-width: 480px; margin: 0 auto; padding: 8px 20px 0; }
+
+  /* ── Hero ── */
+  .hero { text-align: center; padding: 34px 0 26px; }
+  .avatar-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+  .avatar-glow { position: absolute; width: 130px; height: 130px; border-radius: 50%; background: rgba(242,190,98,.10); filter: blur(34px); }
+  .avatar {
+    width: 96px; height: 96px; border-radius: 50%;
+    background: linear-gradient(135deg, #132040, #0d1830);
     border: 2px solid var(--gold);
     display: flex; align-items: center; justify-content: center;
-    color: var(--gold);
-    font-size: 42px;
-    position: relative;
-    z-index: 1;
-    box-shadow: 0 0 36px rgba(212,163,74,.3);
+    position: relative; z-index: 1;
+    box-shadow: 0 0 40px rgba(242,190,98,.22);
+    transition: all .3s;
   }
-  .hero-icon.logged-in {
-    background: linear-gradient(135deg, #1a2010, #2a3520);
-    border-color: var(--green);
-    color: var(--green);
-    box-shadow: 0 0 36px rgba(167,217,166,.3);
+  .avatar .ms { font-size: 46px; color: var(--gold); }
+  .avatar-initial { font-family: 'Cinzel', serif; font-size: 40px; font-weight: 700; color: var(--gold); display: none; }
+  .avatar.logged-in { background: linear-gradient(135deg, #15281c, #102818); border-color: var(--green); box-shadow: 0 0 40px rgba(127,201,156,.25); }
+  .avatar.logged-in .ms { display: none; }
+  .avatar.logged-in .avatar-initial { display: block; color: var(--green); }
+  .hero h2 { font-family: 'Cinzel', serif; font-size: 25px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .hero p { font-size: 14px; color: var(--dim); line-height: 1.6; max-width: 320px; margin: 0 auto; word-break: break-all; }
+
+  /* ── Stat row (streak + plan) ── */
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+  .stat {
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 16px; padding: 16px; text-align: center;
+    position: relative; overflow: hidden;
   }
-  .hero h2 {
-    font-family: 'Cinzel', serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 8px;
+  .stat-icon { font-size: 22px; margin-bottom: 4px; }
+  .stat-num { font-family: 'Cinzel', serif; font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin-top: 6px; }
+  .stat .flame { filter: grayscale(1) opacity(.5); }
+  .stat.active .flame { filter: none; }
+  .stat.active .stat-num { color: var(--gold); }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 18px; padding: 20px; margin-bottom: 14px;
+    position: relative; overflow: hidden;
   }
-  .hero p {
-    font-size: 14px;
-    color: var(--dim);
-    line-height: 1.6;
-    max-width: 320px;
-    margin: 0 auto;
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 46px; height: 46px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%23f2be62' stroke-width='0.7' opacity='0.25'%3E%3Cpolygon points='0,0 34,0 17,17 0,34'/%3E%3Ccircle cx='5' cy='5' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
   }
-  .account-card {
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 18px;
-    padding: 20px;
-    margin-bottom: 14px;
+  .card.active { border-color: rgba(127,201,156,.35); background: rgba(127,201,156,.04); }
+  .card-label {
+    font-family: 'Cinzel', serif; font-size: 11px; font-weight: 700;
+    letter-spacing: .15em; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 12px; position: relative; z-index: 1;
   }
-  .account-label {
-    font-family: 'Cinzel', serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 10px;
-  }
-  .account-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 6px 0;
-  }
-  .account-row .ms {
-    font-size: 20px;
-    color: var(--gold);
-    flex-shrink: 0;
-  }
-  .account-row-text {
-    font-size: 14px;
-    color: var(--text);
-    word-break: break-all;
-  }
-  .sub-card {
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 18px;
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-  .sub-card.active { border-color: rgba(167,217,166,.35); background: rgba(167,217,166,.04); }
-  .sub-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .sub-title {
-    font-family: 'Cinzel', serif;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text);
-  }
-  .sub-badge {
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: .1em;
-    padding: 4px 10px;
-    border-radius: 999px;
-    text-transform: uppercase;
-  }
-  .sub-badge.active { background: rgba(167,217,166,.15); color: var(--green); border: 1px solid rgba(167,217,166,.3); }
+  .row { display: flex; align-items: center; gap: 12px; padding: 6px 0; position: relative; z-index: 1; }
+  .row .ms { font-size: 20px; color: var(--gold); flex-shrink: 0; }
+  .row-text { font-size: 14px; color: var(--text); word-break: break-all; }
+
+  .sub-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; position: relative; z-index: 1; }
+  .sub-title { font-family: 'Cinzel', serif; font-size: 16px; font-weight: 700; color: var(--text); }
+  .sub-badge { font-size: 10px; font-weight: 800; letter-spacing: .1em; padding: 4px 10px; border-radius: 999px; text-transform: uppercase; }
+  .sub-badge.active { background: rgba(127,201,156,.15); color: var(--green); border: 1px solid rgba(127,201,156,.3); }
   .sub-badge.canceled { background: rgba(224,112,112,.12); color: var(--red); border: 1px solid rgba(224,112,112,.3); }
-  .sub-badge.none { background: rgba(154,142,120,.12); color: var(--dim); border: 1px solid var(--border); }
-  .sub-detail {
-    font-size: 13px;
-    color: var(--dim);
-    line-height: 1.6;
-    margin-bottom: 14px;
-  }
+  .sub-badge.none { background: rgba(155,168,190,.12); color: var(--dim); border: 1px solid var(--border); }
+  .sub-detail { font-size: 13px; color: var(--dim); line-height: 1.6; margin-bottom: 14px; position: relative; z-index: 1; }
   .sub-detail strong { color: var(--text); }
+
   .btn {
-    width: 100%;
-    padding: 14px 20px;
-    border-radius: 12px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all .2s;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    text-decoration: none;
+    width: 100%; padding: 14px 20px; border-radius: 12px;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all .2s; border: none;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    text-decoration: none; position: relative; z-index: 1;
   }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--gold), var(--gold-lt));
-    color: var(--on-gold);
-    box-shadow: 0 4px 16px rgba(212,163,74,.25);
-  }
-  .btn-primary:hover { box-shadow: 0 6px 24px rgba(212,163,74,.4); transform: translateY(-1px); }
+  .btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-lt)); color: var(--on-gold); box-shadow: 0 4px 16px rgba(242,190,98,.25); }
+  .btn-primary:hover { box-shadow: 0 6px 24px rgba(242,190,98,.4); transform: translateY(-1px); }
   .btn-primary:disabled { opacity: .55; cursor: wait; }
-  .btn-primary:disabled:hover { box-shadow: 0 4px 16px rgba(212,163,74,.25); transform: none; }
-  .btn-ghost {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-  }
-  .btn-ghost:hover { background: rgba(212,163,74,.06); border-color: rgba(212,163,74,.4); }
-  .btn-danger {
-    background: transparent;
-    border: 1px solid rgba(224,112,112,.3);
-    color: var(--red);
-  }
+  .btn-primary:disabled:hover { box-shadow: 0 4px 16px rgba(242,190,98,.25); transform: none; }
+  .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover { background: rgba(242,190,98,.06); border-color: rgba(242,190,98,.4); }
+  .btn-danger { background: transparent; border: 1px solid rgba(224,112,112,.3); color: var(--red); }
   .btn-danger:hover { background: rgba(224,112,112,.08); border-color: var(--red); }
-  /* Auth CTA stack (logged out) */
-  .auth-cta-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-width: 320px;
-    margin: 0 auto;
-  }
-  .auth-cta-hint {
-    text-align: center;
-    font-size: 11px;
-    color: var(--dim);
-    margin-top: 14px;
-    line-height: 1.6;
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .loading {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--dim);
-    font-size: 14px;
-  }
+
+  .auth-cta-stack { display: flex; flex-direction: column; gap: 10px; max-width: 320px; margin: 0 auto; }
+  .auth-cta-hint { text-align: center; font-size: 11px; color: var(--dim); margin: 16px auto 0; line-height: 1.6; max-width: 320px; }
+  .loading { text-align: center; padding: 70px 20px; color: var(--dim); font-size: 14px; }
+  .loading .spin { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 14px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Bottom nav ── */
   .bottom-nav {
     position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
     display: flex; align-items: center; justify-content: space-around;
     padding: 14px 20px 24px;
-    background: rgba(6,14,27,.97);
+    background: rgba(7,15,34,.97);
     backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
     border-top: 1px solid var(--border);
     border-radius: 28px 28px 0 0;
   }
-  .nav-btn {
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    background: none; border: none;
-    color: rgba(255,255,255,.4);
-    font-family: 'Inter', sans-serif;
-    font-size: 10px; font-weight: 700;
-    letter-spacing: .6px; text-transform: uppercase;
-    text-decoration: none; transition: all .2s; cursor: pointer;
-  }
+  .nav-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; color: rgba(255,255,255,.4); font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase; text-decoration: none; transition: all .2s; cursor: pointer; }
   .nav-btn:hover { color: rgba(255,255,255,.7); }
   .nav-btn.active { color: var(--gold); }
   .nav-btn .ms { font-size: 26px; }
@@ -266,68 +187,78 @@
     .nav-btn { font-size: 9px; }
     .nav-btn .ms { font-size: 22px; }
   }
+  @media (prefers-reduced-motion: reduce) { .avatar, .btn-primary { transition: none; } .loading .spin { animation: none; } }
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <a href="index.html" class="brand" title="Lisaany Home">
+    <span class="brand-mark">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <polygon points="50,15 85,50 50,85 15,50" fill="#3a2400"/>
+        <polygon points="50,5 73,28 73,72 50,95 27,72 27,28" fill="none" stroke="#3a2400" stroke-width="3"/>
+        <circle cx="50" cy="50" r="5" fill="#f5d488"/>
+      </svg>
+    </span>
+    <span class="brand-name">Lisaany</span>
+  </a>
+  <button type="button" class="back-btn" onclick="goBack()"><span class="arrow">←</span> Back</button>
+</div>
+
 <div class="stage">
-  <button type="button" class="back-btn" onclick="goBack()">
-    <span class="arrow">←</span>
-    Back
-  </button>
 
-  <div id="loadingState" class="loading">Loading…</div>
+  <div id="loadingState" class="loading"><div class="spin"></div>Loading your profile…</div>
 
-  <!-- Logged-out state: clean sign-in CTA, no Student/Staff picker -->
+  <!-- Logged-out state -->
   <div id="loggedOutState" style="display:none;">
     <div class="hero">
-      <div class="hero-icon-wrap">
-        <div class="hero-icon-glow"></div>
-        <div class="hero-icon"><span class="ms">person</span></div>
+      <div class="avatar-wrap">
+        <div class="avatar-glow"></div>
+        <div class="avatar"><span class="ms">person</span><span class="avatar-initial"></span></div>
       </div>
       <h2>Welcome to Lisaany</h2>
       <p>Sign in to continue your learning journey.</p>
     </div>
-
     <div class="auth-cta-stack">
-      <a href="auth.html" class="btn btn-primary">
-        <span class="ms">login</span>
-        Sign in
-      </a>
-      <a href="auth.html" class="btn btn-ghost">
-        <span class="ms">person_add</span>
-        Create account
-      </a>
+      <a href="auth.html" class="btn btn-primary"><span class="ms">login</span> Sign in</a>
+      <a href="auth.html" class="btn btn-ghost"><span class="ms">person_add</span> Create account</a>
     </div>
-
-    <div class="auth-cta-hint">
-      Tutor? Sign in normally — you'll enter your staff code on the sign-in page.
-    </div>
+    <div class="auth-cta-hint">Tutor? Sign in normally — you'll enter your staff code on the sign-in page.</div>
   </div>
 
   <!-- Logged-in state -->
   <div id="loggedInState" style="display:none;">
     <div class="hero">
-      <div class="hero-icon-wrap">
-        <div class="hero-icon-glow"></div>
-        <div class="hero-icon logged-in"><span class="ms">person</span></div>
+      <div class="avatar-wrap">
+        <div class="avatar-glow"></div>
+        <div class="avatar logged-in"><span class="ms">person</span><span class="avatar-initial" id="avatarInitial"></span></div>
       </div>
       <h2 id="greetingName">Hi there 👋</h2>
-      <p id="greetingEmail" style="word-break:break-all;">—</p>
+      <p id="greetingEmail">—</p>
     </div>
 
-    <div class="account-card">
-      <div class="account-label">Account</div>
-      <div class="account-row">
-        <span class="ms">mail</span>
-        <span class="account-row-text" id="acctEmail">—</span>
+    <!-- Stats: streak + plan -->
+    <div class="stat-row">
+      <div class="stat" id="streakStat">
+        <div class="stat-icon flame">🔥</div>
+        <div class="stat-num" id="streakNum">0</div>
+        <div class="stat-label">Day Streak</div>
       </div>
-      <div class="account-row">
-        <span class="ms">calendar_today</span>
-        <span class="account-row-text" id="acctJoined">—</span>
+      <div class="stat" id="planStat">
+        <div class="stat-icon">✦</div>
+        <div class="stat-num" id="planNum" style="font-size:18px;">Free</div>
+        <div class="stat-label">Plan</div>
       </div>
     </div>
 
-    <div class="sub-card" id="subCard">
+    <div class="card">
+      <div class="card-label">Account</div>
+      <div class="row"><span class="ms">mail</span><span class="row-text" id="acctEmail">—</span></div>
+      <div class="row"><span class="ms">calendar_today</span><span class="row-text" id="acctJoined">—</span></div>
+    </div>
+
+    <div class="card" id="subCard">
       <div class="sub-header">
         <div class="sub-title">Subscription</div>
         <div class="sub-badge none" id="subBadge">No plan</div>
@@ -336,50 +267,29 @@
         You don't have an active subscription. Upgrade to unlock all modules and live tutor sessions.
       </div>
       <button type="button" class="btn btn-primary" id="subAction" onclick="goToPricing()">
-        <span class="ms">workspace_premium</span>
-        View Plans
+        <span class="ms">workspace_premium</span> View Plans
       </button>
     </div>
 
-    <!-- Admin Dashboard (only shown for owner) -->
     <a href="admin.html" id="adminLink" class="btn btn-ghost" style="display:none; margin-top:6px;">
-      <span class="ms">admin_panel_settings</span>
-      Admin Dashboard
+      <span class="ms">admin_panel_settings</span> Admin Dashboard
     </a>
-    <!-- Staff Dashboard (only shown for staff role) -->
     <a href="tutor_portal.html" id="staffLink" class="btn btn-ghost" style="display:none; margin-top:6px;">
-      <span class="ms">school</span>
-      Tutor Dashboard
+      <span class="ms">school</span> Tutor Dashboard
     </a>
 
     <button type="button" class="btn btn-danger" onclick="signOut()" style="margin-top:6px;">
-      <span class="ms">logout</span>
-      Sign out
+      <span class="ms">logout</span> Sign out
     </button>
   </div>
 </div>
 
 <div class="bottom-nav">
-  <a href="index.html" class="nav-btn">
-    <span class="ms" style="font-variation-settings:'FILL' 0">home</span>
-    Home
-  </a>
-  <a href="lisaany_new.html" class="nav-btn">
-    <span class="ms" style="font-variation-settings:'FILL' 0">menu_book</span>
-    Read
-  </a>
-  <a href="arabic_platform.html" class="nav-btn">
-    <span class="ms" style="font-variation-settings:'FILL' 0">mic</span>
-    Speak
-  </a>
-  <a href="tutors.html" class="nav-btn">
-    <span class="ms" style="font-variation-settings:'FILL' 0">groups</span>
-    Live Tutor
-  </a>
-  <a href="profile.html" class="nav-btn active">
-    <span class="ms">person</span>
-    Profile
-  </a>
+  <a href="index.html" class="nav-btn"><span class="ms" style="font-variation-settings:'FILL' 0">home</span>Home</a>
+  <a href="lisaany_new.html" class="nav-btn"><span class="ms" style="font-variation-settings:'FILL' 0">menu_book</span>Read</a>
+  <a href="arabic_platform.html" class="nav-btn"><span class="ms" style="font-variation-settings:'FILL' 0">mic</span>Speak</a>
+  <a href="tutors.html" class="nav-btn"><span class="ms" style="font-variation-settings:'FILL' 0">groups</span>Live Tutor</a>
+  <a href="profile.html" class="nav-btn active"><span class="ms">person</span>Profile</a>
 </div>
 
 <script>
@@ -387,22 +297,15 @@
   const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const PLAN_LABELS = {
-    self_paced: 'Basic · Self-Paced',
-    with_tutor: 'Pro · With Tutor',
-  };
+  const PLAN_LABELS = { self_paced: 'Basic · Self-Paced', with_tutor: 'Pro · With Tutor' };
+  const PLAN_SHORT = { self_paced: 'Basic', with_tutor: 'Pro' };
   const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
 
   function goBack() {
-    if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = 'index.html';
-    }
+    if (window.history.length > 1) window.history.back();
+    else window.location.href = 'index.html';
   }
-  function goToPricing() {
-    window.location.href = 'pricing.html';
-  }
+  function goToPricing() { window.location.href = 'pricing.html'; }
   async function signOut() {
     try { await sb.auth.signOut(); } catch(e) {}
     window.location.reload();
@@ -420,14 +323,9 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: session.user.id }),
       });
-      const data = await res.json().catch(() => ({
-        error: 'Server returned non-JSON response (status ' + res.status + ')'
-      }));
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error(data.error || ('HTTP ' + res.status));
-      }
+      const data = await res.json().catch(() => ({ error: 'Server returned non-JSON response (status ' + res.status + ')' }));
+      if (data.url) window.location.href = data.url;
+      else throw new Error(data.error || ('HTTP ' + res.status));
     } catch (err) {
       console.error('Billing portal error:', err);
       alert('Unable to open billing portal.\n\nError: ' + (err.message || err));
@@ -440,6 +338,27 @@
     const d = new Date(dateStr);
     return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
   }
+
+  // Streak (shared with arabic_platform rewards engine)
+  function loadStreak() {
+    try {
+      const d = JSON.parse(localStorage.getItem('lisaany_streak')) || { count: 0, last: null };
+      let display = d.count || 0;
+      if (d.last) {
+        const gap = Math.round((new Date(new Date().toISOString().slice(0,10)) - new Date(d.last)) / 86400000);
+        if (gap > 1) display = 0;
+      }
+      return display;
+    } catch { return 0; }
+  }
+  function renderStreak() {
+    const n = loadStreak();
+    const numEl = document.getElementById('streakNum');
+    const stat = document.getElementById('streakStat');
+    if (numEl) numEl.textContent = n;
+    if (stat) stat.classList.toggle('active', n > 0);
+  }
+
   (async function loadProfile() {
     const loadingEl = document.getElementById('loadingState');
     const loggedOutEl = document.getElementById('loggedOutState');
@@ -455,74 +374,72 @@
       const meta = user.user_metadata || {};
       const name = meta.name || meta.full_name || (user.email || '').split('@')[0] || 'You';
       const firstName = name.split(' ')[0];
+      const initial = (firstName || 'U').trim().charAt(0).toUpperCase();
+      document.getElementById('avatarInitial').textContent = initial;
       document.getElementById('greetingName').textContent = 'Hi, ' + firstName + ' 👋';
       document.getElementById('greetingEmail').textContent = user.email || '';
       document.getElementById('acctEmail').textContent = user.email || '—';
       document.getElementById('acctJoined').textContent = 'Joined ' + formatDate(user.created_at);
       loadingEl.style.display = 'none';
       loggedInEl.style.display = 'block';
+      renderStreak();
 
       const email = (user.email || '').toLowerCase();
       const role = user.app_metadata?.role;
-
-      if (OWNER_EMAILS.includes(email)) {
-        document.getElementById('adminLink').style.display = 'flex';
-      }
-      if (role === 'staff') {
-        document.getElementById('staffLink').style.display = 'flex';
-      }
+      if (OWNER_EMAILS.includes(email)) document.getElementById('adminLink').style.display = 'flex';
+      if (role === 'staff') document.getElementById('staffLink').style.display = 'flex';
 
       const { data: sub, error } = await sb
         .from('subscriptions')
         .select('plan, status, current_period_end, cancel_at_period_end')
         .eq('user_id', user.id)
         .maybeSingle();
-      if (error) {
-        console.warn('Subscription lookup error:', error);
-        return;
-      }
+      if (error) { console.warn('Subscription lookup error:', error); return; }
       updateSubscriptionUI(sub);
     } catch (err) {
       console.error('loadProfile error:', err);
-      loadingEl.textContent = 'Error loading profile. Please refresh.';
+      loadingEl.innerHTML = 'Error loading profile. Please refresh.';
     }
   })();
+
   function updateSubscriptionUI(sub) {
     const card = document.getElementById('subCard');
     const badge = document.getElementById('subBadge');
     const detail = document.getElementById('subDetail');
     const action = document.getElementById('subAction');
+    const planNum = document.getElementById('planNum');
+    const planStat = document.getElementById('planStat');
     if (!sub || !sub.status) {
       card.classList.remove('active');
-      badge.className = 'sub-badge none';
-      badge.textContent = 'No plan';
+      badge.className = 'sub-badge none'; badge.textContent = 'No plan';
       detail.innerHTML = 'You don\'t have an active subscription. Upgrade to unlock all modules and live tutor sessions.';
       action.innerHTML = '<span class="ms">workspace_premium</span>View Plans';
       action.onclick = goToPricing;
+      if (planNum) planNum.textContent = 'Free';
       return;
     }
     const isActive = sub.status === 'active' || sub.status === 'trialing';
     const planLabel = PLAN_LABELS[sub.plan] || sub.plan || 'Active plan';
+    if (planNum) planNum.textContent = PLAN_SHORT[sub.plan] || (isActive ? 'Active' : 'Free');
     if (isActive) {
       card.classList.add('active');
+      if (planStat) { planStat.classList.add('active'); }
       if (sub.cancel_at_period_end) {
-        badge.className = 'sub-badge canceled';
-        badge.textContent = 'Canceling';
+        badge.className = 'sub-badge canceled'; badge.textContent = 'Canceling';
         detail.innerHTML = '<strong>' + planLabel + '</strong> · Access ends ' + formatDate(sub.current_period_end);
       } else {
-        badge.className = 'sub-badge active';
-        badge.textContent = 'Active';
+        badge.className = 'sub-badge active'; badge.textContent = 'Active';
         detail.innerHTML = '<strong>' + planLabel + '</strong> · Renews ' + formatDate(sub.current_period_end);
       }
       action.innerHTML = '<span class="ms">settings</span>Manage subscription';
       action.onclick = function() { openBillingPortal(action); };
     } else {
       card.classList.remove('active');
-      badge.className = 'sub-badge canceled';
-      badge.textContent = sub.status;
+      badge.className = 'sub-badge canceled'; badge.textContent = sub.status;
       detail.innerHTML = 'Your subscription is ' + sub.status + '. Resubscribe to regain access.';
       action.innerHTML = '<span class="ms">workspace_premium</span>View Plans';
       action.onclick = goToPricing;
+      if (planNum) planNum.textContent = 'Free';
     }
   }
 </script>
