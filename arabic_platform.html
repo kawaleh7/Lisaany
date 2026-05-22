@@ -7806,6 +7806,12 @@ function buildReviewPool(mId, uId, drill, focus){
 // Picker screen — scope, then go. Hands its pool to the existing review player.
 function mkReviewBuilder(){
   const w=div('stage');
+  // card border around the whole panel
+  w.style.border='1px solid rgba(242,190,98,.22)';
+  w.style.borderRadius='20px';
+  w.style.padding='22px 20px 28px';
+  w.style.background='rgba(13,27,50,.38)';
+  w.style.boxShadow='0 12px 44px rgba(0,0,0,.28)';
 
   // header: back · title · close
   const head=div(''); head.style.cssText='display:flex;align-items:center;gap:12px;margin:2px 0 16px;';
@@ -7814,8 +7820,32 @@ function mkReviewBuilder(){
   const close=el('button',{onclick:()=>{S.view='hub';render();}}); close.style.cssText='background:none;border:none;color:var(--dim);font-size:20px;line-height:1;cursor:pointer;padding:0 4px;'; close.appendChild(document.createTextNode('\u2715'));
   head.appendChild(back); head.appendChild(htitle); head.appendChild(close); w.appendChild(head);
 
-  // glowing gold diamond accent
-  const dia=div(''); dia.style.cssText='width:13px;height:13px;margin:8px auto 30px;transform:rotate(45deg);background:var(--gold);border-radius:2px;box-shadow:0 0 20px rgba(242,190,98,.6);'; w.appendChild(dia);
+  // ── Quranic verse: Rabbi zidni 'ilma (Ta-Ha 20:114) with 10-point girih stars ──
+  const star = () => {
+    const NS='http://www.w3.org/2000/svg';
+    const svg=document.createElementNS(NS,'svg');
+    svg.setAttribute('viewBox','0 0 60 60'); svg.setAttribute('width','34'); svg.setAttribute('height','34');
+    svg.style.cssText='flex-shrink:0;filter:drop-shadow(0 0 6px rgba(242,190,98,.3));';
+    let pts='';
+    for(let i=0;i<20;i++){ const a=(i*18)*Math.PI/180, rad=(i%2===0)?26:12; pts+=(30+rad*Math.cos(a)).toFixed(2)+','+(30+rad*Math.sin(a)).toFixed(2)+' '; }
+    const poly=document.createElementNS(NS,'polygon');
+    poly.setAttribute('points',pts.trim()); poly.setAttribute('fill','none');
+    poly.setAttribute('stroke','rgba(242,190,98,.6)'); poly.setAttribute('stroke-width','1.1');
+    const dot=document.createElementNS(NS,'circle');
+    dot.setAttribute('cx','30'); dot.setAttribute('cy','30'); dot.setAttribute('r','3'); dot.setAttribute('fill','rgba(242,190,98,.5)');
+    svg.appendChild(poly); svg.appendChild(dot);
+    return svg;
+  };
+  const vwrap=div(''); vwrap.style.cssText='display:flex;align-items:center;justify-content:center;gap:16px;padding:14px 0;margin:0 0 8px;border-top:1px solid rgba(242,190,98,.25);border-bottom:1px solid rgba(242,190,98,.25);';
+  vwrap.appendChild(star());
+  const vcol=div(''); vcol.style.cssText='display:flex;flex-direction:column;align-items:center;';
+  const var_=el('div',{},'\u0631\u064e\u0628\u0651\u0650 \u0632\u0650\u062f\u0652\u0646\u0650\u064a \u0639\u0650\u0644\u0652\u0645\u064b\u0627'); var_.style.cssText="font-family:'Amiri',serif;font-size:30px;line-height:1.7;color:var(--gold-lt,#f2d080);direction:rtl;text-align:center;filter:drop-shadow(0 0 14px rgba(242,190,98,.25));";
+  const ven=el('div',{},'My Lord, increase me in knowledge'); ven.style.cssText='font-size:13px;color:#c5d0e3;text-align:center;margin-top:8px;font-style:italic;';
+  const vref=el('div',{},'\u1e6c\u0101-H\u0101 \u00b7 20:114'); vref.style.cssText="font:600 11px/1 'Cinzel',serif;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);text-align:center;margin-top:8px;";
+  vcol.appendChild(var_); vcol.appendChild(ven); vcol.appendChild(vref);
+  vwrap.appendChild(vcol);
+  vwrap.appendChild(star());
+  w.appendChild(vwrap);
 
   const opts=[];
   CUR.forEach(mod=>{
