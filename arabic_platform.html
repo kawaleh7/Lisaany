@@ -299,6 +299,9 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
 .module-card:nth-child(3){animation-delay:.16s}
 .module-card:nth-child(4){animation-delay:.22s}
 .module-card:nth-child(5){animation-delay:.28s}
+/* Strong fade: feature the active module; the rest recede, restore on hover */
+.module-card:not(.spotlight){animation:none; opacity:.4; filter:saturate(.85); transition:opacity .22s, filter .22s, transform .22s, box-shadow .22s, border-color .22s;}
+.module-card:not(.spotlight):hover{opacity:1; filter:none;}
 @media (prefers-reduced-motion:reduce){
   .module-card{animation:none; opacity:1; transform:none;}
   .module-ring .fg,.module-pbar-fill{animation:none;}
@@ -382,10 +385,10 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
 .unit-card:hover .unit-icon-small{border-color:var(--gold-glow); color:var(--gold);}
 .unit-icon-small.done{background:var(--green-soft); border-color:var(--green); color:var(--green);}
 .unit-icon-small.progress{background:rgba(242,190,98,.12); border-color:var(--gold); color:var(--gold);}
-.unit-card.next{padding:30px 24px; border-color:rgba(242,190,98,.45);
-  background:linear-gradient(152deg, rgba(242,190,98,.13), rgba(20,32,64,.55) 58%);
-  box-shadow:0 18px 52px rgba(0,0,0,.5), 0 6px 34px rgba(242,190,98,.12);}
-.unit-card.next .unit-title{font-size:27px;}
+.unit-card.next{padding:32px 26px; border-color:rgba(242,190,98,.5); transform:scale(1.03); z-index:2;
+  background:linear-gradient(152deg, rgba(242,190,98,.15), rgba(20,32,64,.55) 58%);
+  box-shadow:0 22px 60px rgba(0,0,0,.55), 0 8px 40px rgba(242,190,98,.16);}
+.unit-card.next .unit-title{font-size:30px;}
 .unit-card.next .unit-id{font-size:17px;}
 .unit-card.next .unit-blocks-count{color:var(--gold);}
 .unit-card.next .unit-icon-small{width:52px; height:52px; border-color:var(--gold); color:var(--gold); background:rgba(242,190,98,.08);}
@@ -395,6 +398,9 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
 .unit-card.locked .unit-blocks-count{color:rgba(158,170,196,.6);}
 .unit-card.locked .unit-icon-small{color:rgba(242,190,98,.5);}
 .unit-card.locked:hover{transform:translateY(-2px); border-color:rgba(242,190,98,.22); box-shadow:0 8px 24px rgba(0,0,0,.26);}
+/* Strong fade: every card except the next-up recedes; restores on hover so it stays usable */
+.unit-card:not(.next){opacity:.38; filter:saturate(.82); transition:opacity .22s, filter .22s, transform .22s, box-shadow .22s, border-color .22s;}
+.unit-card:not(.next):hover{opacity:1; filter:none;}
 .verse-card{position:relative; overflow:hidden; margin-top:34px; border:1px solid var(--border); border-radius:20px;
   background:linear-gradient(160deg, rgba(20,32,64,.55), rgba(9,16,32,.6)); padding:40px 28px; text-align:center;}
 .verse-orn{position:absolute; top:50%; width:120px; height:120px; transform:translateY(-50%); opacity:.1; color:var(--gold); pointer-events:none;}
@@ -520,6 +526,9 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
   border-color:var(--gold);
   color:var(--gold);
 }
+/* Strong fade: feature the current block; the rest recede, restore on hover */
+.block-card:not(.current){opacity:.4; filter:saturate(.85); transition:opacity .22s, filter .22s, transform .2s, background .2s, border-color .2s;}
+.block-card:not(.current):hover{opacity:1; filter:none;}
 
 @media (max-width:560px){
   .module-hero{padding:24px 18px;}
@@ -5988,6 +5997,7 @@ function mkHub(){
     if (isCompleted) cardClass += ' completed';
     else if (isInProgress) cardClass += ' in-progress';
     if (isLocked) cardClass += ' locked';
+    if (mod.id === _spotId) cardClass += ' spotlight';
 
     const card = div(cardClass);
     const pct = totalBlocks ? Math.round(doneBlocks / totalBlocks * 100) : 0;
@@ -6053,6 +6063,20 @@ function mkHub(){
 
     return card;
   };
+
+  // Strong spotlight: feature one module, fade the rest
+  let _spotId = null;
+  for (const mm of CUR) {
+    if (!modOk(mm.id) || (!isPremium() && !isModFree(mm.id))) continue;
+    if (mm.units.some(u => { const p = unitPct(mm.id, u.id); return p > 0 && p < 100; })) { _spotId = mm.id; break; }
+  }
+  if (_spotId === null) {
+    for (const mm of CUR) {
+      if (!modOk(mm.id) || (!isPremium() && !isModFree(mm.id))) continue;
+      if (!mm.units.every(u => unitPct(mm.id, u.id) === 100)) { _spotId = mm.id; break; }
+    }
+  }
+  if (_spotId === null && CUR.length) _spotId = CUR[0].id;
 
   // Three learning tiers
   const TIERS = [
