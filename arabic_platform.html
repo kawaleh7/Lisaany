@@ -366,64 +366,42 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
   display:flex; flex-direction:column; gap:10px;
 }
 .unit-card{
-  display:grid; grid-template-columns:auto 1fr auto;
+  position:relative; display:grid; grid-template-columns:auto 1fr auto;
   gap:18px; align-items:center;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:16px 20px;
-  cursor:pointer; transition:all .2s;
-  position:relative; overflow:hidden;
+  background:rgba(20,32,64,.4); border:1px solid var(--border); border-radius:18px;
+  padding:22px; cursor:pointer; overflow:hidden;
+  box-shadow:0 8px 24px rgba(0,0,0,.26);
+  transition:transform .2s, box-shadow .2s, border-color .2s, background .2s;
 }
-.unit-card::before{
-  content:''; position:absolute; left:0; top:0; bottom:0;
-  width:3px; background:transparent; transition:background .2s;
-}
-.unit-card:hover{
-  border-color:var(--border-strong);
-  background:rgba(20,32,64,.85);
-  transform:translateX(2px);
-}
-.unit-card.completed::before{background:var(--green);}
-.unit-card.in-progress::before{background:var(--gold);}
-.unit-card.locked{opacity:.55;}
-.unit-id{
-  font-family:'Cinzel',serif;
-  font-size:14px; font-weight:600;
-  color:var(--gold);
-  width:36px; text-align:center;
-  font-variant-numeric:tabular-nums;
-}
-.unit-card.locked .unit-id{color:var(--dim);}
-.unit-title{
-  font-family:'Cinzel',serif;
-  font-size:15px; font-weight:500;
-  color:var(--text); margin-bottom:3px;
-}
-.unit-blocks-count{
-  font:600 10px/1 'Inter',sans-serif;
-  letter-spacing:.16em; text-transform:uppercase;
-  color:var(--gold-soft);
-}
+.unit-card:hover{transform:translateY(-3px); box-shadow:0 16px 40px rgba(0,0,0,.45); border-color:var(--gold-glow);}
+.unit-id{font-family:'Cinzel',serif; font-size:15px; font-weight:600; color:var(--gold); font-variant-numeric:tabular-nums; letter-spacing:.04em; min-width:34px;}
+.unit-title{font-family:'Cinzel',serif; font-size:21px; font-weight:600; color:var(--text); line-height:1.2; letter-spacing:.01em; margin:0;}
+.unit-blocks-count{font:600 11px/1 'Inter',sans-serif; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin-top:9px;}
 .unit-card.completed .unit-blocks-count{color:var(--green);}
-.unit-card.locked .unit-blocks-count{color:var(--dim);}
-.unit-icon-small{
-  width:32px; height:32px; border-radius:10px;
-  background:rgba(242,190,98,.08);
-  border:1px solid var(--gold-glow);
-  display:flex; align-items:center; justify-content:center;
-  color:var(--gold); font-size:16px;
-}
-.unit-icon-small.done{
-  background:var(--green-soft);
-  border-color:var(--green);
-  color:var(--green);
-}
-.unit-icon-small.progress{
-  background:rgba(242,190,98,.15);
-  border-color:var(--gold);
-  color:var(--gold);
-}
+.unit-icon-small{width:46px; height:46px; border-radius:50%; background:rgba(255,255,255,.03); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--dim); font-size:20px; transition:.2s; flex-shrink:0;}
+.unit-card:hover .unit-icon-small{border-color:var(--gold-glow); color:var(--gold);}
+.unit-icon-small.done{background:var(--green-soft); border-color:var(--green); color:var(--green);}
+.unit-icon-small.progress{background:rgba(242,190,98,.12); border-color:var(--gold); color:var(--gold);}
+.unit-card.next{padding:30px 24px; border-color:rgba(242,190,98,.45);
+  background:linear-gradient(152deg, rgba(242,190,98,.13), rgba(20,32,64,.55) 58%);
+  box-shadow:0 18px 52px rgba(0,0,0,.5), 0 6px 34px rgba(242,190,98,.12);}
+.unit-card.next .unit-title{font-size:27px;}
+.unit-card.next .unit-id{font-size:17px;}
+.unit-card.next .unit-blocks-count{color:var(--gold);}
+.unit-card.next .unit-icon-small{width:52px; height:52px; border-color:var(--gold); color:var(--gold); background:rgba(242,190,98,.08);}
+.unit-card.locked{background:rgba(14,24,46,.5); box-shadow:none; opacity:1;}
+.unit-card.locked .unit-id{color:rgba(242,190,98,.45);}
+.unit-card.locked .unit-title{color:rgba(218,227,246,.5);}
+.unit-card.locked .unit-blocks-count{color:rgba(158,170,196,.6);}
+.unit-card.locked .unit-icon-small{color:rgba(242,190,98,.5);}
+.unit-card.locked:hover{transform:translateY(-2px); border-color:rgba(242,190,98,.22); box-shadow:0 8px 24px rgba(0,0,0,.26);}
+.verse-card{position:relative; overflow:hidden; margin-top:34px; border:1px solid var(--border); border-radius:20px;
+  background:linear-gradient(160deg, rgba(20,32,64,.55), rgba(9,16,32,.6)); padding:40px 28px; text-align:center;}
+.verse-orn{position:absolute; top:50%; width:120px; height:120px; transform:translateY(-50%); opacity:.1; color:var(--gold); pointer-events:none;}
+.verse-orn.l{left:-28px;} .verse-orn.r{right:-28px;}
+.verse-ar{font-family:'Amiri',serif; font-size:30px; color:var(--gold); direction:rtl; line-height:1.7; margin-bottom:18px; position:relative;}
+.verse-en{font-size:16px; font-style:italic; color:var(--text); margin-bottom:16px; position:relative; line-height:1.5;}
+.verse-ref{font:600 11px/1 'Inter',sans-serif; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); position:relative;}
 
 /* UNIT VIEW (Blocks list inside a unit) */
 .unit-hero{
@@ -547,9 +525,12 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
   .module-hero{padding:24px 18px;}
   .module-hero-title{font-size:24px;}
   .module-hero-arabic{font-size:18px;}
-  .unit-card{padding:14px 16px;gap:12px;}
-  .unit-id{width:30px;font-size:13px;}
-  .unit-title{font-size:14px;}
+  .unit-card{padding:18px 16px;gap:14px;}
+  .unit-card.next{padding:24px 18px;}
+  .unit-id{min-width:28px;font-size:14px;}
+  .unit-title{font-size:18px;}
+  .unit-card.next .unit-title{font-size:23px;}
+  .verse-ar{font-size:24px;}
   .unit-hero{padding:20px 18px;}
   .unit-hero-title{font-size:21px;}
   .unit-hero-arabic{font-size:15px;}
@@ -6101,6 +6082,31 @@ function mkHub(){
 // ══════════════════════════════════════════════════════
 // UNITS
 // ══════════════════════════════════════════════════════
+// Per-module verse (knowledge / language) for the units screen
+const VERSES = {
+  1:{ar:'وَهَٰذَا لِسَانٌ عَرَبِيٌّ مُبِينٌ', en:'And this is a clear Arabic tongue.', ref:'Quran · Surah An-Nahl · 16:103'},
+  2:{ar:'وَقُل رَّبِّ زِدنِي عِلمًا', en:'My Lord, increase me in knowledge.', ref:'Quran · Surah Ta-Ha · 20:114'},
+  3:{ar:'قُل هَل يَستَوِي الَّذِينَ يَعلَمُونَ وَالَّذِينَ لَا يَعلَمُونَ', en:'Are those who know equal to those who know not?', ref:'Quran · Surah Az-Zumar · 39:9'},
+  4:{ar:'يَرفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُم وَالَّذِينَ أُوتُوا العِلمَ دَرَجَاتٍ', en:'Allah raises those who believe and those given knowledge by degrees.', ref:'Quran · Surah Al-Mujadila · 58:11'},
+  5:{ar:'اقرَأ بِاسمِ رَبِّكَ الَّذِي خَلَقَ', en:'Read, in the name of your Lord who created.', ref:'Quran · Surah Al-Alaq · 96:1'},
+  6:{ar:'عَلَّمَ الإِنسَانَ مَا لَم يَعلَم', en:'He taught man that which he knew not.', ref:'Quran · Surah Al-Alaq · 96:5'},
+  7:{ar:'وَعَلَّمَ آدَمَ الأَسمَاءَ كُلَّهَا', en:'And He taught Adam the names — all of them.', ref:'Quran · Surah Al-Baqarah · 2:31'},
+  8:{ar:'إِنَّمَا يَخشَى اللَّهَ مِن عِبَادِهِ العُلَمَاءُ', en:'It is only those with knowledge who truly stand in awe of Allah.', ref:'Quran · Surah Fatir · 35:28'},
+  9:{ar:'وَمَا يَعقِلُهَا إِلَّا العَالِمُونَ', en:'And none will understand them except those of knowledge.', ref:'Quran · Surah Al-Ankabut · 29:43'},
+  10:{ar:'إِنَّا أَنزَلنَاهُ قُرآنًا عَرَبِيًّا لَّعَلَّكُم تَعقِلُونَ', en:'We sent it down as an Arabic Quran, that you might understand.', ref:'Quran · Surah Yusuf · 12:2'},
+  11:{ar:'هَل أَتَّبِعُكَ عَلَىٰ أَن تُعَلِّمَنِ مِمَّا عُلِّمتَ رُشدًا', en:'May I follow you, that you teach me from what you have been taught?', ref:'Quran · Surah Al-Kahf · 18:66'},
+  12:{ar:'وَلَا تَقفُ مَا لَيسَ لَكَ بِهِ عِلمٌ', en:'And do not pursue that of which you have no knowledge.', ref:'Quran · Surah Al-Isra · 17:36'}
+};
+function makeVerseCard(modId){
+  const v = VERSES[modId] || VERSES[((modId - 1) % 12) + 1];
+  if(!v) return div('');
+  const orn = (side) => '<svg class="verse-orn ' + side + '" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="2"><path d="M50 8 L60 40 L92 50 L60 60 L50 92 L40 60 L8 50 L40 40 Z"/><circle cx="50" cy="50" r="14"/><circle cx="50" cy="50" r="6"/></svg>';
+  return div('verse-card', orn('l') + orn('r') +
+    '<div class="verse-ar">' + v.ar + '</div>' +
+    '<div class="verse-en">“' + v.en + '”</div>' +
+    '<div class="verse-ref">' + v.ref + '</div>');
+}
+
 function mkUnits(){
   const mod = getMod(S.mId);
   const w = div('stage');
@@ -6130,6 +6136,9 @@ function mkUnits(){
   w.appendChild(el('h2', {className:'section-heading'}, 'Units in this module'));
 
   // ── Units list ──
+  // forward 'next up' = first accessible unit not yet complete
+  let _nextId = null;
+  for (const _u of mod.units) { if (canAccess(S.mId,_u.id) && unitOk(S.mId,_u.id) && unitPct(S.mId,_u.id) < 100) { _nextId = _u.id; break; } }
   const list = div('units-list');
   mod.units.forEach(unit => {
     const ok = unitOk(S.mId, unit.id);
@@ -6142,6 +6151,7 @@ function mkUnits(){
     if (done) cardClass += ' completed';
     else if (inProgress) cardClass += ' in-progress';
     if (!ok) cardClass += ' locked';
+    if (unit.id === _nextId) cardClass += ' next';
 
     const card = div(cardClass);
 
@@ -6183,6 +6193,8 @@ function mkUnits(){
     list.appendChild(card);
   });
   w.appendChild(list);
+
+  w.appendChild(makeVerseCard(S.mId));
 
   return w;
 }
