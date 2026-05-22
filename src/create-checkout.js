@@ -1,43 +1,40 @@
 // POST /api/create-checkout
 // Body: { priceId, userId, userEmail }
 // Returns: { url } — Stripe-hosted checkout URL to redirect to
-
 import Stripe from 'stripe';
+
+// ── LIVE Stripe price IDs (hardcoded so dashboard/build env vars can never override) ──
+const PRICE_SELF_PACED_MONTHLY = 'price_1TZybRRzhUYYXw5g1syCALrZ';
+const PRICE_WITH_TUTOR_MONTHLY = 'price_1TZybRRzhUYYXw5gCQp7SsV6';
+const PRICE_WITH_TUTOR_YEARLY  = 'price_1TZybRRzhUYYXw5ggv9qBsIy';
 
 export async function handleCreateCheckout(request, env) {
   if (request.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
   }
-
   try {
     const { priceId, userId, userEmail } = await request.json();
-
     if (!priceId || !userId || !userEmail) {
       return json({ error: 'Missing priceId, userId, or userEmail' }, 400);
     }
-
     const allowedPrices = new Set([
-      env.PRICE_SELF_PACED_MONTHLY,
-      env.PRICE_WITH_TUTOR_MONTHLY,
-      env.PRICE_WITH_TUTOR_YEARLY,
+      PRICE_SELF_PACED_MONTHLY,
+      PRICE_WITH_TUTOR_MONTHLY,
+      PRICE_WITH_TUTOR_YEARLY,
     ]);
-
     if (!allowedPrices.has(priceId)) {
       return json({ error: 'Invalid priceId' }, 400);
     }
-
     const priceToPlan = {
-      [env.PRICE_SELF_PACED_MONTHLY]: 'self_paced',
-      [env.PRICE_WITH_TUTOR_MONTHLY]: 'with_tutor',
-      [env.PRICE_WITH_TUTOR_YEARLY]: 'with_tutor',
+      [PRICE_SELF_PACED_MONTHLY]: 'self_paced',
+      [PRICE_WITH_TUTOR_MONTHLY]: 'with_tutor',
+      [PRICE_WITH_TUTOR_YEARLY]: 'with_tutor',
     };
     const plan = priceToPlan[priceId];
-
     const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
       apiVersion: '2024-06-20',
       httpClient: Stripe.createFetchHttpClient(),
     });
-
     // Use customers.list with email (immediately consistent) instead of
     // customers.search (30+ sec indexing delay caused duplicate customers)
     let customerId;
@@ -59,7 +56,6 @@ export async function handleCreateCheckout(request, env) {
       });
       customerId = created.id;
     }
-
     const session = await stripe.checkout.sessions.create({
       mode: 'subscription',
       customer: customerId,
@@ -74,7 +70,6 @@ export async function handleCreateCheckout(request, env) {
         },
       },
     });
-
     return json({ url: session.url });
   } catch (err) {
     console.error('create-checkout error:', err);
