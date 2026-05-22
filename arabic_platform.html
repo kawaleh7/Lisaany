@@ -7587,10 +7587,16 @@ function buildReviewPool(mId, uId, drill, focus){
 // Picker screen — scope, then go. Hands its pool to the existing review player.
 function mkReviewBuilder(){
   const w=div('stage');
-  const ph=div('phase-label'); ph.appendChild(div('phase-dot')); ph.appendChild(document.createTextNode(' Practice'));
-  w.appendChild(ph);
-  w.appendChild(el('h2',{className:'page-title'},'Custom Review'));
-  w.appendChild(el('p',{className:'page-sub'},'Pick a lesson and what to drill. Builds a quick flashcard set from words you already track — no score, no penalty.'));
+
+  // header: back · title · close
+  const head=div(''); head.style.cssText='display:flex;align-items:center;gap:12px;margin:2px 0 16px;';
+  const back=el('button',{onclick:()=>{S.view='hub';render();}}); back.style.cssText='background:none;border:none;color:var(--dim);font-size:26px;line-height:1;cursor:pointer;padding:0 4px;'; back.appendChild(document.createTextNode('\u2039'));
+  const htitle=el('div',{},'Review Session'); htitle.style.cssText="flex:1;text-align:center;font-family:'Cinzel',serif;font-size:18px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);";
+  const close=el('button',{onclick:()=>{S.view='hub';render();}}); close.style.cssText='background:none;border:none;color:var(--dim);font-size:20px;line-height:1;cursor:pointer;padding:0 4px;'; close.appendChild(document.createTextNode('\u2715'));
+  head.appendChild(back); head.appendChild(htitle); head.appendChild(close); w.appendChild(head);
+
+  // glowing gold diamond accent
+  const dia=div(''); dia.style.cssText='width:13px;height:13px;margin:8px auto 30px;transform:rotate(45deg);background:var(--gold);border-radius:2px;box-shadow:0 0 20px rgba(242,190,98,.6);'; w.appendChild(dia);
 
   const opts=[];
   CUR.forEach(mod=>{
@@ -7598,7 +7604,7 @@ function mkReviewBuilder(){
     if(!accessible) return;
     mod.units.forEach(u=>{
       if(u.blocks.some(b=>b.type==='vocab')){
-        opts.push({mId:mod.id, uId:u.id, group:mod.id+' · '+mod.title, label:u.id+' — '+(u.title||('Unit '+u.id))});
+        opts.push({mId:mod.id, uId:u.id, group:mod.id+' \u00b7 '+mod.title, label:u.id+' \u2014 '+(u.title||('Unit '+u.id))});
       }
     });
   });
@@ -7609,11 +7615,11 @@ function mkReviewBuilder(){
   }
   if(!S.rbUnit || !opts.some(o=>o.mId+'|'+o.uId===S.rbUnit)){ S.rbUnit=opts[0].mId+'|'+opts[0].uId; }
 
-  const lbl=(t)=>el('div',{style:{fontSize:'12px',letterSpacing:'.14em',textTransform:'uppercase',color:'var(--dim)',marginBottom:'8px'}},t);
+  const lbl=(t)=>el('div',{style:{fontSize:'12px',letterSpacing:'.24em',textTransform:'uppercase',color:'var(--dim)',marginBottom:'11px',fontWeight:'600'}},t);
 
-  // Lesson select
-  const f1=div(''); f1.style.cssText='margin:18px 0;'; f1.appendChild(lbl('Lesson'));
-  const sel=el('select',{style:{width:'100%',background:'#11203f',color:'var(--text)',border:'1px solid rgba(212,163,74,.25)',borderRadius:'12px',padding:'12px 14px',fontSize:'15px',fontFamily:'inherit',cursor:'pointer'}});
+  // SELECT LESSON
+  const f1=div(''); f1.style.cssText='margin:0 0 28px;'; f1.appendChild(lbl('Select Lesson'));
+  const sel=el('select',{style:{width:'100%',background:'#0e1d3d',color:'var(--text)',border:'1px solid rgba(242,190,98,.28)',borderRadius:'14px',padding:'14px 16px',fontSize:'15px',fontFamily:'inherit',cursor:'pointer',outline:'none'}});
   sel.style.webkitAppearance='none'; sel.style.appearance='none';
   let cg=null, og=null;
   opts.forEach(o=>{
@@ -7622,48 +7628,59 @@ function mkReviewBuilder(){
   });
   sel.value=S.rbUnit; f1.appendChild(sel); w.appendChild(f1);
 
-  // Drill (multi)
-  const f2=div(''); f2.style.cssText='margin:18px 0;'; f2.appendChild(lbl('What to drill'));
-  const r2=div(''); r2.style.cssText='display:flex;gap:8px;flex-wrap:wrap;';
+  // METHOD (multi)
+  const f2=div(''); f2.style.cssText='margin:0 0 28px;'; f2.appendChild(lbl('Method'));
+  const r2=div(''); r2.style.cssText='display:flex;gap:10px;flex-wrap:wrap;';
   const drillBtns={};
   [['vocab','Vocab'],['dialogue','Dialogue'],['grammar','Grammar']].forEach(([k,t])=>{ const b=el('button',{},t); drillBtns[k]=b; r2.appendChild(b); });
   f2.appendChild(r2); w.appendChild(f2);
 
-  // Focus (single)
-  const f3=div(''); f3.style.cssText='margin:18px 0;'; f3.appendChild(lbl('Focus'));
-  const r3=div(''); r3.style.cssText='display:flex;gap:8px;flex-wrap:wrap;';
+  // FOCUS (single, segmented)
+  const f3=div(''); f3.style.cssText='margin:0 0 30px;'; f3.appendChild(lbl('Focus'));
+  const fwrap=div(''); fwrap.style.cssText='display:flex;border:1px solid rgba(242,190,98,.2);border-radius:14px;padding:5px;gap:4px;';
   const focusBtns={};
-  [['all','Everything'],['weak','Needs review'],['unseen','New only']].forEach(([k,t])=>{ const b=el('button',{},t); focusBtns[k]=b; r3.appendChild(b); });
-  f3.appendChild(r3); w.appendChild(f3);
+  [['all','Everything'],['weak','Weakest'],['unseen','Newest']].forEach(([k,t])=>{
+    const b=el('button',{}); b.style.cssText='flex:1;background:transparent;border:none;cursor:pointer;font-family:inherit;padding:11px 6px;border-radius:10px;display:flex;flex-direction:column;align-items:center;gap:6px;transition:background .15s;';
+    const tx=el('span',{},t); tx.style.cssText='font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;transition:color .15s;';
+    const dot=div(''); dot.style.cssText='width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .15s;';
+    b._tx=tx; b._dot=dot; b.appendChild(tx); b.appendChild(dot);
+    focusBtns[k]=b; fwrap.appendChild(b);
+  });
+  f3.appendChild(fwrap); w.appendChild(f3);
 
-  const styleChip=(b,on)=>{ b.style.cssText='flex:1 1 auto;min-width:84px;text-align:center;border-radius:11px;padding:11px 10px;font-size:14px;font-family:inherit;cursor:pointer;transition:all .15s;border:1px solid '+(on?'var(--gold)':'rgba(212,163,74,.22)')+';background:'+(on?'rgba(242,190,98,.13)':'transparent')+';color:'+(on?'var(--gold)':'var(--text)')+';font-weight:'+(on?'600':'400')+';'; };
+  const styleChip=(b,on)=>{ b.style.cssText='flex:1 1 auto;min-width:92px;text-align:center;border-radius:12px;padding:14px 10px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-family:inherit;font-weight:600;cursor:pointer;transition:all .15s;background:'+(on?'rgba(242,190,98,.08)':'transparent')+';border:1px solid '+(on?'var(--gold)':'rgba(255,255,255,.1)')+';color:'+(on?'var(--gold)':'var(--dim)')+';'; };
+  const styleFocus=(b,on)=>{ b._tx.style.color=on?'var(--gold)':'var(--dim)'; b._dot.style.opacity=on?'1':'0'; b.style.background=on?'rgba(242,190,98,.06)':'transparent'; };
 
-  // Summary
-  const sum=div(''); sum.style.cssText='display:flex;align-items:center;gap:14px;background:linear-gradient(160deg,rgba(212,163,74,.06),rgba(212,163,74,.02));border:1px solid rgba(212,163,74,.22);border-radius:16px;padding:16px;margin:8px 0 6px;';
-  const sumCount=el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'40px',color:'var(--gold)',lineHeight:'1'}},'0');
-  const sumDesc=el('div',{style:{fontSize:'14px',color:'var(--text)',lineHeight:'1.45'}},'');
-  sum.appendChild(sumCount); sum.appendChild(sumDesc); w.appendChild(sum);
+  // SUMMARY (centered, curated)
+  const sum=div(''); sum.style.cssText='text-align:center;background:linear-gradient(160deg,rgba(242,190,98,.05),rgba(242,190,98,.01));border:1px solid rgba(242,190,98,.18);border-radius:18px;padding:28px 22px;margin:0 0 22px;';
+  const sumCount=el('div',{},'0'); sumCount.style.cssText="font-family:'Cinzel',serif;font-size:42px;font-weight:600;color:var(--gold);line-height:1;margin-bottom:12px;";
+  const sumDesc=el('div',{}); sumDesc.style.cssText='font-size:15px;color:var(--text);line-height:1.4;margin-bottom:12px;';
+  const sumSub=el('div',{}); sumSub.style.cssText='font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);';
+  sum.appendChild(sumCount); sum.appendChild(sumDesc); sum.appendChild(sumSub); w.appendChild(sum);
 
-  // CTA + back
+  // START + footer caption
   const start=el('button',{},'Start Review');
-  start.style.cssText='width:100%;margin-top:14px;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(100deg,var(--gold),#c79a4d);color:#0a1730;font-weight:700;font-size:16px;border-radius:13px;padding:14px;';
+  start.style.cssText='width:100%;border:none;cursor:pointer;font-family:inherit;background:linear-gradient(100deg,var(--gold),#e0ad52);color:#0a1730;font-weight:700;font-size:16px;border-radius:14px;padding:16px;box-shadow:0 8px 30px rgba(242,190,98,.28);transition:filter .15s,opacity .15s;';
   w.appendChild(start);
-  w.appendChild(el('button',{className:'btn btn-ghost',style:{width:'100%',marginTop:'10px'},onclick:()=>{S.view='hub';render();}},'\u2190 Home'));
+  const foot=el('div',{}); foot.style.cssText='text-align:center;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-top:18px;'; w.appendChild(foot);
 
   function refresh(){
     Object.keys(drillBtns).forEach(k=>styleChip(drillBtns[k], S.rbDrill.includes(k)));
-    Object.keys(focusBtns).forEach(k=>styleChip(focusBtns[k], S.rbFocus===k));
+    Object.keys(focusBtns).forEach(k=>styleFocus(focusBtns[k], S.rbFocus===k));
     const parts=S.rbUnit.split('|'); const mid=parseInt(parts[0],10); const uId=parts[1];
     const unit=getUnit(mid,uId);
     const pool=buildReviewPool(mid,uId,S.rbDrill,S.rbFocus);
     const n=pool.length;
     sumCount.textContent=n;
     const uname=unit?(unit.title||('Unit '+uId)):('Unit '+uId);
-    const drillLbl=S.rbDrill.length?S.rbDrill.join(' + '):'\u2014';
-    const focusLbl=({all:'everything',weak:'needs review',unseen:'new only'})[S.rbFocus];
-    sumDesc.innerHTML='cards from <strong>Unit '+uId+' \u00b7 '+uname+'</strong><br><span style="color:var(--dim)">'+drillLbl+' \u00b7 '+focusLbl+'</span>';
+    sumDesc.innerHTML='cards curated from <strong style="color:var(--gold)">Unit '+uId+' \u00b7 '+uname+'</strong>';
+    const dMap={vocab:'Vocab',dialogue:'Dialogue',grammar:'Grammar'};
+    const fMap={all:'Everything',weak:'Weakest',unseen:'Newest'};
+    const drillLbl=S.rbDrill.length?S.rbDrill.map(k=>dMap[k]).join(' + '):'\u2014';
+    sumSub.textContent=drillLbl+' \u00b7 '+fMap[S.rbFocus];
+    foot.textContent='Session strictly for Unit '+uId;
     const ok=S.rbDrill.length>0 && n>0;
-    start.disabled=!ok; start.style.opacity=ok?'1':'.5'; start.style.cursor=ok?'pointer':'not-allowed';
+    start.disabled=!ok; start.style.opacity=ok?'1':'.45'; start.style.cursor=ok?'pointer':'not-allowed'; start.style.boxShadow=ok?'0 8px 30px rgba(242,190,98,.28)':'none';
   }
   sel.addEventListener('change',()=>{ S.rbUnit=sel.value; refresh(); });
   Object.keys(drillBtns).forEach(k=>drillBtns[k].addEventListener('click',()=>{
