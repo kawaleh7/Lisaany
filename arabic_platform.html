@@ -204,119 +204,121 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
 
 /* Module card */
 .module-card{
-  display:grid; grid-template-columns:auto 1fr auto;
-  gap:16px; align-items:center;
-  background:var(--card);
+  position:relative; display:grid; grid-template-columns:auto 1fr auto;
+  gap:18px; align-items:center;
+  background:linear-gradient(158deg, rgba(26,41,77,.72), rgba(11,21,42,.72));
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:16px 18px;
-  cursor:pointer; transition:all .2s;
+  border-radius:18px;
+  padding:20px;
+  cursor:pointer; overflow:hidden;
   text-decoration:none; color:inherit;
-  position:relative; overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.06);
+  transition:transform .22s cubic-bezier(.22,1,.36,1), box-shadow .22s, border-color .22s, background .22s;
+  opacity:0; transform:translateY(16px); animation:modRise .6s cubic-bezier(.22,1,.36,1) forwards;
 }
-.module-card::before{
-  content:''; position:absolute; left:0; top:0; bottom:0;
-  width:3px; background:transparent; transition:background .2s;
-}
-.module-card:hover{
-  border-color:var(--border-strong);
-  transform:translateY(-1px);
-  background:rgba(20,32,64,.85);
-}
-.module-card.completed::before{background:var(--green);}
-.module-card.in-progress::before{background:var(--gold);}
-.module-card.locked{opacity:.55; cursor:pointer;}
+@keyframes modRise{to{opacity:1;transform:none;}}
+.module-card:hover{transform:translateY(-4px); box-shadow:0 18px 46px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06); border-color:var(--gold-glow);}
+.module-card:active{transform:translateY(-1px);}
+.module-card:hover .module-icon span{transform:scale(1.08);}
 
+/* corner ribbon (replaces inline pills) */
+.module-tag{position:absolute; top:0; right:0; z-index:2;
+  font:700 9.5px/1 'Inter',sans-serif; letter-spacing:.18em; text-transform:uppercase;
+  padding:6px 12px; border-bottom-left-radius:12px;}
+.module-tag.free{color:var(--green); background:rgba(127,201,156,.12); border-left:1px solid rgba(127,201,156,.25); border-bottom:1px solid rgba(127,201,156,.25);}
+.module-tag.premium{color:var(--gold); background:rgba(242,190,98,.1); border-left:1px solid var(--gold-glow); border-bottom:1px solid var(--gold-glow);}
+
+/* icon (+ progress ring) */
+.module-ic-wrap{position:relative; width:54px; height:54px; flex-shrink:0; display:grid; place-items:center;}
 .module-icon{
   width:46px; height:46px; border-radius:13px;
-  background:linear-gradient(135deg, rgba(242,190,98,.15), rgba(242,190,98,.05));
-  border:1px solid var(--gold-glow);
+  background:rgba(242,190,98,.1); border:1px solid var(--gold-glow);
   display:flex; align-items:center; justify-content:center;
   color:var(--gold); font-size:22px;
-  flex-shrink:0;
 }
-.module-card.locked .module-icon{
-  background:rgba(255,255,255,.03);
-  border-color:var(--border);
-  color:var(--dim);
-}
-.module-icon span{font-size:22px;}
+.module-icon span{font-size:24px; transition:transform .22s;}
+.module-ring{position:absolute; inset:0; transform:rotate(-90deg);}
+.module-ring circle{fill:none; stroke-width:3;}
+.module-ring .bg{stroke:rgba(255,255,255,.08);}
+.module-ring .fg{stroke:var(--gold); stroke-linecap:round; stroke-dasharray:160; stroke-dashoffset:var(--off,160);
+  animation:modRing 1.1s .45s cubic-bezier(.22,1,.36,1) backwards;}
+@keyframes modRing{from{stroke-dashoffset:160;}}
 
+/* typography hierarchy */
 .module-body{min-width:0;}
-.module-num{
-  font-family:'Cinzel',serif; font-size:13px; font-weight:600;
-  letter-spacing:.22em; color:var(--gold-soft);
-  margin-bottom:3px;
-}
-.module-card.locked .module-num{color:var(--dim);}
-.module-title{
-  font-family:'Cinzel',serif; font-size:15px; font-weight:500;
-  color:var(--text); margin-bottom:6px;
-}
-.module-meta{
-  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-  font:500 11px/1 'Inter',sans-serif;
-  letter-spacing:.04em; color:var(--dim);
-}
-.module-meta-pill{
-  padding:3px 8px; border-radius:99px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--border);
-  font-weight:600;
-}
-.module-meta-pill.free{
-  color:var(--green);
-  border-color:rgba(127,201,156,.3);
-  background:var(--green-soft);
-}
-.module-meta-pill.premium{
-  color:var(--gold);
-  border-color:var(--gold-glow);
-  background:rgba(242,190,98,.05);
-}
+.module-num{font:600 11px/1 'Inter',sans-serif; letter-spacing:.26em; text-transform:uppercase;
+  color:rgba(242,190,98,.72); margin-bottom:6px;}
+.module-title{font-family:'Cinzel',serif; font-size:19px; font-weight:600; color:var(--text); letter-spacing:.01em;}
+.module-units{font:500 11.5px/1 'Inter',sans-serif; letter-spacing:.04em; color:var(--dim); margin-top:7px;}
+.module-pbar{height:4px; border-radius:3px; background:rgba(255,255,255,.07); margin-top:11px; overflow:hidden; max-width:240px;}
+.module-pbar-fill{display:block; height:100%; width:var(--pct,0); background:linear-gradient(90deg,#e0ad52,var(--gold));
+  animation:modBar 1s .5s cubic-bezier(.22,1,.36,1) backwards;}
+.module-pbar.done .module-pbar-fill{background:linear-gradient(90deg,#8bbf93,var(--green));}
+@keyframes modBar{from{width:0;}}
 
-.module-status{
-  display:flex; flex-direction:column;
-  align-items:flex-end; gap:5px;
-  flex-shrink:0;
-}
-.module-status-icon{
-  width:28px; height:28px; border-radius:50%;
-  background:rgba(255,255,255,.03);
-  border:1px solid var(--border-strong);
-  display:flex; align-items:center; justify-content:center;
-  font-size:14px; color:var(--dim);
-}
-.module-status-icon.done{
-  background:var(--green-soft);
-  border-color:var(--green);
-  color:var(--green);
-}
-.module-status-icon.progress{
-  background:rgba(242,190,98,.12);
-  border-color:var(--gold);
-  color:var(--gold);
-}
+/* right-side action */
+.module-status{display:flex; align-items:center; justify-content:flex-end; flex-shrink:0;}
+.module-status-icon{width:34px; height:34px; border-radius:50%;
+  background:rgba(255,255,255,.03); border:1px solid var(--border-strong);
+  display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--dim); transition:.2s;}
+.module-card:hover .module-status-icon{border-color:var(--gold-glow); color:var(--gold);}
+.module-status-icon.done{background:var(--green-soft); border-color:var(--green); color:var(--green);}
 .module-status-icon.locked{color:var(--dim);}
-.module-progress-mini{
-  font-family:'Cinzel',serif; font-size:13px;
-  color:var(--gold); font-weight:600;
-  font-variant-numeric:tabular-nums;
+.module-cta{border:none; cursor:pointer; font-family:inherit; font-weight:600; font-size:.82rem;
+  background:linear-gradient(100deg,var(--gold),#e0ad52); color:#0a1730;
+  border-radius:11px; padding:10px 16px; white-space:nowrap; display:flex; align-items:center; gap:5px;
+  box-shadow:0 4px 14px rgba(242,190,98,.22); transition:filter .15s; flex-shrink:0;}
+.module-cta span{font-size:16px;}
+.module-cta:hover{filter:brightness(1.05);}
+
+/* ACTIVE / in-progress = focal */
+.module-card.in-progress{padding:24px 22px; border-color:rgba(242,190,98,.42);
+  background:linear-gradient(152deg, rgba(242,190,98,.14), rgba(20,32,64,.5) 55%);
+  box-shadow:0 16px 48px rgba(0,0,0,.46), 0 6px 34px rgba(242,190,98,.12), inset 0 1px 0 rgba(255,255,255,.06);}
+.module-card.in-progress .module-title{font-size:21px;}
+.module-card.in-progress .module-icon{border-radius:50%;
+  background:radial-gradient(circle at 50% 38%, rgba(242,190,98,.34), rgba(242,190,98,.12));
+  border-color:rgba(242,190,98,.5); box-shadow:0 0 18px rgba(242,190,98,.18);}
+
+/* COMPLETED */
+.module-card.completed .module-icon{background:rgba(127,201,156,.1); border-color:rgba(127,201,156,.3); color:var(--green);}
+.module-card.completed .module-num{color:rgba(167,209,166,.85);}
+
+/* LOCKED = gated (flat + texture + lock); muted by colour, not heavy opacity */
+.module-card.locked{background:linear-gradient(158deg, rgba(18,28,52,.55), rgba(9,16,32,.55)); border-color:var(--border); box-shadow:none;}
+.module-card.locked .module-icon{background:rgba(255,255,255,.03); border-color:var(--border); color:var(--dim);}
+.module-card.locked .module-num{color:var(--dim);}
+.module-card.locked .module-title{color:rgba(218,227,246,.78);}
+.module-card.locked:hover{transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,0,0,.34); border-color:rgba(242,190,98,.22);}
+.module-locktex{position:absolute; inset:0; pointer-events:none; border-radius:18px;
+  background-image:radial-gradient(rgba(255,255,255,.45) 1px, transparent 1px); background-size:16px 16px; opacity:.05;}
+
+/* staggered entrance */
+.module-card:nth-child(1){animation-delay:.04s}
+.module-card:nth-child(2){animation-delay:.1s}
+.module-card:nth-child(3){animation-delay:.16s}
+.module-card:nth-child(4){animation-delay:.22s}
+.module-card:nth-child(5){animation-delay:.28s}
+@media (prefers-reduced-motion:reduce){
+  .module-card{animation:none; opacity:1; transform:none;}
+  .module-ring .fg,.module-pbar-fill{animation:none;}
 }
-.module-card.locked .module-progress-mini{color:var(--dim);}
 
 @media (max-width:560px){
   .hub-title{font-size:30px;}
   .hub-arabic{font-size:22px;}
   .hub-sub{font-size:14px;}
-  .module-card{grid-template-columns:auto 1fr auto;gap:14px;padding:18px 16px;}
-  .module-icon{width:52px;height:52px;border-radius:14px;}
-  .module-icon span{font-size:26px;}
-  .module-num{font-size:13px;}
+  .module-card{gap:14px;padding:18px 16px;}
+  .module-card.in-progress{padding:20px 16px;}
+  .module-ic-wrap{width:54px;height:54px;}
+  .module-icon{width:46px;height:46px;}
+  .module-icon span{font-size:24px;}
+  .module-num{font-size:10.5px;letter-spacing:.22em;}
   .module-title{font-size:17px;line-height:1.3;}
-  .module-meta{font-size:12px;}
-  .module-status-icon{width:34px;height:34px;font-size:16px;}
-  .module-progress-mini{font-size:13px;}
+  .module-card.in-progress .module-title{font-size:18px;}
+  .module-units{font-size:11px;}
+  .module-status-icon{width:32px;height:32px;font-size:15px;}
+  .module-cta{padding:9px 13px;font-size:.78rem;}
   .journey-bar-num{font-size:18px;}
   .journey-bar-pct{font-size:20px;}
   .continue-card-title{font-size:17px;}
@@ -6007,42 +6009,60 @@ function mkHub(){
     if (isLocked) cardClass += ' locked';
 
     const card = div(cardClass);
+    const pct = totalBlocks ? Math.round(doneBlocks / totalBlocks * 100) : 0;
 
+    // corner ribbon (replaces inline pill)
+    card.appendChild(el('span', {className:'module-tag ' + (isFree ? 'free' : 'premium')}, isFree ? 'Free' : 'Premium'));
+
+    // icon (+ progress ring while in progress)
+    const icWrap = div('module-ic-wrap');
+    if (isInProgress && !isLocked && pct > 0) {
+      const NS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(NS, 'svg');
+      svg.setAttribute('class', 'module-ring'); svg.setAttribute('viewBox', '0 0 54 54');
+      const mkC = (c) => { const e2 = document.createElementNS(NS, 'circle'); e2.setAttribute('class', c); e2.setAttribute('cx', '27'); e2.setAttribute('cy', '27'); e2.setAttribute('r', '25.5'); return e2; };
+      const fg = mkC('fg'); fg.style.setProperty('--off', String(Math.round(160 * (1 - pct / 100))));
+      svg.appendChild(mkC('bg')); svg.appendChild(fg);
+      icWrap.appendChild(svg);
+    }
     const iconBox = div('module-icon');
     iconBox.appendChild(ms(mod.icon || 'school'));
-    card.appendChild(iconBox);
+    icWrap.appendChild(iconBox);
+    card.appendChild(icWrap);
 
+    // body
     const body = div('module-body');
-    body.appendChild(el('div', {className:'module-num'}, 'MODULE ' + String(mod.id).padStart(2, '0')));
+    let eyebrow = 'MODULE ' + String(mod.id).padStart(2, '0');
+    if (isCompleted) eyebrow += ' \u00b7 Completed';
+    else if (isInProgress && !isLocked) eyebrow += ' \u00b7 In progress';
+    body.appendChild(el('div', {className:'module-num'}, eyebrow));
     body.appendChild(el('div', {className:'module-title'}, mod.title));
-    const meta = div('module-meta');
-    const pill = el('span', {className: 'module-meta-pill ' + (isFree ? 'free' : 'premium')}, isFree ? 'Free' : 'Premium');
-    meta.appendChild(pill);
-    meta.appendChild(el('span', {}, mod.units.length + ' units · ' + totalBlocks + ' blocks'));
-    body.appendChild(meta);
+    body.appendChild(el('div', {className:'module-units'},
+      isCompleted ? (doneBlocks + ' / ' + totalBlocks + ' blocks')
+                  : (mod.units.length + ' units \u00b7 ' + totalBlocks + ' blocks')));
+    if (!isLocked && (isInProgress || isCompleted)) {
+      const pbar = div('module-pbar' + (isCompleted ? ' done' : ''));
+      const fill = div('module-pbar-fill'); fill.style.setProperty('--pct', pct + '%');
+      pbar.appendChild(fill); body.appendChild(pbar);
+    }
     card.appendChild(body);
 
-    const status = div('module-status');
-    if (isCompleted) {
-      status.appendChild(el('div', {className:'module-progress-mini'}, doneBlocks + '/' + totalBlocks));
-      const ic = div('module-status-icon done');
-      ic.appendChild(ms('check'));
-      status.appendChild(ic);
-    } else if (isInProgress && !isLocked) {
-      status.appendChild(el('div', {className:'module-progress-mini'}, doneBlocks + '/' + totalBlocks));
-      const ic = div('module-status-icon progress');
-      ic.appendChild(ms('play_arrow'));
-      status.appendChild(ic);
-    } else if (isLocked) {
-      const ic = div('module-status-icon locked');
-      ic.appendChild(ms('lock'));
-      status.appendChild(ic);
+    // right-side action
+    if (isInProgress && !isLocked) {
+      const cta = el('button', {className:'module-cta'});
+      cta.appendChild(ms('play_arrow'));
+      cta.appendChild(document.createTextNode('Continue'));
+      card.appendChild(cta);
     } else {
-      const ic = div('module-status-icon');
-      ic.appendChild(ms('chevron_right'));
+      const status = div('module-status');
+      const ic = div('module-status-icon' + (isCompleted ? ' done' : (isLocked ? ' locked' : '')));
+      ic.appendChild(ms(isCompleted ? 'check' : (isLocked ? 'lock' : 'chevron_right')));
       status.appendChild(ic);
+      card.appendChild(status);
     }
-    card.appendChild(status);
+
+    // gated texture overlay for locked
+    if (isLocked) card.appendChild(div('module-locktex'));
 
     if (isUnlocked) {
       card.addEventListener('click', () => { S.mId = mod.id; S.view = 'units'; render(); });
