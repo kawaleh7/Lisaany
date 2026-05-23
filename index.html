@@ -626,18 +626,12 @@ body{
   <div class="hero-arabic">اقْرَأ • تَكَلَّم • أَتْقِن</div>
   <p class="hero-desc">From the alphabet to full conversation. Two structured paths, a real curriculum, and live tutors when you need them.</p>
   <div class="hero-actions">
-    <button class="btn btn-primary btn-lg" onclick="showOnboarding()">
-      <span>Find my path</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button>
-    <a href="lisaany_new.html" class="btn btn-ghost btn-lg">
+    <a href="lisaany_new.html" class="btn btn-primary btn-lg">
       <span class="mi">play_circle</span>
       <span>Try a free lesson</span>
     </a>
   </div>
   <div class="trust-strip">
-    <div class="trust-item"><span class="mi fill">star</span><span><strong>4.9</strong> · 1,200+ learners</span></div>
-    <div class="trust-divider"></div>
     <div class="trust-item"><span class="mi">menu_book</span><span><strong>170+</strong> lessons</span></div>
     <div class="trust-divider"></div>
     <div class="trust-item"><span class="mi">live_tv</span><span><strong>Live tutors</strong> 1-on-1</span></div>
@@ -769,10 +763,10 @@ body{
   <h2 class="final-cta-title">Begin your Arabic journey</h2>
   <p class="final-cta-sub">Free to start. Premium when you're ready. Cancel anytime.</p>
   <div class="hero-actions">
-    <button class="btn btn-primary btn-lg" onclick="showOnboarding()">
-      <span>Find my path</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button>
+    <a href="lisaany_new.html" class="btn btn-primary btn-lg">
+      <span class="mi">play_circle</span>
+      <span>Try a free lesson</span>
+    </a>
   </div>
 </section>
 
@@ -794,9 +788,9 @@ body{
       <a href="arabic_platform.html">Learn Arabic</a>
       <a href="tutors.html">Live Tutor</a>
       <a href="pricing.html">Pricing</a>
-      <a href="#" onclick="return false">Privacy</a>
-      <a href="#" onclick="return false">Terms</a>
-      <a href="#" onclick="return false">Contact</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="mailto:admin@lisaany.com">Contact</a>
     </div>
     <div class="footer-meta">© 2026 Lisaany</div>
   </div>
@@ -811,107 +805,11 @@ body{
   <a href="profile.html" class="bn-tab"><span class="mi">person</span>Profile</a>
 </nav>
 
-<!-- ════════ ONBOARDING MODAL ════════ -->
-<div class="modal-overlay" id="onboarding-modal">
-  <div class="modal">
-    <div class="modal-dots">
-      <div class="modal-dot active" id="dot1"></div>
-      <div class="modal-dot" id="dot2"></div>
-      <div class="modal-dot" id="dot3"></div>
-    </div>
-
-    <div class="ob-step" id="ob-step1" style="display:block;">
-      <div class="modal-eyebrow">Step 1 of 3</div>
-      <h2 class="modal-q">Why are you learning Arabic?</h2>
-      <p class="modal-sub">We'll personalise your starting point.</p>
-      <div class="modal-opts">
-        <button onclick="obSelect(1,'quran')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">menu_book</span><span>To read the Quran</span></button>
-        <button onclick="obSelect(1,'speak')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">forum</span><span>To speak Modern Arabic</span></button>
-        <button onclick="obSelect(1,'both')" class="ob-opt"><span class="mi fill" style="font-size:22px;color:var(--gold);">star</span><span>Both — Quran and speaking</span></button>
-        <button onclick="obSelect(1,'culture')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">travel_explore</span><span>Culture and travel</span></button>
-      </div>
-    </div>
-
-    <div class="ob-step" id="ob-step2">
-      <div class="modal-eyebrow">Step 2 of 3</div>
-      <h2 class="modal-q">What's your current level?</h2>
-      <p class="modal-sub">Tell us where you are now.</p>
-      <div class="modal-opts">
-        <button onclick="obSelect(2,'zero')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">eco</span><span>Complete beginner</span></button>
-        <button onclick="obSelect(2,'some')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">menu_book</span><span>I know the alphabet</span></button>
-        <button onclick="obSelect(2,'basic')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">chat</span><span>I know basic words</span></button>
-        <button onclick="obSelect(2,'inter')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">auto_stories</span><span>Intermediate level</span></button>
-      </div>
-    </div>
-
-    <div class="ob-step" id="ob-step3">
-      <div class="modal-eyebrow">Step 3 of 3</div>
-      <h2 class="modal-q">How much time per day?</h2>
-      <p class="modal-sub">We'll set a daily XP goal that fits your life.</p>
-      <div class="modal-opts">
-        <button onclick="obSelect(3,'5')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">bolt</span><span>5 minutes — casual</span></button>
-        <button onclick="obSelect(3,'15')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">my_location</span><span>15 minutes — regular</span></button>
-        <button onclick="obSelect(3,'30')" class="ob-opt"><span class="mi fill" style="font-size:22px;color:var(--gold);">local_fire_department</span><span>30 minutes — serious</span></button>
-        <button onclick="obSelect(3,'60')" class="ob-opt"><span class="mi" style="font-size:22px;color:var(--gold);">fitness_center</span><span>1 hour — intensive</span></button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script src="plan.js" defer></script>
 <script src="paywall.js" defer></script>
 <script src="nav-role.js" defer></script>
 
 <script>
-const obData = {};
-
-function showOnboarding() {
-  document.getElementById('onboarding-modal').classList.add('is-open');
-  document.getElementById('ob-step1').style.display = 'block';
-  document.getElementById('ob-step2').style.display = 'none';
-  document.getElementById('ob-step3').style.display = 'none';
-  document.getElementById('dot1').classList.add('active');
-  document.getElementById('dot2').classList.remove('active');
-  document.getElementById('dot3').classList.remove('active');
-  delete obData.step1; delete obData.step2; delete obData.step3;
-}
-
-function obSelect(step, value) {
-  obData['step' + step] = value;
-  if (step === 1) {
-    document.getElementById('ob-step1').style.display = 'none';
-    document.getElementById('ob-step2').style.display = 'block';
-    document.getElementById('dot2').classList.add('active');
-    document.getElementById('dot1').classList.remove('active');
-  } else if (step === 2) {
-    document.getElementById('ob-step2').style.display = 'none';
-    document.getElementById('ob-step3').style.display = 'block';
-    document.getElementById('dot3').classList.add('active');
-    document.getElementById('dot2').classList.remove('active');
-  } else if (step === 3) {
-    localStorage.setItem('lisaany_onboarded', '1');
-    localStorage.setItem('lisaany_goal', JSON.stringify(obData));
-    const xpTargets = { '5': 50, '15': 150, '30': 300, '60': 600 };
-    localStorage.setItem('lisaany_daily_xp', xpTargets[value] || 150);
-    const levels = { 'zero': 'Beginner', 'some': 'Elementary', 'basic': 'Pre-Intermediate', 'inter': 'Intermediate' };
-    localStorage.setItem('lisaany_level', levels[obData.step2] || 'Beginner');
-    document.getElementById('onboarding-modal').classList.remove('is-open');
-    if (obData.step1 === 'quran') {
-      window.location.href = 'lisaany_new.html';
-    } else if (obData.step1 === 'speak') {
-      window.location.href = 'arabic_platform.html';
-    } else {
-      window.location.href = 'arabic_platform.html';
-    }
-  }
-}
-
-document.getElementById('onboarding-modal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    this.classList.remove('is-open');
-  }
-});
-
 // ── Profile indicator (red dot = logged out, green pulsing + initial = logged in) ──
 const HOME_SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
 const HOME_SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
