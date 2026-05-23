@@ -2126,6 +2126,35 @@ body { padding-bottom: 90px !important; }
   .lis-profile-dot { width: 8px; height: 8px; top: 3px; right: 3px; }
 }
 
+/* ════════════════════════════════════════════════════════════
+   BRIGHTEN FIX — loads last, overrides the earlier layered dark
+   styles so the Read/Norania screen matches the rest of the site.
+   ════════════════════════════════════════════════════════════ */
+:root{
+  --bg:#0a1730 !important; --surface:#0d1e36 !important;
+  --card:#132040 !important; --card-hover:#1b2d54 !important;
+  --gold:#f2be62 !important; --gold-lt:#f2d080 !important;
+  --text:#e8eef9 !important; --dim:#9ba8be !important;
+  --border:rgba(255,255,255,.10) !important; --border-strong:rgba(255,255,255,.16) !important;
+  --faint:rgba(255,255,255,.05) !important;
+}
+html,body{ background:#0a1730 !important; }
+
+/* Listen button — restore the gold fill so its label is legible (was forced near-black) */
+.letter-focus-play{
+  background:linear-gradient(135deg,#ffe199,#f2be62) !important;
+  border:1px solid #ffe199 !important;
+}
+.letter-focus-play-label, .letter-focus-play .ms{ color:#0a1730 !important; }
+
+/* Letter cards / tiles — lift off near-black to navy */
+.letter-focus-card{ background:linear-gradient(180deg, rgba(23,39,73,.7), rgba(19,32,64,.5)) !important; border-color:rgba(242,190,98,.20) !important; }
+.letter-tile{ background:#172749 !important; border-color:rgba(255,255,255,.10) !important; }
+.letter-tile:hover{ background:#1b2d54 !important; border-color:var(--gold) !important; }
+.letter-tile.selected{ background:linear-gradient(135deg, rgba(242,190,98,.18), rgba(242,190,98,.05)) !important; }
+
+/* Generic letter elements: undo the over-broad [class*="letter"] near-black darkener */
+.letter-btn{ background:#172749 !important; }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
