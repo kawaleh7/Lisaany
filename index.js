@@ -1,31 +1,850 @@
-// Worker entry point — every request to lisaany.com hits this file.
-//
-// Routing logic:
-//   /api/create-checkout  -> create-checkout.js
-//   /api/billing-portal   -> billing-portal.js
-//   /api/webhook          -> webhook.js
-//   everything else       -> static HTML files (via the ASSETS binding)
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Lisaany — Learn Arabic</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a1730; --bg-deep:#070f22;
+  --surface:#0d1e36; --card:#132040; --card-elev:#172749; --card-hover:#1b2d54;
+  --gold:#f2be62; --gold-soft:#d4a34a; --gold-deep:#a87f2e;
+  --gold-glow:rgba(242,190,98,.18);
+  --green:#7fc99c; --green-soft:rgba(127,201,156,.10);
+  --blue:#7aa3d9; --blue-soft:rgba(122,163,217,.10);
+  --purple-soft:rgba(184,160,204,.10);
+  --text:#e8eef9; --text-strong:#ffffff; --dim:#9ba8be;
+  --faint:rgba(255,255,255,.05); --border:rgba(255,255,255,.08); --border-strong:rgba(255,255,255,.14);
+  --nav-bg:rgba(10,23,48,.78);
+  --r-sm:10px; --r-md:16px; --r-lg:22px; --r-xl:30px;
+}
+html,body{height:100%; overflow-x:hidden;}
+body{
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(212,163,74,.10), transparent 50%),
+    radial-gradient(ellipse at 0% 50%, rgba(56,89,150,.08), transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(212,163,74,.06), transparent 50%),
+    var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif; font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.mi{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:inherit;line-height:1;display:inline-block;font-variation-settings:'FILL' 0;vertical-align:middle;}
+.mi.fill{font-variation-settings:'FILL' 1;}
 
-import { handleCreateCheckout } from './create-checkout.js';
-import { handleBillingPortal } from './billing-portal.js';
-import { handleWebhook } from './webhook.js';
+/* Background pattern */
+.bg-pattern{
+  position:fixed; inset:0; pointer-events:none; z-index:0;
+  opacity:.03;
+  background-image:radial-gradient(circle at 1px 1px, var(--gold) 1px, transparent 0);
+  background-size:32px 32px;
+}
 
-export default {
-  async fetch(request, env, ctx) {
-    const url = new URL(request.url);
+/* Decorative geometric SVG */
+.bg-geo{
+  position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:1000px; max-width:90%; height:700px;
+  opacity:.08; pointer-events:none; z-index:0;
+}
 
-    // API routes
-    if (url.pathname === '/api/create-checkout') {
-      return handleCreateCheckout(request, env);
+/* ════════ TOP NAV ════════ */
+.lis-nav{
+  position:sticky; top:0; z-index:100;
+  height:68px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 36px;
+  background:var(--nav-bg);
+  backdrop-filter:blur(20px) saturate(160%);
+  -webkit-backdrop-filter:blur(20px) saturate(160%);
+}
+.lis-nav::after{
+  content:''; position:absolute; left:0; right:0; bottom:0;
+  height:1px;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(242,190,98,0.25) 18%,
+    rgba(242,190,98,0.75) 48%,
+    rgba(242,190,98,0.75) 52%,
+    rgba(242,190,98,0.25) 82%,
+    transparent 100%);
+  pointer-events:none;
+}
+.lis-nav::before{
+  content:''; position:absolute; left:50%; bottom:-5px;
+  width:10px; height:10px;
+  transform:translateX(-50%) rotate(45deg);
+  background:linear-gradient(135deg, #f5d488, #d4a34a);
+  box-shadow:
+    0 0 0 1px rgba(7,15,34,1),
+    0 0 14px rgba(242,190,98,.85),
+    0 0 28px rgba(242,190,98,.45);
+  pointer-events:none;
+  z-index:1;
+}
+.lis-brand{
+  display:inline-flex; align-items:center; gap:14px;
+  text-decoration:none;
+  font-family:'Cinzel',serif; font-weight:600;
+  transition:opacity .2s;
+}
+.lis-brand:hover{ opacity:.85; }
+.brand-mark{
+  width:36px; height:36px; border-radius:50%;
+  background:linear-gradient(135deg, var(--gold), var(--gold-soft));
+  display:flex; align-items:center; justify-content:center;
+  color:#3a2400; font-family:'Amiri',serif; font-size:20px; font-weight:700;
+  box-shadow:0 0 24px var(--gold-glow);
+  flex-shrink:0;
+}
+.brand-name{ font-size:18px; letter-spacing:.04em; color:var(--text); }
+.brand-mark{
+  width:40px; height:40px; border-radius:50%;
+  background:linear-gradient(135deg, #f5d488, #d4a34a);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 24px var(--gold-glow);
+  flex-shrink:0;
+  transition:transform .3s cubic-bezier(.2,.8,.2,1);
+}
+.lis-brand:hover .brand-mark{ transform:translateY(-1px); }
+.brand-mark svg{ width:62%; height:62%; }
+.brand-mark.sm{ width:30px; height:30px; box-shadow:0 0 12px var(--gold-glow); }
+@media (max-width:840px){ .brand-mark{ width:36px; height:36px; } }
+.lis-links{ display:flex; gap:4px; }
+.lis-link{
+  font:500 13px/1 'Inter',sans-serif; letter-spacing:.04em;
+  color:var(--dim); text-decoration:none;
+  padding:10px 16px; border-radius:99px;
+  transition:all .15s;
+}
+.lis-link:hover{ color:var(--gold); background:var(--faint); }
+.lis-link.is-active{ color:var(--gold); background:var(--faint); }
+.lis-actions{ display:flex; align-items:center; gap:10px; }
+
+.lis-profile{
+  position:relative;
+  width:40px; height:40px; border-radius:50%;
+  background:var(--card); border:1px solid var(--border-strong);
+  display:inline-flex; align-items:center; justify-content:center;
+  cursor:pointer; text-decoration:none; transition:all .15s;
+  flex-shrink:0;
+}
+.lis-profile:hover{ border-color:var(--gold); background:var(--card-hover); }
+.lis-profile-icon{ width:18px; height:18px; stroke:var(--dim); stroke-width:1.8; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.lis-profile-initial{ display:none; font-family:'Cinzel',serif; font-size:14px; font-weight:700; color:var(--gold); letter-spacing:.02em; }
+.lis-profile-dot{
+  position:absolute; top:1px; right:1px;
+  width:10px; height:10px; border-radius:50%;
+  background:#e07070;
+  border:2px solid var(--bg);
+}
+.lis-profile.online .lis-profile-icon{ display:none; }
+.lis-profile.online .lis-profile-initial{ display:inline-flex; }
+.lis-profile.online .lis-profile-dot{ background:var(--green); animation:lis-pulse 2s infinite; }
+@keyframes lis-pulse{ 0%,100%{box-shadow:0 0 0 0 rgba(127,201,156,.55);} 50%{box-shadow:0 0 0 6px rgba(127,201,156,0);} }
+
+.lis-menu-btn{
+  display:none;
+  width:40px; height:40px; border-radius:10px;
+  background:transparent; border:1px solid var(--border-strong);
+  color:var(--gold); cursor:pointer;
+  align-items:center; justify-content:center;
+  transition:all .15s;
+}
+.lis-menu-btn:hover{ border-color:var(--gold); background:var(--faint); }
+.lis-menu-btn svg{ width:22px; height:22px; stroke:currentColor; stroke-width:1.8; fill:none; stroke-linecap:round; }
+
+.lis-mobile-menu{
+  display:none;
+  position:fixed; top:60px; left:0; right:0;
+  background:rgba(7,15,34,.98); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:12px 18px;
+  z-index:99;
+  flex-direction:column; gap:4px;
+}
+.lis-mobile-menu.is-open{ display:flex; }
+.lis-mobile-menu .lis-link{ padding:14px 16px; border-radius:10px; font-size:15px; text-align:left; }
+.lis-mobile-menu .lis-link:hover{ background:var(--faint); }
+
+/* ════════ HERO ════════ */
+.hero{
+  position:relative; z-index:1;
+  max-width:1100px; margin:0 auto;
+  padding:80px 36px 40px;
+  text-align:center;
+}
+.hero-eyebrow{
+  display:inline-flex; align-items:center; gap:10px;
+  font-family:'Cinzel',serif; font-size:11px; font-weight:600;
+  letter-spacing:.32em; text-transform:uppercase; color:var(--gold);
+  margin-bottom:24px;
+}
+.hero-eyebrow::before, .hero-eyebrow::after{ content:''; width:32px; height:1px; background:currentColor; opacity:.4; }
+.hero-title{
+  font-family:'Cinzel',serif; font-size:60px; font-weight:600;
+  line-height:1.05; letter-spacing:.005em;
+  background:linear-gradient(180deg, #f5e8c5 0%, #d4a34a 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  margin-bottom:6px;
+}
+.hero-title-line2{
+  font-family:'Cinzel',serif; font-size:44px; font-weight:400;
+  color:var(--text-strong); line-height:1.1; margin-bottom:10px;
+}
+.hero-arabic{
+  font-family:'Amiri',serif; font-size:26px; color:var(--gold);
+  margin:18px 0 6px; letter-spacing:.02em;
+}
+.hero-desc{
+  font:400 17px/1.6 'Inter',sans-serif; color:var(--dim);
+  max-width:560px; margin:24px auto 0;
+}
+.hero-actions{
+  display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+  margin-top:32px;
+}
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  font:600 14px/1 'Inter',sans-serif; letter-spacing:.04em;
+  border:none; border-radius:99px;
+  padding:16px 28px; cursor:pointer; transition:all .15s;
+  text-decoration:none;
+}
+.btn-primary{
+  background:linear-gradient(135deg, var(--gold), var(--gold-soft));
+  color:#3a2400;
+  box-shadow:0 4px 24px var(--gold-glow);
+}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 36px rgba(242,190,98,.35); }
+.btn-ghost{
+  background:transparent; color:var(--text);
+  border:1px solid var(--border-strong);
+}
+.btn-ghost:hover{ color:var(--gold); border-color:var(--gold); background:var(--faint); }
+.btn-lg{ padding:18px 34px; font-size:15px; }
+.btn svg, .btn .mi{ font-size:18px; }
+.btn svg{ width:16px; height:16px; }
+
+.trust-strip{
+  display:flex; align-items:center; justify-content:center; gap:36px;
+  margin-top:44px; padding:18px 28px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:99px;
+  max-width:680px; margin-left:auto; margin-right:auto;
+  flex-wrap:wrap;
+}
+.trust-item{ display:flex; align-items:center; gap:10px; color:var(--text); font:500 13px/1 'Inter',sans-serif; }
+.trust-item .mi{ color:var(--gold); font-size:18px; }
+.trust-item strong{ color:var(--gold); font-weight:600; font-family:'Cinzel',serif; font-size:15px; }
+.trust-divider{ width:1px; height:18px; background:var(--border-strong); }
+
+/* ════════ SECTIONS ════════ */
+.section{
+  position:relative; z-index:1;
+  max-width:1100px; margin:0 auto;
+  padding:72px 36px;
+}
+.section-eyebrow{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  font-family:'Cinzel',serif; font-size:11px; font-weight:600;
+  letter-spacing:.28em; text-transform:uppercase; color:var(--gold);
+  margin-bottom:14px;
+}
+.section-eyebrow::before, .section-eyebrow::after{ content:''; width:32px; height:1px; background:currentColor; opacity:.5; }
+.section-heading{
+  font-family:'Cinzel',serif; font-size:34px; font-weight:600;
+  text-align:center; color:var(--text-strong); margin-bottom:14px;
+}
+.section-sub{
+  font:400 16px/1.5 'Inter',sans-serif; color:var(--dim);
+  text-align:center; max-width:560px; margin:0 auto 48px;
+}
+
+/* ════════ PATH CARDS ════════ */
+.paths-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.path-card{
+  background:linear-gradient(180deg, var(--card-elev), var(--card));
+  border:1px solid var(--border-strong); border-radius:var(--r-xl);
+  padding:36px 32px;
+  cursor:pointer; transition:all .25s;
+  text-decoration:none; color:inherit;
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column;
+  min-height:380px;
+}
+.path-card::before{
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity:.5; transition:opacity .25s;
+}
+.path-card:hover{ border-color:var(--gold); transform:translateY(-4px); box-shadow:0 12px 48px rgba(242,190,98,.15); }
+.path-card:hover::before{ opacity:1; }
+.path-card.featured::before{ opacity:1; height:3px; }
+.path-icon{
+  width:64px; height:64px; border-radius:20px;
+  background:linear-gradient(135deg, rgba(242,190,98,.2), rgba(242,190,98,.05));
+  border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:32px;
+  margin-bottom:24px;
+}
+.path-icon.blue{
+  background:linear-gradient(135deg, rgba(122,163,217,.2), rgba(122,163,217,.05));
+  border-color:rgba(122,163,217,.3);
+  color:var(--blue);
+}
+.path-number-badge{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 16px 8px 8px;
+  background:linear-gradient(135deg, rgba(242,190,98,.15), rgba(242,190,98,.05));
+  border:1px solid var(--gold);
+  border-radius:99px;
+  margin-bottom:14px;
+  font:600 11px/1 'Inter',sans-serif;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--gold);
+  align-self:flex-start;
+}
+.path-number-badge .num-circle{
+  width:26px; height:26px; border-radius:50%;
+  background:var(--gold); color:var(--bg-deep);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cinzel',serif; font-size:14px; font-weight:700;
+  letter-spacing:0;
+}
+.path-number-badge.blue{
+  background:linear-gradient(135deg, rgba(122,163,217,.15), rgba(122,163,217,.05));
+  border-color:var(--blue);
+  color:var(--blue);
+}
+.path-number-badge.blue .num-circle{
+  background:var(--blue); color:var(--bg-deep);
+}
+.path-tag{ font:600 10px/1 'Inter',sans-serif; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+.path-tag.blue{ color:var(--blue); }
+.path-name{
+  font-family:'Cinzel',serif; font-size:26px; font-weight:600;
+  color:var(--text-strong); margin-bottom:6px; letter-spacing:.01em;
+}
+.path-name-ar{ font-family:'Amiri',serif; font-size:22px; color:var(--gold); margin-bottom:18px; }
+.path-desc{ font:400 15px/1.6 'Inter',sans-serif; color:var(--dim); margin-bottom:24px; flex:1; }
+.path-pills{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+.pill{
+  font:500 11px/1 'Inter',sans-serif; letter-spacing:.06em;
+  padding:6px 12px; border-radius:99px;
+  background:var(--faint); border:1px solid var(--border); color:var(--text);
+}
+.pill.blue{ background:var(--blue-soft); border-color:rgba(122,163,217,.25); color:var(--blue); }
+.path-cta{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-top:20px; border-top:1px dashed var(--border);
+}
+.path-cta-label{ font-family:'Cinzel',serif; font-size:13px; font-weight:600; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); }
+.path-cta-label.blue{ color:var(--blue); }
+.arrow-circle{
+  width:42px; height:42px; border-radius:50%;
+  background:var(--gold-glow); border:1px solid var(--gold-glow);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:20px;
+  transition:all .2s;
+}
+.arrow-circle.blue{ background:var(--blue-soft); border-color:rgba(122,163,217,.3); color:var(--blue); }
+.path-card:hover .arrow-circle{ background:var(--gold); color:var(--bg-deep); transform:translateX(4px); }
+.path-card:hover .arrow-circle.blue{ background:var(--blue); color:var(--bg-deep); }
+
+/* ════════ ROADMAP ════════ */
+.roadmap-card{
+  background:linear-gradient(180deg, var(--card-elev), var(--card));
+  border:1px solid var(--border); border-radius:var(--r-xl);
+  padding:48px 32px;
+  position:relative; overflow:hidden;
+}
+.roadmap-card::before{
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:140px; height:2px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.roadmap-nodes{
+  display:flex; align-items:center; justify-content:center; flex-wrap:wrap;
+  max-width:900px; margin:0 auto;
+}
+.rs-node{ display:flex; flex-direction:column; align-items:center; gap:10px; min-width:64px; }
+.rs-circle{
+  width:48px; height:48px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cinzel',serif; font-size:16px; font-weight:600;
+  background:var(--surface); border:1.5px solid var(--border-strong);
+  color:var(--dim); font-variant-numeric:tabular-nums;
+}
+.rs-circle.done{ background:var(--green-soft); border-color:var(--green); color:var(--green); }
+.rs-circle.now{ background:var(--gold-glow); border-color:var(--gold); color:var(--gold); box-shadow:0 0 24px var(--gold-glow); animation:pulseNow 2s ease-in-out infinite; }
+@keyframes pulseNow{ 0%,100%{box-shadow:0 0 24px var(--gold-glow);} 50%{box-shadow:0 0 36px rgba(242,190,98,.35);} }
+.rs-lbl{ font:500 10px/1.2 'Inter',sans-serif; letter-spacing:.06em; color:var(--dim); text-align:center; white-space:nowrap; }
+.rs-lbl.done{ color:var(--green); }
+.rs-lbl.now{ color:var(--gold); font-weight:600; }
+.rs-line{ flex:1; max-width:36px; min-width:14px; height:1.5px; background:var(--border-strong); margin:0 4px; align-self:flex-start; margin-top:23px; }
+.rs-line.done{ background:linear-gradient(90deg, var(--green), var(--gold)); }
+
+/* ════════ FEATURES ════════ */
+.features-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; }
+.feature-card{
+  display:flex; gap:18px;
+  background:var(--card);
+  border:1px solid var(--border); border-radius:var(--r-lg);
+  padding:24px; transition:all .2s;
+}
+.feature-card:hover{ border-color:var(--border-strong); background:var(--card-hover); transform:translateY(-2px); }
+.feature-icon{
+  width:48px; height:48px; border-radius:14px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:24px; flex-shrink:0;
+  background:var(--gold-glow); color:var(--gold);
+  border:1px solid var(--gold-glow);
+}
+.feature-icon.blue{ background:var(--blue-soft); color:var(--blue); border-color:rgba(122,163,217,.2); }
+.feature-icon.green{ background:var(--green-soft); color:var(--green); border-color:rgba(127,201,156,.2); }
+.feature-icon.purple{ background:var(--purple-soft); color:#c8a8e0; border-color:rgba(184,160,204,.2); }
+.feature-title{ font-family:'Cinzel',serif; font-size:16px; font-weight:600; color:var(--text-strong); margin-bottom:4px; letter-spacing:.01em; }
+.feature-desc{ font:400 14px/1.5 'Inter',sans-serif; color:var(--dim); }
+
+/* ════════ QUOTE ════════ */
+.quote-card{
+  background:linear-gradient(180deg, var(--card-elev), var(--card));
+  border:1px solid var(--gold-glow); border-radius:var(--r-xl);
+  padding:56px 48px; text-align:center;
+  position:relative; overflow:hidden; margin-top:48px;
+}
+.quote-card::before{
+  content:'﴾'; position:absolute; top:24px; left:32px;
+  font-family:'Amiri',serif; font-size:140px; line-height:1;
+  color:var(--gold); opacity:.18;
+}
+.quote-card::after{
+  content:'﴿'; position:absolute; bottom:-30px; right:32px;
+  font-family:'Amiri',serif; font-size:140px; line-height:1;
+  color:var(--gold); opacity:.18;
+}
+.quote-ar{
+  font-family:'Amiri',serif; font-size:32px; line-height:1.6;
+  color:var(--gold); direction:rtl; margin-bottom:24px;
+  text-shadow:0 0 30px rgba(242,190,98,.2);
+}
+.quote-en{ font:400 18px/1.6 'Inter',sans-serif; font-style:italic; color:var(--text); max-width:560px; margin:0 auto 16px; }
+.quote-src{ font:500 12px/1 'Inter',sans-serif; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); }
+
+/* ════════ FINAL CTA ════════ */
+.final-cta{ text-align:center; padding:80px 36px; position:relative; z-index:1; }
+.final-cta-title{
+  font-family:'Cinzel',serif; font-size:36px; font-weight:600;
+  background:linear-gradient(180deg, #f5e8c5, #d4a34a);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+  margin-bottom:14px;
+}
+.final-cta-sub{ font:400 16px/1.5 'Inter',sans-serif; color:var(--dim); max-width:480px; margin:0 auto 32px; }
+
+/* ════════ FOOTER ════════ */
+.footer{
+  background:var(--bg-deep);
+  border-top:1px solid var(--border);
+  padding:48px 36px 32px;
+  margin-top:48px;
+}
+.footer-inner{
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:auto 1fr auto; gap:36px; align-items:center;
+}
+.footer-brand{ display:flex; align-items:center; gap:12px; font-family:'Cinzel',serif; font-size:15px; color:var(--text); }
+.footer-links{ display:flex; gap:24px; justify-content:center; flex-wrap:wrap; }
+.footer-links a{ font:500 12px/1 'Inter',sans-serif; letter-spacing:.06em; color:var(--dim); text-decoration:none; transition:color .15s; }
+.footer-links a:hover{ color:var(--gold); }
+.footer-meta{ font:400 11px/1 'Inter',sans-serif; color:var(--dim); letter-spacing:.04em; }
+
+/* ════════ BOTTOM NAV (mobile only) ════════ */
+.bottom-nav{
+  display:none;
+  position:fixed; bottom:0; left:0; right:0; z-index:90;
+  background:rgba(7,15,34,.92); backdrop-filter:blur(20px) saturate(140%);
+  border-top:1px solid var(--border);
+  padding:8px 12px calc(8px + env(safe-area-inset-bottom, 0));
+  justify-content:space-around; gap:4px;
+}
+.bn-tab{
+  flex:1; max-width:88px;
+  display:flex; flex-direction:column; align-items:center; gap:4px;
+  padding:8px 6px; border-radius:var(--r-sm);
+  font:600 10px/1 'Inter',sans-serif; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--dim); text-decoration:none; transition:all .15s;
+}
+.bn-tab .mi{ font-size:22px; }
+.bn-tab.active{ color:var(--gold); }
+.bn-tab.active .mi{ color:var(--gold); font-variation-settings:'FILL' 1; }
+.bn-tab:hover{ background:var(--faint); color:var(--gold); }
+
+/* ════════ ONBOARDING MODAL ════════ */
+.modal-overlay{
+  display:none;
+  position:fixed; inset:0; z-index:1000;
+  background:rgba(7,15,34,.85); backdrop-filter:blur(8px);
+  align-items:center; justify-content:center;
+  padding:24px;
+}
+.modal-overlay.is-open{ display:flex; }
+.modal{
+  background:linear-gradient(180deg, var(--card-elev), var(--card));
+  border:1px solid var(--gold-glow); border-radius:var(--r-xl);
+  padding:40px 36px;
+  max-width:520px; width:100%;
+  box-shadow:0 24px 60px rgba(0,0,0,.5);
+  position:relative; max-height:90vh; overflow-y:auto;
+}
+.modal::before{ content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:80px; height:2px; background:linear-gradient(90deg, transparent, var(--gold), transparent); }
+.modal-dots{ display:flex; justify-content:center; gap:8px; margin-bottom:28px; }
+.modal-dot{ width:8px; height:8px; border-radius:50%; background:var(--border-strong); transition:all .25s; }
+.modal-dot.active{ width:24px; border-radius:4px; background:var(--gold); }
+.modal-eyebrow{ font:600 10px/1 'Inter',sans-serif; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); text-align:center; margin-bottom:14px; }
+.modal-q{ font-family:'Cinzel',serif; font-size:24px; font-weight:600; color:var(--text-strong); text-align:center; margin-bottom:8px; }
+.modal-sub{ font:400 14px/1.5 'Inter',sans-serif; color:var(--dim); text-align:center; margin-bottom:28px; }
+.modal-opts{ display:flex; flex-direction:column; gap:10px; }
+.ob-opt{
+  display:flex; align-items:center; gap:14px;
+  background:var(--card); border:1.5px solid var(--border-strong); border-radius:var(--r-md);
+  padding:16px 20px;
+  font:500 15px/1.3 'Inter',sans-serif; color:var(--text);
+  cursor:pointer; transition:all .15s;
+  text-align:left; width:100%;
+  font-family:inherit;
+}
+.ob-opt:hover{ background:var(--card-hover); border-color:var(--gold); transform:translateX(4px); }
+.ob-step{ display:none; }
+
+/* ════════ RESPONSIVE ════════ */
+@media (max-width:980px){
+  .lis-links{ display:none; }
+  .lis-menu-btn{ display:flex; }
+}
+@media (max-width:840px){
+  .lis-nav{ padding:0 18px; height:60px; }
+  .bottom-nav{ display:flex; }
+  body{ padding-bottom:72px; }
+  .hero{ padding:48px 20px 24px; }
+  .hero-title{ font-size:38px; }
+  .hero-title-line2{ font-size:30px; }
+  .hero-arabic{ font-size:22px; }
+  .hero-desc{ font-size:15px; }
+  .trust-strip{ gap:16px; padding:14px 18px; }
+  .trust-divider{ display:none; }
+  .section{ padding:48px 20px; }
+  .section-heading{ font-size:26px; }
+  .paths-grid, .features-grid{ grid-template-columns:1fr; }
+  .path-card{ min-height:auto; padding:28px 24px; }
+  .path-name{ font-size:22px; }
+  .quote-card{ padding:36px 24px; }
+  .quote-ar{ font-size:24px; }
+  .quote-en{ font-size:16px; }
+  .roadmap-card{ padding:32px 16px; }
+  .rs-node{ min-width:48px; }
+  .rs-circle{ width:38px; height:38px; font-size:14px; }
+  .rs-line{ max-width:18px; min-width:8px; }
+  .final-cta-title{ font-size:26px; }
+  .footer-inner{ grid-template-columns:1fr; text-align:center; gap:20px; }
+  .modal{ padding:32px 24px; }
+  .modal-q{ font-size:20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+
+<!-- ════════ LISAANY TOP NAV ════════ -->
+<nav class="lis-nav">
+  <a href="index.html" class="lis-brand" title="Lisaany Home">
+    <div class="brand-mark">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <polygon points="50,15 85,50 50,85 15,50" fill="#3a2400"/>
+        <polygon points="50,5 73,28 73,72 50,95 27,72 27,28" fill="none" stroke="#3a2400" stroke-width="3"/>
+        <circle cx="50" cy="50" r="5" fill="#f5d488"/>
+      </svg>
+    </div>
+    <span class="brand-name">Lisaany</span>
+  </a>
+  <div class="lis-links">
+    <a href="index.html" class="lis-link is-active">Home</a>
+    <a href="arabic_platform.html" class="lis-link">Learn</a>
+    <a href="pricing.html" class="lis-link">Pricing</a>
+    <a href="tutors.html" class="lis-link">Live Tutor</a>
+  </div>
+  <div class="lis-actions">
+    <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
+      <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span class="lis-profile-initial"></span>
+      <span class="lis-profile-dot"></span>
+    </a>
+    <button class="lis-menu-btn" aria-label="Menu" onclick="document.getElementById('lisMobileMenu').classList.toggle('is-open')">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 6h18"/>
+        <path d="M3 12h18"/>
+        <path d="M3 18h18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<div class="lis-mobile-menu" id="lisMobileMenu">
+  <a href="index.html" class="lis-link is-active">Home</a>
+  <a href="arabic_platform.html" class="lis-link">Learn</a>
+  <a href="pricing.html" class="lis-link">Pricing</a>
+  <a href="tutors.html" class="lis-link">Live Tutor</a>
+</div>
+
+<!-- Decorative geometric background -->
+<svg class="bg-geo" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#f2be62" stroke-width="0.6">
+    <polygon points="400,80 480,160 560,120 560,240 640,280 560,340 640,420 560,480 560,600 480,560 400,640 320,560 240,600 240,480 160,420 240,340 160,280 240,240 240,120 320,160"/>
+    <polygon points="400,160 460,220 520,190 520,280 580,310 520,350 580,400 520,440 520,530 460,500 400,560 340,500 280,530 280,440 220,400 280,350 220,310 280,280 280,190 340,220"/>
+    <circle cx="400" cy="370" r="70"/>
+    <polygon points="400,290 440,330 400,370 360,330"/>
+    <polygon points="400,370 440,410 400,450 360,410"/>
+  </g>
+</svg>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+  <div class="hero-eyebrow">Read · Speak · Master</div>
+  <h1 class="hero-title">Read the Quran.</h1>
+  <h2 class="hero-title-line2">Speak Arabic.</h2>
+  <div class="hero-arabic">اقْرَأ • تَكَلَّم • أَتْقِن</div>
+  <p class="hero-desc">From the alphabet to full conversation. Two structured paths, a real curriculum, and live tutors when you need them.</p>
+  <div class="hero-actions">
+    <a href="lisaany_new.html" class="btn btn-primary btn-lg">
+      <span class="mi">play_circle</span>
+      <span>Try a free lesson</span>
+    </a>
+  </div>
+  <div class="trust-strip">
+    <div class="trust-item"><span class="mi">menu_book</span><span><strong>170+</strong> lessons</span></div>
+    <div class="trust-divider"></div>
+    <div class="trust-item"><span class="mi">live_tv</span><span><strong>Live tutors</strong> 1-on-1</span></div>
+  </div>
+</section>
+
+<!-- ════════ TWO PATHS ════════ -->
+<section class="section">
+  <div class="section-eyebrow">Two Paths · One Journey</div>
+  <h2 class="section-heading">Pick where you want to start</h2>
+  <p class="section-sub">You can do both — but most people start with one. The other unlocks beautifully alongside.</p>
+  <div class="paths-grid">
+
+    <a href="lisaany_new.html" class="path-card featured">
+      <div class="path-icon"><span class="mi">menu_book</span></div>
+      <div class="path-number-badge"><span class="num-circle">1</span><span>Course 1 of 2</span></div>
+      <div class="path-tag">Begin here for Quran</div>
+      <h3 class="path-name">Quran Norania</h3>
+      <div class="path-name-ar">القاعدة النورانية</div>
+      <p class="path-desc">Master the Arabic alphabet, the harakat, and the rules of recitation. Eight classical lessons that take you from your first letter to reading the Quran with confidence.</p>
+      <div class="path-pills">
+        <span class="pill">8 Lessons</span>
+        <span class="pill">28 Letters</span>
+        <span class="pill">Tajweed Rules</span>
+        <span class="pill">Full Audio</span>
+      </div>
+      <div class="path-cta">
+        <div class="path-cta-label">Begin Reading</div>
+        <div class="arrow-circle"><span class="mi">arrow_forward</span></div>
+      </div>
+    </a>
+
+    <a href="arabic_platform.html" class="path-card">
+      <div class="path-icon blue"><span class="mi">mic</span></div>
+      <div class="path-number-badge"><span class="num-circle">2</span><span>Course 2 of 2</span></div>
+      <div class="path-tag blue">Begin here to converse</div>
+      <h3 class="path-name">Learn Arabic</h3>
+      <div class="path-name-ar">تَعَلَّم العَرَبِيَّة</div>
+      <p class="path-desc">A structured 12-module course following Al-Arabiyyah Bayna Yadayk and Madina Arabic. Real dialogues, real vocabulary, real grammar — from your first hello to full conversation.</p>
+      <div class="path-pills">
+        <span class="pill blue">12 Modules</span>
+        <span class="pill blue">170+ Blocks</span>
+        <span class="pill blue">Live Dialogues</span>
+        <span class="pill blue">Sentence Builder</span>
+      </div>
+      <div class="path-cta">
+        <div class="path-cta-label blue">Start Speaking</div>
+        <div class="arrow-circle blue"><span class="mi">arrow_forward</span></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ════════ ROADMAP ════════ -->
+<section class="section">
+  <div class="section-eyebrow">Your Quran Roadmap</div>
+  <h2 class="section-heading">From your first letter to the Quran</h2>
+  <p class="section-sub">Each lesson builds on the last. The classical Noorani sequence, refined for today.</p>
+  <div class="roadmap-card">
+    <div class="roadmap-nodes">
+      <div class="rs-node"><div class="rs-circle done">1</div><div class="rs-lbl done">Alphabet</div></div>
+      <div class="rs-line done"></div>
+      <div class="rs-node"><div class="rs-circle done">2</div><div class="rs-lbl done">Harakat</div></div>
+      <div class="rs-line done"></div>
+      <div class="rs-node"><div class="rs-circle now">3</div><div class="rs-lbl now">Maada</div></div>
+      <div class="rs-line"></div>
+      <div class="rs-node"><div class="rs-circle">4</div><div class="rs-lbl">Sukun</div></div>
+      <div class="rs-line"></div>
+      <div class="rs-node"><div class="rs-circle">5</div><div class="rs-lbl">Tanween</div></div>
+      <div class="rs-line"></div>
+      <div class="rs-node"><div class="rs-circle">6</div><div class="rs-lbl">Shaddah</div></div>
+      <div class="rs-line"></div>
+      <div class="rs-node"><div class="rs-circle">7</div><div class="rs-lbl">Hamzah</div></div>
+      <div class="rs-line"></div>
+      <div class="rs-node"><div class="rs-circle">8</div><div class="rs-lbl">Laam</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FEATURES ════════ -->
+<section class="section">
+  <div class="section-eyebrow">Why Lisaany</div>
+  <h2 class="section-heading">Built for serious learners</h2>
+  <p class="section-sub">No noise, no fluff. Just the right tools to actually learn — by people who teach this for a living.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon"><span class="mi">volume_up</span></div>
+      <div>
+        <div class="feature-title">Crystal Clear Audio</div>
+        <div class="feature-desc">Native pronunciation for every letter, word, dialogue and rule.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon blue"><span class="mi">extension</span></div>
+      <div>
+        <div class="feature-title">Interactive Practice</div>
+        <div class="feature-desc">Build sentences, tap the right suffix, listen-and-identify.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon green"><span class="mi">school</span></div>
+      <div>
+        <div class="feature-title">Proven Curriculum</div>
+        <div class="feature-desc">Following Al-Arabiyyah Bayna Yadayk and the classical Noorani Qaida.</div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon purple"><span class="mi">group</span></div>
+      <div>
+        <div class="feature-title">Live Tutors</div>
+        <div class="feature-desc">Stuck? Book a 1-on-1 with a qualified tutor — right inside the app.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ QUOTE ════════ -->
+<section class="section" style="padding-top:0;">
+  <div class="quote-card">
+    <div class="quote-ar">وَهَٰذَا لِسَانٌ عَرَبِيٌّ مُّبِينٌ</div>
+    <div class="quote-en">And this is a clear Arabic tongue.</div>
+    <div class="quote-src">Quran · Surah An-Nahl · 16:103</div>
+  </div>
+</section>
+
+<!-- ════════ FINAL CTA ════════ -->
+<section class="final-cta">
+  <h2 class="final-cta-title">Begin your Arabic journey</h2>
+  <p class="final-cta-sub">Free to start. Premium when you're ready. Cancel anytime.</p>
+  <div class="hero-actions">
+    <a href="lisaany_new.html" class="btn btn-primary btn-lg">
+      <span class="mi">play_circle</span>
+      <span>Try a free lesson</span>
+    </a>
+  </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="brand-mark sm">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <polygon points="50,15 85,50 50,85 15,50" fill="#3a2400"/>
+          <polygon points="50,5 73,28 73,72 50,95 27,72 27,28" fill="none" stroke="#3a2400" stroke-width="3"/>
+          <circle cx="50" cy="50" r="5" fill="#f5d488"/>
+        </svg>
+      </div>
+      <span>Lisaany</span>
+    </div>
+    <div class="footer-links">
+      <a href="lisaany_new.html">Quran Norania</a>
+      <a href="arabic_platform.html">Learn Arabic</a>
+      <a href="tutors.html">Live Tutor</a>
+      <a href="pricing.html">Pricing</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="mailto:admin@lisaany.com">Contact</a>
+    </div>
+    <div class="footer-meta">© 2026 Lisaany</div>
+  </div>
+</footer>
+
+<!-- ════════ BOTTOM NAV (mobile only) ════════ -->
+<nav class="bottom-nav">
+  <a href="index.html" class="bn-tab active"><span class="mi">home</span>Home</a>
+  <a href="lisaany_new.html" class="bn-tab"><span class="mi">menu_book</span>Read</a>
+  <a href="arabic_platform.html" class="bn-tab"><span class="mi">mic</span>Speak</a>
+  <a href="tutors.html" class="bn-tab"><span class="mi">groups</span>Live</a>
+  <a href="profile.html" class="bn-tab"><span class="mi">person</span>Profile</a>
+</nav>
+
+<script src="plan.js" defer></script>
+<script src="paywall.js" defer></script>
+<script src="nav-role.js" defer></script>
+
+<script>
+// ── Profile indicator (red dot = logged out, green pulsing + initial = logged in) ──
+const HOME_SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
+const HOME_SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
+
+(async()=>{
+  try{
+    const btn = document.getElementById('lis-profile-btn');
+    if(!btn) return;
+    if(typeof supabase === 'undefined') return;
+    const sbApp = supabase.createClient(HOME_SUPABASE_URL, HOME_SUPABASE_KEY);
+    const {data:{session}} = await sbApp.auth.getSession();
+    const initialSpan = btn.querySelector('.lis-profile-initial');
+    if(session){
+      const meta = session.user.user_metadata || {};
+      const name = meta.name || meta.full_name || session.user.email || 'U';
+      const initial = name.trim().charAt(0).toUpperCase() || 'U';
+      if(initialSpan) initialSpan.textContent = initial;
+      btn.classList.add('online');
     }
-    if (url.pathname === '/api/billing-portal') {
-      return handleBillingPortal(request, env);
-    }
-    if (url.pathname === '/api/webhook') {
-      return handleWebhook(request, env);
-    }
-
-    // Everything else: serve the static HTML files
-    return env.ASSETS.fetch(request);
-  },
-};
+    sbApp.auth.onAuthStateChange((_event, newSession) => {
+      if(newSession){
+        const meta = newSession.user.user_metadata || {};
+        const name = meta.name || meta.full_name || newSession.user.email || 'U';
+        const initial = name.trim().charAt(0).toUpperCase() || 'U';
+        if(initialSpan) initialSpan.textContent = initial;
+        btn.classList.add('online');
+      } else {
+        if(initialSpan) initialSpan.textContent = '';
+        btn.classList.remove('online');
+      }
+    });
+  }catch(e){
+    console.warn('Profile indicator init failed:', e);
+  }
+})();
+</script>
+</body>
+</html>
