@@ -680,9 +680,9 @@ body{
 .letter-focus-ar-wrap{
   display:flex;align-items:center;justify-content:center;
   width:140px;height:140px;border-radius:50%;
-  background:radial-gradient(circle at center, #0a1421 0%, #050a14 100%);
+  background:radial-gradient(circle at center, #1a2c52 0%, #0e1d38 100%);
   border:2px solid var(--gold);
-  box-shadow:0 0 40px var(--gold-glow), inset 0 0 30px rgba(0,0,0,.6);
+  box-shadow:0 0 40px var(--gold-glow), inset 0 0 24px rgba(0,0,0,.32);
 }
 .letter-focus-ar{
   font-family:'Scheherazade New','Amiri',serif;
@@ -2140,12 +2140,35 @@ body { padding-bottom: 90px !important; }
 }
 html,body{ background:#0a1730 !important; }
 
-/* Listen button — restore the gold fill so its label is legible (was forced near-black) */
+/* Listen button — restyled to match the quiz screen: dark card, gold circular icon, caption below */
 .letter-focus-play{
-  background:linear-gradient(135deg,#ffe199,#f2be62) !important;
-  border:1px solid #ffe199 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  gap:10px !important;
+  width:auto !important;
+  min-width:170px;
+  padding:20px 28px 16px !important;
+  border-radius:18px !important;
+  background:rgba(6,14,27,.7) !important;
+  border:1px solid rgba(255,255,255,.10) !important;
+  box-shadow:none !important;
 }
-.letter-focus-play-label, .letter-focus-play .ms{ color:#0a1730 !important; }
+.letter-focus-play:hover{ transform:translateY(-1px); border-color:rgba(242,190,98,.35) !important; }
+.letter-focus-play .ms{
+  width:60px !important; height:60px !important;
+  border-radius:50% !important;
+  background:var(--gold) !important;
+  color:#0a1730 !important;
+  display:flex !important; align-items:center !important; justify-content:center !important;
+  font-size:32px !important;
+  box-shadow:0 0 20px rgba(242,190,98,.30) !important;
+}
+.letter-focus-play-label{
+  color:var(--gold) !important;
+  font-size:11px !important; font-weight:700 !important;
+  letter-spacing:.14em !important; text-transform:uppercase !important;
+}
 
 /* Letter cards / tiles — lift off near-black to navy */
 .letter-focus-card{ background:linear-gradient(180deg, rgba(23,39,73,.7), rgba(19,32,64,.5)) !important; border-color:rgba(242,190,98,.20) !important; }
@@ -2155,6 +2178,18 @@ html,body{ background:#0a1730 !important; }
 
 /* Generic letter elements: undo the over-broad [class*="letter"] near-black darkener */
 .letter-btn{ background:#172749 !important; }
+
+/* Borrowed-good: warmer manuscript glow on the focus letter */
+.letter-focus-ar{ text-shadow:0 0 34px rgba(242,190,98,.5), 0 0 8px rgba(242,190,98,.3) !important; }
+
+/* Borrowed-good: subtle girih ornament in the hero card corners */
+.letter-focus-card{ position:relative !important; overflow:hidden !important; }
+.letter-focus-card::before, .letter-focus-card::after{
+  content:''; position:absolute; width:46px; height:46px; opacity:.13; pointer-events:none; z-index:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Cpolygon points='30,3 38,16 53,12 49,27 60,38 45,42 42,57 30,48 18,57 15,42 0,38 11,27 7,12 22,16' fill='none' stroke='%23f2be62' stroke-width='2'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.letter-focus-card::before{ top:12px; left:12px; }
+.letter-focus-card::after{ bottom:12px; right:12px; }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -3046,7 +3081,7 @@ function buildSlide(slide,el_){
   glow.style.cssText = 'position:absolute;width:160px;height:160px;border-radius:50%;filter:blur(40px);background:rgba(242,190,98,.18);pointer-events:none;';
 
   const circle = div('');
-  circle.style.cssText = `width:104px;height:104px;border-radius:50%;background:radial-gradient(circle at center, #0a1421 0%, #050a14 100%);border:2px solid ${GOLD};display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 40px rgba(242,190,98,.2), inset 0 0 24px rgba(0,0,0,.6);`;
+  circle.style.cssText = `width:104px;height:104px;border-radius:50%;background:radial-gradient(circle at center, #1a2c52 0%, #0e1d38 100%);border:2px solid ${GOLD};display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 0 40px rgba(242,190,98,.2), inset 0 0 20px rgba(0,0,0,.3);`;
 
   const circlePos = div(''); circlePos.style.cssText='position:relative;display:flex;align-items:center;justify-content:center;';
   circlePos.appendChild(glow);
@@ -3348,7 +3383,7 @@ function mkLetterGrid(){
 
   // Audio play button
   const playBtn = el('button', {className:'letter-focus-play' + (isPlayingSel ? ' playing' : '')});
-  playBtn.appendChild(ms(isPlayingSel ? 'pause_circle' : 'play_circle', 1));
+  playBtn.appendChild(ms(isPlayingSel ? 'pause' : 'play_arrow', 1));
   playBtn.appendChild(el('span', {className:'letter-focus-play-label'}, isPlayingSel ? 'Playing…' : 'Listen'));
   playBtn.addEventListener('click', () => {
     if (S.playingIdx === selIdx) { stopAudio(); S.playingIdx = -1; render(); return; }
