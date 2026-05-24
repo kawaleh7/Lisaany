@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!--
+  Lisaany — Learn Arabic the Beautiful Way
+  Copyright (c) 2026 Lisaany. All Rights Reserved.
+  This source code and its content (text, design, audio, and curriculum)
+  are the exclusive property of Lisaany and are protected by copyright law.
+  Unauthorized copying, reproduction, or distribution is prohibited.
+  Contact: admin@lisaany.com
+-->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -1832,6 +1840,24 @@ body::after {
 @keyframes pwTwk{0%,100%{opacity:.2;transform:scale(.7);}50%{opacity:.9;transform:scale(1);}}
 @media (prefers-reduced-motion:reduce){.pw-stars-far,.pw-stars-mid,.pw-spark{animation:none;}}
 .pwprice{position:relative;z-index:1;}
+
+/* ── Contact modal ── */
+.lis-contact-modal{position:fixed;inset:0;z-index:1000;background:rgba(5,10,24,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px;}
+.lis-contact-modal.open{display:flex;}
+.lis-contact-card{position:relative;width:100%;max-width:400px;background:linear-gradient(180deg,rgba(22,37,64,.95),rgba(13,24,46,.95));border:1.5px solid rgba(242,190,98,.4);border-radius:22px;padding:32px 26px 24px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.5);animation:lisContactIn .3s cubic-bezier(.22,1,.36,1) both;}
+@keyframes lisContactIn{from{opacity:0;transform:translateY(14px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.lis-contact-close{position:absolute;top:14px;right:16px;background:none;border:none;color:#9ba8be;font-size:26px;cursor:pointer;line-height:1;transition:color .2s;}
+.lis-contact-close:hover{color:#f2be62;}
+.lis-contact-eyebrow{font-family:'Cinzel',serif;font-size:11px;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:#f2be62;margin-bottom:8px;}
+.lis-contact-title{font-family:'Cinzel',serif;font-size:24px;font-weight:600;color:#f5e8c5;margin-bottom:22px;}
+.lis-contact-rows{display:flex;flex-direction:column;gap:10px;text-align:left;}
+.lis-contact-row{display:flex;align-items:center;gap:13px;padding:13px 15px;border-radius:13px;background:rgba(13,27,50,.6);border:1px solid rgba(242,190,98,.16);color:#e8eef9;text-decoration:none;font-size:14px;line-height:1.4;transition:all .2s;}
+a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190,98,.07);}
+.lis-contact-row b{color:#f2d080;font-weight:600;font-size:12px;letter-spacing:.04em;}
+.lis-contact-ic{font-size:20px;flex-shrink:0;}
+.lis-contact-foot{margin-top:20px;padding-top:16px;border-top:1px solid rgba(242,190,98,.14);font-size:12px;color:#9ba8be;line-height:1.8;}
+.lis-contact-foot a{color:#f2be62;text-decoration:none;}
+.lis-contact-foot a:hover{text-decoration:underline;}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1853,9 +1879,11 @@ body::after {
   </a>
   <div class="lis-links">
     <a href="index.html" class="lis-link">Home</a>
-    <a href="arabic_platform.html" class="lis-link is-active">Learn</a>
+    <a href="arabic_platform.html" class="lis-link is-active">Arabic Lesson</a>
+    <a href="lisaany_new.html" class="lis-link">Norania · Alif Ba Ta</a>
     <a href="pricing.html" class="lis-link">Pricing</a>
     <a href="tutors.html" class="lis-link">Live Tutor</a>
+    <a href="#" class="lis-link" onclick="document.getElementById('lisContactModal').classList.add('open');return false;">Contact</a>
   </div>
   <div class="lis-actions">
     <button class="lis-streak" id="lis-streak-btn" title="Daily streak" aria-label="Daily streak">
@@ -1881,9 +1909,27 @@ body::after {
 </nav>
 <div class="lis-mobile-menu" id="lisMobileMenu">
   <a href="index.html" class="lis-link">Home</a>
-  <a href="arabic_platform.html" class="lis-link is-active">Learn</a>
+  <a href="arabic_platform.html" class="lis-link is-active">Arabic Lesson</a>
+  <a href="lisaany_new.html" class="lis-link">Norania · Alif Ba Ta</a>
   <a href="pricing.html" class="lis-link">Pricing</a>
   <a href="tutors.html" class="lis-link">Live Tutor</a>
+  <a href="#" class="lis-link" onclick="document.getElementById('lisMobileMenu').classList.remove('is-open');document.getElementById('lisContactModal').classList.add('open');return false;">Contact</a>
+</div>
+
+<!-- Contact modal -->
+<div class="lis-contact-modal" id="lisContactModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="lis-contact-card">
+    <button class="lis-contact-close" aria-label="Close" onclick="document.getElementById('lisContactModal').classList.remove('open')">&times;</button>
+    <div class="lis-contact-eyebrow">Get in touch</div>
+    <h2 class="lis-contact-title">Contact Lisaany</h2>
+    <div class="lis-contact-rows">
+      <a class="lis-contact-row" href="mailto:admin@lisaany.com"><span class="lis-contact-ic">✉️</span><span><b>Email</b><br>admin@lisaany.com</span></a>
+      <a class="lis-contact-row" href="https://wa.me/18009292400" target="_blank" rel="noopener"><span class="lis-contact-ic">💬</span><span><b>WhatsApp</b><br>+1 800 929 2400</span></a>
+      <a class="lis-contact-row" href="tel:+18009292400"><span class="lis-contact-ic">📞</span><span><b>Phone</b><br>1-800-929-2400</span></a>
+      <div class="lis-contact-row"><span class="lis-contact-ic">📍</span><span><b>Address</b><br>Madina Munawwarah, Saudi Arabia</span></div>
+    </div>
+    <div class="lis-contact-foot"><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a><br>© 2026 Lisaany. All Rights Reserved.</div>
+  </div>
 </div>
 <!-- /LISAANY BANNER -->
 
@@ -5713,22 +5759,23 @@ async function _speakCore(t){
         const audio = new Audio(URL.createObjectURL(blob));
         return new Promise((resolve)=>{
           audio.onended = ()=>resolve();
-          audio.onerror = ()=>resolve();
+          audio.onerror = ()=>{ if(window.Lisaany&&Lisaany.audioToast) Lisaany.audioToast(); resolve(); };
           audio.play().catch(()=>resolve());
         });
       }
     }catch(e){}
   }
-  // Fallback
+  // Fallback to browser speech; if even that fails, tell the user gently
   return new Promise((resolve)=>{
     try{
+      if(!('speechSynthesis' in window)) { if(window.Lisaany&&Lisaany.audioToast) Lisaany.audioToast(); return resolve(); }
       const u = new SpeechSynthesisUtterance(t);
       u.lang='ar-SA'; u.rate=0.85;
       u.onend = ()=>resolve();
-      u.onerror = ()=>resolve();
+      u.onerror = ()=>{ if(window.Lisaany&&Lisaany.audioToast) Lisaany.audioToast(); resolve(); };
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(u);
-    }catch(e){ resolve(); }
+    }catch(e){ if(window.Lisaany&&Lisaany.audioToast) Lisaany.audioToast(); resolve(); }
   });
 }
 try { window.speak = speak; } catch(e) {}
@@ -6813,7 +6860,7 @@ function advPos(d){
   }
 }
 
-function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return div('','Block not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); return div('','?'); }
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
 
 // ══════════════════════════════════════════════════════
 // BLOCK 1: DIALOGUE
@@ -7718,7 +7765,7 @@ function mkCloze(blk){
   }
 
   // ── Sentence box: blank slots show chosen word (or "___" placeholder) ──
-  const sentenceBox = div('');
+  const sentenceBox = div(S.clzFb==='correct'?'fb-correct':S.clzFb==='wrong'?'fb-wrong':'');
   sentenceBox.style.cssText = `
     background:#0a1024;
     border:1.5px solid ${S.clzFb==='correct'?'var(--green)':S.clzFb==='wrong'?'var(--red)':'rgba(212,163,74,.3)'};
@@ -8212,10 +8259,17 @@ function mkComplete(){
   const stage = div('stage');
   const wrap = div('complete-wrap');
 
-  // Medal
+  // Medal with celebration sparkle burst
+  const medalZone = div('complete-medal-zone');
+  for (let i = 0; i < 8; i++) {
+    const s = div('complete-sparkle');
+    s.style.cssText = '--a:' + (i * 45) + 'deg; --d:' + (0.05 * i) + 's;';
+    medalZone.appendChild(s);
+  }
   const medal = div('complete-medal');
   medal.appendChild(ms(allDone ? 'workspace_premium' : 'stars'));
-  wrap.appendChild(medal);
+  medalZone.appendChild(medal);
+  wrap.appendChild(medalZone);
 
   // Eyebrow
   wrap.appendChild(el('div', {className:'complete-eyebrow'},
@@ -8386,6 +8440,9 @@ render();
 
 /* ════════ LISAANY AUDIO BUTTON PULSE (#4) ════════ */
 .lis-audio-playing{ position:relative; }
+/* instant pulse the moment an audio button is tapped (during fetch) */
+.lis-audio-tap{ animation:lis-audio-tap-pulse .6s ease-out both; }
+@keyframes lis-audio-tap-pulse{ 0%{transform:scale(1);} 35%{transform:scale(.93);} 70%{transform:scale(1.04);} 100%{transform:scale(1);} }
 .lis-audio-playing::after{
   content:'';position:absolute;inset:-3px;border-radius:inherit;
   border:2px solid rgba(242,190,98,.6);
@@ -8401,7 +8458,7 @@ render();
 .lis-audio-playing .ms{ animation:lis-audio-icon 0.7s ease-in-out infinite; }
 @keyframes lis-audio-icon{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.18);} }
 @media(prefers-reduced-motion:reduce){
-  .lis-audio-playing::after,.lis-audio-playing > span,.lis-audio-playing .ms{ animation:none; }
+  .lis-audio-playing::after,.lis-audio-playing > span,.lis-audio-playing .ms,.lis-audio-tap{ animation:none; }
 }
 
 /* ════════ LISAANY HERO WORD MODAL ════════ */
@@ -8561,6 +8618,53 @@ render();
 .lis-streak-toast .txt span{ font-size:12px;color:#9ba8be; }
 @media(prefers-reduced-motion:reduce){
   .lis-checkmark.show,.lis-streak-toast.show,.lis-streak.bump,.lis-streak.active .lis-streak-flame{ animation:none; }
+}
+/* Audio-failure toast (gentle, non-alarming) */
+.lis-err-toast{
+  position:fixed; left:50%; bottom:110px; transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(135deg,#1a2540,#101a30);
+  border:1.5px solid rgba(242,190,98,.35);
+  border-radius:14px; padding:12px 20px;
+  font-family:'Inter',sans-serif; font-size:13px; color:#e8eef9;
+  display:flex; align-items:center; gap:9px;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  opacity:0; pointer-events:none; z-index:9999;
+  transition:opacity .3s, transform .3s; max-width:88vw; text-align:center;
+}
+.lis-err-toast .ic{ font-size:16px; }
+.lis-err-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ── Lesson-complete celebration ── */
+.complete-medal-zone{ position:relative; display:flex; align-items:center; justify-content:center; }
+.complete-medal{ animation:medalPop .6s cubic-bezier(.34,1.56,.64,1) both; }
+@keyframes medalPop{
+  0%{ transform:scale(.3); opacity:0; }
+  60%{ transform:scale(1.12); opacity:1; }
+  100%{ transform:scale(1); opacity:1; }
+}
+.complete-sparkle{
+  position:absolute; top:50%; left:50%; width:10px; height:10px;
+  background:radial-gradient(circle,#ffe9b8,#f2d080 40%,transparent 65%);
+  clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);
+  opacity:0; pointer-events:none;
+  transform:translate(-50%,-50%) rotate(var(--a)) translateY(0) scale(.4);
+  animation:sparkleBurst .9s ease-out var(--d) both;
+}
+@keyframes sparkleBurst{
+  0%{ opacity:0; transform:translate(-50%,-50%) rotate(var(--a)) translateY(0) scale(.3); }
+  40%{ opacity:1; }
+  100%{ opacity:0; transform:translate(-50%,-50%) rotate(var(--a)) translateY(-70px) scale(1); }
+}
+
+/* ── Answer feedback: correct pop + wrong shake ── */
+@keyframes answerPop{ 0%{transform:scale(1);} 40%{transform:scale(1.06);} 100%{transform:scale(1);} }
+@keyframes answerShake{ 0%,100%{transform:translateX(0);} 20%{transform:translateX(-7px);} 40%{transform:translateX(7px);} 60%{transform:translateX(-5px);} 80%{transform:translateX(5px);} }
+.fb-correct{ animation:answerPop .45s ease-out both; }
+.fb-wrong{ animation:answerShake .4s ease-in-out both; }
+
+@media(prefers-reduced-motion:reduce){
+  .complete-medal,.complete-sparkle,.fb-correct,.fb-wrong{ animation:none; }
+  .complete-sparkle{ opacity:0; }
 }
 </style>
 
@@ -8776,6 +8880,9 @@ render();
     if(hasAudioIcon || btn.classList.contains('kw-word') || btn.classList.contains('token')){
       lastAudioBtn = btn;
       lastAudioBtnTime = Date.now();
+      // instant feedback while the audio file is still fetching
+      btn.classList.add('lis-audio-tap');
+      setTimeout(()=>{ try{ btn.classList.remove('lis-audio-tap'); }catch(e){} }, 600);
     }
   }, true);
   // speak() calls this at start; returns a stop() function
@@ -8783,6 +8890,7 @@ render();
     let el = null;
     if(lastAudioBtn && (Date.now() - lastAudioBtnTime) < 350){
       el = lastAudioBtn;
+      el.classList.remove('lis-audio-tap');
       el.classList.add('lis-audio-playing');
     }
     return function stop(){ if(el) el.classList.remove('lis-audio-playing'); };
@@ -8834,6 +8942,24 @@ render();
       <div class="lis-empty-title">${opts.title || 'Nothing here yet'}</div>
       <div class="lis-empty-text">${opts.text || ''}</div>`;
     return wrap;
+  };
+
+  // ════════ AUDIO-FAILURE TOAST ════════
+  let _audioToastTimer = null;
+  window.Lisaany.audioToast = function(){
+    try{
+      let t = document.getElementById('lis-audio-toast');
+      if(!t){
+        t = document.createElement('div');
+        t.id = 'lis-audio-toast';
+        t.className = 'lis-err-toast';
+        t.innerHTML = '<span class="ic">🔇</span> Couldn\'t play audio — check your connection and try again.';
+        document.body.appendChild(t);
+      }
+      requestAnimationFrame(()=> t.classList.add('show'));
+      clearTimeout(_audioToastTimer);
+      _audioToastTimer = setTimeout(()=>{ t.classList.remove('show'); }, 3200);
+    }catch(e){}
   };
 
   // Init on load
