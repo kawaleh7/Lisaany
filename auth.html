@@ -38,10 +38,6 @@
     position:relative;
   }
   .ms{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;line-height:1;vertical-align:middle;}
-
-    50%{transform:translate(-4vw,6vw) scale(.92);}
-    75%{transform:translate(5vw,3vw) scale(1.06);}
-  }
   /* dark vignette + grain to keep it premium not garish */
   body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
     background:radial-gradient(ellipse 90% 80% at 50% 40%, transparent 0%, rgba(5,10,24,.55) 75%, rgba(5,10,24,.85) 100%);}
@@ -151,6 +147,13 @@
   .pass-toggle:hover{color:var(--gold);background:rgba(242,190,98,.1);}
   .forgot{text-align:right;margin-top:9px;font-size:12.5px;color:var(--gold);cursor:pointer;font-weight:600;transition:opacity .2s;}
   .forgot:hover{opacity:.8;}
+
+  /* ── Password strength meter (signup) ── */
+  .pw-meter{margin-top:11px;display:none;}
+  .pw-meter.show{display:block;}
+  .pw-bar{height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;}
+  .pw-bar span{display:block;height:100%;width:0;border-radius:99px;transition:width .3s ease,background .3s ease;}
+  .pw-checks{font-size:11.5px;color:var(--dim);margin-top:7px;line-height:1.5;}
 
   .staff-code-group{display:none;margin-bottom:18px;padding:14px 15px;border-radius:13px;
     background:rgba(242,190,98,.05);border:1px dashed rgba(242,190,98,.32);animation:cardIn .35s ease both;}
@@ -385,6 +388,10 @@
             <input class="form-input" type="password" id="signup-pass" placeholder="At least 8 characters" autocomplete="new-password" style="padding-right:44px;">
             <span class="ms pass-toggle" onclick="togglePass('signup-pass',this)">visibility</span>
           </div>
+          <div class="pw-meter" id="pw-meter">
+            <div class="pw-bar"><span id="pw-bar-fill"></span></div>
+            <div class="pw-checks" id="pw-checks"></div>
+          </div>
         </div>
 
         <button class="btn-submit" id="signup-btn" onclick="handleSignup()">Create Free Account <span class="ms" style="font-size:16px;">arrow_forward</span></button>
@@ -396,7 +403,7 @@
         </button>
 
         <div class="switch-link">Already have an account? <a href="#" onclick="showTab('login',document.querySelectorAll('.auth-tab')[0]);return false;">Sign in</a></div>
-        <div class="terms">By creating an account you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></div>
+        <div class="terms">By creating an account you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></div>
       </div>
 
       <button type="button" class="school-portal-trigger" onclick="openSchoolPortal()">
@@ -602,6 +609,39 @@
     else if(b.dataset.html){ b.innerHTML = b.dataset.html; }
   }
 
+  /* ── Password policy: block common/weak passwords + live strength meter ── */
+  const WEAK_PASSWORDS = new Set(['password','password1','password12','password123','passw0rd','12345678','123456789','1234567890','qwerty123','qwertyui','111111111','000000000','abc12345','iloveyou1','admin1234','letmein12','welcome12','football1','baseball1','sunshine1','princess1','dragon123','monkey123','asdfghjkl','1q2w3e4r','q1w2e3r4','trustno1','superman1','starwars1','michael12']);
+  function isWeakPassword(pw){
+    const p = (pw||'').toLowerCase();
+    if (WEAK_PASSWORDS.has(p)) return true;
+    if (/^(.)\1+$/.test(pw)) return true;                 // all the same character
+    if (/^(01234567|12345678|abcdefgh|qwertyui)/.test(p)) return true; // simple sequences
+    return false;
+  }
+  function updatePwMeter(){
+    const pw = document.getElementById('signup-pass').value;
+    const meter = document.getElementById('pw-meter');
+    const fill = document.getElementById('pw-bar-fill');
+    const checks = document.getElementById('pw-checks');
+    if(!meter || !fill || !checks) return;
+    if(!pw){ meter.classList.remove('show'); return; }
+    meter.classList.add('show');
+    let score=0;
+    if(pw.length>=8) score++;
+    if(pw.length>=12) score++;
+    if(/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+    if(/[0-9]/.test(pw)) score++;
+    if(/[^A-Za-z0-9]/.test(pw)) score++;
+    let pct, color, label;
+    if(pw.length<8){ pct=25; color='var(--red)'; label='Too short — use at least 8 characters'; }
+    else if(isWeakPassword(pw)){ pct=25; color='var(--red)'; label='Too common — choose something unique'; }
+    else if(score<=2){ pct=45; color='#e0a060'; label='Weak — add length or variety'; }
+    else if(score<=3){ pct=70; color='var(--gold)'; label='Good password'; }
+    else { pct=100; color='var(--green)'; label='Strong password'; }
+    fill.style.width=pct+'%'; fill.style.background=color;
+    checks.innerHTML = '<b style="color:'+color+'">'+label+'</b>';
+  }
+
   /* ── Particles ── */
   (function(){
     const canvas = document.getElementById('particles');
@@ -730,6 +770,7 @@
     if(!name || !email || !pass){ showMsg('signup-err','Please fill in all fields.','err'); showToast('Please fill in all fields','err'); return; }
     if(!email.includes('@')){ showMsg('signup-err','Please enter a valid email.','err'); showToast('Please enter a valid email','err'); return; }
     if(pass.length < 8){ showMsg('signup-err','Password must be at least 8 characters.','err'); showToast('Password too short','err'); return; }
+    if(isWeakPassword(pass)){ showMsg('signup-err','That password is too common or weak. Please choose a stronger one.','err'); showToast('Choose a stronger password','err'); return; }
 
     setLoading('signup-btn', true);
     const { error } = await sb.auth.signUp({ email, password: pass, options:{ data:{ name, path:'both' } } });
@@ -770,9 +811,10 @@
     ['login-email','login-pass','staff-code'].forEach(id=>{ const e=document.getElementById(id); if(e) e.value=''; });
   }
 
-  /* ── Enter-key submit ── */
+  /* ── Enter-key submit + live password meter ── */
   document.getElementById('login-pass').addEventListener('keypress', e=>{ if(e.key==='Enter') handleLogin(); });
   document.getElementById('signup-pass').addEventListener('keypress', e=>{ if(e.key==='Enter') handleSignup(); });
+  document.getElementById('signup-pass').addEventListener('input', updatePwMeter);
   document.getElementById('staff-code').addEventListener('keypress', e=>{ if(e.key==='Enter') handleLogin(); });
 </script>
 </body>
