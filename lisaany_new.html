@@ -2190,6 +2190,12 @@ html,body{ background:#0a1730 !important; }
 }
 .letter-focus-card::before{ top:12px; left:12px; }
 .letter-focus-card::after{ bottom:12px; right:12px; }
+
+/* Lift remaining near-black cards that sit behind Arabic glyphs (rules/slides screen) */
+.slide-ex{ background:#172749 !important; }
+
+/* KILL the black box behind each Arabic glyph + label (the [class*="letter"] darkener hit these inner elements) */
+.letter-ar, .letter-name, .letter-tile .letter-ar, .letter-tile .letter-name{ background:transparent !important; box-shadow:none !important; }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
