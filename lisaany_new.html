@@ -2196,6 +2196,11 @@ html,body{ background:#0a1730 !important; }
 
 /* KILL the black box behind each Arabic glyph + label (the [class*="letter"] darkener hit these inner elements) */
 .letter-ar, .letter-name, .letter-tile .letter-ar, .letter-tile .letter-name{ background:transparent !important; box-shadow:none !important; }
+
+/* Fit the big focus letter inside its circle (tall letters like Jeem were spilling out) */
+.letter-focus-ar-wrap{ overflow:visible !important; }
+.letter-focus-ar{ font-size:60px !important; line-height:1 !important; }
+@media (max-width:480px){ .letter-focus-ar{ font-size:52px !important; } }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
