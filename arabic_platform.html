@@ -3036,6 +3036,40 @@ const CUR = [
             ]}
           }
         ]
+      },
+      { id:"3.4", title:"Classroom Commands", icon:"record_voice_over",
+        desc:"أَوَامِر الْفَصْل — تَعَالَ، اِجْلِسْ، قُمْ",
+        blocks:[
+          { id:1, type:"vocab", title:"Classroom Commands & People", desc:"تَعَالَ، اِجْلِسْ، قُمْ، اِسْمَعْ، اُنْظُرْ", icon:"record_voice_over", color:"#D4A34A",
+            data:{ words:[
+              {ar:"تَعَالَ",en:"Come (here)"},
+              {ar:"اِجْلِسْ",en:"Sit down"},
+              {ar:"قُمْ",en:"Stand up"},
+              {ar:"اِسْمَعْ / اِسْتَمِعْ",en:"Listen (spoken / formal)"},
+              {ar:"اُنْظُرْ",en:"Look"},
+              {ar:"مُعَلِّم / مُعَلِّمة",en:"Teacher (m / f)"},
+              {ar:"مُدَرِّس / مُدَرِّسة",en:"Teacher / Instructor (m / f)"},
+              {ar:"أُسْتَاذ",en:"Professor / Sir"},
+            ]}
+          },
+          { id:2, type:"dialogue", title:"The Teacher's Instructions", desc:"A teacher gives classroom commands", icon:"school", color:"#D4A34A",
+            data:{ title:"تَعْلِيمَات الْمُعَلِّم", setting:"الْمُعَلِّم يُعْطِي الطُّلَّاب أَوَامِر فِي الْفَصْل",
+              lines:[
+                {spk:"Teacher",side:"left",ar:"تَعَالَ يَا سَامِي، اِجْلِسْ هُنَا مِنْ فَضْلِكَ",en:"Come, Sami, sit down here please"},
+                {spk:"Sami",side:"right",ar:"حَاضِر يَا أُسْتَاذ، أَنَا جَالِس الْآنَ",en:"Yes sir, I am sitting now"},
+                {spk:"Teacher",side:"left",ar:"اُنْظُرُوا إِلَى السَّبُّورَة وَاسْمَعُوا جَيِّدًا",en:"Look at the board and listen carefully"},
+                {spk:"Teacher",side:"left",ar:"قُمْ يَا أَحْمَد وَاقْرَأِ الْجُمْلَة",en:"Stand up, Ahmad, and read the sentence"},
+                {spk:"Ahmad",side:"right",ar:"نَعَمْ يَا مُدَرِّس، سَأَقْرَأُ الْآن",en:"Yes teacher, I will read now"},
+              ],
+              keywords:[
+                {ar:"تَعَالَ",en:"Come"},
+                {ar:"اِجْلِسْ / قُمْ",en:"Sit down / Stand up"},
+                {ar:"اُنْظُرُوا / اِسْمَعُوا",en:"Look / Listen (plural)"},
+                {ar:"السَّبُّورَة",en:"The board"},
+              ]
+            }
+          }
+        ]
       }
     ]
   },
@@ -3342,6 +3376,37 @@ const CUR = [
               {ar:"شَرِبْتِ الْقَهْوَة وَقَرَأْتِ الْجَرِيدَة فِي الصَّبَاح",en:"You drank coffee and read the newspaper in the morning", words:["شَرِبْتِ","الْقَهْوَة","وَقَرَأْتِ","الْجَرِيدَة","فِي","الصَّبَاح"]},
               {ar:"ضَحِكَ الْمُدَرِّسُ وَاسْتَمَرَّ فِي شَرْح الدَّرْس",en:"The teacher laughed and continued explaining the lesson", words:["ضَحِكَ","الْمُدَرِّسُ","وَاسْتَمَرَّ","فِي","شَرْح","الدَّرْس"]},
             ]}
+          }
+        ]
+      },
+      { id:"4.4", title:"Directions & Getting Around", icon:"explore",
+        desc:"الِاتِّجَاهَات الْأَسَاسِيَّة — 7 كَلِمَات",
+        blocks:[
+          { id:1, type:"vocab", title:"Spatial Directions", desc:"يَمِين، يَسَار، عَلَى طُول", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"يَمِين",en:"Right"},
+              {ar:"يَسَار",en:"Left"},
+              {ar:"عَلَى طُول / مُسْتَقِيمًا",en:"Straight ahead (spoken / formal)"},
+              {ar:"إِلَى الْأَمَام",en:"Forward / Ahead"},
+              {ar:"قِفْ",en:"Stop!"},
+              {ar:"هُنَا",en:"Here"},
+              {ar:"هُنَاكَ",en:"There"},
+            ]}
+          },
+          { id:2, type:"dialogue", title:"In the Taxi", desc:"Giving directions to a driver", icon:"local_taxi", color:"#D4A34A",
+            data:{ title:"فِي سَيَّارَة الْأُجْرَة", setting:"رَاكِب يُرْشِد السَّائِق إِلَى وِجْهَتِه",
+              lines:[
+                {spk:"Passenger",side:"left",ar:"اِذْهَبْ عَلَى طُول مِنْ فَضْلِكَ",en:"Go straight ahead, please"},
+                {spk:"Driver",side:"right",ar:"حَاضِر، أَيْنَ أَقِفُ؟ هُنَا؟",en:"Okay, where should I stop? Here?"},
+                {spk:"Passenger",side:"left",ar:"لَا، لَيْسَ هُنَا. اِتَّجِهْ يَسَارًا، ثُمَّ يَمِينًا",en:"No, not here. Turn left, then right"},
+                {spk:"Passenger",side:"left",ar:"قِفْ هُنَا مِنْ فَضْلِكَ، شُكْرًا جَزِيلًا!",en:"Stop here please, thank you very much!"},
+              ],
+              keywords:[
+                {ar:"عَلَى طُول",en:"Straight ahead"},
+                {ar:"اِتَّجِهْ",en:"Turn / Head toward"},
+                {ar:"قِفْ",en:"Stop"},
+              ]
+            }
           }
         ]
       }
@@ -4946,6 +5011,38 @@ const CUR = [
               {ar:"هَلْ تُرِيدُ أَنْ أُشَغِّل الرَّادْيُو أَثْنَاءَ الرِّحْلَة الطَّوِيلَة؟",en:"Do you want me to turn on the radio during the long trip?", words:["هَلْ","تُرِيدُ","أَنْ","أُشَغِّل","الرَّادْيُو","أَثْنَاءَ","الرِّحْلَة","الطَّوِيلَة؟"]},
               {ar:"رَبَطْتُ حِزَام الْأَمَان وَضَبَطْتُ الْمَقْعَد وَالْمِرْآة",en:"I fastened the seatbelt and adjusted the seat and mirror", words:["رَبَطْتُ","حِزَام","الْأَمَان","وَضَبَطْتُ","الْمَقْعَد","وَالْمِرْآة"]},
             ]}
+          }
+        ]
+      },
+      { id:"10.3", title:"Directions & Navigation", icon:"explore",
+        desc:"الِاتِّجَاهَات وَالْبَوْصَلَة — 7 كَلِمَات",
+        blocks:[
+          { id:1, type:"vocab", title:"Compass & Movement", desc:"شَمَال، جَنُوب، شَرْق، غَرْب", icon:"explore", color:"#D4A34A",
+            data:{ words:[
+              {ar:"شَمَال",en:"North"},
+              {ar:"جَنُوب",en:"South"},
+              {ar:"شَرْق",en:"East"},
+              {ar:"غَرْب",en:"West"},
+              {ar:"تَحَرَّكْ",en:"Move! / Proceed"},
+              {ar:"إِلَى الْخَلْف",en:"Backwards"},
+              {ar:"الْقِبْلَة",en:"The Qibla (direction of Mecca)"},
+            ]}
+          },
+          { id:2, type:"dialogue", title:"Finding the Train Station", desc:"Asking for directions in the city", icon:"train", color:"#D4A34A",
+            data:{ title:"الْبَحْث عَن مَحَطَّة الْقِطَار", setting:"مُسَافِر يَسْأَل أَحَد السُّكَّان عَن الطَّرِيق",
+              lines:[
+                {spk:"Traveler",side:"left",ar:"مَعْذِرَةً، أَيْنَ مَحَطَّةُ الْقِطَارِ؟",en:"Excuse me, where is the train station?"},
+                {spk:"Local",side:"right",ar:"هِيَ فِي جَنُوبِ الْمَدِينَةِ",en:"It is in the south of the city"},
+                {spk:"Traveler",side:"left",ar:"هَلْ أَتَّجِهُ إِلَى الشَّرْقِ أَمْ إِلَى الْغَرْبِ؟",en:"Should I head east or west?"},
+                {spk:"Local",side:"right",ar:"اِمْشِ عَلَى طُول نَحْوَ الشَّمَالِ، ثُمَّ سَتَرَاهَا",en:"Walk straight toward the north, then you will see it"},
+              ],
+              keywords:[
+                {ar:"شَمَال / جَنُوب",en:"North / South"},
+                {ar:"شَرْق / غَرْب",en:"East / West"},
+                {ar:"نَحْوَ",en:"Toward"},
+                {ar:"الْقِبْلَة",en:"The Qibla"},
+              ]
+            }
           }
         ]
       }
