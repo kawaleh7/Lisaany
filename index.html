@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!--
+  Lisaany — Learn Arabic the Beautiful Way
+  Copyright (c) 2026 Lisaany. All Rights Reserved.
+  This source code and its content (text, design, audio, and curriculum)
+  are the exclusive property of Lisaany and are protected by copyright law.
+  Unauthorized copying, reproduction, or distribution is prohibited.
+  Contact: admin@lisaany.com
+-->
 <html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
@@ -206,7 +214,7 @@ body{
 .hero-title{
   font-family:'Cinzel',serif; font-size:60px; font-weight:600;
   line-height:1.05; letter-spacing:.005em;
-  background:linear-gradient(180deg, #f5e8c5 0%, #d4a34a 100%);
+  background:linear-gradient(180deg, #ffd97a 0%, #f2be62 50%, #f2d080 100%);
   -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
   margin-bottom:6px;
 }
@@ -226,6 +234,14 @@ body{
   display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
   margin-top:32px;
 }
+.hero-hint{
+  margin-top:20px; font-size:13px; color:var(--dim);
+  letter-spacing:.04em; cursor:pointer; transition:color .2s;
+  animation:heroHintBob 2.2s ease-in-out infinite;
+}
+.hero-hint:hover{ color:var(--gold); }
+@keyframes heroHintBob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(4px);} }
+@media(prefers-reduced-motion:reduce){ .hero-hint{ animation:none; } }
 .btn{
   display:inline-flex; align-items:center; gap:10px;
   font:600 14px/1 'Inter',sans-serif; letter-spacing:.04em;
@@ -234,9 +250,9 @@ body{
   text-decoration:none;
 }
 .btn-primary{
-  background:linear-gradient(135deg, var(--gold), var(--gold-soft));
-  color:#3a2400;
-  box-shadow:0 4px 24px var(--gold-glow);
+  background:linear-gradient(135deg, var(--gold-br, #f5d488), var(--gold));
+  color:#1a1208;
+  box-shadow:0 6px 26px rgba(242,190,98,.35);
 }
 .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 36px rgba(242,190,98,.35); }
 .btn-ghost{
@@ -459,7 +475,7 @@ body{
 .final-cta{ text-align:center; padding:80px 36px; position:relative; z-index:1; }
 .final-cta-title{
   font-family:'Cinzel',serif; font-size:36px; font-weight:600;
-  background:linear-gradient(180deg, #f5e8c5, #d4a34a);
+  background:linear-gradient(180deg, #ffd97a, #f2be62 50%, #f2d080);
   -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
   margin-bottom:14px;
 }
@@ -573,6 +589,53 @@ body{
   .modal{ padding:32px 24px; }
   .modal-q{ font-size:20px; }
 }
+/* ── Contact modal ── */
+.lis-contact-modal{
+  position:fixed; inset:0; z-index:1000;
+  background:rgba(5,10,24,.72); backdrop-filter:blur(6px);
+  display:none; align-items:center; justify-content:center; padding:20px;
+}
+.lis-contact-modal.open{ display:flex; }
+.lis-contact-card{
+  position:relative; width:100%; max-width:400px;
+  background:linear-gradient(180deg, rgba(22,37,64,.95), rgba(13,24,46,.95));
+  border:1.5px solid rgba(242,190,98,.4); border-radius:22px;
+  padding:32px 26px 24px; text-align:center;
+  box-shadow:0 24px 70px rgba(0,0,0,.5);
+  animation:lisContactIn .3s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes lisContactIn{ from{opacity:0; transform:translateY(14px) scale(.97);} to{opacity:1; transform:translateY(0) scale(1);} }
+.lis-contact-close{
+  position:absolute; top:14px; right:16px;
+  background:none; border:none; color:#9ba8be; font-size:26px;
+  cursor:pointer; line-height:1; transition:color .2s;
+}
+.lis-contact-close:hover{ color:#f2be62; }
+.lis-contact-eyebrow{
+  font-family:'Cinzel',serif; font-size:11px; font-weight:600;
+  letter-spacing:.28em; text-transform:uppercase; color:#f2be62; margin-bottom:8px;
+}
+.lis-contact-title{
+  font-family:'Cinzel',serif; font-size:24px; font-weight:600;
+  color:#f5e8c5; margin-bottom:22px;
+}
+.lis-contact-rows{ display:flex; flex-direction:column; gap:10px; text-align:left; }
+.lis-contact-row{
+  display:flex; align-items:center; gap:13px;
+  padding:13px 15px; border-radius:13px;
+  background:rgba(13,27,50,.6); border:1px solid rgba(242,190,98,.16);
+  color:#e8eef9; text-decoration:none; font-size:14px; line-height:1.4;
+  transition:all .2s;
+}
+a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,190,98,.07); }
+.lis-contact-row b{ color:#f2d080; font-weight:600; font-size:12px; letter-spacing:.04em; }
+.lis-contact-ic{ font-size:20px; flex-shrink:0; }
+.lis-contact-foot{
+  margin-top:20px; padding-top:16px; border-top:1px solid rgba(242,190,98,.14);
+  font-size:12px; color:#9ba8be; line-height:1.8;
+}
+.lis-contact-foot a{ color:#f2be62; text-decoration:none; }
+.lis-contact-foot a:hover{ text-decoration:underline; }
 </style>
 </head>
 <body>
@@ -593,9 +656,11 @@ body{
   </a>
   <div class="lis-links">
     <a href="index.html" class="lis-link is-active">Home</a>
-    <a href="arabic_platform.html" class="lis-link">Learn</a>
+    <a href="arabic_platform.html" class="lis-link">Arabic Lesson</a>
+    <a href="lisaany_new.html" class="lis-link">Norania · Alif Ba Ta</a>
     <a href="pricing.html" class="lis-link">Pricing</a>
     <a href="tutors.html" class="lis-link">Live Tutor</a>
+    <a href="#" class="lis-link" onclick="document.getElementById('lisContactModal').classList.add('open');return false;">Contact</a>
   </div>
   <div class="lis-actions">
     <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
@@ -618,9 +683,42 @@ body{
 
 <div class="lis-mobile-menu" id="lisMobileMenu">
   <a href="index.html" class="lis-link is-active">Home</a>
-  <a href="arabic_platform.html" class="lis-link">Learn</a>
+  <a href="arabic_platform.html" class="lis-link">Arabic Lesson</a>
+  <a href="lisaany_new.html" class="lis-link">Norania · Alif Ba Ta</a>
   <a href="pricing.html" class="lis-link">Pricing</a>
   <a href="tutors.html" class="lis-link">Live Tutor</a>
+  <a href="#" class="lis-link" onclick="document.getElementById('lisMobileMenu').classList.remove('is-open');document.getElementById('lisContactModal').classList.add('open');return false;">Contact</a>
+</div>
+
+<!-- Contact modal -->
+<div class="lis-contact-modal" id="lisContactModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="lis-contact-card">
+    <button class="lis-contact-close" aria-label="Close" onclick="document.getElementById('lisContactModal').classList.remove('open')">&times;</button>
+    <div class="lis-contact-eyebrow">Get in touch</div>
+    <h2 class="lis-contact-title">Contact Lisaany</h2>
+    <div class="lis-contact-rows">
+      <a class="lis-contact-row" href="mailto:admin@lisaany.com">
+        <span class="lis-contact-ic">✉️</span>
+        <span><b>Email</b><br>admin@lisaany.com</span>
+      </a>
+      <a class="lis-contact-row" href="https://wa.me/18009292400" target="_blank" rel="noopener">
+        <span class="lis-contact-ic">💬</span>
+        <span><b>WhatsApp</b><br>+1 800 929 2400</span>
+      </a>
+      <a class="lis-contact-row" href="tel:+18009292400">
+        <span class="lis-contact-ic">📞</span>
+        <span><b>Phone</b><br>1-800-929-2400</span>
+      </a>
+      <div class="lis-contact-row">
+        <span class="lis-contact-ic">📍</span>
+        <span><b>Address</b><br>Madina Munawwarah, Saudi Arabia</span>
+      </div>
+    </div>
+    <div class="lis-contact-foot">
+      <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a><br>
+      © 2026 Lisaany. All Rights Reserved.
+    </div>
+  </div>
 </div>
 
 <!-- Decorative geometric background -->
@@ -642,11 +740,15 @@ body{
   <div class="hero-arabic">اقْرَأ • تَكَلَّم • أَتْقِن</div>
   <p class="hero-desc">From the alphabet to full conversation. Two structured paths, a real curriculum, and live tutors when you need them.</p>
   <div class="hero-actions">
-    <a href="lisaany_new.html" class="btn btn-primary btn-lg">
+    <a href="#courses" class="btn btn-primary btn-lg" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'});return false;">
       <span class="mi">play_circle</span>
-      <span>Try a free lesson</span>
+      <span>Start the Course</span>
+    </a>
+    <a href="pricing.html" class="btn btn-ghost btn-lg">
+      <span>View Pricing</span>
     </a>
   </div>
+  <div class="hero-hint" onclick="document.getElementById('courses').scrollIntoView({behavior:'smooth'});">Choose your course below ↓</div>
   <div class="trust-strip">
     <div class="trust-item"><span class="mi">menu_book</span><span><strong>170+</strong> lessons</span></div>
     <div class="trust-divider"></div>
@@ -655,7 +757,7 @@ body{
 </section>
 
 <!-- ════════ TWO PATHS ════════ -->
-<section class="section">
+<section class="section" id="courses">
   <div class="section-eyebrow">Two Paths · One Journey</div>
   <h2 class="section-heading">Pick where you want to start</h2>
   <p class="section-sub">You can do both — but most people start with one. The other unlocks beautifully alongside.</p>
