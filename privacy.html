@@ -9,40 +9,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Inter:wght@400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#060e1b;
-    --bg-deep:#050a18;
-    --card:rgba(16,26,52,.55);
-    --gold:#f2be62;
-    --gold-lt:#f2d080;
-    --text:#e8eef9;
-    --dim:#9ba8be;
-    --border:rgba(242,190,98,.16);
+    --bg:#060e1b; --bg-deep:#050a18; --gold:#f2be62; --gold-lt:#f2d080;
+    --text:#e8eef9; --dim:#9ba8be; --border:rgba(242,190,98,.16);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{
-    font-family:'Inter',system-ui,sans-serif;
-    background:var(--bg-deep);
-    color:var(--text);
-    line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-    background-image:radial-gradient(ellipse 90% 50% at 50% -8%,rgba(242,190,98,.06),transparent 60%);
-    min-height:100vh;
-  }
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--bg-deep);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased;background-image:radial-gradient(ellipse 90% 50% at 50% -8%,rgba(242,190,98,.06),transparent 60%);min-height:100vh;}
   .wrap{max-width:760px;margin:0 auto;padding:48px 22px 80px;}
-
   .brand{text-align:center;margin-bottom:34px;}
-  .brand-ar{font-family:'Amiri',serif;font-size:42px;font-weight:700;line-height:1;color:var(--gold-lt);
-    filter:drop-shadow(0 2px 16px rgba(242,190,98,.28));}
-  .brand-divider{display:flex;align-items:center;gap:10px;width:140px;margin:12px auto 10px;}
+  .brand-divider{display:flex;align-items:center;gap:10px;width:140px;margin:0 auto 10px;}
   .brand-divider .line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(242,190,98,.6),transparent);}
   .brand-divider .dot{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);box-shadow:0 0 10px var(--gold);}
   .brand-name{font-family:'Cinzel',serif;font-size:22px;font-weight:700;letter-spacing:.32em;margin-left:.32em;color:var(--gold);}
-
   h1{font-family:'Cinzel',serif;font-size:30px;font-weight:700;text-align:center;color:var(--text);margin-bottom:8px;letter-spacing:.01em;}
   .updated{text-align:center;color:var(--dim);font-size:13px;margin-bottom:40px;}
-
-  h2{font-family:'Cinzel',serif;font-size:19px;font-weight:600;color:var(--gold-lt);margin:34px 0 12px;
-    padding-top:22px;border-top:1px solid var(--border);}
+  h2{font-family:'Cinzel',serif;font-size:19px;font-weight:600;color:var(--gold-lt);margin:34px 0 12px;padding-top:22px;border-top:1px solid var(--border);}
   h2:first-of-type{border-top:none;padding-top:0;}
   p{color:var(--dim);font-size:15px;margin-bottom:12px;}
   ul{margin:0 0 14px;padding-left:22px;}
@@ -50,26 +30,14 @@
   strong{color:var(--text);font-weight:600;}
   a{color:var(--gold);text-decoration:none;}
   a:hover{text-decoration:underline;}
-
-  .key-box{background:rgba(242,190,98,.06);border:1px solid var(--border);border-left:3px solid var(--gold);
-    border-radius:12px;padding:18px 20px;margin:14px 0 4px;}
+  .key-box{background:rgba(242,190,98,.06);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:12px;padding:18px 20px;margin:14px 0 4px;}
   .key-box p:last-child{margin-bottom:0;}
-
   .intro{color:var(--text);font-size:15.5px;}
-
-  .back-home{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--dim);
-    margin-bottom:30px;padding:8px 16px;border-radius:20px;border:1px solid var(--border);transition:.2s;}
+  .back-home{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--dim);margin-bottom:30px;padding:8px 16px;border-radius:20px;border:1px solid var(--border);transition:.2s;}
   .back-home:hover{color:var(--gold);background:rgba(242,190,98,.07);text-decoration:none;}
-
-  footer{text-align:center;margin-top:54px;padding-top:24px;border-top:1px solid var(--border);
-    color:var(--dim);font-size:13px;}
+  footer{text-align:center;margin-top:54px;padding-top:24px;border-top:1px solid var(--border);color:var(--dim);font-size:13px;}
   footer a{margin:0 8px;}
-
-  @media (max-width:480px){
-    .wrap{padding:34px 18px 60px;}
-    h1{font-size:25px;}
-    .brand-ar{font-size:36px;}
-  }
+  @media(max-width:480px){.wrap{padding:34px 18px 60px;}h1{font-size:25px;}}
 </style>
 </head>
 <body>
@@ -78,7 +46,6 @@
   <a href="index.html" class="back-home">← Back to Home</a>
 
   <div class="brand">
-    <div class="brand-ar">عِلْم</div>
     <div class="brand-divider"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     <div class="brand-name">LISAANY</div>
   </div>
@@ -112,10 +79,10 @@
 
   <h2>5. Payments</h2>
   <p>All payments are processed securely by our payment provider, <strong>Stripe</strong>. When you make a purchase, your payment card details are entered and handled directly by Stripe — <strong>we never see or store your full card information on our servers.</strong></p>
-  <p>Stripe processes your payment data in accordance with its own privacy policy and terms. We follow Stripe's privacy conditions and terms for all payment handling. You can review Stripe's privacy practices at <a href="https://stripe.com/privacy" target="_blank" rel="noopener">stripe.com/privacy</a>.</p>
+  <p>Stripe processes your payment data in accordance with its own privacy policy and terms. You can review Stripe's privacy practices at <a href="https://stripe.com/privacy" target="_blank" rel="noopener">stripe.com/privacy</a>.</p>
 
   <h2>6. Data Storage &amp; Security</h2>
-  <p>Your account information is stored securely with our infrastructure providers. We take reasonable technical and organizational measures to protect your information against unauthorized access, loss, or misuse. While no online service can guarantee absolute security, we work to keep your data safe and to hold as little of it as possible.</p>
+  <p>Your account information is stored securely with our infrastructure providers. We take reasonable technical and organizational measures to protect your information against unauthorized access, loss, or misuse.</p>
 
   <h2>7. Cookies &amp; Local Storage</h2>
   <p>We use only the cookies and local browser storage necessary for the Services to function — for example, to keep you signed in and remember your progress and preferences. We do not use advertising or third-party tracking cookies.</p>
