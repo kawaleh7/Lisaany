@@ -881,7 +881,7 @@ body{
 }
 /* ─── /HARAKAT LESSON ─── */
 
-/* ─── MAADA LESSON (Lesson 3) ─── */
+/* ─── MAAD LESSON (Lesson 3) ─── */
 .maad-main-card{
   border-radius:22px;
   background:transparent;
@@ -986,7 +986,7 @@ body{
   .maad-result-ar{font-size:72px;}
   .maad-example-ar{font-size:26px;}
 }
-/* ─── /MAADA LESSON ─── */
+/* ─── /MAAD LESSON ─── */
 
 /* ─── INTRO BOXES — Maad CONNECTS/SEPARATE sections ─── */
 .maad-section{
@@ -2330,7 +2330,7 @@ const LESSON2 = {
 const LESSONS = [
   {id:1, title:"The Arabic Alphabet",    badge:"أ ب",        sub:"Learn all 28 letters — tap each to hear how it sounds.",           tag:"28 Letters", type:"letters",  hasIntro:false},
   {id:2, title:"Short Vowels — Harakat", badge:"بَ بِ بُ",    sub:"Learn Fatha, Kasra and Damma — the three short vowel marks.",      tag:"3 Vowels",   type:"harakat",  hasIntro:true},
-  {id:3, title:"Maada — Elongation",     badge:"بَا بُو بِي",  sub:"Learn the three Maada letters and how to stretch vowels.",         tag:"3 Types",    type:"morph",    hasIntro:true},
+  {id:3, title:"Maad — Elongation",     badge:"بَا بُو بِي",  sub:"Learn the three Maad letters and how to stretch vowels.",         tag:"3 Types",    type:"morph",    hasIntro:true},
   {id:4, title:"Sukun",                  badge:"بْ",          sub:"The mark that silences a letter — no vowel sound.",                tag:"Silent",     type:"rules",    hasIntro:true},
   {id:5, title:"Tanween",               badge:"بًا بٍ بٌ",    sub:"The noon sound at the end of nouns — three types.",               tag:"3 Types",    type:"rules",    hasIntro:true},
   {id:6, title:"Shaddah",               badge:"بّ",          sub:"The mark that doubles a letter — stress and hold.",               tag:"Doubling",   type:"rules",    hasIntro:true},
@@ -2372,7 +2372,7 @@ const INTRO_SLIDES = {
     ]},
   ],
   3:[
-    {type:"title",ar:"المَدّ",title:"Maada — Elongation",sub:"Maada means to stretch a vowel. It pairs one of three letters (ا و ي) with a specific harakah to create a long vowel sound."},
+    {type:"title",ar:"المَدّ",title:"Maad — Elongation",sub:"Maad means to stretch a vowel. It pairs one of three letters (ا و ي) with a specific harakah to create a long vowel sound."},
     {type:"concept",ar:"بَا",name:"Alif Maad",tag:"Fatha + Alif → ā",color:"#D4A34A",pos:"Long Vowel · Alif",rule:'<strong>Fatha + Alif</strong> → stretch the "a" into a long <strong>"aaaa"</strong> sound.',boxes:[
   {from:"فَ",maad:"ا",result:"فَا",roman:"FAA",connects:true},
   {from:"بَ",maad:"ا",result:"بَا",roman:"BAA",connects:true},
@@ -2391,7 +2391,7 @@ const INTRO_SLIDES = {
   {from:"رِ",maad:"يْ",result:"رِي",roman:"REE",connects:false},
   {from:"دِ",maad:"يْ",result:"دِي",roman:"DEE",connects:false},
 ]},
-    {type:"summary",title:"The Three Maada",sub:"The harakah before the Maada letter tells you which vowel to stretch.",items:[{ar:"بَا",name:"Alif Maad",sound:"ā",color:"#D4A34A"},{ar:"بُو",name:"Waw Maad",sound:"ū",color:"#D4A34A"},{ar:"بِي",name:"Yaa Maad",sound:"ī",color:"#D4A34A"}]},
+    {type:"summary",title:"The Three Maad",sub:"The harakah before the Maad letter tells you which vowel to stretch.",items:[{ar:"بَا",name:"Alif Maad",sound:"ā",color:"#D4A34A"},{ar:"بُو",name:"Waw Maad",sound:"ū",color:"#D4A34A"},{ar:"بِي",name:"Yaa Maad",sound:"ī",color:"#D4A34A"}]},
   ],
   4:[
     {type:"title",ar:"السُّكُون",title:"Sukun — The Silent Letter",sub:"The Sukun is a small circle <span style='color:#ffffff;font-size:1.2em;font-weight:bold;'>°</span> above a letter. It means the letter has NO vowel — it is held briefly with no sound."},
@@ -3780,7 +3780,7 @@ function mkMaadLesson(){
 
   // Phase pill
   const ph = div('phase-label'); ph.appendChild(div('phase-dot'));
-  ph.appendChild(document.createTextNode('Maada — Elongation · Lesson 3'));
+  ph.appendChild(document.createTextNode('Maad — Elongation · Lesson 3'));
   wrap.appendChild(ph);
 
   // Header: section name + counter
