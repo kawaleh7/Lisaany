@@ -2812,6 +2812,8 @@ const CUR = [
               {ar:"طَاوِلَة",en:"Desk / Table"},
               {ar:"كُرْسِيّ",en:"Chair"},
               {ar:"سَبُّورَة",en:"Blackboard"},
+              {ar:"وَرَقَة",en:"Paper / Sheet of paper"},
+              {ar:"صَفْحَة",en:"Page"},
             ]}
           },
           { id:4, type:"grammar", title:"عِنْدِي / عِنْدَكَ — I Have / You Have", desc:"التَّعْبِير عَن الْمِلْكِيَّة", icon:"psychology", color:"#D4A34A",
@@ -6731,7 +6733,8 @@ function mkBlocks(){
     // Type tag - capitalize type
     const typeMap = {
       dialogue: 'Dialogue', vocab: 'Vocabulary', grammar: 'Grammar',
-      clutter: 'Sentence Builder', possessive: 'Suffix Tap', cloze: 'Fill Blank', video: 'Video'
+      clutter: 'Sentence Builder', possessive: 'Suffix Tap', cloze: 'Fill Blank', video: 'Video',
+      quiz: 'Practice Drill'
     };
     const typeLabel = (typeMap[blk.type] || 'Block') + ' · ' + String(blk.id).padStart(2,'0');
     body.appendChild(el('div', {className:'block-type-tag'}, typeLabel));
@@ -6765,6 +6768,7 @@ function resetBS(){
   const blk=getBlk(S.mId,S.uId,S.bId);
   if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=buildBankWithDistractors(blk.data.sentences[0]?.words||[], S.mId, S.uId); }
   if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
+  if(blk?.type==='quiz'){ S.quizIdx=0; S.quizChosen=null; S.quizFb=null; S.quizLocked=false; S.quizScore=0; S.quizWrong=0; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -6958,7 +6962,7 @@ function advPos(d){
   }
 }
 
-function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
 
 // ══════════════════════════════════════════════════════
 // BLOCK 1: DIALOGUE
@@ -8418,6 +8422,217 @@ function mkComplete(){
     // Only restore hub — don't drop mid-lesson
   }catch(e){}
 })();
+
+
+// ── Auto-inject Q&A Drill before each sentence builder ──
+(function(){
+  CUR.forEach(function(mod){
+    mod.units.forEach(function(unit){
+      var hasVocab = unit.blocks.some(function(b){ return b.type==='vocab'; });
+      var hasClutter = unit.blocks.some(function(b){ return b.type==='clutter'; });
+      var hasQuiz = unit.blocks.some(function(b){ return b.type==='quiz'; });
+      if(hasVocab && hasClutter && !hasQuiz){
+        var clutterIdx = unit.blocks.findIndex(function(b){ return b.type==='clutter'; });
+        var maxId = Math.max.apply(null, unit.blocks.map(function(b){ return b.id; }));
+        unit.blocks.splice(clutterIdx, 0, {
+          id: maxId + 10,
+          type: 'quiz',
+          title: 'Practice Drill',
+          desc: 'اختَر الجَواب الصَّحِيح',
+          icon: 'quiz',
+          color: '#D4A34A',
+          data: { passing: 60 }
+        });
+      }
+    });
+  });
+})();
+
+// ══════════════════════════════════════════════════════
+// QUIZ DRILL — tap the correct answer (before sentence builder)
+// ══════════════════════════════════════════════════════
+function getQuizData(blk){
+  if(blk._quizData) return blk._quizData;
+  var mid = S.mId, uId = S.uId;
+  var unit = getUnit(mid, uId);
+  if(!unit){ blk._quizData = {questions:[], passing:60}; return blk._quizData; }
+
+  var allWords = [];
+  var seenAr = new Set();
+  function addWord(ar, en){
+    ar = (ar||'').trim(); en = (en||'').trim();
+    if(!ar || !en || seenAr.has(ar)) return;
+    seenAr.add(ar);
+    allWords.push({ar:ar, en:en});
+  }
+  unit.blocks.filter(function(b){ return b.type==='vocab'; }).forEach(function(b){
+    (b.data&&b.data.words||[]).forEach(function(entry){
+      var arParts = (entry.ar||'').split(' / ').map(function(s){ return s.trim(); }).filter(Boolean);
+      var enParts = (entry.en||'').split(' / ').map(function(s){ return s.trim(); }).filter(Boolean);
+      if(arParts.length > 1 && arParts.length === enParts.length){
+        arParts.forEach(function(ar,i){ addWord(ar, enParts[i]); });
+      } else {
+        addWord(entry.ar, entry.en);
+      }
+    });
+  });
+  unit.blocks.filter(function(b){ return b.type==='dialogue'; }).forEach(function(b){
+    (b.data&&b.data.keywords||[]).forEach(function(k){ addWord(k.ar, k.en); });
+  });
+
+  if(allWords.length < 4){ blk._quizData = {questions:[], passing:60}; return blk._quizData; }
+
+  var pool = shuffle(allWords).slice(0, Math.min(10, allWords.length));
+  var questions = pool.map(function(item, i){
+    var arToEn = (i % 2 === 1);
+    var others = allWords.filter(function(w){ return w.ar !== item.ar; });
+    var distractors = shuffle(others).slice(0,3);
+    if(arToEn){
+      return { prompt:item.ar, promptType:'ar', correct:item.en, options:shuffle([item.en].concat(distractors.map(function(d){ return d.en; }))), context:item };
+    } else {
+      return { prompt:item.en, promptType:'en', correct:item.ar, options:shuffle([item.ar].concat(distractors.map(function(d){ return d.ar; }))), context:item };
+    }
+  });
+
+  blk._quizData = { questions:questions, passing:(blk.data&&blk.data.passing)||60 };
+  return blk._quizData;
+}
+
+function mkQuiz(blk){
+  var d = getQuizData(blk);
+  if(!d.questions || d.questions.length === 0){
+    setTimeout(function(){ finishBlock(); }, 80);
+    return div('stage');
+  }
+
+  if(typeof S.quizIdx === 'undefined'){
+    S.quizIdx=0; S.quizChosen=null; S.quizFb=null; S.quizLocked=false; S.quizScore=0; S.quizWrong=0;
+  }
+
+  var total = d.questions.length;
+  var cur = d.questions[S.quizIdx];
+  var pct = Math.round(S.quizScore/total*100);
+  var w = div('stage');
+
+  // Header
+  var hdr = div('lesson-hdr');
+  var hi = div('lesson-hdr-icon'); hi.appendChild(ms('quiz')); hdr.appendChild(hi);
+  var hb = div('lesson-hdr-body');
+  hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'},'Practice Drill · '+(S.quizIdx+1)+' of '+total));
+  hb.appendChild(el('div',{className:'lesson-hdr-title'},'Quick Check'));
+  hb.appendChild(el('div',{className:'lesson-hdr-arabic'},'Tap the correct answer'));
+  hdr.appendChild(hb); w.appendChild(hdr);
+
+  // Score row
+  var sr = div('score-row');
+  [{v:S.quizScore,l:'Correct',c:'var(--green)'},{v:S.quizWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(function(s){
+    var si=div('sc-item');
+    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
+    si.appendChild(el('div',{className:'sc-lbl'},s.l));
+    sr.appendChild(si);
+  });
+  w.appendChild(sr);
+
+  // Progress bar
+  var prog=div(''); prog.style.cssText='height:4px;background:rgba(242,190,98,.1);border-radius:2px;margin:6px 0 18px;overflow:hidden;';
+  var pf2=div(''); pf2.style.cssText='height:100%;background:var(--gold);border-radius:2px;width:'+Math.round((S.quizIdx/total)*100)+'%;transition:width .4s;';
+  prog.appendChild(pf2); w.appendChild(prog);
+
+  // Question card
+  var qCard=div('');
+  qCard.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(242,190,98,.3);border-radius:20px;padding:28px 22px;text-align:center;margin-bottom:18px;';
+  var isArPrompt = cur.promptType==='ar';
+  qCard.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.18em',textTransform:'uppercase',color:'var(--dim)',marginBottom:'14px'}},
+    isArPrompt ? 'What does this mean in English?' : 'How do you say this in Arabic?'));
+  var promptEl=el('div',{style:{
+    fontFamily: isArPrompt ? "'Amiri',serif" : "'Inter',sans-serif",
+    fontSize: isArPrompt ? '52px' : '20px',
+    fontWeight: isArPrompt ? '400' : '600',
+    color: isArPrompt ? 'var(--gold)' : 'var(--text)',
+    direction: isArPrompt ? 'rtl' : 'ltr',
+    lineHeight:'1.4', marginBottom:'10px'
+  }}, cur.prompt);
+  qCard.appendChild(promptEl);
+  if(isArPrompt){
+    var ab=el('button',{style:{marginTop:'8px',padding:'8px 14px',borderRadius:'10px',border:'1px solid rgba(242,190,98,.3)',background:'transparent',color:'var(--gold)',cursor:'pointer',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'12px',fontWeight:'700'},onclick:function(e){e.stopPropagation();speak(cur.prompt);}});
+    ab.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'15px',fontVariationSettings:"'FILL' 1"}},'volume_up'));
+    ab.appendChild(document.createTextNode(' Hear it'));
+    qCard.appendChild(ab);
+  }
+  w.appendChild(qCard);
+
+  // Options grid
+  var optGrid=div(''); optGrid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;';
+  var isArOpt = cur.promptType==='en';
+  cur.options.forEach(function(opt){
+    var isChosen=S.quizChosen===opt, isCorrect=opt===cur.correct;
+    var bg,border,color;
+    if(S.quizLocked){
+      if(isCorrect){      bg='rgba(127,201,156,.18)';border='var(--green)';color='var(--green)';}
+      else if(isChosen){  bg='rgba(224,112,112,.12)';border='var(--red)';  color='var(--red)';  }
+      else {              bg='rgba(255,255,255,.02)';border='rgba(255,255,255,.07)';color='rgba(218,227,246,.3)';}
+    } else {
+      if(isChosen){ bg='rgba(242,190,98,.14)';border='var(--gold)';color='var(--gold)'; }
+      else {        bg='rgba(255,255,255,.03)';border='rgba(255,255,255,.12)';color='var(--text)'; }
+    }
+    var btn=el('button',{
+      style:{padding:'16px 10px',borderRadius:'14px',border:'1.5px solid '+border,background:bg,color:color,
+        fontFamily:isArOpt?"'Amiri',serif":"'Inter',sans-serif",
+        fontSize:isArOpt?'22px':'13px',direction:isArOpt?'rtl':'ltr',
+        lineHeight:'1.35',cursor:S.quizLocked?'default':'pointer',transition:'all .15s',
+        textAlign:'center',minHeight:'60px',display:'flex',alignItems:'center',
+        justifyContent:'center',width:'100%',gap:'6px'},
+      onclick:(function(o){ return function(){
+        if(S.quizLocked) return;
+        S.quizChosen=o; S.quizLocked=true;
+        var ok=o===cur.correct; S.quizFb=ok?'correct':'wrong';
+        if(ok){ S.quizScore++; if(window.Lisaany) Lisaany.celebrate(); }
+        else { S.quizWrong++; }
+        render();
+        if(ok) setTimeout(function(){ advQuiz(d); }, 1000);
+      };})(opt)
+    }, opt);
+    if(S.quizLocked && (isCorrect||isChosen)){
+      btn.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',fontVariationSettings:"'FILL' 1",flexShrink:'0',color:isCorrect?'var(--green)':'var(--red)'}},isCorrect?'check_circle':'cancel'));
+    }
+    optGrid.appendChild(btn);
+  });
+  w.appendChild(optGrid);
+
+  // Feedback
+  if(S.quizFb){
+    var fb3=div('cf '+(S.quizFb==='correct'?'cf-ok':'cf-no')); fb3.style.marginBottom='12px';
+    if(S.quizFb==='correct'){
+      var msg='✅ <strong>Correct!</strong>';
+      if(cur.promptType==='en') msg+=' <span style="font-family:\'Amiri\',serif;font-size:22px;color:var(--green);"> '+cur.correct+'</span>';
+      fb3.innerHTML=msg;
+    } else {
+      var corrDisp=isArOpt?'<span style="font-family:\'Amiri\',serif;font-size:26px"> '+cur.correct+'</span>':'<strong>'+cur.correct+'</strong>';
+      fb3.innerHTML='❌ Correct answer: '+corrDisp;
+    }
+    w.appendChild(fb3);
+  }
+
+  // Nav
+  var nav3=div('action-row'); nav3.style.marginTop='4px';
+  if(S.quizLocked && S.quizFb==='wrong'){
+    nav3.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:function(){ advQuiz(d); }},'Next →'));
+  }
+  if(!S.quizLocked){
+    nav3.appendChild(el('button',{className:'btn btn-ghost',onclick:function(){ S.view='blocks';render(); }},'← Back'));
+    nav3.appendChild(el('button',{className:'btn btn-ghost',style:{opacity:'.65'},onclick:function(){
+      S.quizIdx=0;S.quizScore=0;S.quizWrong=0;S.quizChosen=null;S.quizFb=null;S.quizLocked=false;finishBlock();
+    }},'Skip Drill →'));
+  }
+  w.appendChild(nav3);
+  return w;
+}
+
+function advQuiz(d){
+  S.quizFb=null; S.quizLocked=false; S.quizChosen=null;
+  if(S.quizIdx < d.questions.length - 1){ S.quizIdx++; render(); }
+  else { S.quizIdx=0; S.quizScore=0; S.quizWrong=0; finishBlock(); }
+}
 
 
 render();
