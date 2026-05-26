@@ -1858,17 +1858,6 @@ a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190
 .lis-contact-foot{margin-top:20px;padding-top:16px;border-top:1px solid rgba(242,190,98,.14);font-size:12px;color:#9ba8be;line-height:1.8;}
 .lis-contact-foot a{color:#f2be62;text-decoration:none;}
 .lis-contact-foot a:hover{text-decoration:underline;}
-/* ── Contact modal starfield (matches index.html) ── */
-.lis-contact-modal .pw-stars-far,.lis-contact-modal .pw-stars-mid{position:absolute;inset:0;z-index:0;pointer-events:none;background-repeat:repeat;border-radius:0;}
-.lis-contact-modal .pw-stars-far{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='440' height='760'><g fill='%23cdd6ee'><circle cx='165' cy='154' r='0.8' opacity='0.32'/><circle cx='37' cy='548' r='0.6' opacity='0.26'/><circle cx='29' cy='519' r='0.6' opacity='0.19'/><circle cx='222' cy='428' r='0.6' opacity='0.23'/><circle cx='282' cy='434' r='0.6' opacity='0.36'/><circle cx='63' cy='228' r='0.6' opacity='0.31'/><circle cx='203' cy='50' r='0.6' opacity='0.19'/><circle cx='439' cy='136' r='0.8' opacity='0.27'/><circle cx='276' cy='120' r='0.8' opacity='0.30'/><circle cx='349' cy='185' r='0.6' opacity='0.31'/><circle cx='327' cy='192' r='0.8' opacity='0.20'/><circle cx='364' cy='64' r='0.6' opacity='0.32'/><circle cx='254' cy='696' r='0.8' opacity='0.35'/><circle cx='238' cy='599' r='0.8' opacity='0.26'/><circle cx='127' cy='184' r='0.6' opacity='0.20'/><circle cx='153' cy='537' r='0.8' opacity='0.37'/><circle cx='373' cy='459' r='0.8' opacity='0.31'/><circle cx='37' cy='120' r='0.8' opacity='0.22'/></g></svg>");background-size:300px 520px;opacity:.75;animation:pwFloatY 95s linear infinite;}
-.lis-contact-modal .pw-stars-mid{background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='440' height='760'><g fill='%23f2d080'><circle cx='175' cy='155' r='1.3' opacity='0.53'/><circle cx='342' cy='79' r='1.3' opacity='0.50'/><circle cx='179' cy='608' r='1.3' opacity='0.57'/><circle cx='233' cy='70' r='1.0' opacity='0.68'/><circle cx='242' cy='713' r='1.0' opacity='0.42'/><circle cx='359' cy='317' r='1.3' opacity='0.49'/><circle cx='197' cy='684' r='1.3' opacity='0.41'/><circle cx='236' cy='363' r='1.0' opacity='0.58'/><circle cx='90' cy='250' r='1.0' opacity='0.5'/><circle cx='400' cy='500' r='1.0' opacity='0.46'/><circle cx='120' cy='430' r='1.2' opacity='0.52'/></g></svg>");background-size:300px 520px;opacity:.85;animation:pwFloatY 62s linear infinite;}
-.lis-contact-modal .pw-spark{position:absolute;z-index:0;pointer-events:none;width:11px;height:11px;background:radial-gradient(circle,#ffe9b8 0%,#f2d080 30%,transparent 60%);clip-path:polygon(50% 0,58% 42%,100% 50%,58% 58%,50% 100%,42% 58%,0 50%,42% 42%);animation:pwTwk 4.5s ease-in-out infinite;}
-.lis-contact-modal .pw-spark.s1{top:12%;left:14%;animation-delay:0s;}
-.lis-contact-modal .pw-spark.s2{top:18%;right:12%;animation-delay:2.2s;transform:scale(.7);}
-.lis-contact-modal .pw-spark.s3{bottom:18%;left:10%;animation-delay:1.1s;transform:scale(.65);}
-.lis-contact-modal .pw-spark.s4{bottom:14%;right:10%;animation-delay:3.0s;transform:scale(.75);}
-/* (pwFloatY/pwTwk keyframes + reduced-motion already defined globally above — reused here) */
-.lis-contact-modal .lis-contact-card{position:relative;z-index:1;}
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1929,12 +1918,6 @@ a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190
 
 <!-- Contact modal -->
 <div class="lis-contact-modal" id="lisContactModal" onclick="if(event.target===this)this.classList.remove('open')">
-  <div class="pw-stars-far"></div>
-  <div class="pw-stars-mid"></div>
-  <div class="pw-spark s1"></div>
-  <div class="pw-spark s2"></div>
-  <div class="pw-spark s3"></div>
-  <div class="pw-spark s4"></div>
   <div class="lis-contact-card">
     <button class="lis-contact-close" aria-label="Close" onclick="document.getElementById('lisContactModal').classList.remove('open')">&times;</button>
     <div class="lis-contact-eyebrow">Get in touch</div>
@@ -2436,8 +2419,6 @@ const CUR = [
               {stem:"بَيْت", en:"Her house",      correct:"ـُهَا",finalForm:"بَيْتُهَا"},
               {stem:"قَلَم", en:"My pen",         correct:"ـِي",  finalForm:"قَلَمِي"},
               {stem:"كِتَاب",en:"Your book (m.)", correct:"ـُكَ", finalForm:"كِتَابُكَ"},
-              {stem:"قَلَم", en:"Your pen (f.)",   correct:"ـُكِ", finalForm:"قَلَمُكِ"},
-              {stem:"بَيْت", en:"Your house (f.)", correct:"ـُكِ", finalForm:"بَيْتُكِ"},
             ]}
           }
         ]
@@ -2831,8 +2812,6 @@ const CUR = [
               {ar:"طَاوِلَة",en:"Desk / Table"},
               {ar:"كُرْسِيّ",en:"Chair"},
               {ar:"سَبُّورَة",en:"Blackboard"},
-              {ar:"وَرَقَة",en:"Paper / Sheet of paper"},
-              {ar:"صَفْحَة",en:"Page"},
             ]}
           },
           { id:4, type:"grammar", title:"عِنْدِي / عِنْدَكَ — I Have / You Have", desc:"التَّعْبِير عَن الْمِلْكِيَّة", icon:"psychology", color:"#D4A34A",
@@ -2855,20 +2834,6 @@ const CUR = [
                 {ar:"مَاذَا عِنْدَكِ فِي الْحَقِيبَة؟",en:"What do you have in the bag?"},
               ]
             }
-          },
-          { id:6, type:"classroom", title:"Who Has It?", desc:"عِنْدِي / عِنْدَكَ / عِنْدَكِ", icon:"inventory_2", color:"#D4A34A",
-            data:{ passing:70, sentences:[
-              {item:"كِتَاب",  en:"I have a book",            correct:"ـِي",  finalForm:"عِنْدِي كِتَاب"},
-              {item:"قَلَم",   en:"You have a pen (m)",        correct:"ـَكَ", finalForm:"عِنْدَكَ قَلَم"},
-              {item:"دَفْتَر",  en:"You have a notebook (f)",   correct:"ـَكِ", finalForm:"عِنْدَكِ دَفْتَر"},
-              {item:"حَقِيبَة", en:"He has a bag",             correct:"ـَهُ", finalForm:"عِنْدَهُ حَقِيبَة"},
-              {item:"مَحَّايَة",en:"She has an eraser",         correct:"ـَهَا",finalForm:"عِنْدَهَا مَحَّايَة"},
-              {item:"كُرْسِيّ", en:"I have a chair",            correct:"ـِي",  finalForm:"عِنْدِي كُرْسِيّ"},
-              {item:"كِتَاب",  en:"You have a book (f)",       correct:"ـَكِ", finalForm:"عِنْدَكِ كِتَاب"},
-              {item:"قَلَم",   en:"She has a pen",            correct:"ـَهَا",finalForm:"عِنْدَهَا قَلَم"},
-              {item:"دَفْتَر",  en:"He has a notebook",        correct:"ـَهُ", finalForm:"عِنْدَهُ دَفْتَر"},
-              {item:"حَقِيبَة", en:"You have a bag (m)",        correct:"ـَكَ", finalForm:"عِنْدَكَ حَقِيبَة"},
-            ]}
           },
           { id:5, type:"clutter", title:"Sentence Builder", desc:"جُمَل بَسِيطَة عَن الْفَصْل", icon:"extension", color:"#D4A34A",
             data:{ passing:70, sentences:[
@@ -3106,6 +3071,41 @@ const CUR = [
             }
           }
         ]
+      },
+      { id:"3.5", title:"Telling Time", icon:"schedule",
+        desc:"السَّاعَة وَالْوَقْت — كَم السَّاعَة؟",
+        blocks:[
+          { id:1, type:"vocab", title:"Time & the Clock", desc:"سَاعَة، دَقِيقَة، كَم السَّاعَة؟", icon:"schedule", color:"#D4A34A",
+            data:{ words:[
+              {ar:"الْوَقْت",en:"Time"},
+              {ar:"السَّاعَة",en:"Hour / O'clock"},
+              {ar:"الدَّقِيقَة",en:"Minute"},
+              {ar:"النِّصْف",en:"Half"},
+              {ar:"الرُّبْع",en:"Quarter"},
+              {ar:"الصَّبَاح",en:"Morning"},
+              {ar:"الْمَسَاء",en:"Evening"},
+              {ar:"كَم السَّاعَة؟",en:"What time is it?"},
+            ]}
+          },
+          { id:2, type:"dialogue", title:"What Time Does School Start?", desc:"Asking about school times", icon:"schedule", color:"#D4A34A",
+            data:{ title:"مَتَى تَبْدَأُ الْمَدْرَسَة؟", setting:"طَالِب يَسْأَل عَن مَوَاعِيد الْمَدْرَسَة",
+              lines:[
+                {spk:"Student",side:"left",ar:"عَفْوًا، كَم السَّاعَةُ الْآنَ؟",en:"Excuse me, what time is it now?"},
+                {spk:"Teacher",side:"right",ar:"السَّاعَةُ الثَّامِنَةُ صَبَاحًا",en:"It is eight o'clock in the morning"},
+                {spk:"Student",side:"left",ar:"مَتَى تَبْدَأُ الْمَدْرَسَة؟",en:"When does school start?"},
+                {spk:"Teacher",side:"right",ar:"تَبْدَأُ السَّاعَةَ الثَّامِنَةَ وَالنِّصْف",en:"It starts at half past eight"},
+                {spk:"Student",side:"left",ar:"وَمَتَى نَنْتَهِي؟",en:"And when do we finish?"},
+                {spk:"Teacher",side:"right",ar:"نَنْتَهِي السَّاعَةَ الثَّانِيَةَ بَعْدَ الظُّهْر",en:"We finish at two in the afternoon"},
+              ],
+              keywords:[
+                {ar:"كَم السَّاعَة؟",en:"What time is it?"},
+                {ar:"تَبْدَأُ",en:"It starts"},
+                {ar:"نَنْتَهِي",en:"We finish"},
+                {ar:"وَالنِّصْف",en:"...and a half (half past)"},
+              ]
+            }
+          }
+        ]
       }
     ]
   },
@@ -3192,20 +3192,6 @@ const CUR = [
                 {ar:"الْحَدِيقَة الْجَمِيلَة خَلْفَ الْبَيْت",en:"The beautiful garden is behind the house"},
               ]
             }
-          },
-          { id:7, type:"house", title:"Where Is It?", desc:"حُرُوف الْجَرّ — فِي، عَلَى، تَحْتَ...", icon:"cottage", color:"#D4A34A",
-            data:{ passing:70, sentences:[
-              {subj:"الْكِتَاب",  place:"الطَّاوِلَة", en:"The book is on the table",        correct:"عَلَى", finalForm:"الْكِتَاب عَلَى الطَّاوِلَة"},
-              {subj:"الْحِذَاء",  place:"السَّرِير",   en:"The shoe is under the bed",        correct:"تَحْتَ", finalForm:"الْحِذَاء تَحْتَ السَّرِير"},
-              {subj:"اللَّمْبَة",  place:"الطَّاوِلَة", en:"The lamp is above the table",       correct:"فَوْقَ", finalForm:"اللَّمْبَة فَوْقَ الطَّاوِلَة"},
-              {subj:"السَّيَّارَة",place:"الْبَيْت",    en:"The car is in front of the house",  correct:"أَمَامَ",finalForm:"السَّيَّارَة أَمَامَ الْبَيْت"},
-              {subj:"الْحَدِيقَة", place:"الْمَنْزِل",  en:"The garden is behind the house",    correct:"خَلْفَ",finalForm:"الْحَدِيقَة خَلْفَ الْمَنْزِل"},
-              {subj:"الطَّعَام",   place:"الْمَطْبَخ",   en:"The food is in the kitchen",        correct:"فِي",   finalForm:"الطَّعَام فِي الْمَطْبَخ"},
-              {subj:"الْقَلَم",    place:"الْمَكْتَب",  en:"The pen is on the desk",            correct:"عَلَى", finalForm:"الْقَلَم عَلَى الْمَكْتَب"},
-              {subj:"الْقِطّ",     place:"الْكُرْسِيّ", en:"The cat is under the chair",        correct:"تَحْتَ", finalForm:"الْقِطّ تَحْتَ الْكُرْسِيّ"},
-              {subj:"الصُّورَة",   place:"السَّرِير",   en:"The picture is above the bed",      correct:"فَوْقَ", finalForm:"الصُّورَة فَوْقَ السَّرِير"},
-              {subj:"الْحَقِيبَة", place:"الْبَاب",     en:"The bag is behind the door",        correct:"خَلْفَ",finalForm:"الْحَقِيبَة خَلْفَ الْبَاب"},
-            ]}
           },
           { id:5, type:"clutter", title:"Sentence Builder", desc:"جمل 6-7 كلمات", icon:"extension", color:"#D4A34A",
             data:{ passing:70, sentences:[
@@ -3832,8 +3818,6 @@ const CUR = [
               {stem:"رِجْل", en:"Her leg",          correct:"ـُهَا",finalForm:"رِجْلُهَا"},
               {stem:"فَم",   en:"My mouth",         correct:"ـِي",   finalForm:"فَمِي"},
               {stem:"شَعْر", en:"His hair",         correct:"ـُهُ", finalForm:"شَعْرُهُ"},
-              {stem:"يَد",   en:"Your hand (f.)",   correct:"ـُكِ", finalForm:"يَدُكِ"},
-              {stem:"رِجْل", en:"Your leg (f.)",    correct:"ـُكِ", finalForm:"رِجْلُكِ"},
             ]}
           }
         ]
@@ -3929,8 +3913,6 @@ const CUR = [
               {stem:"بَنْطَلُون",en:"Her pants",        correct:"ـُهَا",finalForm:"بَنْطَلُونُهَا"},
               {stem:"حِزَام",  en:"My belt",            correct:"ـِي",   finalForm:"حِزَامِي"},
               {stem:"جَاكِيت", en:"Your jacket (m.)",  correct:"ـُكَ", finalForm:"جَاكِيتُكَ"},
-              {stem:"قَمِيص",  en:"Your shirt (f.)",   correct:"ـُكِ", finalForm:"قَمِيصُكِ"},
-              {stem:"مِعْطَف",  en:"Your coat (f.)",    correct:"ـُكِ", finalForm:"مِعْطَفُكِ"},
             ]}
           }
         ]
@@ -5617,6 +5599,143 @@ const CUR = [
         ]
       }
     ]
+  },
+  { id:13, title:"News & Politics", color:"#D4A34A", icon:"newspaper",
+    units:[
+      { id:"13.1", title:"News & Headlines", icon:"newspaper",
+        desc:"الأَخْبَار وَالْعَنَاوِين الرَّئِيسِيَّة — لُغَة الإِعْلَام",
+        blocks:[
+          { id:1, type:"dialogue", title:"News Report", desc:"A news anchor and reporter", icon:"live_tv", color:"#D4A34A",
+            data:{ title:"تَقْرِيرٌ إِخْبَارِيٌّ", setting:"مُذِيع فِي الِاسْتُودْيُو يَتَحَدَّث مَع مُرَاسِل",
+              lines:[
+                {spk:"Anchor",side:"left",ar:"أَهْلًا بِكُمْ فِي الأَخْبَارِ",en:"Welcome to the news"},
+                {spk:"Anchor",side:"left",ar:"مَا أَهَمُّ خَبَرٍ الْيَوْمَ؟",en:"What is the most important news today?"},
+                {spk:"Reporter",side:"right",ar:"عُقِدَ اجْتِمَاعٌ فِي الرِّيَاضِ الْيَوْمَ",en:"A meeting was held in Riyadh today"},
+                {spk:"Anchor",side:"left",ar:"مَاذَا حَدَثَ فِي الِاجْتِمَاعِ؟",en:"What happened in the meeting?"},
+                {spk:"Reporter",side:"right",ar:"وَقَّعَتِ الدُّوَلُ عَلَى اتِّفَاقٍ جَدِيدٍ",en:"The countries signed a new agreement"},
+              ],
+              keywords:[
+                {ar:"خَبَر",en:"News"},
+                {ar:"اجْتِمَاع",en:"Meeting"},
+                {ar:"اتِّفَاق",en:"Agreement"},
+              ]
+            }
+          },
+          { id:2, type:"vocab", title:"Key News Words", desc:"خَبَر، اجْتِمَاع، اتِّفَاق", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"خَبَر",en:"News"},
+              {ar:"اجْتِمَاع",en:"Meeting"},
+              {ar:"اتِّفَاق",en:"Agreement"},
+              {ar:"حُكُومَة",en:"Government"},
+              {ar:"رَئِيس",en:"President / Leader"},
+              {ar:"أَزْمَة",en:"Crisis"},
+              {ar:"حَرْب",en:"War"},
+              {ar:"سَلَام",en:"Peace"},
+            ]}
+          },
+          { id:3, type:"dialogue", title:"TV Interview", desc:"A journalist interviews an analyst", icon:"mic", color:"#D4A34A",
+            data:{ title:"مُقَابَلَةٌ تِلْفِزْيُونِيَّةٌ", setting:"صَحَفِيّ يُجْرِي مُقَابَلَة مَع مُحَلِّل",
+              lines:[
+                {spk:"Journalist",side:"left",ar:"هَلِ الِاتِّفَاقُ خُطْوَةٌ جَيِّدَةٌ؟",en:"Is the agreement a good step?"},
+                {spk:"Analyst",side:"right",ar:"نَعَمْ، وَلَكِنْ هُنَاكَ مُشْكِلَاتٌ أَيْضًا",en:"Yes, but there are problems too"},
+                {spk:"Journalist",side:"left",ar:"هَلْ سَيَسْتَمِرُّ السَّلَامُ؟",en:"Will the peace continue?"},
+                {spk:"Analyst",side:"right",ar:"نَأْمَلُ ذَلِكَ",en:"We hope so"},
+              ],
+              keywords:[
+                {ar:"خُطْوَة",en:"Step"},
+                {ar:"مُشْكِلَات",en:"Problems"},
+                {ar:"نَأْمَل",en:"We hope"},
+              ]
+            }
+          },
+          { id:4, type:"vocab", title:"Media Vocabulary", desc:"صَحَفِيّ، مُذِيع، مُرَاسِل", icon:"podcasts", color:"#D4A34A",
+            data:{ words:[
+              {ar:"صَحَفِيّ",en:"Journalist"},
+              {ar:"مُذِيع",en:"News Anchor"},
+              {ar:"مُرَاسِل",en:"Reporter"},
+              {ar:"قَنَاة إِخْبَارِيَّة",en:"News Channel"},
+              {ar:"خَبَر عَاجِل",en:"Breaking News"},
+              {ar:"بَثّ مُبَاشِر",en:"Live Broadcast"},
+              {ar:"تَقْرِير",en:"Report"},
+            ]}
+          },
+          { id:5, type:"vocab", title:"Politics Vocabulary", desc:"اِنْتِخَابَات، حُكُومَة، قَانُون", icon:"account_balance", color:"#D4A34A",
+            data:{ words:[
+              {ar:"اِنْتِخَابَات",en:"Elections"},
+              {ar:"حُكُومَة",en:"Government"},
+              {ar:"رَئِيس الْوُزَرَاء",en:"Prime Minister"},
+              {ar:"دِيمُقْرَاطِيَّة",en:"Democracy"},
+              {ar:"فَسَاد",en:"Corruption"},
+              {ar:"قَانُون",en:"Law"},
+              {ar:"مُفَاوَضَات",en:"Negotiations"},
+            ]}
+          },
+          { id:6, type:"grammar", title:"News Language", desc:"لُغَة الأَخْبَار — formal report patterns", icon:"article", color:"#D4A34A",
+            data:{ title:"News Language", titleAr:"لُغَة الأَخْبَار",
+              intro:"Arabic news uses short, formal expressions to introduce reports. These patterns appear constantly in broadcasts and headlines.",
+              table:{ cols:["Arabic","Meaning"], colW:"1.4fr 1fr",
+                rows:[
+                  {ar:"تَمَّ الإِعْلَانُ عَنْ...",en:"It was announced that..."},
+                  {ar:"أَفَادَتْ مَصَادِرُ...",en:"Sources said..."},
+                  {ar:"ذَكَرَ التَّلْفِزْيُونُ أَنَّ...",en:"TV reported that..."},
+                ]
+              },
+              keyRule:"News Arabic favours the passive and impersonal — 'it was announced' rather than 'they announced'.",
+              examples:[
+                {ar:"تَمَّ الإِعْلَانُ عَنْ اتِّفَاقٍ جَدِيدٍ",en:"A new agreement was announced"},
+                {ar:"أَفَادَتْ مَصَادِرُ رَسْمِيَّةٌ بِوُصُولِ الْوَفْدِ",en:"Official sources reported the delegation's arrival"},
+              ]
+            }
+          }
+        ]
+      },
+      { id:"13.2", title:"Opinions & Discussion", icon:"forum",
+        desc:"الآرَاء وَالنِّقَاش — express your opinion clearly",
+        blocks:[
+          { id:1, type:"dialogue", title:"A Discussion", desc:"Two people discuss a new law", icon:"forum", color:"#D4A34A",
+            data:{ title:"نِقَاشٌ", setting:"شَخْصَان يَتَنَاقَشَان حَوْل قَانُون جَدِيد",
+              lines:[
+                {spk:"Person 1",side:"left",ar:"هَلْ تُوَافِقُ عَلَى الْقَانُونِ الْجَدِيدِ؟",en:"Do you agree with the new law?"},
+                {spk:"Person 2",side:"right",ar:"لَا، لِأَنَّهُ سَيُسَبِّبُ مُشْكِلَاتٍ",en:"No, because it will cause problems"},
+                {spk:"Person 1",side:"left",ar:"وَلَكِنَّهُ مُهِمٌّ لِلِاقْتِصَادِ",en:"But it is important for the economy"},
+                {spk:"Person 2",side:"right",ar:"رُبَّمَا، لَكِنَّ النَّاسَ غَيْرُ سُعَدَاءَ",en:"Maybe, but the people are not happy"},
+              ],
+              keywords:[
+                {ar:"تُوَافِق",en:"You agree"},
+                {ar:"يُسَبِّب",en:"It causes"},
+                {ar:"الِاقْتِصَاد",en:"The economy"},
+              ]
+            }
+          },
+          { id:2, type:"vocab", title:"Expressing Opinion", desc:"أَعْتَقِد، فِي رَأْيِي، أُوَافِق", icon:"record_voice_over", color:"#D4A34A",
+            data:{ words:[
+              {ar:"أَعْتَقِدُ أَنَّ...",en:"I think that..."},
+              {ar:"فِي رَأْيِي...",en:"In my opinion..."},
+              {ar:"أُوَافِق",en:"I agree"},
+              {ar:"لَا أُوَافِق",en:"I disagree"},
+              {ar:"رُبَّمَا",en:"Maybe"},
+              {ar:"هَذَا صَحِيح",en:"That is true"},
+            ]}
+          },
+          { id:3, type:"grammar", title:"Conditional Sentences", desc:"الجُمَل الشَّرْطِيَّة — if... then...", icon:"rule", color:"#D4A34A",
+            data:{ title:"Conditional Sentences", titleAr:"الجُمَل الشَّرْطِيَّة",
+              intro:"A conditional sentence links a cause to a result, usually with إِذَا (if). The result often uses the future سَـ prefix.",
+              table:{ cols:["Pattern","Meaning"], colW:"1.4fr 1fr",
+                rows:[
+                  {ar:"إِذَا + فِعْل",en:"If + verb (the condition)"},
+                  {ar:"سَـ + نَتِيجَة",en:"then + future result"},
+                ]
+              },
+              keyRule:"إِذَا نَجَحَ... سَيَعُمُّ = If it succeeds... (then) will spread.",
+              examples:[
+                {ar:"إِذَا نَجَحَ الِاتِّفَاقُ، سَيَعُمُّ السَّلَامُ",en:"If the agreement succeeds, peace will spread"},
+                {ar:"إِذَا اسْتَمَرَّتِ الأَزْمَةُ، سَتَرْتَفِعُ الأَسْعَارُ",en:"If the crisis continues, prices will rise"},
+              ]
+            }
+          }
+        ]
+      }
+    ]
   }
 ];
 
@@ -6784,9 +6903,7 @@ function mkBlocks(){
     // Type tag - capitalize type
     const typeMap = {
       dialogue: 'Dialogue', vocab: 'Vocabulary', grammar: 'Grammar',
-      clutter: 'Sentence Builder', possessive: 'Suffix Tap', cloze: 'Fill Blank', video: 'Video',
-      quiz: 'Practice Drill',
-      fill: 'Sentence Fill'
+      clutter: 'Sentence Builder', possessive: 'Suffix Tap', cloze: 'Fill Blank', video: 'Video'
     };
     const typeLabel = (typeMap[blk.type] || 'Block') + ' · ' + String(blk.id).padStart(2,'0');
     body.appendChild(el('div', {className:'block-type-tag'}, typeLabel));
@@ -6820,8 +6937,6 @@ function resetBS(){
   const blk=getBlk(S.mId,S.uId,S.bId);
   if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=buildBankWithDistractors(blk.data.sentences[0]?.words||[], S.mId, S.uId); }
   if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
-  if(blk?.type==='quiz'){ S.quizIdx=0; S.quizChosen=null; S.quizFb=null; S.quizLocked=false; S.quizScore=0; S.quizWrong=0; }
-  if(blk?.type==='fill'){ S.fillIdx=0; S.fillChosen=null; S.fillFb=null; S.fillLocked=false; S.fillScore=0; S.fillWrong=0; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -6874,11 +6989,10 @@ function mkPossessive(blk){
   ref.style.cssText='background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:14px;padding:10px 14px;margin:12px 0;';
   ref.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'8px',textAlign:'center'}},'Reference'));
   const refRow=div('');
-  refRow.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;direction:rtl;';
+  refRow.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:6px;direction:rtl;';
   [
     {suf:'ـِي', en:'my'},
     {suf:'ـُكَ', en:'your (m)'},
-    {suf:'ـُكِ', en:'your (f)'},
     {suf:'ـُهُ', en:'his'},
     {suf:'ـُهَا', en:'her'},
   ].forEach(item=>{
@@ -6933,8 +7047,8 @@ function mkPossessive(blk){
   // 4 suffix choices
   if(!S.posLocked){
     const choices=div('');
-    choices.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;';
-    ['ـِي','ـُكَ','ـُكِ','ـُهُ','ـُهَا'].forEach(suf=>{
+    choices.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;';
+    ['ـِي','ـُكَ','ـُهُ','ـُهَا'].forEach(suf=>{
       const isSel = S.posChosen===suf;
       const btn=el('button',{
         style:{
@@ -7016,301 +7130,7 @@ function advPos(d){
   }
 }
 
-// ══════════════════════════════════════════════════════
-// CLASSROOM — عِنْدِي / عِنْدَكَ suffix drill (fill the slot)
-// ══════════════════════════════════════════════════════
-function mkClassroom(blk){
-  const d=blk.data;
-  const total=d.sentences.length;
-  if(typeof S.crIdx === 'undefined'){ S.crIdx=0; S.crChosen=null; S.crFb=null; S.crLocked=false; S.crScore=0; S.crWrong=0; S.crAttempts=0; }
-  const cur=d.sentences[S.crIdx];
-  const pct=Math.round(S.crScore/total*100);
-  const w=div('stage');
-
-  const topNav=div(''); topNav.style.cssText='display:flex;justify-content:flex-start;margin-bottom:4px;';
-  topNav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
-    S.crIdx=0; S.crChosen=null; S.crFb=null; S.crLocked=false; S.view='blocks'; render();
-  }},'← Back'));
-  w.appendChild(topNav);
-
-  const _hdr=div('lesson-hdr');
-  const _hi=div('lesson-hdr-icon'); _hi.appendChild(ms('inventory_2')); _hdr.appendChild(_hi);
-  const _hb=div('lesson-hdr-body');
-  _hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'}, 'I Have · ' + (S.crIdx+1) + ' of ' + total));
-  _hb.appendChild(el('div',{className:'lesson-hdr-title'}, 'Who Has It?'));
-  _hb.appendChild(el('div',{className:'lesson-hdr-arabic'}, 'عِنْدِي / عِنْدَكَ / عِنْدَكِ'));
-  _hdr.appendChild(_hb);
-  w.appendChild(_hdr);
-
-  const sr=div('score-row');
-  [{v:S.crScore,l:'Correct',c:'var(--green)'},{v:S.crWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{
-    const si=div('sc-item');
-    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
-    si.appendChild(el('div',{className:'sc-lbl'},s.l));
-    sr.appendChild(si);
-  });
-  w.appendChild(sr);
-
-  const ref=div('');
-  ref.style.cssText='background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:14px;padding:10px 14px;margin:12px 0;';
-  ref.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'8px',textAlign:'center'}},'Reference'));
-  const refRow=div('');
-  refRow.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;direction:rtl;';
-  [{suf:'ـِي',en:'I'},{suf:'ـَكَ',en:'you (m)'},{suf:'ـَكِ',en:'you (f)'},{suf:'ـَهُ',en:'he'},{suf:'ـَهَا',en:'she'}].forEach(item=>{
-    const cell=div(''); cell.style.cssText='text-align:center;padding:4px;';
-    cell.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'22px',color:'var(--gold)',lineHeight:'1.2'}},item.suf));
-    cell.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',marginTop:'2px',direction:'ltr'}},item.en));
-    refRow.appendChild(cell);
-  });
-  ref.appendChild(refRow);
-  w.appendChild(ref);
-
-  const prompt=div('en-prompt');
-  prompt.appendChild(el('span',{className:'lbl'},'Build in Arabic:'));
-  prompt.appendChild(document.createTextNode(cur.en));
-  w.appendChild(prompt);
-
-  const wordBox=div('');
-  wordBox.style.cssText=`
-    background:#0a1024;
-    border:1.5px solid ${S.crFb==='correct'?'var(--green)':S.crFb==='wrong'?'var(--red)':'rgba(212,163,74,.3)'};
-    border-radius:16px;padding:24px 16px;margin-top:14px;
-    direction:rtl;text-align:center;
-    font-family:'Amiri',serif;font-size:38px;color:var(--text);line-height:1.4;
-  `;
-  if(S.crLocked){
-    const isRight = S.crChosen === cur.correct;
-    const finalText = isRight ? cur.finalForm : ('عِنْد' + (S.crChosen||'') + ' ' + cur.item);
-    wordBox.appendChild(el('span',{style:{
-      color:isRight?'var(--green)':'var(--red)',
-      borderBottom:'2px solid '+(isRight?'var(--green)':'var(--red)'), padding:'0 6px'
-    }}, finalText));
-  } else {
-    wordBox.appendChild(document.createTextNode('عِنْد'));
-    const slot=el('span',{style:{
-      display:'inline-block',minWidth:'46px',padding:'0 6px',
-      borderBottom:'2px dashed rgba(212,163,74,.5)',
-      color:S.crChosen?'var(--gold)':'rgba(212,163,74,.4)', fontFamily:"'Amiri',serif"
-    }}, S.crChosen || '___');
-    wordBox.appendChild(slot);
-    wordBox.appendChild(document.createTextNode(' ' + cur.item));
-  }
-  w.appendChild(wordBox);
-
-  if(!S.crLocked){
-    const choices=div('');
-    choices.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;';
-    ['ـِي','ـَكَ','ـَكِ','ـَهُ','ـَهَا'].forEach(suf=>{
-      const isSel = S.crChosen===suf;
-      const btn=el('button',{
-        style:{
-          padding:'14px 8px',borderRadius:'14px',
-          border:'1.5px solid '+(isSel?'var(--gold)':'rgba(212,163,74,.25)'),
-          background:isSel?'rgba(212,163,74,.18)':'rgba(10,14,24,.6)',
-          color:isSel?'var(--gold)':'var(--text)',
-          fontFamily:"'Amiri',serif",fontSize:'26px',direction:'rtl',cursor:'pointer',transition:'all .15s'
-        },
-        onclick:()=>{ S.crChosen=suf; render(); }
-      }, suf);
-      choices.appendChild(btn);
-    });
-    w.appendChild(choices);
-  }
-
-  if(S.crFb){
-    const fb=div('cf '+(S.crFb==='correct'?'cf-ok':'cf-no')); fb.style.marginTop='14px';
-    if(S.crFb==='correct'){ fb.innerHTML='✅ <strong>Correct!</strong> '+cur.finalForm+' — '+cur.en; }
-    else { fb.innerHTML='❌ <strong>Not quite.</strong> The answer is <span style="font-family:\'Amiri\',serif;font-size:22px">'+cur.finalForm+'</span>'; }
-    w.appendChild(fb);
-  }
-
-  const nav=div('action-row'); nav.style.marginTop='14px';
-  if(S.crFb==='wrong' && (S.crAttempts||0) >= SCAFFOLD_THRESHOLD){
-    w.appendChild(mkScaffoldPanel(cur.correct, ()=>advCr(d)));
-  }
-  if(!S.crLocked){
-    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
-      S.crChosen=cur.correct; S.crLocked=true; S.crFb='wrong';
-      S.crWrong++; S.crAttempts=(S.crAttempts||0)+1; render();
-    }},'Show Answer'));
-    nav.appendChild(el('button',{
-      className:'btn btn-primary',
-      style: S.crChosen ? {} : {opacity:'0.5',cursor:'not-allowed',pointerEvents:'none'},
-      onclick:()=>{
-        if(!S.crChosen) return;
-        const ok = S.crChosen===cur.correct;
-        S.crLocked=true; S.crFb=ok?'correct':'wrong';
-        if(ok){ S.crScore++; if(window.Lisaany) Lisaany.celebrate(); }
-        else { S.crWrong++; S.crAttempts=(S.crAttempts||0)+1; }
-        render();
-        if(ok) setTimeout(()=>advCr(d), 1100);
-      }
-    },'Check ✓'));
-  } else if(S.crFb==='wrong' && (S.crAttempts||0) < SCAFFOLD_THRESHOLD){
-    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advCr(d)},'Next →'));
-  }
-  w.appendChild(nav);
-  return w;
-}
-
-function advCr(d){
-  S.crFb=null; S.crLocked=false; S.crChosen=null; S.crAttempts=0;
-  if(S.crIdx < d.sentences.length-1){ S.crIdx++; render(); }
-  else {
-    const pct=Math.round(S.crScore/d.sentences.length*100);
-    S.crIdx=0; S.crScore=0; S.crWrong=0;
-    if(pct >= (d.passing||70)){ finishBlock(); } else { render(); }
-  }
-}
-
-// ══════════════════════════════════════════════════════
-// HOUSE — prepositions of place (pick the preposition)
-// ══════════════════════════════════════════════════════
-function mkHouse(blk){
-  const d=blk.data;
-  const total=d.sentences.length;
-  if(typeof S.hsIdx === 'undefined'){ S.hsIdx=0; S.hsChosen=null; S.hsFb=null; S.hsLocked=false; S.hsScore=0; S.hsWrong=0; S.hsAttempts=0; }
-  const cur=d.sentences[S.hsIdx];
-  const pct=Math.round(S.hsScore/total*100);
-  const w=div('stage');
-
-  const topNav=div(''); topNav.style.cssText='display:flex;justify-content:flex-start;margin-bottom:4px;';
-  topNav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
-    S.hsIdx=0; S.hsChosen=null; S.hsFb=null; S.hsLocked=false; S.view='blocks'; render();
-  }},'← Back'));
-  w.appendChild(topNav);
-
-  const _hdr=div('lesson-hdr');
-  const _hi=div('lesson-hdr-icon'); _hi.appendChild(ms('cottage')); _hdr.appendChild(_hi);
-  const _hb=div('lesson-hdr-body');
-  _hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'}, 'Where Is It? · ' + (S.hsIdx+1) + ' of ' + total));
-  _hb.appendChild(el('div',{className:'lesson-hdr-title'}, 'Pick the Preposition'));
-  _hb.appendChild(el('div',{className:'lesson-hdr-arabic'}, 'حُرُوف الْجَرّ'));
-  _hdr.appendChild(_hb);
-  w.appendChild(_hdr);
-
-  const sr=div('score-row');
-  [{v:S.hsScore,l:'Correct',c:'var(--green)'},{v:S.hsWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{
-    const si=div('sc-item');
-    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
-    si.appendChild(el('div',{className:'sc-lbl'},s.l));
-    sr.appendChild(si);
-  });
-  w.appendChild(sr);
-
-  const ref=div('');
-  ref.style.cssText='background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:14px;padding:10px 14px;margin:12px 0;';
-  ref.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'8px',textAlign:'center'}},'Reference'));
-  const refRow=div('');
-  refRow.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;direction:rtl;';
-  [{suf:'فِي',en:'in'},{suf:'عَلَى',en:'on'},{suf:'تَحْتَ',en:'under'},{suf:'فَوْقَ',en:'above'},{suf:'أَمَامَ',en:'in front'},{suf:'خَلْفَ',en:'behind'}].forEach(item=>{
-    const cell=div(''); cell.style.cssText='text-align:center;padding:4px;';
-    cell.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'20px',color:'var(--gold)',lineHeight:'1.2'}},item.suf));
-    cell.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',marginTop:'2px',direction:'ltr'}},item.en));
-    refRow.appendChild(cell);
-  });
-  ref.appendChild(refRow);
-  w.appendChild(ref);
-
-  const prompt=div('en-prompt');
-  prompt.appendChild(el('span',{className:'lbl'},'Build in Arabic:'));
-  prompt.appendChild(document.createTextNode(cur.en));
-  w.appendChild(prompt);
-
-  const wordBox=div('');
-  wordBox.style.cssText=`
-    background:#0a1024;
-    border:1.5px solid ${S.hsFb==='correct'?'var(--green)':S.hsFb==='wrong'?'var(--red)':'rgba(212,163,74,.3)'};
-    border-radius:16px;padding:24px 16px;margin-top:14px;
-    direction:rtl;text-align:center;
-    font-family:'Amiri',serif;font-size:32px;color:var(--text);line-height:1.5;
-  `;
-  if(S.hsLocked){
-    const isRight = S.hsChosen === cur.correct;
-    const finalText = isRight ? cur.finalForm : (cur.subj + ' ' + (S.hsChosen||'') + ' ' + cur.place);
-    wordBox.appendChild(el('span',{style:{
-      color:isRight?'var(--green)':'var(--red)',
-      borderBottom:'2px solid '+(isRight?'var(--green)':'var(--red)'), padding:'0 6px'
-    }}, finalText));
-  } else {
-    wordBox.appendChild(document.createTextNode(cur.subj + ' '));
-    const slot=el('span',{style:{
-      display:'inline-block',minWidth:'72px',padding:'0 8px',
-      borderBottom:'2px dashed rgba(212,163,74,.5)',
-      color:S.hsChosen?'var(--gold)':'rgba(212,163,74,.4)', fontFamily:"'Amiri',serif"
-    }}, S.hsChosen || '___');
-    wordBox.appendChild(slot);
-    wordBox.appendChild(document.createTextNode(' ' + cur.place));
-  }
-  w.appendChild(wordBox);
-
-  if(!S.hsLocked){
-    const choices=div('');
-    choices.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;';
-    ['فِي','عَلَى','تَحْتَ','فَوْقَ','أَمَامَ','خَلْفَ'].forEach(prep=>{
-      const isSel = S.hsChosen===prep;
-      const btn=el('button',{
-        style:{
-          padding:'14px 8px',borderRadius:'14px',
-          border:'1.5px solid '+(isSel?'var(--gold)':'rgba(212,163,74,.25)'),
-          background:isSel?'rgba(212,163,74,.18)':'rgba(10,14,24,.6)',
-          color:isSel?'var(--gold)':'var(--text)',
-          fontFamily:"'Amiri',serif",fontSize:'24px',direction:'rtl',cursor:'pointer',transition:'all .15s'
-        },
-        onclick:()=>{ S.hsChosen=prep; render(); }
-      }, prep);
-      choices.appendChild(btn);
-    });
-    w.appendChild(choices);
-  }
-
-  if(S.hsFb){
-    const fb=div('cf '+(S.hsFb==='correct'?'cf-ok':'cf-no')); fb.style.marginTop='14px';
-    if(S.hsFb==='correct'){ fb.innerHTML='✅ <strong>Correct!</strong> '+cur.finalForm+' — '+cur.en; }
-    else { fb.innerHTML='❌ <strong>Not quite.</strong> The answer is <span style="font-family:\'Amiri\',serif;font-size:22px">'+cur.finalForm+'</span>'; }
-    w.appendChild(fb);
-  }
-
-  const nav=div('action-row'); nav.style.marginTop='14px';
-  if(S.hsFb==='wrong' && (S.hsAttempts||0) >= SCAFFOLD_THRESHOLD){
-    w.appendChild(mkScaffoldPanel(cur.correct, ()=>advHs(d)));
-  }
-  if(!S.hsLocked){
-    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
-      S.hsChosen=cur.correct; S.hsLocked=true; S.hsFb='wrong';
-      S.hsWrong++; S.hsAttempts=(S.hsAttempts||0)+1; render();
-    }},'Show Answer'));
-    nav.appendChild(el('button',{
-      className:'btn btn-primary',
-      style: S.hsChosen ? {} : {opacity:'0.5',cursor:'not-allowed',pointerEvents:'none'},
-      onclick:()=>{
-        if(!S.hsChosen) return;
-        const ok = S.hsChosen===cur.correct;
-        S.hsLocked=true; S.hsFb=ok?'correct':'wrong';
-        if(ok){ S.hsScore++; if(window.Lisaany) Lisaany.celebrate(); }
-        else { S.hsWrong++; S.hsAttempts=(S.hsAttempts||0)+1; }
-        render();
-        if(ok) setTimeout(()=>advHs(d), 1100);
-      }
-    },'Check ✓'));
-  } else if(S.hsFb==='wrong' && (S.hsAttempts||0) < SCAFFOLD_THRESHOLD){
-    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advHs(d)},'Next →'));
-  }
-  w.appendChild(nav);
-  return w;
-}
-
-function advHs(d){
-  S.hsFb=null; S.hsLocked=false; S.hsChosen=null; S.hsAttempts=0;
-  if(S.hsIdx < d.sentences.length-1){ S.hsIdx++; render(); }
-  else {
-    const pct=Math.round(S.hsScore/d.sentences.length*100);
-    S.hsIdx=0; S.hsScore=0; S.hsWrong=0;
-    if(pct >= (d.passing||70)){ finishBlock(); } else { render(); }
-  }
-}
-
-function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='classroom')return mkClassroom(blk); if(blk.type==='house')return mkHouse(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='fill')return mkFill(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
 
 // ══════════════════════════════════════════════════════
 // BLOCK 1: DIALOGUE
@@ -8770,435 +8590,6 @@ function mkComplete(){
     // Only restore hub — don't drop mid-lesson
   }catch(e){}
 })();
-
-
-// ── Auto-inject Q&A Drill before each sentence builder ──
-(function(){
-  CUR.forEach(function(mod){
-    mod.units.forEach(function(unit){
-      var hasVocab = unit.blocks.some(function(b){ return b.type==='vocab'; });
-      var hasClutter = unit.blocks.some(function(b){ return b.type==='clutter'; });
-      var hasQuiz = unit.blocks.some(function(b){ return b.type==='quiz'; });
-      if(hasVocab && hasClutter && !hasQuiz){
-        var clutterIdx = unit.blocks.findIndex(function(b){ return b.type==='clutter'; });
-        var maxId = Math.max.apply(null, unit.blocks.map(function(b){ return b.id; }));
-        unit.blocks.splice(clutterIdx, 0, {
-          id: maxId + 10,
-          type: 'quiz',
-          title: 'Practice Drill',
-          desc: 'اختَر الجَواب الصَّحِيح',
-          icon: 'quiz',
-          color: '#D4A34A',
-          data: { passing: 60 }
-        });
-      }
-    });
-  });
-})();
-
-// ══════════════════════════════════════════════════════
-// QUIZ DRILL — tap the correct answer (before sentence builder)
-// ══════════════════════════════════════════════════════
-function getQuizData(blk){
-  if(blk._quizData) return blk._quizData;
-  var mid = S.mId, uId = S.uId;
-  var unit = getUnit(mid, uId);
-  if(!unit){ blk._quizData = {questions:[], passing:60}; return blk._quizData; }
-
-  var allWords = [];
-  var seenAr = new Set();
-  function addWord(ar, en){
-    ar = (ar||'').trim(); en = (en||'').trim();
-    if(!ar || !en || seenAr.has(ar)) return;
-    seenAr.add(ar);
-    allWords.push({ar:ar, en:en});
-  }
-  unit.blocks.filter(function(b){ return b.type==='vocab'; }).forEach(function(b){
-    (b.data&&b.data.words||[]).forEach(function(entry){
-      var arParts = (entry.ar||'').split(' / ').map(function(s){ return s.trim(); }).filter(Boolean);
-      var enParts = (entry.en||'').split(' / ').map(function(s){ return s.trim(); }).filter(Boolean);
-      if(arParts.length > 1 && arParts.length === enParts.length){
-        arParts.forEach(function(ar,i){ addWord(ar, enParts[i]); });
-      } else {
-        addWord(entry.ar, entry.en);
-      }
-    });
-  });
-  unit.blocks.filter(function(b){ return b.type==='dialogue'; }).forEach(function(b){
-    (b.data&&b.data.keywords||[]).forEach(function(k){
-      var arParts = (k.ar||'').split(' / ').map(function(s){ return s.trim(); }).filter(Boolean);
-      var enParts = (k.en||'').split(' / ').map(function(s){ return s.trim(); }).filter(Boolean);
-      if(arParts.length > 1 && arParts.length === enParts.length){
-        arParts.forEach(function(ar,i){ addWord(ar, enParts[i]); });
-      } else {
-        addWord(k.ar, k.en);
-      }
-    });
-  });
-
-  if(allWords.length < 4){ blk._quizData = {questions:[], passing:60}; return blk._quizData; }
-
-  var pool = shuffle(allWords).slice(0, Math.min(10, allWords.length));
-  var questions = pool.map(function(item, i){
-    var arToEn = (i % 2 === 1);
-    var others = allWords.filter(function(w){ return w.ar !== item.ar; });
-    var distractors = shuffle(others).slice(0,3);
-    if(arToEn){
-      return { prompt:item.ar, promptType:'ar', correct:item.en, options:shuffle([item.en].concat(distractors.map(function(d){ return d.en; }))), context:item };
-    } else {
-      return { prompt:item.en, promptType:'en', correct:item.ar, options:shuffle([item.ar].concat(distractors.map(function(d){ return d.ar; }))), context:item };
-    }
-  });
-
-  blk._quizData = { questions:questions, passing:(blk.data&&blk.data.passing)||60 };
-  return blk._quizData;
-}
-
-function mkQuiz(blk){
-  var d = getQuizData(blk);
-  if(!d.questions || d.questions.length === 0){
-    setTimeout(function(){ finishBlock(); }, 80);
-    return div('stage');
-  }
-
-  if(typeof S.quizIdx === 'undefined'){
-    S.quizIdx=0; S.quizChosen=null; S.quizFb=null; S.quizLocked=false; S.quizScore=0; S.quizWrong=0;
-  }
-
-  var total = d.questions.length;
-  var cur = d.questions[S.quizIdx];
-  var pct = Math.round(S.quizScore/total*100);
-  var w = div('stage');
-
-  // Header
-  var hdr = div('lesson-hdr');
-  var hi = div('lesson-hdr-icon'); hi.appendChild(ms('quiz')); hdr.appendChild(hi);
-  var hb = div('lesson-hdr-body');
-  hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'},'Practice Drill · '+(S.quizIdx+1)+' of '+total));
-  hb.appendChild(el('div',{className:'lesson-hdr-title'},'Quick Check'));
-  hb.appendChild(el('div',{className:'lesson-hdr-arabic'},'Tap the correct answer'));
-  hdr.appendChild(hb); w.appendChild(hdr);
-
-  // Score row
-  var sr = div('score-row');
-  [{v:S.quizScore,l:'Correct',c:'var(--green)'},{v:S.quizWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(function(s){
-    var si=div('sc-item');
-    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
-    si.appendChild(el('div',{className:'sc-lbl'},s.l));
-    sr.appendChild(si);
-  });
-  w.appendChild(sr);
-
-  // Progress bar
-  var prog=div(''); prog.style.cssText='height:4px;background:rgba(242,190,98,.1);border-radius:2px;margin:6px 0 18px;overflow:hidden;';
-  var pf2=div(''); pf2.style.cssText='height:100%;background:var(--gold);border-radius:2px;width:'+Math.round((S.quizIdx/total)*100)+'%;transition:width .4s;';
-  prog.appendChild(pf2); w.appendChild(prog);
-
-  // Question card
-  var qCard=div('');
-  qCard.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(242,190,98,.3);border-radius:20px;padding:28px 22px;text-align:center;margin-bottom:18px;';
-  var isArPrompt = cur.promptType==='ar';
-  qCard.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.18em',textTransform:'uppercase',color:'var(--dim)',marginBottom:'14px'}},
-    isArPrompt ? 'What does this mean in English?' : 'How do you say this in Arabic?'));
-  var promptEl=el('div',{style:{
-    fontFamily: isArPrompt ? "'Amiri',serif" : "'Inter',sans-serif",
-    fontSize: isArPrompt ? '52px' : '20px',
-    fontWeight: isArPrompt ? '400' : '600',
-    color: isArPrompt ? 'var(--gold)' : 'var(--text)',
-    direction: isArPrompt ? 'rtl' : 'ltr',
-    lineHeight:'1.4', marginBottom:'10px'
-  }}, cur.prompt);
-  qCard.appendChild(promptEl);
-  if(isArPrompt){
-    var ab=el('button',{style:{marginTop:'8px',padding:'8px 14px',borderRadius:'10px',border:'1px solid rgba(242,190,98,.3)',background:'transparent',color:'var(--gold)',cursor:'pointer',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'12px',fontWeight:'700'},onclick:function(e){e.stopPropagation();speak(cur.prompt);}});
-    ab.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'15px',fontVariationSettings:"'FILL' 1"}},'volume_up'));
-    ab.appendChild(document.createTextNode(' Hear it'));
-    qCard.appendChild(ab);
-  }
-  w.appendChild(qCard);
-
-  // Options grid
-  var optGrid=div(''); optGrid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;';
-  var isArOpt = cur.promptType==='en';
-  cur.options.forEach(function(opt){
-    var isChosen=S.quizChosen===opt, isCorrect=opt===cur.correct;
-    var bg,border,color;
-    if(S.quizLocked){
-      if(isCorrect){      bg='rgba(127,201,156,.18)';border='var(--green)';color='var(--green)';}
-      else if(isChosen){  bg='rgba(224,112,112,.12)';border='var(--red)';  color='var(--red)';  }
-      else {              bg='rgba(255,255,255,.02)';border='rgba(255,255,255,.07)';color='rgba(218,227,246,.3)';}
-    } else {
-      if(isChosen){ bg='rgba(242,190,98,.14)';border='var(--gold)';color='var(--gold)'; }
-      else {        bg='rgba(255,255,255,.03)';border='rgba(255,255,255,.12)';color='var(--text)'; }
-    }
-    var btn=el('button',{
-      style:{padding:'16px 10px',borderRadius:'14px',border:'1.5px solid '+border,background:bg,color:color,
-        fontFamily:isArOpt?"'Amiri',serif":"'Inter',sans-serif",
-        fontSize:isArOpt?'22px':'13px',direction:isArOpt?'rtl':'ltr',
-        lineHeight:'1.35',cursor:S.quizLocked?'default':'pointer',transition:'all .15s',
-        textAlign:'center',minHeight:'60px',display:'flex',alignItems:'center',
-        justifyContent:'center',width:'100%',gap:'6px'},
-      onclick:(function(o){ return function(){
-        if(S.quizLocked) return;
-        S.quizChosen=o; S.quizLocked=true;
-        var ok=o===cur.correct; S.quizFb=ok?'correct':'wrong';
-        if(ok){ S.quizScore++; if(window.Lisaany) Lisaany.celebrate(); }
-        else { S.quizWrong++; }
-        render();
-        if(ok) setTimeout(function(){ advQuiz(d); }, 1000);
-      };})(opt)
-    }, opt);
-    if(S.quizLocked && (isCorrect||isChosen)){
-      btn.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',fontVariationSettings:"'FILL' 1",flexShrink:'0',color:isCorrect?'var(--green)':'var(--red)'}},isCorrect?'check_circle':'cancel'));
-    }
-    optGrid.appendChild(btn);
-  });
-  w.appendChild(optGrid);
-
-  // Feedback
-  if(S.quizFb){
-    var fb3=div('cf '+(S.quizFb==='correct'?'cf-ok':'cf-no')); fb3.style.marginBottom='12px';
-    if(S.quizFb==='correct'){
-      var msg='✅ <strong>Correct!</strong>';
-      if(cur.promptType==='en') msg+=' <span style="font-family:\'Amiri\',serif;font-size:22px;color:var(--green);"> '+cur.correct+'</span>';
-      fb3.innerHTML=msg;
-    } else {
-      var corrDisp=isArOpt?'<span style="font-family:\'Amiri\',serif;font-size:26px"> '+cur.correct+'</span>':'<strong>'+cur.correct+'</strong>';
-      fb3.innerHTML='❌ Correct answer: '+corrDisp;
-    }
-    w.appendChild(fb3);
-  }
-
-  // Nav
-  var nav3=div('action-row'); nav3.style.marginTop='4px';
-  if(S.quizLocked && S.quizFb==='wrong'){
-    nav3.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:function(){ advQuiz(d); }},'Next →'));
-  }
-  if(!S.quizLocked){
-    nav3.appendChild(el('button',{className:'btn btn-ghost',onclick:function(){ S.view='blocks';render(); }},'← Back'));
-    nav3.appendChild(el('button',{className:'btn btn-ghost',style:{opacity:'.65'},onclick:function(){
-      S.quizIdx=0;S.quizScore=0;S.quizWrong=0;S.quizChosen=null;S.quizFb=null;S.quizLocked=false;finishBlock();
-    }},'Skip Drill →'));
-  }
-  w.appendChild(nav3);
-  return w;
-}
-
-function advQuiz(d){
-  S.quizFb=null; S.quizLocked=false; S.quizChosen=null;
-  if(S.quizIdx < d.questions.length - 1){ S.quizIdx++; render(); }
-  else { S.quizIdx=0; S.quizScore=0; S.quizWrong=0; finishBlock(); }
-}
-
-// ── Auto-inject Sentence Fill block after each Practice Drill ──
-(function(){
-  CUR.forEach(function(mod){
-    mod.units.forEach(function(unit){
-      var hasQuiz = unit.blocks.some(function(b){ return b.type==='quiz'; });
-      var hasFill = unit.blocks.some(function(b){ return b.type==='fill'; });
-      var hasVocab = unit.blocks.some(function(b){ return b.type==='vocab'; });
-      if(hasQuiz && hasVocab && !hasFill){
-        var quizIdx = unit.blocks.findIndex(function(b){ return b.type==='quiz'; });
-        var maxId = Math.max.apply(null, unit.blocks.map(function(b){ return b.id; }));
-        unit.blocks.splice(quizIdx + 1, 0, {
-          id: maxId + 11,
-          type: 'fill',
-          title: 'Sentence Fill',
-          desc: 'مَن هذا؟ / ما هذا؟',
-          icon: 'edit_note',
-          color: '#D4A34A',
-          data: { passing: 60 }
-        });
-      }
-    });
-  });
-})();
-
-// ══════════════════════════════════════════════════════
-// SENTENCE FILL — Part 2 practice
-// Show Arabic question + English meaning → tap missing word
-// ══════════════════════════════════════════════════════
-var PERSON_EN = ['father','mother','brother','sister','grandfather','grandmother',
-  'uncle','aunt','teacher','student','doctor','nurse','engineer','lawyer','manager',
-  'accountant','journalist','man','woman','boy','girl','son','daughter','husband',
-  'wife','child','baby','friend','pharmacist','dentist','worker','artist','driver',
-  'farmer','pilot','cook','chef','singer','writer','player'];
-
-function _isPerson(en){
-  var l=(en||'').toLowerCase();
-  return PERSON_EN.some(function(p){ return l.indexOf(p)!==-1; });
-}
-
-function getFillData(blk){
-  if(blk._fillData) return blk._fillData;
-  var unit=getUnit(S.mId,S.uId);
-  if(!unit){ blk._fillData={questions:[],passing:60}; return blk._fillData; }
-
-  var allWords=[]; var seenAr=new Set();
-  function addW(ar,en){
-    ar=(ar||'').trim(); en=(en||'').trim();
-    if(!ar||!en||seenAr.has(ar)) return;
-    seenAr.add(ar); allWords.push({ar:ar,en:en});
-  }
-  unit.blocks.filter(function(b){ return b.type==='vocab'; }).forEach(function(b){
-    (b.data&&b.data.words||[]).forEach(function(entry){
-      var arP=(entry.ar||'').split(' / ').map(function(s){return s.trim();}).filter(Boolean);
-      var enP=(entry.en||'').split(' / ').map(function(s){return s.trim();}).filter(Boolean);
-      if(arP.length>1&&arP.length===enP.length){ arP.forEach(function(a,i){ addW(a,enP[i]); }); }
-      else addW(entry.ar,entry.en);
-    });
-  });
-
-  if(allWords.length<3){ blk._fillData={questions:[],passing:60}; return blk._fillData; }
-
-  var pool=shuffle(allWords).slice(0,Math.min(10,allWords.length));
-  var questions=pool.map(function(word){
-    var person=_isPerson(word.en);
-    var qAr=person?'مَن هذا؟':'ما هذا؟';
-    var qEn=person?'Who is this?':'What is this?';
-    var others=allWords.filter(function(w){ return w.ar!==word.ar; });
-    var dist=shuffle(others).slice(0,3).map(function(w){ return w.ar; });
-    return { qAr:qAr, qEn:qEn, answer:word.ar, answerEn:word.en, options:shuffle([word.ar].concat(dist)) };
-  });
-
-  blk._fillData={questions:questions,passing:(blk.data&&blk.data.passing)||60};
-  return blk._fillData;
-}
-
-function mkFill(blk){
-  var d=getFillData(blk);
-  if(!d.questions||d.questions.length===0){ setTimeout(function(){ finishBlock(); },80); return div('stage'); }
-
-  if(typeof S.fillIdx==='undefined'){
-    S.fillIdx=0; S.fillChosen=null; S.fillFb=null; S.fillLocked=false; S.fillScore=0; S.fillWrong=0;
-  }
-
-  var total=d.questions.length, cur=d.questions[S.fillIdx];
-  var pct=Math.round(S.fillScore/total*100);
-  var w=div('stage');
-
-  // Header
-  var hdr=div('lesson-hdr');
-  var hi=div('lesson-hdr-icon'); hi.appendChild(ms('edit_note')); hdr.appendChild(hi);
-  var hb=div('lesson-hdr-body');
-  hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'},'Sentence Fill · Part 2 · '+(S.fillIdx+1)+' of '+total));
-  hb.appendChild(el('div',{className:'lesson-hdr-title'},'Complete the Sentence'));
-  hb.appendChild(el('div',{className:'lesson-hdr-arabic'},'Tap the missing word'));
-  hdr.appendChild(hb); w.appendChild(hdr);
-
-  // Score row
-  var sr=div('score-row');
-  [{v:S.fillScore,l:'Correct',c:'var(--green)'},{v:S.fillWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(function(s){
-    var si=div('sc-item');
-    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
-    si.appendChild(el('div',{className:'sc-lbl'},s.l));
-    sr.appendChild(si);
-  });
-  w.appendChild(sr);
-
-  // Progress bar
-  var prog=div(''); prog.style.cssText='height:4px;background:rgba(242,190,98,.1);border-radius:2px;margin:6px 0 20px;overflow:hidden;';
-  var pf=div(''); pf.style.cssText='height:100%;background:var(--gold);border-radius:2px;width:'+Math.round((S.fillIdx/total)*100)+'%;transition:width .4s;';
-  prog.appendChild(pf); w.appendChild(prog);
-
-  // Question card
-  var qCard=div('');
-  qCard.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(242,190,98,.3);border-radius:20px;padding:30px 22px 24px;text-align:center;margin-bottom:20px;';
-
-  // Arabic question — big
-  qCard.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'52px',color:'var(--gold)',direction:'rtl',lineHeight:'1.4',marginBottom:'8px'}},cur.qAr));
-  // English — small muted
-  qCard.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',marginBottom:'20px'}},cur.qEn));
-  // Hear it button
-  var qAb=el('button',{style:{padding:'7px 14px',borderRadius:'10px',border:'1px solid rgba(242,190,98,.28)',background:'transparent',color:'var(--gold)',cursor:'pointer',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'12px',fontWeight:'700',marginBottom:'20px'},onclick:function(e){e.stopPropagation();speak(cur.qAr);}});
-  qAb.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'15px',fontVariationSettings:"'FILL' 1"}},'volume_up'));
-  qAb.appendChild(document.createTextNode(' Hear question'));
-  qCard.appendChild(qAb);
-  // Divider
-  var dl2=div(''); dl2.style.cssText='height:1px;background:rgba(242,190,98,.18);margin:0 0 22px;'; qCard.appendChild(dl2);
-
-  // Sentence with slot: "هذا ____"
-  var slotBg,slotBdr,slotCol;
-  if(S.fillLocked){
-    var ok2=S.fillChosen===cur.answer;
-    slotBg=ok2?'rgba(127,201,156,.2)':'rgba(224,112,112,.15)';
-    slotBdr=ok2?'var(--green)':'var(--red)';
-    slotCol=ok2?'var(--green)':'var(--red)';
-  } else {
-    slotBg=S.fillChosen?'rgba(242,190,98,.14)':'rgba(242,190,98,.04)';
-    slotBdr=S.fillChosen?'var(--gold)':'rgba(242,190,98,.4)';
-    slotCol=S.fillChosen?'var(--gold)':'rgba(242,190,98,.4)';
-  }
-  var sentRow=div(''); sentRow.style.cssText='display:flex;align-items:center;justify-content:center;gap:12px;direction:rtl;flex-wrap:wrap;';
-  var slot=el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'32px',color:slotCol,background:slotBg,border:'2px solid '+slotBdr,borderRadius:'12px',padding:'4px 24px',minWidth:'110px',display:'inline-block',textAlign:'center',direction:'rtl',transition:'all .2s'}},S.fillChosen||'____');
-  var prefix2=el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'32px',color:'var(--text)',direction:'rtl'}},'هذا');
-  sentRow.appendChild(slot); sentRow.appendChild(prefix2);
-  qCard.appendChild(sentRow);
-  w.appendChild(qCard);
-
-  // Options (2 col)
-  var og=div(''); og.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;';
-  cur.options.forEach(function(opt){
-    var isCh=S.fillChosen===opt, isCor=opt===cur.answer;
-    var bg3,bd3,co3;
-    if(S.fillLocked){
-      if(isCor){    bg3='rgba(127,201,156,.18)';bd3='var(--green)';co3='var(--green)';}
-      else if(isCh){bg3='rgba(224,112,112,.12)';bd3='var(--red)';  co3='var(--red)';  }
-      else {        bg3='rgba(255,255,255,.02)';bd3='rgba(255,255,255,.07)';co3='rgba(218,227,246,.3)';}
-    } else {
-      if(isCh){ bg3='rgba(242,190,98,.14)';bd3='var(--gold)';co3='var(--gold)'; }
-      else {    bg3='rgba(255,255,255,.03)';bd3='rgba(255,255,255,.12)';co3='var(--text)'; }
-    }
-    var btn2=el('button',{
-      style:{padding:'18px 10px',borderRadius:'14px',border:'1.5px solid '+bd3,background:bg3,color:co3,fontFamily:"'Amiri',serif",fontSize:'24px',direction:'rtl',lineHeight:'1.35',cursor:S.fillLocked?'default':'pointer',transition:'all .15s',textAlign:'center',minHeight:'64px',display:'flex',alignItems:'center',justifyContent:'center',width:'100%',gap:'6px'},
-      onclick:(function(o){ return function(){
-        if(S.fillLocked) return;
-        S.fillChosen=o; S.fillLocked=true;
-        var isOk=o===cur.answer; S.fillFb=isOk?'correct':'wrong';
-        if(isOk){ S.fillScore++; if(window.Lisaany) Lisaany.celebrate(); }
-        else { S.fillWrong++; }
-        render();
-        if(isOk) setTimeout(function(){ advFill(d); },1100);
-      };})(opt)
-    }, opt);
-    if(S.fillLocked&&(isCor||isCh)){
-      btn2.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',fontVariationSettings:"'FILL' 1",flexShrink:'0',color:isCor?'var(--green)':'var(--red)'}},isCor?'check_circle':'cancel'));
-    }
-    og.appendChild(btn2);
-  });
-  w.appendChild(og);
-
-  // Feedback
-  if(S.fillFb){
-    var fb2=div('cf '+(S.fillFb==='correct'?'cf-ok':'cf-no')); fb2.style.marginBottom='12px';
-    if(S.fillFb==='correct'){
-      fb2.innerHTML='✅ <strong>Correct!</strong> <span style="font-family:\'Amiri\',serif;font-size:22px;color:var(--green)"> هذا '+cur.answer+'</span>';
-    } else {
-      fb2.innerHTML='❌ Answer: <span style="font-family:\'Amiri\',serif;font-size:26px"> هذا '+cur.answer+'</span> <span style="font-size:12px;color:var(--dim);display:block;margin-top:4px">'+cur.answerEn+'</span>';
-    }
-    w.appendChild(fb2);
-  }
-
-  // Nav
-  var nav2=div('action-row'); nav2.style.marginTop='4px';
-  if(S.fillLocked&&S.fillFb==='wrong'){
-    nav2.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:function(){ advFill(d); }},'Next →'));
-  }
-  if(!S.fillLocked){
-    nav2.appendChild(el('button',{className:'btn btn-ghost',onclick:function(){ S.view='blocks';render(); }},'← Back'));
-    nav2.appendChild(el('button',{className:'btn btn-ghost',style:{opacity:'.65'},onclick:function(){
-      S.fillIdx=0;S.fillScore=0;S.fillWrong=0;S.fillChosen=null;S.fillFb=null;S.fillLocked=false;finishBlock();
-    }},'Skip →'));
-  }
-  w.appendChild(nav2);
-  return w;
-}
-
-function advFill(d){
-  S.fillFb=null; S.fillLocked=false; S.fillChosen=null;
-  if(S.fillIdx<d.questions.length-1){ S.fillIdx++; render(); }
-  else { S.fillIdx=0; S.fillScore=0; S.fillWrong=0; finishBlock(); }
-}
 
 
 render();
