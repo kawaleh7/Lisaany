@@ -6734,7 +6734,8 @@ function mkBlocks(){
     const typeMap = {
       dialogue: 'Dialogue', vocab: 'Vocabulary', grammar: 'Grammar',
       clutter: 'Sentence Builder', possessive: 'Suffix Tap', cloze: 'Fill Blank', video: 'Video',
-      quiz: 'Practice Drill'
+      quiz: 'Practice Drill',
+      fill: 'Sentence Fill'
     };
     const typeLabel = (typeMap[blk.type] || 'Block') + ' · ' + String(blk.id).padStart(2,'0');
     body.appendChild(el('div', {className:'block-type-tag'}, typeLabel));
@@ -6769,6 +6770,7 @@ function resetBS(){
   if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=buildBankWithDistractors(blk.data.sentences[0]?.words||[], S.mId, S.uId); }
   if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
   if(blk?.type==='quiz'){ S.quizIdx=0; S.quizChosen=null; S.quizFb=null; S.quizLocked=false; S.quizScore=0; S.quizWrong=0; }
+  if(blk?.type==='fill'){ S.fillIdx=0; S.fillChosen=null; S.fillFb=null; S.fillLocked=false; S.fillScore=0; S.fillWrong=0; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -6962,7 +6964,7 @@ function advPos(d){
   }
 }
 
-function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='fill')return mkFill(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
 
 // ══════════════════════════════════════════════════════
 // BLOCK 1: DIALOGUE
@@ -8477,7 +8479,15 @@ function getQuizData(blk){
     });
   });
   unit.blocks.filter(function(b){ return b.type==='dialogue'; }).forEach(function(b){
-    (b.data&&b.data.keywords||[]).forEach(function(k){ addWord(k.ar, k.en); });
+    (b.data&&b.data.keywords||[]).forEach(function(k){
+      var arParts = (k.ar||'').split(' / ').map(function(s){ return s.trim(); }).filter(Boolean);
+      var enParts = (k.en||'').split(' / ').map(function(s){ return s.trim(); }).filter(Boolean);
+      if(arParts.length > 1 && arParts.length === enParts.length){
+        arParts.forEach(function(ar,i){ addWord(ar, enParts[i]); });
+      } else {
+        addWord(k.ar, k.en);
+      }
+    });
   });
 
   if(allWords.length < 4){ blk._quizData = {questions:[], passing:60}; return blk._quizData; }
@@ -8632,6 +8642,216 @@ function advQuiz(d){
   S.quizFb=null; S.quizLocked=false; S.quizChosen=null;
   if(S.quizIdx < d.questions.length - 1){ S.quizIdx++; render(); }
   else { S.quizIdx=0; S.quizScore=0; S.quizWrong=0; finishBlock(); }
+}
+
+// ── Auto-inject Sentence Fill block after each Practice Drill ──
+(function(){
+  CUR.forEach(function(mod){
+    mod.units.forEach(function(unit){
+      var hasQuiz = unit.blocks.some(function(b){ return b.type==='quiz'; });
+      var hasFill = unit.blocks.some(function(b){ return b.type==='fill'; });
+      var hasVocab = unit.blocks.some(function(b){ return b.type==='vocab'; });
+      if(hasQuiz && hasVocab && !hasFill){
+        var quizIdx = unit.blocks.findIndex(function(b){ return b.type==='quiz'; });
+        var maxId = Math.max.apply(null, unit.blocks.map(function(b){ return b.id; }));
+        unit.blocks.splice(quizIdx + 1, 0, {
+          id: maxId + 11,
+          type: 'fill',
+          title: 'Sentence Fill',
+          desc: 'مَن هذا؟ / ما هذا؟',
+          icon: 'edit_note',
+          color: '#D4A34A',
+          data: { passing: 60 }
+        });
+      }
+    });
+  });
+})();
+
+// ══════════════════════════════════════════════════════
+// SENTENCE FILL — Part 2 practice
+// Show Arabic question + English meaning → tap missing word
+// ══════════════════════════════════════════════════════
+var PERSON_EN = ['father','mother','brother','sister','grandfather','grandmother',
+  'uncle','aunt','teacher','student','doctor','nurse','engineer','lawyer','manager',
+  'accountant','journalist','man','woman','boy','girl','son','daughter','husband',
+  'wife','child','baby','friend','pharmacist','dentist','worker','artist','driver',
+  'farmer','pilot','cook','chef','singer','writer','player'];
+
+function _isPerson(en){
+  var l=(en||'').toLowerCase();
+  return PERSON_EN.some(function(p){ return l.indexOf(p)!==-1; });
+}
+
+function getFillData(blk){
+  if(blk._fillData) return blk._fillData;
+  var unit=getUnit(S.mId,S.uId);
+  if(!unit){ blk._fillData={questions:[],passing:60}; return blk._fillData; }
+
+  var allWords=[]; var seenAr=new Set();
+  function addW(ar,en){
+    ar=(ar||'').trim(); en=(en||'').trim();
+    if(!ar||!en||seenAr.has(ar)) return;
+    seenAr.add(ar); allWords.push({ar:ar,en:en});
+  }
+  unit.blocks.filter(function(b){ return b.type==='vocab'; }).forEach(function(b){
+    (b.data&&b.data.words||[]).forEach(function(entry){
+      var arP=(entry.ar||'').split(' / ').map(function(s){return s.trim();}).filter(Boolean);
+      var enP=(entry.en||'').split(' / ').map(function(s){return s.trim();}).filter(Boolean);
+      if(arP.length>1&&arP.length===enP.length){ arP.forEach(function(a,i){ addW(a,enP[i]); }); }
+      else addW(entry.ar,entry.en);
+    });
+  });
+
+  if(allWords.length<3){ blk._fillData={questions:[],passing:60}; return blk._fillData; }
+
+  var pool=shuffle(allWords).slice(0,Math.min(10,allWords.length));
+  var questions=pool.map(function(word){
+    var person=_isPerson(word.en);
+    var qAr=person?'مَن هذا؟':'ما هذا؟';
+    var qEn=person?'Who is this?':'What is this?';
+    var others=allWords.filter(function(w){ return w.ar!==word.ar; });
+    var dist=shuffle(others).slice(0,3).map(function(w){ return w.ar; });
+    return { qAr:qAr, qEn:qEn, answer:word.ar, answerEn:word.en, options:shuffle([word.ar].concat(dist)) };
+  });
+
+  blk._fillData={questions:questions,passing:(blk.data&&blk.data.passing)||60};
+  return blk._fillData;
+}
+
+function mkFill(blk){
+  var d=getFillData(blk);
+  if(!d.questions||d.questions.length===0){ setTimeout(function(){ finishBlock(); },80); return div('stage'); }
+
+  if(typeof S.fillIdx==='undefined'){
+    S.fillIdx=0; S.fillChosen=null; S.fillFb=null; S.fillLocked=false; S.fillScore=0; S.fillWrong=0;
+  }
+
+  var total=d.questions.length, cur=d.questions[S.fillIdx];
+  var pct=Math.round(S.fillScore/total*100);
+  var w=div('stage');
+
+  // Header
+  var hdr=div('lesson-hdr');
+  var hi=div('lesson-hdr-icon'); hi.appendChild(ms('edit_note')); hdr.appendChild(hi);
+  var hb=div('lesson-hdr-body');
+  hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'},'Sentence Fill · Part 2 · '+(S.fillIdx+1)+' of '+total));
+  hb.appendChild(el('div',{className:'lesson-hdr-title'},'Complete the Sentence'));
+  hb.appendChild(el('div',{className:'lesson-hdr-arabic'},'Tap the missing word'));
+  hdr.appendChild(hb); w.appendChild(hdr);
+
+  // Score row
+  var sr=div('score-row');
+  [{v:S.fillScore,l:'Correct',c:'var(--green)'},{v:S.fillWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(function(s){
+    var si=div('sc-item');
+    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
+    si.appendChild(el('div',{className:'sc-lbl'},s.l));
+    sr.appendChild(si);
+  });
+  w.appendChild(sr);
+
+  // Progress bar
+  var prog=div(''); prog.style.cssText='height:4px;background:rgba(242,190,98,.1);border-radius:2px;margin:6px 0 20px;overflow:hidden;';
+  var pf=div(''); pf.style.cssText='height:100%;background:var(--gold);border-radius:2px;width:'+Math.round((S.fillIdx/total)*100)+'%;transition:width .4s;';
+  prog.appendChild(pf); w.appendChild(prog);
+
+  // Question card
+  var qCard=div('');
+  qCard.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(242,190,98,.3);border-radius:20px;padding:30px 22px 24px;text-align:center;margin-bottom:20px;';
+
+  // Arabic question — big
+  qCard.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'52px',color:'var(--gold)',direction:'rtl',lineHeight:'1.4',marginBottom:'8px'}},cur.qAr));
+  // English — small muted
+  qCard.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',marginBottom:'20px'}},cur.qEn));
+  // Hear it button
+  var qAb=el('button',{style:{padding:'7px 14px',borderRadius:'10px',border:'1px solid rgba(242,190,98,.28)',background:'transparent',color:'var(--gold)',cursor:'pointer',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'12px',fontWeight:'700',marginBottom:'20px'},onclick:function(e){e.stopPropagation();speak(cur.qAr);}});
+  qAb.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'15px',fontVariationSettings:"'FILL' 1"}},'volume_up'));
+  qAb.appendChild(document.createTextNode(' Hear question'));
+  qCard.appendChild(qAb);
+  // Divider
+  var dl2=div(''); dl2.style.cssText='height:1px;background:rgba(242,190,98,.18);margin:0 0 22px;'; qCard.appendChild(dl2);
+
+  // Sentence with slot: "هذا ____"
+  var slotBg,slotBdr,slotCol;
+  if(S.fillLocked){
+    var ok2=S.fillChosen===cur.answer;
+    slotBg=ok2?'rgba(127,201,156,.2)':'rgba(224,112,112,.15)';
+    slotBdr=ok2?'var(--green)':'var(--red)';
+    slotCol=ok2?'var(--green)':'var(--red)';
+  } else {
+    slotBg=S.fillChosen?'rgba(242,190,98,.14)':'rgba(242,190,98,.04)';
+    slotBdr=S.fillChosen?'var(--gold)':'rgba(242,190,98,.4)';
+    slotCol=S.fillChosen?'var(--gold)':'rgba(242,190,98,.4)';
+  }
+  var sentRow=div(''); sentRow.style.cssText='display:flex;align-items:center;justify-content:center;gap:12px;direction:rtl;flex-wrap:wrap;';
+  var slot=el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'32px',color:slotCol,background:slotBg,border:'2px solid '+slotBdr,borderRadius:'12px',padding:'4px 24px',minWidth:'110px',display:'inline-block',textAlign:'center',direction:'rtl',transition:'all .2s'}},S.fillChosen||'____');
+  var prefix2=el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'32px',color:'var(--text)',direction:'rtl'}},'هذا');
+  sentRow.appendChild(slot); sentRow.appendChild(prefix2);
+  qCard.appendChild(sentRow);
+  w.appendChild(qCard);
+
+  // Options (2 col)
+  var og=div(''); og.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;';
+  cur.options.forEach(function(opt){
+    var isCh=S.fillChosen===opt, isCor=opt===cur.answer;
+    var bg3,bd3,co3;
+    if(S.fillLocked){
+      if(isCor){    bg3='rgba(127,201,156,.18)';bd3='var(--green)';co3='var(--green)';}
+      else if(isCh){bg3='rgba(224,112,112,.12)';bd3='var(--red)';  co3='var(--red)';  }
+      else {        bg3='rgba(255,255,255,.02)';bd3='rgba(255,255,255,.07)';co3='rgba(218,227,246,.3)';}
+    } else {
+      if(isCh){ bg3='rgba(242,190,98,.14)';bd3='var(--gold)';co3='var(--gold)'; }
+      else {    bg3='rgba(255,255,255,.03)';bd3='rgba(255,255,255,.12)';co3='var(--text)'; }
+    }
+    var btn2=el('button',{
+      style:{padding:'18px 10px',borderRadius:'14px',border:'1.5px solid '+bd3,background:bg3,color:co3,fontFamily:"'Amiri',serif",fontSize:'24px',direction:'rtl',lineHeight:'1.35',cursor:S.fillLocked?'default':'pointer',transition:'all .15s',textAlign:'center',minHeight:'64px',display:'flex',alignItems:'center',justifyContent:'center',width:'100%',gap:'6px'},
+      onclick:(function(o){ return function(){
+        if(S.fillLocked) return;
+        S.fillChosen=o; S.fillLocked=true;
+        var isOk=o===cur.answer; S.fillFb=isOk?'correct':'wrong';
+        if(isOk){ S.fillScore++; if(window.Lisaany) Lisaany.celebrate(); }
+        else { S.fillWrong++; }
+        render();
+        if(isOk) setTimeout(function(){ advFill(d); },1100);
+      };})(opt)
+    }, opt);
+    if(S.fillLocked&&(isCor||isCh)){
+      btn2.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',fontVariationSettings:"'FILL' 1",flexShrink:'0',color:isCor?'var(--green)':'var(--red)'}},isCor?'check_circle':'cancel'));
+    }
+    og.appendChild(btn2);
+  });
+  w.appendChild(og);
+
+  // Feedback
+  if(S.fillFb){
+    var fb2=div('cf '+(S.fillFb==='correct'?'cf-ok':'cf-no')); fb2.style.marginBottom='12px';
+    if(S.fillFb==='correct'){
+      fb2.innerHTML='✅ <strong>Correct!</strong> <span style="font-family:\'Amiri\',serif;font-size:22px;color:var(--green)"> هذا '+cur.answer+'</span>';
+    } else {
+      fb2.innerHTML='❌ Answer: <span style="font-family:\'Amiri\',serif;font-size:26px"> هذا '+cur.answer+'</span> <span style="font-size:12px;color:var(--dim);display:block;margin-top:4px">'+cur.answerEn+'</span>';
+    }
+    w.appendChild(fb2);
+  }
+
+  // Nav
+  var nav2=div('action-row'); nav2.style.marginTop='4px';
+  if(S.fillLocked&&S.fillFb==='wrong'){
+    nav2.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:function(){ advFill(d); }},'Next →'));
+  }
+  if(!S.fillLocked){
+    nav2.appendChild(el('button',{className:'btn btn-ghost',onclick:function(){ S.view='blocks';render(); }},'← Back'));
+    nav2.appendChild(el('button',{className:'btn btn-ghost',style:{opacity:'.65'},onclick:function(){
+      S.fillIdx=0;S.fillScore=0;S.fillWrong=0;S.fillChosen=null;S.fillFb=null;S.fillLocked=false;finishBlock();
+    }},'Skip →'));
+  }
+  w.appendChild(nav2);
+  return w;
+}
+
+function advFill(d){
+  S.fillFb=null; S.fillLocked=false; S.fillChosen=null;
+  if(S.fillIdx<d.questions.length-1){ S.fillIdx++; render(); }
+  else { S.fillIdx=0; S.fillScore=0; S.fillWrong=0; finishBlock(); }
 }
 
 
