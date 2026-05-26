@@ -2419,6 +2419,8 @@ const CUR = [
               {stem:"بَيْت", en:"Her house",      correct:"ـُهَا",finalForm:"بَيْتُهَا"},
               {stem:"قَلَم", en:"My pen",         correct:"ـِي",  finalForm:"قَلَمِي"},
               {stem:"كِتَاب",en:"Your book (m.)", correct:"ـُكَ", finalForm:"كِتَابُكَ"},
+              {stem:"قَلَم", en:"Your pen (f.)",   correct:"ـُكِ", finalForm:"قَلَمُكِ"},
+              {stem:"بَيْت", en:"Your house (f.)", correct:"ـُكِ", finalForm:"بَيْتُكِ"},
             ]}
           }
         ]
@@ -2837,6 +2839,20 @@ const CUR = [
               ]
             }
           },
+          { id:6, type:"classroom", title:"Who Has It?", desc:"عِنْدِي / عِنْدَكَ / عِنْدَكِ", icon:"inventory_2", color:"#D4A34A",
+            data:{ passing:70, sentences:[
+              {item:"كِتَاب",  en:"I have a book",            correct:"ـِي",  finalForm:"عِنْدِي كِتَاب"},
+              {item:"قَلَم",   en:"You have a pen (m)",        correct:"ـَكَ", finalForm:"عِنْدَكَ قَلَم"},
+              {item:"دَفْتَر",  en:"You have a notebook (f)",   correct:"ـَكِ", finalForm:"عِنْدَكِ دَفْتَر"},
+              {item:"حَقِيبَة", en:"He has a bag",             correct:"ـَهُ", finalForm:"عِنْدَهُ حَقِيبَة"},
+              {item:"مَحَّايَة",en:"She has an eraser",         correct:"ـَهَا",finalForm:"عِنْدَهَا مَحَّايَة"},
+              {item:"كُرْسِيّ", en:"I have a chair",            correct:"ـِي",  finalForm:"عِنْدِي كُرْسِيّ"},
+              {item:"كِتَاب",  en:"You have a book (f)",       correct:"ـَكِ", finalForm:"عِنْدَكِ كِتَاب"},
+              {item:"قَلَم",   en:"She has a pen",            correct:"ـَهَا",finalForm:"عِنْدَهَا قَلَم"},
+              {item:"دَفْتَر",  en:"He has a notebook",        correct:"ـَهُ", finalForm:"عِنْدَهُ دَفْتَر"},
+              {item:"حَقِيبَة", en:"You have a bag (m)",        correct:"ـَكَ", finalForm:"عِنْدَكَ حَقِيبَة"},
+            ]}
+          },
           { id:5, type:"clutter", title:"Sentence Builder", desc:"جُمَل بَسِيطَة عَن الْفَصْل", icon:"extension", color:"#D4A34A",
             data:{ passing:70, sentences:[
               {ar:"عِنْدِي كِتَاب جَدِيد",en:"I have a new book", words:["عِنْدِي","كِتَاب","جَدِيد"]},
@@ -3159,6 +3175,20 @@ const CUR = [
                 {ar:"الْحَدِيقَة الْجَمِيلَة خَلْفَ الْبَيْت",en:"The beautiful garden is behind the house"},
               ]
             }
+          },
+          { id:7, type:"house", title:"Where Is It?", desc:"حُرُوف الْجَرّ — فِي، عَلَى، تَحْتَ...", icon:"cottage", color:"#D4A34A",
+            data:{ passing:70, sentences:[
+              {subj:"الْكِتَاب",  place:"الطَّاوِلَة", en:"The book is on the table",        correct:"عَلَى", finalForm:"الْكِتَاب عَلَى الطَّاوِلَة"},
+              {subj:"الْحِذَاء",  place:"السَّرِير",   en:"The shoe is under the bed",        correct:"تَحْتَ", finalForm:"الْحِذَاء تَحْتَ السَّرِير"},
+              {subj:"اللَّمْبَة",  place:"الطَّاوِلَة", en:"The lamp is above the table",       correct:"فَوْقَ", finalForm:"اللَّمْبَة فَوْقَ الطَّاوِلَة"},
+              {subj:"السَّيَّارَة",place:"الْبَيْت",    en:"The car is in front of the house",  correct:"أَمَامَ",finalForm:"السَّيَّارَة أَمَامَ الْبَيْت"},
+              {subj:"الْحَدِيقَة", place:"الْمَنْزِل",  en:"The garden is behind the house",    correct:"خَلْفَ",finalForm:"الْحَدِيقَة خَلْفَ الْمَنْزِل"},
+              {subj:"الطَّعَام",   place:"الْمَطْبَخ",   en:"The food is in the kitchen",        correct:"فِي",   finalForm:"الطَّعَام فِي الْمَطْبَخ"},
+              {subj:"الْقَلَم",    place:"الْمَكْتَب",  en:"The pen is on the desk",            correct:"عَلَى", finalForm:"الْقَلَم عَلَى الْمَكْتَب"},
+              {subj:"الْقِطّ",     place:"الْكُرْسِيّ", en:"The cat is under the chair",        correct:"تَحْتَ", finalForm:"الْقِطّ تَحْتَ الْكُرْسِيّ"},
+              {subj:"الصُّورَة",   place:"السَّرِير",   en:"The picture is above the bed",      correct:"فَوْقَ", finalForm:"الصُّورَة فَوْقَ السَّرِير"},
+              {subj:"الْحَقِيبَة", place:"الْبَاب",     en:"The bag is behind the door",        correct:"خَلْفَ",finalForm:"الْحَقِيبَة خَلْفَ الْبَاب"},
+            ]}
           },
           { id:5, type:"clutter", title:"Sentence Builder", desc:"جمل 6-7 كلمات", icon:"extension", color:"#D4A34A",
             data:{ passing:70, sentences:[
@@ -3785,6 +3815,8 @@ const CUR = [
               {stem:"رِجْل", en:"Her leg",          correct:"ـُهَا",finalForm:"رِجْلُهَا"},
               {stem:"فَم",   en:"My mouth",         correct:"ـِي",   finalForm:"فَمِي"},
               {stem:"شَعْر", en:"His hair",         correct:"ـُهُ", finalForm:"شَعْرُهُ"},
+              {stem:"يَد",   en:"Your hand (f.)",   correct:"ـُكِ", finalForm:"يَدُكِ"},
+              {stem:"رِجْل", en:"Your leg (f.)",    correct:"ـُكِ", finalForm:"رِجْلُكِ"},
             ]}
           }
         ]
@@ -3880,6 +3912,8 @@ const CUR = [
               {stem:"بَنْطَلُون",en:"Her pants",        correct:"ـُهَا",finalForm:"بَنْطَلُونُهَا"},
               {stem:"حِزَام",  en:"My belt",            correct:"ـِي",   finalForm:"حِزَامِي"},
               {stem:"جَاكِيت", en:"Your jacket (m.)",  correct:"ـُكَ", finalForm:"جَاكِيتُكَ"},
+              {stem:"قَمِيص",  en:"Your shirt (f.)",   correct:"ـُكِ", finalForm:"قَمِيصُكِ"},
+              {stem:"مِعْطَف",  en:"Your coat (f.)",    correct:"ـُكِ", finalForm:"مِعْطَفُكِ"},
             ]}
           }
         ]
@@ -6823,10 +6857,11 @@ function mkPossessive(blk){
   ref.style.cssText='background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:14px;padding:10px 14px;margin:12px 0;';
   ref.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'8px',textAlign:'center'}},'Reference'));
   const refRow=div('');
-  refRow.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:6px;direction:rtl;';
+  refRow.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;direction:rtl;';
   [
     {suf:'ـِي', en:'my'},
     {suf:'ـُكَ', en:'your (m)'},
+    {suf:'ـُكِ', en:'your (f)'},
     {suf:'ـُهُ', en:'his'},
     {suf:'ـُهَا', en:'her'},
   ].forEach(item=>{
@@ -6881,8 +6916,8 @@ function mkPossessive(blk){
   // 4 suffix choices
   if(!S.posLocked){
     const choices=div('');
-    choices.style.cssText='display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px;';
-    ['ـِي','ـُكَ','ـُهُ','ـُهَا'].forEach(suf=>{
+    choices.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;';
+    ['ـِي','ـُكَ','ـُكِ','ـُهُ','ـُهَا'].forEach(suf=>{
       const isSel = S.posChosen===suf;
       const btn=el('button',{
         style:{
@@ -6964,7 +6999,301 @@ function advPos(d){
   }
 }
 
-function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='fill')return mkFill(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
+// ══════════════════════════════════════════════════════
+// CLASSROOM — عِنْدِي / عِنْدَكَ suffix drill (fill the slot)
+// ══════════════════════════════════════════════════════
+function mkClassroom(blk){
+  const d=blk.data;
+  const total=d.sentences.length;
+  if(typeof S.crIdx === 'undefined'){ S.crIdx=0; S.crChosen=null; S.crFb=null; S.crLocked=false; S.crScore=0; S.crWrong=0; S.crAttempts=0; }
+  const cur=d.sentences[S.crIdx];
+  const pct=Math.round(S.crScore/total*100);
+  const w=div('stage');
+
+  const topNav=div(''); topNav.style.cssText='display:flex;justify-content:flex-start;margin-bottom:4px;';
+  topNav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+    S.crIdx=0; S.crChosen=null; S.crFb=null; S.crLocked=false; S.view='blocks'; render();
+  }},'← Back'));
+  w.appendChild(topNav);
+
+  const _hdr=div('lesson-hdr');
+  const _hi=div('lesson-hdr-icon'); _hi.appendChild(ms('inventory_2')); _hdr.appendChild(_hi);
+  const _hb=div('lesson-hdr-body');
+  _hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'}, 'I Have · ' + (S.crIdx+1) + ' of ' + total));
+  _hb.appendChild(el('div',{className:'lesson-hdr-title'}, 'Who Has It?'));
+  _hb.appendChild(el('div',{className:'lesson-hdr-arabic'}, 'عِنْدِي / عِنْدَكَ / عِنْدَكِ'));
+  _hdr.appendChild(_hb);
+  w.appendChild(_hdr);
+
+  const sr=div('score-row');
+  [{v:S.crScore,l:'Correct',c:'var(--green)'},{v:S.crWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{
+    const si=div('sc-item');
+    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
+    si.appendChild(el('div',{className:'sc-lbl'},s.l));
+    sr.appendChild(si);
+  });
+  w.appendChild(sr);
+
+  const ref=div('');
+  ref.style.cssText='background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:14px;padding:10px 14px;margin:12px 0;';
+  ref.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'8px',textAlign:'center'}},'Reference'));
+  const refRow=div('');
+  refRow.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;direction:rtl;';
+  [{suf:'ـِي',en:'I'},{suf:'ـَكَ',en:'you (m)'},{suf:'ـَكِ',en:'you (f)'},{suf:'ـَهُ',en:'he'},{suf:'ـَهَا',en:'she'}].forEach(item=>{
+    const cell=div(''); cell.style.cssText='text-align:center;padding:4px;';
+    cell.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'22px',color:'var(--gold)',lineHeight:'1.2'}},item.suf));
+    cell.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',marginTop:'2px',direction:'ltr'}},item.en));
+    refRow.appendChild(cell);
+  });
+  ref.appendChild(refRow);
+  w.appendChild(ref);
+
+  const prompt=div('en-prompt');
+  prompt.appendChild(el('span',{className:'lbl'},'Build in Arabic:'));
+  prompt.appendChild(document.createTextNode(cur.en));
+  w.appendChild(prompt);
+
+  const wordBox=div('');
+  wordBox.style.cssText=`
+    background:#0a1024;
+    border:1.5px solid ${S.crFb==='correct'?'var(--green)':S.crFb==='wrong'?'var(--red)':'rgba(212,163,74,.3)'};
+    border-radius:16px;padding:24px 16px;margin-top:14px;
+    direction:rtl;text-align:center;
+    font-family:'Amiri',serif;font-size:38px;color:var(--text);line-height:1.4;
+  `;
+  if(S.crLocked){
+    const isRight = S.crChosen === cur.correct;
+    const finalText = isRight ? cur.finalForm : ('عِنْد' + (S.crChosen||'') + ' ' + cur.item);
+    wordBox.appendChild(el('span',{style:{
+      color:isRight?'var(--green)':'var(--red)',
+      borderBottom:'2px solid '+(isRight?'var(--green)':'var(--red)'), padding:'0 6px'
+    }}, finalText));
+  } else {
+    wordBox.appendChild(document.createTextNode('عِنْد'));
+    const slot=el('span',{style:{
+      display:'inline-block',minWidth:'46px',padding:'0 6px',
+      borderBottom:'2px dashed rgba(212,163,74,.5)',
+      color:S.crChosen?'var(--gold)':'rgba(212,163,74,.4)', fontFamily:"'Amiri',serif"
+    }}, S.crChosen || '___');
+    wordBox.appendChild(slot);
+    wordBox.appendChild(document.createTextNode(' ' + cur.item));
+  }
+  w.appendChild(wordBox);
+
+  if(!S.crLocked){
+    const choices=div('');
+    choices.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;';
+    ['ـِي','ـَكَ','ـَكِ','ـَهُ','ـَهَا'].forEach(suf=>{
+      const isSel = S.crChosen===suf;
+      const btn=el('button',{
+        style:{
+          padding:'14px 8px',borderRadius:'14px',
+          border:'1.5px solid '+(isSel?'var(--gold)':'rgba(212,163,74,.25)'),
+          background:isSel?'rgba(212,163,74,.18)':'rgba(10,14,24,.6)',
+          color:isSel?'var(--gold)':'var(--text)',
+          fontFamily:"'Amiri',serif",fontSize:'26px',direction:'rtl',cursor:'pointer',transition:'all .15s'
+        },
+        onclick:()=>{ S.crChosen=suf; render(); }
+      }, suf);
+      choices.appendChild(btn);
+    });
+    w.appendChild(choices);
+  }
+
+  if(S.crFb){
+    const fb=div('cf '+(S.crFb==='correct'?'cf-ok':'cf-no')); fb.style.marginTop='14px';
+    if(S.crFb==='correct'){ fb.innerHTML='✅ <strong>Correct!</strong> '+cur.finalForm+' — '+cur.en; }
+    else { fb.innerHTML='❌ <strong>Not quite.</strong> The answer is <span style="font-family:\'Amiri\',serif;font-size:22px">'+cur.finalForm+'</span>'; }
+    w.appendChild(fb);
+  }
+
+  const nav=div('action-row'); nav.style.marginTop='14px';
+  if(S.crFb==='wrong' && (S.crAttempts||0) >= SCAFFOLD_THRESHOLD){
+    w.appendChild(mkScaffoldPanel(cur.correct, ()=>advCr(d)));
+  }
+  if(!S.crLocked){
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+      S.crChosen=cur.correct; S.crLocked=true; S.crFb='wrong';
+      S.crWrong++; S.crAttempts=(S.crAttempts||0)+1; render();
+    }},'Show Answer'));
+    nav.appendChild(el('button',{
+      className:'btn btn-primary',
+      style: S.crChosen ? {} : {opacity:'0.5',cursor:'not-allowed',pointerEvents:'none'},
+      onclick:()=>{
+        if(!S.crChosen) return;
+        const ok = S.crChosen===cur.correct;
+        S.crLocked=true; S.crFb=ok?'correct':'wrong';
+        if(ok){ S.crScore++; if(window.Lisaany) Lisaany.celebrate(); }
+        else { S.crWrong++; S.crAttempts=(S.crAttempts||0)+1; }
+        render();
+        if(ok) setTimeout(()=>advCr(d), 1100);
+      }
+    },'Check ✓'));
+  } else if(S.crFb==='wrong' && (S.crAttempts||0) < SCAFFOLD_THRESHOLD){
+    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advCr(d)},'Next →'));
+  }
+  w.appendChild(nav);
+  return w;
+}
+
+function advCr(d){
+  S.crFb=null; S.crLocked=false; S.crChosen=null; S.crAttempts=0;
+  if(S.crIdx < d.sentences.length-1){ S.crIdx++; render(); }
+  else {
+    const pct=Math.round(S.crScore/d.sentences.length*100);
+    S.crIdx=0; S.crScore=0; S.crWrong=0;
+    if(pct >= (d.passing||70)){ finishBlock(); } else { render(); }
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// HOUSE — prepositions of place (pick the preposition)
+// ══════════════════════════════════════════════════════
+function mkHouse(blk){
+  const d=blk.data;
+  const total=d.sentences.length;
+  if(typeof S.hsIdx === 'undefined'){ S.hsIdx=0; S.hsChosen=null; S.hsFb=null; S.hsLocked=false; S.hsScore=0; S.hsWrong=0; S.hsAttempts=0; }
+  const cur=d.sentences[S.hsIdx];
+  const pct=Math.round(S.hsScore/total*100);
+  const w=div('stage');
+
+  const topNav=div(''); topNav.style.cssText='display:flex;justify-content:flex-start;margin-bottom:4px;';
+  topNav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+    S.hsIdx=0; S.hsChosen=null; S.hsFb=null; S.hsLocked=false; S.view='blocks'; render();
+  }},'← Back'));
+  w.appendChild(topNav);
+
+  const _hdr=div('lesson-hdr');
+  const _hi=div('lesson-hdr-icon'); _hi.appendChild(ms('cottage')); _hdr.appendChild(_hi);
+  const _hb=div('lesson-hdr-body');
+  _hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'}, 'Where Is It? · ' + (S.hsIdx+1) + ' of ' + total));
+  _hb.appendChild(el('div',{className:'lesson-hdr-title'}, 'Pick the Preposition'));
+  _hb.appendChild(el('div',{className:'lesson-hdr-arabic'}, 'حُرُوف الْجَرّ'));
+  _hdr.appendChild(_hb);
+  w.appendChild(_hdr);
+
+  const sr=div('score-row');
+  [{v:S.hsScore,l:'Correct',c:'var(--green)'},{v:S.hsWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{
+    const si=div('sc-item');
+    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
+    si.appendChild(el('div',{className:'sc-lbl'},s.l));
+    sr.appendChild(si);
+  });
+  w.appendChild(sr);
+
+  const ref=div('');
+  ref.style.cssText='background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:14px;padding:10px 14px;margin:12px 0;';
+  ref.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--gold)',marginBottom:'8px',textAlign:'center'}},'Reference'));
+  const refRow=div('');
+  refRow.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;direction:rtl;';
+  [{suf:'فِي',en:'in'},{suf:'عَلَى',en:'on'},{suf:'تَحْتَ',en:'under'},{suf:'فَوْقَ',en:'above'},{suf:'أَمَامَ',en:'in front'},{suf:'خَلْفَ',en:'behind'}].forEach(item=>{
+    const cell=div(''); cell.style.cssText='text-align:center;padding:4px;';
+    cell.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'20px',color:'var(--gold)',lineHeight:'1.2'}},item.suf));
+    cell.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',marginTop:'2px',direction:'ltr'}},item.en));
+    refRow.appendChild(cell);
+  });
+  ref.appendChild(refRow);
+  w.appendChild(ref);
+
+  const prompt=div('en-prompt');
+  prompt.appendChild(el('span',{className:'lbl'},'Build in Arabic:'));
+  prompt.appendChild(document.createTextNode(cur.en));
+  w.appendChild(prompt);
+
+  const wordBox=div('');
+  wordBox.style.cssText=`
+    background:#0a1024;
+    border:1.5px solid ${S.hsFb==='correct'?'var(--green)':S.hsFb==='wrong'?'var(--red)':'rgba(212,163,74,.3)'};
+    border-radius:16px;padding:24px 16px;margin-top:14px;
+    direction:rtl;text-align:center;
+    font-family:'Amiri',serif;font-size:32px;color:var(--text);line-height:1.5;
+  `;
+  if(S.hsLocked){
+    const isRight = S.hsChosen === cur.correct;
+    const finalText = isRight ? cur.finalForm : (cur.subj + ' ' + (S.hsChosen||'') + ' ' + cur.place);
+    wordBox.appendChild(el('span',{style:{
+      color:isRight?'var(--green)':'var(--red)',
+      borderBottom:'2px solid '+(isRight?'var(--green)':'var(--red)'), padding:'0 6px'
+    }}, finalText));
+  } else {
+    wordBox.appendChild(document.createTextNode(cur.subj + ' '));
+    const slot=el('span',{style:{
+      display:'inline-block',minWidth:'72px',padding:'0 8px',
+      borderBottom:'2px dashed rgba(212,163,74,.5)',
+      color:S.hsChosen?'var(--gold)':'rgba(212,163,74,.4)', fontFamily:"'Amiri',serif"
+    }}, S.hsChosen || '___');
+    wordBox.appendChild(slot);
+    wordBox.appendChild(document.createTextNode(' ' + cur.place));
+  }
+  w.appendChild(wordBox);
+
+  if(!S.hsLocked){
+    const choices=div('');
+    choices.style.cssText='display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;';
+    ['فِي','عَلَى','تَحْتَ','فَوْقَ','أَمَامَ','خَلْفَ'].forEach(prep=>{
+      const isSel = S.hsChosen===prep;
+      const btn=el('button',{
+        style:{
+          padding:'14px 8px',borderRadius:'14px',
+          border:'1.5px solid '+(isSel?'var(--gold)':'rgba(212,163,74,.25)'),
+          background:isSel?'rgba(212,163,74,.18)':'rgba(10,14,24,.6)',
+          color:isSel?'var(--gold)':'var(--text)',
+          fontFamily:"'Amiri',serif",fontSize:'24px',direction:'rtl',cursor:'pointer',transition:'all .15s'
+        },
+        onclick:()=>{ S.hsChosen=prep; render(); }
+      }, prep);
+      choices.appendChild(btn);
+    });
+    w.appendChild(choices);
+  }
+
+  if(S.hsFb){
+    const fb=div('cf '+(S.hsFb==='correct'?'cf-ok':'cf-no')); fb.style.marginTop='14px';
+    if(S.hsFb==='correct'){ fb.innerHTML='✅ <strong>Correct!</strong> '+cur.finalForm+' — '+cur.en; }
+    else { fb.innerHTML='❌ <strong>Not quite.</strong> The answer is <span style="font-family:\'Amiri\',serif;font-size:22px">'+cur.finalForm+'</span>'; }
+    w.appendChild(fb);
+  }
+
+  const nav=div('action-row'); nav.style.marginTop='14px';
+  if(S.hsFb==='wrong' && (S.hsAttempts||0) >= SCAFFOLD_THRESHOLD){
+    w.appendChild(mkScaffoldPanel(cur.correct, ()=>advHs(d)));
+  }
+  if(!S.hsLocked){
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+      S.hsChosen=cur.correct; S.hsLocked=true; S.hsFb='wrong';
+      S.hsWrong++; S.hsAttempts=(S.hsAttempts||0)+1; render();
+    }},'Show Answer'));
+    nav.appendChild(el('button',{
+      className:'btn btn-primary',
+      style: S.hsChosen ? {} : {opacity:'0.5',cursor:'not-allowed',pointerEvents:'none'},
+      onclick:()=>{
+        if(!S.hsChosen) return;
+        const ok = S.hsChosen===cur.correct;
+        S.hsLocked=true; S.hsFb=ok?'correct':'wrong';
+        if(ok){ S.hsScore++; if(window.Lisaany) Lisaany.celebrate(); }
+        else { S.hsWrong++; S.hsAttempts=(S.hsAttempts||0)+1; }
+        render();
+        if(ok) setTimeout(()=>advHs(d), 1100);
+      }
+    },'Check ✓'));
+  } else if(S.hsFb==='wrong' && (S.hsAttempts||0) < SCAFFOLD_THRESHOLD){
+    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:()=>advHs(d)},'Next →'));
+  }
+  w.appendChild(nav);
+  return w;
+}
+
+function advHs(d){
+  S.hsFb=null; S.hsLocked=false; S.hsChosen=null; S.hsAttempts=0;
+  if(S.hsIdx < d.sentences.length-1){ S.hsIdx++; render(); }
+  else {
+    const pct=Math.round(S.hsScore/d.sentences.length*100);
+    S.hsIdx=0; S.hsScore=0; S.hsWrong=0;
+    if(pct >= (d.passing||70)){ finishBlock(); } else { render(); }
+  }
+}
+
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='classroom')return mkClassroom(blk); if(blk.type==='house')return mkHouse(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='fill')return mkFill(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
 
 // ══════════════════════════════════════════════════════
 // BLOCK 1: DIALOGUE
