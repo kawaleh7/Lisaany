@@ -3106,6 +3106,32 @@ const CUR = [
             }
           }
         ]
+      },
+      { id:"3.6", title:"Present Tense — المُضارِع", icon:"autorenew",
+        desc:"كَيْفَ نُصَرِّف الفِعْل في المُضارِع",
+        blocks:[
+          { id:1, type:"conjugation", title:"The Present Tense Pattern", icon:"autorenew", color:"#D4A34A",
+            data:{ title:"The Present Tense Pattern", titleAr:"المُضارِع",
+              intro:"The present tense (<strong>المضارع</strong>) describes what happens now or regularly. You add a <span style=\"color:#7fd99a;font-weight:700\">prefix</span> to the verb to show who is doing the action. The <span style=\"color:#7fd99a;font-weight:700\">green part</span> is what changes — the root stays the same. These are clean, regular verbs you've already seen.",
+              verbs:["كَتَبَ · write","دَرَسَ · study"],
+              rows:[
+                {pron:"أَنا",pronEn:"I",        v1:"<span style='color:#7fd99a'>أَ</span>كْتُبُ", v2:"<span style='color:#7fd99a'>أَ</span>دْرُسُ"},
+                {pron:"أَنْتَ",pronEn:"you (m)", v1:"<span style='color:#7fd99a'>تَ</span>كْتُبُ", v2:"<span style='color:#7fd99a'>تَ</span>دْرُسُ"},
+                {pron:"أَنْتِ",pronEn:"you (f)", v1:"<span style='color:#7fd99a'>تَ</span>كْتُب<span style='color:#7fd99a'>ينَ</span>", v2:"<span style='color:#7fd99a'>تَ</span>دْرُس<span style='color:#7fd99a'>ينَ</span>"},
+                {pron:"هُوَ",pronEn:"he",       v1:"<span style='color:#7fd99a'>يَ</span>كْتُبُ", v2:"<span style='color:#7fd99a'>يَ</span>دْرُسُ"},
+                {pron:"هِيَ",pronEn:"she",      v1:"<span style='color:#7fd99a'>تَ</span>كْتُبُ", v2:"<span style='color:#7fd99a'>تَ</span>دْرُسُ"},
+                {pron:"نَحْنُ",pronEn:"we",      v1:"<span style='color:#7fd99a'>نَ</span>كْتُبُ", v2:"<span style='color:#7fd99a'>نَ</span>دْرُسُ"},
+              ],
+              keyRule:"The <span style=\"color:#7fd99a;font-weight:700\">green prefix</span> shows who acts — أنا→<span style=\"color:#7fd99a;font-weight:700\">أ</span>، نحن→<span style=\"color:#7fd99a;font-weight:700\">نـ</span>، هو→<span style=\"color:#7fd99a;font-weight:700\">يـ</span>، and أنتَ & هي both→<span style=\"color:#7fd99a;font-weight:700\">تـ</span>. For أنتِ (you f) add <span style=\"color:#7fd99a;font-weight:700\">ـينَ</span> at the end. Keep the root, change the prefix.",
+              examples:[
+                {ar:"أنا <span style='color:#7fd99a'>أَ</span>كْتُبُ الدَّرْسَ في الدَّفْتَر",en:"I write the lesson in the notebook"},
+                {ar:"هُوَ <span style='color:#7fd99a'>يَ</span>دْرُسُ العَرَبِيَّة كُلَّ يَوم",en:"He studies Arabic every day"},
+                {ar:"هِيَ <span style='color:#7fd99a'>تَ</span>كْتُبُ رِسالَة لِأُمِّها",en:"She writes a letter to her mother"},
+                {ar:"نَحْنُ <span style='color:#7fd99a'>نَ</span>دْرُسُ مَعاً في المَكْتَبَة",en:"We study together in the library"},
+              ]
+            }
+          }
+        ]
       }
     ]
   },
@@ -7727,7 +7753,7 @@ function advFill(d){
   else{S.fillIdx=0;S.fillScore=0;S.fillWrong=0;finishBlock();}
 }
 
-function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='fill')return mkFill(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='conjugation')return mkConjugation(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='fill')return mkFill(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
 
 // ══════════════════════════════════════════════════════
 // BLOCK 1: DIALOGUE
@@ -8419,6 +8445,65 @@ function mkGrammar(blk){
   const nav=div('action-row');
   nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{S.view='blocks';render();}},'← Back'));
   nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>finishBlock()},'Grammar Understood ✓'));
+  w.appendChild(nav); return w;
+}
+
+// ══════════════════════════════════════════════════════
+// BLOCK: CONJUGATION (verb tense drills, RTL, green prefix)
+// ══════════════════════════════════════════════════════
+function mkConjugation(blk){
+  const d=blk.data; const w=div('stage');
+  // Header
+  const hdr=div('lesson-hdr');
+  const hdrIcon=div('lesson-hdr-icon'); hdrIcon.appendChild(ms('autorenew')); hdr.appendChild(hdrIcon);
+  const hb=div('lesson-hdr-body');
+  hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'},'Conjugation · '+(d.title||'')));
+  hb.appendChild(el('div',{className:'lesson-hdr-title'},d.title||''));
+  if(d.titleAr) hb.appendChild(el('div',{className:'lesson-hdr-arabic'},d.titleAr));
+  hdr.appendChild(hb); w.appendChild(hdr);
+  // Intro
+  if(d.intro){ const intro=div('rule-card'); intro.innerHTML=d.intro; w.appendChild(intro); }
+  // Conjugation table (RTL, pronoun on right)
+  if(d.verbs && d.rows){
+    const tbl=div(''); tbl.style.cssText='display:flex;flex-direction:column;gap:5px;direction:rtl;margin:4px 0 8px;';
+    // header row
+    const hr=div(''); hr.style.cssText='display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;direction:rtl;';
+    const mkHd=(t)=>el('div',{style:{font:"700 10px/1.2 'Inter'",letterSpacing:'.06em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',padding:'4px'}},t);
+    hr.appendChild(mkHd('الضَّمير'));
+    hr.appendChild(mkHd(d.verbs[0]||''));
+    hr.appendChild(mkHd(d.verbs[1]||''));
+    tbl.appendChild(hr);
+    // data rows: each row = {pron, pronEn, v1, v2} where v1/v2 contain HTML green spans
+    d.rows.forEach(r=>{
+      const row=div(''); row.style.cssText='display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;background:var(--faint);border:1px solid var(--border);border-radius:10px;padding:8px 4px;align-items:center;direction:rtl;cursor:pointer;';
+      const pc=div(''); pc.style.cssText="font-family:'Amiri',serif;font-size:16px;color:var(--gold);text-align:center;direction:rtl;";
+      pc.innerHTML=(r.pron||'')+(r.pronEn?('<small style="display:block;font-family:Inter;font-size:10px;color:var(--dim);direction:ltr;">'+r.pronEn+'</small>'):'');
+      const c1=div(''); c1.style.cssText="font-family:'Amiri',serif;font-size:20px;color:var(--text);text-align:center;direction:rtl;"; c1.innerHTML=r.v1||'';
+      const c2=div(''); c2.style.cssText="font-family:'Amiri',serif;font-size:20px;color:var(--text);text-align:center;direction:rtl;"; c2.innerHTML=r.v2||'';
+      row.appendChild(pc); row.appendChild(c1); row.appendChild(c2);
+      // tap to hear the first verb form (strip HTML for speak)
+      row.addEventListener('click',()=>{ const plain=(r.v1||'').replace(/<[^>]+>/g,''); if(plain) speak(plain); });
+      tbl.appendChild(row);
+    });
+    w.appendChild(tbl);
+  }
+  // Key rule
+  if(d.keyRule){ const kr=div('rule-card'); kr.style.cssText='background:rgba(242,190,98,.07);border-color:rgba(242,190,98,.13);'; kr.innerHTML='💡 <strong>Key Rule:</strong> '+d.keyRule; w.appendChild(kr); }
+  // Practical sentences
+  if(d.examples?.length){
+    w.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.12em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',margin:'12px 0 8px'}},'Practical Sentences'));
+    d.examples.forEach(ex=>{
+      const card=div(''); card.style.cssText='background:rgba(212,163,74,.06);border:1px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:8px;cursor:pointer;';
+      const ar=div(''); ar.style.cssText="font-family:'Amiri',serif;font-size:21px;color:var(--text);line-height:1.5;text-align:right;direction:rtl;margin-bottom:4px;"; ar.innerHTML=ex.ar||'';
+      const en=el('div',{style:{fontSize:'13px',color:'var(--gold)',fontStyle:'italic'}},ex.en||'');
+      card.appendChild(ar); card.appendChild(en);
+      card.addEventListener('click',()=>{ const plain=(ex.ar||'').replace(/<[^>]+>/g,''); if(plain) speak(plain); });
+      w.appendChild(card);
+    });
+  }
+  const nav=div('action-row');
+  nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{S.view='blocks';render();}},'← Back'));
+  nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>finishBlock()},'Got it ✓'));
   w.appendChild(nav); return w;
 }
 
