@@ -3129,7 +3129,12 @@ const CUR = [
                 {ar:"هُوَ <span style='color:#7fd99a'>يَ</span>دْرُسُ العَرَبِيَّة كُلَّ يَوم",en:"He studies Arabic every day"},
                 {ar:"هِيَ <span style='color:#7fd99a'>تَ</span>كْتُبُ رِسالَة لِأُمِّها",en:"She writes a letter to her mother"},
                 {ar:"نَحْنُ <span style='color:#7fd99a'>نَ</span>دْرُسُ مَعاً في المَكْتَبَة",en:"We study together in the library"},
-              ],
+              ]
+            }
+          },
+          { id:2, type:"conjugation", title:"Practice — Tap the Prefix", icon:"quiz", color:"#D4A34A",
+            data:{ title:"Practice — Tap the Prefix", titleAr:"تَدْرِيب",
+              intro:"You've learned the pattern. Now <span style=\"color:#7fd99a;font-weight:700\">tap the correct prefix</span> for each pronoun below. Take your time — wrong taps just let you try again.",
               exercise:[
                 {pron:"هُوَ",pronEn:"he",root:"كْتُبُ",verbEn:"write",correct:"يَ"},
                 {pron:"أَنا",pronEn:"I",root:"دْرُسُ",verbEn:"study",correct:"أَ"},
@@ -8554,7 +8559,8 @@ function mkConjugation(blk){
   }
   const nav=div('action-row');
   nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{S.view='blocks';render();}},'← Back'));
-  nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>finishBlock()},'Got it ✓'));
+  const btnLabel = d.exercise?.length ? 'Done ✓' : 'Next →';
+  nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>finishBlock()},btnLabel));
   w.appendChild(nav); return w;
 }
 
