@@ -3919,7 +3919,7 @@ const CUR = [
       }
     ]
   },
-  { id:6, title:"Time & Daily Life", color:"#D4A34A", icon:"schedule",
+  { id:6, title:"Daily Life & Worship", color:"#D4A34A", icon:"schedule",
     units:[
       { id:"6.1", title:"Daily Routine", icon:"schedule",
         desc:"الوقت والأنشطة — 10-12 كلمة",
@@ -4234,6 +4234,241 @@ const CUR = [
               {ar:"كُنَّا فِي الْحَدِيقَة لَمَّا بَدَأَ الْمَطَر فَجْأَةً",en:"We were in the garden when it suddenly started to rain", words:["كُنَّا","فِي","الْحَدِيقَة","لَمَّا","بَدَأَ","الْمَطَر","فَجْأَةً"]},
               {ar:"أُفَضِّلُ فَصْل الْخَرِيف لِأَنَّ الْأَشْجَار تَتَلَوَّن",en:"I prefer autumn because the trees change color", words:["أُفَضِّلُ","فَصْل","الْخَرِيف","لِأَنَّ","الْأَشْجَار","تَتَلَوَّن"]},
               {ar:"الْجَوُّ غَائِم الْيَوْم وَدَرَجَة الْحَرَارَة مُنْخَفِضَة",en:"The weather is cloudy today and the temperature is low", words:["الْجَوُّ","غَائِم","الْيَوْم","وَدَرَجَة","الْحَرَارَة","مُنْخَفِضَة"]},
+            ]}
+          }
+        ]
+      },
+      { id:"6.4", title:"Prayer & Daily Worship", icon:"mosque",
+        desc:"الصَّلاة وَالعِبَادَة اليَومِيَّة",
+        blocks:[
+          { id:1, type:"dialogue", title:"Going to Fajr", desc:"صَدِيقَان يَتَحَدَّثَان عَن صَلاة الفَجر", icon:"forum", color:"#D4A34A",
+            data:{ title:"هَيَّا إِلى الفَجر", setting:"خالِد يَتَّصِل بِصَدِيقِهِ أَحمَد قَبلَ الفَجر",
+              lines:[
+                {spk:"Khalid",side:"left",ar:"السَّلامُ عَلَيكُم يا أَحمَد، هَل أَنتَ صاحٍ؟",en:"Peace be upon you Ahmad, are you awake?"},
+                {spk:"Ahmad",side:"right",ar:"وَعَلَيكُمُ السَّلام، نَعَم أَنا صاحٍ، الحَمدُ لِلَّه",en:"And upon you peace, yes I am awake, praise be to God"},
+                {spk:"Khalid",side:"left",ar:"كَم الساعَة الآن؟ هَل سَمِعتَ الأَذان؟",en:"What time is it now? Did you hear the adhan?"},
+                {spk:"Ahmad",side:"right",ar:"نَعَم سَمِعتُ الأَذان، الساعَة الآن أَربَعَة وَنِصف",en:"Yes I heard the adhan, it is now four thirty"},
+                {spk:"Khalid",side:"left",ar:"أَنا أَتَوَضَّأُ الآن وَأَذهَبُ إِلى المَسجِد",en:"I am making wudu now and going to the mosque"},
+                {spk:"Ahmad",side:"right",ar:"وَأَنا أَيضاً، هَيَّا نَذهَب مَعاً إِن شاءَ الله",en:"Me too, let's go together, in shaa Allah"},
+                {spk:"Khalid",side:"left",ar:"مَن هُوَ الإِمام اليَوم في مَسجِدِنا؟",en:"Who is the imam today in our mosque?"},
+                {spk:"Ahmad",side:"right",ar:"الشَّيخ عَبدُ الله، ما شاءَ الله صَوتُهُ جَمِيل",en:"Sheikh Abdullah, masha Allah his voice is beautiful"},
+                {spk:"Khalid",side:"left",ar:"صَحِيح، أَلقاكَ عِندَ بابِ المَسجِد",en:"True, I will see you at the mosque door"},
+                {spk:"Ahmad",side:"right",ar:"حَسَناً، جَزاكَ اللهُ خَيراً يا خالِد",en:"Okay, may Allah reward you with good, Khalid"},
+              ],
+              keywords:[
+                {ar:"صاحٍ",en:"Awake"},
+                {ar:"سَمِعَ الأَذان",en:"Heard the adhan"},
+                {ar:"أَتَوَضَّأُ",en:"I am making wudu"},
+                {ar:"إِمام",en:"Imam (prayer leader)"},
+                {ar:"جَزاكَ اللهُ خَيراً",en:"May Allah reward you with good"},
+              ]
+            }
+          },
+          { id:2, type:"dialogue", title:"Morning Worship Routine", desc:"أَحمَد يَصِف رُوتِينَهُ الصَّباحِيّ", icon:"forum", color:"#D4A34A",
+            data:{ title:"بَعدَ صَلاةِ الفَجر", setting:"أَحمَد وَعُمَر يَتَحَدَّثان عَن رُوتِينِهِما الصَّباحِيّ",
+              lines:[
+                {spk:"Omar",side:"left",ar:"يا أَحمَد، ماذا تَفعَل بَعدَ صَلاةِ الفَجر؟",en:"Ahmad, what do you do after Fajr prayer?"},
+                {spk:"Ahmad",side:"right",ar:"بَعدَ الصَّلاة أَجلِسُ وَأَقرَأُ القُرآنَ قَلِيلاً",en:"After prayer I sit and read the Quran a little"},
+                {spk:"Omar",side:"left",ar:"سُبحانَ الله، كَم صَفحَة تَقرَأُ كُلَّ يَوم؟",en:"Subhan Allah, how many pages do you read every day?"},
+                {spk:"Ahmad",side:"right",ar:"أَقرَأُ عَشرَ صَفَحَات بَعدَ الفَجر وَعَشرَ بَعدَ العِشاء",en:"I read ten pages after Fajr and ten after Isha"},
+                {spk:"Omar",side:"left",ar:"ما شاءَ الله، وَهَل تَقرَأُ بِالتَّجوِيد؟",en:"Masha Allah, and do you read with tajweed?"},
+                {spk:"Ahmad",side:"right",ar:"أَحاوِل، تَبارَكَ اللهُ عَلَى نِعمَةِ القُرآن",en:"I try, may Allah be blessed for the gift of the Quran"},
+                {spk:"Omar",side:"left",ar:"وَقَبلَ الصَّلاة، هَل تَتَوَضَّأُ في البَيت أَم في المَسجِد؟",en:"And before prayer, do you make wudu at home or at the mosque?"},
+                {spk:"Ahmad",side:"right",ar:"أَتَوَضَّأُ في البَيت قَبلَ أَن أَذهَبَ، لا حَولَ وَلا قُوَّةَ إِلَّا بِالله هَذَا البَرد!",en:"I make wudu at home before I go — la hawla wa la quwwata illa billah, this cold!"},
+                {spk:"Omar",side:"left",ar:"هَهَهَ، صَحِيح! أَراكَ في صَلاةِ الظُّهر إِن شاءَ الله",en:"Haha, true! See you at Dhuhr prayer, in shaa Allah"},
+                {spk:"Ahmad",side:"right",ar:"إِن شاءَ الله، جَزاكَ اللهُ خَيراً",en:"In shaa Allah, may Allah reward you with good"},
+              ],
+              keywords:[
+                {ar:"قَبلَ / بَعدَ",en:"Before / After"},
+                {ar:"أَقرَأُ القُرآن",en:"I read the Quran"},
+                {ar:"تَجوِيد",en:"Tajweed (Quran recitation rules)"},
+                {ar:"تَبارَكَ الله",en:"May Allah be blessed (Tabarakallah)"},
+                {ar:"لا حَولَ وَلا قُوَّةَ إِلَّا بِالله",en:"There is no power except with Allah"},
+              ]
+            }
+          },
+          { id:3, type:"vocab", title:"Prayer & Worship", desc:"كَلِمات الصَّلاة وَالعِبادَة", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"صَلاة",en:"Prayer"},
+              {ar:"أَذان",en:"The call to prayer"},
+              {ar:"وُضوء",en:"Ablution / Wudu"},
+              {ar:"مَسجِد",en:"Mosque"},
+              {ar:"إِمام",en:"Imam — prayer leader"},
+              {ar:"فَجر",en:"Fajr — dawn prayer"},
+              {ar:"ظُهر",en:"Dhuhr — noon prayer"},
+              {ar:"عَصر",en:"Asr — afternoon prayer"},
+              {ar:"مَغرِب",en:"Maghrib — sunset prayer"},
+              {ar:"عِشاء",en:"Isha — night prayer"},
+              {ar:"قُرآن",en:"Quran"},
+              {ar:"سَجَّادَة",en:"Prayer mat"},
+            ]}
+          },
+          { id:4, type:"vocab", title:"Islamic Expressions", desc:"التَّعبِيرات الإِسلامِيَّة اليَومِيَّة", icon:"volunteer_activism", color:"#D4A34A",
+            data:{ words:[
+              {ar:"إِن شاءَ الله",en:"In shaa Allah — if Allah wills"},
+              {ar:"ما شاءَ الله",en:"Masha Allah — what Allah has willed (admiration)"},
+              {ar:"تَبارَكَ الله",en:"Tabarakallah — may Allah be blessed"},
+              {ar:"جَزاكَ اللهُ خَيراً",en:"Jazakallah khayran — may Allah reward you with good"},
+              {ar:"سُبحانَ الله",en:"Subhan Allah — glory be to Allah"},
+              {ar:"الحَمدُ لِلَّه",en:"Alhamdulillah — praise be to Allah"},
+              {ar:"الله أَكبَر",en:"Allahu Akbar — Allah is the greatest"},
+              {ar:"لا حَولَ وَلا قُوَّةَ إِلَّا بِالله",en:"La hawla wa la quwwata illa billah — no power except with Allah"},
+            ]}
+          },
+          { id:5, type:"grammar", title:"قَبلَ وَبَعدَ — Before & After", desc:"Sequencing your day with before and after", icon:"psychology", color:"#D4A34A",
+            data:{ title:"Before & After — قَبلَ وَبَعدَ", titleAr:"قَبلَ وَبَعدَ",
+              intro:"قَبلَ = before. بَعدَ = after. These two words unlock your ability to describe the order of any action. Place them before a noun or a verb to sequence your day.",
+              table:{ cols:["Arabic","Meaning","Example"], colW:"1fr 1fr 2fr",
+                rows:[
+                  {ar:"قَبلَ",roman:"before",en:"قَبلَ الصَّلاة — before prayer"},
+                  {ar:"بَعدَ",roman:"after",en:"بَعدَ الصَّلاة — after prayer"},
+                  {ar:"قَبلَ أَن",roman:"before (+ verb)",en:"قَبلَ أَن أَذهَب — before I go"},
+                  {ar:"بَعدَ أَن",roman:"after (+ verb)",en:"بَعدَ أَن أَتَوَضَّأ — after I make wudu"},
+                ]
+              },
+              keyRule:"قَبلَ / بَعدَ + noun = before/after something. قَبلَ أَن / بَعدَ أَن + verb = before/after doing something.",
+              examples:[
+                {ar:"أَتَوَضَّأُ قَبلَ الصَّلاة",en:"I make wudu before prayer"},
+                {ar:"أَقرَأُ القُرآنَ بَعدَ الفَجر",en:"I read the Quran after Fajr"},
+                {ar:"سَمِعتُ الأَذانَ قَبلَ أَن أَستَيقِظ",en:"I heard the adhan before I woke up"},
+                {ar:"ذَهَبنا إِلى المَسجِد بَعدَ أَن تَوَضَّأنا",en:"We went to the mosque after we made wudu"},
+              ]
+            }
+          },
+          { id:6, type:"grammar", title:"Worship Verbs", desc:"صَلَّى، تَوَضَّأَ، قَرَأَ، سَمِعَ، ذَهَبَ", icon:"auto_stories", color:"#D4A34A",
+            data:{ title:"Worship Verbs", titleAr:"أَفعال العِبادَة",
+              intro:"These five verbs cover almost everything you do in a worship routine. They all follow the past-tense pattern you already know — just new roots.",
+              table:{ cols:["Verb","Meaning","He","She","I"], colW:"1fr 1fr 1fr 1fr 1fr",
+                rows:[
+                  {ar:"صَلَّى",roman:"prayed",en:"صَلَّت",ex:"صَلَّيتُ"},
+                  {ar:"تَوَضَّأَ",roman:"made wudu",en:"تَوَضَّأَت",ex:"تَوَضَّأتُ"},
+                  {ar:"قَرَأَ",roman:"read",en:"قَرَأَت",ex:"قَرَأتُ"},
+                  {ar:"سَمِعَ",roman:"heard",en:"سَمِعَت",ex:"سَمِعتُ"},
+                  {ar:"ذَهَبَ",roman:"went",en:"ذَهَبَت",ex:"ذَهَبتُ"},
+                ]
+              },
+              keyRule:"All five are sound verbs — the same ـَ، ـَت، ـتُ endings you learned in Module 4. Change the root, keep the endings.",
+              examples:[
+                {ar:"صَلَّيتُ الفَجرَ في المَسجِد",en:"I prayed Fajr at the mosque"},
+                {ar:"تَوَضَّأتُ قَبلَ الصَّلاة",en:"I made wudu before prayer"},
+                {ar:"قَرَأَ القُرآنَ بَعدَ الفَجر",en:"He read the Quran after Fajr"},
+                {ar:"سَمِعنا الأَذانَ وَذَهَبنا إِلى المَسجِد",en:"We heard the adhan and went to the mosque"},
+              ]
+            }
+          },
+          { id:7, type:"clutter", title:"Sentence Builder", desc:"تَدرِيب عَلى قَبلَ وَبَعدَ وَأَفعال العِبادَة", icon:"extension", color:"#D4A34A",
+            data:{ passing:70, sentences:[
+              {ar:"أَتَوَضَّأُ قَبلَ الصَّلاة",en:"I make wudu before prayer", words:["أَتَوَضَّأُ","قَبلَ","الصَّلاة"]},
+              {ar:"أَقرَأُ القُرآنَ بَعدَ الفَجر",en:"I read the Quran after Fajr", words:["أَقرَأُ","القُرآنَ","بَعدَ","الفَجر"]},
+              {ar:"سَمِعنا الأَذانَ وَذَهَبنا إِلى المَسجِد",en:"We heard the adhan and went to the mosque", words:["سَمِعنا","الأَذانَ","وَذَهَبنا","إِلى","المَسجِد"]},
+              {ar:"صَلَّيتُ الفَجرَ في المَسجِد مَعَ الإِمام",en:"I prayed Fajr at the mosque with the imam", words:["صَلَّيتُ","الفَجرَ","في","المَسجِد","مَعَ","الإِمام"]},
+              {ar:"أَقرَأُ عَشرَ صَفَحات بَعدَ الفَجر كُلَّ يَوم",en:"I read ten pages after Fajr every day", words:["أَقرَأُ","عَشرَ","صَفَحات","بَعدَ","الفَجر","كُلَّ","يَوم"]},
+              {ar:"قَبلَ أَن أَذهَبَ إِلى المَسجِد أَتَوَضَّأُ في البَيت",en:"Before I go to the mosque I make wudu at home", words:["قَبلَ","أَن","أَذهَبَ","إِلى","المَسجِد","أَتَوَضَّأُ","في","البَيت"]},
+              {ar:"بَعدَ الصَّلاة قالَ جَزاكَ اللهُ خَيراً",en:"After prayer he said may Allah reward you with good", words:["بَعدَ","الصَّلاة","قالَ","جَزاكَ","اللهُ","خَيراً"]},
+              {ar:"هَيَّا نَذهَب إِلى المَسجِد مَعاً إِن شاءَ الله",en:"Let's go to the mosque together, in shaa Allah", words:["هَيَّا","نَذهَب","إِلى","المَسجِد","مَعاً","إِن","شاءَ","الله"]},
+              {ar:"سَمِعتُ الأَذانَ قَبلَ أَن أَستَيقِظ",en:"I heard the adhan before I woke up", words:["سَمِعتُ","الأَذانَ","قَبلَ","أَن","أَستَيقِظ"]},
+              {ar:"تَوَضَّأنا وَصَلَّينا الفَجرَ ثُمَّ قَرَأنا القُرآن",en:"We made wudu and prayed Fajr then read the Quran", words:["تَوَضَّأنا","وَصَلَّينا","الفَجرَ","ثُمَّ","قَرَأنا","القُرآن"]},
+            ]}
+          }
+        ]
+      },
+      { id:"6.5", title:"People of Knowledge & Da'wah", icon:"auto_stories",
+        desc:"العِلم وَالدَّعوَة وَأَهلُ العِلم",
+        blocks:[
+          { id:1, type:"dialogue", title:"At the Shaykh's Lecture", desc:"طالِب يَسأَل عَن المُحاضَرَة", icon:"forum", color:"#D4A34A",
+            data:{ title:"عِندَ المُحاضَرَة", setting:"يوسُف يَسأَل الشَّيخَ عَبدَ الله عَن المُحاضَرَة بَعدَ الصَّلاة",
+              lines:[
+                {spk:"Yusuf",side:"left",ar:"يا شَيخ، مَتى مُحاضَرَتُكَ القادِمَة؟",en:"Shaykh, when is your next lecture?"},
+                {spk:"Shaykh",side:"right",ar:"بَعدَ صَلاةِ العِشاء في المَسجِد إِن شاءَ الله",en:"After Isha prayer at the mosque, in shaa Allah"},
+                {spk:"Yusuf",side:"left",ar:"ما مَوضوعُ المُحاضَرَة يا شَيخ؟",en:"What is the topic of the lecture, shaykh?"},
+                {spk:"Shaykh",side:"right",ar:"سَنَتَكَلَّم عَن الدَّعوَة إِلى الله وَأَهَمِّيَّتِها",en:"We will speak about da'wah to Allah and its importance"},
+                {spk:"Yusuf",side:"left",ar:"جَزاكَ اللهُ خَيراً، هَل هُناكَ حَلَقَة بَعدَ المُحاضَرَة؟",en:"Jazakallah khayran, is there a study circle after the lecture?"},
+                {spk:"Shaykh",side:"right",ar:"نَعَم، حَلَقَة لِطُلَّابِ العِلم بَعدَ المُحاضَرَة مُباشَرَة",en:"Yes, a study circle for students of knowledge directly after the lecture"},
+                {spk:"Yusuf",side:"left",ar:"سُبحانَ الله، هَذا الدِّين عَظِيم وَجَمِيل",en:"Subhan Allah, this deen is great and beautiful"},
+                {spk:"Shaykh",side:"right",ar:"صَدَقتَ، اللهُ أَنزَلَ هَذا الدِّينَ رَحمَةً لِلعالَمِين",en:"You are right, Allah revealed this deen as a mercy to all the worlds"},
+                {spk:"Yusuf",side:"left",ar:"ما شاءَ الله، أَلقاكَ بَعدَ العِشاء يا شَيخ",en:"Masha Allah, I will see you after Isha, shaykh"},
+                {spk:"Shaykh",side:"right",ar:"أَهلاً وَسَهلاً، طالِبُ العِلمِ دائِماً مُرَحَّب بِه",en:"Welcome, the student of knowledge is always welcome"},
+              ],
+              keywords:[
+                {ar:"مُحاضَرَة",en:"Lecture"},
+                {ar:"مَوضوع",en:"Topic / Subject"},
+                {ar:"دَعوَة",en:"Da'wah — calling to Allah"},
+                {ar:"حَلَقَة",en:"Halaqah — study circle"},
+                {ar:"أَنزَلَ",en:"Revealed / Sent down"},
+                {ar:"طالِبُ العِلم",en:"Student of knowledge"},
+              ]
+            }
+          },
+          { id:2, type:"dialogue", title:"The Friday Khutbah", desc:"حِوار عَن خُطبَةِ الجُمُعَة", icon:"forum", color:"#D4A34A",
+            data:{ title:"خُطبَةُ الجُمُعَة", setting:"أَحمَد وَعُمَر يَتَحَدَّثان بَعدَ صَلاةِ الجُمُعَة",
+              lines:[
+                {spk:"Ahmad",side:"left",ar:"ما شاءَ الله، الخُطبَةُ اليَومَ كانَت رائِعَة",en:"Masha Allah, the khutbah today was wonderful"},
+                {spk:"Omar",side:"right",ar:"صَحِيح، الخَطِيبُ عالِم كَبِير وَكَلامُهُ مِن القَلب",en:"True, the khateeb is a great scholar and his words are from the heart"},
+                {spk:"Ahmad",side:"left",ar:"وَقَفَ عَلى المِنبَر وَتَكَلَّمَ عَن الدِّين وَالدَّعوَة",en:"He stood on the minbar and spoke about the deen and da'wah"},
+                {spk:"Omar",side:"right",ar:"نَعَم، قالَ إِنَّ اللهَ أَنزَلَ القُرآنَ هُدىً لِلنَّاس",en:"Yes, he said that Allah revealed the Quran as guidance for people"},
+                {spk:"Ahmad",side:"left",ar:"هَل سَمِعتَ حِينَ ذَكَرَ العُلَماءَ وَطُلَّابَ العِلم؟",en:"Did you hear when he mentioned the scholars and students of knowledge?"},
+                {spk:"Omar",side:"right",ar:"نَعَم، قالَ العُلَماءُ وَرَثَةُ الأَنبِياء",en:"Yes, he said the scholars are the inheritors of the prophets"},
+                {spk:"Ahmad",side:"left",ar:"تَبارَكَ الله، كَلام عَظِيم",en:"Tabarakallah, great words"},
+                {spk:"Omar",side:"right",ar:"هَيَّا نَذهَب إِلى حَلَقَة الشَّيخ بَعدَ الصَّلاة",en:"Let's go to the shaykh's study circle after prayer"},
+              ],
+              keywords:[
+                {ar:"خُطبَة",en:"Khutbah — Friday sermon"},
+                {ar:"خَطِيب",en:"Khateeb — one who gives khutbah"},
+                {ar:"مِنبَر",en:"Minbar — the pulpit"},
+                {ar:"عالِم / عُلَماء",en:"Scholar / Scholars"},
+                {ar:"وَرَثَةُ الأَنبِياء",en:"Inheritors of the prophets"},
+                {ar:"هُدى لِلنَّاس",en:"Guidance for people"},
+              ]
+            }
+          },
+          { id:3, type:"vocab", title:"Knowledge & Da'wah", desc:"العِلم وَالدَّعوَة وَأَهلُها", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"دِين",en:"Deen — religion / way of life"},
+              {ar:"مِنبَر",en:"Minbar — the pulpit"},
+              {ar:"أَذان",en:"Adhan — the call to prayer"},
+              {ar:"شَيخ",en:"Shaykh — Islamic scholar / teacher"},
+              {ar:"عالِم",en:"Aalim — scholar"},
+              {ar:"عُلَماء",en:"Scholars (plural of عالِم)"},
+              {ar:"مُحاضَرَة",en:"Lecture"},
+              {ar:"دَعوَة",en:"Da'wah — calling to Allah"},
+              {ar:"خَطِيب",en:"Khateeb — one who delivers khutbah"},
+              {ar:"خُطبَة",en:"Khutbah — Friday sermon"},
+              {ar:"حَلَقَة",en:"Halaqah — study circle"},
+              {ar:"طالِبُ عِلم",en:"Student of knowledge"},
+            ]}
+          },
+          { id:4, type:"grammar", title:"أَنزَلَ — To Reveal / Send Down", desc:"فِعل أَنزَلَ في القُرآن وَالحَياة", icon:"psychology", color:"#D4A34A",
+            data:{ title:"The Verb أَنزَلَ", titleAr:"أَنزَلَ — نَزَّلَ",
+              intro:"أَنزَلَ means to reveal or send down. It appears over 50 times in the Quran — almost always with Allah as the subject and the Quran, the deen, or guidance as the object. It follows the exact same past-tense pattern you already know.",
+              table:{ cols:["Pronoun","Verb","Meaning"], colW:"1fr 1fr 1.5fr",
+                rows:[
+                  {ar:"هُوَ — أَنزَلَ",en:"He revealed / sent down"},
+                  {ar:"هِيَ — أَنزَلَت",en:"She / It revealed"},
+                  {ar:"أَنا — أَنزَلتُ",en:"I sent down"},
+                  {ar:"نَحنُ — أَنزَلنا",en:"We sent down (used by Allah in Quran)"},
+                ]
+              },
+              keyRule:"أَنزَلَ = أَ (prefix) + نَزَلَ (to descend). Allah sends something DOWN to people. The Quran uses نَزَّلَ (emphasis form) and أَنزَلَ interchangeably.",
+              examples:[
+                {ar:"اللهُ أَنزَلَ القُرآنَ هُدىً لِلنَّاس",en:"Allah revealed the Quran as guidance for people"},
+                {ar:"إِنَّا أَنزَلناهُ قُرآناً عَرَبِيًّا — يوسُف 2",en:"Indeed We sent it down as an Arabic Quran — Surah Yusuf 12:2"},
+                {ar:"أَنزَلَ اللهُ هَذا الدِّينَ رَحمَةً لِلعالَمِين",en:"Allah revealed this deen as a mercy to all the worlds"},
+                {ar:"اللهُ أَنزَلَ عَلى نَبِيِّهِ الوَحي",en:"Allah sent down revelation to His prophet"},
+              ]
+            }
+          },
+          { id:5, type:"clutter", title:"Sentence Builder", desc:"تَدرِيب عَلى العِلم وَالدَّعوَة وَأَنزَلَ", icon:"extension", color:"#D4A34A",
+            data:{ passing:70, sentences:[
+              {ar:"اللهُ أَنزَلَ القُرآنَ هُدىً لِلنَّاس",en:"Allah revealed the Quran as guidance for people", words:["اللهُ","أَنزَلَ","القُرآنَ","هُدىً","لِلنَّاس"]},
+              {ar:"الخَطِيبُ وَقَفَ عَلى المِنبَر وَتَكَلَّمَ عَن الدِّين",en:"The khateeb stood on the minbar and spoke about the deen", words:["الخَطِيبُ","وَقَفَ","عَلى","المِنبَر","وَتَكَلَّمَ","عَن","الدِّين"]},
+              {ar:"العُلَماءُ وَرَثَةُ الأَنبِياء",en:"The scholars are the inheritors of the prophets", words:["العُلَماءُ","وَرَثَةُ","الأَنبِياء"]},
+              {ar:"هَل عِندَكَ حَلَقَة بَعدَ صَلاةِ العِشاء؟",en:"Do you have a study circle after Isha prayer?", words:["هَل","عِندَكَ","حَلَقَة","بَعدَ","صَلاةِ","العِشاء؟"]},
+              {ar:"طالِبُ العِلمِ دائِماً مُرَحَّب بِه",en:"The student of knowledge is always welcome", words:["طالِبُ","العِلمِ","دائِماً","مُرَحَّب","بِه"]},
+              {ar:"مَوضوعُ المُحاضَرَة اليَومَ هُوَ الدَّعوَة إِلى الله",en:"The topic of today's lecture is da'wah to Allah", words:["مَوضوعُ","المُحاضَرَة","اليَومَ","هُوَ","الدَّعوَة","إِلى","الله"]},
+              {ar:"أَنزَلَ اللهُ هَذا الدِّينَ رَحمَةً لِلعالَمِين",en:"Allah revealed this deen as a mercy to all the worlds", words:["أَنزَلَ","اللهُ","هَذا","الدِّينَ","رَحمَةً","لِلعالَمِين"]},
+              {ar:"سَمِعنا خُطبَةَ الجُمُعَة وَاستَفَدنا كَثِيراً",en:"We heard the Friday khutbah and benefited greatly", words:["سَمِعنا","خُطبَةَ","الجُمُعَة","وَاستَفَدنا","كَثِيراً"]},
+              {ar:"الشَّيخُ عالِم كَبِير وَدَعوَتُهُ مِن القَلب",en:"The shaykh is a great scholar and his da'wah is from the heart", words:["الشَّيخُ","عالِم","كَبِير","وَدَعوَتُهُ","مِن","القَلب"]},
+              {ar:"إِنَّا أَنزَلناهُ قُرآناً عَرَبِيًّا لَعَلَّكُم تَعقِلون",en:"Indeed We sent it down as an Arabic Quran that you may understand", words:["إِنَّا","أَنزَلناهُ","قُرآناً","عَرَبِيًّا","لَعَلَّكُم","تَعقِلون"]},
             ]}
           }
         ]
