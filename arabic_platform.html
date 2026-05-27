@@ -4317,7 +4317,7 @@ const CUR = [
           },
           { id:5, type:"grammar", title:"قَبلَ وَبَعدَ — Before & After", desc:"Sequencing your day with before and after", icon:"psychology", color:"#D4A34A",
             data:{ title:"Before & After — قَبلَ وَبَعدَ", titleAr:"قَبلَ وَبَعدَ",
-              intro:"قَبلَ = before. بَعدَ = after. These two words unlock your ability to describe the order of any action. Place them before a noun or a verb to sequence your day.",
+              intro:"قَبلَ = before. بَعدَ = after. Place them before a noun or a verb to sequence your day.",
               table:{ cols:["Arabic","Meaning","Example"], colW:"1fr 1fr 2fr",
                 rows:[
                   {ar:"قَبلَ",roman:"before",en:"قَبلَ الصَّلاة — before prayer"},
@@ -4337,7 +4337,7 @@ const CUR = [
           },
           { id:6, type:"grammar", title:"Worship Verbs", desc:"صَلَّى، تَوَضَّأَ، قَرَأَ، سَمِعَ، ذَهَبَ", icon:"auto_stories", color:"#D4A34A",
             data:{ title:"Worship Verbs", titleAr:"أَفعال العِبادَة",
-              intro:"These five verbs cover almost everything you do in a worship routine. They all follow the past-tense pattern you already know — just new roots.",
+              intro:"These five verbs cover almost everything you do in a worship routine. They follow the past-tense pattern you already know.",
               table:{ cols:["Verb","Meaning","He","She","I"], colW:"1fr 1fr 1fr 1fr 1fr",
                 rows:[
                   {ar:"صَلَّى",roman:"prayed",en:"صَلَّت",ex:"صَلَّيتُ"},
@@ -4347,7 +4347,7 @@ const CUR = [
                   {ar:"ذَهَبَ",roman:"went",en:"ذَهَبَت",ex:"ذَهَبتُ"},
                 ]
               },
-              keyRule:"All five are sound verbs — the same ـَ، ـَت، ـتُ endings you learned in Module 4. Change the root, keep the endings.",
+              keyRule:"All five are sound verbs — the same ـَ، ـَت، ـتُ endings from Module 4. Change the root, keep the endings.",
               examples:[
                 {ar:"صَلَّيتُ الفَجرَ في المَسجِد",en:"I prayed Fajr at the mosque"},
                 {ar:"تَوَضَّأتُ قَبلَ الصَّلاة",en:"I made wudu before prayer"},
@@ -4439,7 +4439,7 @@ const CUR = [
           },
           { id:4, type:"grammar", title:"أَنزَلَ — To Reveal / Send Down", desc:"فِعل أَنزَلَ في القُرآن وَالحَياة", icon:"psychology", color:"#D4A34A",
             data:{ title:"The Verb أَنزَلَ", titleAr:"أَنزَلَ — نَزَّلَ",
-              intro:"أَنزَلَ means to reveal or send down. It appears over 50 times in the Quran — almost always with Allah as the subject and the Quran, the deen, or guidance as the object. It follows the exact same past-tense pattern you already know.",
+              intro:"أَنزَلَ means to reveal or send down. It appears over 50 times in the Quran — almost always with Allah as the subject. It follows the exact same past-tense pattern you already know.",
               table:{ cols:["Pronoun","Verb","Meaning"], colW:"1fr 1fr 1.5fr",
                 rows:[
                   {ar:"هُوَ — أَنزَلَ",en:"He revealed / sent down"},
@@ -4448,7 +4448,7 @@ const CUR = [
                   {ar:"نَحنُ — أَنزَلنا",en:"We sent down (used by Allah in Quran)"},
                 ]
               },
-              keyRule:"أَنزَلَ = أَ (prefix) + نَزَلَ (to descend). Allah sends something DOWN to people. The Quran uses نَزَّلَ (emphasis form) and أَنزَلَ interchangeably.",
+              keyRule:"أَنزَلَ = أَ (prefix) + نَزَلَ (to descend). Allah sends something DOWN to people. The Quran uses نَزَّلَ and أَنزَلَ interchangeably.",
               examples:[
                 {ar:"اللهُ أَنزَلَ القُرآنَ هُدىً لِلنَّاس",en:"Allah revealed the Quran as guidance for people"},
                 {ar:"إِنَّا أَنزَلناهُ قُرآناً عَرَبِيًّا — يوسُف 2",en:"Indeed We sent it down as an Arabic Quran — Surah Yusuf 12:2"},
@@ -6052,6 +6052,59 @@ CUR.forEach(mod=>{
   });
 });
 
+
+// ════════════════════════════════════════════════════════
+// AUTO-INJECT QUIZ BLOCKS (Multiple Choice Practice)
+// Injects a 'quiz' block immediately before every 'clutter' block.
+// Pulls items from the unit's vocab + dialogue keywords.
+// ════════════════════════════════════════════════════════
+CUR.forEach(mod=>{
+  mod.units.forEach(unit=>{
+    const hasClutter = unit.blocks.some(b=>b.type==='clutter');
+    const hasQuiz = unit.blocks.some(b=>b.type==='quiz');
+    if(!hasClutter || hasQuiz) return;
+    const pool = [];
+    const seen = new Set();
+    unit.blocks.forEach(b=>{
+      if(b.type==='vocab' && b.data&&b.data.words){
+        b.data.words.forEach(w=>{
+          const arParts=(w.ar||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+          const enParts=(w.en||'').split(' / ').map(s=>s.trim()).filter(Boolean);
+          if(arParts.length>1 && arParts.length===enParts.length){
+            arParts.forEach((ar,i)=>{ if(!seen.has(ar)){seen.add(ar);pool.push({ar,en:enParts[i]});} });
+          } else if(w.ar && w.en && !seen.has(w.ar)){
+            seen.add(w.ar); pool.push({ar:w.ar,en:w.en});
+          }
+        });
+      }
+      if(b.type==='dialogue' && b.data&&b.data.keywords){
+        b.data.keywords.forEach(k=>{
+          if(k.ar && k.en && !seen.has(k.ar)){ seen.add(k.ar); pool.push({ar:k.ar,en:k.en}); }
+        });
+      }
+    });
+    if(pool.length < 4) return;
+    const sh = pool.slice().sort(()=>Math.random()-.5);
+    const items = sh.slice(0, Math.min(10, sh.length));
+    const questions = items.map((item,idx)=>{
+      const direction = idx%2===0 ? 'ar_to_en' : 'en_to_ar';
+      const dist = pool.filter(p=>p.ar!==item.ar).sort(()=>Math.random()-.5).slice(0,3);
+      const opts = shuffle(direction==='ar_to_en'
+        ? [item.en, ...dist.map(d=>d.en)]
+        : [item.ar, ...dist.map(d=>d.ar)]);
+      return { ar:item.ar, en:item.en, direction, opts, correct:direction==='ar_to_en'?item.en:item.ar };
+    });
+    const clutterIdx = unit.blocks.findIndex(b=>b.type==='clutter');
+    const maxId = Math.max(...unit.blocks.map(b=>b.id));
+    unit.blocks.splice(clutterIdx, 0, {
+      id: maxId+10, type:'quiz',
+      title:'Multiple Choice', desc:'اختَر الإِجابَة الصَّحِيحَة',
+      icon:'quiz', color:'#D4A34A',
+      data:{ passing:70, questions }
+    });
+  });
+});
+
 // ════════════════════════════════════════════════════════
 // LESSON OBJECTIVES — assigned to each unit at runtime
 // "By the end of this lesson, you can..."
@@ -7173,6 +7226,7 @@ function resetBS(){
   const blk=getBlk(S.mId,S.uId,S.bId);
   if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=buildBankWithDistractors(blk.data.sentences[0]?.words||[], S.mId, S.uId); }
   if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
+  if(blk?.type==='quiz'){ S.qzIdx=0; S.qzChosen=null; S.qzFb=null; S.qzLocked=false; S.qzScore=0; S.qzWrong=0; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -7366,7 +7420,122 @@ function advPos(d){
   }
 }
 
-function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
+
+// ══════════════════════════════════════════════════════
+// BLOCK: QUIZ — Multiple Choice
+// ══════════════════════════════════════════════════════
+function mkQuiz(blk){
+  const d=blk.data; const qs=d.questions||[]; const total=qs.length;
+  if(typeof S.qzIdx==='undefined'){S.qzIdx=0;S.qzChosen=null;S.qzFb=null;S.qzLocked=false;S.qzScore=0;S.qzWrong=0;}
+  if(total===0){return mkLesson_fallback();}
+  const cur=qs[S.qzIdx]; const pct=Math.round(S.qzScore/total*100);
+  const w=div('stage');
+
+  // Header
+  const hdr=div('lesson-hdr');
+  const hi=div('lesson-hdr-icon'); hi.appendChild(ms('quiz')); hdr.appendChild(hi);
+  const hb=div('lesson-hdr-body');
+  hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'},'Multiple Choice · '+(S.qzIdx+1)+' of '+total));
+  hb.appendChild(el('div',{className:'lesson-hdr-title'},cur.direction==='ar_to_en'?'What does this mean?':'How do you say this?'));
+  hb.appendChild(el('div',{className:'lesson-hdr-arabic'},cur.direction==='ar_to_en'?'Arabic → English':'English → Arabic'));
+  hdr.appendChild(hb); w.appendChild(hdr);
+
+  // Score row
+  const sr=div('score-row');
+  [{v:S.qzScore,l:'Correct',c:'var(--green)'},{v:S.qzWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(s=>{
+    const si=div('sc-item');
+    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
+    si.appendChild(el('div',{className:'sc-lbl'},s.l)); sr.appendChild(si);
+  }); w.appendChild(sr);
+
+  // Progress bar
+  const pb=div('cpr-row'); pb.appendChild(document.createTextNode((S.qzIdx+1)+'/'+total));
+  const bar=div('c-bar'); const fill=div('c-fill'); fill.style.width=pct+'%'; bar.appendChild(fill);
+  pb.appendChild(bar); pb.appendChild(document.createTextNode(pct+'%')); w.appendChild(pb);
+
+  // Prompt card
+  const prompt=div('');
+  prompt.style.cssText='background:rgba(212,163,74,.07);border:1.5px solid rgba(212,163,74,.3);border-radius:18px;padding:28px 20px;text-align:center;margin:16px 0;cursor:pointer;';
+  if(cur.direction==='ar_to_en'){
+    prompt.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'44px',color:'var(--gold)',direction:'rtl',lineHeight:'1.4'}},cur.ar));
+    const playBtn=el('button',{style:{background:'none',border:'none',color:'var(--dim)',cursor:'pointer',marginTop:'10px',display:'inline-flex',alignItems:'center',gap:'5px',fontSize:'12px'},onclick:(e)=>{e.stopPropagation();speak(cur.ar);}});
+    playBtn.appendChild(ms('volume_up')); playBtn.appendChild(document.createTextNode(' Hear it')); prompt.appendChild(playBtn);
+  } else {
+    prompt.appendChild(el('div',{style:{fontSize:'20px',color:'var(--text)',fontWeight:'600',lineHeight:'1.4'}},cur.en));
+  }
+  w.appendChild(prompt);
+
+  // Options
+  const optGrid=div('');
+  optGrid.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;';
+  cur.opts.forEach(opt=>{
+    const isChosen=S.qzChosen===opt;
+    const isCorrect=opt===cur.correct;
+    let bg='rgba(10,14,24,.7)', border='rgba(255,255,255,.1)', color='var(--text)';
+    if(S.qzLocked){
+      if(isCorrect){ bg='rgba(127,168,134,.15)';border='var(--green)';color='var(--green)'; }
+      else if(isChosen){ bg='rgba(224,112,112,.12)';border='var(--red)';color='var(--red)'; }
+    } else if(isChosen){
+      bg='rgba(212,163,74,.15)'; border='var(--gold)'; color='var(--gold)';
+    }
+    const btn=el('button',{
+      style:{padding:'14px 12px',borderRadius:'14px',border:'1.5px solid '+border,
+        background:bg,color:color,cursor:S.qzLocked?'default':'pointer',
+        fontFamily:cur.direction==='en_to_ar'?"'Amiri',serif":'inherit',
+        fontSize:cur.direction==='en_to_ar'?'22px':'13px',
+        direction:cur.direction==='en_to_ar'?'rtl':'ltr',
+        lineHeight:cur.direction==='en_to_ar'?'1.6':'1.4',
+        fontWeight:'600',transition:'all .15s',textAlign:'center',width:'100%'},
+      onclick:()=>{
+        if(S.qzLocked) return;
+        S.qzChosen=opt; S.qzLocked=true;
+        const ok=opt===cur.correct;
+        S.qzFb=ok?'correct':'wrong';
+        if(ok){S.qzScore++;if(window.Lisaany)Lisaany.celebrate();}
+        else S.qzWrong++;
+        render();
+        if(ok) setTimeout(()=>advQuiz(d),900);
+      }
+    },opt);
+    optGrid.appendChild(btn);
+  });
+  w.appendChild(optGrid);
+
+  // Feedback
+  if(S.qzFb){
+    const fb=div('cf '+(S.qzFb==='correct'?'cf-ok':'cf-no'));
+    fb.style.marginTop='14px';
+    fb.innerHTML=S.qzFb==='correct'
+      ?'✅ <strong>Correct!</strong>'
+      :'❌ The answer is <strong>'+cur.correct+'</strong>';
+    w.appendChild(fb);
+  }
+
+  // Nav
+  const nav=div('action-row'); nav.style.marginTop='14px';
+  nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{
+    S.qzIdx=0;S.qzChosen=null;S.qzFb=null;S.qzLocked=false;S.view='blocks';render();
+  }},'← Back'));
+  if(S.qzLocked && S.qzFb==='wrong'){
+    nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>advQuiz(d)},'Next →'));
+  }
+  if(!S.qzLocked){
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>advQuiz(d)},'Skip →'));
+  }
+  w.appendChild(nav);
+  return w;
+}
+function advQuiz(d){
+  S.qzChosen=null;S.qzFb=null;S.qzLocked=false;
+  if(S.qzIdx<d.questions.length-1){S.qzIdx++;render();}
+  else{
+    const pct=Math.round(S.qzScore/d.questions.length*100);
+    S.qzIdx=0;S.qzScore=0;S.qzWrong=0;
+    if(pct>=d.passing) finishBlock(); else render();
+  }
+}
+
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
 
 // ══════════════════════════════════════════════════════
 // BLOCK 1: DIALOGUE
