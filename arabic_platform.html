@@ -28,6 +28,7 @@
   /* Extended design tokens for new layouts */
   --card:#132040;--card-elev:rgba(20,32,64,.95);--card-hover:#1b2d54;
   --gold-soft:#d4a34a;--gold-deep:#8a6420;
+  --mint:#7fd99a;
   --gold-glow:rgba(242,190,98,.18);
   --green-soft:rgba(127,201,156,.10);
   --border-strong:rgba(255,255,255,.14);
@@ -3128,6 +3129,13 @@ const CUR = [
                 {ar:"هُوَ <span style='color:#7fd99a'>يَ</span>دْرُسُ العَرَبِيَّة كُلَّ يَوم",en:"He studies Arabic every day"},
                 {ar:"هِيَ <span style='color:#7fd99a'>تَ</span>كْتُبُ رِسالَة لِأُمِّها",en:"She writes a letter to her mother"},
                 {ar:"نَحْنُ <span style='color:#7fd99a'>نَ</span>دْرُسُ مَعاً في المَكْتَبَة",en:"We study together in the library"},
+              ],
+              exercise:[
+                {pron:"هُوَ",pronEn:"he",root:"كْتُبُ",verbEn:"write",correct:"يَ"},
+                {pron:"أَنا",pronEn:"I",root:"دْرُسُ",verbEn:"study",correct:"أَ"},
+                {pron:"نَحْنُ",pronEn:"we",root:"عْمَلُ",verbEn:"work",correct:"نَ"},
+                {pron:"أَنْتَ",pronEn:"you (m)",root:"سْكُنُ",verbEn:"live",correct:"تَ"},
+                {pron:"هِيَ",pronEn:"she",root:"دْرُسُ",verbEn:"study",correct:"تَ"},
               ]
             }
           }
@@ -8468,18 +8476,18 @@ function mkConjugation(blk){
     const tbl=div(''); tbl.style.cssText='display:flex;flex-direction:column;gap:5px;direction:rtl;margin:4px 0 8px;';
     // header row
     const hr=div(''); hr.style.cssText='display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;direction:rtl;';
-    const mkHd=(t)=>el('div',{style:{font:"700 10px/1.2 'Inter'",letterSpacing:'.06em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',padding:'4px'}},t);
+    const mkHd=(t)=>el('div',{style:{font:"700 13px/1.3 'Amiri', serif",letterSpacing:'.02em',color:'var(--gold-soft)',textAlign:'center',padding:'4px'}},t);
     hr.appendChild(mkHd('الضَّمير'));
     hr.appendChild(mkHd(d.verbs[0]||''));
     hr.appendChild(mkHd(d.verbs[1]||''));
     tbl.appendChild(hr);
     // data rows: each row = {pron, pronEn, v1, v2} where v1/v2 contain HTML green spans
     d.rows.forEach(r=>{
-      const row=div(''); row.style.cssText='display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;background:var(--faint);border:1px solid var(--border);border-radius:10px;padding:8px 4px;align-items:center;direction:rtl;cursor:pointer;';
-      const pc=div(''); pc.style.cssText="font-family:'Amiri',serif;font-size:16px;color:var(--gold);text-align:center;direction:rtl;";
-      pc.innerHTML=(r.pron||'')+(r.pronEn?('<small style="display:block;font-family:Inter;font-size:10px;color:var(--dim);direction:ltr;">'+r.pronEn+'</small>'):'');
-      const c1=div(''); c1.style.cssText="font-family:'Amiri',serif;font-size:20px;color:var(--text);text-align:center;direction:rtl;"; c1.innerHTML=r.v1||'';
-      const c2=div(''); c2.style.cssText="font-family:'Amiri',serif;font-size:20px;color:var(--text);text-align:center;direction:rtl;"; c2.innerHTML=r.v2||'';
+      const row=div(''); row.style.cssText='display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:6px;background:var(--faint);border:1px solid var(--border);border-radius:10px;padding:14px 6px;align-items:center;direction:rtl;cursor:pointer;';
+      const pc=div(''); pc.style.cssText="font-family:'Amiri',serif;font-size:24px;color:var(--gold);text-align:center;direction:rtl;line-height:1.5;";
+      pc.innerHTML=(r.pron||'')+(r.pronEn?('<small style="display:block;font-family:Inter;font-size:12px;color:var(--dim);direction:ltr;">'+r.pronEn+'</small>'):'');
+      const c1=div(''); c1.style.cssText="font-family:'Amiri',serif;font-size:28px;color:var(--text);text-align:center;direction:rtl;line-height:1.5;"; c1.innerHTML=r.v1||'';
+      const c2=div(''); c2.style.cssText="font-family:'Amiri',serif;font-size:28px;color:var(--text);text-align:center;direction:rtl;line-height:1.5;"; c2.innerHTML=r.v2||'';
       row.appendChild(pc); row.appendChild(c1); row.appendChild(c2);
       // tap to hear the first verb form (strip HTML for speak)
       row.addEventListener('click',()=>{ const plain=(r.v1||'').replace(/<[^>]+>/g,''); if(plain) speak(plain); });
@@ -8494,10 +8502,53 @@ function mkConjugation(blk){
     w.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.12em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',margin:'12px 0 8px'}},'Practical Sentences'));
     d.examples.forEach(ex=>{
       const card=div(''); card.style.cssText='background:rgba(212,163,74,.06);border:1px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:8px;cursor:pointer;';
-      const ar=div(''); ar.style.cssText="font-family:'Amiri',serif;font-size:21px;color:var(--text);line-height:1.5;text-align:right;direction:rtl;margin-bottom:4px;"; ar.innerHTML=ex.ar||'';
-      const en=el('div',{style:{fontSize:'13px',color:'var(--gold)',fontStyle:'italic'}},ex.en||'');
+      const ar=div(''); ar.style.cssText="font-family:'Amiri',serif;font-size:26px;color:var(--text);line-height:1.7;text-align:right;direction:rtl;margin-bottom:6px;"; ar.innerHTML=ex.ar||'';
+      const en=el('div',{style:{fontSize:'15px',color:'var(--gold)',fontStyle:'italic'}},ex.en||'');
       card.appendChild(ar); card.appendChild(en);
       card.addEventListener('click',()=>{ const plain=(ex.ar||'').replace(/<[^>]+>/g,''); if(plain) speak(plain); });
+      w.appendChild(card);
+    });
+  }
+  // Exercise — tap the correct prefix
+  if(d.exercise?.length){
+    w.appendChild(el('div',{style:{fontSize:'13px',fontWeight:'700',letterSpacing:'.12em',textTransform:'uppercase',color:'var(--gold-soft)',textAlign:'center',margin:'20px 0 12px'}},'Exercise · Tap the Prefix'));
+    const OPTS=['أَ','تَ','يَ','نَ'];
+    d.exercise.forEach(q=>{
+      const card=div(''); card.style.cssText='background:linear-gradient(180deg,var(--card-elev),var(--card));border:1px solid var(--border);border-radius:18px;padding:22px 18px;margin-bottom:16px;';
+      // prompt label
+      const lbl=div(''); lbl.style.cssText='font-size:14px;color:var(--dim);text-align:center;margin-bottom:14px;';
+      lbl.innerHTML='Add the correct prefix for <b style="color:var(--gold)">'+(q.pron||'')+'</b>';
+      card.appendChild(lbl);
+      // word with blank (large)
+      const word=div(''); word.style.cssText="font-family:'Amiri',serif;font-size:42px;color:var(--text);text-align:center;direction:rtl;line-height:1.5;margin-bottom:6px;";
+      const blank='<span class="cj-blank" style="display:inline-block;min-width:50px;border-bottom:3px dashed var(--gold-soft);color:var(--mint);margin:0 3px;">__</span>';
+      word.innerHTML=(q.pron||'')+' &nbsp; '+blank+(q.root||'');
+      card.appendChild(word);
+      // pron english + verb
+      const pe=el('div',{style:{fontSize:'15px',color:'var(--dim)',textAlign:'center',marginBottom:'20px',fontStyle:'italic'}},(q.pronEn||'')+(q.verbEn?(' — to '+q.verbEn):''));
+      card.appendChild(pe);
+      // options (large buttons)
+      const opts=div(''); opts.style.cssText='display:flex;gap:10px;justify-content:center;flex-wrap:wrap;';
+      const fb=div(''); fb.style.cssText='text-align:center;font-size:15px;margin-top:16px;min-height:22px;';
+      OPTS.forEach(o=>{
+        const b=el('button',{},o);
+        b.style.cssText="font-family:'Amiri',serif;font-size:32px;background:var(--faint);border:1.5px solid var(--border);border-radius:14px;padding:12px 24px;color:var(--text);cursor:pointer;transition:all .15s;min-width:70px;";
+        b.addEventListener('click',()=>{
+          opts.querySelectorAll('button').forEach(x=>{x.style.borderColor='var(--border)';x.style.background='var(--faint)';x.style.color='var(--text)';});
+          const bl=word.querySelector('.cj-blank');
+          if(o===q.correct){
+            b.style.borderColor='var(--mint)'; b.style.background='rgba(127,201,156,.15)'; b.style.color='var(--mint)';
+            if(bl){ bl.textContent=o; bl.style.color='var(--mint)'; bl.style.borderBottom='3px solid var(--mint)'; }
+            fb.textContent='✓ Correct!'; fb.style.color='var(--mint)';
+            const full=(q.pron||'')+' '+o+(q.root||''); speak(o+(q.root||''));
+          } else {
+            b.style.borderColor='var(--red)'; b.style.background='rgba(224,112,112,.12)'; b.style.color='var(--red)';
+            fb.textContent='✗ Try again — think about the pronoun'; fb.style.color='var(--red)';
+          }
+        });
+        opts.appendChild(b);
+      });
+      card.appendChild(opts); card.appendChild(fb);
       w.appendChild(card);
     });
   }
