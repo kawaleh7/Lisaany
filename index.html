@@ -1130,16 +1130,31 @@ const HOME_SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
     if(!body){ document.getElementById('ls-status').textContent='Please write a message.'; return; }
     var btn = document.getElementById('ls-send-btn');
     btn.disabled=true; btn.style.opacity='.6';
-    var subject = encodeURIComponent('[Lisaany Support] '+type);
-    var bodyEnc = encodeURIComponent('Message type: '+type+'\n\n'+body);
-    window.location.href = 'mailto:admin@lisaany.com?subject='+subject+'&body='+bodyEnc;
-    var d = new Date();
-    var dateStr = d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
-    msgs.push({type:type,body:body,date:dateStr});
-    localStorage.setItem('ls_msgs',JSON.stringify(msgs));
-    document.getElementById('ls-status').textContent='Opening your mail app...';
-    document.getElementById('ls-body').value='';
-    setTimeout(function(){ btn.disabled=false; btn.style.opacity='1'; lsShowInbox(); lsRender(); },1800);
+    document.getElementById('ls-status').textContent='Sending...';
+    fetch('https://formspree.io/f/mzdwojbk', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+      body: JSON.stringify({message_type: type, message: body, _subject: '[Lisaany Support] ' + type})
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      if(data.ok){
+        var d = new Date();
+        var dateStr = d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+        msgs.push({type:type,body:body,date:dateStr});
+        localStorage.setItem('ls_msgs',JSON.stringify(msgs));
+        document.getElementById('ls-status').textContent='Message sent!';
+        document.getElementById('ls-body').value='';
+        setTimeout(function(){ btn.disabled=false; btn.style.opacity='1'; lsShowInbox(); lsRender(); },1200);
+      } else {
+        document.getElementById('ls-status').textContent='Something went wrong. Please try again.';
+        btn.disabled=false; btn.style.opacity='1';
+      }
+    })
+    .catch(function(){
+      document.getElementById('ls-status').textContent='Network error. Please try again.';
+      btn.disabled=false; btn.style.opacity='1';
+    });
   };
 
   document.getElementById('ls-fab').addEventListener('click', lsToggle);
