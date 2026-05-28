@@ -36,7 +36,7 @@
 html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased;overflow:hidden}
 #app{position:fixed;top:80px;left:0;right:0;bottom:0;display:flex;flex-direction:column;}
 @media(max-width:980px){#app{top:68px;}}
-.topbar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(10,9,6,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,163,74,.2);z-index:10;}
+.topbar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(10,9,6,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);z-index:10;}
 .logo-row{display:flex;align-items:center;gap:10px;}
 .logo-ar{font-family:'Amiri',serif;font-size:22px;background:linear-gradient(135deg,#f2be62,#d4a34a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .logo-en{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);}
@@ -940,7 +940,7 @@ html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',s
 .fci.flipped{transform:rotateY(180deg);}
 .fc-face{position:absolute;inset:0;border-radius:24px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:24px;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.42);}
 .fc-face::before{content:'';position:absolute;top:0;left:24%;right:24%;height:1.5px;background:linear-gradient(90deg,transparent,rgba(242,190,98,.55),transparent);}
-.fc-front{background:linear-gradient(165deg,rgba(20,33,62,.92),rgba(9,16,33,.96));border:1.5px solid rgba(242,190,98,.28);}
+.fc-front{background:linear-gradient(165deg,rgba(20,33,62,.92),rgba(9,16,33,.96));border:1.5px solid rgba(242,190,98,.28);padding-top:44px;}
 .fc-back{background:linear-gradient(165deg,rgba(16,30,42,.92),rgba(8,15,28,.96));border:1.5px solid rgba(127,201,156,.3);transform:rotateY(180deg);}
 .fc-back::before{background:linear-gradient(90deg,transparent,rgba(127,201,156,.55),transparent);}
 .fc-ar{font-family:'Amiri',serif;font-size:66px;color:var(--gold-lt);line-height:1.55;filter:drop-shadow(0 0 22px rgba(242,190,98,.32));}
@@ -3606,10 +3606,23 @@ const CUR = [
           },
           { id:3, type:"vocab", title:"Numbers & Shopping", desc:"الأعداد وكلمات التسوق", icon:"translate", color:"#D4A34A",
             data:{ words:[
-              {ar:"وَاحِد ← عَشَرَة",en:"One → Ten"},
-              {ar:"أَحَد عَشَر ← عِشْرُون",en:"Eleven → Twenty"},
-              {ar:"ثَلَاثُون / أَرْبَعُون",en:"Thirty / Forty"},
-              {ar:"خَمْسُون / مِئَة",en:"Fifty / One hundred"},
+              {ar:"وَاحِد",en:"One"},
+              {ar:"اثْنَان",en:"Two"},
+              {ar:"ثَلَاثَة",en:"Three"},
+              {ar:"أَرْبَعَة",en:"Four"},
+              {ar:"خَمْسَة",en:"Five"},
+              {ar:"سِتَّة",en:"Six"},
+              {ar:"سَبْعَة",en:"Seven"},
+              {ar:"ثَمَانِيَة",en:"Eight"},
+              {ar:"تِسْعَة",en:"Nine"},
+              {ar:"عَشَرَة",en:"Ten"},
+              {ar:"أَحَد عَشَر",en:"Eleven"},
+              {ar:"اثْنَا عَشَر",en:"Twelve"},
+              {ar:"عِشْرُون",en:"Twenty"},
+              {ar:"ثَلَاثُون",en:"Thirty"},
+              {ar:"أَرْبَعُون",en:"Forty"},
+              {ar:"خَمْسُون",en:"Fifty"},
+              {ar:"مِئَة",en:"One hundred"},
               {ar:"كِيلُو / لِتْر",en:"Kilo / Litre"},
               {ar:"غَالٍ / رَخِيص",en:"Expensive / Cheap"},
               {ar:"تَخْفِيض",en:"Discount"},
@@ -8216,7 +8229,9 @@ function mkVocab(blk){
   front.appendChild(el('div',{className:'fc-cat'},cur.cat));
   const _emo = (typeof emojiFor==='function') ? emojiFor(cur.en) : '';
   if(_emo){ fc.appendChild(el('div',{className:'fc-badge'},_emo)); }
-  front.appendChild(el('div',{className:'fc-ar'},cur.ar));
+  const _arLen = (cur.ar||'').length;
+  const _arSize = _arLen <= 8 ? '66px' : _arLen <= 14 ? '52px' : _arLen <= 22 ? '40px' : '30px';
+  front.appendChild(el('div',{className:'fc-ar',style:{fontSize:_arSize}},cur.ar));
   front.appendChild(el('div',{className:'fc-cat',style:{marginTop:'6px'}},cur.roman));
   front.appendChild(el('div',{className:'fc-hint'},'Tap to reveal'));
   fci.appendChild(front);
