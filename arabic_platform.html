@@ -7683,7 +7683,8 @@ function mkFill(blk){
   var qCard=div('');
   qCard.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(242,190,98,.3);border-radius:20px;padding:30px 22px 24px;text-align:center;margin-bottom:20px;';
   qCard.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'52px',color:'var(--gold)',direction:'rtl',lineHeight:'1.4',marginBottom:'8px'}},cur.qAr));
-  qCard.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',marginBottom:'20px'}},cur.qEn));
+  qCard.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',marginBottom:'6px'}},cur.qEn));
+  qCard.appendChild(el('div',{style:{fontSize:'17px',color:'var(--gold-soft)',fontWeight:'700',marginBottom:'18px'}},'→ '+cur.answerEn));
   var qAb=el('button',{style:{padding:'7px 14px',borderRadius:'10px',border:'1px solid rgba(242,190,98,.28)',background:'transparent',color:'var(--gold)',cursor:'pointer',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'12px',fontWeight:'700',marginBottom:'20px'},onclick:function(e){e.stopPropagation();speak(cur.qAr);}});
   qAb.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'15px',fontVariationSettings:"'FILL' 1"}},'volume_up'));
   qAb.appendChild(document.createTextNode(' Hear question'));
@@ -7703,7 +7704,7 @@ function mkFill(blk){
   var sentRow=div('');sentRow.style.cssText='display:flex;align-items:center;justify-content:center;gap:12px;direction:rtl;flex-wrap:wrap;';
   var slot=el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'32px',color:slotCol,background:slotBg,border:'2px solid '+slotBdr,borderRadius:'12px',padding:'4px 24px',minWidth:'110px',display:'inline-block',textAlign:'center',direction:'rtl',transition:'all .2s'}},S.fillChosen||'____');
   var prefix=el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'32px',color:'var(--text)',direction:'rtl'}},'هذا');
-  sentRow.appendChild(slot);sentRow.appendChild(prefix);
+  sentRow.appendChild(prefix);sentRow.appendChild(slot);
   qCard.appendChild(sentRow);w.appendChild(qCard);
   var og=div('');og.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;';
   cur.options.forEach(function(opt){
