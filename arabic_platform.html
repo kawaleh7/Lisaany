@@ -7657,7 +7657,8 @@ function mkFill(blk){
   var qCard=div('');
   qCard.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(242,190,98,.3);border-radius:20px;padding:30px 22px 24px;text-align:center;margin-bottom:20px;';
   qCard.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'52px',color:'var(--gold)',direction:'rtl',lineHeight:'1.4',marginBottom:'8px'}},cur.qAr));
-  qCard.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',marginBottom:'20px'}},cur.qEn));
+  qCard.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',marginBottom:'12px'}},cur.qEn));
+  qCard.appendChild(el('div',{style:{fontSize:'22px',fontWeight:'700',color:'var(--text)',background:'rgba(255,255,255,.06)',borderRadius:'10px',padding:'8px 20px',display:'inline-block',marginBottom:'14px',letterSpacing:'.02em'}},cur.answerEn));
   var qAb=el('button',{style:{padding:'7px 14px',borderRadius:'10px',border:'1px solid rgba(242,190,98,.28)',background:'transparent',color:'var(--gold)',cursor:'pointer',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'12px',fontWeight:'700',marginBottom:'20px'},onclick:function(e){e.stopPropagation();speak(cur.qAr);}});
   qAb.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'15px',fontVariationSettings:"'FILL' 1"}},'volume_up'));
   qAb.appendChild(document.createTextNode(' Hear question'));
