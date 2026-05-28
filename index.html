@@ -677,11 +677,20 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
 <!-- ════════ LISAANY TOP NAV ════════ -->
 <nav class="lis-nav">
   <a href="index.html" class="lis-brand" title="Lisaany Home">
-    <div class="brand-mark">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        <polygon points="50,15 85,50 50,85 15,50" fill="#3a2400"/>
-        <polygon points="50,5 73,28 73,72 50,95 27,72 27,28" fill="none" stroke="#3a2400" stroke-width="3"/>
-        <circle cx="50" cy="50" r="5" fill="#f5d488"/>
+    <div class="brand-mark" style="background:none;box-shadow:none;border:none;width:48px;height:48px;">
+      <svg viewBox="0 0 180 160" aria-hidden="true" width="48" height="48">
+        <defs>
+          <linearGradient id="bm-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#f5e0a0"/>
+            <stop offset="60%" stop-color="#d4a34a"/>
+            <stop offset="100%" stop-color="#b8882a"/>
+          </linearGradient>
+        </defs>
+        <g transform="translate(90,88)">
+          <path d="M -72,64 L -72,-32 A 72,72 0 0 1 72,-32 L 72,64 L 50,64 L 50,-28 A 50,50 0 0 0 -50,-28 L -50,64 Z" fill="url(#bm-gold)"/>
+          <path d="M -50,64 L -50,-28 A 50,50 0 0 1 50,-28 L 50,64 L 30,64 L 30,-22 A 30,30 0 0 0 -30,-22 L -30,64 Z" fill="#0a1730"/>
+          <path d="M -30,64 L -30,-22 A 30,30 0 0 1 30,-22 L 30,64 L 10,64 L 10,-16 A 10,10 0 0 0 -10,-16 L -10,64 Z" fill="url(#bm-gold)"/>
+        </g>
       </svg>
     </div>
     <span class="brand-name">Lisaany</span>
@@ -1089,7 +1098,9 @@ const HOME_SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
         <label class="ls-field-label" for="ls-body">Your message</label>
         <textarea id="ls-body" class="ls-textarea" rows="4" placeholder="Describe your issue..."></textarea>
       </div>
-      <div class="ls-status" id="ls-status"></div>
+      
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+<div class="ls-status" id="ls-status"></div>
       <button class="ls-primary-btn" id="ls-send-btn" onclick="lsSend()">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
         Send Message
