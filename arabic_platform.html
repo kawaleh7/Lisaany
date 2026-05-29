@@ -2016,7 +2016,7 @@ const CUR = [
             data:{ words:[
               {ar:"السَّلامُ عَلَيْكُم",en:"as-salaamu alaykum (peace be upon you)"},
               {ar:"أَهلاً وَسَهلاً",en:"Welcome"},
-              {ar:"مَرحَباً",en:"Hello"},
+              {ar:"مَرحَباً",en:"Hello"},{ar:"مَعَ السَّلَامَة",en:"Goodbye (go in peace)"},{ar:"إِلى اللِّقَاء",en:"See you soon"},{ar:"وَدَاعاً",en:"Farewell"},{ar:"نَرَاكَ لاحِقاً",en:"See you later"},{ar:"تَصبَح عَلى خَير",en:"Good night"},{ar:"أَراكَ غَداً",en:"See you tomorrow"},
               {ar:"اسْم",en:"Name"},
               {ar:"اسْمِي",en:"My name is"},
               {ar:"كَيْفَ الحال؟",en:"How are you?"},
@@ -2235,7 +2235,16 @@ const CUR = [
               },
               keyRule:"لَا + verb = I don't/not. نَعَمْ + verb = Yes I do. لَيْسَ = is not (for nouns).",
               examples:[
-                {ar:"هَلْ تَتَكَلَّمُ الْفَرَنْسِيَّة؟ لَا، لَا أَتَكَلَّمُهَا.",en:"Do you speak French? No, I don't speak it."},
+                {ar:"هَلْ تَتَكَلَّمُ الإِنجلِيزِيَّة؟",en:"Do you speak English? (to male)"},
+              {ar:"هَلْ تَتَكَلَّمِينَ الإِنجلِيزِيَّة؟",en:"Do you speak English? (to female)"},
+              {ar:"نَعَم، أَتَكَلَّمُ الإِنجلِيزِيَّة",en:"Yes, I speak English"},
+              {ar:"هَلْ تَتَكَلَّمُ العَرَبِيَّة؟",en:"Do you speak Arabic?"},
+              {ar:"نَعَم، أَتَكَلَّمُ العَرَبِيَّة قَلِيلاً",en:"Yes, I speak a little Arabic"},
+              {ar:"لَا، لَا أَتَكَلَّمُ العَرَبِيَّة",en:"No, I don't speak Arabic"},
+              {ar:"أَتَكَلَّمُ الإِنجلِيزِيَّة وَالعَرَبِيَّة",en:"I speak English and Arabic"},
+              {ar:"أَتَعَلَّمُ العَرَبِيَّة الآن",en:"I am learning Arabic now"},
+              {ar:"لُغَتِي الأُم الإِنجلِيزِيَّة",en:"My mother tongue is English"},
+              {ar:"هَلْ تَتَكَلَّمُ الْفَرَنْسِيَّة؟ لَا، لَا أَتَكَلَّمُهَا.",en:"Do you speak French? No, I don't speak it."},
                 {ar:"هَلْ تَعْرِفُ الْعَرَبِيَّة؟ نَعَمْ، أَعْرِفُ قَلِيلًا.",en:"Do you know Arabic? Yes, I know a little."},
                 {ar:"هَلْ عِنْدَكَ كِتَابٌ؟ لَا، لَيْسَ عِنْدِي.",en:"Do you have a book? No, I don't have one."},
                 {ar:"هَلْ أَنْتَ مِصْرِيٌّ؟ لَا، لَسْتُ مِصْرِيًّا.",en:"Are you Egyptian? No, I am not Egyptian."},
@@ -2256,7 +2265,18 @@ const CUR = [
               {ar:"هَلْ هِيَ صَعْبَة؟ لَا، هِيَ جَمِيلَة وَمُمْتِعَة",en:"Is it difficult? No, it is beautiful and enjoyable", words:["هَلْ","هِيَ","صَعْبَة؟","لَا،","هِيَ","جَمِيلَة","وَمُمْتِعَة"]},
             ]}
           }
-        ]
+        ,
+          { id:99, type:"dialogue", title:"Do You Speak Arabic?", icon:"forum",
+            data:{ lines:[
+              {spk:"Sara",side:"left",ar:"هَل تَتَكَلَّمُ العَرَبِيَّة؟",en:"Do you speak Arabic?"},
+              {spk:"Tom",side:"right",ar:"نَعَم، أَتَكَلَّمُ العَرَبِيَّة قَلِيلاً، أَنَا أَتَعَلَّمُ",en:"Yes, I speak a little Arabic — I am learning"},
+              {spk:"Sara",side:"left",ar:"مُمتَاز! وَهَل تَتَكَلَّمُ الفَرَنسِيَّة أَيضاً؟",en:"Excellent! And do you speak French too?"},
+              {spk:"Tom",side:"right",ar:"لَا، لَا أَتَكَلَّمُ الفَرَنسِيَّة. لُغَتِي الأُم الإِنجلِيزِيَّة",en:"No, I don't speak French. My mother tongue is English"},
+              {spk:"Sara",side:"left",ar:"أَنَا أَتَكَلَّمُ العَرَبِيَّة وَالإِنجلِيزِيَّة",en:"I speak Arabic and English"},
+              {spk:"Tom",side:"right",ar:"رَائِع! هَل يُمكِنُكِ مُسَاعَدَتِي فِي تَعَلُّم العَرَبِيَّة؟",en:"Wonderful! Can you help me learn Arabic?"},
+              {spk:"Sara",side:"left",ar:"بِكُل سُرُور! العَرَبِيَّة لَيسَت صَعبَة",en:"With pleasure! Arabic is not difficult"},
+            ]}}
+          }]
       }
       ,
       { id:"1.4", title:"Numbers 1-10", icon:"123",
@@ -2483,7 +2503,7 @@ const CUR = [
               {ar:"عَمّ",en:"Paternal uncle"},{ar:"عَمَّة",en:"aunt"},
               {ar:"خَال",en:"Maternal uncle"},{ar:"خَالَة",en:"aunt"},
               {ar:"اِبْن",en:"Son"},{ar:"اِبْنَة",en:"Daughter"},
-              {ar:"زَوْج",en:"Husband"},{ar:"زَوْجَة",en:"Wife"},
+              {ar:"زَوْج",en:"Husband"},{ar:"زَوْجَة",en:"Wife"},{ar:"زَوجِي",en:"My husband"},{ar:"زَوجَتِي",en:"My wife"},{ar:"أَخِي",en:"My brother"},{ar:"أُختِي",en:"My sister"},{ar:"أَبِي",en:"My father"},{ar:"أُمِّي",en:"My mother"},
               {ar:"طَوِيل",en:"Tall"},{ar:"قَصِير",en:"Short"},
               {ar:"كَبِير",en:"Big"},{ar:"صَغِير",en:"Small"},
               {ar:"جَمِيل / جَمِيلَة",en:"Beautiful (m/f)"},
@@ -3040,7 +3060,7 @@ const CUR = [
           }
         ]
       },
-      { id:"3.4", title:"Classroom Commands", icon:"record_voice_over",
+      { id:"3.4", title:"Classroom Commands & Asking for Help", icon:"record_voice_over",
         desc:"أَوَامِر الْفَصْل — تَعَالَ، اِجْلِسْ، قُمْ",
         blocks:[
           { id:1, type:"vocab", title:"Classroom Commands & People", desc:"تَعَالَ، اِجْلِسْ، قُمْ، اِسْمَعْ، اُنْظُرْ", icon:"record_voice_over", color:"#D4A34A",
@@ -3073,7 +3093,23 @@ const CUR = [
               ]
             }
           }
-        ]
+        ],
+          { id:3, type:"vocab", title:"Asking for Help", desc:"طَلَب المُسَاعَدَة", icon:"help", color:"#D4A34A",
+            data:{ words:[
+              {ar:"مُمكِن تُكَرِّر؟",en:"Can you repeat?"},
+              {ar:"مَا فَهِمتُ",en:"I didn't understand"},
+              {ar:"تَكَلَّم بِبُطء مِن فَضلَك",en:"Speak slowly please"},
+              {ar:"مَا مَعنى هَذِهِ الكَلِمَة؟",en:"What does this word mean?"},
+              {ar:"كَيفَ نَقُول بِالعَرَبِيَّة؟",en:"How do we say it in Arabic?"},
+              {ar:"أَعِد مِن فَضلَك",en:"Please say it again"},
+              {ar:"لَم أَسمَع جَيِّداً",en:"I didn't hear well"},
+              {ar:"هَل يُمكِنُكَ المُسَاعَدَة؟",en:"Can you help me?"},
+              {ar:"لَا أَعرِف",en:"I don't know"},
+              {ar:"فَهِمتُ",en:"I understood"},
+              {ar:"فَهِمتُ الآن",en:"I understand now"},
+              {ar:"شُكراً لِلتَّوضِيح",en:"Thank you for the explanation"},
+            ]}}
+          }
       },
       { id:"3.5", title:"Telling Time", icon:"schedule",
         desc:"السَّاعَة وَالْوَقْت — كَم السَّاعَة؟",
@@ -3894,6 +3930,22 @@ const CUR = [
               {ar:"سَاعَة",en:"Watch"},
             ]}
           },
+          { id:"2.5", type:"vocab", title:"Colours", desc:"الأَلوَان — 12 كَلِمَة", icon:"palette", color:"#D4A34A",
+            data:{ words:[
+              {ar:"أَحمَر",en:"Red"},
+              {ar:"أَزرَق",en:"Blue"},
+              {ar:"أَخضَر",en:"Green"},
+              {ar:"أَصفَر",en:"Yellow"},
+              {ar:"أَبيَض",en:"White"},
+              {ar:"أَسوَد",en:"Black"},
+              {ar:"بُرتُقَالِي",en:"Orange"},
+              {ar:"بَنَفسَجِي",en:"Purple"},
+              {ar:"وَردِي",en:"Pink"},
+              {ar:"بُنِّي",en:"Brown"},
+              {ar:"رَمَادِي",en:"Grey"},
+              {ar:"ذَهَبِي",en:"Golden"},
+            ]}
+          },
           { id:3, type:"grammar", title:"Colors With Clothes", desc:"قَمِيص أَزْرَق / تَنُّورَة زَرْقَاء", icon:"psychology", color:"#D4A34A",
             data:{ title:"Adjective Agreement With Clothes", titleAr:"الصِّفَة تُطَابِق الْمَوْصُوف",
               intro:"In Arabic, color adjectives must MATCH the gender of the noun. Most clothes are masculine (قَمِيص، بَنْطَلُون، حِذَاء), but some are feminine (تَنُّورَة، قُبَّعَة، نَظَّارَة). The color word changes form to match.",
@@ -4061,6 +4113,23 @@ const CUR = [
               {ar:"هُمْ يَذْهَبُونَ إِلَى الْمَدْرَسَة بِالْحَافِلَة كُلَّ صَبَاح",en:"They go to school by bus every morning", words:["هُمْ","يَذْهَبُونَ","إِلَى","الْمَدْرَسَة","بِالْحَافِلَة","كُلَّ","صَبَاح"]},
               {ar:"أَتَنَاوَلُ الْفُطُورَ مَعَ كَامِل أَفْرَاد الْعَائِلَة الْكَرِيمَة",en:"I have breakfast with all the kind family members", words:["أَتَنَاوَلُ","الْفُطُورَ","مَعَ","كَامِل","أَفْرَاد","الْعَائِلَة","الْكَرِيمَة"]},
               {ar:"عِنْدِي امْتِحَان رِيَاضِيَّات فِي السَّاعَة التَّاسِعَة غَدًا",en:"I have a math exam at nine o'clock tomorrow", words:["عِنْدِي","امْتِحَان","رِيَاضِيَّات","فِي","السَّاعَة","التَّاسِعَة","غَدًا"]},
+            ]}
+          },
+          { id:99, type:"vocab", title:"Time Expressions", desc:"تَعبِيرَات الوَقت", icon:"schedule", color:"#D4A34A",
+            data:{ words:[
+              {ar:"الآن",en:"Now"},
+              {ar:"بَعدَ قَلِيل",en:"In a little while"},
+              {ar:"قَبلَ قَلِيل",en:"A little while ago"},
+              {ar:"أَمس",en:"Yesterday"},
+              {ar:"غَداً",en:"Tomorrow"},
+              {ar:"هَذا الأُسبُوع",en:"This week"},
+              {ar:"الأُسبُوع المَاضِي",en:"Last week"},
+              {ar:"الأُسبُوع القَادِم",en:"Next week"},
+              {ar:"هَذا الشَّهر",en:"This month"},
+              {ar:"دَائِماً",en:"Always"},
+              {ar:"أَحيَاناً",en:"Sometimes"},
+              {ar:"نَادِراً",en:"Rarely"},
+              {ar:"أَبَداً",en:"Never"},
             ]}
           }
         ]
@@ -4499,6 +4568,281 @@ const CUR = [
               {ar:"الشَّيخُ عالِم كَبِير وَدَعوَتُهُ مِن القَلب",en:"The shaykh is a great scholar and his da'wah is from the heart", words:["الشَّيخُ","عالِم","كَبِير","وَدَعوَتُهُ","مِن","القَلب"]},
               {ar:"إِنَّا أَنزَلناهُ قُرآناً عَرَبِيًّا لَعَلَّكُم تَعقِلون",en:"Indeed We sent it down as an Arabic Quran that you may understand", words:["إِنَّا","أَنزَلناهُ","قُرآناً","عَرَبِيًّا","لَعَلَّكُم","تَعقِلون"]},
             ]}
+          }
+        ]
+      },
+
+      { id:"6.6", title:"Dua & Supplication", icon:"volunteer_activism",
+        desc:"الدُّعَاء — الأَدعِيَة اليَومِيَّة",
+        blocks:[
+          { id:1, type:"dialogue", title:"Making Dua Together", icon:"forum",
+            data:{ lines:[
+              {spk:"Fatima",side:"left",ar:"يَا أُختِي، هَل تَعرِفِينَ دُعَاءَ الصَّبَاح؟",en:"O sister, do you know the morning dua?"},
+              {spk:"Maryam",side:"right",ar:"نَعَم، أَقرَأُهُ كُلَّ يَوم بَعدَ الفَجر",en:"Yes, I read it every day after Fajr"},
+              {spk:"Fatima",side:"left",ar:"عَلِّمِينِي إِيَّاهُ مِن فَضلِك",en:"Please teach it to me"},
+              {spk:"Maryam",side:"right",ar:"بِسمِ الله الرَّحمَنِ الرَّحِيم — ابدَئِي بِهَذَا دَائِماً",en:"Bismillah ir-Rahman ir-Raheem — always begin with this"},
+              {spk:"Fatima",side:"left",ar:"اللَّهُمَّ بِكَ أَصبَحنَا وَبِكَ أَمسَينَا",en:"O Allah, by You we enter the morning and by You we enter the evening"},
+              {spk:"Maryam",side:"right",ar:"أَحسَنتِ! وَلَا تَنسَيِ الصَّلَاةَ عَلى النَّبِيّ",en:"Well done! And don't forget the salah upon the Prophet"},
+            ]}
+          },
+          { id:2, type:"dialogue", title:"Asking About Dua", icon:"forum",
+            data:{ lines:[
+              {spk:"Umar",side:"left",ar:"ادعُ اللهَ بِصِدق وَهُوَ يَسمَع",en:"Call upon Allah sincerely and He hears"},
+              {spk:"Khalid",side:"right",ar:"مَتى أَفضَلُ وَقت لِلدُّعَاء؟",en:"When is the best time for dua?"},
+              {spk:"Umar",side:"left",ar:"آخِرُ اللَّيل وَبَعدَ الصَّلَوَات المَكتُوبَة",en:"The last third of the night and after the obligatory prayers"},
+              {spk:"Khalid",side:"right",ar:"وَهَل يُستَجَاب الدُّعَاء دَائِماً؟",en:"And is dua always answered?"},
+              {spk:"Umar",side:"left",ar:"نَعَم، إِمَّا أَن يُعطِيَكَ مَا طَلَبتَ أَو يَصرِفَ عَنكَ السُّوء",en:"Yes — either He gives you what you asked or He turns harm away from you"},
+              {spk:"Khalid",side:"right",ar:"سُبحَانَ الله، كَم هُوَ كَرِيم",en:"Subhanallah, how generous He is"},
+            ]}
+          },
+          { id:3, type:"vocab", title:"Dua Vocabulary", desc:"كَلِمَات الدُّعَاء", icon:"translate", color:"#D4A34A", pageSize:5,
+            data:{ words:[
+              {ar:"دُعَاءٌ",en:"Supplication"},
+              {ar:"اللَّهُمَّ",en:"O Allah"},
+              {ar:"رَبِّ",en:"My Lord"},
+              {ar:"اغفِر",en:"Forgive"},
+              {ar:"ارحَم",en:"Have mercy"},
+              {ar:"اهدِنِي",en:"Guide me"},
+              {ar:"عَافِنِي",en:"Grant me health"},
+              {ar:"ارزُقنِي",en:"Provide for me"},
+              {ar:"تَوَكَّلتُ",en:"I put my trust"},
+              {ar:"اسمَع",en:"Hear (command)"},
+              {ar:"أَجِب",en:"Answer (command)"},
+              {ar:"قَبِلَ",en:"Accepted"},
+              {ar:"إِجَابَةٌ",en:"Response / Answer"},
+              {ar:"إِخلَاصٌ",en:"Sincerity"},
+              {ar:"تَضَرُّعٌ",en:"Humility in dua"},
+              {ar:"آمِين",en:"Ameen"},
+            ]}
+          },
+          { id:4, type:"grammar", title:"Dua Verbs — Imperative", icon:"menu_book",
+            data:{ intro:"In dua, verbs are used in the imperative (command) form addressed to Allah:",
+              table:{ cols:["Dua verb","Meaning"],
+                rows:[
+                  {ar:"اغفِر لِي",en:"Forgive me"},
+                  {ar:"ارحَمنِي",en:"Have mercy on me"},
+                  {ar:"اهدِنِي",en:"Guide me"},
+                  {ar:"ارزُقنِي",en:"Provide for me"},
+                  {ar:"عَافِنِي",en:"Grant me health"},
+                  {ar:"تَقَبَّل مِنِّي",en:"Accept from me"},
+                  {ar:"انصُرنِي",en:"Grant me victory"},
+                  {ar:"ثَبِّت قَلبِي",en:"Make my heart firm"},
+                ]
+              }
+            }
+          },
+          { id:5, type:"sentence_builder", title:"Sentence Builder", icon:"construction",
+            data:{ passing:70, sentences:[
+              {ar:"اللَّهُمَّ اغفِر لِي وَارحَمنِي",en:"O Allah, forgive me and have mercy on me", words:["اللَّهُمَّ","اغفِر","لِي","وَارحَمنِي"]},
+              {ar:"رَبِّ اهدِنِي إِلى الصِّرَاطِ المُستَقِيم",en:"My Lord, guide me to the straight path", words:["رَبِّ","اهدِنِي","إِلى","الصِّرَاطِ","المُستَقِيم"]},
+              {ar:"اللَّهُمَّ إِنِّي أَسأَلُكَ العَافِيَة",en:"O Allah, I ask You for health", words:["اللَّهُمَّ","إِنِّي","أَسأَلُكَ","العَافِيَة"]},
+              {ar:"رَبِّ ارزُقنِي عِلماً نَافِعاً",en:"My Lord, grant me beneficial knowledge", words:["رَبِّ","ارزُقنِي","عِلماً","نَافِعاً"]},
+              {ar:"تَوَكَّلتُ عَلى اللهِ وَهُوَ حَسبِي",en:"I put my trust in Allah and He is sufficient for me", words:["تَوَكَّلتُ","عَلى","اللهِ","وَهُوَ","حَسبِي"]},
+              {ar:"الدُّعَاءُ سِلَاحُ المُؤمِن",en:"Dua is the weapon of the believer", words:["الدُّعَاءُ","سِلَاحُ","المُؤمِن"]},
+              {ar:"ادعُ اللهَ وَأَنتَ مُوقِنٌ بِالإِجَابَة",en:"Call upon Allah while certain of being answered", words:["ادعُ","اللهَ","وَأَنتَ","مُوقِنٌ","بِالإِجَابَة"]},
+              {ar:"قَبِلَ اللهُ دُعَاءَنَا وَرَزَقَنَا مِن فَضلِه",en:"Allah accepted our dua and provided for us from His bounty", words:["قَبِلَ","اللهُ","دُعَاءَنَا","وَرَزَقَنَا","مِن","فَضلِه"]},
+            ]}
+          }
+        ]
+      }
+
+    ]
+  },
+
+  { id:14, title:"Duas for Others", color:"#D4A34A", icon:"favorite",
+    units:[
+      { id:"6.7", title:"Duas for Others", icon:"favorite",
+        desc:"الدُّعَاء لِلآخَرِين — بَرَكَة وَصِحَّة وَأَعيَاد",
+        blocks:[
+          { id:1, type:"dialogue", title:"Blessings & Greetings", icon:"forum",
+            data:{ lines:[
+              {spk:"Ahmad",side:"left",ar:"جَزَاكَ اللهُ خَيرًا عَلى مُسَاعَدَتِك",en:"May Allah reward you with good for your help"},
+              {spk:"Sami",side:"right",ar:"وَإِيَّاكَ، بَارَكَ اللهُ فِيك",en:"And you too — may Allah bless you"},
+              {spk:"Ahmad",side:"left",ar:"سَمِعتُ أَنَّ أُمَّكَ مَرِيضَة، شَفَاهَا الله",en:"I heard your mother is sick — may Allah heal her"},
+              {spk:"Sami",side:"right",ar:"آمِين، اللَّهُمَّ آمِين، جَزَاكَ اللهُ خَيرًا",en:"Ameen, O Allah ameen, may Allah reward you"},
+              {spk:"Ahmad",side:"left",ar:"عَافَاهَا اللهُ وَرَدَّهَا إِلَيكُم بِالسَّلَامَة",en:"May Allah grant her health and return her to you safely"},
+              {spk:"Sami",side:"right",ar:"آمِين يَا رَبّ العَالَمِين",en:"Ameen, O Lord of all the worlds"},
+            ]}
+          },
+          { id:2, type:"dialogue", title:"Eid & Celebrations", icon:"forum",
+            data:{ lines:[
+              {spk:"Fatima",side:"left",ar:"عِيد مُبَارَك يَا أُختِي!",en:"Eid Mubarak, my sister!"},
+              {spk:"Maryam",side:"right",ar:"تَقَبَّلَ اللهُ مِنَّا وَمِنكُم",en:"May Allah accept from us and from you"},
+              {spk:"Fatima",side:"left",ar:"وَمِنكُم أَيضًا، كُلَّ عَام وَأَنتُم بِخَير",en:"And from you too — may you be well every year"},
+              {spk:"Maryam",side:"right",ar:"بَارَكَ اللهُ فِيكُم وَفِي أَسرَتِكُم",en:"May Allah bless you and your family"},
+              {spk:"Fatima",side:"left",ar:"رَمَضَان مُبَارَك، أَسأَلُ اللهَ أَن يَتَقَبَّلَ صِيَامَنَا",en:"Ramadan Mubarak — I ask Allah to accept our fasting"},
+              {spk:"Maryam",side:"right",ar:"آمِين، وَيَرزُقَنَا قِيَامَ لَيلَة القَدر",en:"Ameen, and grant us the standing of Laylatul Qadr"},
+            ]}
+          },
+          { id:3, type:"vocab", title:"Duas for Others", desc:"أَدعِيَة لِلآخَرِين", icon:"translate", color:"#D4A34A", pageSize:5,
+            data:{ words:[
+              {ar:"بَارَكَ اللهُ فِيك",en:"May Allah bless you (Barakallahu feek)"},
+              {ar:"جَزَاكَ اللهُ خَيرًا",en:"May Allah reward you with good"},
+              {ar:"شَفَاكَ اللهُ",en:"May Allah heal you"},
+              {ar:"عَافَاكَ اللهُ",en:"May Allah grant you health"},
+              {ar:"حَفِظَكَ اللهُ",en:"May Allah preserve you"},
+              {ar:"رَحِمَكَ اللهُ",en:"May Allah have mercy on you"},
+              {ar:"تَقَبَّلَ اللهُ مِنَّا وَمِنكُم",en:"May Allah accept from us and you"},
+              {ar:"عِيد مُبَارَك",en:"Blessed Eid (Eid Mubarak)"},
+              {ar:"عِيد سَعِيد",en:"Happy Eid"},
+              {ar:"رَمَضَان مُبَارَك",en:"Blessed Ramadan"},
+              {ar:"كُلَّ عَام وَأَنتُم بِخَير",en:"May you be well every year"},
+              {ar:"بِالسَّلَامَة",en:"Safely / Get well (salama)"},
+              {ar:"سَلَّمَكَ اللهُ",en:"May Allah keep you safe"},
+              {ar:"وَفَّقَكَ اللهُ",en:"May Allah grant you success"},
+              {ar:"يَسَّرَ اللهُ أَمرَك",en:"May Allah ease your affairs"},
+              {ar:"اللَّهُمَّ اشفِهِ",en:"O Allah, heal him"},
+              {ar:"اللَّهُمَّ بَارِك لَهُم",en:"O Allah, bless them"},
+              {ar:"بَارَكَ اللهُ لَكُمَا",en:"May Allah bless you both (wedding)"},
+            ]}
+          },
+          { id:4, type:"grammar", title:"Dua Patterns for Others", icon:"menu_book",
+            data:{ intro:"Duas for others follow patterns — change the ending to match who you're addressing:",
+              table:{ cols:["Pattern","Who it's for"],
+                rows:[
+                  {ar:"بَارَكَ اللهُ فِيك",en:"You (male)"},
+                  {ar:"بَارَكَ اللهُ فِيكِ",en:"You (female)"},
+                  {ar:"بَارَكَ اللهُ فِيكُم",en:"You (plural)"},
+                  {ar:"شَفَاهُ اللهُ",en:"Him"},
+                  {ar:"شَفَاهَا اللهُ",en:"Her"},
+                  {ar:"شَفَاهُمُ اللهُ",en:"Them"},
+                ]
+              }
+            }
+          },
+          { id:5, type:"sentence_builder", title:"Sentence Builder", icon:"construction",
+            data:{ passing:70, sentences:[
+              {ar:"بَارَكَ اللهُ فِيكَ وَجَزَاكَ خَيرًا",en:"May Allah bless you and reward you with good", words:["بَارَكَ","اللهُ","فِيكَ","وَجَزَاكَ","خَيرًا"]},
+              {ar:"عِيد مُبَارَك وَتَقَبَّلَ اللهُ مِنَّا وَمِنكُم",en:"Eid Mubarak and may Allah accept from us and you", words:["عِيد","مُبَارَك","وَتَقَبَّلَ","اللهُ","مِنَّا","وَمِنكُم"]},
+              {ar:"اللَّهُمَّ اشفِ مَرضَانَا وَعَافِهِم",en:"O Allah, heal our sick and grant them health", words:["اللَّهُمَّ","اشفِ","مَرضَانَا","وَعَافِهِم"]},
+              {ar:"حَفِظَكَ اللهُ وَرَعَاكَ",en:"May Allah preserve you and take care of you", words:["حَفِظَكَ","اللهُ","وَرَعَاكَ"]},
+              {ar:"وَفَّقَكَ اللهُ فِي دِرَاسَتِك",en:"May Allah grant you success in your studies", words:["وَفَّقَكَ","اللهُ","فِي","دِرَاسَتِك"]},
+              {ar:"بَارَكَ اللهُ لَكُمَا وَبَارَكَ عَلَيكُمَا",en:"May Allah bless you both and bless upon you both", words:["بَارَكَ","اللهُ","لَكُمَا","وَبَارَكَ","عَلَيكُمَا"]},
+              {ar:"أَسأَلُ اللهَ أَن يَشفِيَكَ وَيُعَافِيَك",en:"I ask Allah to heal you and grant you health", words:["أَسأَلُ","اللهَ","أَن","يَشفِيَكَ","وَيُعَافِيَك"]},
+              {ar:"يَسَّرَ اللهُ أَمرَكَ وَأَزَالَ هَمَّك",en:"May Allah ease your affairs and remove your worries", words:["يَسَّرَ","اللهُ","أَمرَكَ","وَأَزَالَ","هَمَّك"]},
+            ]}
+          }
+        ]
+      }
+    ]
+  },
+  { id:15, title:"Famous Duas", color:"#D4A34A", icon:"auto_stories",
+    units:[
+      { id:"6.8", title:"Famous Duas from Quran & Sunnah", icon:"auto_stories",
+        desc:"أَدعِيَة مَأثُورَة مِن الكِتَاب وَالسُّنَّة",
+        blocks:[
+          { id:1, type:"vocab", title:"The 10 Famous Duas", desc:"أَدعِيَة مَأثُورَة", icon:"auto_stories", color:"#D4A34A", pageSize:1,
+            data:{ words:[
+              {ar:"رَبَّنَا آتِنَا فِي الدُّنيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّار",en:"Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire"},
+              {ar:"اللَّهُمَّ أَنتَ رَبِّي لَا إِلَهَ إِلَّا أَنتَ خَلَقتَنِي وَأَنَا عَبدُك",en:"O Allah, You are my Lord, there is no god but You. You created me and I am Your servant"},
+              {ar:"يَا مُقَلِّبَ القُلُوبِ ثَبِّت قَلبِي عَلى دِينِك",en:"O Turner of hearts, make my heart firm upon Your religion"},
+              {ar:"رَبِّ زِدنِي عِلمًا",en:"My Lord, increase me in knowledge"},
+              {ar:"بِسمِ اللهِ الَّذِي لَا يَضُرُّ مَعَ اسمِهِ شَيءٌ فِي الأَرضِ وَلَا فِي السَّمَاء",en:"In the name of Allah with whose name nothing can cause harm on earth or in the heavens"},
+              {ar:"لَا إِلَهَ إِلَّا أَنتَ سُبحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِين",en:"There is no god but You, Glory be to You, indeed I have been of the wrongdoers"},
+              {ar:"اللَّهُمَّ لَا سَهلَ إِلَّا مَا جَعَلتَهُ سَهلًا",en:"O Allah, nothing is easy except what You make easy"},
+              {ar:"اللَّهُمَّ إِنِّي أَسأَلُكَ العَفوَ وَالعَافِيَةَ فِي الدُّنيَا وَالآخِرَة",en:"O Allah, I ask You for pardon and well-being in this world and the next"},
+              {ar:"رَبِّ ارحَمهُمَا كَمَا رَبَّيَانِي صَغِيرًا",en:"My Lord, have mercy on them both as they raised me when I was small"},
+              {ar:"حَسبُنَا اللهُ وَنِعمَ الوَكِيل",en:"Allah is sufficient for us and the best Disposer of affairs"},
+            ]}
+          },
+          { id:2, type:"grammar", title:"Key Words in the Duas", icon:"menu_book",
+            data:{ intro:"Understanding key words that appear in these famous duas:",
+              table:{ cols:["Word","Meaning"],
+                rows:[
+                  {ar:"رَبَّنَا",en:"Our Lord"},
+                  {ar:"آتِنَا",en:"Give us"},
+                  {ar:"حَسَنَة",en:"Good / blessing"},
+                  {ar:"قِنَا",en:"Protect us"},
+                  {ar:"عَذَاب",en:"Punishment"},
+                  {ar:"ثَبِّت",en:"Make firm / steady"},
+                  {ar:"مُقَلِّب",en:"Turner / one who turns"},
+                  {ar:"زِدنِي",en:"Increase me"},
+                  {ar:"يَضُرُّ",en:"Causes harm"},
+                  {ar:"العَفو",en:"Pardon / forgiveness"},
+                  {ar:"الوَكِيل",en:"The Disposer of affairs"},
+                  {ar:"الظَّالِمِين",en:"The wrongdoers"},
+                ]
+              }
+            }
+          },
+          { id:3, type:"sentence_builder", title:"Dua Practice", icon:"construction",
+            data:{ passing:70, sentences:[
+              {ar:"رَبَّنَا آتِنَا فِي الدُّنيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَة",en:"Our Lord, give us good in this world and good in the Hereafter", words:["رَبَّنَا","آتِنَا","فِي","الدُّنيَا","حَسَنَةً","وَفِي","الآخِرَةِ","حَسَنَة"]},
+              {ar:"رَبِّ زِدنِي عِلمًا",en:"My Lord, increase me in knowledge", words:["رَبِّ","زِدنِي","عِلمًا"]},
+              {ar:"يَا مُقَلِّبَ القُلُوبِ ثَبِّت قَلبِي عَلى دِينِك",en:"O Turner of hearts, make my heart firm upon Your religion", words:["يَا","مُقَلِّبَ","القُلُوبِ","ثَبِّت","قَلبِي","عَلى","دِينِك"]},
+              {ar:"حَسبُنَا اللهُ وَنِعمَ الوَكِيل",en:"Allah is sufficient for us and the best Disposer of affairs", words:["حَسبُنَا","اللهُ","وَنِعمَ","الوَكِيل"]},
+              {ar:"رَبِّ ارحَمهُمَا كَمَا رَبَّيَانِي صَغِيرًا",en:"My Lord, have mercy on them as they raised me when I was small", words:["رَبِّ","ارحَمهُمَا","كَمَا","رَبَّيَانِي","صَغِيرًا"]},
+              {ar:"اللَّهُمَّ لَا سَهلَ إِلَّا مَا جَعَلتَهُ سَهلًا",en:"O Allah, nothing is easy except what You make easy", words:["اللَّهُمَّ","لَا","سَهلَ","إِلَّا","مَا","جَعَلتَهُ","سَهلًا"]},
+              {ar:"لَا إِلَهَ إِلَّا أَنتَ سُبحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِين",en:"There is no god but You, Glory be to You, indeed I was of the wrongdoers", words:["لَا","إِلَهَ","إِلَّا","أَنتَ","سُبحَانَكَ","إِنِّي","كُنتُ","مِنَ","الظَّالِمِين"]},
+              {ar:"اللَّهُمَّ إِنِّي أَسأَلُكَ العَفوَ وَالعَافِيَةَ",en:"O Allah, I ask You for pardon and well-being", words:["اللَّهُمَّ","إِنِّي","أَسأَلُكَ","العَفوَ","وَالعَافِيَةَ"]},
+            ]}
+          }
+        ]
+      }
+    ]
+  },
+
+  { id:16, title:"Emotions & Feelings", color:"#D4A34A", icon:"mood",
+    units:[
+      { id:"6.9", title:"Emotions & Feelings", icon:"mood",
+        desc:"المَشَاعِر وَالأَحَاسِيس",
+        blocks:[
+          { id:1, type:"vocab", title:"Feelings", desc:"كَيفَ تَشعُر؟", icon:"translate", color:"#D4A34A", pageSize:5,
+            data:{ words:[
+              {ar:"سَعِيد",en:"Happy (male)"},
+              {ar:"سَعِيدَة",en:"Happy (female)"},
+              {ar:"حَزِين",en:"Sad (male)"},
+              {ar:"حَزِينَة",en:"Sad (female)"},
+              {ar:"غَاضِب",en:"Angry (male)"},
+              {ar:"غَاضِبَة",en:"Angry (female)"},
+              {ar:"خَائِف",en:"Scared (male)"},
+              {ar:"خَائِفَة",en:"Scared (female)"},
+              {ar:"مُتعَب",en:"Tired (male)"},
+              {ar:"مُتعَبَة",en:"Tired (female)"},
+              {ar:"قَلِقَان",en:"Worried (male)"},
+              {ar:"قَلِقَانَة",en:"Worried (female)"},
+              {ar:"مَسرُور",en:"Pleased / delighted"},
+              {ar:"مُندَهِش",en:"Surprised"},
+              {ar:"خَجُول",en:"Shy"},
+              {ar:"وَحِيد",en:"Lonely"},
+              {ar:"بَخَير",en:"Fine / well"},
+              {ar:"مُرتَاح",en:"Comfortable / at ease"},
+            ]}}
+          },
+          { id:2, type:"dialogue", title:"How Are You Feeling?", icon:"forum",
+            data:{ lines:[
+              {spk:"Layla",side:"left",ar:"كَيفَ حَالُكِ يَا سَارَة؟ تَبدِينَ حَزِينَة",en:"How are you Sara? You look sad"},
+              {spk:"Sara",side:"right",ar:"أَنَا بَخَير، لَكِنِّي مُتعَبَة قَلِيلاً",en:"I'm fine, but I'm a little tired"},
+              {spk:"Layla",side:"left",ar:"لِمَاذَا؟ هَل حَدَثَ شَيء؟",en:"Why? Did something happen?"},
+              {spk:"Sara",side:"right",ar:"لَا، أَنَا فَقَط قَلِقَة مِن الامتِحَان غَداً",en:"No, I'm just worried about the exam tomorrow"},
+              {spk:"Layla",side:"left",ar:"لَا تَقلَقِي، أَنتِ مُجتَهِدَة وَسَتَنجَحِين",en:"Don't worry, you are hardworking and you will succeed"},
+              {spk:"Sara",side:"right",ar:"شُكراً يَا لَيلى، هَذَا يَجعَلُنِي سَعِيدَة",en:"Thank you Layla, this makes me happy"},
+            ]}}
+          },
+          { id:3, type:"grammar", title:"Feeling Expressions", icon:"menu_book",
+            data:{ intro:"Use أَنَا + feeling word to express how you feel:",
+              table:{ cols:["Expression","Meaning"],
+                rows:[
+                  {ar:"أَنَا سَعِيد",en:"I am happy (male)"},
+                  {ar:"أَنَا سَعِيدَة",en:"I am happy (female)"},
+                  {ar:"أَنَا حَزِين",en:"I am sad (male)"},
+                  {ar:"أَشعُر بِالتَّعَب",en:"I feel tired"},
+                  {ar:"أَشعُر بِالقَلَق",en:"I feel worried"},
+                  {ar:"أَشعُر بِالخَوف",en:"I feel scared"},
+                  {ar:"لَستُ بِخَير",en:"I am not well"},
+                  {ar:"كَيفَ تَشعُر؟",en:"How do you feel?"},
+                ]
+              }
+            }
+          },
+          { id:4, type:"sentence_builder", title:"Sentence Builder", icon:"construction",
+            data:{ passing:70, sentences:[
+              {ar:"أَنَا سَعِيد لِأَنَّ الأُسرَة هُنَا",en:"I am happy because the family is here", words:["أَنَا","سَعِيد","لِأَنَّ","الأُسرَة","هُنَا"]},
+              {ar:"أَشعُر بِالتَّعَب بَعدَ العَمَل",en:"I feel tired after work", words:["أَشعُر","بِالتَّعَب","بَعدَ","العَمَل"]},
+              {ar:"هِيَ حَزِينَة لِأَنَّ صَدِيقَتَهَا سَافَرَت",en:"She is sad because her friend travelled", words:["هِيَ","حَزِينَة","لِأَنَّ","صَدِيقَتَهَا","سَافَرَت"]},
+              {ar:"لَا تَكُن خَائِفاً، اللهُ مَعَنَا",en:"Don't be scared, Allah is with us", words:["لَا","تَكُن","خَائِفاً","اللهُ","مَعَنَا"]},
+              {ar:"كَيفَ تَشعُر الآن بَعدَ الرَّاحَة؟",en:"How do you feel now after resting?", words:["كَيفَ","تَشعُر","الآن","بَعدَ","الرَّاحَة؟"]},
+            ]}}
           }
         ]
       }
@@ -5348,6 +5692,151 @@ const CUR = [
       }
     ]
   },
+
+  { id:"10.4", title:"Buying a Ticket", color:"#D4A34A", icon:"confirmation_number",
+    units:[
+      { id:"10.4", title:"Buying a Ticket", icon:"confirmation_number",
+        desc:"شِرَاء التَّذكِرَة — مَحَطَّة وَمَطَار",
+        blocks:[
+          { id:1, type:"dialogue", title:"At the Train Station", icon:"forum",
+            data:{ lines:[
+              {spk:"Khalid",side:"left",ar:"مِن فَضلَك، أُرِيدُ تَذكِرَة إِلى الرِّيَاض",en:"Excuse me, I want a ticket to Riyadh"},
+              {spk:"Clerk",side:"right",ar:"ذِهَاب فَقَط أَم ذِهَاب وَإِيَاب؟",en:"One way or return?"},
+              {spk:"Khalid",side:"left",ar:"ذِهَاب وَإِيَاب مِن فَضلَك",en:"Return please"},
+              {spk:"Clerk",side:"right",ar:"أَيُّ دَرَجَة؟ أُولى أَم ثَانِيَة؟",en:"Which class? First or second?"},
+              {spk:"Khalid",side:"left",ar:"الدَّرَجَة الثَّانِيَة، كَم سِعرُهَا؟",en:"Second class, how much is it?"},
+              {spk:"Clerk",side:"right",ar:"مِئَة وَخَمسُون رِيَالاً. مَتى تُرِيدُ السَّفَر؟",en:"One hundred and fifty riyals. When do you want to travel?"},
+              {spk:"Khalid",side:"left",ar:"غَداً الصَّبَاح إِن أَمكَن",en:"Tomorrow morning if possible"},
+              {spk:"Clerk",side:"right",ar:"عِندِي رِحلَة السَّاعَة التَّاسِعَة صَبَاحاً",en:"I have a trip at nine in the morning"},
+              {spk:"Khalid",side:"left",ar:"مُمتَاز، هَذَا مُنَاسِب. تَفَضَّل بِطَاقَتِي",en:"Excellent, that suits me. Here is my card"},
+            ]}}
+          },
+          { id:2, type:"dialogue", title:"At the Airport", icon:"forum",
+            data:{ lines:[
+              {spk:"Sara",side:"left",ar:"أُرِيدُ أَن أَحجِزَ تَذكِرَة طَيَرَان إِلى القَاهِرَة",en:"I want to book a flight ticket to Cairo"},
+              {spk:"Agent",side:"right",ar:"مَتى تُرِيدِينَ السَّفَر؟",en:"When do you want to travel?"},
+              {spk:"Sara",side:"left",ar:"يَوم الجُمُعَة القَادِم",en:"Next Friday"},
+              {spk:"Agent",side:"right",ar:"هَل تُرِيدِينَ مَقعَداً عِندَ النَّافِذَة أَم المَمَر؟",en:"Do you want a window seat or aisle?"},
+              {spk:"Sara",side:"left",ar:"عِندَ النَّافِذَة مِن فَضلَك",en:"By the window please"},
+              {spk:"Agent",side:"right",ar:"هَل مَعَكِ أَمتِعَة لِلشَّحن؟",en:"Do you have luggage to check in?"},
+              {spk:"Sara",side:"left",ar:"نَعَم، حَقِيبَة وَاحِدَة",en:"Yes, one bag"},
+              {spk:"Agent",side:"right",ar:"تَفَضَّلِي، هَذِهِ تَذكِرَتُك وَبِطَاقَة الصُّعُود",en:"Here you go, this is your ticket and boarding pass"},
+            ]}}
+          },
+          { id:3, type:"vocab", title:"Ticket Vocabulary", desc:"مُفرَدَات التَّذكِرَة", icon:"translate", color:"#D4A34A", pageSize:5,
+            data:{ words:[
+              {ar:"تَذكِرَة",en:"Ticket"},
+              {ar:"تَذكِرَة ذِهَاب فَقَط",en:"One-way ticket"},
+              {ar:"تَذكِرَة ذِهَاب وَإِيَاب",en:"Return ticket"},
+              {ar:"حَجز",en:"Reservation / booking"},
+              {ar:"مَقعَد",en:"Seat"},
+              {ar:"دَرَجَة أُولى",en:"First class"},
+              {ar:"دَرَجَة ثَانِيَة",en:"Second class"},
+              {ar:"بِطَاقَة الصُّعُود",en:"Boarding pass"},
+              {ar:"مَوعِد المُغَادَرَة",en:"Departure time"},
+              {ar:"مَوعِد الوُصُول",en:"Arrival time"},
+              {ar:"رَصِيف",en:"Platform"},
+              {ar:"بَوَّابَة",en:"Gate"},
+              {ar:"أَمتِعَة",en:"Luggage"},
+              {ar:"شَبَّاك التَّذَاكِر",en:"Ticket window"},
+              {ar:"مَحَطَّة",en:"Station"},
+              {ar:"مَطَار",en:"Airport"},
+              {ar:"رِحلَة",en:"Trip / flight"},
+              {ar:"تَأخِير",en:"Delay"},
+            ]}}
+          },
+          { id:4, type:"sentence_builder", title:"Sentence Builder", icon:"construction",
+            data:{ passing:70, sentences:[
+              {ar:"أُرِيدُ تَذكِرَة ذِهَاب وَإِيَاب إِلى جِدَّة",en:"I want a return ticket to Jeddah", words:["أُرِيدُ","تَذكِرَة","ذِهَاب","وَإِيَاب","إِلى","جِدَّة"]},
+              {ar:"كَم سِعرُ التَّذكِرَة إِلى الدَّارِ البَيضَاء؟",en:"How much is the ticket to Casablanca?", words:["كَم","سِعرُ","التَّذكِرَة","إِلى","الدَّارِ","البَيضَاء؟"]},
+              {ar:"أُرِيدُ مَقعَداً عِندَ النَّافِذَة مِن فَضلَك",en:"I want a window seat please", words:["أُرِيدُ","مَقعَداً","عِندَ","النَّافِذَة","مِن","فَضلَك"]},
+              {ar:"هَل الرِّحلَة فِي مَوعِدِهَا أَم مُتَأَخِّرَة؟",en:"Is the flight on time or delayed?", words:["هَل","الرِّحلَة","فِي","مَوعِدِهَا","أَم","مُتَأَخِّرَة؟"]},
+              {ar:"مِن أَيِّ بَوَّابَة يُغَادِرُ الطَّائِرَة؟",en:"From which gate does the plane depart?", words:["مِن","أَيِّ","بَوَّابَة","يُغَادِرُ","الطَّائِرَة؟"]},
+            ]}}
+          },
+          { id:5, type:"quiz", title:"Ticket Vocabulary Quiz", icon:"quiz",
+            data:{ passing:70 }
+          },
+          { id:6, type:"fill", title:"Fill in the Blank", icon:"edit",
+            data:{ passing:70 }
+          }
+        ]
+      }
+    ]
+  },
+
+  { id:"10.5", title:"Ordering a Taxi", color:"#D4A34A", icon:"local_taxi",
+    units:[
+      { id:"10.5", title:"Ordering a Taxi", icon:"local_taxi",
+        desc:"طَلَب سَيَّارَة أُجرَة",
+        blocks:[
+          { id:1, type:"dialogue", title:"Calling a Taxi", icon:"forum",
+            data:{ lines:[
+              {spk:"Sami",side:"left",ar:"السَّلَامُ عَلَيكُم، أُرِيدُ سَيَّارَة أُجرَة",en:"Peace be upon you, I want a taxi"},
+              {spk:"Driver",side:"right",ar:"وَعَلَيكُمُ السَّلَام، إِلى أَين؟",en:"And upon you peace, where to?"},
+              {spk:"Sami",side:"left",ar:"إِلى الفُندُق الكَبِير فِي وَسَط المَدِينَة",en:"To the big hotel in the city centre"},
+              {spk:"Driver",side:"right",ar:"حَسَناً، كَم دَقِيقَة تَنتَظِر؟",en:"OK, how many minutes can you wait?"},
+              {spk:"Sami",side:"left",ar:"أَنَا مُستَعجِل، هَل يُمكِنُك القُدُوم خِلَال عَشر دَقَائِق؟",en:"I am in a hurry, can you come within ten minutes?"},
+              {spk:"Driver",side:"right",ar:"إِن شَاءَ اللهُ، أَنَا قَرِيب. أَينَ أَنتَ بِالضَّبط؟",en:"In sha Allah, I am nearby. Where are you exactly?"},
+              {spk:"Sami",side:"left",ar:"أَمَامَ مَسجِد النُّور، الشَّارِع الرَّئِيسِي",en:"In front of Al-Nour mosque, the main street"},
+              {spk:"Driver",side:"right",ar:"فَاهِم، سَأَكُونُ عِندَك قَرِيباً",en:"Understood, I will be with you shortly"},
+            ]}}
+          },
+          { id:2, type:"dialogue", title:"In the Taxi", icon:"forum",
+            data:{ lines:[
+              {spk:"Fatima",side:"left",ar:"إِلى المَطَار مِن فَضلَك، لَدَيَّ رِحلَة السَّاعَة الثَّانِيَة",en:"To the airport please, I have a flight at two o'clock"},
+              {spk:"Driver",side:"right",ar:"حَسَناً، الطَّرِيق مُزدَحِم قَلِيلاً هَذِهِ السَّاعَة",en:"OK, the road is a little busy at this hour"},
+              {spk:"Fatima",side:"left",ar:"هَل سَنَصِلُ فِي الوَقت؟",en:"Will we arrive on time?"},
+              {spk:"Driver",side:"right",ar:"إِن شَاءَ اللهُ، سَنَأخُذُ الطَّرِيق الجَانِبِي",en:"In sha Allah, we will take the side road"},
+              {spk:"Fatima",side:"left",ar:"كَم سَيَكُونُ الأُجرَة تَقرِيباً؟",en:"How much will the fare be approximately?"},
+              {spk:"Driver",side:"right",ar:"قَرِيب مِن خَمسِين رِيَالاً",en:"Around fifty riyals"},
+              {spk:"Fatima",side:"left",ar:"شُكراً، هَل تَقبَلُ البَطَاقَة؟",en:"Thank you, do you accept card payment?"},
+              {spk:"Driver",side:"right",ar:"نَعَم، نَقدًا أَو بَطَاقَة كِلَاهُمَا مَقبُول",en:"Yes, cash or card both are accepted"},
+            ]}}
+          },
+          { id:3, type:"vocab", title:"Taxi Vocabulary", desc:"مُفرَدَات التَّاكسِي", icon:"translate", color:"#D4A34A", pageSize:5,
+            data:{ words:[
+              {ar:"سَيَّارَة أُجرَة",en:"Taxi"},
+              {ar:"تَاكسِي",en:"Taxi (colloquial)"},
+              {ar:"سَائِق",en:"Driver"},
+              {ar:"أُجرَة",en:"Fare"},
+              {ar:"عَدَّاد",en:"Meter"},
+              {ar:"مُستَعجِل",en:"In a hurry"},
+              {ar:"مُزدَحِم",en:"Crowded / busy (traffic)"},
+              {ar:"وَسَط المَدِينَة",en:"City centre"},
+              {ar:"أَمَام",en:"In front of"},
+              {ar:"خَلف",en:"Behind"},
+              {ar:"قَرِيب",en:"Near / nearby"},
+              {ar:"بَعِيد",en:"Far"},
+              {ar:"أَوقِف هُنَا",en:"Stop here"},
+              {ar:"عَلى اليَمِين",en:"On the right"},
+              {ar:"عَلى اليَسَار",en:"On the left"},
+              {ar:"نَقداً",en:"Cash"},
+              {ar:"بَطَاقَة",en:"Card"},
+              {ar:"الفُكَّة",en:"Change (money)"},
+            ]}}
+          },
+          { id:4, type:"sentence_builder", title:"Sentence Builder", icon:"construction",
+            data:{ passing:70, sentences:[
+              {ar:"أُرِيدُ تَاكسِي إِلى المَطَار مِن فَضلَك",en:"I want a taxi to the airport please", words:["أُرِيدُ","تَاكسِي","إِلى","المَطَار","مِن","فَضلَك"]},
+              {ar:"كَم الأُجرَة إِلى وَسَط المَدِينَة؟",en:"How much is the fare to the city centre?", words:["كَم","الأُجرَة","إِلى","وَسَط","المَدِينَة؟"]},
+              {ar:"أَوقِف هُنَا مِن فَضلَك، هَذَا المَكَان",en:"Stop here please, this is the place", words:["أَوقِف","هُنَا","مِن","فَضلَك","هَذَا","المَكَان"]},
+              {ar:"هَل تَقبَلُ الدَّفعَ بِالبَطَاقَة؟",en:"Do you accept card payment?", words:["هَل","تَقبَلُ","الدَّفعَ","بِالبَطَاقَة؟"]},
+              {ar:"أَنَا مُستَعجِل، هَل يُمكِنُك الإِسرَاع قَلِيلاً؟",en:"I am in a hurry, can you speed up a little?", words:["أَنَا","مُستَعجِل","هَل","يُمكِنُك","الإِسرَاع","قَلِيلاً؟"]},
+              {ar:"خُذ عَلى اليَمِين ثُمَّ سِر إِلى الأَمَام",en:"Turn right then go straight ahead", words:["خُذ","عَلى","اليَمِين","ثُمَّ","سِر","إِلى","الأَمَام"]},
+            ]}}
+          },
+          { id:5, type:"quiz", title:"Taxi Vocabulary Quiz", icon:"quiz",
+            data:{ passing:70 }
+          },
+          { id:6, type:"fill", title:"Fill in the Blank", icon:"edit",
+            data:{ passing:70 }
+          }
+        ]
+      }
+    ]
+  },
+
   { id:11, title:"Nature & Outdoors", color:"#D4A34A", icon:"park",
     units:[
       { id:"11.1", title:"At the Farm", icon:"agriculture",
