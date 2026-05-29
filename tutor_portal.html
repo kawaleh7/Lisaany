@@ -266,6 +266,36 @@ body::before{content:'';position:fixed;inset:0;
         <div class="empty-state"><span class="ms">groups</span>No students yet. As students sign up for Premium, they'll appear here with their progress.</div>
       </div>
     </div>
+    <!-- ── Session Log (attendance proof) ── -->
+    <div class="sec-title"><span class="ms">fact_check</span>Session Log</div>
+    <div class="notes-card">
+      <div style="font-size:12px;color:var(--dim);margin-bottom:14px;position:relative;z-index:1;">Record each session for your attendance record. This is your proof that classes were delivered.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;position:relative;z-index:1;">
+        <div>
+          <label style="display:block;font-size:11px;font-weight:600;color:var(--dim);margin-bottom:4px;">Date</label>
+          <input id="sl-date" type="date" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:14px;">
+        </div>
+        <div>
+          <label style="display:block;font-size:11px;font-weight:600;color:var(--dim);margin-bottom:4px;">Topic / Unit</label>
+          <input id="sl-topic" type="text" placeholder="e.g. Unit 3.2 — Vocabulary" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:14px;">
+        </div>
+        <div>
+          <label style="display:block;font-size:11px;font-weight:600;color:var(--dim);margin-bottom:4px;">Students present</label>
+          <input id="sl-present" type="number" min="0" placeholder="0" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:14px;">
+        </div>
+        <div>
+          <label style="display:block;font-size:11px;font-weight:600;color:var(--dim);margin-bottom:4px;">No-shows</label>
+          <input id="sl-absent" type="number" min="0" placeholder="0" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:14px;">
+        </div>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <label style="display:block;font-size:11px;font-weight:600;color:var(--dim);margin-bottom:4px;">Notes (optional)</label>
+        <input id="sl-note" type="text" placeholder="Anything notable about this session" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:14px;margin-bottom:12px;">
+      </div>
+      <button class="btn-save-notes" onclick="logSession()"><span class="ms" style="font-size:14px;vertical-align:middle;">add</span> Log Session</button>
+      <div id="sl-list" style="margin-top:18px;position:relative;z-index:1;"></div>
+    </div>
+
     <div class="sec-title"><span class="ms">edit_note</span>Session Notes</div>
     <div class="notes-card">
       <div style="font-size:12px;color:var(--dim);margin-bottom:10px;position:relative;z-index:1;">Keep notes about your students, lesson plans, or topics to cover in upcoming sessions.</div>
@@ -273,59 +303,75 @@ body::before{content:'';position:fixed;inset:0;
       <button class="btn-save-notes" onclick="saveNotes()"><span class="ms" style="font-size:14px;vertical-align:middle;">save</span> Save Notes</button>
     </div>
 
-    <!-- ── OWNER-ONLY: Margin Calculator ── -->
+    <!-- ── OWNER-ONLY: 80/20 Calculator ── -->
     <div id="owner-calc" style="display:none;">
-      <div class="sec-title"><span class="ms">calculate</span>Tutor &amp; Margin Calculator <span style="font-size:10px;font-weight:700;color:var(--gold);background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.3);border-radius:6px;padding:2px 8px;margin-left:8px;letter-spacing:.06em;">OWNER ONLY</span></div>
+      <div class="sec-title"><span class="ms">calculate</span>80 / 20 Split Calculator <span style="font-size:10px;font-weight:700;color:var(--gold);background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.3);border-radius:6px;padding:2px 8px;margin-left:8px;letter-spacing:.06em;">OWNER ONLY</span></div>
       <div class="notes-card">
         <div style="position:relative;z-index:1;">
-          <div style="font-size:13px;color:var(--dim);margin-bottom:18px;">You keep a fixed <b style="color:var(--text);">% of revenue</b>; the tutor gets the rest. This locks your margin at every level. The calculator also shows the tutor's <b style="color:var(--text);">effective hourly rate</b> so you can confirm it beats their minimum.</div>
+          <div style="font-size:13px;color:var(--dim);margin-bottom:16px;">You keep <b style="color:var(--text);">80%</b> of every student, the tutor gets <b style="color:var(--text);">20%</b> — the same split for 1 student or 50. The tutor runs 3 one-hour sessions a week (~12 hrs/month) no matter the pod size, so their hourly rate climbs as the pod fills.</div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
             <div>
-              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Your margin (%)</label>
-              <input id="cv-margin-pct" type="number" value="80" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
-            </div>
-            <div>
               <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Plan</label>
               <select id="cv-plan" onchange="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
-                <option value="12.99|0">Basic — $12.99/mo</option>
-                <option value="29.99|0" selected>Premium — $29.99/mo</option>
-                <option value="10.00|1">Yearly — $119.99/yr ($10/mo)</option>
+                <option value="12.99">Basic — $12.99/mo</option>
+                <option value="29.99" selected>Premium — $29.99/mo</option>
+                <option value="10.00">Yearly — $119.99/yr ($10/mo)</option>
               </select>
             </div>
             <div>
               <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Students in pod</label>
-              <input id="cv-pod" type="number" value="20" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
+              <input id="cv-students" type="number" value="1" min="1" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
             </div>
             <div>
-              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor hours / month</label>
-              <input id="cv-hours" type="number" value="12" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Your share (%)</label>
+              <input id="cv-yourpct" type="number" value="80" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
             </div>
             <div>
-              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor min rate ($/hr)</label>
-              <input id="cv-minrate" type="number" value="5" step="0.5" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Sessions/week × hrs</label>
+              <div style="display:flex;gap:8px;">
+                <input id="cv-sess" type="number" value="3" min="1" oninput="calcMargin()" style="width:50%;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
+                <input id="cv-hrs" type="number" value="1" min="0.5" step="0.5" oninput="calcMargin()" style="width:50%;padding:10px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
+              </div>
             </div>
           </div>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
-            <div style="background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:12px;padding:14px;text-align:center;">
-              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Pod Revenue</div>
-              <div id="cv-revenue" style="font-size:21px;font-weight:800;color:var(--text);">$0</div>
-              <div style="font-size:10px;color:var(--dim);">/month</div>
-            </div>
+          <!-- per-student split -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
             <div style="background:rgba(127,201,156,.08);border:1px solid rgba(127,201,156,.3);border-radius:12px;padding:14px;text-align:center;">
-              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">You Keep</div>
-              <div id="cv-yours" style="font-size:21px;font-weight:800;color:#7fc99c;">$0</div>
-              <div id="cv-yourspct" style="font-size:10px;color:#7fc99c;font-weight:700;">0%</div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);">You keep / student</div>
+              <div id="cv-you-ps" style="font-size:20px;font-weight:800;color:#7fc99c;margin-top:3px;">$0</div>
+              <div id="cv-you-pct" style="font-size:10px;color:#7fc99c;font-weight:700;">80%</div>
             </div>
             <div style="background:rgba(242,190,98,.08);border:1px solid rgba(242,190,98,.3);border-radius:12px;padding:14px;text-align:center;">
-              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Tutor Gets</div>
-              <div id="cv-tutor" style="font-size:21px;font-weight:800;color:var(--gold);">$0</div>
-              <div id="cv-tutorhr" style="font-size:10px;color:var(--gold);font-weight:700;">$0/hr</div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);">Tutor gets / student</div>
+              <div id="cv-tutor-ps" style="font-size:20px;font-weight:800;color:var(--gold);margin-top:3px;">$0</div>
+              <div id="cv-tutor-pct" style="font-size:10px;color:var(--gold);font-weight:700;">20%</div>
             </div>
           </div>
 
-          <div id="cv-verdict" style="font-size:13px;line-height:1.7;background:rgba(0,0,0,.2);border-radius:10px;padding:14px;"></div>
+          <!-- pod totals -->
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+            <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center;">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);">Pod Revenue</div>
+              <div id="cv-rev" style="font-size:19px;font-weight:800;color:var(--text);margin-top:3px;">$0</div>
+            </div>
+            <div style="background:rgba(127,201,156,.08);border:1px solid rgba(127,201,156,.3);border-radius:12px;padding:13px;text-align:center;">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);">You Keep</div>
+              <div id="cv-you-tot" style="font-size:19px;font-weight:800;color:#7fc99c;margin-top:3px;">$0</div>
+            </div>
+            <div style="background:rgba(242,190,98,.08);border:1px solid rgba(242,190,98,.3);border-radius:12px;padding:13px;text-align:center;">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);">Tutor Earns</div>
+              <div id="cv-tutor-tot" style="font-size:19px;font-weight:800;color:var(--gold);margin-top:3px;">$0</div>
+              <div id="cv-tutor-hr" style="font-size:10px;color:var(--gold);font-weight:700;">$0/hr</div>
+            </div>
+          </div>
+
+          <div id="cv-verdict" style="font-size:13px;line-height:1.6;background:rgba(0,0,0,.2);border-radius:10px;padding:12px 14px;margin-bottom:14px;"></div>
+
+          <!-- scaling preview -->
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:8px;">As the pod grows (tutor $/hr)</div>
+          <div id="cv-scale" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
         </div>
       </div>
     </div>
@@ -358,6 +404,7 @@ function initPortal(user, isOwner) {
   if(savedNotes) document.getElementById('notes-area').value = savedNotes;
   renderSchedule();
   renderStudents();
+  renderSessionLog();
 }
 
 // ── Format helpers for study time + last active ──
@@ -493,43 +540,50 @@ function copyZoom() { if(zoomUrl) { navigator.clipboard.writeText(zoomUrl); aler
 function editZoom() { document.getElementById('zoom-view-actions').style.display = 'none'; document.getElementById('zoom-edit-actions').style.display = 'flex'; document.getElementById('zoom-input').value = zoomUrl; }
 function saveZoom() { zoomUrl = document.getElementById('zoom-input').value.trim(); localStorage.setItem('tutor_zoom_link', zoomUrl); document.getElementById('zoom-link-display').textContent = zoomUrl || 'No Meet link saved yet'; document.getElementById('zoom-edit-actions').style.display = 'none'; document.getElementById('zoom-view-actions').style.display = 'flex'; }
 function calcMargin(){
-  var marginPct = (+document.getElementById('cv-margin-pct').value || 80) / 100;
-  var planParts = (document.getElementById('cv-plan').value || '29.99|0').split('|');
-  var price = parseFloat(planParts[0]);
-  var yearly = planParts[1] === '1';
-  var pod = +document.getElementById('cv-pod').value || 0;
-  var hours = +document.getElementById('cv-hours').value || 0;
-  var minRate = +document.getElementById('cv-minrate').value || 0;
+  var price = parseFloat(document.getElementById('cv-plan').value) || 0;
+  var students = +document.getElementById('cv-students').value || 0;
+  var yourPct = (+document.getElementById('cv-yourpct').value || 80) / 100;
+  var tutorPct = 1 - yourPct;
+  var sess = +document.getElementById('cv-sess').value || 3;
+  var hrs = +document.getElementById('cv-hrs').value || 1;
+  var hoursMonth = sess * 4 * hrs;
 
-  var revenue = price * pod;
-  var stripe = pod * (price*0.029 + (yearly?0.025:0.30));
-  var afterStripe = revenue - stripe;
+  var fmt = function(n){ return '$'+(Math.round(n*100)/100).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2}); };
+  var fmt0 = function(n){ return '$'+Math.round(n).toLocaleString(); };
 
-  // You keep marginPct of revenue; tutor gets the remainder (after Stripe)
-  var yours = revenue * marginPct;
-  var tutor = afterStripe - yours;
-  if(tutor < 0) tutor = 0;
-  var tutorHourly = hours > 0 ? tutor / hours : 0;
-  var yoursPct = revenue > 0 ? Math.round(yours/revenue*100) : 0;
+  // per student
+  var youPS = price * yourPct;
+  var tutorPS = price * tutorPct;
+  document.getElementById('cv-you-ps').textContent = fmt(youPS);
+  document.getElementById('cv-tutor-ps').textContent = fmt(tutorPS);
+  document.getElementById('cv-you-pct').textContent = Math.round(yourPct*100)+'%';
+  document.getElementById('cv-tutor-pct').textContent = Math.round(tutorPct*100)+'%';
 
-  var fmt = function(n){ return '$'+Math.round(n).toLocaleString(); };
-  document.getElementById('cv-revenue').textContent = fmt(revenue);
-  document.getElementById('cv-yours').textContent = fmt(yours);
-  document.getElementById('cv-yourspct').textContent = yoursPct + '% margin';
-  document.getElementById('cv-tutor').textContent = fmt(tutor);
-  document.getElementById('cv-tutorhr').textContent = '$'+tutorHourly.toFixed(2)+'/hr';
+  // pod totals
+  var revenue = price * students;
+  var youTot = revenue * yourPct;
+  var tutorTot = revenue * tutorPct;
+  var tutorHr = hoursMonth>0 ? tutorTot/hoursMonth : 0;
+  document.getElementById('cv-rev').textContent = fmt0(revenue);
+  document.getElementById('cv-you-tot').textContent = fmt0(youTot);
+  document.getElementById('cv-tutor-tot').textContent = fmt0(tutorTot);
+  document.getElementById('cv-tutor-hr').textContent = '$'+tutorHr.toFixed(2)+'/hr';
 
+  // verdict
   var v = document.getElementById('cv-verdict');
-  var meetsMin = tutorHourly >= minRate;
-  if(pod === 0){
-    v.innerHTML = '<span style="color:var(--dim);">Enter a pod size to calculate.</span>';
-  } else if(meetsMin){
-    v.innerHTML = '<b style="color:#7fc99c;">&#10003; Works for both.</b> You keep <b>'+fmt(yours)+'/mo ('+yoursPct+'%)</b> from this pod, and the tutor earns <b style="color:var(--gold);">'+fmt(tutor)+'/mo</b> &mdash; that\'s <b>$'+tutorHourly.toFixed(2)+'/hr</b>, above their $'+minRate.toFixed(2)+' minimum.';
-  } else {
-    var needed = Math.ceil((minRate*hours + yours + stripe) / price);
-    v.innerHTML = '<b style="color:#e07070;">&#9888; Pod too small.</b> The tutor would earn only <b>$'+tutorHourly.toFixed(2)+'/hr</b>, below their $'+minRate.toFixed(2)+' minimum. '+
-      'You need about <b style="color:var(--gold);">'+needed+' students</b> in this pod before running it, so the tutor\'s hourly rate clears their floor while you keep '+Math.round(marginPct*100)+'%.';
-  }
+  v.innerHTML = 'Your margin is locked at <b style="color:#7fc99c;">'+Math.round(yourPct*100)+'%</b> for every student. '+
+    'With <b>'+students+'</b> student'+(students===1?'':'s')+', the tutor earns <b style="color:var(--gold);">'+fmt0(tutorTot)+'/mo</b> for ~'+hoursMonth+' hrs = <b style="color:var(--gold);">$'+tutorHr.toFixed(2)+'/hr</b>.';
+
+  // scaling preview
+  var marks = [1,5,10,15,20,30,40];
+  var sc = document.getElementById('cv-scale');
+  sc.innerHTML = marks.map(function(m){
+    var hr = hoursMonth>0 ? (price*m*tutorPct)/hoursMonth : 0;
+    var hot = m===students;
+    return '<div style="flex:1;min-width:54px;text-align:center;padding:8px 4px;border-radius:8px;background:'+(hot?'rgba(242,190,98,.15)':'rgba(255,255,255,.03)')+';border:1px solid '+(hot?'var(--gold)':'var(--border)')+';">'+
+      '<div style="font-size:11px;color:var(--dim);font-weight:700;">'+m+'</div>'+
+      '<div style="font-size:12px;color:'+(hr>=5?'#7fc99c':'var(--dim)')+';font-weight:700;">$'+hr.toFixed(0)+'/hr</div></div>';
+  }).join('');
 }
 
 function saveNotes() { const notes = document.getElementById('notes-area').value; localStorage.setItem('tutor_notes', notes); }
