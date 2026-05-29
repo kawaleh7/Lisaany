@@ -275,57 +275,57 @@ body::before{content:'';position:fixed;inset:0;
 
     <!-- ── OWNER-ONLY: Margin Calculator ── -->
     <div id="owner-calc" style="display:none;">
-      <div class="sec-title"><span class="ms">calculate</span>Margin Calculator <span style="font-size:10px;font-weight:700;color:var(--gold);background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.3);border-radius:6px;padding:2px 8px;margin-left:8px;letter-spacing:.06em;">OWNER ONLY</span></div>
+      <div class="sec-title"><span class="ms">calculate</span>Tutor &amp; Margin Calculator <span style="font-size:10px;font-weight:700;color:var(--gold);background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.3);border-radius:6px;padding:2px 8px;margin-left:8px;letter-spacing:.06em;">OWNER ONLY</span></div>
       <div class="notes-card">
         <div style="position:relative;z-index:1;">
+          <div style="font-size:13px;color:var(--dim);margin-bottom:18px;">You keep a fixed <b style="color:var(--text);">% of revenue</b>; the tutor gets the rest. This locks your margin at every level. The calculator also shows the tutor's <b style="color:var(--text);">effective hourly rate</b> so you can confirm it beats their minimum.</div>
+
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
             <div>
-              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Price / student / month ($)</label>
-              <select id="cv-price" onchange="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
-                <option value="12.99">$12.99 / month</option>
-                <option value="29.99" selected>$29.99 / month</option>
-                <option value="10.00">$119.99 / year ($10/mo)</option>
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Your margin (%)</label>
+              <input id="cv-margin-pct" type="number" value="80" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Plan</label>
+              <select id="cv-plan" onchange="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
+                <option value="12.99|0">Basic — $12.99/mo</option>
+                <option value="29.99|0" selected>Premium — $29.99/mo</option>
+                <option value="10.00|1">Yearly — $119.99/yr ($10/mo)</option>
               </select>
             </div>
             <div>
-              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Number of students</label>
-              <input id="cv-students" type="number" value="50" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Students in pod</label>
+              <input id="cv-pod" type="number" value="20" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
             </div>
             <div>
-              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor pay / student ($)</label>
-              <input id="cv-perstudent" type="number" value="4.50" step="0.5" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor hours / month</label>
+              <input id="cv-hours" type="number" value="12" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
             </div>
             <div>
-              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor pay cap ($/mo)</label>
-              <input id="cv-cap" type="number" value="300" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
-            </div>
-            <div>
-              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor pay floor ($/mo)</label>
-              <input id="cv-floor" type="number" value="50" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
-            </div>
-            <div>
-              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Students per tutor pod</label>
-              <input id="cv-pod" type="number" value="65" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor min rate ($/hr)</label>
+              <input id="cv-minrate" type="number" value="5" step="0.5" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:#0a1424;color:var(--text);font-size:15px;font-weight:700;">
             </div>
           </div>
 
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
             <div style="background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:12px;padding:14px;text-align:center;">
-              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Revenue</div>
-              <div id="cv-revenue" style="font-size:22px;font-weight:800;color:var(--text);">$0</div>
-            </div>
-            <div style="background:rgba(224,112,112,.06);border:1px solid rgba(224,112,112,.2);border-radius:12px;padding:14px;text-align:center;">
-              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Total Costs</div>
-              <div id="cv-costs" style="font-size:22px;font-weight:800;color:#e07070;">$0</div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Pod Revenue</div>
+              <div id="cv-revenue" style="font-size:21px;font-weight:800;color:var(--text);">$0</div>
+              <div style="font-size:10px;color:var(--dim);">/month</div>
             </div>
             <div style="background:rgba(127,201,156,.08);border:1px solid rgba(127,201,156,.3);border-radius:12px;padding:14px;text-align:center;">
-              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Your Margin</div>
-              <div id="cv-margin" style="font-size:22px;font-weight:800;color:#7fc99c;">$0</div>
-              <div id="cv-marginpct" style="font-size:12px;font-weight:700;color:#7fc99c;margin-top:2px;">0%</div>
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">You Keep</div>
+              <div id="cv-yours" style="font-size:21px;font-weight:800;color:#7fc99c;">$0</div>
+              <div id="cv-yourspct" style="font-size:10px;color:#7fc99c;font-weight:700;">0%</div>
+            </div>
+            <div style="background:rgba(242,190,98,.08);border:1px solid rgba(242,190,98,.3);border-radius:12px;padding:14px;text-align:center;">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Tutor Gets</div>
+              <div id="cv-tutor" style="font-size:21px;font-weight:800;color:var(--gold);">$0</div>
+              <div id="cv-tutorhr" style="font-size:10px;color:var(--gold);font-weight:700;">$0/hr</div>
             </div>
           </div>
 
-          <div id="cv-breakdown" style="font-size:13px;color:var(--dim);line-height:1.8;background:rgba(0,0,0,.2);border-radius:10px;padding:14px;"></div>
+          <div id="cv-verdict" style="font-size:13px;line-height:1.7;background:rgba(0,0,0,.2);border-radius:10px;padding:14px;"></div>
         </div>
       </div>
     </div>
@@ -493,57 +493,43 @@ function copyZoom() { if(zoomUrl) { navigator.clipboard.writeText(zoomUrl); aler
 function editZoom() { document.getElementById('zoom-view-actions').style.display = 'none'; document.getElementById('zoom-edit-actions').style.display = 'flex'; document.getElementById('zoom-input').value = zoomUrl; }
 function saveZoom() { zoomUrl = document.getElementById('zoom-input').value.trim(); localStorage.setItem('tutor_zoom_link', zoomUrl); document.getElementById('zoom-link-display').textContent = zoomUrl || 'No Meet link saved yet'; document.getElementById('zoom-edit-actions').style.display = 'none'; document.getElementById('zoom-view-actions').style.display = 'flex'; }
 function calcMargin(){
-  const price = +document.getElementById('cv-price').value || 0;
-  const students = +document.getElementById('cv-students').value || 0;
-  const perStudent = +document.getElementById('cv-perstudent').value || 0;
-  const cap = +document.getElementById('cv-cap').value || 0;
-  const floor = +document.getElementById('cv-floor').value || 0;
-  const pod = +document.getElementById('cv-pod').value || 1;
+  var marginPct = (+document.getElementById('cv-margin-pct').value || 80) / 100;
+  var planParts = (document.getElementById('cv-plan').value || '29.99|0').split('|');
+  var price = parseFloat(planParts[0]);
+  var yearly = planParts[1] === '1';
+  var pod = +document.getElementById('cv-pod').value || 0;
+  var hours = +document.getElementById('cv-hours').value || 0;
+  var minRate = +document.getElementById('cv-minrate').value || 0;
 
-  const isYearly = Math.abs(price - 10.00) < 0.01; // yearly plan stored as $10/mo equiv
-  const revenue = price * students;
-  // Stripe: monthly plans charged 12x/yr ($0.30 each); yearly charged once ($0.30/yr = $0.025/mo)
-  const stripePerStudent = isYearly ? (price * 0.029 + 0.025) : (price * 0.029 + 0.30);
-  const stripe = students * stripePerStudent;
+  var revenue = price * pod;
+  var stripe = pod * (price*0.029 + (yearly?0.025:0.30));
+  var afterStripe = revenue - stripe;
 
-  // Number of tutor pods needed
-  const pods = Math.max(1, Math.ceil(students / pod));
-  // Per-pod tutor pay: per-student rate * students in pod, bounded by floor and cap
-  let tutorCost = 0;
-  let remaining = students;
-  for(let i=0;i<pods;i++){
-    const inThisPod = Math.min(pod, remaining);
-    remaining -= inThisPod;
-    let pay = perStudent * inThisPod;
-    if(pay < floor) pay = floor;
-    if(cap > 0 && pay > cap) pay = cap;
-    tutorCost += pay;
-  }
-  // If no students, no tutor cost
-  if(students === 0) tutorCost = 0;
+  // You keep marginPct of revenue; tutor gets the remainder (after Stripe)
+  var yours = revenue * marginPct;
+  var tutor = afterStripe - yours;
+  if(tutor < 0) tutor = 0;
+  var tutorHourly = hours > 0 ? tutor / hours : 0;
+  var yoursPct = revenue > 0 ? Math.round(yours/revenue*100) : 0;
 
-  const costs = stripe + tutorCost;
-  const margin = revenue - costs;
-  const marginPct = revenue > 0 ? Math.round((margin/revenue)*100) : 0;
-
-  const fmt = (n)=>'$'+Math.round(n).toLocaleString();
+  var fmt = function(n){ return '$'+Math.round(n).toLocaleString(); };
   document.getElementById('cv-revenue').textContent = fmt(revenue);
-  document.getElementById('cv-costs').textContent = fmt(costs);
-  document.getElementById('cv-margin').textContent = fmt(margin);
-  const pctEl = document.getElementById('cv-marginpct');
-  pctEl.textContent = marginPct + '%';
-  // colour margin red if negative
-  const marginColor = margin < 0 ? '#e07070' : '#7fc99c';
-  document.getElementById('cv-margin').style.color = marginColor;
-  pctEl.style.color = marginColor;
+  document.getElementById('cv-yours').textContent = fmt(yours);
+  document.getElementById('cv-yourspct').textContent = yoursPct + '% margin';
+  document.getElementById('cv-tutor').textContent = fmt(tutor);
+  document.getElementById('cv-tutorhr').textContent = '$'+tutorHourly.toFixed(2)+'/hr';
 
-  document.getElementById('cv-breakdown').innerHTML =
-    '<b style="color:var(--text);">Breakdown</b><br>' +
-    '&bull; Tutors needed: <b style="color:var(--gold);">'+pods+'</b> (at '+pod+' students each)<br>' +
-    '&bull; Tutor pay total: <b>'+fmt(tutorCost)+'</b>'+(pods>1?' across '+pods+' tutors':'')+'<br>' +
-    '&bull; Stripe fees: <b>'+fmt(stripe)+'</b><br>' +
-    '&bull; Profit per student: <b>'+(students>0?'$'+(margin/students).toFixed(2):'$0')+'</b><br>' +
-    (margin < 0 ? '<span style="color:#e07070;font-weight:700;">⚠ You are losing money at this student count — add more students or lower tutor pay.</span>' : '<span style="color:#7fc99c;font-weight:700;">✓ Profitable at this level.</span>');
+  var v = document.getElementById('cv-verdict');
+  var meetsMin = tutorHourly >= minRate;
+  if(pod === 0){
+    v.innerHTML = '<span style="color:var(--dim);">Enter a pod size to calculate.</span>';
+  } else if(meetsMin){
+    v.innerHTML = '<b style="color:#7fc99c;">&#10003; Works for both.</b> You keep <b>'+fmt(yours)+'/mo ('+yoursPct+'%)</b> from this pod, and the tutor earns <b style="color:var(--gold);">'+fmt(tutor)+'/mo</b> &mdash; that\'s <b>$'+tutorHourly.toFixed(2)+'/hr</b>, above their $'+minRate.toFixed(2)+' minimum.';
+  } else {
+    var needed = Math.ceil((minRate*hours + yours + stripe) / price);
+    v.innerHTML = '<b style="color:#e07070;">&#9888; Pod too small.</b> The tutor would earn only <b>$'+tutorHourly.toFixed(2)+'/hr</b>, below their $'+minRate.toFixed(2)+' minimum. '+
+      'You need about <b style="color:var(--gold);">'+needed+' students</b> in this pod before running it, so the tutor\'s hourly rate clears their floor while you keep '+Math.round(marginPct*100)+'%.';
+  }
 }
 
 function saveNotes() { const notes = document.getElementById('notes-area').value; localStorage.setItem('tutor_notes', notes); }
