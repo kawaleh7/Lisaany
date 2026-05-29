@@ -70,8 +70,8 @@ body::before{content:'';position:fixed;inset:0;
 .btn-upcoming{padding:8px 16px;border:1.5px solid var(--border);border-radius:10px;background:transparent;color:var(--dim);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;}
 .btn-upcoming:hover{border-color:var(--gold);color:var(--gold);}
 .students-card{background:var(--card);border:1.5px solid var(--border);border-top:2px solid var(--blue-border);border-radius:20px;overflow:hidden;margin-bottom:32px;position:relative;}
-.table-hdr{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);position:relative;z-index:1;}
-.student-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:12px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.04);align-items:center;transition:background .2s;position:relative;z-index:1;}
+.table-hdr{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1.2fr 1fr;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);position:relative;z-index:1;}
+.student-row{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr 1.2fr 1fr;gap:12px;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.04);align-items:center;transition:background .2s;position:relative;z-index:1;}
 .empty-state{padding:40px 20px;text-align:center;color:var(--dim);font-size:13px;position:relative;z-index:1;}
 .empty-state .ms{font-size:36px;color:rgba(212,163,74,.3);display:block;margin-bottom:12px;}
 .zoom-card{background:rgba(74,144,217,.06);border:1.5px solid rgba(74,144,217,.3);border-top:2px solid rgba(74,144,217,.5);border-radius:20px;padding:24px 28px;display:flex;align-items:center;gap:20px;margin-bottom:32px;position:relative;overflow:hidden;}
@@ -261,7 +261,7 @@ body::before{content:'';position:fixed;inset:0;
     <div class="sessions" id="sessions-list"></div>
     <div class="sec-title"><span class="ms">groups</span>Premium Students</div>
     <div class="students-card">
-      <div class="table-hdr"><span>Student</span><span>Plan</span><span>Progress</span><span>Last Active</span><span>Status</span></div>
+      <div class="table-hdr"><span>Student</span><span>Plan</span><span>Progress</span><span>Study Time</span><span>Last Active</span><span>Status</span></div>
       <div id="students-list">
         <div class="empty-state"><span class="ms">groups</span>No students yet. As students sign up for Premium, they'll appear here with their progress.</div>
       </div>
@@ -272,6 +272,64 @@ body::before{content:'';position:fixed;inset:0;
       <textarea class="notes-textarea" id="notes-area" placeholder="e.g. Next Tuesday — cover Unit 3.2 vocabulary..."></textarea>
       <button class="btn-save-notes" onclick="saveNotes()"><span class="ms" style="font-size:14px;vertical-align:middle;">save</span> Save Notes</button>
     </div>
+
+    <!-- ── OWNER-ONLY: Margin Calculator ── -->
+    <div id="owner-calc" style="display:none;">
+      <div class="sec-title"><span class="ms">calculate</span>Margin Calculator <span style="font-size:10px;font-weight:700;color:var(--gold);background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.3);border-radius:6px;padding:2px 8px;margin-left:8px;letter-spacing:.06em;">OWNER ONLY</span></div>
+      <div class="notes-card">
+        <div style="position:relative;z-index:1;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+            <div>
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Price / student / month ($)</label>
+              <select id="cv-price" onchange="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
+                <option value="12.99">$12.99 / month</option>
+                <option value="29.99" selected>$29.99 / month</option>
+                <option value="10.00">$119.99 / year ($10/mo)</option>
+              </select>
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Number of students</label>
+              <input id="cv-students" type="number" value="50" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor pay / student ($)</label>
+              <input id="cv-perstudent" type="number" value="4.50" step="0.5" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor pay cap ($/mo)</label>
+              <input id="cv-cap" type="number" value="300" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Tutor pay floor ($/mo)</label>
+              <input id="cv-floor" type="number" value="50" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
+            </div>
+            <div>
+              <label style="display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dim);margin-bottom:5px;">Students per tutor pod</label>
+              <input id="cv-pod" type="number" value="65" oninput="calcMargin()" style="width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);font-size:15px;font-weight:700;">
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+            <div style="background:rgba(212,163,74,.06);border:1px solid rgba(212,163,74,.2);border-radius:12px;padding:14px;text-align:center;">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Revenue</div>
+              <div id="cv-revenue" style="font-size:22px;font-weight:800;color:var(--text);">$0</div>
+            </div>
+            <div style="background:rgba(224,112,112,.06);border:1px solid rgba(224,112,112,.2);border-radius:12px;padding:14px;text-align:center;">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Total Costs</div>
+              <div id="cv-costs" style="font-size:22px;font-weight:800;color:#e07070;">$0</div>
+            </div>
+            <div style="background:rgba(127,201,156,.08);border:1px solid rgba(127,201,156,.3);border-radius:12px;padding:14px;text-align:center;">
+              <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:4px;">Your Margin</div>
+              <div id="cv-margin" style="font-size:22px;font-weight:800;color:#7fc99c;">$0</div>
+              <div id="cv-marginpct" style="font-size:12px;font-weight:700;color:#7fc99c;margin-top:2px;">0%</div>
+            </div>
+          </div>
+
+          <div id="cv-breakdown" style="font-size:13px;color:var(--dim);line-height:1.8;background:rgba(0,0,0,.2);border-radius:10px;padding:14px;"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -285,8 +343,9 @@ const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
 async function doSignOut() { await sb.auth.signOut(); window.location.href = 'auth.html'; }
 function showUnauthorized() { document.getElementById('gate-loading').style.display = 'none'; document.getElementById('gate-unauthorized').style.display = 'flex'; }
 
-function initPortal(user) {
+function initPortal(user, isOwner) {
   document.getElementById('gate-loading').style.display = 'none';
+  if(isOwner){ document.getElementById('owner-calc').style.display = 'block'; calcMargin(); }
   document.getElementById('gate-unauthorized').style.display = 'none';
   document.getElementById('portal').style.display = 'block';
   const name = user.user_metadata?.name || user.email.split('@')[0];
@@ -298,6 +357,66 @@ function initPortal(user) {
   const savedNotes = localStorage.getItem('tutor_notes');
   if(savedNotes) document.getElementById('notes-area').value = savedNotes;
   renderSchedule();
+  renderStudents();
+}
+
+// ── Format helpers for study time + last active ──
+function fmtStudyTime(secs){
+  secs = +secs || 0;
+  if(secs < 60) return secs + 's';
+  const h = Math.floor(secs/3600), m = Math.floor((secs%3600)/60);
+  if(h > 0) return h + 'h ' + m + 'm';
+  return m + 'm';
+}
+function fmtLastActive(iso){
+  if(!iso) return '—';
+  const then = new Date(iso).getTime();
+  const diff = Date.now() - then;
+  const mins = Math.floor(diff/60000);
+  if(mins < 1) return 'Just now';
+  if(mins < 60) return mins + 'm ago';
+  const hrs = Math.floor(mins/60);
+  if(hrs < 24) return hrs + 'h ago';
+  const days = Math.floor(hrs/24);
+  if(days === 1) return 'Yesterday';
+  if(days < 7) return days + ' days ago';
+  return new Date(iso).toLocaleDateString();
+}
+function activeBadge(iso){
+  if(!iso) return '<span style="color:var(--dim);font-size:11px;">Inactive</span>';
+  const mins = Math.floor((Date.now()-new Date(iso).getTime())/60000);
+  if(mins < 10) return '<span class="live-badge" style="display:inline-flex;"><span class="live-dot"></span>Active</span>';
+  if(mins < 1440) return '<span style="color:var(--green);font-size:11px;font-weight:700;">Recent</span>';
+  return '<span style="color:var(--dim);font-size:11px;">Away</span>';
+}
+
+// ── Render premium students from Supabase ──
+async function renderStudents(){
+  const listEl = document.getElementById('students-list');
+  try {
+    // Students are read from a 'students' view/table if present; otherwise show empty state.
+    // Each student record is expected to carry: name/email, plan, progress, study_seconds, last_active
+    const { data, error } = await sb.from('students').select('*').order('last_active',{ascending:false}).limit(50);
+    if(error || !data || data.length === 0){ 
+      // keep empty state
+      return; 
+    }
+    document.getElementById('stat-students').textContent = data.filter(s=>s.plan==='premium').length;
+    listEl.innerHTML = data.map(s => {
+      const name = s.name || (s.email ? s.email.split('@')[0] : 'Student');
+      const initial = name.trim().charAt(0).toUpperCase();
+      const plan = (s.plan==='premium') ? '<span style="color:var(--gold);font-weight:700;">Premium</span>' : '<span style="color:var(--dim);">Free</span>';
+      const prog = (s.progress!=null) ? Math.round(s.progress)+'%' : '—';
+      return `<div class="student-row">
+        <span style="display:flex;align-items:center;gap:10px;"><span style="width:32px;height:32px;border-radius:50%;background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.3);display:inline-flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;font-size:13px;">${initial}</span><span style="font-size:13px;color:var(--text);">${name}</span></span>
+        <span style="font-size:12px;">${plan}</span>
+        <span style="font-size:12px;color:var(--text);">${prog}</span>
+        <span style="font-size:12px;color:var(--gold);font-weight:700;">${fmtStudyTime(s.study_seconds)}</span>
+        <span style="font-size:12px;color:var(--dim);">${fmtLastActive(s.last_active)}</span>
+        <span>${activeBadge(s.last_active)}</span>
+      </div>`;
+    }).join('');
+  } catch(e){ /* keep empty state */ }
 }
 
 const SCHEDULE = [
@@ -373,6 +492,60 @@ function openZoom() { if(zoomUrl) window.open(zoomUrl, '_blank'); else alert('No
 function copyZoom() { if(zoomUrl) { navigator.clipboard.writeText(zoomUrl); alert('✓ Copied!'); } else alert('No Meet link saved.'); }
 function editZoom() { document.getElementById('zoom-view-actions').style.display = 'none'; document.getElementById('zoom-edit-actions').style.display = 'flex'; document.getElementById('zoom-input').value = zoomUrl; }
 function saveZoom() { zoomUrl = document.getElementById('zoom-input').value.trim(); localStorage.setItem('tutor_zoom_link', zoomUrl); document.getElementById('zoom-link-display').textContent = zoomUrl || 'No Meet link saved yet'; document.getElementById('zoom-edit-actions').style.display = 'none'; document.getElementById('zoom-view-actions').style.display = 'flex'; }
+function calcMargin(){
+  const price = +document.getElementById('cv-price').value || 0;
+  const students = +document.getElementById('cv-students').value || 0;
+  const perStudent = +document.getElementById('cv-perstudent').value || 0;
+  const cap = +document.getElementById('cv-cap').value || 0;
+  const floor = +document.getElementById('cv-floor').value || 0;
+  const pod = +document.getElementById('cv-pod').value || 1;
+
+  const isYearly = Math.abs(price - 10.00) < 0.01; // yearly plan stored as $10/mo equiv
+  const revenue = price * students;
+  // Stripe: monthly plans charged 12x/yr ($0.30 each); yearly charged once ($0.30/yr = $0.025/mo)
+  const stripePerStudent = isYearly ? (price * 0.029 + 0.025) : (price * 0.029 + 0.30);
+  const stripe = students * stripePerStudent;
+
+  // Number of tutor pods needed
+  const pods = Math.max(1, Math.ceil(students / pod));
+  // Per-pod tutor pay: per-student rate * students in pod, bounded by floor and cap
+  let tutorCost = 0;
+  let remaining = students;
+  for(let i=0;i<pods;i++){
+    const inThisPod = Math.min(pod, remaining);
+    remaining -= inThisPod;
+    let pay = perStudent * inThisPod;
+    if(pay < floor) pay = floor;
+    if(cap > 0 && pay > cap) pay = cap;
+    tutorCost += pay;
+  }
+  // If no students, no tutor cost
+  if(students === 0) tutorCost = 0;
+
+  const costs = stripe + tutorCost;
+  const margin = revenue - costs;
+  const marginPct = revenue > 0 ? Math.round((margin/revenue)*100) : 0;
+
+  const fmt = (n)=>'$'+Math.round(n).toLocaleString();
+  document.getElementById('cv-revenue').textContent = fmt(revenue);
+  document.getElementById('cv-costs').textContent = fmt(costs);
+  document.getElementById('cv-margin').textContent = fmt(margin);
+  const pctEl = document.getElementById('cv-marginpct');
+  pctEl.textContent = marginPct + '%';
+  // colour margin red if negative
+  const marginColor = margin < 0 ? '#e07070' : '#7fc99c';
+  document.getElementById('cv-margin').style.color = marginColor;
+  pctEl.style.color = marginColor;
+
+  document.getElementById('cv-breakdown').innerHTML =
+    '<b style="color:var(--text);">Breakdown</b><br>' +
+    '&bull; Tutors needed: <b style="color:var(--gold);">'+pods+'</b> (at '+pod+' students each)<br>' +
+    '&bull; Tutor pay total: <b>'+fmt(tutorCost)+'</b>'+(pods>1?' across '+pods+' tutors':'')+'<br>' +
+    '&bull; Stripe fees: <b>'+fmt(stripe)+'</b><br>' +
+    '&bull; Profit per student: <b>'+(students>0?'$'+(margin/students).toFixed(2):'$0')+'</b><br>' +
+    (margin < 0 ? '<span style="color:#e07070;font-weight:700;">⚠ You are losing money at this student count — add more students or lower tutor pay.</span>' : '<span style="color:#7fc99c;font-weight:700;">✓ Profitable at this level.</span>');
+}
+
 function saveNotes() { const notes = document.getElementById('notes-area').value; localStorage.setItem('tutor_notes', notes); }
 
 (async () => {
@@ -381,9 +554,10 @@ function saveNotes() { const notes = document.getElementById('notes-area').value
     if (!session || !session.user) { window.location.href = 'auth.html'; return; }
     const email = (session.user.email || '').toLowerCase();
     const role = session.user.app_metadata?.role;
-    const isAuthorized = role === 'staff' || OWNER_EMAILS.includes(email);
+    const isOwner = OWNER_EMAILS.includes(email);
+    const isAuthorized = role === 'staff' || isOwner;
     if (!isAuthorized) { showUnauthorized(); return; }
-    initPortal(session.user);
+    initPortal(session.user, isOwner);
   } catch (err) { console.error('Auth check failed:', err); showUnauthorized(); }
 })();
 </script>
