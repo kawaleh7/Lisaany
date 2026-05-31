@@ -42,7 +42,7 @@
 
   /* HERO */
   .hero{position:relative;min-height:auto;display:flex;align-items:center;justify-content:center;text-align:center;
-    padding:116px 28px 84px;overflow:hidden;background:linear-gradient(180deg,#fff,#f7f9fc);}
+    padding:104px 28px 96px;overflow:hidden;background:linear-gradient(180deg,#fff,#f7f9fc);}
     .hero-in{position:relative;z-index:2;max-width:920px;}
   .hero-eyebrow{display:inline-flex;align-items:center;gap:18px;margin-bottom:12px;}
   .hero-eyebrow .ttl{font:600 12px/1 'Inter';letter-spacing:.3em;text-transform:uppercase;color:#c2922e;}
@@ -62,8 +62,10 @@
   .btn-link{display:inline-flex;align-items:center;gap:10px;font:700 12px/1 'Inter';letter-spacing:.16em;text-transform:uppercase;color:var(--navy);border:1.5px solid rgba(14,28,56,.45);padding:17px 30px;border-radius:12px;transition:.2s;}
   .btn-link:hover{background:var(--navy);color:#fff;border-color:var(--navy);}
   .btn-link .ar{transition:.2s;}.btn-link:hover .ar{transform:translateX(5px);}
-  .hero-note{margin-top:24px;font-size:13px;color:var(--dim);}
-  .hero-note b{color:var(--ink2);font-weight:600;}
+  .hero-note{display:inline-flex;align-items:center;gap:9px;margin-top:26px;font-size:13.5px;color:#c2922e;
+    background:#eef6f0;border:1px solid #cfe7d8;padding:9px 18px;border-radius:99px;}
+  .hero-note b{color:#9a6f1c;font-weight:700;}
+  .hero-note .ck{width:17px;height:17px;border-radius:50%;background:#2f7d52;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:700;}
 
   /* SECTION HEADERS */
   section.band{padding:120px 0;}
@@ -140,8 +142,8 @@
   /* ===== WOW LAYER (additive, layout unchanged) ===== */
   /* faint aqra calligraphy behind hero */
   .hero{position:relative;}
-  .hero-bg-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);font-family:'Amiri',serif;
-    font-size:min(58vw,640px);line-height:1;color:#1b2c4d;opacity:.08;pointer-events:none;user-select:none;z-index:0;}
+  .hero-bg-glyph{position:absolute;bottom:-6%;left:50%;transform:translateX(-50%);font-family:'Amiri',serif;
+    font-size:min(50vw,520px);line-height:1;color:#1b2c4d;opacity:.08;pointer-events:none;user-select:none;z-index:0;}
   .hero-in{position:relative;z-index:2;}
   @media (prefers-reduced-motion: no-preference){
     .hero-bg-glyph{opacity:0;animation:glyphIn 2.4s ease forwards .3s;}
@@ -450,11 +452,7 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
   }
 
   /* ===== PREMIUM WOW LAYER ===== */
-  /* atmospheric breathing gold glow in hero */
-  .hero-aura{position:absolute;inset:0;z-index:0;pointer-events:none;
-    background:radial-gradient(55% 46% at 50% 30%, rgba(194,146,46,.10), rgba(255,255,255,0) 72%);}
-  @media (prefers-reduced-motion: no-preference){.hero-aura{animation:auraBreath 7s ease-in-out infinite;}}
-  @keyframes auraBreath{0%,100%{opacity:.55;}50%{opacity:.85;}}
+50%{opacity:.85;}}
 
   /* continuous light sheen across course-card calligraphy panels */
   .pcard-top::before{content:"";position:absolute;top:0;left:-45%;width:34%;height:100%;z-index:2;pointer-events:none;
@@ -565,7 +563,6 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
 
 <header class="hero">
   <div class="hero-bg-glyph">اقرأ</div>
-  <div class="hero-aura"></div>
   <div class="hero-in">
     <div class="hero-eyebrow rise d1"><span class="ln"></span><span class="ttl">Read · Speak · Master</span><span class="ln r"></span></div>
     <div class="hero-ar rise d1">اقْرَأْ &nbsp;·&nbsp; تَكَلَّمْ &nbsp;·&nbsp; تَعَلَّمْ</div>
@@ -575,7 +572,7 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
       <a class="btn-solid" href="arabic_platform.html">Start the Course</a>
       <a class="btn-link" href="pricing.html">View Pricing <span class="ar">→</span></a>
     </div>
-    <div class="hero-note rise d4"><b>Free to start.</b> No credit card needed.</div>
+    <div class="hero-note rise d4"><span class="ck">✓</span> <span><b>Free to start.</b> No credit card needed.</span></div>
   </div>
 </header>
 
