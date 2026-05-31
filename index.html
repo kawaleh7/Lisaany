@@ -468,6 +468,11 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
   .pcard .path-num{overflow:hidden;}
   .pcard .path-num::after{content:"";position:absolute;inset:0;pointer-events:none;
     background:linear-gradient(135deg,rgba(255,255,255,.5),rgba(255,255,255,0) 55%);}
+
+  /* subtle Islamic geometric (khatam) behind the closing CTA */
+  .cta::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.08;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='%23c2922e' stroke-width='0.8'%3E%3Cpath d='M36 4 L45 27 L68 36 L45 45 L36 68 L27 45 L4 36 L27 27 Z'/%3E%3Cpath d='M36 17 L43 29 L55 36 L43 43 L36 55 L29 43 L17 36 L29 29 Z'/%3E%3C/g%3E%3C/svg%3E");
+    background-size:72px 72px;}
 </style></head>
 <body>
 <nav class="lis-nav">
