@@ -11135,5 +11135,66 @@ input:focus,textarea:focus{
 })();
 </script>
 
+
+<style id="lis-content-fix">
+/* ── Dialogue scene (was hardcoded dark) ── */
+.dscene{background:#ffffff!important;border-color:#eae6de!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.06)!important;}
+.dsc-hdr{background:#f5f2ec!important;border-bottom-color:#eae6de!important;}
+.dsc-title{color:#c49a30!important;}
+
+/* Dialogue bubbles */
+.dl.left .dl-bub{background:#fef7e8!important;border-color:rgba(196,154,48,.28)!important;}
+.dl.right .dl-bub{background:#f5f2ec!important;border-color:#eae6de!important;}
+.dl-ar{color:#1a1814!important;}
+.dl-en,.dl-roman{color:#7a7062!important;}
+.dl-spk{color:#c49a30!important;}
+.dl.right .dl-play{background:#eae6de!important;color:#5c5449!important;}
+.dl.left .dl-play{background:linear-gradient(135deg,#f5d488,#f2be62)!important;color:#1a1208!important;}
+
+/* Timeline/avatar circles in dialogue */
+.dl-av,.dav,.scene-av{
+  background:#f5f2ec!important;border:1.5px solid #eae6de!important;color:#5c5449!important;
+}
+.dl-line,.scene-line{background:#eae6de!important;}
+
+/* Keyword bar */
+.kw-bar{background:#fef7e8!important;border-color:rgba(196,154,48,.2)!important;}
+.kw-title{color:#c49a30!important;}
+.kw-word{background:#f5f2ec!important;border-color:#eae6de!important;color:#1a1814!important;}
+.kw-word:hover{border-color:#c49a30!important;}
+
+/* Flashcards */
+.fc-front{
+  background:linear-gradient(165deg,#ffffff,#f9f8f5)!important;
+  border:1.5px solid #eae6de!important;
+  box-shadow:0 8px 32px rgba(0,0,0,.08)!important;
+}
+.fc-front::before{background:linear-gradient(90deg,transparent,rgba(196,154,48,.4),transparent)!important;}
+.fc-back{
+  background:linear-gradient(165deg,#f5f2ec,#eef7f3)!important;
+  border:1.5px solid rgba(61,139,110,.25)!important;
+  box-shadow:0 8px 32px rgba(0,0,0,.08)!important;
+}
+.fc-back::before{background:linear-gradient(90deg,transparent,rgba(61,139,110,.4),transparent)!important;}
+.fc-ar{color:#c49a30!important;filter:none!important;}
+.fc-badge{
+  background:linear-gradient(160deg,#f5f2ec,#ede9e0)!important;
+  border-color:#c49a30!important;
+  box-shadow:0 4px 12px rgba(0,0,0,.08),0 0 10px rgba(196,154,48,.15)!important;
+}
+.fc-cat{color:#9b9389!important;}
+.fc-hint{color:#7a7062!important;}
+
+/* Vocab progress bar */
+.vpc-bar{background:#eae6de!important;}
+.vpc-fill{background:#c49a30!important;}
+
+/* Any remaining dark backgrounds caught by element type */
+.dscene *:not(.dl-play):not(.dl-ar):not(.dl-spk):not(.kw-title):not(.dsc-title){
+  --faint:rgba(90,70,20,.03)!important;
+}
+</style>
+
 </body>
 </html>
