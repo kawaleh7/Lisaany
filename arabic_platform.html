@@ -11103,8 +11103,8 @@ input:focus,textarea:focus{
       +'<h2 class="les-title">Welcome to Lisaany</h2>'
       +'<p class="les-sub">Your Arabic journey starts here. Select a module from the sidebar to begin.</p>'
       +'<div class="les-pills">'
-      +'<span class="les-pill">?? Structured</span>'
-      +'<span class="les-pill">?? Native Audio</span>'
+      +'<span class="les-pill">✦ Structured</span>'
+      +'<span class="les-pill">♦ Native Audio</span>'
       +'<span class="les-pill">⭐ Track Progress</span>'
       +'</div>';
     scroll.appendChild(wrap);
@@ -11731,6 +11731,321 @@ footer.footer, footer.footer + *, .au-divider.foot-div { display:none!important;
 .unit-title{color:#16233f!important;}
 .unit-blocks-count{color:#7b869c!important;}
 .section-heading{color:#7b869c!important;}
+</style>
+
+
+<style id="lis-card-pro">
+/* Unit cards — distinct from background */
+.unit-card{
+  background:#ffffff!important;
+  border:1.5px solid #e0e4ee!important;
+  border-radius:16px!important;
+  box-shadow:0 2px 8px rgba(14,28,56,.04),0 8px 24px rgba(14,28,56,.06)!important;
+  transition:all .22s cubic-bezier(.4,0,.2,1)!important;
+}
+.unit-card:hover{
+  transform:translateY(-4px)!important;
+  border-color:rgba(194,146,46,.45)!important;
+  box-shadow:0 8px 16px rgba(14,28,56,.06),0 20px 44px rgba(14,28,56,.10)!important;
+}
+/* First/active unit card — gold highlight */
+.unit-card:first-child,.unit-card.active{
+  border-color:rgba(194,146,46,.4)!important;
+  box-shadow:0 2px 8px rgba(194,146,46,.08),0 8px 24px rgba(194,146,46,.12)!important;
+}
+.unit-card .arrow-btn,.uc-arrow{
+  background:linear-gradient(135deg,#e0e4ee,#d0d5e2)!important;
+  color:#7b869c!important;border:none!important;
+}
+.unit-card:first-child .arrow-btn,.unit-card:first-child .uc-arrow,
+.unit-card.active .arrow-btn,.unit-card.active .uc-arrow{
+  background:linear-gradient(135deg,#e0b452,#c2922e)!important;
+  color:#fff!important;
+  box-shadow:0 4px 12px rgba(194,146,46,.3)!important;
+}
+.unit-id{color:#c2922e!important;}
+.unit-title{
+  font-family:'Cinzel',serif!important;font-weight:600!important;
+  color:#16233f!important;font-size:18px!important;
+}
+.unit-blocks-count{color:#9ba8be!important;letter-spacing:.12em!important;}
+
+/* Quran verse / geo-header — use the slate navy from babyGap reference */
+.geo-header,.gh{
+  background:linear-gradient(160deg,#6b7a94 0%,#5a6880 100%)!important;
+  border:none!important;border-radius:16px!important;
+  box-shadow:0 8px 28px rgba(14,28,56,.12)!important;
+}
+
+/* Module hero — better treatment */
+.module-hero{
+  background:linear-gradient(160deg,#5a6880 0%,#4d5c72 100%)!important;
+  border:none!important;border-radius:18px!important;
+  box-shadow:0 8px 28px rgba(14,28,56,.12)!important;
+}
+.module-hero-title{color:#ffffff!important;}
+.module-hero-eyebrow{color:#e0b452!important;}
+.module-hero-arabic{color:#e0b452!important;}
+.module-hero-sub{color:rgba(255,255,255,.65)!important;}
+.module-hero-icon{
+  background:rgba(255,255,255,.12)!important;border:1px solid rgba(255,255,255,.2)!important;
+  color:#e0b452!important;box-shadow:none!important;
+}
+.module-hero::before{
+  background:linear-gradient(90deg,transparent,rgba(224,180,82,.3) 50%,transparent)!important;
+  box-shadow:none!important;
+}
+
+/* Section heading — stronger */
+.section-heading{
+  color:#16233f!important;font-size:13px!important;
+}
+.section-heading::after{background:#e0e4ee!important;}
+
+/* 3. Footer on mobile: HIDE (bottom nav handles it) */
+@media(max-width:980px){
+  #lis-app-footer{display:none!important;}
+}
+/* Bottom nav on desktop: HIDE (footer handles it) */
+@media(min-width:981px){
+  .bottom-nav{display:none!important;}
+}
+/* Footer fills to bottom — no white gap */
+#lis-app-footer{
+  margin-top:auto!important;
+  flex-shrink:0!important;
+}
+#main-scroll{
+  display:flex!important;flex-direction:column!important;min-height:100%!important;
+}
+
+/* Empty state pills — no broken emoji, clean design */
+.les-pill{
+  font:600 10.5px/1 'Inter',sans-serif!important;letter-spacing:.1em!important;
+  padding:8px 16px!important;border-radius:99px!important;
+  background:#f6f8fc!important;border:1px solid #e0e4ee!important;color:#44516c!important;
+}
+
+/* In-page back button — cleaner */
+.in-page-back{
+  background:#f6f8fc!important;border:1px solid #e0e4ee!important;
+  color:#44516c!important;border-radius:99px!important;
+  font:600 12px/1 'Inter',sans-serif!important;
+  padding:9px 18px!important;
+}
+.in-page-back:hover{background:#fff8ec!important;border-color:#c2922e!important;color:#c2922e!important;}
+</style>
+
+
+<style id="lis-final">
+/* ════════════════════════════════════════════════
+   FINAL AUTHORITATIVE OVERRIDES
+   Last in cascade — wins all specificity battles
+   ════════════════════════════════════════════════ */
+
+/* ── LAYOUT: footer to bottom, no white gap ── */
+#main-scroll{
+  display:flex!important;flex-direction:column!important;
+  min-height:100%!important;
+}
+#main-scroll > .stage,
+#main-scroll > div:first-child:not(#lis-app-footer):not(#lis-empty-state){
+  flex:1 0 auto!important;
+}
+#lis-empty-state{flex:1 0 auto!important;}
+#lis-app-footer{flex-shrink:0!important;margin-top:auto!important;}
+
+/* ── NAV/FOOTER SPLIT: phone=bottom-nav, desktop=footer ── */
+@media(max-width:980px){
+  #lis-app-footer{display:none!important;}
+  .bottom-nav{display:flex!important;}
+}
+@media(min-width:981px){
+  .bottom-nav{display:none!important;}
+  #lis-app-footer{display:block!important;}
+}
+
+/* ── UNIT CARDS: premium, don't blend ── */
+.unit-card{
+  background:#ffffff!important;
+  border:none!important;
+  border-radius:18px!important;
+  box-shadow:
+    0 0 0 1px rgba(14,28,56,.06),
+    0 4px 12px rgba(14,28,56,.05),
+    0 12px 32px rgba(14,28,56,.06)!important;
+  padding:24px 22px!important;
+  transition:all .25s cubic-bezier(.4,0,.2,1)!important;
+  position:relative!important;
+  overflow:hidden!important;
+}
+/* Left accent bar on every unit card */
+.unit-card::before{
+  content:''!important;display:block!important;
+  position:absolute!important;left:0!important;top:0!important;bottom:0!important;
+  width:4px!important;border-radius:0 3px 3px 0!important;
+  background:#dde3ef!important;
+  transition:background .2s!important;
+}
+/* Active/first card: gold accent */
+.unit-card:first-child::before,
+.unit-card.active::before{
+  background:linear-gradient(180deg,#e0b452,#c2922e)!important;
+}
+/* Completed card: green accent */
+.unit-card.completed::before{
+  background:linear-gradient(180deg,#4a9e70,#2f7d52)!important;
+}
+.unit-card:hover{
+  transform:translateY(-4px)!important;
+  box-shadow:
+    0 0 0 1px rgba(194,146,46,.15),
+    0 8px 20px rgba(14,28,56,.07),
+    0 24px 48px rgba(14,28,56,.10)!important;
+}
+.unit-card:first-child,
+.unit-card.active{
+  box-shadow:
+    0 0 0 1.5px rgba(194,146,46,.3),
+    0 4px 12px rgba(194,146,46,.08),
+    0 12px 32px rgba(194,146,46,.10)!important;
+}
+.unit-id{
+  font-family:'Cinzel',serif!important;font-size:14px!important;
+  font-weight:600!important;color:#c2922e!important;
+  min-width:40px!important;
+}
+.unit-title{
+  font-family:'Cinzel',serif!important;font-size:19px!important;
+  font-weight:600!important;color:#16233f!important;
+  letter-spacing:.01em!important;
+}
+.unit-blocks-count{
+  font:600 10px/1 'Inter',sans-serif!important;
+  letter-spacing:.18em!important;text-transform:uppercase!important;
+  color:#9ba8be!important;margin-top:8px!important;
+}
+/* Arrow buttons */
+.unit-card .uc-arrow,.unit-card .arrow-btn,
+.unit-card [class*="arrow"],.unit-card button:last-child{
+  width:44px!important;height:44px!important;border-radius:50%!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  border:none!important;cursor:pointer!important;
+  transition:all .2s!important;flex-shrink:0!important;
+}
+/* Default arrow: soft grey */
+.unit-card .uc-arrow,.unit-card .arrow-btn,
+.unit-card [class*="arrow"],.unit-card button:last-child{
+  background:linear-gradient(135deg,#edf0f8,#e0e4ee)!important;
+  color:#7b869c!important;
+  box-shadow:0 2px 6px rgba(14,28,56,.06)!important;
+}
+/* Active/first arrow: gold */
+.unit-card:first-child .uc-arrow,.unit-card:first-child .arrow-btn,
+.unit-card:first-child [class*="arrow"],.unit-card:first-child button:last-child,
+.unit-card.active .uc-arrow,.unit-card.active .arrow-btn{
+  background:linear-gradient(135deg,#e0b452,#c2922e)!important;
+  color:#ffffff!important;
+  box-shadow:0 4px 14px rgba(194,146,46,.3)!important;
+}
+
+/* ── MODULE HERO: slate from babyGap (#5a6880) ── */
+.module-hero{
+  background:linear-gradient(160deg,#6b7a94 0%,#566478 100%)!important;
+  border:none!important;border-radius:20px!important;
+  box-shadow:0 8px 32px rgba(14,28,56,.15)!important;
+  padding:36px 28px!important;
+  position:relative!important;overflow:hidden!important;
+}
+.module-hero::after{
+  content:''!important;position:absolute!important;inset:0!important;pointer-events:none!important;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.3' opacity='0.08'%3E%3Cpath d='M30 3L57 30L30 57L3 30Z'/%3E%3Cpath d='M30 15L45 30L30 45L15 30Z'/%3E%3C/g%3E%3C/svg%3E")!important;
+  background-size:60px 60px!important;
+}
+.module-hero::before{
+  background:linear-gradient(90deg,transparent,rgba(224,180,82,.25) 50%,transparent)!important;
+  box-shadow:none!important;
+}
+.module-hero-title{color:#ffffff!important;font-size:28px!important;}
+.module-hero-eyebrow{color:#e0b452!important;}
+.module-hero-arabic{color:#e0b452!important;}
+.module-hero-sub{color:rgba(255,255,255,.6)!important;}
+.module-hero-icon{
+  background:rgba(255,255,255,.1)!important;
+  border:1.5px solid rgba(255,255,255,.2)!important;
+  color:#e0b452!important;box-shadow:none!important;
+}
+
+/* ── GEO-HEADER / QURAN VERSE: matching slate ── */
+.geo-header,.gh{
+  background:linear-gradient(160deg,#6b7a94 0%,#5a6880 100%)!important;
+  border:none!important;border-radius:18px!important;
+  box-shadow:0 6px 24px rgba(14,28,56,.12)!important;
+}
+
+/* ── SECTION HEADING ── */
+.section-heading{
+  font-family:'Cinzel',serif!important;font-size:13px!important;
+  font-weight:600!important;letter-spacing:.22em!important;
+  text-transform:uppercase!important;color:#16233f!important;
+  margin:28px 0 16px!important;
+  display:flex!important;align-items:center!important;gap:14px!important;
+}
+.section-heading::after{
+  content:''!important;flex:1!important;height:1px!important;
+  background:linear-gradient(90deg,#e0e4ee,transparent)!important;
+}
+
+/* ── EMPTY STATE PILLS: clean, no broken chars ── */
+.les-pill{
+  font:600 10px/1 'Inter',sans-serif!important;
+  letter-spacing:.12em!important;text-transform:uppercase!important;
+  padding:8px 18px!important;border-radius:99px!important;
+  background:#f6f8fc!important;border:1px solid #e0e4ee!important;
+  color:#44516c!important;
+}
+
+/* ── BACK BUTTON ── */
+.in-page-back{
+  display:inline-flex!important;align-items:center!important;gap:6px!important;
+  background:#f6f8fc!important;border:1px solid #e0e4ee!important;
+  color:#44516c!important;border-radius:99px!important;
+  font:600 12px/1 'Inter',sans-serif!important;
+  padding:10px 20px!important;cursor:pointer!important;
+  transition:all .15s!important;margin-bottom:20px!important;
+}
+.in-page-back:hover{
+  background:#fff8ec!important;border-color:#c2922e!important;color:#c2922e!important;
+}
+
+/* ── DIALOGUE SCENE on light page ── */
+.dscene{
+  background:#ffffff!important;border:1px solid #e0e4ee!important;
+  border-radius:18px!important;
+  box-shadow:0 4px 16px rgba(14,28,56,.06)!important;
+}
+.dsc-hdr{
+  background:#f6f8fc!important;border-bottom:1px solid #e0e4ee!important;
+}
+.dl.left .dl-bub{
+  background:#fff8ec!important;border:1px solid rgba(194,146,46,.25)!important;
+}
+.dl.right .dl-bub{
+  background:#f6f8fc!important;border:1px solid #e0e4ee!important;
+}
+.dl-ar{color:#16233f!important;font-size:26px!important;}
+.dl-en,.dl-roman{color:#7b869c!important;}
+
+/* ── BLOCK CARDS ── */
+.bc,.block-card{
+  background:#ffffff!important;
+  border:none!important;border-radius:18px!important;
+  box-shadow:0 0 0 1px rgba(14,28,56,.06),0 4px 14px rgba(14,28,56,.06)!important;
+}
+.bc:hover,.block-card:hover{
+  box-shadow:0 0 0 1px rgba(194,146,46,.2),0 8px 28px rgba(14,28,56,.09)!important;
+  transform:translateY(-3px)!important;
+}
 </style>
 
 </body>
