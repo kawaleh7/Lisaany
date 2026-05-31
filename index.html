@@ -23,16 +23,21 @@
 
   /* NAV */
   nav{position:fixed;top:0;left:0;width:100%;z-index:50;background:rgba(27,44,77,.93);backdrop-filter:blur(16px);border-bottom:none;}
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:76px;}
+  .nav-in{position:relative;display:flex;align-items:center;justify-content:space-between;height:76px;}
   .brand{display:flex;align-items:center;gap:12px;}
   .brand-mark{width:30px;height:28px;flex-shrink:0;}
-  .brand span{font-family:'Fraunces',serif;font-weight:600;font-size:25px;letter-spacing:-.01em;color:#f3e6c6;}
-  .nav-links{display:flex;align-items:center;gap:38px;}
-  .nav-links a{font:600 11.5px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:#c5cee0;transition:.2s;}
-  .nav-links a:hover{color:var(--gold-br);}
+  .brand span{font-family:'Fraunces',serif;font-weight:700;font-size:23px;letter-spacing:.14em;text-transform:uppercase;color:#f3e6c6;}
+  .nav-links{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:6px;}
+  .nav-links a{font:600 13px/1 'Inter';letter-spacing:.01em;color:#c5cee0;padding:9px 15px;border-radius:99px;transition:.2s;white-space:nowrap;}
+  .nav-links a:hover{color:#fff;}
+  .nav-links a.active{background:rgba(224,180,82,.16);color:var(--gold-br);}
   .nav-cta{background:linear-gradient(135deg,#e8c777,#c2922e);color:#1c1303;padding:12px 24px;font:700 11.5px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;border-radius:10px;transition:.2s;box-shadow:0 6px 16px rgba(194,146,46,.28);}
   .nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(194,146,46,.4);}
   .burger{display:none;font-size:24px;color:#f3e6c6;background:none;border:none;}
+  .nav-profile{position:relative;width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.28);display:grid;place-items:center;color:#c5cee0;transition:.2s;flex-shrink:0;}
+  .nav-profile:hover{border-color:var(--gold-br);color:#fff;}
+  .nav-profile svg{width:20px;height:20px;}
+  .nav-profile .pdot{position:absolute;top:-1px;right:-1px;width:9px;height:9px;border-radius:50%;background:#e0573e;border:2px solid #1b2c4d;}
   @media(max-width:880px){.nav-links{display:none;}.burger{display:block;}}
 
   /* HERO */
@@ -252,10 +257,10 @@
 <body>
 
 <nav><div class="wrap nav-in">
-  <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 180 160" aria-hidden="true"><defs><linearGradient id="lgm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8c777"/><stop offset="58%" stop-color="#c2922e"/><stop offset="100%" stop-color="#8a6620"/></linearGradient></defs><g transform="translate(90,86)"><path d="M -72,64 L -72,-32 A 72,72 0 0 1 72,-32 L 72,64 L 50,64 L 50,-28 A 50,50 0 0 0 -50,-28 L -50,64 Z" fill="url(#lgm)"/><path d="M -50,64 L -50,-28 A 50,50 0 0 1 50,-28 L 50,64 L 30,64 L 30,-22 A 30,30 0 0 0 -30,-22 L -30,64 Z" fill="#1b2c4d"/><path d="M -30,64 L -30,-22 A 30,30 0 0 1 30,-22 L 30,64 L 10,64 L 10,-16 A 10,10 0 0 0 -10,-16 L -10,64 Z" fill="url(#lgm)"/></g></svg><span>Lisaany</span></a>
-  <div class="nav-links"><a href="lisaany_new.html">Quran Norania</a><a href="arabic_platform.html">Learn Arabic</a><a href="pricing.html">Pricing</a><a href="tutors.html">Live Tutor</a></div>
-  
-  <button class="burger" onclick="location.href='arabic_platform.html'">☰</button>
+  <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 180 160" aria-hidden="true"><defs><linearGradient id="lgm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8c777"/><stop offset="58%" stop-color="#c2922e"/><stop offset="100%" stop-color="#8a6620"/></linearGradient></defs><g transform="translate(90,86)"><path d="M -72,64 L -72,-32 A 72,72 0 0 1 72,-32 L 72,64 L 50,64 L 50,-28 A 50,50 0 0 0 -50,-28 L -50,64 Z" fill="url(#lgm)"/><path d="M -50,64 L -50,-28 A 50,50 0 0 1 50,-28 L 50,64 L 30,64 L 30,-22 A 30,30 0 0 0 -30,-22 L -30,64 Z" fill="#1b2c4d"/><path d="M -30,64 L -30,-22 A 30,30 0 0 1 30,-22 L 30,64 L 10,64 L 10,-16 A 10,10 0 0 0 -10,-16 L -10,64 Z" fill="url(#lgm)"/></g></svg><span>LISAANY</span></a>
+  <div class="nav-links"><a href="index.html" class="active">Home</a><a href="arabic_platform.html">Arabic Lesson</a><a href="lisaany_new.html">Norania · Alif Ba Ta</a><a href="pricing.html">Pricing</a><a href="tutors.html">Live Tutor</a><a href="#contact">Contact</a></div>
+  <a class="nav-profile" href="profile.html" aria-label="Profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="pdot"></span></a>
+  <button class="burger" onclick="location.href='profile.html'">☰</button>
 </div><div class="au-divider nav-divider"><span></span></div></nav>
 
 <header class="hero">
