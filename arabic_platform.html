@@ -6679,6 +6679,8 @@ function render(){
   // Old mkTop removed — lis-nav HTML in body is the header now
   // app.appendChild(mkTop());
   const sc=div('scroll'); sc.id='main-scroll';
+  sc.dataset.view=S.view;
+  document.body.className=(S.view==='lesson'||S.view==='blocks'||S.view==='review'||S.view==='complete')?'light-view':'dark-view';
   const v=S.view;
   if(v==='hub') sc.appendChild(mkHub());
   else if(v==='signup') sc.appendChild(mkSignup());
@@ -9991,13 +9993,82 @@ render();
 </script>
 
 <style id="lis-no-dim">
-/* All cards equal — no dimming, no hiding, no fading */
+/* White canvas for lessons — dark stays for hub/units/blocks */
+body.light-view,
+body.light-view #app,
+body.light-view .scroll{
+  background:#ffffff!important;
+}
+body.light-view .lesson-hdr{
+  background:linear-gradient(158deg,#15253f,#0e1a2e)!important;
+  border-radius:16px!important;margin-bottom:20px!important;
+}
+body.light-view .lesson-hdr-eyebrow{color:#c9a84c!important;}
+body.light-view .lesson-hdr-title{color:#ffffff!important;}
+body.light-view .lesson-hdr-arabic{color:rgba(201,168,76,.6)!important;}
+
+/* Dialogue bubbles on white */
+body.light-view .dl-ar{color:#111827!important;}
+body.light-view .dl-en{color:#6b7280!important;}
+body.light-view .dl-roman{color:#9ca3af!important;}
+body.light-view .dl-spk{color:#c9a84c!important;}
+body.light-view .dl.left .dl-bub{
+  background:rgba(201,168,76,.06)!important;border:1px solid rgba(201,168,76,.18)!important;
+}
+body.light-view .dl.right .dl-bub{
+  background:#f3f4f6!important;border:1px solid #e5e7eb!important;
+}
+
+/* Vocab on white */
+body.light-view .fc-front,
+body.light-view .fc-back{
+  background:#ffffff!important;border:1px solid #e5e7eb!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.06)!important;
+}
+body.light-view .fc-ar{color:#111827!important;}
+body.light-view .fc-en{color:#6b7280!important;}
+body.light-view .mini-card{
+  background:#ffffff!important;border:1px solid #e5e7eb!important;color:#111827!important;
+}
+body.light-view .mini-ar{color:#111827!important;}
+body.light-view .mini-en{color:#6b7280!important;}
+body.light-view .mini-card.current{border-color:#c9a84c!important;}
+
+/* Grammar/tables on white */
+body.light-view .gt-hdr{background:#f3f4f6!important;color:#374151!important;}
+body.light-view .gt-cell{color:#111827!important;border-color:#e5e7eb!important;}
+body.light-view .rule-box{
+  background:#f8f9fa!important;border:1px solid #e5e7eb!important;color:#111827!important;
+}
+
+/* General text on white */
+body.light-view .section-label{color:#9ca3af!important;}
+body.light-view p,body.light-view li{color:#374151!important;}
+
+/* Buttons on white */
+body.light-view .btn{color:#374151!important;border-color:#e5e7eb!important;}
+body.light-view .btn:hover{border-color:#c9a84c!important;color:#c9a84c!important;}
+body.light-view .btn-gold{background:linear-gradient(135deg,#c9a84c,#e0ad52)!important;color:#1a1208!important;border:none!important;}
+body.light-view .in-page-back{
+  background:#f3f4f6!important;border:1px solid #e5e7eb!important;color:#374151!important;
+}
+
+/* Play/audio buttons */
+body.light-view .dl.right .dl-play{background:#15253f!important;color:#c9a84c!important;}
+body.light-view .play-all-btn{
+  background:#ffffff!important;border:1px solid #c9a84c!important;color:#c9a84c!important;
+}
+
+/* View settings bar */
+body.light-view .view-settings{
+  background:#f8f9fa!important;border:1px solid #e5e7eb!important;
+}
+body.light-view .view-settings *{color:#374151!important;}
+
+
 .module-card:not(.spotlight),
-.module-card:not(.spotlight):hover,
 .unit-card:not(.next),
-.unit-card:not(.next):hover,
 .block-card:not(.current),
-.block-card:not(.current):hover,
 .block-card.locked{
   opacity:1!important;
   filter:none!important;
