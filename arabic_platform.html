@@ -1859,6 +1859,86 @@ a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190
 .lis-contact-foot{margin-top:20px;padding-top:16px;border-top:1px solid rgba(242,190,98,.14);font-size:12px;color:#9ba8be;line-height:1.8;}
 .lis-contact-foot a{color:#f2be62;text-decoration:none;}
 .lis-contact-foot a:hover{text-decoration:underline;}
+
+/* ══ TEXT READABILITY BOOST (added) ══ */
+:root{
+  --text:#f3f6fc !important;   /* main text — near-white, crisp */
+  --dim:#f3f6fc !important;     /* no longer dimmed — full brightness */
+  --gold:#e6b85a !important;    /* slightly brighter gold for headings */
+  --gold-lt:#f6d98c !important;
+}
+html,body{ color:var(--text) !important; }
+body{ font-weight:450; }
+/* dim/secondary text no longer faded or hidden — full brightness */
+small, .dim, .muted, .sub, .label, .hint, .meta, .caption{
+  color:var(--text) !important;
+  opacity:1 !important;
+  font-weight:450;
+}
+/* keep gold headings strong */
+h1,h2,h3,h4{ color:var(--gold); }
+
+/* ══ PROFESSIONAL COURSE-LIST LAYOUT (added) ══ */
+.units-list{ gap:12px; }
+/* every unit fully visible — no fading, no hiding */
+.unit-card,
+.unit-card:not(.next){ opacity:1 !important; filter:none !important; }
+/* uniform, catalog-style rows */
+.unit-card{
+  background:rgba(20,32,64,.55) !important;
+  border:1px solid rgba(255,255,255,.14);
+  padding:20px 22px !important;
+  border-radius:14px;
+  box-shadow:0 4px 16px rgba(0,0,0,.22);
+  transform:none !important;
+}
+.unit-card:hover{ transform:translateY(-2px) !important; border-color:var(--gold); box-shadow:0 10px 28px rgba(0,0,0,.34); }
+/* current unit: a clean gold accent bar — not a giant blown-up card */
+.unit-card.next{
+  border-color:var(--gold);
+  background:linear-gradient(90deg, rgba(242,190,98,.10), rgba(20,32,64,.55) 42%) !important;
+  box-shadow:0 6px 22px rgba(0,0,0,.3);
+}
+.unit-card.next::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:4px;
+  background:var(--gold); border-radius:14px 0 0 14px;
+}
+/* normalise sizes so the list reads evenly */
+.unit-title, .unit-card.next .unit-title{ font-size:20px !important; }
+.unit-id, .unit-card.next .unit-id{ font-size:15px !important; }
+.unit-card.next .unit-icon-small{ width:46px !important; height:46px !important; }
+.unit-blocks-count{ color:var(--dim); }
+
+/* ══ BRIGHTNESS LIFT — same navy/gold hues, raised lightness (added) ══ */
+:root{
+  --bg:#0e1b32 !important;        /* was near-black #060e1b — same navy, brighter */
+  --s1:#14243f !important;
+  --s2:#111d36 !important;
+  --s3:#1b2d52 !important;
+  --card:#1b2d52 !important;
+  --card-elev:rgba(32,50,90,.96) !important;
+  --card-hover:#23386a !important;
+  --border:rgba(255,255,255,.16) !important;
+  --border2:rgba(255,255,255,.22) !important;
+  --faint:rgba(255,255,255,.07) !important;
+}
+html,body{ background:#0e1b32 !important; }
+/* lift the catalog rows to match the brighter base */
+.unit-card{ background:#1f3460 !important; }
+.unit-card.next{ background:#1f3460 !important; border-color:var(--gold) !important; box-shadow:0 6px 22px rgba(0,0,0,.28), inset 0 0 0 1px rgba(242,190,98,.35) !important; }
+.unit-icon-small{ background:#27406f !important; }
+
+/* ══ STOP DIM = DARK on locked states (added) ══ */
+.block-card.locked,
+.uc.uc-lk,
+.bc.bc-lk,
+.unit-card.locked{ opacity:1 !important; filter:none !important; }
+/* lift locked text so it's bright, not dark */
+.unit-card.locked .unit-id{ color:rgba(242,190,98,.85) !important; }
+.unit-card.locked .unit-title{ color:rgba(231,237,250,.92) !important; }
+.unit-card.locked .unit-blocks-count{ color:var(--dim) !important; }
+.unit-card.locked .unit-icon-small{ color:var(--gold) !important; }
+
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
