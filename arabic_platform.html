@@ -2150,6 +2150,36 @@ html,body{ background:#0e1b32 !important; }
 .dlp-rise{animation:dlp-rise .42s cubic-bezier(.4,0,.2,1) both;will-change:transform;}
 /* bottom nav removed */
 .bottom-nav{display:none !important;}
+
+/* ===== Ribbon lesson cards (mkBlocks) ===== */
+.blocks-list{display:flex;flex-direction:column;gap:13px;}
+.rcard{position:relative;background:#fff;border-radius:16px;padding:18px 16px 16px;cursor:pointer;overflow:hidden;border:1px solid #e8ecf3;box-shadow:0 8px 24px rgba(5,12,24,.28);transition:transform .2s cubic-bezier(.2,.7,.3,1),box-shadow .2s;}
+.rcard:hover{transform:translateY(-4px);box-shadow:0 16px 38px rgba(5,12,24,.40);}
+.rcard-kind{font:800 9.5px/1 'Inter',sans-serif;letter-spacing:.15em;text-transform:uppercase;color:#b3842b;margin-bottom:10px;}
+.rcard-glyphrow{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.rcard-ico{width:40px;height:40px;border-radius:11px;background:#f4f1ea;display:grid;place-items:center;flex:none;border:1px solid #ece6d8;color:#b3842b;font-size:22px;}
+.rcard-title{font-family:'Cinzel',serif;font-size:16px;color:#15203a;line-height:1.2;}
+.rcard-pwrap{margin-top:2px;}
+.rcard-prow{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;}
+.rcard-plabel{font:700 11px/1 'Inter',sans-serif;display:flex;align-items:center;gap:5px;font-size:14px;}
+.rcard-plabel.done{color:#3f7d57;} .rcard-plabel.go{color:#b3842b;} .rcard-plabel.new,.rcard-plabel.lock{color:#9aa3b5;}
+.rcard-ppct{font:800 11px/1 'Inter',sans-serif;color:#5b6478;}
+.rcard-track{height:7px;background:#edf0f5;border-radius:99px;overflow:hidden;}
+.rcard-track>div{height:100%;border-radius:99px;}
+.rcard-track>div.done{background:#3f7d57;}
+.rcard-track>div.indet{width:35%;background:linear-gradient(90deg,#b3842b,#f2be62);animation:rindet 1.6s ease-in-out infinite;}
+@keyframes rindet{0%{margin-left:-40%}100%{margin-left:105%}}
+.rcard-play{position:absolute;right:14px;bottom:14px;width:30px;height:30px;border-radius:50%;background:#15203a;display:grid;place-items:center;z-index:3;color:#f2be62;font-size:17px;}
+.rcard-ribbon{position:absolute;top:13px;left:-34px;transform:rotate(-45deg);width:140px;text-align:center;font:800 8.5px/1 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;padding:5px 0;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.25);z-index:2;}
+.rcard-ribbon.cur{background:linear-gradient(135deg,#f2be62,#b3842b);color:#231600;}
+.rcard-ribbon.done{background:linear-gradient(135deg,#5fcf90,#2f8f5c);}
+.rcard.cur{border-color:#f2be62;animation:rshine 2.6s ease-in-out infinite;}
+@keyframes rshine{0%,100%{box-shadow:0 0 0 1.5px #f2be62,0 10px 30px rgba(242,190,98,.20)}50%{box-shadow:0 0 0 2px #f2be62,0 14px 46px rgba(242,190,98,.50)}}
+.rcard.cur::after{content:"";position:absolute;inset:0;border-radius:16px;background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.40) 50%,transparent 68%);transform:translateX(-120%);animation:rsheen 3.4s ease-in-out infinite;pointer-events:none;}
+@keyframes rsheen{0%{transform:translateX(-120%)}55%,100%{transform:translateX(120%)}}
+.rcard.lock{opacity:.6;background:#eef0f4;}
+.rcard.lock:hover{transform:none;box-shadow:0 8px 24px rgba(5,12,24,.28);}
+.rcard.lock .rcard-ico{background:#e4e7ec;border-color:#dde0e6;color:#9aa3b5;}
 /* full-screen takeover: hide app nav while a dialogue is open */
 body.dl-active .lis-nav, body.dl-active .bottom-nav{display:none !important;}
 body.dl-active #app{top:0 !important;}
@@ -7532,39 +7562,49 @@ function mkBlocks(){
     const isActive = ok && !done;
     const isCurrent = ok && _curId!==null && blk.id===_curId;
 
-    let cardClass = 'block-card';
-    if (done) cardClass += ' completed';
-    else if (isCurrent) cardClass += ' current';
-    else if (isActive) cardClass += ' active';
-    if (!ok) cardClass += ' locked';
+    const card = div('rcard' + (done?' done':'') + (isCurrent?' cur':'') + (!ok?' lock':''));
 
-    const card = div(cardClass);
+    // Corner ribbon
+    if (done) card.appendChild(el('div', {className:'rcard-ribbon done'}, 'Done'));
+    else if (isCurrent) card.appendChild(el('div', {className:'rcard-ribbon cur'}, 'Continue'));
 
-    // Icon
-    const ico = div('block-icon' + (done ? ' done' : ''));
-    ico.appendChild(ms(blk.icon || 'school'));
-    card.appendChild(ico);
-
-    // Body
-    const body = div('');
-    // Type tag - capitalize type
+    // Kind label (no noisy index number)
     const typeMap = {
-      dialogue: 'Dialogue', vocab: 'Vocabulary', grammar: 'Grammar',
-      clutter: 'Sentence Builder', possessive: 'Suffix Tap', cloze: 'Fill Blank', video: 'Video'
+      dialogue:'Dialogue', vocab:'Vocabulary', grammar:'Grammar',
+      clutter:'Sentence Builder', possessive:'Suffix Tap', cloze:'Fill Blank',
+      quiz:'Quiz', fill:'Fill the blank', video:'Video'
     };
-    const typeLabel = (typeMap[blk.type] || 'Block') + ' · ' + String(blk.id).padStart(2,'0');
-    body.appendChild(el('div', {className:'block-type-tag'}, typeLabel));
-    body.appendChild(el('div', {className:'block-title'}, blk.title));
-    if (blk.desc) body.appendChild(el('div', {className:'block-desc'}, blk.desc));
-    card.appendChild(body);
+    card.appendChild(el('div', {className:'rcard-kind'}, (typeMap[blk.type] || 'Lesson')));
 
-    // Status icon
-    const statusIco = div('block-status-icon' + (done ? ' done' : isCurrent ? ' current' : isActive ? ' active' : ''));
-    if (done) statusIco.appendChild(ms('check'));
-    else if (isActive) statusIco.appendChild(ms('play_arrow'));
-    else if (!ok) statusIco.appendChild(ms('lock'));
-    else statusIco.appendChild(ms('arrow_forward'));
-    card.appendChild(statusIco);
+    // Icon + title row
+    const grow = div('rcard-glyphrow');
+    const ico = div('rcard-ico'); ico.appendChild(ms(blk.icon || 'school'));
+    grow.appendChild(ico);
+    grow.appendChild(el('div', {className:'rcard-title'}, blk.title));
+    card.appendChild(grow);
+
+    // Progress row + bar
+    const pw = div('rcard-pwrap');
+    const prow = div('rcard-prow');
+    const labCls = done ? 'done' : isCurrent ? 'go' : (!ok ? 'lock' : 'new');
+    const lab = div('rcard-plabel ' + labCls);
+    if (done) lab.appendChild(ms('check'));
+    else if (!ok) lab.appendChild(ms('lock'));
+    lab.appendChild(document.createTextNode(' ' + (done ? 'Completed' : isCurrent ? 'In progress' : (!ok ? 'Locked' : 'Not started'))));
+    prow.appendChild(lab);
+    if (done) prow.appendChild(el('span', {className:'rcard-ppct'}, '100%'));
+    pw.appendChild(prow);
+    const track = div('rcard-track');
+    const fill = document.createElement('div');
+    if (done) { fill.className = 'done'; fill.style.width = '100%'; }
+    else if (isCurrent) { fill.className = 'indet'; }
+    else { fill.style.width = '0%'; }
+    track.appendChild(fill);
+    pw.appendChild(track);
+    card.appendChild(pw);
+
+    // Play button on the current lesson
+    if (isCurrent) { const pb = div('rcard-play'); pb.appendChild(ms('play_arrow')); card.appendChild(pb); }
 
     if (ok) {
       card.addEventListener('click', () => {
@@ -8757,7 +8797,7 @@ function mkVocab(blk){
   const total=words.length;
   if(typeof S.vIdx!=='number' || S.vIdx>=total || S.vIdx<0) S.vIdx=0;
   const cur=words[S.vIdx];
-  const pct=Math.round((S.vKnown.size/Math.max(1,total))*100);
+  const pct=Math.round(((S.vIdx+1)/Math.max(1,total))*100);
 
   // Full-screen pearl takeover (nav hidden via body.dl-active; cleared each render)
   document.body.classList.add('dl-active');
