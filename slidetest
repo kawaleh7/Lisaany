@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slide Test</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#0e1b32;color:#e8eef9;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center}
+.btn{background:#f2be62;color:#1a1206;border:none;border-radius:14px;padding:18px 26px;font-size:17px;font-weight:700;cursor:pointer}
+.hint{margin-top:18px;color:#9ba8be;font-size:13px;line-height:1.5}
+/* the pearl layer — same technique as the app */
+.layer{position:fixed;inset:0;z-index:9000;background:#f7f8fb;color:#0a0a0a;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transform:translateY(100vh);transition:transform .42s cubic-bezier(.4,0,.2,1)}
+.layer.up{transform:translateY(0)}
+.layer h2{font-size:26px;color:#15203a}
+.layer p{color:#5b6478}
+.close{position:absolute;top:18px;left:18px;font-size:30px;border:none;background:none;color:#9aa3b5;cursor:pointer}
+</style>
+</head>
+<body>
+  <div>
+    <button class="btn" onclick="openIt()">Open the pearl (should slide up)</button>
+    <div class="hint">Tap the button. The white panel should<br><b>slide up from the bottom</b>.<br>If it just appears or zooms, tell Claude.</div>
+  </div>
+
+  <div class="layer" id="layer">
+    <button class="close" onclick="closeIt()">&times;</button>
+    <h2>It slid up ✓</h2>
+    <p>This is the exact slide technique from your app.</p>
+    <button class="btn" onclick="closeIt()">Close</button>
+  </div>
+
+<script>
+function openIt(){
+  const el = document.getElementById('layer');
+  // mimic the app: element starts down, toggle up on next frame
+  el.style.transform = 'translateY(100vh)';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{ el.classList.add('up'); }));
+}
+function closeIt(){
+  document.getElementById('layer').classList.remove('up');
+}
+</script>
+</body>
+</html>
