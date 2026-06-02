@@ -7586,7 +7586,8 @@ function mkBlocks(){
   return w;
 }
 function resetBS(){
-  S.lessonEnter=true;
+  S.lessonEnterAt=Date.now();
+  S.dlPlayMode=false; S.dlPlayIdx=0; S.dlAwaitingTap=false; S.dlPlayDone=false; S.dlActiveWord=null;
   S.dlIdx=0; S.vIdx=0; S.vFlip=false; S.vKnown=new Set();
   const blk=getBlk(S.mId,S.uId,S.bId);
   if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=buildBankWithDistractors(blk.data.sentences[0]?.words||[], S.mId, S.uId); }
@@ -8595,7 +8596,7 @@ function mkDlPearl(blk){
   const acc=(side)=> side==='right' ? '#3f7d57' : '#15203a';   // right=green, left=navy
   const w=div('stage dl-pearl dlp-shell');
   document.body.classList.add('dl-active');
-  if(S.lessonEnter){ w.classList.add('dlp-rise'); S.lessonEnter=false; }
+  if(S.lessonEnterAt && (Date.now()-S.lessonEnterAt) < 800){ w.classList.add('dlp-rise'); }
 
   // ── sticky top: close + progress ──
   const top=div(''); top.style.cssText='flex:none;background:#f7f8fb;display:flex;align-items:center;gap:14px;padding:16px 18px 12px;border-bottom:1px solid #eef1f5;';
@@ -8749,7 +8750,7 @@ function mkVocab(blk){
   // Full-screen pearl takeover (nav hidden via body.dl-active; cleared each render)
   document.body.classList.add('dl-active');
   const w=div('stage dl-pearl voc-pearl');
-  if(S.lessonEnter){ w.classList.add('dlp-rise'); S.lessonEnter=false; }
+  if(S.lessonEnterAt && (Date.now()-S.lessonEnterAt) < 800){ w.classList.add('dlp-rise'); }
 
   // Top: close + progress
   const top=div('vp-top');
