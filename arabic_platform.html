@@ -2146,8 +2146,10 @@ html,body{ background:#0e1b32 !important; }
 .dl-pearl-layer{position:fixed;inset:0;z-index:9000;background:#f7f8fb;color:#0a0a0a;}
 .dlp-shell{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;}
 /* slide-up "pop" when a pearl lesson opens */
-@keyframes dlp-rise{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.dlp-rise{animation:dlp-rise .42s cubic-bezier(.4,0,.2,1);will-change:transform;}
+@keyframes dlp-rise{from{transform:translateY(100vh)}to{transform:translateY(0)}}
+.dlp-rise{animation:dlp-rise .42s cubic-bezier(.4,0,.2,1) both;will-change:transform;}
+/* bottom nav removed */
+.bottom-nav{display:none !important;}
 /* full-screen takeover: hide app nav while a dialogue is open */
 body.dl-active .lis-nav, body.dl-active .bottom-nav{display:none !important;}
 body.dl-active #app{top:0 !important;}
