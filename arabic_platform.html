@@ -8602,8 +8602,11 @@ function mkDlPearl(blk){
   document.body.classList.add('dl-active');
   if(S.lessonEnterAt && (Date.now()-S.lessonEnterAt) < 800){
     w.style.transform='translateY(100vh)';
-    w.style.transition='transform .42s cubic-bezier(.4,0,.2,1)';
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{ w.style.transform='translateY(0)'; }));
+    requestAnimationFrame(()=>{
+      void w.offsetHeight;
+      w.style.transition='transform .42s cubic-bezier(.4,0,.2,1)';
+      w.style.transform='translateY(0)';
+    });
   }
   const shell=div('dlp-shell'); w.appendChild(shell);
 
@@ -8761,8 +8764,11 @@ function mkVocab(blk){
   const w=div('stage dl-pearl voc-pearl');
   if(S.lessonEnterAt && (Date.now()-S.lessonEnterAt) < 800){
     w.style.transform='translateY(100vh)';
-    w.style.transition='transform .42s cubic-bezier(.4,0,.2,1)';
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{ w.style.transform='translateY(0)'; }));
+    requestAnimationFrame(()=>{
+      void w.offsetHeight;
+      w.style.transition='transform .42s cubic-bezier(.4,0,.2,1)';
+      w.style.transform='translateY(0)';
+    });
   }
 
   // Top: close + progress
