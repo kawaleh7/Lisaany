@@ -2140,12 +2140,14 @@ html,body{ background:#0e1b32 !important; }
 /* ════════════ DIALOGUE — full-screen pearl takeover ════════════ */
 .dl-pearl{position:fixed;inset:0;z-index:9000;background:#f7f8fb;color:#0a0a0a;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:120px;}
 .dl-pearl *{font-family:'Inter',sans-serif;}
-.dl-pearl .dlp-ar,.dl-pearl .dlp-kw-ar{font-family:'Amiri',serif;}
+.dl-pearl .dlp-ar,.dl-pearl .dlp-kw-ar,.dl-pearl-layer .dlp-ar,.dl-pearl-layer .dlp-kw-ar{font-family:'Amiri',serif;}
 /* dialogue shell: fixed header + scrolling body (clean takeover, no sticky bleed) */
-.dlp-shell{display:flex !important;flex-direction:column;overflow:hidden !important;padding:0 !important;}
+/* dialogue: simple slide layer (animates) + inner flex/scroll shell — fixes zoom */
+.dl-pearl-layer{position:fixed;inset:0;z-index:9000;background:#f7f8fb;color:#0a0a0a;}
+.dlp-shell{position:absolute;inset:0;display:flex;flex-direction:column;overflow:hidden;}
 /* slide-up "pop" when a pearl lesson opens */
 @keyframes dlp-rise{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.dlp-rise{animation:dlp-rise .42s cubic-bezier(.4,0,.2,1);}
+.dlp-rise{animation:dlp-rise .42s cubic-bezier(.4,0,.2,1);will-change:transform;}
 /* full-screen takeover: hide app nav while a dialogue is open */
 body.dl-active .lis-nav, body.dl-active .bottom-nav{display:none !important;}
 body.dl-active #app{top:0 !important;}
@@ -8594,9 +8596,10 @@ function mkDlPearl(blk){
   if(typeof S.dlActiveWord==='undefined')S.dlActiveWord=null;
   const wordIdx=buildWordIndex(S.mId,S.uId);
   const acc=(side)=> side==='right' ? '#3f7d57' : '#15203a';   // right=green, left=navy
-  const w=div('stage dl-pearl dlp-shell');
+  const w=div('dl-pearl-layer');
   document.body.classList.add('dl-active');
   if(S.lessonEnterAt && (Date.now()-S.lessonEnterAt) < 800){ w.classList.add('dlp-rise'); }
+  const shell=div('dlp-shell'); w.appendChild(shell);
 
   // ── sticky top: close + progress ──
   const top=div(''); top.style.cssText='flex:none;background:#f7f8fb;display:flex;align-items:center;gap:14px;padding:16px 18px 12px;border-bottom:1px solid #eef1f5;';
@@ -8606,10 +8609,10 @@ function mkDlPearl(blk){
   const trkPct = S.dlPlayMode ? Math.round((Math.min(S.dlPlayIdx+1,d.lines.length))/d.lines.length*100) : 0;
   const trkFill=div(''); trkFill.style.cssText='height:100%;width:'+trkPct+'%;background:linear-gradient(90deg,#b3842b,#f2be62);border-radius:99px;transition:width .45s;'; trk.appendChild(trkFill);
   top.appendChild(trk);
-  w.appendChild(top);
+  shell.appendChild(top);
 
   const pad=div(''); pad.style.cssText='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 18px 40px;';
-  w.appendChild(pad);
+  shell.appendChild(pad);
 
   // ── scene label ──
   const scene=div(''); scene.style.cssText='display:flex;align-items:center;justify-content:center;gap:9px;margin:2px 0 16px;padding:10px;border:1px solid #e6e9f0;border-radius:12px;background:#fff;';
