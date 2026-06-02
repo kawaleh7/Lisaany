@@ -8600,7 +8600,11 @@ function mkDlPearl(blk){
   const acc=(side)=> side==='right' ? '#3f7d57' : '#15203a';   // right=green, left=navy
   const w=div('dl-pearl-layer');
   document.body.classList.add('dl-active');
-  if(S.lessonEnterAt && (Date.now()-S.lessonEnterAt) < 800){ w.classList.add('dlp-rise'); }
+  if(S.lessonEnterAt && (Date.now()-S.lessonEnterAt) < 800){
+    w.style.transform='translateY(100vh)';
+    w.style.transition='transform .42s cubic-bezier(.4,0,.2,1)';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ w.style.transform='translateY(0)'; }));
+  }
   const shell=div('dlp-shell'); w.appendChild(shell);
 
   // ── sticky top: close + progress ──
@@ -8755,7 +8759,11 @@ function mkVocab(blk){
   // Full-screen pearl takeover (nav hidden via body.dl-active; cleared each render)
   document.body.classList.add('dl-active');
   const w=div('stage dl-pearl voc-pearl');
-  if(S.lessonEnterAt && (Date.now()-S.lessonEnterAt) < 800){ w.classList.add('dlp-rise'); }
+  if(S.lessonEnterAt && (Date.now()-S.lessonEnterAt) < 800){
+    w.style.transform='translateY(100vh)';
+    w.style.transition='transform .42s cubic-bezier(.4,0,.2,1)';
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ w.style.transform='translateY(0)'; }));
+  }
 
   // Top: close + progress
   const top=div('vp-top');
