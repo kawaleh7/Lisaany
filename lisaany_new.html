@@ -1839,15 +1839,13 @@ body::after {
 }
 .lis-brand:hover .lis-brand-mark{transform:translateY(-1px)}
 .brand-mark{
-  width:40px; height:40px; border-radius:50%;
-  background:linear-gradient(135deg, #f5d488, #d4a34a);
+  width:40px; height:40px;
   display:flex; align-items:center; justify-content:center;
-  box-shadow:0 0 24px rgba(242,190,98,.25);
   flex-shrink:0;
   transition:transform .3s cubic-bezier(.2,.8,.2,1);
 }
 .lis-brand:hover .brand-mark{ transform:translateY(-1px); }
-.brand-mark svg{ width:62%; height:62%; }
+.brand-mark svg{ width:100%; height:100%; }
 .lis-brand-text{
   font-family:'Fraunces',serif;
   font-size:24px;font-weight:500;
@@ -2215,9 +2213,7 @@ html,body{ background:#0a1730 !important; }
     <a href="index.html" class="lis-brand" title="Back to Lisaany Home">
       <div class="brand-mark">
         <svg viewBox="0 0 100 100" aria-hidden="true">
-          <polygon points="50,15 85,50 50,85 15,50" fill="#3a2400"/>
-          <polygon points="50,5 73,28 73,72 50,95 27,72 27,28" fill="none" stroke="#3a2400" stroke-width="3"/>
-          <circle cx="50" cy="50" r="5" fill="#f5d488"/>
+          <path d="M30 78 L30 42 A20 20 0 0 1 70 42 L70 78" fill="none" stroke="#d8aa3c" stroke-width="13"/>
         </svg>
       </div>
       <span class="lis-brand-text">Lisaany</span>
