@@ -7370,15 +7370,6 @@ function mkUnits(){
   const mod = getMod(S.mId);
   const w = div('stage');
 
-  // ── In-page back link to platform hub ──
-  const backLink = document.createElement('button');
-  backLink.className = 'in-page-back';
-  backLink.onclick = () => { S.view='hub'; render(); };
-  const arrowBack = ms('arrow_back'); arrowBack.style.fontSize='16px';
-  backLink.appendChild(arrowBack);
-  backLink.appendChild(document.createTextNode(' All Modules'));
-  w.appendChild(backLink);
-
   // ── Module hero ──
   const hero = div('module-hero');
   const heroIcon = div('module-hero-icon');
@@ -7457,6 +7448,16 @@ function mkUnits(){
 
   w.appendChild(makeVerseCard(S.mId));
 
+  // ── Back link at the bottom (no scrolling up to go back) ──
+  const backBottom = document.createElement('button');
+  backBottom.className = 'in-page-back';
+  backBottom.style.marginTop = '20px';
+  backBottom.onclick = () => { S.view='hub'; render(); };
+  const _ab = ms('arrow_back'); _ab.style.fontSize='16px';
+  backBottom.appendChild(_ab);
+  backBottom.appendChild(document.createTextNode(' All Modules'));
+  w.appendChild(backBottom);
+
   return w;
 }
 
@@ -7467,15 +7468,6 @@ function mkBlocks(){
   const mod = getMod(S.mId);
   const unit = getUnit(S.mId, S.uId);
   const w = div('stage');
-
-  // ── In-page back link to units list ──
-  const backLink = document.createElement('button');
-  backLink.className = 'in-page-back';
-  backLink.onclick = () => { S.view='units'; render(); };
-  const arrowBack = ms('arrow_back'); arrowBack.style.fontSize='16px';
-  backLink.appendChild(arrowBack);
-  backLink.appendChild(document.createTextNode(' ' + mod.title));
-  w.appendChild(backLink);
 
   // ── Unit hero ──
   const hero = div('unit-hero');
@@ -7557,6 +7549,16 @@ function mkBlocks(){
     list.appendChild(card);
   });
   w.appendChild(list);
+
+  // ── Back link at the bottom (no scrolling up to go back) ──
+  const backBottom = document.createElement('button');
+  backBottom.className = 'in-page-back';
+  backBottom.style.marginTop = '20px';
+  backBottom.onclick = () => { S.view='units'; render(); };
+  const _ab = ms('arrow_back'); _ab.style.fontSize='16px';
+  backBottom.appendChild(_ab);
+  backBottom.appendChild(document.createTextNode(' ' + mod.title));
+  w.appendChild(backBottom);
 
   return w;
 }
