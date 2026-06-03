@@ -524,6 +524,14 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
   .hx-eyebrow .ln{width:40px;height:1px;background:linear-gradient(90deg,rgba(194,146,46,0),var(--gold));}
   .hx-eyebrow .t{font-family:'Cinzel',serif;font-weight:600;font-size:11.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-deep);}
   .hx-eyebrow .ar{font-family:'Amiri',serif;font-size:17px;color:var(--green);}
+  .hx-ar-accent{display:flex;flex-wrap:wrap;align-items:center;gap:16px;font-family:'Amiri',serif;font-size:32px;font-weight:700;line-height:1.1;color:var(--gold-deep);margin:0 0 18px;}
+  .hx-ar-accent .dot{color:var(--gold);font-size:18px;opacity:.55;}
+  @media(max-width:900px){.hx-ar-accent{justify-content:center;}}
+  .hx-pairs{display:flex;gap:34px;flex-wrap:wrap;margin-bottom:28px;}
+  .hx-pairs .pair{display:flex;flex-direction:column;align-items:center;gap:7px;}
+  .hx-pairs .en{font-family:'Cinzel',serif;font-weight:700;font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:#c2922e;}
+  .hx-pairs .ar{font-family:'Amiri',serif;font-weight:700;font-size:30px;line-height:1;color:var(--gold-deep);}
+  @media(max-width:900px){.hx-pairs{justify-content:center;gap:26px;}}
   .hx-h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,5.4vw,68px);line-height:1.05;letter-spacing:-.02em;color:var(--ink);margin-bottom:22px;}
   .hx-h1 em{font-style:italic;font-weight:400;color:var(--gold-deep);}
   .hx-sub{font-size:clamp(16px,1.6vw,18.5px);line-height:1.62;color:var(--ink2);max-width:480px;margin-bottom:34px;}
@@ -615,7 +623,7 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
   <a href="index.html" class="lis-brand" title="Lisaany Home">
     <div class="brand-mark" style="background:none;box-shadow:none;border:none;width:48px;height:48px;">
       <svg viewBox="0 0 100 100" aria-hidden="true" style="width:100%;height:100%">
-        <path d="M30 78 L30 42 A20 20 0 0 1 70 42 L70 78" fill="none" stroke="#d8aa3c" stroke-width="13"/>
+        <path d="M34 82 L34 50 Q34 36 50 30 Q66 36 66 50 L66 82" fill="none" stroke="#d8aa3c" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 42 L52.3 47.7 L58 50 L52.3 52.3 L50 58 L47.7 52.3 L42 50 L47.7 47.7 Z" fill="#d8aa3c"/>
       </svg>
     </div>
     <span class="brand-name">Lisaany</span>
@@ -717,7 +725,11 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
 
   <div class="hx-grid">
     <div class="hx-left">
-      <div class="hx-eyebrow rise d1"><span class="ln"></span><span class="t">Read · Speak · Master</span><span class="ar">اقْرَأ</span></div>
+      <div class="hx-pairs rise d1">
+        <div class="pair"><span class="en">Read</span><span class="ar">اقْرَأ</span></div>
+        <div class="pair"><span class="en">Speak</span><span class="ar">تَكَلَّم</span></div>
+        <div class="pair"><span class="en">Master</span><span class="ar">تَعَلَّم</span></div>
+      </div>
       <h1 class="hx-h1 rise d2">Read the Qur'an.<br>Speak Arabic — <em>beautifully.</em></h1>
       <p class="hx-sub rise d3">From your very first letter to full conversation — a real curriculum where every word is recorded by a native speaker.</p>
       <div class="hx-cta rise d4">
@@ -853,7 +865,7 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
     <div class="footer-brand">
       <div style="width:36px;height:36px;flex-shrink:0;">
         <svg viewBox="0 0 100 100" aria-hidden="true" width="36" height="36">
-          <path d="M30 78 L30 42 A20 20 0 0 1 70 42 L70 78" fill="none" stroke="#d8aa3c" stroke-width="13"/>
+          <path d="M34 82 L34 50 Q34 36 50 30 Q66 36 66 50 L66 82" fill="none" stroke="#d8aa3c" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 42 L52.3 47.7 L58 50 L52.3 52.3 L50 58 L47.7 52.3 L42 50 L47.7 47.7 Z" fill="#d8aa3c"/>
         </svg>
       </div>
       <span>Lisaany</span>
