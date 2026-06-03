@@ -2909,6 +2909,20 @@ const CUR = [
               ]
             }
           },
+          { id:71, type:"choose", title:"Choose هَذَا or هَذِهِ", desc:"اختر هذا أو هذه — جملة قصيرة", icon:"touch_app", color:"#D4A34A",
+            data:{ items:[
+              {ar:"بِنْتٌ",    en:"This is a girl.",             g:"f", hint:"بِنْت is feminine, so use هَذِهِ."},
+              {ar:"كِتَابٌ",   en:"This is a book.",             g:"m", hint:"كِتَاب is masculine, so use هَذَا."},
+              {ar:"نَافِذَةٌ", en:"This is a window.",           g:"f", hint:"نَافِذَة ends in ة → feminine → هَذِهِ."},
+              {ar:"رَجُلٌ",    en:"This is a man.",              g:"m", hint:"رَجُل is masculine → هَذَا."},
+              {ar:"سَيَّارَةٌ", en:"This is a car.",              g:"f", hint:"سَيَّارَة ends in ة → feminine → هَذِهِ."},
+              {ar:"بَابٌ",     en:"This is a door.",             g:"m", hint:"بَاب is masculine → هَذَا."},
+              {ar:"مُعَلِّمَةٌ", en:"This is a teacher.",          g:"f", hint:"مُعَلِّمَة ends in ة → feminine → هَذِهِ."},
+              {ar:"قَلَمٌ",    en:"This is a pen.",              g:"m", hint:"قَلَم is masculine → هَذَا."},
+              {ar:"مَدْرَسَةٌ", en:"This is a school.",           g:"f", hint:"مَدْرَسَة ends in ة → feminine → هَذِهِ."},
+              {ar:"وَلَدٌ",    en:"This is a boy.",              g:"m", hint:"وَلَد is masculine → هَذَا."}
+            ]}
+          },
           { id:4, type:"grammar", title:"This & That", desc:"الإشارة للقريب والبعيد", icon:"psychology", color:"#D4A34A",
             data:{ title:"Demonstratives", titleAr:"أَسْمَاء الْإِشَارَة",
               intro:"هَذَا = This (masculine). هَذِهِ = This (feminine). ذَلِكَ / تِلْكَ = That (m/f). Always match the gender of the noun.",
@@ -6694,8 +6708,16 @@ try {
   console.warn('Audio augmentation failed:', e);
 }
 
+let _curAudio=null;
+function stopAudio(){
+  try{ if(_curAudio){ _curAudio.pause(); try{_curAudio.currentTime=0;}catch(_){ } if(_curAudio.src && _curAudio.src.indexOf('blob:')===0) URL.revokeObjectURL(_curAudio.src); } }catch(e){}
+  _curAudio=null;
+  try{ if('speechSynthesis' in window) window.speechSynthesis.cancel(); }catch(e){}
+}
+if(typeof window!=='undefined') window.stopAudio=stopAudio;
 async function speak(t){
   if(!t) return;
+  stopAudio(); // never let two clips overlap (e.g. tapping Next mid-playback)
   const __stop = (window.Lisaany && Lisaany._audioAnimStart) ? Lisaany._audioAnimStart() : function(){};
   try { return await _speakCore(t); }
   finally { try{ __stop(); }catch(e){} }
@@ -6723,9 +6745,10 @@ async function _speakCore(t){
       if(r.ok){
         const blob = await r.blob();
         const audio = new Audio(URL.createObjectURL(blob));
+        _curAudio = audio;
         return new Promise((resolve)=>{
-          audio.onended = ()=>resolve();
-          audio.onerror = ()=>{ if(window.Lisaany&&Lisaany.audioToast) Lisaany.audioToast(); resolve(); };
+          audio.onended = ()=>{ if(_curAudio===audio) _curAudio=null; resolve(); };
+          audio.onerror = ()=>{ if(_curAudio===audio) _curAudio=null; if(window.Lisaany&&Lisaany.audioToast) Lisaany.audioToast(); resolve(); };
           audio.play().catch(()=>resolve());
         });
       }
@@ -7639,6 +7662,7 @@ function resetBS(){
   if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
   if(blk?.type==='quiz'){ S.quizIdx=0; S.quizChosen=null; S.quizFb=null; S.quizLocked=false; S.quizScore=0; S.quizWrong=0; }
   if(blk?.type==='fill'){ S.fillIdx=0; S.fillChosen=null; S.fillFb=null; S.fillLocked=false; S.fillScore=0; S.fillWrong=0; }
+  if(blk?.type==='choose'){ S.chIdx=0; S.chChosen=null; S.chFb=null; S.chLocked=false; S.chScore=0; S.chWrong=0; S.chHint=false; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -8079,18 +8103,18 @@ function mkFill(blk){
   var d=getFillData(blk);
   if(!d.questions||d.questions.length===0){setTimeout(function(){finishBlock();},80);return div('stage');}
   if(typeof S.fillIdx==='undefined'){
-    S.fillIdx=0;S.fillChosen=null;S.fillFb=null;S.fillLocked=false;S.fillScore=0;S.fillWrong=0;
+    S.fillIdx=0;S.fillChosen=null;S.fillFb=null;S.fillLocked=false;S.fillScore=0;S.fillWrong=0;S.fillPlayedIdx=-1;
   }
   var total=d.questions.length,cur=d.questions[S.fillIdx];
   bumpPos((S.fillIdx||0)+1, total);
   var pct=Math.round(S.fillScore/total*100);
   var w=div('stage');
   var hdr=div('lesson-hdr');
-  var hi=div('lesson-hdr-icon');hi.appendChild(ms('edit_note'));hdr.appendChild(hi);
+  var hi=div('lesson-hdr-icon');hi.appendChild(ms('headphones'));hdr.appendChild(hi);
   var hb=div('lesson-hdr-body');
-  hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'},'Sentence Fill · Part 2 · '+(S.fillIdx+1)+' of '+total));
-  hb.appendChild(el('div',{className:'lesson-hdr-title'},'Complete the Sentence'));
-  hb.appendChild(el('div',{className:'lesson-hdr-arabic'},'Tap the missing word'));
+  hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'},'Listen & Choose · '+(S.fillIdx+1)+' of '+total));
+  hb.appendChild(el('div',{className:'lesson-hdr-title'},'Which word do you hear?'));
+  hb.appendChild(el('div',{className:'lesson-hdr-arabic'},'اِسْتَمِعْ ثُمَّ اخْتَرِ الكَلِمَة'));
   hdr.appendChild(hb);w.appendChild(hdr);
   var sr=div('score-row');
   [{v:S.fillScore,l:'Correct',c:'var(--green)'},{v:S.fillWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(function(s){
@@ -8104,30 +8128,20 @@ function mkFill(blk){
   var pf2=div('');pf2.style.cssText='height:100%;background:var(--gold);border-radius:2px;width:'+Math.round((S.fillIdx/total)*100)+'%;transition:width .4s;';
   prog2.appendChild(pf2);w.appendChild(prog2);
   var qCard=div('');
-  qCard.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(242,190,98,.3);border-radius:20px;padding:30px 22px 24px;text-align:center;margin-bottom:20px;';
-  qCard.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'52px',color:'var(--gold)',direction:'rtl',lineHeight:'1.4',marginBottom:'8px'}},cur.qAr));
-  qCard.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',marginBottom:'20px'}},cur.qEn));
-  var qAb=el('button',{style:{padding:'7px 14px',borderRadius:'10px',border:'1px solid rgba(242,190,98,.28)',background:'transparent',color:'var(--gold)',cursor:'pointer',display:'inline-flex',alignItems:'center',gap:'6px',fontSize:'12px',fontWeight:'700',marginBottom:'20px'},onclick:function(e){e.stopPropagation();speak(cur.qAr);}});
-  qAb.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'15px',fontVariationSettings:"'FILL' 1"}},'volume_up'));
-  qAb.appendChild(document.createTextNode(' Hear question'));
-  qCard.appendChild(qAb);
-  var dl=div('');dl.style.cssText='height:1px;background:rgba(242,190,98,.18);margin:0 0 22px;';qCard.appendChild(dl);
-  var slotBg,slotBdr,slotCol;
-  if(S.fillLocked){
-    var ok2=S.fillChosen===cur.answer;
-    slotBg=ok2?'rgba(127,201,156,.2)':'rgba(224,112,112,.15)';
-    slotBdr=ok2?'var(--green)':'var(--red)';
-    slotCol=ok2?'var(--green)':'var(--red)';
-  } else {
-    slotBg=S.fillChosen?'rgba(242,190,98,.14)':'rgba(242,190,98,.04)';
-    slotBdr=S.fillChosen?'var(--gold)':'rgba(242,190,98,.4)';
-    slotCol=S.fillChosen?'var(--gold)':'rgba(242,190,98,.4)';
-  }
-  var sentRow=div('');sentRow.style.cssText='display:flex;align-items:center;justify-content:center;gap:12px;direction:rtl;flex-wrap:wrap;';
-  var slot=el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'32px',color:slotCol,background:slotBg,border:'2px solid '+slotBdr,borderRadius:'12px',padding:'4px 24px',minWidth:'110px',display:'inline-block',textAlign:'center',direction:'rtl',transition:'all .2s'}},S.fillChosen||'____');
-  var prefix=el('span',{style:{fontFamily:"'Amiri',serif",fontSize:'32px',color:'var(--text)',direction:'rtl'}},'هذا');
-  sentRow.appendChild(slot);sentRow.appendChild(prefix);
-  qCard.appendChild(sentRow);w.appendChild(qCard);
+  qCard.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(242,190,98,.3);border-radius:20px;padding:28px 22px;text-align:center;margin-bottom:20px;';
+  qCard.appendChild(el('div',{style:{fontSize:'15px',color:'var(--text)',fontWeight:'600',marginBottom:'4px'}},'Listen, then tap the word you hear'));
+  qCard.appendChild(el('div',{style:{fontSize:'12.5px',color:'var(--dim)',marginBottom:'18px'}},'Press play — then choose from the words below'));
+  var playBtn=el('button',{style:{position:'relative',width:'92px',height:'92px',borderRadius:'50%',border:'none',cursor:'pointer',background:'linear-gradient(150deg,#e9c873,#c2922e)',color:'#1a1206',boxShadow:'0 14px 32px rgba(194,146,46,.4)',display:'inline-flex',alignItems:'center',justifyContent:'center'},onclick:function(e){e.stopPropagation();speak(cur.answer);}});
+  playBtn.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'42px',marginLeft:'3px',fontVariationSettings:"'FILL' 1"}},'volume_up'));
+  qCard.appendChild(playBtn);
+  var rp=el('button',{style:{margin:'14px auto 0',background:'none',border:'none',color:'var(--dim)',cursor:'pointer',fontSize:'12px',letterSpacing:'.08em',textTransform:'uppercase',display:'inline-flex',alignItems:'center',gap:'6px'},onclick:function(e){e.stopPropagation();speak(cur.answer);}});
+  rp.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'15px'}},'replay'));
+  rp.appendChild(document.createTextNode(' Tap to replay'));
+  var rpWrap=div('');rpWrap.style.cssText='margin-top:10px;';rpWrap.appendChild(rp);
+  qCard.appendChild(rpWrap);
+  w.appendChild(qCard);
+  // auto-play the word when a new question appears (guarded so re-renders don't replay)
+  if(S.fillPlayedIdx!==S.fillIdx){ S.fillPlayedIdx=S.fillIdx; setTimeout(function(){ try{speak(cur.answer);}catch(e){} }, 280); }
   var og=div('');og.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;';
   cur.options.forEach(function(opt){
     var isCh=S.fillChosen===opt,isCor=opt===cur.answer;
@@ -8164,9 +8178,9 @@ function mkFill(blk){
   if(S.fillFb){
     var fb2=div('cf '+(S.fillFb==='correct'?'cf-ok':'cf-no'));fb2.style.marginBottom='12px';
     if(S.fillFb==='correct'){
-      fb2.innerHTML='✅ <strong>Correct!</strong> <span style="font-family:\'Amiri\',serif;font-size:22px;color:var(--green)"> هذا '+cur.answer+'</span>';
+      fb2.innerHTML='✅ <strong>Correct!</strong> <span style="font-family:\'Amiri\',serif;font-size:22px;color:var(--green)">'+cur.answer+'</span> <span style="font-size:13px;color:var(--dim)">— '+cur.answerEn+'</span>';
     } else {
-      fb2.innerHTML='❌ Answer: <span style="font-family:\'Amiri\',serif;font-size:26px"> هذا '+cur.answer+'</span><span style="font-size:12px;color:var(--dim);display:block;margin-top:4px">'+cur.answerEn+'</span>';
+      fb2.innerHTML='❌ You heard: <span style="font-family:\'Amiri\',serif;font-size:26px">'+cur.answer+'</span><span style="font-size:12px;color:var(--dim);display:block;margin-top:4px">'+cur.answerEn+'</span>';
     }
     w.appendChild(fb2);
   }
@@ -8186,10 +8200,121 @@ function mkFill(blk){
 function advFill(d){
   S.fillFb=null;S.fillLocked=false;S.fillChosen=null;
   if(S.fillIdx<d.questions.length-1){S.fillIdx++;render();}
-  else{S.fillIdx=0;S.fillScore=0;S.fillWrong=0;finishBlock();}
+  else{S.fillIdx=0;S.fillScore=0;S.fillWrong=0;S.fillPlayedIdx=-1;finishBlock();}
+}
+// ── Choose هَذَا / هَذِهِ ──────────────────────────────
+function mkChoose(blk){
+  var items=(blk.data&&blk.data.items)||[];
+  if(items.length===0){setTimeout(function(){finishBlock();},80);return div('stage');}
+  if(typeof S.chIdx==='undefined'){ S.chIdx=0;S.chChosen=null;S.chFb=null;S.chLocked=false;S.chScore=0;S.chWrong=0;S.chHint=false; }
+  var total=items.length, cur=items[S.chIdx];
+  var answer=(cur.g==='f')?'هَذِهِ':'هَذَا';
+  if(!cur._opts){ cur._opts=shuffle(['هَذَا','هَذِهِ']); }
+  bumpPos((S.chIdx||0)+1, total);
+  var pct=Math.round(S.chScore/total*100);
+  var w=div('stage');
+  var hdr=div('lesson-hdr');
+  var hi=div('lesson-hdr-icon');hi.appendChild(ms('touch_app'));hdr.appendChild(hi);
+  var hb=div('lesson-hdr-body');
+  hb.appendChild(el('div',{className:'lesson-hdr-eyebrow'},'Choose · '+(S.chIdx+1)+' of '+total));
+  hb.appendChild(el('div',{className:'lesson-hdr-title'},'هَذَا or هَذِهِ?'));
+  hb.appendChild(el('div',{className:'lesson-hdr-arabic'},'اِخْتَرِ الكَلِمَة الصَّحِيحَة'));
+  hdr.appendChild(hb);w.appendChild(hdr);
+  var sr=div('score-row');
+  [{v:S.chScore,l:'Correct',c:'var(--green)'},{v:S.chWrong,l:'Misses',c:'var(--red)'},{v:pct,l:'Score%',c:'var(--gold)'}].forEach(function(s){
+    var si=div('sc-item');
+    si.appendChild(el('div',{className:'sc-val',style:{color:s.c}},String(s.v)));
+    si.appendChild(el('div',{className:'sc-lbl'},s.l));
+    sr.appendChild(si);
+  });
+  w.appendChild(sr);
+  var prog=div('');prog.style.cssText='height:4px;background:rgba(242,190,98,.1);border-radius:2px;margin:6px 0 20px;overflow:hidden;';
+  var pf=div('');pf.style.cssText='height:100%;background:var(--gold);border-radius:2px;width:'+Math.round((S.chIdx/total)*100)+'%;transition:width .4s;';
+  prog.appendChild(pf);w.appendChild(prog);
+  // question card — Arabic RTL: blank sits on the RIGHT, noun to its left
+  var qCard=div('');
+  qCard.style.cssText='background:rgba(10,14,24,.9);border:1.5px solid rgba(242,190,98,.3);border-radius:20px;padding:30px 22px;text-align:center;margin-bottom:20px;';
+  qCard.appendChild(el('div',{style:{fontSize:'12.5px',color:'var(--dim)',marginBottom:'18px'}},'Complete the sentence'));
+  var sent=el('div',{style:{fontFamily:"'Amiri',serif",direction:'rtl',fontSize:'40px',lineHeight:'1.5',color:'var(--text)',display:'flex',justifyContent:'center',alignItems:'baseline',gap:'14px',flexWrap:'wrap'}});
+  var blank=el('span',{style:{color:'var(--gold)',minWidth:'96px',borderBottom:'2px solid var(--gold)',padding:'0 12px 4px',display:'inline-block'}}, S.chLocked?answer:'\u00A0');
+  sent.appendChild(blank);
+  sent.appendChild(el('span',{},cur.ar));
+  qCard.appendChild(sent);
+  qCard.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',marginTop:'16px',minHeight:'18px',visibility:S.chLocked?'visible':'hidden'}}, cur.en));
+  w.appendChild(qCard);
+  var og=div('');og.style.cssText='display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;';
+  cur._opts.forEach(function(opt){
+    var isCh=S.chChosen===opt,isCor=opt===answer;
+    var bg,bd,co;
+    if(S.chLocked){
+      if(isCor){    bg='rgba(127,201,156,.18)';bd='var(--green)';co='var(--green)';}
+      else if(isCh){bg='rgba(224,112,112,.12)';bd='var(--red)';  co='var(--red)';  }
+      else {        bg='rgba(255,255,255,.02)';bd='rgba(255,255,255,.07)';co='rgba(218,227,246,.3)';}
+    } else {
+      if(isCh){bg='rgba(242,190,98,.14)';bd='var(--gold)';co='var(--gold)';}
+      else {   bg='rgba(255,255,255,.03)';bd='rgba(255,255,255,.12)';co='var(--text)';}
+    }
+    var b=el('button',{
+      style:{padding:'24px 10px',borderRadius:'16px',border:'1.5px solid '+bd,background:bg,color:co,
+        fontFamily:"'Amiri',serif",fontSize:'36px',direction:'rtl',cursor:S.chLocked?'default':'pointer',transition:'all .15s',
+        display:'flex',alignItems:'center',justifyContent:'center',width:'100%',gap:'8px',minHeight:'78px'},
+      onclick:(function(o){return function(){
+        if(S.chLocked) return;
+        S.chChosen=o;S.chLocked=true;
+        var isOk=o===answer;S.chFb=isOk?'correct':'wrong';
+        if(isOk){S.chScore++;if(window.Lisaany)Lisaany.celebrate();}
+        else{S.chWrong++;}
+        render();
+        if(isOk) setTimeout(function(){advChoose(items);},1000);
+      };})(opt)
+    },opt);
+    if(S.chLocked&&(isCor||isCh)){
+      b.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'19px',fontVariationSettings:"'FILL' 1",flexShrink:'0',color:isCor?'var(--green)':'var(--red)'}},isCor?'check_circle':'cancel'));
+    }
+    og.appendChild(b);
+  });
+  w.appendChild(og);
+  // Show hint — white box, gold Arabic
+  var hintBtn=el('button',{style:{display:'flex',alignItems:'center',justifyContent:'center',gap:'7px',width:'100%',background:'none',border:'none',color:'var(--gold)',fontFamily:"'Inter',sans-serif",fontWeight:'600',fontSize:'13px',cursor:'pointer',padding:'8px',marginBottom:'6px'},onclick:function(){S.chHint=!S.chHint;render();}});
+  hintBtn.appendChild(el('span',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px'}}, S.chHint?'expand_less':'expand_more'));
+  hintBtn.appendChild(document.createTextNode(S.chHint?' Hide hint':' Show hint'));
+  w.appendChild(hintBtn);
+  if(S.chHint){
+    var hintBox=div('');
+    hintBox.style.cssText='border-radius:12px;padding:13px 15px;font-size:14px;line-height:1.5;text-align:center;margin-bottom:12px;';
+    hintBox.innerHTML=cur.hint||'';
+    _whiteRuleCard(hintBox);
+    w.appendChild(hintBox);
+  }
+  if(S.chFb){
+    var fb=div('cf '+(S.chFb==='correct'?'cf-ok':'cf-no'));fb.style.marginBottom='12px';
+    if(S.chFb==='correct'){
+      fb.innerHTML='✅ <strong>Correct!</strong> &nbsp;<span style="font-family:\'Amiri\',serif;font-size:24px;color:var(--green)">'+answer+' '+cur.ar+'</span>';
+    } else {
+      fb.innerHTML='❌ Correct answer: <span style="font-family:\'Amiri\',serif;font-size:26px;color:var(--gold)">'+answer+'</span><span style="font-size:12px;color:var(--dim);display:block;margin-top:4px">'+answer+' '+cur.ar+' — '+cur.en+'</span>';
+    }
+    w.appendChild(fb);
+  }
+  var nav=div('action-row');nav.style.marginTop='4px';
+  if(S.chLocked&&S.chFb==='wrong'){
+    nav.appendChild(el('button',{className:'btn btn-primary btn-block',onclick:function(){advChoose(items);}}, (S.chIdx>=total-1)?'Finish ✓':'Next →'));
+  }
+  if(!S.chLocked){
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:function(){S.view='blocks';render();}},'← Back'));
+    nav.appendChild(el('button',{className:'btn btn-ghost',style:{opacity:'.65'},onclick:function(){
+      S.chIdx=0;S.chScore=0;S.chWrong=0;S.chChosen=null;S.chFb=null;S.chLocked=false;S.chHint=false;finishBlock();
+    }},'Skip →'));
+  }
+  w.appendChild(nav);
+  return w;
+}
+function advChoose(items){
+  S.chFb=null;S.chLocked=false;S.chChosen=null;S.chHint=false;
+  if(S.chIdx<items.length-1){S.chIdx++;render();}
+  else{S.chIdx=0;S.chScore=0;S.chWrong=0;finishBlock();}
 }
 
-function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDlPearl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='conjugation')return mkConjugation(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='fill')return mkFill(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
+function mkLesson(){ const blk=getBlk(S.mId,S.uId,S.bId); if(!blk)return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Lesson not found',text:'This lesson could not be loaded. Please go back and try again.'}):div('','Lesson not found'); if(blk.type==='dialogue')return mkDlPearl(blk); if(blk.type==='vocab')return mkVocab(blk); if(blk.type==='grammar')return mkGrammar(blk); if(blk.type==='conjugation')return mkConjugation(blk); if(blk.type==='clutter')return mkClutter(blk); if(blk.type==='quiz')return mkQuiz(blk); if(blk.type==='fill')return mkFill(blk); if(blk.type==='cloze')return mkCloze(blk); if(blk.type==='possessive')return mkPossessive(blk); if(blk.type==='video')return mkVideo(blk); if(blk.type==='choose')return mkChoose(blk); return (window.Lisaany&&Lisaany.emptyState)?Lisaany.emptyState({icon:'🌙',title:'Coming soon',text:'This lesson type is being prepared.'}):div('','Coming soon'); }
 
 // ══════════════════════════════════════════════════════
 // BLOCK 1: DIALOGUE
@@ -8875,7 +9000,7 @@ function mkVocab(blk){
 
   // Top: close + progress
   const top=div('vp-top');
-  top.appendChild(el('button',{className:'vp-x',onclick:()=>{S.vFlip=false;S.view='blocks';render();}},'\u00d7'));
+  top.appendChild(el('button',{className:'vp-x',onclick:()=>{stopAudio();S.vFlip=false;S.view='blocks';render();}},'\u00d7'));
   const track=div('vp-track'); const tf=div('vp-trackfill'); tf.style.width=pct+'%'; track.appendChild(tf); top.appendChild(track);
   w.appendChild(top);
 
@@ -8908,11 +9033,11 @@ function mkVocab(blk){
 
   // Prev / Next (+ Finish on last)
   const navRow=div('vp-nav');
-  const prev=el('button',{className:'vp-btn',onclick:()=>{ if(S.vIdx>0){S.vIdx--;S.vFlip=false;render();} }},'\u2039 Prev');
+  const prev=el('button',{className:'vp-btn',onclick:()=>{ stopAudio(); if(S.vIdx>0){S.vIdx--;S.vFlip=false;render();} }},'\u2039 Prev');
   if(S.vIdx===0) prev.disabled=true;
   const counter=el('span',{className:'vp-count'},(S.vIdx+1)+' / '+total);
   const isLast=S.vIdx>=total-1;
-  const next=el('button',{className:'vp-btn'+(isLast?' vp-finish':''),onclick:()=>{ if(isLast){finishBlock();} else {S.vIdx++;S.vFlip=false;render();} }}, isLast?'Finish \u2713':'Next \u203a');
+  const next=el('button',{className:'vp-btn'+(isLast?' vp-finish':''),onclick:()=>{ stopAudio(); if(isLast){finishBlock();} else {S.vIdx++;S.vFlip=false;render();} }}, isLast?'Finish \u2713':'Next \u203a');
   navRow.appendChild(prev); navRow.appendChild(counter); navRow.appendChild(next);
   w.appendChild(navRow);
 
@@ -8970,6 +9095,41 @@ function mkVideo(blk){
 // ══════════════════════════════════════════════════════
 // BLOCK 3: GRAMMAR
 // ══════════════════════════════════════════════════════
+// Wrap Arabic letter-runs inside an element in gold (used for white grammar rule cards)
+function _gildArabicText(root){
+  if(!root) return;
+  var RUN=/[\u0600-\u06FF\u0670\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]+(?:[\s\u200f\u200e]+[\u0600-\u06FF\u0670\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]+)*/g;
+  var ANY=/[\u0600-\u06FF\u0670\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
+  try{
+    var tw=document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var targets=[], n;
+    while(n=tw.nextNode()){ if(ANY.test(n.nodeValue)) targets.push(n); }
+    targets.forEach(function(tn){
+      var s=tn.nodeValue; if(!ANY.test(s)) return;
+      var frag=document.createDocumentFragment(), last=0, m; RUN.lastIndex=0;
+      while(m=RUN.exec(s)){
+        if(m.index>last) frag.appendChild(document.createTextNode(s.slice(last,m.index)));
+        var sp=document.createElement('span');
+        sp.style.setProperty('color','#b3842b','important');
+        sp.style.setProperty('font-weight','700','important');
+        sp.textContent=m[0];
+        frag.appendChild(sp);
+        last=m.index+m[0].length;
+      }
+      if(last<s.length) frag.appendChild(document.createTextNode(s.slice(last)));
+      if(tn.parentNode) tn.parentNode.replaceChild(frag,tn);
+    });
+  }catch(e){}
+}
+function _whiteRuleCard(elm){
+  if(!elm) return;
+  elm.style.setProperty('background','#fff','important');
+  elm.style.setProperty('color','#15203a','important');
+  elm.style.setProperty('border','1px solid rgba(212,163,71,.32)','important');
+  elm.style.setProperty('border-top','2px solid rgba(212,163,71,.55)','important');
+  try{ elm.querySelectorAll('strong,b').forEach(function(s){ s.style.setProperty('color','#15203a','important'); }); }catch(e){}
+  _gildArabicText(elm);
+}
 function mkGrammar(blk){
   const d=blk.data; const w=div('stage');
   // Header — new design
@@ -8983,8 +9143,8 @@ function mkGrammar(blk){
   if (d.titleAr) hdrBody.appendChild(el('div', {className:'lesson-hdr-arabic'}, d.titleAr));
   hdr.appendChild(hdrBody);
   w.appendChild(hdr);
-  const intro=div('rule-card'); intro.innerHTML=d.intro; w.appendChild(intro);
-  if(d.keyRule){ const kr=div('rule-card'); kr.style.cssText='background:rgba(212,163,74,.07);border-color:rgba(212,163,74,.06);'; kr.innerHTML='💡 <strong>Key Rule:</strong> '+d.keyRule; w.appendChild(kr); }
+  const intro=div('rule-card'); intro.innerHTML=d.intro; _whiteRuleCard(intro); w.appendChild(intro);
+  if(d.keyRule){ const kr=div('rule-card'); kr.innerHTML='💡 <strong>Key Rule:</strong> '+d.keyRule; _whiteRuleCard(kr); w.appendChild(kr); }
   if(d.table){
     // Column headers
     const colHdr = div('');
