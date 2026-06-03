@@ -8692,10 +8692,13 @@ function mkDlPearl(blk){
     if(side==='right'){ spk.appendChild(nm); spk.appendChild(av); } else { spk.appendChild(av); spk.appendChild(nm); }
     pad.appendChild(spk);
 
-    // card: Arabic + English shown together
-    const card=div(''); card.style.cssText='background:#fff;border:1px solid #e8ecf3;border-radius:22px;padding:40px 26px 30px;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;box-shadow:0 14px 40px rgba(0,0,0,.28);';
-    card.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'38px',color:'#b3842b',direction:'rtl',lineHeight:'1.55',textAlign:'center'}}, line.ar));
-    if(S.dlShowEn!==false && line.en) card.appendChild(el('div',{style:{fontSize:'18px',color:'#15203a',textAlign:'center',lineHeight:'1.45'}}, line.en));
+    // card: Arabic + English shown together — auto-shrink so long lines stay on one screen
+    const arLen = (line.ar||'').length;
+    const arSize = arLen > 60 ? '26px' : arLen > 42 ? '30px' : arLen > 26 ? '34px' : '38px';
+    const enSize = (line.en||'').length > 70 ? '16px' : '18px';
+    const card=div(''); card.style.cssText='background:#fff;border:1px solid #e8ecf3;border-radius:22px;padding:30px 24px 26px;min-height:180px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;box-shadow:0 14px 40px rgba(0,0,0,.28);';
+    card.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:arSize,color:'#b3842b',direction:'rtl',lineHeight:'1.5',textAlign:'center'}}, line.ar));
+    if(S.dlShowEn!==false && line.en) card.appendChild(el('div',{style:{fontSize:enSize,color:'#15203a',textAlign:'center',lineHeight:'1.4'}}, line.en));
     const playBtn=el('button',{style:{display:'flex',alignItems:'center',gap:'9px',background:'#15203a',color:'#f2be62',border:'none',borderRadius:'13px',padding:'12px 22px',fontWeight:'700',fontSize:'13px',letterSpacing:'.04em',cursor:'pointer',marginTop:'4px'},onclick:()=>playAudio(line)});
     playBtn.appendChild(el('span',{style:{fontSize:'18px'}},'\ud83d\udd0a'));
     playBtn.appendChild(document.createTextNode(' '+(line.spk||'Speaker')+' speaks'));
