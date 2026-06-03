@@ -1649,6 +1649,7 @@ body::after {
   width: 3px;
   background: linear-gradient(to bottom, var(--gold), rgba(212,163,74,.3));
   border-radius: 0 2px 2px 0;
+  display: none;
 }
 .unit-objectives-label{
   font-size: 13px;
@@ -8662,6 +8663,59 @@ function mkDlPearl(blk){
   const trkFill=div(''); trkFill.style.cssText='height:100%;width:'+trkPct+'%;background:linear-gradient(90deg,#b3842b,#f2be62);border-radius:99px;transition:width .45s;'; trk.appendChild(trkFill);
   top.appendChild(trk);
   shell.appendChild(top);
+
+  // ── PLAY-THROUGH = card flow (one line per card, learn by direct contact) ──
+  if(S.dlPlayMode && d.lines && d.lines.length){
+    const total = d.lines.length;
+    if(S.dlPlayIdx < 0) S.dlPlayIdx = 0;
+    if(S.dlPlayIdx > total-1) S.dlPlayIdx = total-1;
+    const line = d.lines[S.dlPlayIdx];
+    const isLast = S.dlPlayIdx >= total-1;
+    const side = line.side || 'left';
+    const playAudio = (ln)=>{ try{ if(ln && ln.ar) speak(ln.ar); }catch(e){} };
+
+    const pad=div(''); pad.style.cssText='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 18px 40px;width:100%;max-width:600px;margin:0 auto;display:flex;flex-direction:column;';
+
+    // eyebrow
+    const eb=div(''); eb.style.cssText='display:flex;align-items:center;gap:9px;font:800 13px/1 Inter;letter-spacing:.16em;text-transform:uppercase;color:#b3842b;margin:18px 0 12px;';
+    const dot=div(''); dot.style.cssText='width:8px;height:8px;border-radius:50%;background:#b3842b;'; eb.appendChild(dot);
+    eb.appendChild(el('span',{},'Dialogue \u00b7 '+(S.dlPlayIdx+1)+' / '+total));
+    pad.appendChild(eb);
+
+    pad.appendChild(el('h2',{style:{fontFamily:"'Cinzel',serif",fontSize:'22px',fontWeight:'600',color:'#15203a',margin:'0 0 16px'}}, d.title || 'Dialogue'));
+
+    // speaker label
+    const spk=div(''); spk.style.cssText='display:flex;align-items:center;gap:9px;margin-bottom:10px;font:800 12px/1 Inter;letter-spacing:.14em;text-transform:uppercase;'+(side==='right'?'justify-content:flex-end;color:#3f7d57;':'color:#5b6478;');
+    const av=div(''); av.textContent=(line.spk||'?').charAt(0); av.style.cssText='width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:12px;'+(side==='right'?'background:#3f7d57;color:#06231a;order:2;':'background:#2a4a73;color:#fff;');
+    const nm=el('span',{},line.spk||'');
+    if(side==='right'){ spk.appendChild(nm); spk.appendChild(av); } else { spk.appendChild(av); spk.appendChild(nm); }
+    pad.appendChild(spk);
+
+    // card: Arabic + English shown together
+    const card=div(''); card.style.cssText='background:#fff;border:1px solid #e8ecf3;border-radius:22px;padding:40px 26px 30px;min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;box-shadow:0 14px 40px rgba(0,0,0,.28);';
+    card.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'38px',color:'#b3842b',direction:'rtl',lineHeight:'1.55',textAlign:'center'}}, line.ar));
+    if(S.dlShowEn!==false && line.en) card.appendChild(el('div',{style:{fontSize:'18px',color:'#15203a',textAlign:'center',lineHeight:'1.45'}}, line.en));
+    const playBtn=el('button',{style:{display:'flex',alignItems:'center',gap:'9px',background:'#15203a',color:'#f2be62',border:'none',borderRadius:'13px',padding:'12px 22px',fontWeight:'700',fontSize:'13px',letterSpacing:'.04em',cursor:'pointer',marginTop:'4px'},onclick:()=>playAudio(line)});
+    playBtn.appendChild(el('span',{style:{fontSize:'18px'}},'\ud83d\udd0a'));
+    playBtn.appendChild(document.createTextNode(' '+(line.spk||'Speaker')+' speaks'));
+    card.appendChild(playBtn);
+    pad.appendChild(card);
+
+    // nav: Back / Next (Finish on last)
+    const navRow=div(''); navRow.style.cssText='display:flex;gap:12px;margin-top:22px;';
+    const backB=el('button',{style:{flex:'1',padding:'16px',borderRadius:'14px',border:'1.5px solid rgba(242,190,98,.35)',background:'transparent',color:'#f2be62',fontWeight:'700',fontSize:'15px',cursor:(S.dlPlayIdx===0?'default':'pointer'),opacity:(S.dlPlayIdx===0?'.4':'1')},onclick:()=>{ if(S.dlPlayIdx>0){ S.dlPlayIdx--; render(); playAudio(d.lines[S.dlPlayIdx]); } }},'\u2039 Back');
+    if(S.dlPlayIdx===0) backB.disabled=true;
+    const nextB=el('button',{style:{flex:'1',padding:'16px',borderRadius:'14px',border:'none',background:'#f2be62',color:'#231600',fontWeight:'700',fontSize:'15px',cursor:'pointer'},onclick:()=>{ if(isLast){ finishBlock(); } else { S.dlPlayIdx++; render(); playAudio(d.lines[S.dlPlayIdx]); } }}, isLast?'Finish \u2713':'Next \u203a');
+    navRow.appendChild(backB); navRow.appendChild(nextB);
+    pad.appendChild(navRow);
+
+    // exit to full conversation
+    const skip=el('button',{style:{margin:'18px auto 30px',background:'none',border:'none',color:'#9ba8be',textDecoration:'underline',fontSize:'14px',cursor:'pointer'},onclick:()=>{ exitPlayMode(); }},'Skip to full conversation');
+    pad.appendChild(skip);
+
+    shell.appendChild(pad);
+    return w;
+  }
 
   const pad=div(''); pad.style.cssText='flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 18px 40px;width:100%;max-width:600px;margin:0 auto;';
   shell.appendChild(pad);
