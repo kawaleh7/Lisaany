@@ -1,329 +1,842 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lisaany — Learn Arabic the Beautiful Way</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Lisaany — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0..1">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
-  :root{
-    --navy:#0e1c38; --navy-deep:#0a1730; --ink:#16233f; --ink2:#44516c; --dim:#7b869c;
-    --gold:#c2922e; --gold-br:#e0b452; --gold-deep:#8a6620; --gold-soft:#fbf4e4;
-    --bg:#ffffff; --bg2:#f6f8fc; --line:#e8ebf2;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-  .wrap{max-width:1200px;margin:0 auto;padding:0 28px;}
-  a{text-decoration:none;color:inherit;}
-  .disp{font-family:'Fraunces',serif;}
-  .label{font:600 11.5px/1 'Inter';letter-spacing:.28em;text-transform:uppercase;}
-  .rise{opacity:1;}
-  @media (prefers-reduced-motion: no-preference){.rise{opacity:0;transform:translateY(26px);animation:rise 1s cubic-bezier(.16,1,.3,1) forwards;}}
-  @keyframes rise{to{opacity:1;transform:none;}}
-  .d1{animation-delay:.1s}.d2{animation-delay:.22s}.d3{animation-delay:.34s}.d4{animation-delay:.46s}
-
-  /* NAV */
-  nav{position:fixed;top:0;left:0;width:100%;z-index:50;background:rgba(27,44,77,.93);backdrop-filter:blur(16px);border-bottom:none;}
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:76px;}
-  .brand{display:flex;align-items:center;gap:12px;}
-  .brand-mark{width:30px;height:28px;flex-shrink:0;}
-  .brand span{font-family:'Fraunces',serif;font-weight:600;font-size:25px;letter-spacing:-.01em;color:#f3e6c6;}
-  .nav-links{display:flex;align-items:center;gap:38px;}
-  .nav-links a{font:600 11.5px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:#c5cee0;transition:.2s;}
-  .nav-links a:hover{color:var(--gold-br);}
-  .nav-cta{background:linear-gradient(135deg,#e8c777,#c2922e);color:#1c1303;padding:12px 24px;font:700 11.5px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;border-radius:10px;transition:.2s;box-shadow:0 6px 16px rgba(194,146,46,.28);}
-  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(194,146,46,.4);}
-  .burger{display:none;font-size:24px;color:#f3e6c6;background:none;border:none;}
-  @media(max-width:880px){.nav-links{display:none;}.burger{display:block;}}
-
-  /* HERO */
-  .hero{position:relative;min-height:92vh;display:flex;align-items:center;justify-content:center;text-align:center;
-    padding:140px 28px 90px;overflow:hidden;background:linear-gradient(180deg,#fff,#f7f9fc);}
-  .hero-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-46%);font-family:'Amiri',serif;
-    font-size:min(64vw,720px);line-height:1;color:var(--gold);opacity:.05;pointer-events:none;user-select:none;}
-  .hero-in{position:relative;z-index:2;max-width:920px;}
-  .hero-eyebrow{display:inline-flex;align-items:center;gap:18px;margin-bottom:34px;}
-  .hero-eyebrow .ttl{font:600 12px/1 'Inter';letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);}
-  .hero-eyebrow .ar{font-family:'Amiri',serif;font-size:16px;letter-spacing:0;color:var(--gold);}
-  .hero-eyebrow .ln{width:48px;height:1px;background:linear-gradient(90deg,rgba(194,146,46,0),var(--gold));}
-  .hero-eyebrow .ln.r{background:linear-gradient(90deg,var(--gold),rgba(194,146,46,0));}
-  
-  
-  h1.hero-h{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(48px,8.5vw,104px);line-height:.98;color:var(--navy);letter-spacing:-.03em;}
-  h1.hero-h em{font-style:italic;font-weight:400;color:var(--gold-deep);}
-  .hero-sub{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(19px,2.4vw,27px);font-weight:400;color:var(--ink2);max-width:680px;margin:30px auto 44px;line-height:1.45;}
-  .hero-cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 30px;}
-  .btn-solid{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#2f7d52,#1d5234);color:#fff;font:700 13px/1 'Inter';letter-spacing:.16em;text-transform:uppercase;padding:19px 38px;border-radius:12px;box-shadow:0 14px 32px rgba(31,82,52,.32);transition:.22s;}
-  .btn-solid:hover{transform:translateY(-2px);box-shadow:0 20px 42px rgba(31,82,52,.42);}
-  .btn-link{display:inline-flex;align-items:center;gap:10px;font:600 12px/1 'Inter';letter-spacing:.16em;text-transform:uppercase;color:var(--navy);}
-  .btn-link .ar{transition:.2s;}.btn-link:hover .ar{transform:translateX(5px);}
-  .hero-note{margin-top:24px;font-size:13px;color:var(--dim);}
-  .hero-note b{color:var(--ink2);font-weight:600;}
-
-  /* TRUST */
-  .trust{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .trust-in{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 34px;padding:22px 0;}
-  .trust-item{display:flex;align-items:center;gap:9px;font:600 12.5px/1 'Inter';letter-spacing:.05em;color:var(--ink2);}
-  .trust-item .tk{color:var(--gold-deep);}
-  .trust-dot{width:4px;height:4px;border-radius:50%;background:#d9ccae;}
-  @media(max-width:740px){.trust-dot{display:none;}}
-
-  /* SECTION HEADERS */
-  section.band{padding:120px 0;}
-  .sec-eyebrow{font:600 12px/1 'Inter';letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:18px;display:block;}
-  h2.sec-h{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,5vw,58px);color:var(--navy);line-height:1.06;letter-spacing:-.02em;}
-  .sec-rule{height:1px;width:80px;background:linear-gradient(90deg,var(--gold),rgba(194,146,46,0));margin:24px 0;}
-  .sec-lead{color:var(--ink2);font-size:18px;line-height:1.65;max-width:520px;}
-
-  /* TWO PATHS — asymmetric */
-  .paths-head{max-width:560px;margin-bottom:80px;}
-  .paths{display:grid;grid-template-columns:1fr 1fr;gap:40px 56px;align-items:start;}
-  .path-col.offset{margin-top:96px;}
-  .path-visual{position:relative;aspect-ratio:4/5;border-radius:20px;overflow:hidden;
-    background:linear-gradient(160deg,#fbfcfe,#f1f4fa);border:1px solid var(--line);display:grid;place-items:center;box-shadow:0 24px 56px rgba(14,28,56,.07);}
-  .path-visual::after{content:"";position:absolute;inset:0;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='70'%3E%3Cg fill='none' stroke='%23c2922e' stroke-width='0.5' opacity='0.12'%3E%3Cpath d='M35 3 L67 35 L35 67 L3 35 Z'/%3E%3Cpath d='M35 17 L53 35 L35 53 L17 35 Z'/%3E%3C/g%3E%3C/svg%3E");background-size:70px 70px;}
-  .pv-glyph{position:relative;font-family:'Amiri',serif;font-size:150px;color:var(--gold);line-height:1;filter:drop-shadow(0 8px 20px rgba(194,146,46,.18));}
-  .pv-cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;color:var(--dim);font:600 11px/1 'Inter';letter-spacing:.22em;text-transform:uppercase;z-index:2;}
-  .path-num{position:absolute;top:-24px;right:-18px;z-index:3;width:78px;height:78px;display:grid;place-items:center;
-    font-family:'Fraunces',serif;font-weight:600;font-size:34px;color:#fff;border-radius:16px;box-shadow:0 16px 36px rgba(194,146,46,.35);
-    background:linear-gradient(135deg,#d2a23e,#b9842a);}
-  .path-body{padding:34px 6px 0;}
-  .path-body .lab{font:600 11px/1 'Inter';letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);}
-  .path-body h3{font-family:'Fraunces',serif;font-size:34px;font-weight:600;color:var(--navy);margin:10px 0 4px;letter-spacing:-.01em;}
-  .path-body .ar{font-family:'Amiri',serif;direction:rtl;font-size:26px;color:var(--gold-deep);margin-bottom:16px;}
-  .path-body p{color:var(--ink2);font-size:15.5px;line-height:1.7;margin-bottom:20px;}
-  .path-pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px;}
-  .path-pills span{font:600 11.5px/1 'Inter';letter-spacing:.04em;padding:7px 13px;border:1px solid var(--line);border-radius:8px;color:var(--ink2);background:var(--bg2);}
-  .path-go{display:inline-flex;align-items:center;gap:11px;font:600 12px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--navy);
-    border-bottom:2px solid var(--gold);padding-bottom:7px;transition:.2s;}
-  .path-go:hover{gap:16px;color:var(--gold-deep);}
-  @media(max-width:820px){.paths{grid-template-columns:1fr;gap:64px;}.path-col.offset{margin-top:0;}.path-visual{aspect-ratio:16/12;}}
-
-  /* TIMELINE ROADMAP */
-  .road{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .road-head{text-align:center;max-width:620px;margin:0 auto 90px;}
-  .road-head .sec-rule{margin:24px auto;}
-  .timeline{position:relative;max-width:880px;margin:0 auto;}
-  .timeline::before{content:"";position:absolute;left:50%;top:8px;bottom:8px;width:1px;background:var(--line);transform:translateX(-.5px);}
-  .tl-row{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:40px;align-items:center;}
-  .tl-num{font-family:'Fraunces',serif;font-weight:600;font-size:50px;color:var(--gold);opacity:.32;}
-  .tl-side{display:flex;}
-  .tl-row .tl-num-cell{display:flex;align-items:center;}
-  .tl-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 28px;box-shadow:0 12px 30px rgba(14,28,56,.05);}
-  .tl-card.dark{background:linear-gradient(155deg,#13243f,#0a1730);border-color:transparent;}
-  .tl-card h4{font-family:'Fraunces',serif;font-size:23px;font-weight:600;color:var(--navy);margin-bottom:7px;}
-  .tl-card.dark h4{color:var(--gold-br);}
-  .tl-card .ar{font-family:'Amiri',serif;direction:rtl;font-size:20px;color:var(--gold-deep);margin-bottom:10px;}
-  .tl-card.dark .ar{color:#cdb878;}
-  .tl-card p{color:var(--ink2);font-size:14.5px;line-height:1.6;}
-  .tl-card.dark p{color:#b9c3d6;}
-  .tl-dot{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:13px;height:13px;border-radius:50%;background:var(--gold);border:3px solid var(--bg2);z-index:2;}
-  /* left rows: card on left, number on right (mirrored) */
-  .tl-row.left .tl-card{order:1;text-align:right;}
-  .tl-row.left .tl-num-cell{order:2;justify-content:flex-start;}
-  .tl-row.left .tl-card .ar{direction:rtl;}
-  .tl-row.right .tl-num-cell{order:1;justify-content:flex-end;}
-  .tl-row.right .tl-card{order:2;}
-  @media(max-width:760px){
-    .timeline::before{left:22px;}
-    .tl-row{grid-template-columns:1fr;gap:0;margin-bottom:24px;padding-left:54px;}
-    .tl-dot{left:22px;}
-    .tl-row.left .tl-card,.tl-row.right .tl-card{order:1;text-align:left;}
-    .tl-row.left .tl-card .ar{direction:rtl;}
-    .tl-num-cell{display:none !important;}
+  :root {
+    --bg: #060e1b;
+    --card: rgba(17,25,39,.6);
+    --gold: #d4a347;
+    --gold-lt: #f2d080;
+    --text: #e8dcc8;
+    --dim: #c4b89a;
+    --green: #a7d9a6;
+    --red: #e07070;
+    --orange: #e0a070;
+    --border: rgba(212,163,74,.18);
+    --on-gold: #1a1208;
   }
 
-  /* FEATURE — native audio */
-  .feat{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;}
-  .feat .ft h3{font-family:'Fraunces',serif;font-size:clamp(28px,3.6vw,40px);font-weight:600;color:var(--navy);line-height:1.12;margin-bottom:16px;letter-spacing:-.01em;}
-  .feat .ft p{color:var(--ink2);font-size:16.5px;line-height:1.7;margin-bottom:26px;}
-  .flist{display:flex;flex-direction:column;gap:15px;}
-  .flist li{list-style:none;display:flex;gap:13px;align-items:flex-start;color:var(--ink);font-size:15.5px;}
-  .flist .ck{flex-shrink:0;width:23px;height:23px;border-radius:50%;background:var(--gold-soft);border:1px solid #efddb6;color:var(--gold-deep);display:grid;place-items:center;font-size:13px;font-weight:700;margin-top:1px;}
-  .feat-visual{background:linear-gradient(155deg,#13243f,#0a1730);border-radius:24px;padding:56px 40px;text-align:center;position:relative;overflow:hidden;box-shadow:0 30px 70px rgba(14,28,56,.2);}
-  .feat-visual::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23e0b452' stroke-width='0.5' opacity='0.11'%3E%3Cpath d='M32 2 L62 32 L32 62 L2 32 Z'/%3E%3C/g%3E%3C/svg%3E");background-size:64px 64px;}
-  .fv-in{position:relative;}
-  .fv-glyph{font-family:'Amiri',serif;font-size:128px;color:#ecc879;line-height:1;text-shadow:0 0 44px rgba(236,200,121,.3);}
-  .fv-rom{color:#aeb9d0;letter-spacing:.14em;font-size:14px;margin-bottom:20px;}
-  .fv-wave{display:flex;align-items:flex-end;gap:5px;height:42px;justify-content:center;}
-  .fv-wave i{width:5px;height:14px;border-radius:9px;background:linear-gradient(180deg,#e0b452,#c2922e);}
-  @media (prefers-reduced-motion: no-preference){.fv-wave i{animation:wv 1.1s ease-in-out infinite;}}
-  @keyframes wv{0%,100%{height:8px}50%{height:38px}}
-  .fv-wave i:nth-child(2){animation-delay:.1s}.fv-wave i:nth-child(3){animation-delay:.2s}.fv-wave i:nth-child(4){animation-delay:.3s}.fv-wave i:nth-child(5){animation-delay:.15s}.fv-wave i:nth-child(6){animation-delay:.25s}.fv-wave i:nth-child(7){animation-delay:.35s}.fv-wave i:nth-child(8){animation-delay:.05s}
-  @media(max-width:820px){.feat{grid-template-columns:1fr;gap:44px;}}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .ms { font-family: 'Material Symbols Outlined'; font-variation-settings: 'FILL' 1; line-height: 1; }
 
-  /* CTA */
-  .cta{position:relative;text-align:center;padding:150px 28px;overflow:hidden;background:#fff;}
-  .cta-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);font-family:'Amiri',serif;font-size:min(46vw,440px);line-height:1;color:var(--gold);opacity:.05;pointer-events:none;}
-  .cta-in{position:relative;z-index:2;max-width:680px;margin:0 auto;}
-  .cta-in h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(34px,5vw,56px);color:var(--navy);line-height:1.06;letter-spacing:-.02em;margin-bottom:18px;}
-  .cta-in p{color:var(--ink2);font-size:18px;margin-bottom:36px;}
-
-  /* FOOTER */
-  footer{background:#1b2c4d;padding:46px 0 30px;}
-  .foot-grid{display:grid;grid-template-columns:1.8fr 1fr 1.1fr .8fr;gap:32px;align-items:start;}
-  .foot-brand .fb{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:#f0dcae;}
-  .foot-brand p{color:#9aa6bd;font-size:13.5px;max-width:260px;margin-top:10px;line-height:1.55;}
-  .foot-col h5{font:700 11px/1 'Inter';letter-spacing:.16em;text-transform:uppercase;color:var(--gold-br);margin-bottom:13px;}
-  .foot-col a,.foot-col span{display:block;color:#aeb9d0;font-size:13.5px;margin-bottom:8px;}
-  .foot-col a:hover{color:#fff;}
-  .foot-bottom{text-align:center;color:#8593ac;font-size:12.5px;letter-spacing:.04em;margin-top:18px;padding-top:0;border-top:none;}
-  @media(max-width:760px){.foot-grid{grid-template-columns:1fr 1fr;gap:32px;}}
-
-  /* unified course cards (box = the course) */
-  .pcards{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
-  .pcard{display:block;background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(14,28,56,.06);transition:.28s;}
-  .pcard:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0 28px 60px rgba(194,146,46,.15);}
-  .pcard-top{position:relative;height:200px;display:grid;place-items:center;background:linear-gradient(160deg,#fbfcfe,#eef2f8);border-bottom:1px solid var(--line);overflow:hidden;}
-  .pcard-top::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23c2922e' stroke-width='0.5' opacity='0.11'%3E%3Cpath d='M32 2 L62 32 L32 62 L2 32 Z'/%3E%3C/g%3E%3C/svg%3E");background-size:64px 64px;}
-  .pcard-top .pv-glyph{position:relative;z-index:1;font-family:'Amiri',serif;font-size:112px;line-height:1;color:var(--gold);filter:drop-shadow(0 8px 20px rgba(194,146,46,.16));}
-  .pcard .path-num{position:absolute;top:18px;right:18px;width:54px;height:54px;border-radius:13px;display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:600;font-size:24px;color:#fff;background:linear-gradient(135deg,#d2a23e,#b9842a);box-shadow:0 12px 26px rgba(194,146,46,.32);z-index:3;}
-  .pcard-body{padding:30px 30px 34px;}
-  @media(max-width:740px){.pcards{grid-template-columns:1fr;gap:26px;}}
-
-  .nav-divider{position:absolute;left:0;right:0;bottom:0;width:100%;height:3px;background:linear-gradient(90deg,rgba(232,199,119,0),#e8c777 16%,#f2cd7e 50%,#e8c777 84%,rgba(232,199,119,0));box-shadow:0 0 12px rgba(242,205,126,.6);}
-  /* gold hairline + diamond divider */
-  .au-divider{position:relative;height:2px;width:100%;margin:0 auto;
-    background:linear-gradient(90deg,rgba(232,199,119,0),#e8c777 22%,#e8c777 78%,rgba(232,199,119,0));box-shadow:0 0 8px rgba(242,205,126,.45);}
-  .au-divider span{position:absolute;left:50%;top:50%;width:11px;height:11px;
-    background:linear-gradient(135deg,#e8c777,#c2922e);transform:translate(-50%,-50%) rotate(45deg);
-    box-shadow:0 0 14px rgba(224,180,82,.55);}
-
-  /* ===== WOW LAYER (additive, layout unchanged) ===== */
-  /* faint aqra calligraphy behind hero */
-  .hero{position:relative;}
-  .hero-bg-glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-52%);font-family:'Amiri',serif;
-    font-size:min(58vw,640px);line-height:1;color:var(--gold);opacity:.045;pointer-events:none;user-select:none;z-index:0;}
-  .hero-in{position:relative;z-index:2;}
-  @media (prefers-reduced-motion: no-preference){
-    .hero-bg-glyph{opacity:0;animation:glyphIn 2.4s ease forwards .3s;}
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 24px 20px 60px;
+    position: relative;
   }
-  @keyframes glyphIn{to{opacity:.05;}}
-
-  /* shimmer travelling along the gold divider lines */
-  .au-divider{overflow:visible;}
-  .au-divider::after{content:"";position:absolute;top:50%;left:0;transform:translateY(-50%);width:90px;height:3px;border-radius:9px;
-    background:linear-gradient(90deg,rgba(255,247,224,0),rgba(255,247,224,.9),rgba(255,247,224,0));filter:blur(1px);opacity:0;}
-  @media (prefers-reduced-motion: no-preference){
-    .au-divider::after{animation:lineSheen 5.5s ease-in-out infinite;}
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse 90% 55% at 50% -5%, rgba(232,200,120,.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
   }
-  @keyframes lineSheen{0%{left:-12%;opacity:0;}15%{opacity:1;}45%{opacity:1;}60%,100%{left:100%;opacity:0;}}
 
-  /* diamonds breathe */
-  @media (prefers-reduced-motion: no-preference){
-    .au-divider span,.nav-divider span{animation:diaPulse 3.4s ease-in-out infinite;}
+  .stage {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
   }
-  @keyframes diaPulse{0%,100%{box-shadow:0 0 10px rgba(224,180,82,.45);}50%{box-shadow:0 0 20px rgba(242,205,126,.85);}}
 
-  /* primary (green) button sheen sweep */
-  .btn-solid{position:relative;overflow:hidden;}
-  .btn-solid::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;transform:skewX(-20deg);
-    background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.4),rgba(255,255,255,0));}
-  @media (prefers-reduced-motion: no-preference){
-    .btn-solid::after{animation:btnSheen 4.5s ease-in-out infinite;}
+  /* Back button */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(212,163,74,.08);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 16px;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s;
+    margin-bottom: 16px;
   }
-  @keyframes btnSheen{0%,55%{left:-60%;}100%{left:150%;}}
+  .back-btn:hover { background: rgba(212,163,74,.15); border-color: rgba(212,163,74,.4); }
+  .back-btn .arrow { font-size: 18px; line-height: 1; }
 
-  /* course-card calligraphy glow + drift on hover */
-  .pcard-top .pv-glyph{transition:transform .5s cubic-bezier(.2,.7,.2,1),text-shadow .5s,color .5s;}
-  .pcard:hover .pcard-top .pv-glyph{transform:scale(1.06) translateY(-4px);filter:drop-shadow(0 12px 26px rgba(194,146,46,.32));}
-  .pcard-top{transition:background .5s;}
-  .pcard:hover .pcard-top{background:linear-gradient(160deg,#fdf6e6,#f3e9d4);}
-
-  /* scroll reveal */
-  .reveal{opacity:1;}
-  @media (prefers-reduced-motion: no-preference){
-    .reveal{opacity:0;transform:translateY(30px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1);}
-    .reveal.in{opacity:1;transform:none;}
+  /* Header */
+  .admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+    gap: 12px;
+    flex-wrap: wrap;
   }
-</style></head>
+  .admin-brand { display: flex; align-items: baseline; gap: 10px; }
+  .admin-brand-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: .25em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .admin-brand-name {
+    font-family: 'Cinzel', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--text); letter-spacing: .02em;
+  }
+  .admin-info {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 13px; color: var(--dim);
+  }
+  .admin-info strong { color: var(--text); font-weight: 500; }
+  .admin-info .btn-out {
+    background: transparent;
+    border: 1px solid rgba(224,112,112,.3);
+    color: var(--red);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+  }
+  .admin-info .btn-out:hover { background: rgba(224,112,112,.08); border-color: var(--red); }
+
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 14px; margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  .stat-value {
+    font-family: 'Cinzel', serif;
+    font-size: 28px; font-weight: 700;
+    color: var(--gold); line-height: 1; margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  @media (max-width: 720px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-value { font-size: 22px; }
+  }
+
+  .toolbar {
+    display: flex; gap: 10px;
+    margin-bottom: 18px; align-items: center;
+  }
+  .search-input {
+    flex: 1;
+    padding: 11px 16px;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; outline: none;
+    transition: all .2s;
+  }
+  .search-input:focus { border-color: rgba(212,163,74,.5); }
+  .search-input::placeholder { color: var(--dim); }
+  .btn-refresh {
+    background: rgba(212,163,74,.08);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 11px 16px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .btn-refresh:hover { background: rgba(212,163,74,.15); border-color: rgba(212,163,74,.4); }
+  .btn-refresh .ms { font-size: 16px; }
+  .btn-refresh:disabled { opacity: .5; cursor: wait; }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .users-list { display: flex; flex-direction: column; gap: 8px; }
+  .user-card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 16px; align-items: center;
+    transition: border-color .2s;
+  }
+  .user-card:hover { border-color: rgba(212,163,74,.35); }
+  .user-card.expanded { border-color: rgba(212,163,74,.4); background: rgba(212,163,74,.04); }
+  .user-main { min-width: 0; cursor: pointer; }
+  .user-email {
+    font-size: 14px; font-weight: 600; color: var(--text);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    margin-bottom: 3px;
+  }
+  .user-meta {
+    font-size: 11px; color: var(--dim);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .badge {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .08em; padding: 4px 10px;
+    border-radius: 999px; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .badge.active { background: rgba(167,217,166,.15); color: var(--green); border: 1px solid rgba(167,217,166,.3); }
+  .badge.canceled, .badge.canceling { background: rgba(224,160,112,.15); color: var(--orange); border: 1px solid rgba(224,160,112,.3); }
+  .badge.incomplete, .badge.past_due { background: rgba(224,112,112,.12); color: var(--red); border: 1px solid rgba(224,112,112,.3); }
+  .badge.none { background: rgba(196,184,154,.08); color: var(--dim); border: 1px solid var(--border); }
+  .user-plan {
+    font-family: 'Cinzel', serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--gold); white-space: nowrap;
+  }
+  .user-plan.no-plan { color: var(--dim); font-style: italic; font-weight: 400; }
+
+  .user-detail {
+    display: none;
+    margin-top: 14px; padding-top: 14px;
+    border-top: 1px solid var(--border);
+    grid-column: 1 / -1;
+  }
+  .user-card.expanded .user-detail { display: block; }
+  .detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 24px; }
+  .detail-row { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .detail-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--dim);
+  }
+  .detail-value { font-size: 13px; color: var(--text); word-break: break-all; }
+  .detail-value.mono { font-family: 'Courier New', monospace; font-size: 12px; }
+  .detail-value a { color: var(--gold); text-decoration: none; }
+  .detail-value a:hover { text-decoration: underline; }
+  @media (max-width: 600px) {
+    .user-card { grid-template-columns: 1fr; gap: 10px; }
+    .user-main, .badge, .user-plan { width: 100%; }
+    .user-plan { font-size: 14px; }
+    .badge { width: fit-content; }
+    .detail-grid { grid-template-columns: 1fr; }
+  }
+
+  .state-msg { text-align: center; padding: 60px 20px; color: var(--dim); }
+  .state-msg .ms { font-size: 48px; color: rgba(212,163,74,.3); display: block; margin-bottom: 14px; }
+  .state-msg h2 { font-family: 'Cinzel', serif; font-size: 20px; color: var(--text); margin-bottom: 8px; font-weight: 700; }
+  .state-msg p { font-size: 13px; line-height: 1.6; max-width: 360px; margin: 0 auto; }
+  .state-msg.error { color: var(--red); }
+  .state-msg.error .ms { color: var(--red); }
+
+  .coming-soon-note {
+    background: rgba(212,163,74,.06);
+    border: 1px dashed rgba(212,163,74,.3);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 24px;
+    text-align: center;
+    color: var(--dim);
+    font-size: 12px; line-height: 1.6;
+  }
+  .coming-soon-note strong { color: var(--gold); }
+
+  /* ═══════ STAFF MANAGEMENT ═══════ */
+  .staff-section {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+  .staff-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .staff-title {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: .04em;
+  }
+  .staff-refresh-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .staff-refresh-btn:hover {
+    border-color: var(--gold);
+    background: rgba(212,163,74,.08);
+  }
+  .staff-refresh-btn .material-symbols-outlined { font-size: 18px; }
+
+  .staff-code-display {
+    background: rgba(212,163,74,.05);
+    border: 1px dashed rgba(212,163,74,.3);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+  }
+  .staff-code-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: .15em;
+    margin-bottom: 8px;
+  }
+  .staff-code-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .staff-code-value {
+    flex: 1;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    letter-spacing: .08em;
+    color: var(--gold-lt);
+    background: rgba(0,0,0,.25);
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    user-select: all;
+  }
+  .btn-code-action {
+    width: 38px;
+    height: 38px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-code-action:hover {
+    border-color: var(--gold);
+    background: rgba(212,163,74,.1);
+    color: var(--gold);
+  }
+  .btn-code-action .material-symbols-outlined { font-size: 18px; }
+  .staff-code-hint {
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .staff-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .staff-empty {
+    text-align: center;
+    padding: 24px;
+    color: var(--dim);
+    font-size: 13px;
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+  }
+  .staff-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    transition: all .2s;
+  }
+  .staff-row:hover {
+    border-color: rgba(212,163,74,.35);
+  }
+  .staff-row-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .staff-row-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .staff-row-email {
+    font-size: 12px;
+    color: var(--dim);
+    word-break: break-all;
+  }
+  .btn-demote {
+    background: rgba(224,112,112,.08);
+    border: 1px solid rgba(224,112,112,.25);
+    color: #e07070;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .btn-demote:hover {
+    background: rgba(224,112,112,.16);
+    border-color: rgba(224,112,112,.45);
+  }
+  .btn-demote:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+</style>
+</head>
 <body>
 
-<nav><div class="wrap nav-in">
-  <a class="brand" href="index.html"><svg class="brand-mark" viewBox="0 0 180 160" aria-hidden="true"><defs><linearGradient id="lgm" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8c777"/><stop offset="58%" stop-color="#c2922e"/><stop offset="100%" stop-color="#8a6620"/></linearGradient></defs><g transform="translate(90,86)"><path d="M -72,64 L -72,-32 A 72,72 0 0 1 72,-32 L 72,64 L 50,64 L 50,-28 A 50,50 0 0 0 -50,-28 L -50,64 Z" fill="url(#lgm)"/><path d="M -50,64 L -50,-28 A 50,50 0 0 1 50,-28 L 50,64 L 30,64 L 30,-22 A 30,30 0 0 0 -30,-22 L -30,64 Z" fill="#1b2c4d"/><path d="M -30,64 L -30,-22 A 30,30 0 0 1 30,-22 L 30,64 L 10,64 L 10,-16 A 10,10 0 0 0 -10,-16 L -10,64 Z" fill="url(#lgm)"/></g></svg><span>Lisaany</span></a>
-  <div class="nav-links"><a href="lisaany_new.html">Quran Norania</a><a href="arabic_platform.html">Learn Arabic</a><a href="pricing.html">Pricing</a><a href="tutors.html">Live Tutor</a></div>
-  
-  <button class="burger" onclick="location.href='arabic_platform.html'">☰</button>
-</div><div class="au-divider nav-divider"><span></span></div></nav>
+<div class="stage">
 
-<header class="hero">
-  <div class="hero-bg-glyph">اقرأ</div>
-  <div class="hero-glyph">اقرأ</div>
-  <div class="hero-in">
-    <div class="hero-eyebrow rise d1"><span class="ln"></span><span class="ttl"><span class="ar">اقرأ</span> &nbsp;·&nbsp; Read · Speak · Master</span><span class="ln r"></span></div>
-    <h1 class="hero-h rise d1">Read the <em>Quran.</em><br>Speak <em>Arabic.</em></h1>
-    <p class="hero-sub rise d2">From the alphabet to full conversation — a real curriculum with native-recorded audio, from your very first letter.</p>
-    <div class="hero-cta rise d3">
-      <a class="btn-solid" href="arabic_platform.html">Start the Course</a>
-      <a class="btn-link" href="pricing.html">View Pricing <span class="ar">→</span></a>
+  <!-- Back button (always visible) -->
+  <button type="button" class="back-btn" onclick="goBack()">
+    <span class="arrow">←</span>
+    Back
+  </button>
+
+  <!-- Loading -->
+  <div id="loadingState" class="state-msg">
+    <span class="ms">hourglass_top</span>
+    <h2>Loading admin dashboard…</h2>
+  </div>
+
+  <!-- Not signed in -->
+  <div id="signedOutState" class="state-msg" style="display:none;">
+    <span class="ms">lock</span>
+    <h2>Sign in required</h2>
+    <p>You need to be signed in to access the admin dashboard. Redirecting…</p>
+  </div>
+
+  <!-- Not authorized -->
+  <div id="unauthorizedState" class="state-msg error" style="display:none;">
+    <span class="ms">block</span>
+    <h2>Not authorized</h2>
+    <p>This area is restricted to admins. Returning you to the homepage.</p>
+  </div>
+
+  <!-- Error -->
+  <div id="errorState" class="state-msg error" style="display:none;">
+    <span class="ms">error</span>
+    <h2>Couldn't load admin data</h2>
+    <p id="errorDetail">—</p>
+  </div>
+
+  <!-- Admin dashboard -->
+  <div id="adminState" style="display:none;">
+
+    <div class="admin-header">
+      <div class="admin-brand">
+        <span class="admin-brand-eyebrow">Admin</span>
+        <span class="admin-brand-name">Lisaany</span>
+      </div>
+      <div class="admin-info">
+        <span>Signed in as <strong id="adminEmail">—</strong></span>
+        <button type="button" class="btn-out" onclick="signOut()">Sign out</button>
+      </div>
     </div>
-    <div class="hero-note rise d4"><b>Free to start.</b> No credit card needed.</div>
-  </div>
-</header>
 
-
-
-<section class="band"><div class="wrap">
-  <div class="paths-head rise reveal">
-    <span class="sec-eyebrow">Two paths · one journey</span>
-    <h2 class="sec-h">Choose where<br>you begin</h2>
-    <div class="sec-rule"></div>
-    <p class="sec-lead">You can walk both — but most begin with one, and the other unlocks beautifully alongside it.</p>
-  </div>
-  <div class="pcards">
-    <a class="pcard rise reveal d1" href="lisaany_new.html">
-      <div class="pcard-top"><div class="path-num">01</div><span class="pv-glyph">اقرأ</span></div>
-      <div class="pcard-body path-body">
-        <span class="lab">Begin here for Quran</span>
-        <h3>Quran Norania</h3><div class="ar">القاعدة النورانية</div>
-        <p>Master the Arabic alphabet, the harakat, and the rules of recitation. Eight classical lessons that take you from your first letter to reading the Quran with confidence.</p>
-        <div class="path-pills"><span>8 Lessons</span><span>28 Letters</span><span>Tajweed Rules</span><span>Full Audio</span></div>
-        <span class="path-go">Begin Reading →</span>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotalUsers">—</div>
+        <div class="stat-label">Total users</div>
       </div>
-    </a>
-    <a class="pcard rise reveal d2" href="arabic_platform.html">
-      <div class="pcard-top"><div class="path-num">02</div><span class="pv-glyph">كلام</span></div>
-      <div class="pcard-body path-body">
-        <span class="lab">Begin here to converse</span>
-        <h3>Learn Arabic</h3><div class="ar">تَعَلَّم العَرَبِيَّة</div>
-        <p>A structured 12-module course following Al-Arabiyyah Bayna Yadayk and Madina Arabic. Real dialogues, real vocabulary, real grammar — from your first hello to full conversation.</p>
-        <div class="path-pills"><span>12 Modules</span><span>170+ Blocks</span><span>Live Dialogues</span><span>Sentence Builder</span></div>
-        <span class="path-go">Start Speaking →</span>
+      <div class="stat-card">
+        <div class="stat-value" id="statActive">—</div>
+        <div class="stat-label">Active subscribers</div>
       </div>
-    </a>
+      <div class="stat-card">
+        <div class="stat-value" id="statMrr">—</div>
+        <div class="stat-label">Est. monthly revenue</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statNew">—</div>
+        <div class="stat-label">New last 30 days</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" class="search-input" id="searchInput" placeholder="Search by email, name, or user ID…">
+      <button type="button" class="btn-refresh" id="refreshBtn" onclick="loadUsers(true)">
+        <span class="ms">refresh</span>
+        Refresh
+      </button>
+    </div>
+
+    <div class="users-list" id="usersList"></div>
+
+    <!-- ═══════════════════ STAFF MANAGEMENT ═══════════════════ -->
+    <div class="staff-section">
+      <div class="staff-section-header">
+        <h2 class="staff-title">Staff Management</h2>
+        <button class="staff-refresh-btn" onclick="loadStaff()" title="Refresh">
+          <span class="material-symbols-outlined">refresh</span>
+        </button>
+      </div>
+
+      <!-- Master code display -->
+      <div class="staff-code-display">
+        <div class="staff-code-label">Master Staff Code</div>
+        <div class="staff-code-row">
+          <div class="staff-code-value" id="masterCode">••••••••</div>
+          <button class="btn-code-action" onclick="toggleCodeVisible()" id="codeToggleBtn" title="Show/hide">
+            <span class="material-symbols-outlined" id="codeToggleIcon">visibility</span>
+          </button>
+          <button class="btn-code-action" onclick="rotateCode()" title="Rotate code">
+            <span class="material-symbols-outlined">autorenew</span>
+          </button>
+        </div>
+        <div class="staff-code-hint">Tutors enter this code on the Sign In page to activate staff access. Rotate if compromised.</div>
+      </div>
+
+      <!-- Staff list -->
+      <div class="staff-list" id="staffList">
+        <div class="staff-empty">Loading staff...</div>
+      </div>
+    </div>
+    <!-- ═══════════════════ END STAFF MANAGEMENT ═══════════════════ -->
+
+    <div class="coming-soon-note">
+      <strong>Read-only mode.</strong> Rename, suspend, refund, and delete actions will be added once the Cloudflare backend deploy issue is resolved.
+    </div>
   </div>
-</div></section>
 
-
-
-<div class="wrap"><div class="au-divider" style="margin:30px auto;"><span></span></div></div>
-
-<section class="cta">
-  <div class="cta-glyph">اقرأ</div>
-  <div class="cta-in rise reveal">
-    <h2>Begin your Arabic journey today</h2>
-    <p>Free to start. Premium when you're ready. Cancel anytime.</p>
-    <a class="btn-solid" href="arabic_platform.html">Get Started Free</a>
-  </div>
-</section>
-
-<footer><div class="wrap">
-  <div class="foot-grid">
-    <div class="foot-brand"><span class="fb">Lisaany</span><p>Learn Arabic the beautiful way — from your first letter to the Quran.</p></div>
-    <div class="foot-col"><h5>Learn</h5><a href="lisaany_new.html">Quran Norania</a><a href="arabic_platform.html">Learn Arabic</a><a href="pricing.html">Pricing</a><a href="tutors.html">Live Tutor</a></div>
-    <div class="foot-col"><h5>Contact</h5><a href="mailto:admin@lisaany.com">admin@lisaany.com</a><a href="https://wa.me/18009292400">WhatsApp</a><a href="tel:+18009292400">+1 800 929 2400</a><span>Madina Munawwarah, KSA</span></div>
-    <div class="foot-col"><h5>Legal</h5><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a></div>
-  </div>
-  <div class="au-divider" style="margin:36px 0 0;"><span></span></div>
-  <div class="foot-bottom">© 2026 Lisaany. All rights reserved.</div>
-</div></footer>
+</div>
 
 <script>
-(function(){
-  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  var els=document.querySelectorAll('.reveal');
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
-  els.forEach(function(el){io.observe(el);});
-})();
+  const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const ADMIN_EMAILS = ['ahmedstart163@gmail.com'];
+
+  const PLAN_PRICES = { self_paced: 12.99, with_tutor: 29.99 };
+  const PLAN_LABELS = { self_paced: 'Basic', with_tutor: 'Pro' };
+
+  let allUsers = [];
+  let expandedUserId = null;
+
+  // ── Back button ──
+  function goBack() {
+    if (window.history.length > 1) {
+      window.history.back();
+    } else {
+      window.location.href = 'profile.html';
+    }
+  }
+
+  async function signOut() {
+    try { await sb.auth.signOut(); } catch(e) {}
+    window.location.href = 'index.html';
+  }
+
+  function formatDate(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+  }
+  function formatDateTime(d) {
+    if (!d) return '—';
+    return new Date(d).toLocaleString(undefined, { year:'numeric', month:'short', day:'numeric', hour:'numeric', minute:'2-digit' });
+  }
+  function escapeHtml(s) {
+    if (!s) return '';
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function updateStats(users) {
+    const total = users.length;
+    const active = users.filter(u => u.status === 'active' || u.status === 'trialing').length;
+    let mrr = 0;
+    users.forEach(u => {
+      if ((u.status === 'active' || u.status === 'trialing') && !u.cancel_at_period_end) {
+        mrr += PLAN_PRICES[u.plan] || 0;
+      }
+    });
+    const monthAgo = new Date();
+    monthAgo.setDate(monthAgo.getDate() - 30);
+    const newCount = users.filter(u => new Date(u.user_created_at) > monthAgo).length;
+    document.getElementById('statTotalUsers').textContent = total;
+    document.getElementById('statActive').textContent = active;
+    document.getElementById('statMrr').textContent = '$' + mrr.toFixed(0);
+    document.getElementById('statNew').textContent = newCount;
+  }
+
+  function renderUsers(users) {
+    const list = document.getElementById('usersList');
+    if (!users || users.length === 0) {
+      list.innerHTML = '<div class="state-msg"><span class="ms">person_off</span><h2>No users found</h2><p>No matches for that search.</p></div>';
+      return;
+    }
+    list.innerHTML = users.map(u => userCard(u)).join('');
+  }
+
+  function statusBadge(status, cancelAtEnd) {
+    if (!status) return '<span class="badge none">No plan</span>';
+    if ((status === 'active' || status === 'trialing') && cancelAtEnd) {
+      return '<span class="badge canceling">Canceling</span>';
+    }
+    const cls = ['active','trialing'].includes(status) ? 'active'
+              : ['canceled','canceling'].includes(status) ? 'canceled'
+              : ['incomplete','incomplete_expired','past_due','unpaid'].includes(status) ? 'incomplete'
+              : 'none';
+    return `<span class="badge ${cls}">${escapeHtml(status)}</span>`;
+  }
+
+  function userCard(u) {
+    const planLabel = u.plan ? PLAN_LABELS[u.plan] || u.plan : null;
+    const planHtml = planLabel
+      ? `<div class="user-plan">${escapeHtml(planLabel)}</div>`
+      : `<div class="user-plan no-plan">Free</div>`;
+    const isExpanded = u.user_id === expandedUserId;
+    const stripeCustLink = u.stripe_customer_id
+      ? `<a href="https://dashboard.stripe.com/test/customers/${escapeHtml(u.stripe_customer_id)}" target="_blank">${escapeHtml(u.stripe_customer_id)} ↗</a>`
+      : '—';
+    const stripeSubLink = u.stripe_subscription_id
+      ? `<a href="https://dashboard.stripe.com/test/subscriptions/${escapeHtml(u.stripe_subscription_id)}" target="_blank">${escapeHtml(u.stripe_subscription_id)} ↗</a>`
+      : '—';
+    return `
+      <div class="user-card ${isExpanded ? 'expanded' : ''}" data-id="${escapeHtml(u.user_id)}">
+        <div class="user-main" onclick="toggleExpand('${escapeHtml(u.user_id)}')">
+          <div class="user-email">${escapeHtml(u.email || u.user_id)}</div>
+          <div class="user-meta">${escapeHtml(u.name || '—')} · Joined ${formatDate(u.user_created_at)}</div>
+        </div>
+        ${statusBadge(u.status, u.cancel_at_period_end)}
+        ${planHtml}
+        <div class="user-detail">
+          <div class="detail-grid">
+            <div class="detail-row"><div class="detail-label">User ID</div><div class="detail-value mono">${escapeHtml(u.user_id)}</div></div>
+            <div class="detail-row"><div class="detail-label">Display name</div><div class="detail-value">${escapeHtml(u.name || '—')}</div></div>
+            <div class="detail-row"><div class="detail-label">Joined</div><div class="detail-value">${formatDateTime(u.user_created_at)}</div></div>
+            <div class="detail-row"><div class="detail-label">Plan</div><div class="detail-value">${escapeHtml(planLabel || 'Free / no subscription')}</div></div>
+            <div class="detail-row"><div class="detail-label">Subscription status</div><div class="detail-value">${escapeHtml(u.status || '—')}${u.cancel_at_period_end ? ' (canceling at period end)' : ''}</div></div>
+            <div class="detail-row"><div class="detail-label">${u.cancel_at_period_end ? 'Access ends' : 'Next renewal'}</div><div class="detail-value">${formatDate(u.current_period_end)}</div></div>
+            <div class="detail-row"><div class="detail-label">Stripe customer</div><div class="detail-value mono">${stripeCustLink}</div></div>
+            <div class="detail-row"><div class="detail-label">Stripe subscription</div><div class="detail-value mono">${stripeSubLink}</div></div>
+            <div class="detail-row"><div class="detail-label">Last updated</div><div class="detail-value">${formatDateTime(u.sub_updated_at)}</div></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function toggleExpand(userId) {
+    expandedUserId = (expandedUserId === userId) ? null : userId;
+    applyFilter();
+  }
+
+  function applyFilter() {
+    const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+    if (!q) { renderUsers(allUsers); return; }
+    const filtered = allUsers.filter(u =>
+      (u.email || '').toLowerCase().includes(q) ||
+      (u.name || '').toLowerCase().includes(q) ||
+      (u.user_id || '').toLowerCase().includes(q) ||
+      (u.stripe_customer_id || '').toLowerCase().includes(q) ||
+      (u.stripe_subscription_id || '').toLowerCase().includes(q)
+    );
+    renderUsers(filtered);
+  }
+
+  async function loadUsers(isRefresh) {
+    const btn = document.getElementById('refreshBtn');
+    const originalHTML = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="ms" style="animation:spin 0.8s linear infinite;">refresh</span>Loading…';
+    try {
+      const { data, error } = await sb.rpc('admin_get_users');
+      if (error) throw error;
+      allUsers = data || [];
+      applyFilter();
+      updateStats(allUsers);
+      if (isRefresh) {
+        btn.innerHTML = '<span class="ms">check_circle</span>Updated';
+        setTimeout(() => { btn.innerHTML = originalHTML; btn.disabled = false; }, 1200);
+      } else {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      }
+    } catch (err) {
+      console.error('loadUsers error:', err);
+      btn.innerHTML = '<span class="ms">error</span>Error';
+      setTimeout(() => { btn.innerHTML = originalHTML; btn.disabled = false; }, 2000);
+      if (!isRefresh) {
+        document.getElementById('errorDetail').textContent = err.message || String(err);
+        document.getElementById('adminState').style.display = 'none';
+        document.getElementById('errorState').style.display = 'block';
+      } else {
+        alert('Refresh failed: ' + (err.message || err));
+      }
+    }
+  }
+
+  (async function init() {
+    try {
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session || !session.user) {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('signedOutState').style.display = 'block';
+        setTimeout(() => { window.location.href = 'auth.html'; }, 2000);
+        return;
+      }
+      if (!ADMIN_EMAILS.includes(session.user.email)) {
+        document.getElementById('loadingState').style.display = 'none';
+        document.getElementById('unauthorizedState').style.display = 'block';
+        setTimeout(() => { window.location.href = 'index.html'; }, 3000);
+        return;
+      }
+      document.getElementById('adminEmail').textContent = session.user.email;
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('adminState').style.display = 'block';
+      document.getElementById('searchInput').addEventListener('input', applyFilter);
+      await loadUsers();
+      await loadStaff();
+      await loadStaffCode();
+    } catch (err) {
+      console.error('init error:', err);
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('errorDetail').textContent = err.message || String(err);
+      document.getElementById('errorState').style.display = 'block';
+    }
+  })();
+
+  // ═══════════════ STAFF MANAGEMENT ═══════════════
+  let codeVisible = false;
+  let cachedCode = '';
+
+  async function loadStaff() {
+    const list = document.getElementById('staffList');
+    list.innerHTML = '<div class="staff-empty">Loading staff...</div>';
+    try {
+      const { data, error } = await sb.rpc('admin_get_staff');
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        list.innerHTML = '<div class="staff-empty">No staff members yet. Share the master code with your tutors.</div>';
+        return;
+      }
+
+      list.innerHTML = data.map(s => {
+        const name = s.name || (s.email ? s.email.split('@')[0] : 'Tutor');
+        return `
+          <div class="staff-row">
+            <div class="staff-row-info">
+              <div class="staff-row-name">${escapeHTML(name)}</div>
+              <div class="staff-row-email">${escapeHTML(s.email || '')}</div>
+            </div>
+            <button class="btn-demote" onclick="demoteStaff('${s.user_id}', '${escapeHTML(name).replace(/'/g, "\\'")}')">
+              Demote
+            </button>
+          </div>`;
+      }).join('');
+    } catch (err) {
+      console.error('loadStaff error:', err);
+      list.innerHTML = `<div class="staff-empty">Failed to load: ${escapeHTML(err.message || String(err))}</div>`;
+    }
+  }
+
+  async function loadStaffCode() {
+    try {
+      const { data, error } = await sb.rpc('admin_get_staff_code');
+      if (error) throw error;
+      cachedCode = data || '';
+      updateCodeDisplay();
+    } catch (err) {
+      console.error('loadStaffCode error:', err);
+      cachedCode = '(failed to load)';
+      updateCodeDisplay();
+    }
+  }
+
+  function updateCodeDisplay() {
+    const el = document.getElementById('masterCode');
+    if (codeVisible) {
+      el.textContent = cachedCode || '(empty)';
+    } else {
+      el.textContent = '••••••••••••';
+    }
+    document.getElementById('codeToggleIcon').textContent = codeVisible ? 'visibility_off' : 'visibility';
+  }
+
+  function toggleCodeVisible() {
+    codeVisible = !codeVisible;
+    updateCodeDisplay();
+  }
+
+  async function rotateCode() {
+    const newCode = prompt('Enter the new master staff code (min 4 chars):', '');
+    if (newCode === null) return;
+    const trimmed = newCode.trim();
+    if (trimmed.length < 4) {
+      alert('Code must be at least 4 characters.');
+      return;
+    }
+    if (!confirm(`Set master staff code to: ${trimmed}\n\nExisting staff will keep their access. Only NEW staff signups will need to use the new code.`)) return;
+    try {
+      const { data, error } = await sb.rpc('admin_rotate_staff_code', { new_code: trimmed });
+      if (error) throw error;
+      cachedCode = trimmed;
+      codeVisible = true;
+      updateCodeDisplay();
+      alert('Master code updated.');
+    } catch (err) {
+      alert('Failed to rotate code: ' + (err.message || err));
+    }
+  }
+
+  async function demoteStaff(userId, name) {
+    if (!confirm(`Demote "${name}" from staff back to student?\n\nThey'll lose access to the staff dashboard immediately on next login.`)) return;
+    try {
+      const { data, error } = await sb.rpc('admin_demote_staff', { target_user_id: userId });
+      if (error) throw error;
+      await loadStaff();
+    } catch (err) {
+      alert('Failed to demote: ' + (err.message || err));
+    }
+  }
+
+  function escapeHTML(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
 </script>
-</body></html>
+
+</body>
+</html>
