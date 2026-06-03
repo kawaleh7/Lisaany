@@ -7634,6 +7634,7 @@ function resetBS(){
   S.dlPlayMode=false; S.dlPlayIdx=0; S.dlAwaitingTap=false; S.dlPlayDone=false; S.dlActiveWord=null;
   S.dlIdx=0; S.vIdx=0; S.vFlip=false; S.vKnown=new Set();
   const blk=getBlk(S.mId,S.uId,S.bId);
+  if(blk?.type==='dialogue'){ S.dlPlayMode=true; }
   if(blk?.type==='clutter'){ S.cIdx=0; S.cAns=[]; S.cScore=0; S.cWrong=0; S.cFb=null; S.cLocked=false; S.cBank=buildBankWithDistractors(blk.data.sentences[0]?.words||[], S.mId, S.uId); }
   if(blk?.type==='possessive'){ S.posIdx=0; S.posChosen=null; S.posFb=null; S.posLocked=false; S.posScore=0; S.posWrong=0; }
   if(blk?.type==='quiz'){ S.quizIdx=0; S.quizChosen=null; S.quizFb=null; S.quizLocked=false; S.quizScore=0; S.quizWrong=0; }
