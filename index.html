@@ -473,6 +473,47 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
   .cta::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.08;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='%23c2922e' stroke-width='0.8'%3E%3Cpath d='M36 4 L45 27 L68 36 L45 45 L36 68 L27 45 L4 36 L27 27 Z'/%3E%3Cpath d='M36 17 L43 29 L55 36 L43 43 L36 55 L29 43 L17 36 L29 29 Z'/%3E%3C/g%3E%3C/svg%3E");
     background-size:72px 72px;}
+
+  /* ===== YOUR JOURNEY (connected gold-circle row) ===== */
+  .jny-band{padding:88px 0;position:relative;overflow:hidden;color:var(--ink);background:linear-gradient(180deg,#fff,#f6f8fc);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .jny-band::before{content:"";position:absolute;inset:0;opacity:.05;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='%23c2922e' stroke-width='0.8'%3E%3Cpath d='M36 4 L45 27 L68 36 L45 45 L36 68 L27 45 L4 36 L27 27 Z'/%3E%3Cpath d='M36 17 L43 29 L55 36 L43 43 L36 55 L29 43 L17 36 L29 29 Z'/%3E%3C/g%3E%3C/svg%3E");background-size:72px 72px;}
+  .jny-in{position:relative;z-index:2;max-width:1080px;margin:0 auto;padding:0 28px;}
+  .jny-head{text-align:center;margin-bottom:58px;}
+  .jny-eyebrow{font:600 12px/1 'Inter';letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px;display:block;}
+  .jny-head h2{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(30px,4.6vw,48px);line-height:1.06;letter-spacing:-.01em;color:var(--navy);}
+  .jny-diadiv{position:relative;height:2px;width:150px;margin:20px auto 0;background:linear-gradient(90deg,rgba(232,199,119,0),#e8c777 30%,#e8c777 70%,rgba(232,199,119,0));}
+  .jny-diadiv span{position:absolute;left:50%;top:50%;width:10px;height:10px;background:linear-gradient(135deg,#e8c777,#c2922e);transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 12px rgba(224,180,82,.6);}
+  .jny-row{display:flex;justify-content:space-between;gap:10px;position:relative;}
+  .jny-row::before{content:"";position:absolute;top:55px;left:11%;right:11%;height:2px;background:repeating-linear-gradient(90deg,#caa24a 0 7px,transparent 7px 15px);opacity:.55;z-index:0;}
+  .jny-stage{flex:1;text-align:center;position:relative;z-index:1;}
+  .jny-circ{width:110px;height:110px;border-radius:50%;display:grid;place-items:center;margin:0 auto 18px;background:linear-gradient(150deg,#d2a23e,#b9842a);box-shadow:0 14px 30px rgba(170,118,42,.26);}
+  .jny-circ svg{width:46px;height:46px;stroke:#fff;stroke-width:1.5;fill:none;}
+  .jny-en{font-family:'Cinzel',serif;font-size:20px;font-weight:600;color:var(--navy);margin-bottom:4px;}
+  .jny-ar{font-family:'Amiri',serif;direction:rtl;font-size:18px;color:var(--gold-deep);}
+  @media(max-width:720px){
+    .jny-band{padding:62px 0;}
+    .jny-row{flex-wrap:wrap;justify-content:center;gap:32px 8px;}
+    .jny-row::before{display:none;}
+    .jny-stage{flex:0 0 30%;}
+    .jny-circ{width:84px;height:84px;}.jny-circ svg{width:36px;height:36px;}
+    .jny-en{font-size:16px;}.jny-ar{font-size:15px;}
+  }
+
+  /* ===== STATS STRIP ===== */
+  .st-band{background:#fff;padding:40px 0;border-bottom:1px solid var(--line);}
+  .st-grid{max-width:1000px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center;}
+  .st .n{font-family:'Cinzel',serif;font-size:clamp(32px,5vw,44px);font-weight:700;color:var(--gold-deep);line-height:1;}
+  .st .l{font:600 12px/1.3 'Inter';letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);margin-top:9px;}
+  @media(max-width:640px){.st-grid{grid-template-columns:1fr 1fr;gap:28px 20px;}}
+
+  /* ===== VERSE SHOWCASE (light) ===== */
+  .vs-band{position:relative;overflow:hidden;text-align:center;padding:96px 28px;background:linear-gradient(180deg,#fbf7ee,#f7f1e3);border-top:1px solid #efe6d2;border-bottom:1px solid #efe6d2;}
+  .vs-band::before{content:"";position:absolute;inset:0;opacity:.07;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='none' stroke='%23c2922e' stroke-width='0.8'%3E%3Cpath d='M36 4 L45 27 L68 36 L45 45 L36 68 L27 45 L4 36 L27 27 Z'/%3E%3Cpath d='M36 17 L43 29 L55 36 L43 43 L36 55 L29 43 L17 36 L29 29 Z'/%3E%3C/g%3E%3C/svg%3E");background-size:72px 72px;}
+  .vs-in{position:relative;z-index:2;max-width:760px;margin:0 auto;}
+  .vs-eyebrow{font:600 12px/1 'Inter';letter-spacing:.3em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:24px;}
+  .vs-ar{font-family:'Amiri',serif;direction:rtl;font-size:clamp(34px,6vw,56px);font-weight:700;color:#b9842a;line-height:1.7;margin-bottom:22px;}
+  .vs-tr{font-family:'Fraunces',serif;font-style:italic;font-size:clamp(18px,2.4vw,23px);color:var(--ink2);line-height:1.5;margin-bottom:12px;}
+  .vs-ref{font:600 12px/1 'Inter';letter-spacing:.18em;text-transform:uppercase;color:var(--dim);}
 </style></head>
 <body>
 <nav class="lis-nav">
@@ -578,6 +619,43 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
 
 
 
+<!-- ============ STATS STRIP ============ -->
+<section class="st-band reveal">
+  <div class="st-grid">
+    <div class="st"><div class="n">2</div><div class="l">Courses</div></div>
+    <div class="st"><div class="n">12</div><div class="l">Modules</div></div>
+    <div class="st"><div class="n">170+</div><div class="l">Lessons</div></div>
+    <div class="st"><div class="n">500+</div><div class="l">Native Audio Clips</div></div>
+  </div>
+</section>
+
+<!-- ============ YOUR JOURNEY ============ -->
+<svg width="0" height="0" style="position:absolute"><defs>
+<g id="jny-i-pen"><path d="M12 19l7-7 3 3-7 7-3-3zM18 13l-1.5-1.5M2 22l5-1 9.5-9.5a2.12 2.12 0 0 0-3-3L3 18l-1 4z"/></g>
+<g id="jny-i-book"><path d="M12 7v13M3 5.5A2.5 2.5 0 0 1 5.5 3H12v17H5.5A2.5 2.5 0 0 0 3 18.5zM21 5.5A2.5 2.5 0 0 0 18.5 3H12v17h6.5a2.5 2.5 0 0 1 2.5 1.5z"/></g>
+<g id="jny-i-words"><path d="M4 7h16M4 12h10M4 17h13"/></g>
+<g id="jny-i-talk"><path d="M8 10.5a5.5 5.5 0 0 1 11 0c0 3-2.5 5.5-5.5 5.5H8l-3 2 .8-3.2A5.4 5.4 0 0 1 8 10.5z"/></g>
+<g id="jny-i-star"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9L12 3z"/></g>
+</defs></svg>
+<section class="jny-band reveal">
+  <div class="jny-in">
+    <div class="jny-head">
+      <span class="jny-eyebrow">From first letter to fluency</span>
+      <h2>Your Journey</h2>
+      <div class="jny-diadiv"><span></span></div>
+    </div>
+    <div class="jny-row">
+      <div class="jny-stage"><div class="jny-circ"><svg viewBox="0 0 24 24"><use href="#jny-i-pen"/></svg></div><div class="jny-en">Letters</div><div class="jny-ar">الحُرُوف</div></div>
+      <div class="jny-stage"><div class="jny-circ"><svg viewBox="0 0 24 24"><use href="#jny-i-book"/></svg></div><div class="jny-en">Reading</div><div class="jny-ar">القِرَاءَة</div></div>
+      <div class="jny-stage"><div class="jny-circ"><svg viewBox="0 0 24 24"><use href="#jny-i-words"/></svg></div><div class="jny-en">Words</div><div class="jny-ar">المُفْرَدَات</div></div>
+      <div class="jny-stage"><div class="jny-circ"><svg viewBox="0 0 24 24"><use href="#jny-i-talk"/></svg></div><div class="jny-en">Conversation</div><div class="jny-ar">المُحَادَثَة</div></div>
+      <div class="jny-stage"><div class="jny-circ"><svg viewBox="0 0 24 24"><use href="#jny-i-star"/></svg></div><div class="jny-en">Fluency</div><div class="jny-ar">الطَّلَاقَة</div></div>
+    </div>
+  </div>
+</section>
+
+
+
 <section class="band" id="courses"><div class="wrap">
   <div class="paths-head rise reveal">
     <span class="sec-eyebrow">Two paths · one journey</span>
@@ -612,6 +690,16 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
 
 
 <div class="wrap"><div class="au-divider" style="margin:30px auto;"><span></span></div></div>
+
+<!-- ============ VERSE SHOWCASE ============ -->
+<section class="vs-band reveal">
+  <div class="vs-in">
+    <div class="vs-eyebrow">In the beginning was the word</div>
+    <div class="vs-ar">اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ</div>
+    <div class="vs-tr">"Read, in the name of your Lord who created."</div>
+    <div class="vs-ref">Surah Al-ʿAlaq · 96:1</div>
+  </div>
+</section>
 
 <section class="cta">
   <div class="cta-glyph">اقرأ</div>
