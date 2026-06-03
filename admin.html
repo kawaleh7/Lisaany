@@ -541,7 +541,8 @@
   const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const ADMIN_EMAILS = ['ahmedstart163@gmail.com'];
+  // Admin access is granted by the 'admin' role in Supabase app_metadata
+  // (set server-side; a logged-in user cannot give themselves this role).
 
   const PLAN_PRICES = { self_paced: 12.99, with_tutor: 29.99 };
   const PLAN_LABELS = { self_paced: 'Basic', with_tutor: 'Pro' };
@@ -711,7 +712,8 @@
         setTimeout(() => { window.location.href = 'auth.html'; }, 2000);
         return;
       }
-      if (!ADMIN_EMAILS.includes(session.user.email)) {
+      const userRole = session.user.app_metadata && session.user.app_metadata.role;
+      if (userRole !== 'admin') {
         document.getElementById('loadingState').style.display = 'none';
         document.getElementById('unauthorizedState').style.display = 'block';
         setTimeout(() => { window.location.href = 'index.html'; }, 3000);
