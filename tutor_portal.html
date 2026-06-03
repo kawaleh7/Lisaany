@@ -384,7 +384,7 @@ const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
-const OWNER_EMAILS = ['ahmedstart163@gmail.com'];
+// Owner access is granted by the 'admin' role in Supabase app_metadata (not a hard-coded email).
 
 async function doSignOut() { await sb.auth.signOut(); window.location.href = 'auth.html'; }
 function showUnauthorized() { document.getElementById('gate-loading').style.display = 'none'; document.getElementById('gate-unauthorized').style.display = 'flex'; }
@@ -639,7 +639,7 @@ function saveNotes() { const notes = document.getElementById('notes-area').value
     if (!session || !session.user) { window.location.href = 'auth.html'; return; }
     const email = (session.user.email || '').toLowerCase();
     const role = session.user.app_metadata?.role;
-    const isOwner = OWNER_EMAILS.includes(email);
+    const isOwner = role === 'admin';
     const isAuthorized = role === 'staff' || isOwner;
     if (!isAuthorized) { showUnauthorized(); return; }
     initPortal(session.user, isOwner);
