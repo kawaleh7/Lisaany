@@ -62,6 +62,13 @@
   .levelseg button:hover{background:var(--paper-2);transform:translateY(-1px)}
   .levelseg button.active{background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:0 8px 18px -8px rgba(20,32,60,.5)}
   .levelseg button.active:hover{background:var(--ink);transform:translateY(-1px)}
+  /* stage switcher */
+  .stagebar{position:relative;z-index:5;flex:none;display:flex;justify-content:center;padding:9px 16px 1px}
+  .stageseg{display:flex;gap:7px;justify-content:center;overflow-x:auto;max-width:100%;scrollbar-width:none;padding-bottom:2px}
+  .stageseg::-webkit-scrollbar{display:none}
+  .stageseg button{flex:0 0 auto;padding:7px 15px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);font-weight:600;font-size:.78rem;border-radius:999px;cursor:pointer;transition:.16s;white-space:nowrap}
+  .stageseg button:hover{background:var(--paper-2);transform:translateY(-1px)}
+  .stageseg button.active{background:var(--sacc,var(--ink));border-color:var(--sacc,var(--ink));color:#fff;box-shadow:0 7px 15px -8px rgba(20,32,60,.5)}
 
   /* ── module tabs ── */
   .modbar{position:relative;z-index:4;flex:none;border-bottom:1px solid var(--line);background:transparent}
@@ -309,6 +316,8 @@
     <button data-lv="Advanced" onclick="setLevel('Advanced')">Advanced</button>
   </div>
 </div>
+
+<div class="stagebar"><div class="stageseg" id="stageseg"></div></div>
 
 <div class="modbar"><div class="modbar-in" id="modbar"></div></div>
 
@@ -645,24 +654,35 @@
   function hlSentence(en){const s=applyFrame(en);return s.replace(new RegExp('('+en.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','i'),'<span class="hl">$1</span>');}
   function blankSentenceHTML(){let t=curFrame().replace('[w]','§').replace('[art]','a');t=t.charAt(0).toUpperCase()+t.slice(1);return t.replace('§','<span class="blank">_____</span>');}
 
-  let selected=1, subIdx=0, activity='lesson', level='Beginner';
+  let selected=1, subIdx=0, activity='lesson', level='Beginner', curStage='Foundations';
   const PREVIEW_ALL=true; /* dev: lets you test every module's content. Set false for launch (Module 1 free, rest paywalled). */
   const stage=document.getElementById('stage');
 
+  function renderStages(){
+    const groups=[];
+    MODULES.filter(m=>(m.level||'Beginner')===level).forEach(m=>{if(!groups.includes(m.grp))groups.push(m.grp);});
+    if(!groups.includes(curStage))curStage=groups[0];
+    document.getElementById('stageseg').innerHTML=groups.map(g=>{
+      const c=gc(g);const on=g===curStage;
+      return `<button class="${on?'active':''}" style="--sacc:${c.acc}" onclick="setStage('${g.replace(/'/g,"\\'")}')">${g}</button>`;
+    }).join('');
+  }
+  function setStage(g){curStage=g;const first=MODULES.find(m=>(m.level||'Beginner')===level&&m.grp===g);renderStages();if(first)selectModule(first.n);}
   function renderTabs(){
-    const list=MODULES.filter(m=>(m.level||'Beginner')===level);
-    document.getElementById('modbar').innerHTML=list.map((m,i)=>{
-      const c=gc(m.grp);const active=m.n===selected;
+    const levelList=MODULES.filter(m=>(m.level||'Beginner')===level);
+    const list=levelList.filter(m=>m.grp===curStage);
+    document.getElementById('modbar').innerHTML=list.map(m=>{
+      const c=gc(m.grp);const active=m.n===selected;const num=levelList.findIndex(x=>x.n===m.n)+1;
       const mark=(m.free||PREVIEW_ALL)?`<span class="tl free">${I.tick}</span>`:`<span class="tl">${I.lock}</span>`;
-      return `<div class="tab ${active?'active':''}" id="tab${m.n}" style="--acc:${c.acc};--tint:${c.tint}" onclick="selectModule(${m.n})"><span class="tn">${i+1}</span><span class="tt">${m.title}</span>${mark}</div>`;
+      return `<div class="tab ${active?'active':''}" id="tab${m.n}" style="--acc:${c.acc};--tint:${c.tint}" onclick="selectModule(${m.n})"><span class="tn">${num}</span><span class="tt">${m.title}</span>${mark}</div>`;
     }).join('');
   }
   function setAccent(){const c=gc(MODULES.find(m=>m.n===selected).grp);document.documentElement.style.setProperty('--acc',c.acc);document.documentElement.style.setProperty('--tint',c.tint);}
   function updateSeg(){const free=MODULES.find(m=>m.n===selected).free||PREVIEW_ALL;document.querySelectorAll('#seg button').forEach(b=>{b.classList.toggle('active',b.dataset.a===activity);b.disabled=!free;});document.querySelector('.actbar').style.display=free?'flex':'none';const sb=document.querySelector('.subbar');if(sb)sb.style.display=free?'flex':'none';}
   function modLine(){const m=MODULES.find(x=>x.n===selected);const list=MODULES.filter(x=>(x.level||'Beginner')===(m.level||'Beginner'));const idx=list.findIndex(x=>x.n===m.n)+1;const lv=(m.level&&m.level!=='Beginner')?`<span class="lvlbadge">${m.level}</span>`:'';return `<div class="stage-mod">${lv}<b>Module ${idx}</b> · ${m.title} · ${curSub().t}</div>`;}
 
-  function selectModule(n){selected=n;subIdx=0;activity='lesson';setAccent();renderTabs();renderSub();render();const t=document.getElementById('tab'+n);if(t)t.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}
-  function setLevel(lv){level=lv;document.querySelectorAll('#levelseg button').forEach(b=>b.classList.toggle('active',b.dataset.lv===lv));const first=MODULES.find(m=>(m.level||'Beginner')===lv);selectModule(first?first.n:1);}
+  function selectModule(n){selected=n;subIdx=0;activity='lesson';const m=MODULES.find(x=>x.n===n);if(m)curStage=m.grp;setAccent();renderStages();renderTabs();renderSub();render();const t=document.getElementById('tab'+n);if(t)t.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}
+  function setLevel(lv){level=lv;document.querySelectorAll('#levelseg button').forEach(b=>b.classList.toggle('active',b.dataset.lv===lv));const first=MODULES.find(m=>(m.level||'Beginner')===lv);if(first){curStage=first.grp;selectModule(first.n);}}
   function setActivity(a){activity=a;updateSeg();render();}
 
   function renderSub(){
@@ -1023,7 +1043,7 @@
   function reviewEnd(){updateStreakChip();updateReviewBadge();stage.innerHTML=`<div class="endc"><div class="ic">${I.trophy}</div><div class="g-eyebrow" style="color:var(--gold)">Well done</div><h2 class="serif">Review done</h2><div class="score">${revScore} / ${revQ.length}</div><p>Come back tomorrow to keep these words fresh.</p><div class="row"><button class="nextbtn" onclick="exitReview()">Back to lessons ${I.arrow}</button></div></div>`;confetti(90);}
   function exitReview(){renderSub();render();}
 
-  buildLangMenu();setAccent();PROG.init();renderTabs();renderSub();render();
+  buildLangMenu();setAccent();PROG.init();renderStages();renderTabs();renderSub();render();
 </script>
 </body>
 </html>
