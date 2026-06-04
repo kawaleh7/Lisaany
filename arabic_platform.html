@@ -6684,6 +6684,7 @@ const S = {
 if('speechSynthesis' in window){ speechSynthesis.getVoices(); speechSynthesis.addEventListener('voiceschanged',()=>{}); }
 // ── R2 Audio with Web Speech fallback ──
 const AUDIO_BASE_URL = 'https://pub-7816de42410e4cc0a521da43fa52ba07.r2.dev/';
+const AUDIO_RATE = 0.85; // playback speed for recorded clips (1 = normal, lower = slower; pitch preserved)
 const audioCache = {};
 let audioIndex = null;
 
@@ -6769,6 +6770,7 @@ async function _speakCore(t){
       if(r.ok){
         const blob = await r.blob();
         const audio = new Audio(URL.createObjectURL(blob));
+        try{ audio.preservesPitch=true; audio.mozPreservesPitch=true; audio.webkitPreservesPitch=true; audio.playbackRate=AUDIO_RATE; }catch(e){}
         _curAudio = audio;
         return new Promise((resolve)=>{
           audio.onended = ()=>{ if(_curAudio===audio) _curAudio=null; resolve(); };
