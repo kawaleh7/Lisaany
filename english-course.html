@@ -217,7 +217,7 @@
   .endc p{color:var(--muted);font-size:.92rem}.endc .row{display:flex;gap:11px;margin-top:12px;flex-wrap:wrap;justify-content:center}
 
   /* ── DRILLS ── */
-  .dr{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;max-width:400px;padding:26px 26px 24px}
+  .dr{display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:400px;padding:16px 24px 16px}
   .drmodes{display:flex;gap:4px;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:4px;box-shadow:inset 0 1px 2px rgba(22,32,58,.05)}
   .drmodes button{padding:8px 18px;border:none;background:transparent;color:var(--muted);font-weight:600;font-size:.85rem;border-radius:999px;cursor:pointer;transition:.18s}
   .drmodes button.active{background:var(--card);color:var(--ink);box-shadow:var(--sh-sm)}
@@ -227,11 +227,11 @@
   .sptbar{flex:1;height:9px;background:var(--paper-2);border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(22,32,58,.1)}
   .sptbar i{display:block;height:100%;width:100%;background:var(--acc);border-radius:99px;transition:width .1s linear}
   .sptbar i.low{background:linear-gradient(90deg,#d98a80,#c0564b)}
-  .flash{perspective:1300px;width:100%;max-width:330px}
-  .fcard{position:relative;width:100%;aspect-ratio:1/.76;cursor:pointer;transition:transform .55s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
+  .flash{perspective:1300px;width:100%;max-width:300px}
+  .fcard{position:relative;width:100%;aspect-ratio:1/.66;cursor:pointer;transition:transform .55s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
   .fcard.flipped{transform:rotateY(180deg)}
   .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-shadow:var(--sh)}
-  .face .v{font-size:clamp(2.8rem,8vh,3.7rem)}.face .w{font-family:'Fraunces',serif;font-weight:500;font-size:1.7rem}.face .h{position:absolute;bottom:14px;color:var(--faint);font-size:.78rem}
+  .face .v{font-size:clamp(2.4rem,7vh,3.3rem)}.face .w{font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem}.face .h{position:absolute;bottom:12px;color:var(--faint);font-size:.76rem}
   .back{transform:rotateY(180deg);background:linear-gradient(165deg,#fff,var(--tint))}
   .replay{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 15px;font-weight:600;cursor:pointer;font-size:.82rem;transition:.18s}
   .replay:hover{border-color:var(--acc);color:var(--acc)}.replay svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.6;fill:none}
@@ -297,6 +297,11 @@
     .grule{font-size:.86rem}
     .gex{padding:8px 12px}
     .word{font-size:clamp(1.9rem,5vh,2.6rem)}
+    .dr{gap:9px;padding-top:10px;padding-bottom:10px}
+    .flash{max-width:262px}
+    .fcard{aspect-ratio:1/.6}
+    .face .w{font-size:1.3rem}
+    .face .v{font-size:clamp(2rem,6vh,2.8rem)}
   }
   /* ── MODULE PANEL: sidebar on PC, drawer on phone ── */
   .navleft{display:flex;align-items:center;gap:11px}
