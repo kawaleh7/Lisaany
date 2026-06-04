@@ -93,12 +93,15 @@
   .subbtn .ico{display:flex;color:var(--acc)}.subbtn .ico svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.7;fill:none}
   .subbtn .chev{display:flex;color:var(--acc);transition:transform .22s}.subbtn .chev svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none}
   .subdd.open .subbtn .chev{transform:rotate(180deg)}
-  .submenu{position:absolute;top:48px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh-lg);padding:7px;min-width:248px;display:none;z-index:50}
+  .submenu{position:absolute;top:48px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh-lg);padding:7px;min-width:248px;max-height:min(58vh,440px);overflow-y:auto;display:none;z-index:50}
   .submenu.open{display:block;animation:pop .16s ease both}
   .submenu button{display:flex;width:100%;align-items:center;gap:11px;background:transparent;border:none;padding:11px 12px;border-radius:11px;font-weight:600;font-size:.9rem;color:var(--ink);cursor:pointer;text-align:left}
   .submenu button:hover{background:var(--paper)}.submenu button.sel{background:var(--paper-2)}
   .submenu button .sn{font-family:'Fraunces',serif;font-size:.74rem;font-weight:600;color:var(--acc);min-width:30px}
   .submenu button .scount{margin-left:auto;font-size:.74rem;color:var(--faint);font-weight:600}
+  .pickbar{position:relative;z-index:30;flex:none;display:flex;justify-content:center;align-items:center;gap:10px;padding:11px 16px 2px;flex-wrap:wrap}
+  .smhead{font-size:.62rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);padding:10px 12px 5px}
+  .smhead:first-child{padding-top:3px}
 
   /* ── activity tabs ── */
   .actbar{position:relative;z-index:4;flex:none;display:flex;justify-content:center;padding:11px 16px 4px}
@@ -112,9 +115,7 @@
   .seg button:disabled{opacity:.4;cursor:not-allowed}
 
   /* ── stage ── */
-  .stage{position:relative;z-index:3;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:10px 18px 20px;text-align:center}
-  .stage::-webkit-scrollbar{width:0;height:0}
-  .stage>:not(.stage-mod){margin-top:auto;margin-bottom:auto}
+  .stage{position:relative;z-index:3;flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 18px 16px;text-align:center}
   .stage-mod{position:absolute;top:8px;left:0;right:0;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
   .stage-mod b{color:var(--acc);font-weight:700}
 
@@ -186,17 +187,21 @@
   .gskill svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.4;fill:none}
 
   /* ── PRACTICE ── */
-  .pr{display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;max-width:450px;padding:24px 24px 88px}
+  .pr{display:flex;flex-direction:column;align-items:center;gap:15px;width:100%;max-width:450px;padding:24px 26px 24px}
   .pr-top{display:flex;align-items:center;gap:14px;width:100%}
   .pbar{flex:1;height:7px;background:var(--paper-2);border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 2px rgba(22,32,58,.08)}.pbar i{display:block;height:100%;width:0;background:var(--acc);border-radius:99px;transition:width .35s}
   .lives{display:flex;gap:5px}.lives svg{width:19px;height:19px}.lives .full{fill:var(--acc);stroke:none}.lives .empty{fill:none;stroke:var(--faint);stroke-width:1.6}
   .opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%}
-  .opt{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vh,26px) 8px;font-size:clamp(2.3rem,6vh,3rem);cursor:pointer;transition:.16s;line-height:1;box-shadow:var(--sh-sm)}
+  .opt{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(16px,3vh,26px) 8px;font-size:clamp(2.3rem,6vh,3rem);cursor:pointer;transition:.16s;line-height:1;position:relative;box-shadow:var(--sh-sm)}
   .opt img{width:clamp(56px,9vh,86px);height:clamp(56px,9vh,86px);object-fit:cover;border-radius:13px;margin:0 auto}
   .opt:hover{border-color:var(--acc);transform:translateY(-3px);box-shadow:var(--sh)}
-  .opt.correct{border-color:var(--ok);background:var(--ok-bg)}.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.dim{opacity:.45;pointer-events:none}
-  .fbbar{position:absolute;left:0;right:0;bottom:0;z-index:8;padding:16px 20px calc(16px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line);transform:translateY(130%);transition:transform .28s cubic-bezier(.2,.8,.2,1);box-shadow:0 -16px 38px -22px rgba(22,32,58,.34)}
-  .fbbar.show{transform:none}
+  .opt.correct{border-color:var(--ok);background:var(--ok-bg)}.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}.opt.dim{opacity:.45;pointer-events:none}.opt.correct,.opt.wrong{opacity:1}
+  @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+  .opt.correct::after,.opt.wrong::after{position:absolute;top:7px;right:7px;width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:#fff;box-shadow:0 4px 10px -3px rgba(20,32,60,.4);animation:pop .25s ease both}
+  .opt.correct::after{content:'✓';background:var(--ok)}.opt.wrong::after{content:'✕';background:var(--bad)}
+  .fbbar{width:100%;margin-top:8px;padding-top:14px;border-top:1px solid var(--line);display:none}
+  .fbbar.show{display:block;animation:fbup .26s ease both}
+  @keyframes fbup{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
   .fbbar .in{max-width:450px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:14px}
   .fbbar .msg{display:flex;align-items:center;gap:10px;font-weight:600;font-size:1.02rem}
   .fbbar .ic{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex:none}.fbbar .ic svg{width:17px;height:17px;stroke-width:2.3;fill:none}
@@ -236,8 +241,10 @@
   .rate .review:hover{border-color:var(--acc);color:var(--acc)}
   .rate .know{background:linear-gradient(180deg,#22324f,#16203a);color:#fff;border-color:transparent}.rate .know svg{stroke:#fff}
   .grid4{display:grid;grid-template-columns:1fr 1fr;gap:11px;width:100%}
-  .cell{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(14px,2.8vh,24px) 6px;font-size:clamp(2.1rem,5.5vh,2.9rem);cursor:pointer;transition:.14s;box-shadow:var(--sh-sm)}
+  .cell{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(14px,2.8vh,24px) 6px;font-size:clamp(2.1rem,5.5vh,2.9rem);cursor:pointer;transition:.14s;position:relative;box-shadow:var(--sh-sm)}
   .cell:hover{border-color:var(--acc);transform:translateY(-2px)}.cell.ok{border-color:var(--ok);background:var(--ok-bg)}.cell.bad{border-color:var(--bad);background:var(--bad-bg)}
+  .cell.ok::after,.cell.bad::after{position:absolute;top:6px;right:6px;width:23px;height:23px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:800;color:#fff;box-shadow:0 4px 10px -3px rgba(20,32,60,.4);animation:pop .25s ease both}
+  .cell.ok::after{content:'✓';background:var(--ok)}.cell.bad::after{content:'✕';background:var(--bad)}
 
   /* ── BUILD ── */
   .build{display:flex;flex-direction:column;gap:16px;align-items:center;width:100%;max-width:450px;padding:26px 26px 24px}
@@ -317,12 +324,11 @@
   </div>
 </div>
 
-<div class="stagebar"><div class="stageseg" id="stageseg"></div></div>
-
-<div class="modbar"><div class="modbar-in" id="modbar"></div></div>
-
-<div class="subbar">
-  <span class="lab">Sub-unit</span>
+<div class="pickbar">
+  <div class="subdd" id="moddd">
+    <button class="subbtn" id="modBtn" onclick="toggleModMenu(event)"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><span id="modLabel">Module</span><span class="chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></button>
+    <div class="submenu" id="modMenu"></div>
+  </div>
   <div class="subdd" id="subdd">
     <button class="subbtn" id="subBtn" onclick="toggleSub(event)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5M3 17l9 5 9-5"/></svg></span><span id="subLabel">Sub-unit</span><span class="chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></button>
     <div class="submenu" id="subMenu"></div>
@@ -388,7 +394,7 @@
   function buildLangMenu(){document.getElementById('langMenu').innerHTML=LANGS.map(l=>`<button class="${l.code===lang?'sel':''}" onclick="setLang('${l.code}')">${l.label}<span class="ck">${I.tick}</span></button>`).join('');}
   function toggleLang(e){e&&e.stopPropagation();document.getElementById('langMenu').classList.toggle('open');}
   function setLang(c){lang=c;document.getElementById('langLabel').textContent=LANGS.find(l=>l.code===c).label;document.getElementById('langMenu').classList.remove('open');buildLangMenu();}
-  document.addEventListener('click',()=>{document.getElementById('langMenu').classList.remove('open');closeSub();});
+  document.addEventListener('click',()=>{document.getElementById('langMenu').classList.remove('open');closeSub();closeModMenu();});
 
   /* word audio (english target) */
   let wAudio=null;
@@ -658,31 +664,32 @@
   const PREVIEW_ALL=true; /* dev: lets you test every module's content. Set false for launch (Module 1 free, rest paywalled). */
   const stage=document.getElementById('stage');
 
-  function renderStages(){
-    const groups=[];
-    MODULES.filter(m=>(m.level||'Beginner')===level).forEach(m=>{if(!groups.includes(m.grp))groups.push(m.grp);});
-    if(!groups.includes(curStage))curStage=groups[0];
-    document.getElementById('stageseg').innerHTML=groups.map(g=>{
-      const c=gc(g);const on=g===curStage;
-      return `<button class="${on?'active':''}" style="--sacc:${c.acc}" onclick="setStage('${g.replace(/'/g,"\\'")}')">${g}</button>`;
-    }).join('');
-  }
-  function setStage(g){curStage=g;const first=MODULES.find(m=>(m.level||'Beginner')===level&&m.grp===g);renderStages();if(first)selectModule(first.n);}
-  function renderTabs(){
+  function renderModMenu(){
     const levelList=MODULES.filter(m=>(m.level||'Beginner')===level);
-    const list=levelList.filter(m=>m.grp===curStage);
-    document.getElementById('modbar').innerHTML=list.map(m=>{
-      const c=gc(m.grp);const active=m.n===selected;const num=levelList.findIndex(x=>x.n===m.n)+1;
-      const mark=(m.free||PREVIEW_ALL)?`<span class="tl free">${I.tick}</span>`:`<span class="tl">${I.lock}</span>`;
-      return `<div class="tab ${active?'active':''}" id="tab${m.n}" style="--acc:${c.acc};--tint:${c.tint}" onclick="selectModule(${m.n})"><span class="tn">${num}</span><span class="tt">${m.title}</span>${mark}</div>`;
-    }).join('');
+    const cur=MODULES.find(m=>m.n===selected);
+    const curIdx=levelList.findIndex(m=>m.n===selected)+1;
+    document.getElementById('modLabel').textContent=cur?`${curIdx} · ${cur.title}`:'Module';
+    const groups=[];levelList.forEach(m=>{if(!groups.includes(m.grp))groups.push(m.grp);});
+    let html='';
+    groups.forEach(g=>{
+      html+=`<div class="smhead">${g}</div>`;
+      levelList.filter(m=>m.grp===g).forEach(m=>{
+        const num=levelList.findIndex(x=>x.n===m.n)+1;
+        const done=m.subs.every(s=>PROG.isDone(s.id));
+        html+=`<button class="${m.n===selected?'sel':''}" onclick="selectModuleFromMenu(${m.n})"><span class="sn">${num}</span><span>${m.title}</span>${done?'<span class="scount" style="color:#2f8f6a">✓</span>':''}</button>`;
+      });
+    });
+    document.getElementById('modMenu').innerHTML=html;
   }
+  function toggleModMenu(e){e&&e.stopPropagation();closeSub();document.getElementById('modMenu').classList.toggle('open');document.getElementById('moddd').classList.toggle('open');}
+  function closeModMenu(){document.getElementById('modMenu').classList.remove('open');document.getElementById('moddd').classList.remove('open');}
+  function selectModuleFromMenu(n){closeModMenu();selectModule(n);}
   function setAccent(){const c=gc(MODULES.find(m=>m.n===selected).grp);document.documentElement.style.setProperty('--acc',c.acc);document.documentElement.style.setProperty('--tint',c.tint);}
-  function updateSeg(){const free=MODULES.find(m=>m.n===selected).free||PREVIEW_ALL;document.querySelectorAll('#seg button').forEach(b=>{b.classList.toggle('active',b.dataset.a===activity);b.disabled=!free;});document.querySelector('.actbar').style.display=free?'flex':'none';const sb=document.querySelector('.subbar');if(sb)sb.style.display=free?'flex':'none';}
+  function updateSeg(){const free=MODULES.find(m=>m.n===selected).free||PREVIEW_ALL;document.querySelectorAll('#seg button').forEach(b=>{b.classList.toggle('active',b.dataset.a===activity);b.disabled=!free;});document.querySelector('.actbar').style.display=free?'flex':'none';const sb=document.querySelector('.pickbar');if(sb)sb.style.display=free?'flex':'none';}
   function modLine(){const m=MODULES.find(x=>x.n===selected);const list=MODULES.filter(x=>(x.level||'Beginner')===(m.level||'Beginner'));const idx=list.findIndex(x=>x.n===m.n)+1;const lv=(m.level&&m.level!=='Beginner')?`<span class="lvlbadge">${m.level}</span>`:'';return `<div class="stage-mod">${lv}<b>Module ${idx}</b> · ${m.title} · ${curSub().t}</div>`;}
 
-  function selectModule(n){selected=n;subIdx=0;activity='lesson';const m=MODULES.find(x=>x.n===n);if(m)curStage=m.grp;setAccent();renderStages();renderTabs();renderSub();render();const t=document.getElementById('tab'+n);if(t)t.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});}
-  function setLevel(lv){level=lv;document.querySelectorAll('#levelseg button').forEach(b=>b.classList.toggle('active',b.dataset.lv===lv));const first=MODULES.find(m=>(m.level||'Beginner')===lv);if(first){curStage=first.grp;selectModule(first.n);}}
+  function selectModule(n){selected=n;subIdx=0;activity='lesson';const m=MODULES.find(x=>x.n===n);if(m)curStage=m.grp;setAccent();renderModMenu();renderSub();render();}
+  function setLevel(lv){level=lv;document.querySelectorAll('#levelseg button').forEach(b=>b.classList.toggle('active',b.dataset.lv===lv));closeModMenu();const first=MODULES.find(m=>(m.level||'Beginner')===lv);if(first){curStage=first.grp;selectModule(first.n);}}
   function setActivity(a){activity=a;updateSeg();render();}
 
   function renderSub(){
@@ -690,7 +697,7 @@
     document.getElementById('subLabel').textContent=curSub().t;
     document.getElementById('subMenu').innerHTML=m.subs.map((s,i)=>`<button class="${i===subIdx?'sel':''}" onclick="selectSub(${i})"><span class="sn">${s.id}</span><span>${s.t}${PROG.isDone(s.id)?' <span style="color:#2f8f6a;font-weight:800">✓</span>':''}</span><span class="scount">${s.w.length} words</span></button>`).join('');
   }
-  function toggleSub(e){e&&e.stopPropagation();document.getElementById('subMenu').classList.toggle('open');document.getElementById('subdd').classList.toggle('open');}
+  function toggleSub(e){e&&e.stopPropagation();closeModMenu();document.getElementById('subMenu').classList.toggle('open');document.getElementById('subdd').classList.toggle('open');}
   function closeSub(){document.getElementById('subMenu').classList.remove('open');document.getElementById('subdd').classList.remove('open');}
   function selectSub(i){subIdx=i;closeSub();renderSub();render();}
   function hasNextLesson(){const m=MODULES.find(x=>x.n===selected);if(subIdx<m.subs.length-1)return true;const list=MODULES.filter(x=>(x.level||'Beginner')===level);return list.findIndex(x=>x.n===selected)<list.length-1;}
@@ -866,8 +873,8 @@
         <div class="cloze serif">${blankSentenceHTML()}</div>
         <div class="prhint" style="cursor:pointer" onclick="sayWord(pQ[pIdx].t,document.getElementById('prPlay'))">${I.soundg} Listen, then choose the missing word</div>
         <div class="opts wopts">${q.opts.map(o=>`<button class="opt wopt" data-en="${o.en}" onclick="prChoose(this,'${o.en}')">${o.en}</button>`).join('')}</div>
-      </div>
-      <div class="fbbar" id="fb"><div class="in"><div class="msg"><span class="ic" id="fbIc"></span><span class="t" id="fbT"></span></div><button class="nextbtn" onclick="prNext()">Continue ${I.arrow}</button></div></div>`;
+        <div class="fbbar" id="fb"><div class="in"><div class="msg"><span class="ic" id="fbIc"></span><span class="t" id="fbT"></span></div><button class="nextbtn" onclick="prNext()">Continue ${I.arrow}</button></div></div>
+      </div>`;
       return;
     }
     stage.innerHTML=modLine()+`<div class="pr">
@@ -875,8 +882,8 @@
       <button class="play-main" id="prPlay" onclick="sayWord(pQ[pIdx].t,document.getElementById('prPlay'))">${I.sound}</button>
       <div style="color:var(--muted);font-size:.86rem;display:flex;align-items:center;gap:7px;cursor:pointer" onclick="playExplain()">${I.soundg} Listen, then tap the picture</div>
       <div class="opts">${q.opts.map(o=>`<div class="opt" data-en="${o.en}" onclick="prChoose(this,'${o.en}')">${vis(o)}</div>`).join('')}</div>
-    </div>
-    <div class="fbbar" id="fb"><div class="in"><div class="msg"><span class="ic" id="fbIc"></span><span class="t" id="fbT"></span></div><button class="nextbtn" onclick="prNext()">Continue ${I.arrow}</button></div></div>`;
+      <div class="fbbar" id="fb"><div class="in"><div class="msg"><span class="ic" id="fbIc"></span><span class="t" id="fbT"></span></div><button class="nextbtn" onclick="prNext()">Continue ${I.arrow}</button></div></div>
+    </div>`;
   }
   function prChoose(el,en){const q=pQ[pIdx];document.querySelectorAll('.opt').forEach(o=>o.classList.add('dim'));const fb=document.getElementById('fb');
     if(en===q.t.en){el.classList.add('correct');pScore++;PROG.recordWord(q.t.en,true);document.getElementById('fbIc').innerHTML=I.check;document.getElementById('fbT').textContent='Correct · '+q.t.en;fb.className='fbbar ok show';}
@@ -1043,7 +1050,7 @@
   function reviewEnd(){updateStreakChip();updateReviewBadge();stage.innerHTML=`<div class="endc"><div class="ic">${I.trophy}</div><div class="g-eyebrow" style="color:var(--gold)">Well done</div><h2 class="serif">Review done</h2><div class="score">${revScore} / ${revQ.length}</div><p>Come back tomorrow to keep these words fresh.</p><div class="row"><button class="nextbtn" onclick="exitReview()">Back to lessons ${I.arrow}</button></div></div>`;confetti(90);}
   function exitReview(){renderSub();render();}
 
-  buildLangMenu();setAccent();PROG.init();renderStages();renderTabs();renderSub();render();
+  buildLangMenu();setAccent();PROG.init();renderModMenu();renderSub();render();
 </script>
 </body>
 </html>
