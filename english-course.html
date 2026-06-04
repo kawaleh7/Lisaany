@@ -40,7 +40,7 @@
   .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:500;font-size:1.18rem;letter-spacing:-.01em;color:var(--ink)}
   .brand .mark{width:34px;height:34px;filter:none}.brand .sub{color:var(--gold)}
   .tools{display:flex;align-items:center;gap:8px;position:relative}
-  .streakchip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:transparent;font-size:.82rem;font-weight:600}
+  .streakchip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:transparent;font-size:.82rem;font-weight:600;color:inherit;font-family:inherit;cursor:pointer}
   .streakchip svg{width:15px;height:15px;stroke:var(--gold);stroke-width:1.7;fill:none}
   .iconbtn{display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--ink);font-size:.82rem;font-weight:500;cursor:pointer;transition:.18s}
   .iconbtn:hover{border-color:var(--gold-2);transform:translateY(-1px)}.iconbtn.sq{padding:0;width:36px;justify-content:center}
@@ -52,7 +52,7 @@
   .langmenu.open{display:block;animation:pop .16s ease both}
   .langmenu button{display:flex;width:100%;align-items:center;justify-content:space-between;background:transparent;border:none;padding:10px 12px;border-radius:10px;font-weight:600;font-size:.92rem;color:var(--ink);cursor:pointer}
   .langmenu button:hover{background:var(--paper)}.langmenu button .ck{color:var(--gold);opacity:0}.langmenu button.sel .ck{opacity:1}
-  @media(max-width:520px){.streakchip{display:none}}
+  @media(max-width:520px){.streakchip{padding:0 10px}}
 
   /* ── level switcher ── */
   .levelbar{position:relative;z-index:5;flex:none;display:flex;align-items:center;justify-content:center;gap:11px;padding:14px 16px 2px}
@@ -340,6 +340,36 @@
     .scrim{display:block;position:fixed;inset:0;background:rgba(10,16,30,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:75}
     .scrim.open{opacity:1;pointer-events:auto}
   }
+  .today-card{max-width:380px;text-align:center}
+  .td-streak{display:inline-flex;align-items:center;gap:7px;font-size:.92rem;font-weight:700;color:var(--gold);background:rgba(179,132,43,.1);border:1px solid rgba(179,132,43,.25);padding:6px 14px;border-radius:999px;margin-bottom:6px}
+  .today-card h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.45rem;margin:8px 0 4px}
+  .td-stats{display:flex;gap:10px;justify-content:center;margin:16px 0}
+  .td-stat{flex:1;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 6px}
+  .td-stat .num{font-family:'Fraunces',serif;font-weight:600;font-size:1.7rem;color:var(--ink)}
+  .td-stat .lab{font-size:.7rem;color:var(--muted);font-weight:600;margin-top:2px}
+  .td-empty{color:var(--muted);font-size:.92rem;margin:10px 0 16px}
+  .td-note{color:var(--muted);font-size:.86rem;margin-top:14px}
+  /* ── Duolingo-style card-less layout: full-width top/bottom bars ── */
+  .exwrap{display:flex;flex-direction:column;width:100%;height:100%;min-height:0}
+  .extop{flex:none;display:flex;align-items:center;gap:12px;padding-bottom:11px}
+  .extop .x{width:30px;height:30px;border-radius:50%;border:none;background:var(--paper-2);color:var(--muted);cursor:pointer;flex:none;display:flex;align-items:center;justify-content:center}
+  .extop .x svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.4;fill:none}
+  .extop .pb{flex:1;height:11px;background:var(--paper-2);border-radius:99px;overflow:hidden}
+  .extop .pb i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-2));border-radius:99px;transition:width .3s}
+  .extop .lives{flex:none;display:flex;gap:3px}.extop .lives svg{width:19px;height:19px}
+  .extop .meta{font-size:.74rem;font-weight:700;color:var(--faint);font-variant-numeric:tabular-nums}
+  .extop .dots{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+  .extop .dot{width:7px;height:7px;border-radius:50%;background:var(--line);transition:.25s}
+  .extop .dot.seen{background:var(--acc);opacity:.4}.extop .dot.active{width:24px;border-radius:99px;background:var(--acc);opacity:1}
+  .exbody{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;text-align:center}
+  .exbody .opts{max-width:400px}
+  .exfoot{flex:none;border-top:1px solid var(--line);padding-top:12px;margin-top:8px;min-height:44px;display:flex;align-items:center;gap:12px}
+  .exfoot .msg{display:flex;align-items:center;gap:9px;font-weight:700;font-size:.92rem}
+  .exfoot .msg .ic{display:flex}.exfoot .msg .ic svg{width:22px;height:22px;stroke-width:2.2;fill:none}
+  .exfoot .nextbtn{margin-left:auto}
+  .exfoot.ok{border-color:rgba(47,143,106,.5)}.exfoot.ok .msg{color:var(--ok)}.exfoot.ok .msg .ic svg{stroke:var(--ok)}
+  .exfoot.no{border-color:rgba(192,86,75,.5)}.exfoot.no .msg{color:var(--bad)}.exfoot.no .msg .ic svg{stroke:var(--bad)}
+  .exfoot .rate{margin:0 auto}
   </style>
 </head>
 <body>
@@ -348,7 +378,7 @@
   <div class="nav">
     <div class="navleft"><button class="menuBtn" onclick="openPanel(event)" aria-label="Open modules"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button><a class="brand" href="index.html"><svg class="mark" viewBox="0 0 100 100" fill="none"><path d="M34 82 L34 50 Q34 36 50 30 Q66 36 66 50 L66 82" fill="none" stroke="#d8aa3c" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 42 L52.3 47.7 L58 50 L52.3 52.3 L50 58 L47.7 52.3 L42 50 L47.7 47.7 Z" fill="#d8aa3c"/></svg><span>Lisaany <span class="sub">English</span></span></a></div>
     <div class="tools">
-      <span class="streakchip"><svg viewBox="0 0 24 24"><path d="M12 3c1 3-2 4-2 7a2 2 0 004 0c0-1 1-2 1-2 2 2 3 4 3 6a6 6 0 01-12 0c0-4 4-6 6-11z"/></svg> <span id="streakNum">0</span></span>
+      <button class="streakchip" onclick="openToday(event)" title="Today's progress"><svg viewBox="0 0 24 24"><path d="M12 3c1 3-2 4-2 7a2 2 0 004 0c0-1 1-2 1-2 2 2 3 4 3 6a6 6 0 01-12 0c0-4 4-6 6-11z"/></svg> <span id="streakNum">0</span></button>
       <button class="iconbtn" id="reviewBtn" onclick="startReview()"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 018.5-8.5c2.6 0 4.9 1.2 6.5 3"/><path d="M18.5 3.5v3.2h-3.2"/><path d="M20.5 12a8.5 8.5 0 01-8.5 8.5c-2.6 0-4.9-1.2-6.5-3"/><path d="M5.5 20.5v-3.2h3.2"/></svg><span class="lbl" id="rvLbl">Review</span></button>
       <button class="iconbtn navy" onclick="toggleLang(event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg><span class="lbl" id="langLabel">العربية</span></button>
       <div class="langmenu" id="langMenu"></div>
@@ -387,6 +417,13 @@
 </div>
 
 <!-- paywall -->
+<div class="modal" id="todayModal">
+  <div class="card-modal today-card">
+    <button class="x" onclick="closeToday()">✕</button>
+    <div id="todayBody"></div>
+  </div>
+</div>
+
 <div class="modal" id="paywall">
   <div class="card-modal">
     <button class="x" onclick="closePaywall()">✕</button>
@@ -757,31 +794,13 @@
   function initLesson(){lIdx=0;lSeen.clear();drawLesson();}
   function drawLesson(){
     const w=CW[lIdx];const last=lIdx===CW.length-1;
-    if(isInter()){
-      stage.innerHTML=modLine()+`<div class="ls lsx">
-        <div class="dots" id="lsDots"></div>
-        <div class="lsx-eyebrow">Sentence · ${curSub().t}</div>
-        <div class="sentbig serif">${hlSentence(w.en)}</div>
-        <div class="lsx-chip">${vis(w)}<span>${w.en}</span></div>
-        <div class="ctrls">
-          <button class="tbtn" id="lsPrev" ${lIdx===0?'disabled':''} onclick="lPrev()">${I.prev}</button>
-          <button class="play-main" id="lsPlay" onclick="lPlay()">${I.play}</button>
-          <button class="tbtn" id="lsNext" onclick="lNext()">${last?I.arrow:I.next}</button>
-        </div>
-        <div class="taphint">${I.soundg} ${last?'Tap to hear · Next → Grammar':'Tap to hear the sentence'}</div>
-      </div>`;
-      drawDots();return;
-    }
-    stage.innerHTML=modLine()+`<div class="ls">
-      <div class="dots" id="lsDots"></div>
-      <div class="vtile">${vis(w)}</div>
-      <div class="word">${w.en}</div>
-      <div class="ctrls">
-        <button class="tbtn" id="lsPrev" ${lIdx===0?'disabled':''} onclick="lPrev()">${I.prev}</button>
-        <button class="play-main" id="lsPlay" onclick="lPlay()">${I.play}</button>
-        <button class="tbtn" id="lsNext" onclick="lNext()" title="${last?'Practice':'Next'}">${last?I.arrow:I.next}</button>
-      </div>
-      <div class="taphint">${I.soundg} ${last?'Tap to hear · Next → Grammar':'Tap to hear'}</div>
+    const body=isInter()
+      ? `<div class="lsx-eyebrow">Sentence · ${curSub().t}</div><div class="sentbig serif">${hlSentence(w.en)}</div><div class="lsx-chip">${vis(w)}<span>${w.en}</span></div><button class="play-main" id="lsPlay" onclick="lPlay()">${I.play}</button><div class="taphint">${I.soundg} ${last?'Tap to hear · Next → Grammar':'Tap to hear the sentence'}</div>`
+      : `<div class="vtile">${vis(w)}</div><div class="word">${w.en}</div><button class="play-main" id="lsPlay" onclick="lPlay()">${I.play}</button><div class="taphint">${I.soundg} ${last?'Tap to hear · Next → Grammar':'Tap to hear'}</div>`;
+    stage.innerHTML=`<div class="exwrap">
+      <div class="extop"><div class="dots" id="lsDots" style="flex:1"></div></div>
+      <div class="exbody">${body}</div>
+      <div class="exfoot"><button class="tbtn" id="lsPrev" ${lIdx===0?'disabled':''} onclick="lPrev()">${I.prev}</button><span style="flex:1"></span><button class="nextbtn" id="lsNext" onclick="lNext()">${last?'Grammar':'Next'} ${last?I.arrow:I.next}</button></div>
     </div>`;
     drawDots();
   }
@@ -901,30 +920,21 @@
   function lives(){let s='';for(let i=0;i<3;i++)s+=(i<pHearts?heartF:heartE);return s;}
   function drawPractice(){
     if(pIdx>=pQ.length||pHearts<=0)return practiceEnd();
-    const q=pQ[pIdx];
-    if(isInter()){
-      stage.innerHTML=modLine()+`<div class="pr">
-        <div class="pr-top"><div class="pbar"><i style="width:${pIdx/pQ.length*100}%"></i></div><div class="lives">${lives()}</div></div>
-        <button class="play-main" id="prPlay" onclick="sayWord(pQ[pIdx].t,document.getElementById('prPlay'))">${I.sound}</button>
-        <div class="cloze serif">${blankSentenceHTML()}</div>
-        <div class="prhint" style="cursor:pointer" onclick="sayWord(pQ[pIdx].t,document.getElementById('prPlay'))">${I.soundg} Listen, then choose the missing word</div>
-        <div class="opts wopts">${q.opts.map(o=>`<button class="opt wopt" data-en="${o.en}" onclick="prChoose(this,'${o.en}')">${o.en}</button>`).join('')}</div>
-        <div class="fbbar" id="fb"><div class="in"><div class="msg"><span class="ic" id="fbIc"></span><span class="t" id="fbT"></span></div><button class="nextbtn" onclick="prNext()">Continue ${I.arrow}</button></div></div>
-      </div>`;
-      return;
-    }
-    stage.innerHTML=modLine()+`<div class="pr">
-      <div class="pr-top"><div class="pbar"><i style="width:${pIdx/pQ.length*100}%"></i></div><div class="lives">${lives()}</div></div>
-      <button class="play-main" id="prPlay" onclick="sayWord(pQ[pIdx].t,document.getElementById('prPlay'))">${I.sound}</button>
-      <div style="color:var(--muted);font-size:.86rem;display:flex;align-items:center;gap:7px;cursor:pointer" onclick="playExplain()">${I.soundg} Listen, then tap the picture</div>
-      <div class="opts">${q.opts.map(o=>`<div class="opt" data-en="${o.en}" onclick="prChoose(this,'${o.en}')">${vis(o)}</div>`).join('')}</div>
-      <div class="fbbar" id="fb"><div class="in"><div class="msg"><span class="ic" id="fbIc"></span><span class="t" id="fbT"></span></div><button class="nextbtn" onclick="prNext()">Continue ${I.arrow}</button></div></div>
+    const q=pQ[pIdx];const prog=Math.round(pIdx/pQ.length*100);
+    const body=isInter()
+      ? `<button class="play-main" id="prPlay" onclick="sayWord(pQ[pIdx].t,document.getElementById('prPlay'))">${I.sound}</button><div class="cloze serif">${blankSentenceHTML()}</div><div class="prhint" style="cursor:pointer" onclick="sayWord(pQ[pIdx].t,document.getElementById('prPlay'))">${I.soundg} Listen, then choose the missing word</div><div class="opts wopts">${q.opts.map(o=>`<button class="opt wopt" data-en="${o.en}" onclick="prChoose(this,'${o.en}')">${o.en}</button>`).join('')}</div>`
+      : `<button class="play-main" id="prPlay" onclick="sayWord(pQ[pIdx].t,document.getElementById('prPlay'))">${I.sound}</button><div style="color:var(--muted);font-size:.86rem;display:flex;align-items:center;gap:7px;cursor:pointer" onclick="playExplain()">${I.soundg} Listen, then tap the picture</div><div class="opts">${q.opts.map(o=>`<div class="opt" data-en="${o.en}" onclick="prChoose(this,'${o.en}')">${vis(o)}</div>`).join('')}</div>`;
+    stage.innerHTML=`<div class="exwrap">
+      <div class="extop"><button class="x" onclick="setActivity('lesson')" title="Exit">${I.x}</button><div class="pb"><i style="width:${prog}%"></i></div><div class="lives">${lives()}</div></div>
+      <div class="exbody">${body}</div>
+      <div class="exfoot" id="fb"><div class="msg"><span class="ic" id="fbIc"></span><span class="t" id="fbT"></span></div><button class="nextbtn" id="contBtn" onclick="prNext()" style="display:none">Continue ${I.arrow}</button></div>
     </div>`;
   }
   function prChoose(el,en){const q=pQ[pIdx];document.querySelectorAll('.opt').forEach(o=>o.classList.add('dim'));const fb=document.getElementById('fb');
-    if(en===q.t.en){el.classList.add('correct');pScore++;PROG.recordWord(q.t.en,true);document.getElementById('fbIc').innerHTML=I.check;document.getElementById('fbT').textContent='Correct · '+q.t.en;fb.className='fbbar ok show';}
-    else{el.classList.add('wrong');document.querySelectorAll('.opt').forEach(o=>{if(o.dataset.en===q.t.en)o.classList.add('correct');});pHearts--;PROG.recordWord(q.t.en,false);document.querySelector('.lives').innerHTML=lives();document.getElementById('fbIc').innerHTML=I.x;document.getElementById('fbT').textContent='Answer: '+q.t.en;fb.className='fbbar no show';}}
-  function prNext(){document.getElementById('fb').classList.remove('show');pIdx++;drawPractice();}
+    if(en===q.t.en){el.classList.add('correct');pScore++;PROG.recordWord(q.t.en,true);document.getElementById('fbIc').innerHTML=I.check;document.getElementById('fbT').textContent='Correct · '+q.t.en;fb.className='exfoot ok';}
+    else{el.classList.add('wrong');document.querySelectorAll('.opt').forEach(o=>{if(o.dataset.en===q.t.en)o.classList.add('correct');});pHearts--;PROG.recordWord(q.t.en,false);document.querySelector('.lives').innerHTML=lives();document.getElementById('fbIc').innerHTML=I.x;document.getElementById('fbT').textContent='Answer: '+q.t.en;fb.className='exfoot no';}
+    document.getElementById('contBtn').style.display='';}
+  function prNext(){pIdx++;drawPractice();}
   function practiceEnd(){PROG.markDone(curSub().id);const pct=Math.round(pScore/pQ.length*100);
     stage.innerHTML=modLine()+`<div class="endc"><div class="ic">${I.trophy}</div><h2 class="serif">${pHearts<=0?'Keep going':(pct>=80?'Excellent':'Well done')}</h2><div class="score">${pScore} / ${pQ.length}</div><p>Now drill the words to make them stick.</p><div class="row"><button class="ghostbtn" onclick="setActivity('practice')">${I.redo} Retry</button><button class="nextbtn" onclick="setActivity('drills')">Drills ${I.arrow}</button></div></div>`;}
 
@@ -937,24 +947,13 @@
   function drawCard(){
     if(dPos>=deck.length)return cardsEnd();
     flipped=false;const w=deck[dPos];
-    if(isInter()){
-      stage.innerHTML=modLine()+`<div class="dr">${drModesHTML()}
-        <div class="meta-line">Card ${dPos+1} / ${deck.length} · review ${dRev}</div>
-        <div class="flash"><div class="fcard" id="fcard" onclick="flip()">
-          <div class="face front"><div class="w" style="font-size:1.9rem">${w.en}</div><button class="replay" onclick="event.stopPropagation();sayWord({en:applyFrame(deck[dPos].en),audio:''},this)">${I.soundg} Hear sentence</button><div class="h">use it in a sentence, then flip</div></div>
-          <div class="face back"><div class="sentbig serif" style="font-size:clamp(1.2rem,3.4vh,1.55rem)">${hlSentence(w.en)}</div><div class="h">the full sentence</div></div>
-        </div></div>
-        <div class="rate"><button class="review" onclick="dRate(false)">${I.redo} Review</button><button class="know" onclick="dRate(true)">${I.check} Got it</button></div>
-      </div>`;
-      return;
-    }
-    stage.innerHTML=modLine()+`<div class="dr">${drModesHTML()}
-      <div style="color:var(--faint);font-weight:600;font-size:.82rem">Card ${dPos+1} / ${deck.length} · review ${dRev}</div>
-      <div class="flash"><div class="fcard" id="fcard" onclick="flip()">
-        <div class="face front"><div class="v">${vis(w)}</div><div class="w">${w.en}</div><button class="replay" onclick="event.stopPropagation();sayWord(deck[dPos],this)">${I.soundg} Listen</button><div class="h">tap to flip</div></div>
-        <div class="face back"><div class="v">${vis(w)}</div><div class="w">${w.en}</div><div class="h">did you know it?</div></div>
-      </div></div>
-      <div class="rate"><button class="review" onclick="dRate(false)">${I.redo} Review</button><button class="know" onclick="dRate(true)">${I.check} Got it</button></div>
+    const inner=isInter()
+      ? `<div class="flash"><div class="fcard" id="fcard" onclick="flip()"><div class="face front"><div class="w" style="font-size:1.9rem">${w.en}</div><button class="replay" onclick="event.stopPropagation();sayWord({en:applyFrame(deck[dPos].en),audio:''},this)">${I.soundg} Hear sentence</button><div class="h">use it in a sentence, then flip</div></div><div class="face back"><div class="sentbig serif" style="font-size:clamp(1.2rem,3.4vh,1.55rem)">${hlSentence(w.en)}</div><div class="h">the full sentence</div></div></div></div>`
+      : `<div class="flash"><div class="fcard" id="fcard" onclick="flip()"><div class="face front"><div class="v">${vis(w)}</div><div class="w">${w.en}</div><button class="replay" onclick="event.stopPropagation();sayWord(deck[dPos],this)">${I.soundg} Listen</button><div class="h">tap to flip</div></div><div class="face back"><div class="v">${vis(w)}</div><div class="w">${w.en}</div><div class="h">did you know it?</div></div></div></div>`;
+    stage.innerHTML=`<div class="exwrap">
+      <div class="extop">${drModesHTML()}<div class="meta" style="margin-left:auto">Card ${dPos+1} / ${deck.length} · review ${dRev}</div></div>
+      <div class="exbody">${inner}</div>
+      <div class="exfoot"><div class="rate"><button class="review" onclick="dRate(false)">${I.redo} Review</button><button class="know" onclick="dRate(true)">${I.check} Got it</button></div></div>
     </div>`;
   }
   function flip(){flipped=!flipped;document.getElementById('fcard').classList.toggle('flipped',flipped);}
@@ -970,11 +969,9 @@
     const q=sq[sPos];const inter=isInter();
     const prompt=inter?`<div class="cloze serif clozesm">${blankSentenceHTML()}</div><button class="replay" id="spPlay" onclick="sayWord(sq[sPos].t,this)">${I.soundg} Tap to hear</button>`:`<button class="play-main" id="spPlay" onclick="sayWord(sq[sPos].t,document.getElementById('spPlay'))">${I.sound}</button><div class="taphint">${I.soundg} Tap to hear</div>`;
     const grid=`<div class="grid4 ${inter?'wgrid':''}">${q.opts.map(o=>inter?`<button class="cell wcell" data-en="${o.en}" onclick="spPick(this,'${o.en}')">${o.en}</button>`:`<div class="cell" data-en="${o.en}" onclick="spPick(this,'${o.en}')">${vis(o)}</div>`).join('')}</div>`;
-    stage.innerHTML=modLine()+`<div class="dr">${drModesHTML()}
-      <div class="meta-line">Q ${sPos+1} / ${sq.length} · streak ${streak}</div>
-      <div class="sptimer"><span class="sptnum" id="sptNum">${SP_TIME}</span><div class="sptbar"><i id="sptBar"></i></div></div>
-      ${prompt}
-      ${grid}
+    stage.innerHTML=`<div class="exwrap">
+      <div class="extop">${drModesHTML()}<div class="meta" style="margin-left:auto">Q ${sPos+1} / ${sq.length} · streak ${streak}</div></div>
+      <div class="exbody"><div class="sptimer"><span class="sptnum" id="sptNum">${SP_TIME}</span><div class="sptbar"><i id="sptBar"></i></div></div>${prompt}${grid}</div>
     </div>`;
     spLeft=SP_TIME;
     spTimer=setInterval(()=>{
@@ -1016,26 +1013,50 @@
   /* paywall */
   function openPaywall(){document.getElementById('paywall').classList.add('open');}
   function closePaywall(){document.getElementById('paywall').classList.remove('open');}
+  function renderToday(){
+    const t=PROG.todayStats(),due=PROG.dueCount(),streak=PROG.streak();
+    const acc=t.words?Math.round(t.correct/t.words*100):0,active=(t.lessons||t.words);
+    let b=`<div class="td-streak">🔥 ${streak} day${streak===1?'':'s'} streak</div>`;
+    b+=`<h2>${active?'Today you learned':'Ready for today?'}</h2>`;
+    if(active){
+      b+=`<div class="td-stats">
+        <div class="td-stat"><div class="num">${t.lessons}</div><div class="lab">LESSONS</div></div>
+        <div class="td-stat"><div class="num">${t.words}</div><div class="lab">WORDS</div></div>
+        <div class="td-stat"><div class="num">${acc}%</div><div class="lab">ACCURACY</div></div>
+      </div>`;
+    } else {
+      b+=`<p class="td-empty">Finish one lesson to keep your streak going.</p>`;
+    }
+    b+= due>0
+      ? `<button class="nextbtn" onclick="closeToday();startReview()">Review ${due} word${due===1?'':'s'} ${I.arrow}</button>`
+      : `<p class="td-note">You're all caught up on reviews.</p>`;
+    document.getElementById('todayBody').innerHTML=b;
+  }
+  function openToday(e){e&&e.stopPropagation();renderToday();document.getElementById('todayModal').classList.add('open');}
+  function closeToday(){document.getElementById('todayModal').classList.remove('open');}
   function checkout(p){closePaywall();}
   document.getElementById('paywall').addEventListener('click',e=>{if(e.target.id==='paywall')closePaywall();});
 
   /* ===== PROGRESS + STREAK (saved locally) ===== */
   const PROG=(()=>{
     const K='lisaany-eng-prog-v1', DAY=864e5, INT=[0,1,3,7,16,40];
-    let d={done:{},hist:{},streak:{n:0,last:0}};
-    function load(){try{const r=localStorage.getItem(K);if(r)d=Object.assign({done:{},hist:{},streak:{n:0,last:0}},JSON.parse(r));}catch(e){}}
+    let d={done:{},hist:{},streak:{n:0,last:0},days:{}};
+    function load(){try{const r=localStorage.getItem(K);if(r)d=Object.assign({done:{},hist:{},streak:{n:0,last:0},days:{}},JSON.parse(r));}catch(e){}}
     function save(){try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}}
     function midnight(){const t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate()).getTime();}
     function touch(){const t=midnight();if(d.streak.last===t)return;d.streak.n=(d.streak.last===t-DAY)?(d.streak.n||0)+1:1;d.streak.last=t;save();}
+    function dkey(){return String(midnight());}
+    function bump(field,amt){const k=dkey();const day=d.days[k]||{lessons:0,words:0,correct:0};day[field]=(day[field]||0)+amt;d.days[k]=day;}
     return {
       init(){load();touch();updateStreakChip();updateReviewBadge();},
-      markDone(id){if(!d.done[id]){d.done[id]=Date.now();save();updateReviewBadge();}},
+      markDone(id){if(!d.done[id]){d.done[id]=Date.now();bump('lessons',1);save();updateReviewBadge();}},
       isDone(id){return !!d.done[id];},
       dueAt(en){const h=d.hist[en];return h?h.due:0;},
-      recordWord(en,ok){const h=d.hist[en]||{box:0,due:0,seen:0,ok:0};h.seen++;if(ok){h.ok++;h.box=Math.min(h.box+1,5);}else{h.box=0;}h.due=Date.now()+INT[h.box]*DAY;d.hist[en]=h;save();},
+      recordWord(en,ok){const h=d.hist[en]||{box:0,due:0,seen:0,ok:0};h.seen++;if(ok){h.ok++;h.box=Math.min(h.box+1,5);}else{h.box=0;}h.due=Date.now()+INT[h.box]*DAY;d.hist[en]=h;bump('words',1);if(ok)bump('correct',1);save();},
       streak(){return d.streak.n||0;},
       learnedWords(){const set=[],seen={};MODULES.forEach(m=>m.subs.forEach(s=>{if(d.done[s.id])s.w.forEach(w=>{if(!seen[w[1]]){seen[w[1]]=1;set.push({e:w[0],en:w[1],img:w[2]||''});}});}));return set;},
-      dueCount(){const now=Date.now();return this.learnedWords().filter(w=>{const h=d.hist[w.en];return !h||h.due<=now;}).length;}
+      dueCount(){const now=Date.now();return this.learnedWords().filter(w=>{const h=d.hist[w.en];return !h||h.due<=now;}).length;},
+      todayStats(){return d.days[dkey()]||{lessons:0,words:0,correct:0};}
     };
   })();
   function updateStreakChip(){const el=document.getElementById('streakNum');if(el)el.textContent=PROG.streak();}
