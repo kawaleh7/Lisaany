@@ -231,7 +231,7 @@
   .fcard{position:relative;width:100%;aspect-ratio:1/.66;cursor:pointer;transition:transform .55s cubic-bezier(.3,.7,.3,1);transform-style:preserve-3d}
   .fcard.flipped{transform:rotateY(180deg)}
   .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:22px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;box-shadow:var(--sh)}
-  .face .v{font-size:clamp(2.4rem,7vh,3.3rem)}.face .w{font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem}.face .h{position:absolute;bottom:12px;color:var(--faint);font-size:.76rem}
+  .face .v{font-size:clamp(2.4rem,7vh,3.3rem)}.face .w{font-family:'Fraunces',serif;font-weight:500;font-size:1.5rem}.face .h{color:var(--faint);font-size:.76rem;margin-top:2px}
   .back{transform:rotateY(180deg);background:linear-gradient(165deg,#fff,var(--tint))}
   .replay{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:8px 15px;font-weight:600;cursor:pointer;font-size:.82rem;transition:.18s}
   .replay:hover{border-color:var(--acc);color:var(--acc)}.replay svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.6;fill:none}
@@ -324,6 +324,13 @@
   .panel .mrow.on .n{background:var(--gold);color:#fff}
   .panel .mrow.done .n{background:#dcebe2;color:var(--ok)}
   .panel .mrow .tk{margin-left:auto;color:var(--ok);font-weight:800;font-size:.8rem}
+  .panel .sublist{padding:1px 0 7px;animation:fbup .2s ease both}
+  .panel .subrow{display:flex;align-items:center;gap:10px;width:100%;padding:7px 16px 7px 32px;font-family:inherit;font-size:.82rem;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;text-align:left}
+  .panel .subrow:hover{background:var(--paper);color:var(--ink)}
+  .panel .subrow.on{color:var(--ink);font-weight:700}
+  .panel .subrow .dot{width:6px;height:6px;border-radius:50%;background:var(--line);flex:none}
+  .panel .subrow.on .dot{background:var(--gold);box-shadow:0 0 0 3px rgba(179,132,43,.18)}
+  .panel .subrow .tk{margin-left:auto;color:var(--ok);font-weight:800;font-size:.74rem}
   .scrim{display:none}
   @media(max-width:880px){
     .menuBtn{display:flex}
@@ -361,13 +368,6 @@
     <button class="active" data-lv="Beginner" onclick="setLevel('Beginner')">Beginner</button>
     <button data-lv="Intermediate" onclick="setLevel('Intermediate')">Intermediate</button>
     <button data-lv="Advanced" onclick="setLevel('Advanced')">Advanced</button>
-  </div>
-</div>
-
-<div class="pickbar">
-  <div class="subdd" id="subdd">
-    <button class="subbtn" id="subBtn" onclick="toggleSub(event)"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5M3 17l9 5 9-5"/></svg></span><span id="subLabel">Sub-unit</span><span class="chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></button>
-    <div class="submenu" id="subMenu"></div>
   </div>
 </div>
 
@@ -433,7 +433,7 @@
   function buildLangMenu(){document.getElementById('langMenu').innerHTML=LANGS.map(l=>`<button class="${l.code===lang?'sel':''}" onclick="setLang('${l.code}')">${l.label}<span class="ck">${I.tick}</span></button>`).join('');}
   function toggleLang(e){e&&e.stopPropagation();document.getElementById('langMenu').classList.toggle('open');}
   function setLang(c){lang=c;document.getElementById('langLabel').textContent=LANGS.find(l=>l.code===c).label;document.getElementById('langMenu').classList.remove('open');buildLangMenu();}
-  document.addEventListener('click',()=>{document.getElementById('langMenu').classList.remove('open');closeSub();});
+  document.addEventListener('click',()=>{document.getElementById('langMenu').classList.remove('open');});
 
   /* word audio (english target) */
   let wAudio=null;
@@ -714,33 +714,30 @@
       levelList.filter(m=>m.grp===g).forEach(m=>{
         const num=levelList.findIndex(x=>x.n===m.n)+1;
         const done=m.subs.every(s=>PROG.isDone(s.id));
-        const cls=(m.n===selected?'on':'')+(done?' done':'');
-        html+=`<button class="mrow ${cls}" onclick="selectModuleFromPanel(${m.n})"><span class="n">${done?'✓':num}</span><span>${m.title}</span>${(done&&m.n!==selected)?'<span class="tk">✓</span>':''}</button>`;
+        const isCur=m.n===selected;
+        const cls=(isCur?'on':'')+(done?' done':'');
+        html+=`<button class="mrow ${cls}" onclick="selectModuleFromPanel(${m.n})"><span class="n">${done?'✓':num}</span><span>${m.title}</span>${(done&&!isCur)?'<span class="tk">✓</span>':''}</button>`;
+        if(isCur){
+          html+=`<div class="sublist">`+m.subs.map((s,i)=>`<button class="subrow ${i===subIdx?'on':''}" onclick="selectSubFromPanel(${i})"><span class="dot"></span><span>${s.t}</span>${PROG.isDone(s.id)?'<span class="tk">✓</span>':''}</button>`).join('')+`</div>`;
+        }
       });
     });
     document.getElementById('modPanel').innerHTML=html;
   }
   function openPanel(e){e&&e.stopPropagation();document.getElementById('modPanel').classList.add('open');document.getElementById('panelScrim').classList.add('open');}
   function closePanel(){document.getElementById('modPanel').classList.remove('open');document.getElementById('panelScrim').classList.remove('open');}
-  function selectModuleFromPanel(n){closePanel();selectModule(n);}
+  function selectModuleFromPanel(n){selectModule(n);}
+  function selectSubFromPanel(i){subIdx=i;renderPanel();render();closePanel();}
   function setAccent(){const c=gc(MODULES.find(m=>m.n===selected).grp);document.documentElement.style.setProperty('--acc',c.acc);document.documentElement.style.setProperty('--tint',c.tint);}
   function updateSeg(){const free=MODULES.find(m=>m.n===selected).free||PREVIEW_ALL;document.querySelectorAll('#seg button').forEach(b=>{b.classList.toggle('active',b.dataset.a===activity);b.disabled=!free;});document.querySelector('.actbar').style.display=free?'flex':'none';const sb=document.querySelector('.pickbar');if(sb)sb.style.display=free?'flex':'none';}
   function modLine(){const m=MODULES.find(x=>x.n===selected);const list=MODULES.filter(x=>(x.level||'Beginner')===(m.level||'Beginner'));const idx=list.findIndex(x=>x.n===m.n)+1;const lv=(m.level&&m.level!=='Beginner')?`<span class="lvlbadge">${m.level}</span>`:'';return `<div class="stage-mod">${lv}<b>Module ${idx}</b> · ${m.title} · ${curSub().t}</div>`;}
 
-  function selectModule(n){selected=n;subIdx=0;activity='lesson';const m=MODULES.find(x=>x.n===n);if(m)curStage=m.grp;setAccent();renderPanel();renderSub();render();}
+  function selectModule(n){selected=n;subIdx=0;activity='lesson';const m=MODULES.find(x=>x.n===n);if(m)curStage=m.grp;setAccent();renderPanel();render();}
   function setLevel(lv){level=lv;document.querySelectorAll('#levelseg button').forEach(b=>b.classList.toggle('active',b.dataset.lv===lv));closePanel();const first=MODULES.find(m=>(m.level||'Beginner')===lv);if(first){curStage=first.grp;selectModule(first.n);}}
   function setActivity(a){activity=a;updateSeg();render();}
 
-  function renderSub(){
-    const m=MODULES.find(x=>x.n===selected);
-    document.getElementById('subLabel').textContent=curSub().t;
-    document.getElementById('subMenu').innerHTML=m.subs.map((s,i)=>`<button class="${i===subIdx?'sel':''}" onclick="selectSub(${i})"><span class="sn">${s.id}</span><span>${s.t}${PROG.isDone(s.id)?' <span style="color:#2f8f6a;font-weight:800">✓</span>':''}</span><span class="scount">${s.w.length} words</span></button>`).join('');
-  }
-  function toggleSub(e){e&&e.stopPropagation();document.getElementById('subMenu').classList.toggle('open');document.getElementById('subdd').classList.toggle('open');}
-  function closeSub(){document.getElementById('subMenu').classList.remove('open');document.getElementById('subdd').classList.remove('open');}
-  function selectSub(i){subIdx=i;closeSub();renderSub();render();}
   function hasNextLesson(){const m=MODULES.find(x=>x.n===selected);if(subIdx<m.subs.length-1)return true;const list=MODULES.filter(x=>(x.level||'Beginner')===level);return list.findIndex(x=>x.n===selected)<list.length-1;}
-  function nextLesson(){const m=MODULES.find(x=>x.n===selected);if(subIdx<m.subs.length-1){subIdx++;activity='lesson';renderSub();render();return;}const list=MODULES.filter(x=>(x.level||'Beginner')===level);const idx=list.findIndex(x=>x.n===selected);selectModule(idx<list.length-1?list[idx+1].n:list[0].n);}
+  function nextLesson(){const m=MODULES.find(x=>x.n===selected);if(subIdx<m.subs.length-1){subIdx++;activity='lesson';renderPanel();render();return;}const list=MODULES.filter(x=>(x.level||'Beginner')===level);const idx=list.findIndex(x=>x.n===selected);selectModule(idx<list.length-1?list[idx+1].n:list[0].n);}
 
   function render(){
     clearSpeedTimer();
@@ -1087,9 +1084,9 @@
   }
   function revNext(){const fb=document.getElementById('rvfb');if(fb)fb.classList.remove('show');revPos++;drawReview();}
   function reviewEnd(){updateStreakChip();updateReviewBadge();stage.innerHTML=`<div class="endc"><div class="ic">${I.trophy}</div><div class="g-eyebrow" style="color:var(--gold)">Well done</div><h2 class="serif">Review done</h2><div class="score">${revScore} / ${revQ.length}</div><p>Come back tomorrow to keep these words fresh.</p><div class="row"><button class="nextbtn" onclick="exitReview()">Back to lessons ${I.arrow}</button></div></div>`;confetti(90);}
-  function exitReview(){renderSub();render();}
+  function exitReview(){renderPanel();render();}
 
-  buildLangMenu();setAccent();PROG.init();renderPanel();renderSub();render();
+  buildLangMenu();setAccent();PROG.init();renderPanel();render();
 </script>
 </body>
 </html>
