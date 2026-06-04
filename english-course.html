@@ -27,10 +27,18 @@
   ::selection{background:var(--gold-soft)}
 
   /* ── top bar ── */
-  header{position:relative;z-index:5;flex:none;border-bottom:1px solid var(--line);background:rgba(246,242,233,.82);backdrop-filter:blur(12px)}
+  header{position:relative;z-index:5;flex:none;background:linear-gradient(180deg,#1a2240,#12182e);border-bottom:1.5px solid rgba(202,162,78,.5);box-shadow:0 14px 34px -20px rgba(8,13,28,.75)}
+  header .brand{color:#f4f7fc}
+  header .brand .sub{color:var(--gold-2)}
+  header .streakchip{border-color:rgba(255,255,255,.22);color:#eaf0fa}
+  header .streakchip svg{stroke:var(--gold-2)}
+  header .iconbtn{border-color:rgba(255,255,255,.26);color:#eaf0fa}
+  header .iconbtn:hover{border-color:var(--gold-2);color:#fff}
+  header .iconbtn.navy{background:rgba(255,255,255,.08);border:1.5px solid rgba(202,162,78,.6);color:#fff;box-shadow:none}
+  header .iconbtn.navy:hover{background:rgba(255,255,255,.15);border-color:var(--gold-2)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:60px;padding:0 20px;gap:14px;max-width:1120px;margin:0 auto;width:100%}
   .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:500;font-size:1.18rem;letter-spacing:-.01em;color:var(--ink)}
-  .brand .mark{width:30px;height:30px;filter:drop-shadow(0 4px 8px rgba(22,32,58,.18))}.brand .sub{color:var(--gold)}
+  .brand .mark{width:34px;height:34px;filter:none}.brand .sub{color:var(--gold)}
   .tools{display:flex;align-items:center;gap:8px;position:relative}
   .streakchip{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 13px;border:1px solid var(--line);border-radius:999px;background:transparent;font-size:.82rem;font-weight:600}
   .streakchip svg{width:15px;height:15px;stroke:var(--gold);stroke-width:1.7;fill:none}
@@ -38,6 +46,8 @@
   .iconbtn:hover{border-color:var(--gold-2);transform:translateY(-1px)}.iconbtn.sq{padding:0;width:36px;justify-content:center}
   .iconbtn .lbl{font-family:'Inter',sans-serif;font-weight:600}.iconbtn svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.6;fill:none}
   .iconbtn.playing{border-color:var(--gold);color:var(--gold)}
+  .iconbtn.navy{background:linear-gradient(180deg,#22324f,#16203a);color:#fff;border-color:transparent;box-shadow:0 8px 18px -10px rgba(16,26,49,.55)}
+  .iconbtn.navy:hover{border-color:transparent;transform:translateY(-1px);box-shadow:0 12px 22px -10px rgba(16,26,49,.6)}
   .langmenu{position:absolute;top:46px;right:0;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh-lg);padding:7px;min-width:160px;display:none;z-index:60}
   .langmenu.open{display:block;animation:pop .16s ease both}
   .langmenu button{display:flex;width:100%;align-items:center;justify-content:space-between;background:transparent;border:none;padding:10px 12px;border-radius:10px;font-weight:600;font-size:.92rem;color:var(--ink);cursor:pointer}
@@ -48,18 +58,19 @@
   .levelbar{position:relative;z-index:5;flex:none;display:flex;align-items:center;justify-content:center;gap:11px;padding:14px 16px 2px}
   .levelbar .llab{display:none}
   .levelseg{display:inline-flex;gap:8px;background:transparent;border:none;padding:0}
-  .levelseg button{padding:10px 24px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-weight:600;font-size:.86rem;border-radius:999px;cursor:pointer;transition:.18s}
-  .levelseg button:hover{border-color:var(--acc);color:var(--ink)}
+  .levelseg button{padding:10px 24px;border:1.5px solid var(--ink);background:var(--card);color:var(--ink);font-weight:600;font-size:.86rem;border-radius:999px;cursor:pointer;transition:.18s}
+  .levelseg button:hover{background:var(--paper-2);transform:translateY(-1px)}
   .levelseg button.active{background:var(--ink);color:#fff;border-color:var(--ink);box-shadow:0 8px 18px -8px rgba(20,32,60,.5)}
+  .levelseg button.active:hover{background:var(--ink);transform:translateY(-1px)}
 
   /* ── module tabs ── */
   .modbar{position:relative;z-index:4;flex:none;border-bottom:1px solid var(--line);background:transparent}
   .modbar-in{display:flex;gap:8px;overflow-x:auto;padding:11px 20px;max-width:1120px;margin:0 auto;scrollbar-width:none}
   .modbar-in::-webkit-scrollbar{display:none}
-  .tab{flex:0 0 auto;display:flex;align-items:center;gap:9px;max-width:200px;border:1px solid var(--line);border-radius:999px;padding:8px 16px 8px 9px;cursor:pointer;background:var(--card);transition:.16s;position:relative;box-shadow:var(--sh-sm)}
-  .tab:hover{border-color:var(--acc);transform:translateY(-1px);box-shadow:var(--sh)}
+  .tab{flex:0 0 auto;display:flex;align-items:center;gap:9px;max-width:200px;border:1.5px solid var(--ink);border-radius:999px;padding:8px 16px 8px 9px;cursor:pointer;background:var(--card);transition:.16s;position:relative;box-shadow:var(--sh-sm)}
+  .tab:hover{transform:translateY(-1px);box-shadow:var(--sh)}
   .tab.active{background:var(--acc);border-color:var(--acc);color:#fff;box-shadow:0 10px 22px -9px rgba(20,32,60,.5)}
-  .tab .tn{width:26px;height:26px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:.84rem;font-weight:700;background:var(--tint);color:var(--acc)}
+  .tab .tn{width:26px;height:26px;flex:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:.84rem;font-weight:700;background:var(--paper-2);color:var(--ink)}
   .tab.active .tn{background:#fff;color:var(--acc)}
   .tab.active .tt{color:#fff}
   .tab.active .tl,.tab.active .tl.free{color:rgba(255,255,255,.92)}
@@ -70,15 +81,15 @@
   .subbar{position:relative;z-index:30;flex:none;display:flex;justify-content:center;align-items:center;gap:9px;padding:11px 16px 2px}
   .subbar .lab{display:none}
   .subdd{position:relative}
-  .subbtn{display:inline-flex;align-items:center;gap:10px;height:38px;padding:0 17px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font-weight:600;font-size:.92rem;cursor:pointer;transition:.16s}
-  .subbtn:hover{border-color:var(--acc)}
+  .subbtn{display:inline-flex;align-items:center;gap:10px;height:38px;padding:0 17px;border:1.5px solid var(--ink);border-radius:999px;background:var(--card);color:var(--ink);font-weight:700;font-size:.92rem;cursor:pointer;transition:.16s}
+  .subbtn:hover{border-color:var(--ink);background:var(--paper-2)}
   .subbtn .ico{display:flex;color:var(--acc)}.subbtn .ico svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.7;fill:none}
   .subbtn .chev{display:flex;color:var(--acc);transition:transform .22s}.subbtn .chev svg{width:16px;height:16px;stroke:currentColor;stroke-width:2.2;fill:none}
   .subdd.open .subbtn .chev{transform:rotate(180deg)}
   .submenu{position:absolute;top:48px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh-lg);padding:7px;min-width:248px;display:none;z-index:50}
   .submenu.open{display:block;animation:pop .16s ease both}
   .submenu button{display:flex;width:100%;align-items:center;gap:11px;background:transparent;border:none;padding:11px 12px;border-radius:11px;font-weight:600;font-size:.9rem;color:var(--ink);cursor:pointer;text-align:left}
-  .submenu button:hover{background:var(--paper)}.submenu button.sel{background:var(--tint)}
+  .submenu button:hover{background:var(--paper)}.submenu button.sel{background:var(--paper-2)}
   .submenu button .sn{font-family:'Fraunces',serif;font-size:.74rem;font-weight:600;color:var(--acc);min-width:30px}
   .submenu button .scount{margin-left:auto;font-size:.74rem;color:var(--faint);font-weight:600}
 
@@ -94,7 +105,9 @@
   .seg button:disabled{opacity:.4;cursor:not-allowed}
 
   /* ── stage ── */
-  .stage{position:relative;z-index:3;flex:1;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 18px 20px;text-align:center}
+  .stage{position:relative;z-index:3;flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:10px 18px 20px;text-align:center}
+  .stage::-webkit-scrollbar{width:0;height:0}
+  .stage>:not(.stage-mod){margin-top:auto;margin-bottom:auto}
   .stage-mod{position:absolute;top:8px;left:0;right:0;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
   .stage-mod b{color:var(--acc);font-weight:700}
 
@@ -250,16 +263,38 @@
   .plan ul li svg{width:15px;height:15px;flex:none;margin-top:2px;stroke-width:2;fill:none}.plan ul li.y svg{stroke:var(--ok)}.plan ul li.n svg{stroke:var(--faint)}.plan ul li.y{color:var(--ink)}
   .pbtn{width:100%;padding:12px;border-radius:11px;border:1px solid var(--ink);font-weight:600;font-size:.9rem;cursor:pointer;background:var(--card);color:var(--ink);transition:.16s}.pbtn:hover{background:var(--paper)}.pbtn.solid{background:linear-gradient(180deg,#22324f,#16203a);color:#fff;border-color:transparent}.pbtn.solid:hover{transform:translateY(-1px)}
 
+  /* ── PHONE FIT: tighten so a full lesson fits the viewport ── */
+  @media(max-width:560px){
+    .stage{padding:8px 14px 16px}
+    .gr{padding:14px 18px 14px;gap:10px;max-width:100%}
+    .gtitle{font-size:clamp(1.25rem,5.4vw,1.55rem)}
+    .grule{font-size:.9rem;line-height:1.45}
+    .pattern{padding:11px 12px}
+    .gchip{padding:7px 11px;font-size:.9rem}
+    .gex{padding:9px 12px}.gex .ge{font-size:1.35rem}.gex .gt2{font-size:1rem}
+    .gex-wrap{gap:7px}
+    .ls{gap:14px}.ls .vtile{margin-top:2px}
+    .lsx{gap:12px}
+    .pr,.dr,.build{padding-top:4px}
+    .nextbtn,.ghostbtn{height:46px}
+  }
+  @media(max-height:720px){
+    .gr{gap:8px;padding-top:10px;padding-bottom:10px}
+    .grule{font-size:.86rem}
+    .gex{padding:8px 12px}
+    .word{font-size:clamp(1.9rem,5vh,2.6rem)}
+  }
   </style>
 </head>
 <body>
 
 <header>
   <div class="nav">
-    <a class="brand" href="index.html"><svg class="mark" viewBox="0 0 40 40" fill="none"><rect x="1.5" y="1.5" width="37" height="37" rx="10" fill="#15203a"/><path d="M20 10l2.9 6 6.4.6-4.8 4.3 1.4 6.3L20 30.2 14.1 33.5l1.4-6.3L10.7 22.9l6.4-.6L20 10z" fill="#b3842b"/></svg><span>Lisaany <span class="sub">English</span></span></a>
+    <a class="brand" href="index.html"><svg class="mark" viewBox="0 0 100 100" fill="none"><path d="M34 82 L34 50 Q34 36 50 30 Q66 36 66 50 L66 82" fill="none" stroke="#d8aa3c" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 42 L52.3 47.7 L58 50 L52.3 52.3 L50 58 L47.7 52.3 L42 50 L47.7 47.7 Z" fill="#d8aa3c"/></svg><span>Lisaany <span class="sub">English</span></span></a>
     <div class="tools">
-      <span class="streakchip"><svg viewBox="0 0 24 24"><path d="M12 3c1 3-2 4-2 7a2 2 0 004 0c0-1 1-2 1-2 2 2 3 4 3 6a6 6 0 01-12 0c0-4 4-6 6-11z"/></svg> 1</span>
-      <button class="iconbtn" onclick="toggleLang(event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg><span class="lbl" id="langLabel">العربية</span></button>
+      <span class="streakchip"><svg viewBox="0 0 24 24"><path d="M12 3c1 3-2 4-2 7a2 2 0 004 0c0-1 1-2 1-2 2 2 3 4 3 6a6 6 0 01-12 0c0-4 4-6 6-11z"/></svg> <span id="streakNum">0</span></span>
+      <button class="iconbtn" id="reviewBtn" onclick="startReview()"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 018.5-8.5c2.6 0 4.9 1.2 6.5 3"/><path d="M18.5 3.5v3.2h-3.2"/><path d="M20.5 12a8.5 8.5 0 01-8.5 8.5c-2.6 0-4.9-1.2-6.5-3"/><path d="M5.5 20.5v-3.2h3.2"/></svg><span class="lbl" id="rvLbl">Review</span></button>
+      <button class="iconbtn navy" onclick="toggleLang(event)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg><span class="lbl" id="langLabel">العربية</span></button>
       <div class="langmenu" id="langMenu"></div>
       <button class="iconbtn sq" id="explainBtn" onclick="playExplain()" title="Explain"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 8a5 5 0 010 8"/></svg></button>
     </div>
@@ -354,208 +389,234 @@
 
   /* per-module sub-units. w:[emoji,english]; f = the grammar frame this sub teaches ([w]=word,[art]=a/an). All words/sentences original. audio/img filled later. */
   const MODULES=[
-    {n:1,title:'Meeting People',topic:'“to be” · countries · nationalities',free:true,grp:'Foundations',subs:[
-      {id:'1A',t:'Greetings',f:'[w].',g:{title:'Saying hello',rule:'These are set phrases for greeting people and being polite.',sk:'Greeting people'},w:[['👋','Hello'],['🙋','Hi'],['🌅','Good morning'],['🙏','Please'],['🙏','Thank you'],['👋','Goodbye']]},
-      {id:'1B',t:'The verb “to be”',f:'I am [w].',g:{title:'The verb “to be”',rule:'Use “am” after “I” to say who or how you are: I am fine.',sk:'Talking about yourself'},w:[['😊','fine'],['🆕','new'],['📍','here'],['✅','ready'],['😴','tired'],['😀','happy']]},
-      {id:'1C',t:'Countries',f:'I am from [w].',g:{title:'Saying where you’re from',rule:'Use “from” + a country to give your origin: I am from Egypt.',sk:'Talking about your country'},w:[['🇨🇦','Canada','https://flagcdn.com/w160/ca.png'],['🇪🇬','Egypt','https://flagcdn.com/w160/eg.png'],['🇧🇷','Brazil','https://flagcdn.com/w160/br.png'],['🇯🇵','Japan','https://flagcdn.com/w160/jp.png'],['🇫🇷','France','https://flagcdn.com/w160/fr.png'],['🇰🇪','Kenya','https://flagcdn.com/w160/ke.png']]},
-      {id:'1D',t:'Nationalities',f:'I am [w].',g:{title:'Nationalities',rule:'A nationality describes a person from a country: I am Canadian.',sk:'Talking about yourself'},w:[['🇨🇦','Canadian','https://flagcdn.com/w160/ca.png'],['🇪🇬','Egyptian','https://flagcdn.com/w160/eg.png'],['🇧🇷','Brazilian','https://flagcdn.com/w160/br.png'],['🇯🇵','Japanese','https://flagcdn.com/w160/jp.png'],['🇫🇷','French','https://flagcdn.com/w160/fr.png'],['🇰🇪','Kenyan','https://flagcdn.com/w160/ke.png']]},
+    {n:1,title:'Meeting People',topic:'“to be” · numbers · countries · nationalities',free:true,grp:'Foundations',subs:[
+      {id:'1A',t:'Greetings',f:'[w].',g:{title:'Saying hello',rule:'These are set phrases for greeting people and being polite.',sk:'Greeting people'},w:[['👋','Hello'],['🙋','Hi'],['🌅','Good morning'],['🌆','Good evening'],['👋','Goodbye'],['🙏','Please'],['🙏','Thank you'],['🤚','Excuse me']]},
+      {id:'1B',t:'The verb “to be”',f:'I am [w].',g:{title:'The verb “to be”',rule:'Use “am” after “I” to say who or how you are: I am fine.',sk:'Talking about yourself'},w:[['😊','fine'],['👍','well'],['🆕','new'],['📍','here'],['✅','ready'],['😴','tired'],['😀','happy'],['⏰','late']]},
+      {id:'1C',t:'Numbers',f:'Number [w].',g:{title:'Numbers 1–10',rule:'These are the counting numbers from one to ten.',sk:'Counting'},w:[['1️⃣','one'],['2️⃣','two'],['3️⃣','three'],['4️⃣','four'],['5️⃣','five'],['6️⃣','six'],['7️⃣','seven'],['8️⃣','eight'],['9️⃣','nine'],['🔟','ten']]},
+      {id:'1D',t:'Countries',f:'I am from [w].',g:{title:'Saying where you’re from',rule:'Use “from” + a country to give your origin: I am from Egypt.',sk:'Talking about your country'},w:[['🇨🇦','Canada','https://flagcdn.com/w160/ca.png'],['🇪🇬','Egypt','https://flagcdn.com/w160/eg.png'],['🇧🇷','Brazil','https://flagcdn.com/w160/br.png'],['🇯🇵','Japan','https://flagcdn.com/w160/jp.png'],['🇫🇷','France','https://flagcdn.com/w160/fr.png'],['🇰🇪','Kenya','https://flagcdn.com/w160/ke.png'],['🇪🇸','Spain','https://flagcdn.com/w160/es.png'],['🇮🇳','India','https://flagcdn.com/w160/in.png']]},
+      {id:'1E',t:'Nationalities',f:'I am [w].',g:{title:'Nationalities',rule:'A nationality describes a person from a country: I am Canadian.',sk:'Talking about yourself'},w:[['🇨🇦','Canadian','https://flagcdn.com/w160/ca.png'],['🇪🇬','Egyptian','https://flagcdn.com/w160/eg.png'],['🇧🇷','Brazilian','https://flagcdn.com/w160/br.png'],['🇯🇵','Japanese','https://flagcdn.com/w160/jp.png'],['🇫🇷','French','https://flagcdn.com/w160/fr.png'],['🇰🇪','Kenyan','https://flagcdn.com/w160/ke.png'],['🇪🇸','Spanish','https://flagcdn.com/w160/es.png'],['🇮🇳','Indian','https://flagcdn.com/w160/in.png']]},
     ]},
-    {n:2,title:'Family & Belongings',topic:'possessives · this/that · these/those',grp:'Foundations',subs:[
-      {id:'2A',t:'Family',f:'This is my [w].',g:{title:'Possessive “my”',rule:'Use “my” before a noun to show it belongs to you: my father.',sk:'Talking about family'},w:[['👨','father'],['👩','mother'],['👦','brother'],['👧','sister'],['👶','baby'],['👵','grandma']]},
-      {id:'2B',t:'This & that',f:'This is my [w].',g:{title:'“this” and “that”',rule:'Use “this” for something near you and “that” for something further away.',sk:'Pointing things out'},w:[['🐕','dog'],['🐈','cat'],['🐟','fish'],['🐦','bird'],['🐇','rabbit'],['🐢','turtle']]},
-      {id:'2C',t:'Apostrophe ’s',f:'This is [w] bag.',g:{title:'Possessive apostrophe',rule:'Add ’s to a name to show belonging: Sam’s bag.',sk:'Showing who owns something'},w:[['👦','Sam’s'],['👧','Mia’s'],['👨','Dad’s'],['👩','Mom’s'],['👶','the baby’s'],['🧑','my friend’s']]},
-      {id:'2D',t:'These & those',f:'These are my [w].',g:{title:'“these” and “those”',rule:'Use “these” for near things and “those” for far things — both plural.',sk:'Talking about your things'},w:[['👟','shoes'],['👓','glasses'],['🔑','keys'],['📚','books'],['🧤','gloves'],['🧦','socks']]},
+    {n:2,title:'Family & Belongings',topic:'possessives · everyday things · this/that · these/those',grp:'Foundations',subs:[
+      {id:'2A',t:'Family',f:'This is my [w].',g:{title:'Possessive “my”',rule:'Use “my” before a noun to show it belongs to you: my father.',sk:'Talking about family'},w:[['👨','father'],['👩','mother'],['👦','brother'],['👧','sister'],['👶','baby'],['👵','grandma'],['👴','grandpa'],['🧑‍🤝‍🧑','friend']]},
+      {id:'2B',t:'Animals & this/that',f:'This is my [w].',g:{title:'“this” and “that”',rule:'Use “this” for something near you and “that” for something further away.',sk:'Pointing things out'},w:[['🐕','dog'],['🐈','cat'],['🐟','fish'],['🐦','bird'],['🐇','rabbit'],['🐢','turtle'],['🐴','horse'],['🐭','mouse']]},
+      {id:'2C',t:'Apostrophe ’s',f:'This is [w] bag.',g:{title:'Possessive apostrophe',rule:'Add ’s to a name to show belonging: Sam’s bag.',sk:'Showing who owns something'},w:[['👦','Sam’s'],['👧','Mia’s'],['👨','Dad’s'],['👩','Mom’s'],['👶','the baby’s'],['🧑','my friend’s'],['👵','Grandma’s']]},
+      {id:'2D',t:'Everyday things',f:'This is a [w].',g:{title:'Everyday objects',rule:'These are common things people carry and use every day.',sk:'Naming everyday things'},w:[['🔑','key'],['📱','phone'],['👛','wallet'],['👓','glasses'],['☂️','umbrella'],['⌚','watch'],['💼','bag'],['📒','notebook']]},
+      {id:'2E',t:'These & those',f:'These are my [w].',g:{title:'“these” and “those”',rule:'Use “these” for near things and “those” for far things — both plural.',sk:'Talking about your things'},w:[['👟','shoes'],['👓','glasses'],['🔑','keys'],['📚','books'],['🧤','gloves'],['🧦','socks'],['✏️','pencils'],['🖊️','pens']]},
     ]},
     {n:3,title:'Work & Time',topic:'jobs · workplaces · telling the time',grp:'Foundations',subs:[
-      {id:'3A',t:'Jobs',f:'I am a [w].',g:{title:'“I am a…” for jobs',rule:'Use “a” or “an” before a job: I am a teacher. I am an artist.',sk:'Describing your job'},w:[['👨‍🏫','teacher'],['👩‍⚕️','doctor'],['👮','officer'],['👨‍🍳','cook'],['👩‍💻','programmer'],['🧑‍🔧','mechanic']]},
-      {id:'3B',t:'Workplaces',f:'I work in a [w].',g:{title:'Saying where you work',rule:'Use “work in” or “work at” + a place: I work in a school.',sk:'Talking about your workplace'},w:[['🏫','school'],['🏥','hospital'],['🏢','office'],['🍴','restaurant'],['🏪','shop'],['🏭','factory']]},
-      {id:'3C',t:'Telling the time',f:'It is [w].',g:{title:'Times of day',rule:'Use “It is…” to give the time or part of the day: It is morning.',sk:'Saying the time'},w:[['🌅','morning'],['🏙️','midday'],['🌇','afternoon'],['🌆','evening'],['🌙','night'],['🕛','midnight']]},
+      {id:'3A',t:'Jobs',f:'I am a [w].',g:{title:'“I am a…” for jobs',rule:'Use “a” or “an” before a job: I am a teacher. I am an artist.',sk:'Describing your job'},w:[['👨‍🏫','teacher'],['👩‍⚕️','doctor'],['👮','officer'],['👨‍🍳','cook'],['👩‍💻','programmer'],['🧑‍🔧','mechanic'],['👨‍🌾','farmer'],['👩‍🎨','artist']]},
+      {id:'3B',t:'Workplaces',f:'I work in a [w].',g:{title:'Saying where you work',rule:'Use “work in” or “work at” + a place: I work in a school.',sk:'Talking about your workplace'},w:[['🏫','school'],['🏥','hospital'],['🏢','office'],['🍴','restaurant'],['🏪','shop'],['🏭','factory'],['🏦','bank'],['🏨','hotel']]},
+      {id:'3C',t:'Telling the time',f:'It is [w].',g:{title:'Saying the time',rule:'Use “It is…” to give the time or part of the day: It is morning.',sk:'Saying the time'},w:[['🌅','morning'],['🏙️','midday'],['🌇','afternoon'],['🌆','evening'],['🌙','night'],['🕛','midnight'],['🕐','one o’clock'],['🕡','half past']]},
+      {id:'3D',t:'Times of day',f:'I work in the [w].',g:{title:'Times of day',rule:'Use these words for the parts of a day: morning, afternoon, evening.',sk:'Talking about your day'},w:[['🌅','dawn'],['🌞','daytime'],['🌤️','noon'],['🌇','sunset'],['🌃','nighttime'],['⏰','early']]},
     ]},
-    {n:4,title:'Your Routine',topic:'present simple · days of the week',grp:'Everyday Life',subs:[
-      {id:'4A',t:'Daily routine',f:'I [w] every day.',g:{title:'The present simple',rule:'Use the plain verb for habits: I work every day.',sk:'Talking about your routine'},w:[['⏰','wake up'],['🍳','eat'],['🚿','shower'],['🚗','drive'],['💼','work'],['🛌','sleep']]},
-      {id:'4B',t:'More routines',f:'I [w] in the morning.',g:{title:'Present simple (you / we / they)',rule:'The verb stays the same for I, you, we and they: I read, you read.',sk:'Describing your day'},w:[['☕','make coffee'],['📖','read'],['🏃','run'],['🧹','clean'],['📚','study'],['🧘','relax']]},
-      {id:'4C',t:'Days of the week',f:'I rest on [w].',g:{title:'Days and “on”',rule:'Use “on” before a day of the week: on Monday.',sk:'Talking about your week'},w:[['1️⃣','Monday'],['2️⃣','Tuesday'],['3️⃣','Wednesday'],['4️⃣','Thursday'],['5️⃣','Friday'],['🎉','Saturday']]},
+    {n:4,title:'Your Routine',topic:'present simple · days · free time',grp:'Everyday Life',subs:[
+      {id:'4A',t:'Daily routine',f:'I [w] every day.',g:{title:'The present simple',rule:'Use the plain verb for habits: I work every day.',sk:'Talking about your routine'},w:[['⏰','wake up'],['🍳','eat'],['🚿','shower'],['👕','get dressed'],['🚗','drive'],['💼','work'],['🍽️','have dinner'],['🛌','sleep']]},
+      {id:'4B',t:'More routines',f:'I [w] in the morning.',g:{title:'Present simple (you / we / they)',rule:'The verb stays the same for I, you, we and they: I read, you read.',sk:'Describing your day'},w:[['☕','make coffee'],['📖','read'],['🏃','run'],['🧹','clean'],['📚','study'],['📺','watch TV'],['🎧','listen'],['🚶','walk']]},
+      {id:'4C',t:'Days of the week',f:'I rest on [w].',g:{title:'Days and “on”',rule:'Use “on” before a day of the week: on Monday.',sk:'Talking about your week'},w:[['1️⃣','Monday'],['2️⃣','Tuesday'],['3️⃣','Wednesday'],['4️⃣','Thursday'],['5️⃣','Friday'],['🎉','Saturday'],['☀️','Sunday']]},
+      {id:'4D',t:'Free time',f:'On weekends I [w].',g:{title:'Free-time activities',rule:'Talk about your weekend with everyday activity phrases.',sk:'Talking about free time'},w:[['🛌','relax'],['👨‍👩‍👧','visit family'],['🛍️','shop'],['🎬','watch films'],['🍳','cook'],['🌳','go out'],['🎮','play games']]},
     ]},
-    {n:5,title:'Saying No & Asking',topic:'negatives · questions · question words',grp:'Everyday Life',subs:[
-      {id:'5A',t:'Negatives (to be)',f:'I am not [w].',g:{title:'Negatives with “to be”',rule:'Add “not” after am / is / are: I am not late.',sk:'Saying what is not true'},w:[['😴','tired'],['🆕','new'],['⏰','late'],['😟','sad'],['🤒','sick'],['📌','busy']]},
-      {id:'5B',t:'Negatives (don’t)',f:'I do not [w].',g:{title:'Present simple negative',rule:'Use “do not” (don’t) + the verb: I do not smoke.',sk:'Saying what you don’t do'},w:[['🚬','smoke'],['☕','drink coffee'],['🍖','eat meat'],['🚗','drive'],['💃','dance'],['🏊','swim']]},
-      {id:'5C',t:'Simple questions',f:'Do you [w]?',g:{title:'Yes / no questions',rule:'Start with “Do you…?” + the plain verb: Do you cook?',sk:'Asking simple questions'},w:[['🍳','cook'],['🚗','drive'],['🎵','sing'],['📖','read'],['🏊','swim'],['✈️','travel']]},
-      {id:'5D',t:'Question words',f:'[w] do you live?',g:{title:'Question words',rule:'Use what, where, when, why, who and how to ask for details.',sk:'Asking for details'},w:[['❓','Where'],['🕐','When'],['🤔','Why'],['👤','Who'],['🔧','How'],['❔','What']]},
+    {n:5,title:'Saying No & Asking',topic:'negatives · questions · short answers',grp:'Everyday Life',subs:[
+      {id:'5A',t:'Negatives (to be)',f:'I am not [w].',g:{title:'Negatives with “to be”',rule:'Add “not” after am / is / are: I am not late.',sk:'Saying what is not true'},w:[['😴','tired'],['🆕','new'],['⏰','late'],['😟','sad'],['🤒','sick'],['📌','busy'],['🏠','home'],['😠','angry']]},
+      {id:'5B',t:'Negatives (don’t)',f:'I do not [w].',g:{title:'Present simple negative',rule:'Use “do not” (don’t) + the verb: I do not smoke.',sk:'Saying what you don’t do'},w:[['🚬','smoke'],['☕','drink coffee'],['🍖','eat meat'],['🚗','drive'],['💃','dance'],['🏊','swim'],['🎵','sing'],['🏃','run']]},
+      {id:'5C',t:'Simple questions',f:'Do you [w]?',g:{title:'Yes / no questions',rule:'Start with “Do you…?” + the plain verb: Do you cook?',sk:'Asking simple questions'},w:[['🍳','cook'],['🚗','drive'],['🎵','sing'],['📖','read'],['🏊','swim'],['✈️','travel'],['🎨','paint'],['💃','dance']]},
+      {id:'5D',t:'Short answers',f:'Yes, I [w].',g:{title:'Short answers',rule:'Answer briefly: Yes, I do. No, I don’t. Yes, I can.',sk:'Answering questions'},w:[['✅','do'],['🙂','am'],['👍','can'],['❤️','like'],['🆗','will'],['💯','agree']]},
+      {id:'5E',t:'Question words',f:'[w] do you live?',g:{title:'Question words',rule:'Use what, where, when, why, who and how to ask for details.',sk:'Asking for details'},w:[['❓','Where'],['🕐','When'],['🤔','Why'],['👤','Who'],['🔧','How'],['❔','What']]},
     ]},
-    {n:6,title:'Around Town',topic:'there is/are · articles · directions',grp:'Everyday Life',subs:[
-      {id:'6A',t:'Town places',f:'There is a [w].',g:{title:'“There is / there are”',rule:'Use “there is” for one thing and “there are” for many.',sk:'Describing a town'},w:[['🏦','bank'],['🏥','hospital'],['🏫','school'],['🏪','shop'],['🕌','mosque'],['🏞️','park']]},
-      {id:'6B',t:'Articles a / the',f:'I am going to the [w].',g:{title:'“a” and “the”',rule:'Use “a” for any one; use “the” for a specific one you both know.',sk:'Using articles'},w:[['🏦','bank'],['🏪','market'],['🏥','clinic'],['🏫','college'],['🎬','cinema'],['☕','café']]},
-      {id:'6C',t:'Directions',f:'[w].',g:{title:'Imperatives',rule:'Give an instruction with just the plain verb: Turn left.',sk:'Giving directions'},w:[['⬅️','Turn left'],['➡️','Turn right'],['⬆️','Go straight'],['🛑','Stop here'],['↩️','Go back'],['⏳','Wait']]},
-      {id:'6D',t:'And / but',f:'I work [w] I study.',g:{title:'Joining with “and / but”',rule:'Use “and” to add and “but” to contrast: I work but I rest.',sk:'Joining sentences'},w:[['➕','and'],['↔️','but'],['❓','or'],['➡️','so'],['⏭️','then'],['✨','also']]},
+    {n:6,title:'Around Town',topic:'there is/are · places · articles · directions',grp:'Everyday Life',subs:[
+      {id:'6A',t:'Town places',f:'There is a [w].',g:{title:'“There is / there are”',rule:'Use “there is” for one thing and “there are” for many.',sk:'Describing a town'},w:[['🏦','bank'],['🏥','hospital'],['🏫','school'],['🏪','shop'],['🕌','mosque'],['🏞️','park'],['📮','post office'],['🚉','station']]},
+      {id:'6B',t:'More places',f:'There is a [w].',g:{title:'Places in town',rule:'More common places you find in a city or town.',sk:'Describing places'},w:[['🎬','cinema'],['🍴','restaurant'],['☕','café'],['🏨','hotel'],['🏛️','museum'],['⛪','church'],['🏟️','stadium'],['🏬','mall']]},
+      {id:'6C',t:'Articles a / the',f:'I am going to the [w].',g:{title:'“a” and “the”',rule:'Use “a” for any one; use “the” for a specific one you both know.',sk:'Using articles'},w:[['🏦','bank'],['🏪','market'],['🏥','clinic'],['🏫','college'],['🎬','cinema'],['☕','café'],['🏞️','park']]},
+      {id:'6D',t:'Directions',f:'[w].',g:{title:'Imperatives',rule:'Give an instruction with just the plain verb: Turn left.',sk:'Giving directions'},w:[['⬅️','Turn left'],['➡️','Turn right'],['⬆️','Go straight'],['🛑','Stop here'],['↩️','Go back'],['⏳','Wait'],['🔄','Turn around']]},
+      {id:'6E',t:'And / but',f:'I work [w] I study.',g:{title:'Joining with “and / but”',rule:'Use “and” to add and “but” to contrast: I work but I rest.',sk:'Joining sentences'},w:[['➕','and'],['↔️','but'],['❓','or'],['➡️','so'],['⏭️','then'],['✨','also']]},
     ]},
-    {n:7,title:'Describing',topic:'adjectives · giving reasons',grp:'Everyday Life',subs:[
-      {id:'7A',t:'Adjectives',f:'The city is [w].',g:{title:'Adjectives',rule:'An adjective describes a noun and follows “to be”: It is big.',sk:'Describing places'},w:[['🏙️','big'],['🏡','small'],['✨','clean'],['🌳','green'],['🔇','quiet'],['🔊','busy']]},
-      {id:'7B',t:'Because',f:'I like it because it is [w].',g:{title:'Giving reasons with “because”',rule:'Use “because” to give a reason: I like it because it is calm.',sk:'Giving reasons'},w:[['😍','beautiful'],['🍃','calm'],['🎉','fun'],['💰','cheap'],['☀️','warm'],['🤝','friendly']]},
+    {n:7,title:'Describing',topic:'adjectives · materials · giving reasons',grp:'Everyday Life',subs:[
+      {id:'7A',t:'Adjectives',f:'The city is [w].',g:{title:'Adjectives',rule:'An adjective describes a noun and follows “to be”: It is big.',sk:'Describing places'},w:[['🏙️','big'],['🏡','small'],['✨','clean'],['🌳','green'],['🔇','quiet'],['🔊','busy'],['🌟','beautiful'],['🏚️','old']]},
+      {id:'7B',t:'More adjectives',f:'It is [w].',g:{title:'More adjectives',rule:'Adjectives come before a noun or after “to be”: a fast car, it is cold.',sk:'Describing things'},w:[['🆕','new'],['💰','cheap'],['💸','expensive'],['🔥','hot'],['❄️','cold'],['⚡','fast'],['🐢','slow'],['🌈','colorful']]},
+      {id:'7C',t:'Because',f:'I like it because it is [w].',g:{title:'Giving reasons with “because”',rule:'Use “because” to give a reason: I like it because it is calm.',sk:'Giving reasons'},w:[['😍','beautiful'],['🍃','calm'],['🎉','fun'],['💰','cheap'],['☀️','warm'],['🤝','friendly'],['📍','close']]},
     ]},
-    {n:8,title:'Home & Having',topic:'the verb “have” · questions',grp:'Everyday Life',subs:[
-      {id:'8A',t:'Household things',f:'I have a [w].',g:{title:'The verb “have”',rule:'Use “have” to say what you own (he / she has): I have a sofa.',sk:'Talking about what you own'},w:[['🛋️','sofa'],['🛏️','bed'],['🪑','chair'],['🪟','window'],['🚪','door'],['💡','lamp']]},
-      {id:'8B',t:'Have questions',f:'Do you have a [w]?',g:{title:'“Have” questions',rule:'Ask with “Do you have…?”: Do you have a car?',sk:'Asking what people have'},w:[['🚗','car'],['🐕','dog'],['💻','laptop'],['🚲','bike'],['📺','TV'],['🪴','plant']]},
+    {n:8,title:'Home & Having',topic:'rooms · the verb “have” · questions',grp:'Everyday Life',subs:[
+      {id:'8A',t:'Rooms',f:'This is the [w].',g:{title:'Rooms of the house',rule:'Use “the” with rooms: the kitchen, the bedroom.',sk:'Naming rooms'},w:[['🛋️','living room'],['🛏️','bedroom'],['🍳','kitchen'],['🚿','bathroom'],['🍽️','dining room'],['🚪','hallway'],['🌳','garden']]},
+      {id:'8B',t:'Household things',f:'I have a [w].',g:{title:'The verb “have”',rule:'Use “have” to say what you own (he / she has): I have a sofa.',sk:'Talking about what you own'},w:[['🛋️','sofa'],['🛏️','bed'],['🪑','chair'],['🪟','window'],['🚪','door'],['💡','lamp'],['📺','television'],['🪞','mirror']]},
+      {id:'8C',t:'Have questions',f:'Do you have a [w]?',g:{title:'“Have” questions',rule:'Ask with “Do you have…?”: Do you have a car?',sk:'Asking what people have'},w:[['🚗','car'],['🐕','dog'],['💻','laptop'],['🚲','bike'],['📺','TV'],['🪴','plant'],['📱','phone'],['🎸','guitar']]},
     ]},
-    {n:9,title:'Food & Amounts',topic:'uncountable nouns · quantities',grp:'Everyday Life',subs:[
-      {id:'9A',t:'Food & drink',f:'I want some [w].',g:{title:'Uncountable nouns',rule:'Some foods can’t be counted (rice, milk). Use “some”: some rice.',sk:'Talking about food'},w:[['🍞','bread'],['🍚','rice'],['🥛','milk'],['☕','coffee'],['🧀','cheese'],['💧','water']]},
-      {id:'9B',t:'Quantities',f:'I need a [w].',g:{title:'Measuring amounts',rule:'Use a container or measure word for uncountable food: a glass of milk.',sk:'Talking about amounts'},w:[['🥛','glass of milk'],['🍶','bottle of oil'],['🥫','can of beans'],['📦','box of tea'],['🍚','bag of rice'],['🍞','loaf of bread']]},
+    {n:9,title:'Food & Amounts',topic:'food · drinks · uncountable nouns · quantities',grp:'Everyday Life',subs:[
+      {id:'9A',t:'Food',f:'I want some [w].',g:{title:'Food words',rule:'Common foods. Some can be counted (apples) and some can’t (rice).',sk:'Talking about food'},w:[['🍞','bread'],['🍚','rice'],['🧀','cheese'],['🥚','eggs'],['🍎','apples'],['🥕','carrots'],['🍗','chicken'],['🍝','pasta']]},
+      {id:'9B',t:'Drinks',f:'I would like some [w].',g:{title:'Drinks',rule:'Use “some” with drinks: some water, some tea.',sk:'Ordering drinks'},w:[['💧','water'],['☕','coffee'],['🍵','tea'],['🥛','milk'],['🧃','juice'],['🥤','soda'],['🍋','lemonade']]},
+      {id:'9C',t:'Quantities',f:'I need a [w].',g:{title:'Measuring amounts',rule:'Use a container or measure word for uncountable food: a glass of milk.',sk:'Talking about amounts'},w:[['🥛','glass of milk'],['🍶','bottle of oil'],['🥫','can of beans'],['📦','box of tea'],['🍚','bag of rice'],['🍞','loaf of bread'],['☕','cup of coffee']]},
+      {id:'9D',t:'Some & any',f:'There is some [w].',g:{title:'“some” and “any”',rule:'Use “some” in statements and “any” in questions and negatives.',sk:'Talking about quantity'},w:[['🧂','salt'],['🍬','sugar'],['🫒','oil'],['🍯','honey'],['🧈','butter'],['💧','water']]},
     ]},
     {n:10,title:'Shopping & Clothes',topic:'clothes · “too” · opinions',grp:'Expressing Yourself',subs:[
-      {id:'10A',t:'Clothes',f:'I am wearing a [w].',g:{title:'Clothes and “wearing”',rule:'Use “wearing” + a clothing word: I am wearing a coat.',sk:'Talking about clothes'},w:[['👕','shirt'],['🧥','coat'],['👗','dress'],['🧢','hat'],['👟','shoes'],['🧣','scarf']]},
-      {id:'10B',t:'Too / fit',f:'It is too [w].',g:{title:'Using “too”',rule:'“Too” means more than you want: It is too big.',sk:'Describing how clothes fit'},w:[['📏','big'],['🤏','small'],['💰','expensive'],['🩳','short'],['📐','long'],['😣','tight']]},
-      {id:'10C',t:'Opinions',f:'I think it is [w].',g:{title:'Opinion adjectives',rule:'Use “I think it is…” + an opinion word to give your view.',sk:'Giving opinions'},w:[['👍','great'],['👎','awful'],['😍','lovely'],['🥱','boring'],['💡','clever'],['💸','cheap']]},
+      {id:'10A',t:'Clothes',f:'I am wearing a [w].',g:{title:'Clothes and “wearing”',rule:'Use “wearing” + a clothing word: I am wearing a coat.',sk:'Talking about clothes'},w:[['👕','shirt'],['🧥','coat'],['👗','dress'],['🧢','hat'],['👟','shoes'],['🧣','scarf'],['👖','jeans'],['🧦','socks']]},
+      {id:'10B',t:'More clothes',f:'I need a new [w].',g:{title:'More clothes',rule:'More clothing words for shopping and describing what you wear.',sk:'Describing clothes'},w:[['👔','tie'],['🧥','jacket'],['👚','blouse'],['🩳','shorts'],['👜','handbag'],['🕶️','sunglasses'],['🥾','boots']]},
+      {id:'10C',t:'Too / fit',f:'It is too [w].',g:{title:'Using “too”',rule:'“Too” means more than you want: It is too big.',sk:'Describing how clothes fit'},w:[['📏','big'],['🤏','small'],['💰','expensive'],['🩳','short'],['📐','long'],['😣','tight'],['🎨','bright']]},
+      {id:'10D',t:'Opinions',f:'I think it is [w].',g:{title:'Opinion adjectives',rule:'Use “I think it is…” + an opinion word to give your view.',sk:'Giving opinions'},w:[['👍','great'],['👎','awful'],['😍','lovely'],['🥱','boring'],['💡','clever'],['💸','cheap'],['✨','elegant']]},
     ]},
-    {n:11,title:'Sports & Free Time',topic:'“go” and “play” · frequency',grp:'Expressing Yourself',subs:[
-      {id:'11A',t:'Sports',f:'I play [w].',g:{title:'“play” for sports',rule:'Use “play” for ball and team sports: I play tennis.',sk:'Talking about sports'},w:[['⚽','soccer'],['🏀','basketball'],['🎾','tennis'],['🏐','volleyball'],['🏏','cricket'],['♟️','chess']]},
-      {id:'11B',t:'Go + activity',f:'I go [w].',g:{title:'“go” + -ing',rule:'Use “go” + an -ing activity for many hobbies: go running.',sk:'Talking about activities'},w:[['🏊','swimming'],['🏃','running'],['🚴','cycling'],['🥾','hiking'],['🎣','fishing'],['🛍️','shopping']]},
-      {id:'11C',t:'How often',f:'I [w] read.',g:{title:'Adverbs of frequency',rule:'Words like always, often and never say how often. They go before the verb.',sk:'Talking about free time'},w:[['💯','always'],['🔁','usually'],['🔄','often'],['🤷','sometimes'],['➖','rarely'],['🚫','never']]},
+    {n:11,title:'Sports & Free Time',topic:'“go” and “play” · hobbies · frequency',grp:'Expressing Yourself',subs:[
+      {id:'11A',t:'Sports',f:'I play [w].',g:{title:'“play” for sports',rule:'Use “play” for ball and team sports: I play tennis.',sk:'Talking about sports'},w:[['⚽','soccer'],['🏀','basketball'],['🎾','tennis'],['🏐','volleyball'],['🏏','cricket'],['♟️','chess'],['🏓','table tennis'],['⚾','baseball']]},
+      {id:'11B',t:'Go + activity',f:'I go [w].',g:{title:'“go” + -ing',rule:'Use “go” + an -ing activity for many hobbies: go running.',sk:'Talking about activities'},w:[['🏊','swimming'],['🏃','running'],['🚴','cycling'],['🥾','hiking'],['🎣','fishing'],['🛍️','shopping'],['⛷️','skiing'],['🧗','climbing']]},
+      {id:'11C',t:'Hobbies',f:'I enjoy [w].',g:{title:'Hobbies & “enjoy”',rule:'Use “enjoy” + an -ing word: I enjoy reading.',sk:'Talking about hobbies'},w:[['🎨','painting'],['📷','photography'],['🎸','music'],['🍳','cooking'],['📖','reading'],['🧶','knitting'],['🌱','gardening'],['✍️','writing']]},
+      {id:'11D',t:'How often',f:'I [w] read.',g:{title:'Adverbs of frequency',rule:'Words like always, often and never say how often. They go before the verb.',sk:'Talking about free time'},w:[['💯','always'],['🔁','usually'],['🔄','often'],['🤷','sometimes'],['➖','rarely'],['🚫','never']]},
     ]},
-    {n:12,title:'Likes & Favorites',topic:'love / like / hate · “favorite”',grp:'Expressing Yourself',subs:[
-      {id:'12A',t:'Like / hate',f:'I [w] coffee.',g:{title:'“love, like, hate”',rule:'Say how you feel about things: I love tea. I hate rain.',sk:'Talking about what you like'},w:[['😍','love'],['🙂','like'],['😄','enjoy'],['🙁','dislike'],['😣','hate'],['👍','prefer']]},
-      {id:'12B',t:'Music',f:'I listen to [w].',g:{title:'Talking about music',rule:'Use “listen to” + a kind of music: I listen to jazz.',sk:'Talking about music'},w:[['🎸','rock'],['🎷','jazz'],['🎤','pop'],['🎻','classical'],['🥁','drums'],['🎹','piano']]},
-      {id:'12C',t:'Favorite',f:'My favorite [w] is the best.',g:{title:'Using “favorite”',rule:'“Favorite” means the one you like best: My favorite food is pizza.',sk:'Talking about favorites'},w:[['🍕','food'],['🎵','song'],['🎬','film'],['🏅','sport'],['📚','book'],['🎨','color']]},
+    {n:12,title:'Likes & Favorites',topic:'love / like / hate · music · “favorite” · reasons',grp:'Expressing Yourself',subs:[
+      {id:'12A',t:'Like / hate',f:'I [w] coffee.',g:{title:'“love, like, hate”',rule:'Say how you feel about things: I love tea. I hate rain.',sk:'Talking about what you like'},w:[['😍','love'],['🙂','like'],['😄','enjoy'],['🙁','dislike'],['😣','hate'],['👍','prefer'],['🤷','don’t mind']]},
+      {id:'12B',t:'Music',f:'I listen to [w].',g:{title:'Talking about music',rule:'Use “listen to” + a kind of music: I listen to jazz.',sk:'Talking about music'},w:[['🎸','rock'],['🎷','jazz'],['🎤','pop'],['🎻','classical'],['🥁','drums'],['🎹','piano'],['🎺','trumpet']]},
+      {id:'12C',t:'Favorite',f:'My favorite [w] is the best.',g:{title:'Using “favorite”',rule:'“Favorite” means the one you like best: My favorite food is pizza.',sk:'Talking about favorites'},w:[['🍕','food'],['🎵','song'],['🎬','film'],['🏅','sport'],['📚','book'],['🎨','color'],['🌍','place']]},
+      {id:'12D',t:'Reasons',f:'I like it because it is [w].',g:{title:'Reasons for likes',rule:'Give a reason with “because it is…” + an adjective.',sk:'Explaining what you like'},w:[['😋','tasty'],['🎉','fun'],['😌','relaxing'],['💡','interesting'],['🤩','exciting'],['❤️','lovely']]},
     ]},
-    {n:13,title:'Ability & Wishes',topic:'can · adverbs · want / would like',grp:'Expressing Yourself',subs:[
-      {id:'13A',t:'Can / can’t',f:'I can [w].',g:{title:'“can” and “can’t”',rule:'Use “can” for ability and “can’t” for none: I can swim. I can’t drive.',sk:'Saying what you can do'},w:[['🏊','swim'],['🚗','drive'],['🎸','play guitar'],['🍳','cook'],['🎨','draw'],['💃','dance']]},
-      {id:'13B',t:'Adverbs',f:'I sing [w].',g:{title:'Adverbs',rule:'An adverb describes how you do something. Many end in -ly: quickly.',sk:'Describing actions'},w:[['👍','well'],['👎','badly'],['🐇','quickly'],['🐢','slowly'],['🔊','loudly'],['🔇','quietly']]},
-      {id:'13C',t:'Modifying adverbs',f:'I cook very [w].',g:{title:'Modifying adverbs',rule:'Use “very” or “quite” to strengthen an adverb: very well.',sk:'Saying how well you do things'},w:[['👍','well'],['😀','easily'],['🐢','slowly'],['🎯','carefully'],['💨','fast'],['🔄','often']]},
-      {id:'13D',t:'Wishes',f:'I want to [w].',g:{title:'“want” and “would like”',rule:'Use “want to” or “would like to” + a verb for wishes: I want to travel.',sk:'Talking about ambitions'},w:[['✈️','travel'],['📚','study'],['🏡','move home'],['🎸','learn guitar'],['💼','work abroad'],['🏖️','relax']]},
+    {n:13,title:'Ability & Wishes',topic:'can · good at · adverbs · wishes · studying',grp:'Expressing Yourself',subs:[
+      {id:'13A',t:'Can / can’t',f:'I can [w].',g:{title:'“can” and “can’t”',rule:'Use “can” for ability and “can’t” for none: I can swim. I can’t drive.',sk:'Saying what you can do'},w:[['🏊','swim'],['🚗','drive'],['🎸','play guitar'],['🍳','cook'],['🎨','draw'],['💃','dance'],['🎤','sing'],['🚴','cycle']]},
+      {id:'13B',t:'Good at',f:'I am good at [w].',g:{title:'“good at”',rule:'Use “good at” + a noun or -ing word: I am good at music.',sk:'Talking about abilities'},w:[['🧮','math'],['🎨','art'],['⚽','sport'],['🎵','music'],['🗣️','languages'],['🍳','cooking'],['✏️','drawing']]},
+      {id:'13C',t:'Adverbs',f:'I sing [w].',g:{title:'Adverbs',rule:'An adverb describes how you do something. Many end in -ly: quickly.',sk:'Describing actions'},w:[['👍','well'],['👎','badly'],['🐇','quickly'],['🐢','slowly'],['🔊','loudly'],['🔇','quietly'],['🎯','carefully']]},
+      {id:'13D',t:'Modifying adverbs',f:'I cook very [w].',g:{title:'Modifying adverbs',rule:'Use “very” or “quite” to strengthen an adverb: very well.',sk:'Saying how well you do things'},w:[['👍','well'],['😀','easily'],['🐢','slowly'],['🎯','carefully'],['💨','fast'],['🔄','often']]},
+      {id:'13E',t:'Wishes',f:'I want to [w].',g:{title:'“want” and “would like”',rule:'Use “want to” or “would like to” + a verb for wishes: I want to travel.',sk:'Talking about ambitions'},w:[['✈️','travel'],['📚','study'],['🏡','move home'],['🎸','learn guitar'],['💼','work abroad'],['🏖️','relax'],['🏃','get fit'],['🗣️','speak English']]},
+      {id:'13F',t:'Studying',f:'I study [w].',g:{title:'Academic subjects',rule:'Name what you study with “study” + a subject: I study science.',sk:'Talking about studying'},w:[['🧮','math'],['🔬','science'],['📜','history'],['🌍','geography'],['🎨','art'],['🎵','music'],['💻','computing']]},
     ]},
     /* ───────── INTERMEDIATE (tracks Volume 2 unit map) ───────── */
     {n:14,title:'About You',level:'Intermediate',topic:'to be · self-introduction',grp:'Present in Motion',subs:[
-      {id:'I1A',t:'Self-introduction',f:'I am a [w].',g:{title:'Introducing yourself',rule:'Use “to be” + your job or role to introduce yourself: I am a nurse.',sk:'Giving a self-introduction'},w:[['🧑‍🎓','student'],['👩‍⚕️','nurse'],['🚗','driver'],['👷','engineer'],['💼','manager'],['👨‍👧','parent']]},
-      {id:'I1B',t:'Your details',f:'I am [w].',g:{title:'Describing yourself',rule:'Use “to be” + an adjective to add detail: I am friendly.',sk:'Talking about yourself'},w:[['🤝','friendly'],['📌','busy'],['💪','hardworking'],['🙋','single'],['💍','married'],['🎯','ambitious']]},
+      {id:'I1A',t:'Self-introduction',f:'I am a [w].',g:{title:'Introducing yourself',rule:'Use “to be” + your job or role to introduce yourself: I am a nurse.',sk:'Giving a self-introduction'},w:[['🧑‍🎓','student'],['👩‍⚕️','nurse'],['🚗','driver'],['👷','engineer'],['💼','manager'],['👨‍👧','parent'],['👩‍🏫','teacher'],['🧑‍💻','developer']]},
+      {id:'I1B',t:'Your details',f:'I am [w].',g:{title:'Describing yourself',rule:'Use “to be” + an adjective to add detail: I am friendly.',sk:'Talking about yourself'},w:[['🤝','friendly'],['📌','busy'],['💪','hardworking'],['🙋','single'],['💍','married'],['🎯','ambitious'],['😌','patient'],['🗣️','outgoing']]},
+      {id:'I1C',t:'Where you live',f:'I live in a [w].',g:{title:'Saying where you live',rule:'Use “live in” + a place: I live in a city.',sk:'Talking about where you live'},w:[['🏙️','city'],['🏘️','town'],['🏡','suburb'],['🌾','village'],['🏢','apartment'],['🏠','house'],['🏞️','countryside'],['🌊','coast']]},
     ]},
-    {n:15,title:'Routines',level:'Intermediate',topic:'present simple · habits',grp:'Present in Motion',subs:[
-      {id:'I2A',t:'Daily habits',f:'I [w] every day.',g:{title:'Present simple for routines',rule:'Use the plain verb for things you do regularly: I commute every day.',sk:'Talking about routines'},w:[['🚇','commute'],['🏃','exercise'],['📚','study'],['🍳','cook'],['📞','call home'],['📖','read']]},
-      {id:'I2B',t:'Leisure',f:'I [w] on weekends.',g:{title:'Habits and leisure',rule:'Use the present simple for free-time habits too: I travel on weekends.',sk:'Talking about your free time'},w:[['🧘','relax'],['✈️','travel'],['🎨','paint'],['🪴','garden'],['🏊','swim'],['👥','meet friends']]},
+    {n:15,title:'Routines',level:'Intermediate',topic:'present simple · habits · frequency',grp:'Present in Motion',subs:[
+      {id:'I2A',t:'Daily habits',f:'I [w] every day.',g:{title:'Present simple for routines',rule:'Use the plain verb for things you do regularly: I commute every day.',sk:'Talking about routines'},w:[['🚇','commute'],['🏃','exercise'],['📚','study'],['🍳','cook'],['📞','call home'],['📖','read'],['☕','make coffee'],['🪥','brush my teeth']]},
+      {id:'I2B',t:'Leisure',f:'I [w] on weekends.',g:{title:'Habits and leisure',rule:'Use the present simple for free-time habits too: I travel on weekends.',sk:'Talking about your free time'},w:[['🧘','relax'],['✈️','travel'],['🎨','paint'],['🪴','garden'],['🏊','swim'],['👥','meet friends'],['🎮','play games'],['🎬','watch films']]},
+      {id:'I2C',t:'How often',f:'I [w] exercise.',g:{title:'Adverbs of frequency',rule:'Words like always and rarely say how often; they go before the main verb.',sk:'Saying how often'},w:[['💯','always'],['🔁','usually'],['🔄','often'],['🤷','sometimes'],['➖','seldom'],['🚫','never'],['📅','weekly'],['🗓️','daily']]},
     ]},
     {n:16,title:'Right Now',level:'Intermediate',topic:'present continuous · state verbs',grp:'Present in Motion',subs:[
-      {id:'I3A',t:'Happening now',f:'Right now I am [w].',g:{title:'Present continuous',rule:'Use am / is / are + verb-ing for what is happening now: I am working.',sk:'Saying what is happening now'},w:[['💼','working'],['🍽️','eating'],['📚','studying'],['⏳','waiting'],['🍳','cooking'],['🛌','resting']]},
-      {id:'I3B',t:'What I’m wearing',f:'Today I am wearing a [w].',g:{title:'Continuous for clothes',rule:'Use “wearing” + clothing for what you have on now: I am wearing a coat.',sk:'Describing what you wear'},w:[['👕','shirt'],['🧥','jacket'],['🧢','hat'],['🧣','scarf'],['🤵','suit'],['👗','dress']]},
-      {id:'I3C',t:'State verbs',f:'I [w] it.',g:{title:'State verbs',rule:'Verbs like want, know and love describe states, not actions — don’t use -ing.',sk:'Talking about states'},w:[['🙋','want'],['😍','love'],['🧠','know'],['💭','remember'],['🆘','need'],['💡','understand']]},
+      {id:'I3A',t:'Happening now',f:'Right now I am [w].',g:{title:'Present continuous',rule:'Use am / is / are + verb-ing for what is happening now: I am working.',sk:'Saying what is happening now'},w:[['💼','working'],['🍽️','eating'],['📚','studying'],['⏳','waiting'],['🍳','cooking'],['🛌','resting'],['🚗','driving'],['🗣️','talking']]},
+      {id:'I3B',t:'What I’m wearing',f:'Today I am wearing a [w].',g:{title:'Continuous for clothes',rule:'Use “wearing” + clothing for what you have on now: I am wearing a coat.',sk:'Describing what you wear'},w:[['👕','shirt'],['🧥','jacket'],['🧢','hat'],['🧣','scarf'],['🤵','suit'],['👗','dress'],['👟','sneakers'],['🧤','gloves']]},
+      {id:'I3C',t:'State verbs',f:'I [w] it.',g:{title:'State verbs',rule:'Verbs like want, know and love describe states, not actions — don’t use -ing.',sk:'Talking about states'},w:[['🙋','want'],['😍','love'],['🧠','know'],['💭','remember'],['🆘','need'],['💡','understand'],['🤔','believe'],['👍','prefer']]},
     ]},
     {n:17,title:'Moods & Exceptions',level:'Intermediate',topic:'feelings · habit vs. now',grp:'Present in Motion',subs:[
-      {id:'I4A',t:'Feelings',f:'I feel [w].',g:{title:'Describing feelings',rule:'Use “feel” or “to be” + an adjective: I feel happy.',sk:'Talking about emotions'},w:[['😊','happy'],['😴','tired'],['😬','nervous'],['🤩','excited'],['😌','calm'],['😟','worried']]},
-      {id:'I4B',t:'More feelings',f:'I am [w] today.',g:{title:'More feelings',rule:'Many feelings follow “to be”: I am stressed today.',sk:'Describing your mood'},w:[['😣','stressed'],['😌','relaxed'],['😎','proud'],['😑','bored'],['🤞','hopeful'],['😔','lonely']]},
-      {id:'I4C',t:'Usually vs today',f:'Usually I drive, but today I am [w].',g:{title:'Habit vs. exception',rule:'Contrast a normal habit with what is different now: Usually I drive, but today I am walking.',sk:'Comparing habits with now'},w:[['🚶','walking'],['🚴','cycling'],['🛌','resting'],['🌙','working late'],['🏠','staying home'],['🚌','taking the bus']]},
+      {id:'I4A',t:'Feelings',f:'I feel [w].',g:{title:'Describing feelings',rule:'Use “feel” or “to be” + an adjective: I feel happy.',sk:'Talking about emotions'},w:[['😊','happy'],['😴','tired'],['😬','nervous'],['🤩','excited'],['😌','calm'],['😟','worried'],['😢','sad'],['😡','angry']]},
+      {id:'I4B',t:'More feelings',f:'I am [w] today.',g:{title:'More feelings',rule:'Many feelings follow “to be”: I am stressed today.',sk:'Describing your mood'},w:[['😣','stressed'],['😌','relaxed'],['😎','proud'],['😑','bored'],['🤞','hopeful'],['😔','lonely'],['😯','surprised'],['😤','frustrated']]},
+      {id:'I4C',t:'Usually vs today',f:'Usually I drive, but today I am [w].',g:{title:'Habit vs. exception',rule:'Contrast a normal habit with what is different now: Usually I drive, but today I am walking.',sk:'Comparing habits with now'},w:[['🚶','walking'],['🚴','cycling'],['🛌','resting'],['🌙','working late'],['🏠','staying home'],['🚌','taking the bus'],['🚆','taking the train'],['🏃','jogging']]},
     ]},
-    {n:18,title:'The Body',level:'Intermediate',topic:'anatomy · aches',grp:'Body & World',subs:[
-      {id:'I5A',t:'Body parts',f:'This is my [w].',g:{title:'Parts of the body',rule:'Use “my” with body parts: my arm.',sk:'Naming body parts'},w:[['🙂','head'],['💪','arm'],['🦵','leg'],['✋','hand'],['🔙','back'],['🦿','knee']]},
-      {id:'I5B',t:'Aches & pains',f:'I have a [w].',g:{title:'Talking about illness',rule:'Use “have a…” for an illness or pain: I have a headache.',sk:'Describing complaints'},w:[['🤕','headache'],['😣','sore throat'],['😷','cough'],['🤒','fever'],['🤢','stomachache'],['🤧','cold']]},
-      {id:'I5C',t:'How you feel',f:'My [w] hurts.',g:{title:'Saying what hurts',rule:'Use “My … hurts” for a specific pain: My back hurts.',sk:'Describing pain'},w:[['🙂','head'],['🦷','tooth'],['🔙','back'],['🦶','foot'],['💪','shoulder'],['👂','ear']]},
+    {n:18,title:'The Body',level:'Intermediate',topic:'anatomy · aches · the doctor',grp:'Body & World',subs:[
+      {id:'I5A',t:'Body parts',f:'This is my [w].',g:{title:'Parts of the body',rule:'Use “my” with body parts: my arm.',sk:'Naming body parts'},w:[['🙂','head'],['💪','arm'],['🦵','leg'],['✋','hand'],['🔙','back'],['🦿','knee'],['👁️','eye'],['👃','nose']]},
+      {id:'I5B',t:'Aches & pains',f:'I have a [w].',g:{title:'Talking about illness',rule:'Use “have a…” for an illness or pain: I have a headache.',sk:'Describing complaints'},w:[['🤕','headache'],['😣','sore throat'],['😷','cough'],['🤒','fever'],['🤢','stomachache'],['🤧','cold'],['🤧','runny nose'],['🥴','dizziness']]},
+      {id:'I5C',t:'What hurts',f:'My [w] hurts.',g:{title:'Saying what hurts',rule:'Use “My … hurts” for a specific pain: My back hurts.',sk:'Describing pain'},w:[['🙂','head'],['🦷','tooth'],['🔙','back'],['🦶','foot'],['💪','shoulder'],['👂','ear'],['🦵','knee'],['✋','wrist']]},
+      {id:'I5D',t:'At the doctor',f:'You should [w].',g:{title:'Health advice',rule:'Give health advice with “should”: You should rest.',sk:'Giving and getting advice'},w:[['🛌','rest'],['💊','take medicine'],['💧','drink water'],['🩺','see a doctor'],['🌡️','stay warm'],['😴','sleep more'],['🚭','stop smoking'],['🥗','eat well']]},
     ]},
-    {n:19,title:'Weather',level:'Intermediate',topic:'weather · temperature',grp:'Body & World',subs:[
-      {id:'I6A',t:'Weather',f:'It is [w] today.',g:{title:'Weather',rule:'Use “It is…” for the weather: It is sunny.',sk:'Talking about weather'},w:[['☀️','sunny'],['🌧️','rainy'],['☁️','cloudy'],['🌬️','windy'],['❄️','snowy'],['🌫️','foggy']]},
-      {id:'I6B',t:'Temperature',f:'It is [w].',g:{title:'Temperature',rule:'Use “It is…” for how hot or cold it is: It is freezing.',sk:'Describing temperature'},w:[['🔥','hot'],['🧊','cold'],['🌤️','warm'],['💨','cool'],['🥶','freezing'],['🥵','boiling']]},
+    {n:19,title:'Weather & Seasons',level:'Intermediate',topic:'weather · temperature · seasons',grp:'Body & World',subs:[
+      {id:'I6A',t:'Weather',f:'It is [w] today.',g:{title:'Weather',rule:'Use “It is…” for the weather: It is sunny.',sk:'Talking about weather'},w:[['☀️','sunny'],['🌧️','rainy'],['☁️','cloudy'],['🌬️','windy'],['❄️','snowy'],['🌫️','foggy'],['⛈️','stormy'],['🌈','clear']]},
+      {id:'I6B',t:'Temperature',f:'It is [w].',g:{title:'Temperature',rule:'Use “It is…” for how hot or cold it is: It is freezing.',sk:'Describing temperature'},w:[['🔥','hot'],['🧊','cold'],['🌤️','warm'],['💨','cool'],['🥶','freezing'],['🥵','boiling'],['🌡️','mild'],['💧','humid']]},
+      {id:'I6C',t:'Seasons',f:'In [w] it is cold.',g:{title:'Seasons & “in”',rule:'Use “in” with seasons: in winter, in summer.',sk:'Talking about seasons'},w:[['❄️','winter'],['🌸','spring'],['☀️','summer'],['🍂','autumn'],['🌧️','the rainy season'],['🌵','the dry season'],['🎿','the cold months'],['🏖️','the hot months']]},
     ]},
     {n:20,title:'Comparing',level:'Intermediate',topic:'comparatives · superlatives',grp:'Body & World',subs:[
-      {id:'I7A',t:'Comparatives',f:'It is [w] than that.',g:{title:'Short comparatives',rule:'Add -er + than to compare two things: warmer than.',sk:'Comparing two things'},w:[['⬆️','bigger'],['⬇️','smaller'],['🌡️','warmer'],['❄️','colder'],['💰','cheaper'],['🐇','faster']]},
-      {id:'I7B',t:'Long comparatives',f:'It is more [w] than that.',g:{title:'Long comparatives',rule:'For longer adjectives, use “more … than”: more expensive than.',sk:'Comparing two things'},w:[['💸','expensive'],['😍','beautiful'],['🌟','popular'],['🏙️','modern'],['🛋️','comfortable'],['💡','interesting']]},
-      {id:'I7C',t:'Superlatives',f:'It is the [w].',g:{title:'Short superlatives',rule:'Use “the …-est” for the top one: the highest.',sk:'Saying which is the most'},w:[['🥇','biggest'],['🔬','smallest'],['🏆','best'],['⛰️','highest'],['💰','cheapest'],['📏','longest']]},
-      {id:'I7D',t:'Long superlatives',f:'It is the most [w].',g:{title:'Long superlatives',rule:'For longer adjectives, use “the most…”: the most expensive.',sk:'Saying which is the most'},w:[['💸','expensive'],['😍','beautiful'],['🌟','popular'],['📸','famous'],['⚠️','dangerous'],['🛋️','comfortable']]},
+      {id:'I7A',t:'Comparatives',f:'It is [w] than that.',g:{title:'Short comparatives',rule:'Add -er + than to compare two things: warmer than.',sk:'Comparing two things'},w:[['⬆️','bigger'],['⬇️','smaller'],['🌡️','warmer'],['❄️','colder'],['💰','cheaper'],['🐇','faster'],['🐢','slower'],['💪','stronger']]},
+      {id:'I7B',t:'Long comparatives',f:'It is more [w] than that.',g:{title:'Long comparatives',rule:'For longer adjectives, use “more … than”: more expensive than.',sk:'Comparing two things'},w:[['💸','expensive'],['😍','beautiful'],['🌟','popular'],['🏙️','modern'],['🛋️','comfortable'],['💡','interesting'],['⚠️','difficult'],['🌿','peaceful']]},
+      {id:'I7C',t:'Superlatives',f:'It is the [w].',g:{title:'Short superlatives',rule:'Use “the …-est” for the top one: the highest.',sk:'Saying which is the most'},w:[['🥇','biggest'],['🔬','smallest'],['🏆','best'],['⛰️','highest'],['💰','cheapest'],['📏','longest'],['🐇','fastest'],['🌡️','warmest']]},
+      {id:'I7D',t:'Long superlatives',f:'It is the most [w].',g:{title:'Long superlatives',rule:'For longer adjectives, use “the most…”: the most expensive.',sk:'Saying which is the most'},w:[['💸','expensive'],['😍','beautiful'],['🌟','popular'],['📸','famous'],['⚠️','dangerous'],['🛋️','comfortable'],['💡','interesting'],['🏙️','modern']]},
     ]},
-    {n:21,title:'Geography & Numbers',level:'Intermediate',topic:'scenery · large numbers',grp:'Body & World',subs:[
-      {id:'I8A',t:'Landscapes',f:'There is a [w].',g:{title:'Geography',rule:'Use “There is a…” for landscape features: There is a mountain.',sk:'Describing scenery'},w:[['⛰️','mountain'],['🏞️','river'],['🌅','lake'],['🏔️','valley'],['🏜️','desert'],['🌲','forest']]},
-      {id:'I8B',t:'Big numbers',f:'It costs [w] dollars.',g:{title:'Large numbers',rule:'After a number the word stays singular: two hundred, not “hundreds”.',sk:'Saying large numbers'},w:[['💯','a hundred'],['🔢','two hundred'],['💵','a thousand'],['💴','five thousand'],['💰','a million'],['🏦','ten million']]},
+    {n:21,title:'Geography & Numbers',level:'Intermediate',topic:'scenery · large numbers · measures',grp:'Body & World',subs:[
+      {id:'I8A',t:'Landscapes',f:'There is a [w].',g:{title:'Geography',rule:'Use “There is a…” for landscape features: There is a mountain.',sk:'Describing scenery'},w:[['⛰️','mountain'],['🏞️','river'],['🌅','lake'],['🏔️','valley'],['🏜️','desert'],['🌲','forest'],['🏝️','island'],['🌊','beach']]},
+      {id:'I8B',t:'Big numbers',f:'It costs [w] dollars.',g:{title:'Large numbers',rule:'After a number the word stays singular: two hundred, not “hundreds”.',sk:'Saying large numbers'},w:[['💯','a hundred'],['🔢','two hundred'],['💵','a thousand'],['💴','five thousand'],['💰','a million'],['🏦','ten million'],['🪙','fifty'],['💳','a billion']]},
+      {id:'I8C',t:'Measurements',f:'It is two [w].',g:{title:'Measurements',rule:'Use units after a number: metres, kilos, litres.',sk:'Talking about size and distance'},w:[['📏','metres'],['🛣️','kilometres'],['⚖️','kilos'],['🧴','litres'],['📐','centimetres'],['🕐','hours'],['🌡️','degrees'],['🦶','steps']]},
     ]},
     {n:22,title:'Was & Were',level:'Intermediate',topic:'past of “to be” · dates',grp:'The Past',subs:[
-      {id:'I9A',t:'Yesterday I was',f:'Yesterday I was [w].',g:{title:'Was / were',rule:'“To be” in the past: I was, you were.',sk:'Talking about the past'},w:[['😴','tired'],['📌','busy'],['😊','happy'],['⏰','late'],['🤒','sick'],['🌅','early']]},
-      {id:'I9B',t:'Where I was',f:'I was at the [w].',g:{title:'Past locations',rule:'Use “was / were at” + a place: I was at the office.',sk:'Saying where you were'},w:[['🏠','home'],['🏢','office'],['🏫','school'],['🏪','market'],['🏋️','gym'],['🚉','station']]},
-      {id:'I9C',t:'Dates & years',f:'I was born in [w].',g:{title:'Dates and years',rule:'Use “in” with months, seasons and years: in May, in 1990.',sk:'Talking about dates'},w:[['❄️','winter'],['🌸','spring'],['☀️','summer'],['🍂','autumn'],['📅','January'],['🎂','May']]},
+      {id:'I9A',t:'Yesterday I was',f:'Yesterday I was [w].',g:{title:'Was / were',rule:'“To be” in the past: I was, you were.',sk:'Talking about the past'},w:[['😴','tired'],['📌','busy'],['😊','happy'],['⏰','late'],['🤒','sick'],['🌅','early'],['🏠','at home'],['😟','worried']]},
+      {id:'I9B',t:'Where I was',f:'I was at the [w].',g:{title:'Past locations',rule:'Use “was / were at” + a place: I was at the office.',sk:'Saying where you were'},w:[['🏠','home'],['🏢','office'],['🏫','school'],['🏪','market'],['🏋️','gym'],['🚉','station'],['🏥','hospital'],['🏖️','beach']]},
+      {id:'I9C',t:'Dates & years',f:'I was born in [w].',g:{title:'Dates and years',rule:'Use “in” with months, seasons and years: in May, in 1990.',sk:'Talking about dates'},w:[['❄️','winter'],['🌸','spring'],['☀️','summer'],['🍂','autumn'],['📅','January'],['🎂','May'],['🍁','October'],['🎄','December']]},
     ]},
-    {n:23,title:'Past Actions',level:'Intermediate',topic:'regular past · could',grp:'The Past',subs:[
-      {id:'I10A',t:'Regular past',f:'Yesterday I [w].',g:{title:'Regular past (-ed)',rule:'Add -ed to regular verbs for the past: worked, played.',sk:'Talking about past actions'},w:[['💼','worked'],['⚽','played'],['📺','watched'],['🍳','cooked'],['🚶','walked'],['🧹','cleaned']]},
-      {id:'I10B',t:'Could / couldn’t',f:'When young I could [w].',g:{title:'“could” for past ability',rule:'Use “could” for ability in the past and “couldn’t” for none.',sk:'Talking about past ability'},w:[['🏊','swim'],['🚲','ride'],['🧗','climb'],['🎤','sing'],['🎨','draw'],['🏃','run']]},
+    {n:23,title:'Past Actions',level:'Intermediate',topic:'regular past · could · questions',grp:'The Past',subs:[
+      {id:'I10A',t:'Regular past',f:'Yesterday I [w].',g:{title:'Regular past (-ed)',rule:'Add -ed to regular verbs for the past: worked, played.',sk:'Talking about past actions'},w:[['💼','worked'],['⚽','played'],['📺','watched'],['🍳','cooked'],['🚶','walked'],['🧹','cleaned'],['📞','called'],['🎧','listened']]},
+      {id:'I10B',t:'Could / couldn’t',f:'When young I could [w].',g:{title:'“could” for past ability',rule:'Use “could” for ability in the past and “couldn’t” for none.',sk:'Talking about past ability'},w:[['🏊','swim'],['🚲','ride'],['🧗','climb'],['🎤','sing'],['🎨','draw'],['🏃','run'],['🎹','play piano'],['🗣️','speak French']]},
+      {id:'I10C',t:'Past negatives',f:'I did not [w] yesterday.',g:{title:'Past negatives & questions',rule:'Use “did not” + the plain verb for the past negative: I did not call.',sk:'Saying what you didn’t do'},w:[['📞','call'],['💼','work'],['🍽️','eat'],['😴','sleep'],['🚗','drive'],['🏃','run'],['📚','study'],['🛍️','shop']]},
     ]},
     {n:24,title:'Telling Stories',level:'Intermediate',topic:'irregular past · sequencing',grp:'The Past',subs:[
-      {id:'I11A',t:'Irregular past',f:'Yesterday I [w].',g:{title:'Irregular past',rule:'Some past verbs change form: go → went, see → saw.',sk:'Telling a story'},w:[['🚶','went'],['👀','saw'],['🛍️','bought'],['🍽️','ate'],['🤲','took'],['🎁','gave']]},
-      {id:'I11B',t:'More irregular',f:'Yesterday I [w].',g:{title:'More irregular verbs',rule:'Learn irregular pasts as pairs: make → made, come → came.',sk:'Telling a story'},w:[['🔨','made'],['🚪','came'],['🔍','found'],['✍️','wrote'],['🚗','drove'],['🤝','met']]},
-      {id:'I11C',t:'Sequence words',f:'[w], I left.',g:{title:'Ordering events',rule:'Order a story with First, Then, Next, Finally.',sk:'Sequencing a story'},w:[['1️⃣','First'],['➡️','Then'],['⏭️','Next'],['⏩','After'],['🕐','Later'],['🏁','Finally']]},
+      {id:'I11A',t:'Irregular past',f:'Yesterday I [w].',g:{title:'Irregular past',rule:'Some past verbs change form: go → went, see → saw.',sk:'Telling a story'},w:[['🚶','went'],['👀','saw'],['🛍️','bought'],['🍽️','ate'],['🤲','took'],['🎁','gave'],['💬','said'],['🧠','thought']]},
+      {id:'I11B',t:'More irregular',f:'Yesterday I [w].',g:{title:'More irregular verbs',rule:'Learn irregular pasts as pairs: make → made, come → came.',sk:'Telling a story'},w:[['🔨','made'],['🚪','came'],['🔍','found'],['✍️','wrote'],['🚗','drove'],['🤝','met'],['🏃','ran'],['🛌','slept']]},
+      {id:'I11C',t:'Sequence words',f:'[w], I left.',g:{title:'Ordering events',rule:'Order a story with First, Then, Next, Finally.',sk:'Sequencing a story'},w:[['1️⃣','First'],['➡️','Then'],['⏭️','Next'],['⏩','After'],['🕐','Later'],['🏁','Finally'],['⏮️','Before'],['⚡','Suddenly']]},
     ]},
     {n:25,title:'Reviews & Questions',level:'Intermediate',topic:'descriptions · past questions',grp:'The Past',subs:[
-      {id:'I12A',t:'Describing things',f:'It is a movie about [w].',g:{title:'Describing with “about”',rule:'Use “about” to give a theme: a movie about space.',sk:'Describing films and books'},w:[['❤️','love'],['⚔️','war'],['🚀','space'],['👨‍👩‍👧','family'],['📜','history'],['🗺️','adventure']]},
-      {id:'I12B',t:'Past questions',f:'Did you [w]?',g:{title:'Past questions',rule:'Ask about the past with “Did you…?” + the plain verb: Did you travel?',sk:'Asking about the past'},w:[['✈️','travel'],['🍽️','eat'],['😴','sleep'],['💼','work'],['📚','study'],['😊','enjoy it']]},
-      {id:'I12C',t:'How was it?',f:'It was [w].',g:{title:'Reacting in the past',rule:'Use “It was…” + an adjective to react: It was great.',sk:'Giving an opinion of the past'},w:[['👍','great'],['🥱','boring'],['🎉','fun'],['🤩','exciting'],['🧘','relaxing'],['😮‍💨','tiring']]},
+      {id:'I12A',t:'Describing things',f:'It is a movie about [w].',g:{title:'Describing with “about”',rule:'Use “about” to give a theme: a movie about space.',sk:'Describing films and books'},w:[['❤️','love'],['⚔️','war'],['🚀','space'],['👨‍👩‍👧','family'],['📜','history'],['🗺️','adventure'],['🔪','crime'],['😂','comedy']]},
+      {id:'I12B',t:'Past questions',f:'Did you [w]?',g:{title:'Past questions',rule:'Ask about the past with “Did you…?” + the plain verb: Did you travel?',sk:'Asking about the past'},w:[['✈️','travel'],['🍽️','eat'],['😴','sleep'],['💼','work'],['📚','study'],['😊','enjoy it'],['👀','see it'],['🤝','meet them']]},
+      {id:'I12C',t:'How was it?',f:'It was [w].',g:{title:'Reacting in the past',rule:'Use “It was…” + an adjective to react: It was great.',sk:'Giving an opinion of the past'},w:[['👍','great'],['🥱','boring'],['🎉','fun'],['🤩','exciting'],['🧘','relaxing'],['😮‍💨','tiring'],['😍','wonderful'],['😕','strange']]},
     ]},
     {n:26,title:'At Work',level:'Intermediate',topic:'workplace · subject/object questions',grp:'Future & Perfect',subs:[
-      {id:'I13A',t:'Job hunting',f:'I want to [w].',g:{title:'Workplace verbs',rule:'Common job verbs: apply, interview, hire, train.',sk:'Talking about jobs'},w:[['📝','apply'],['🗣️','interview'],['📋','train'],['💼','manage'],['🚩','lead'],['🚪','resign']]},
-      {id:'I13B',t:'Subject questions',f:'Who [w] here?',g:{title:'Subject questions',rule:'When “who/what” is the subject, no “do” is needed: Who works here?',sk:'Asking subject questions'},w:[['💼','works'],['📋','manages'],['👩‍🏫','teaches'],['🍳','cooks'],['🚗','drives'],['🚩','leads']]},
-      {id:'I13C',t:'Object questions',f:'What do you [w]?',g:{title:'Object questions',rule:'When asking about the object, use “do / does”: What do you make?',sk:'Asking object questions'},w:[['🤔','do'],['🔨','make'],['💰','sell'],['📚','study'],['🙋','want'],['🆘','need']]},
+      {id:'I13A',t:'Job hunting',f:'I want to [w].',g:{title:'Workplace verbs',rule:'Common job verbs: apply, interview, hire, train.',sk:'Talking about jobs'},w:[['📝','apply'],['🗣️','interview'],['📋','train'],['💼','manage'],['🚩','lead'],['🚪','resign'],['🤝','negotiate'],['📈','get promoted']]},
+      {id:'I13B',t:'Subject questions',f:'Who [w] here?',g:{title:'Subject questions',rule:'When “who/what” is the subject, no “do” is needed: Who works here?',sk:'Asking subject questions'},w:[['💼','works'],['📋','manages'],['👩‍🏫','teaches'],['🍳','cooks'],['🚗','drives'],['🚩','leads'],['💰','pays'],['🛠️','fixes it']]},
+      {id:'I13C',t:'Object questions',f:'What do you [w]?',g:{title:'Object questions',rule:'When asking about the object, use “do / does”: What do you make?',sk:'Asking object questions'},w:[['🤔','do'],['🔨','make'],['💰','sell'],['📚','study'],['🙋','want'],['🆘','need'],['🛠️','build'],['🚚','deliver']]},
     ]},
     {n:27,title:'Plans',level:'Intermediate',topic:'arrangements · going to',grp:'Future & Perfect',subs:[
-      {id:'I14A',t:'Arrangements',f:'I am [w] tomorrow.',g:{title:'Present continuous for future',rule:'Use am/is/are + -ing for fixed plans: I am meeting him tomorrow.',sk:'Talking about arrangements'},w:[['🤝','meeting'],['🚪','leaving'],['✈️','flying'],['🏠','visiting'],['🚦','starting'],['🛬','arriving']]},
-      {id:'I14B',t:'Going to',f:'I am going to [w].',g:{title:'“going to”',rule:'Use “going to” for intentions: I am going to travel.',sk:'Talking about intentions'},w:[['✈️','travel'],['📚','study'],['📦','move'],['💍','marry'],['🚦','start'],['🏖️','retire']]},
+      {id:'I14A',t:'Arrangements',f:'I am [w] tomorrow.',g:{title:'Present continuous for future',rule:'Use am/is/are + -ing for fixed plans: I am meeting him tomorrow.',sk:'Talking about arrangements'},w:[['🤝','meeting'],['🚪','leaving'],['✈️','flying'],['🏠','visiting'],['🚦','starting'],['🛬','arriving'],['🍽️','having dinner'],['📞','calling']]},
+      {id:'I14B',t:'Going to',f:'I am going to [w].',g:{title:'“going to”',rule:'Use “going to” for intentions: I am going to travel.',sk:'Talking about intentions'},w:[['✈️','travel'],['📚','study'],['📦','move'],['💍','marry'],['🚦','start'],['🏖️','retire'],['🏋️','get fit'],['💰','save money']]},
     ]},
     {n:28,title:'Predictions',level:'Intermediate',topic:'will · decisions',grp:'Future & Perfect',subs:[
-      {id:'I15A',t:'Will (predictions)',f:'It will [w].',g:{title:'“will” for predictions',rule:'Use “will” + verb for predictions: It will rain.',sk:'Making predictions'},w:[['🌧️','rain'],['❄️','snow'],['🔄','change'],['🌱','grow'],['📈','improve'],['💼','work']]},
-      {id:'I15B',t:'Decisions',f:'I will [w] it.',g:{title:'“will” for decisions',rule:'Use “will” for choices made on the spot: I will take it.',sk:'Making quick decisions'},w:[['🤲','take'],['🛍️','buy'],['🍴','try'],['✅','do'],['🔧','fix'],['🤝','help with']]},
+      {id:'I15A',t:'Will (predictions)',f:'It will [w].',g:{title:'“will” for predictions',rule:'Use “will” + verb for predictions: It will rain.',sk:'Making predictions'},w:[['🌧️','rain'],['❄️','snow'],['🔄','change'],['🌱','grow'],['📈','improve'],['💼','work'],['📉','fall'],['🔥','warm up']]},
+      {id:'I15B',t:'Decisions',f:'I will [w] it.',g:{title:'“will” for decisions',rule:'Use “will” for choices made on the spot: I will take it.',sk:'Making quick decisions'},w:[['🤲','take'],['🛍️','buy'],['🍴','try'],['✅','do'],['🔧','fix'],['🤝','help with'],['📞','call about'],['📦','order']]},
     ]},
     {n:29,title:'Advice & Maybe',level:'Intermediate',topic:'might · should · could',grp:'Future & Perfect',subs:[
-      {id:'I16A',t:'Might (possibility)',f:'It might [w].',g:{title:'“might” for possibility',rule:'Use “might” for something possible but not sure: It might rain.',sk:'Talking about possibility'},w:[['🌧️','rain'],['💼','work'],['🤝','help'],['🔄','change'],['❓','happen'],['📈','improve']]},
-      {id:'I16B',t:'Should (advice)',f:'You should [w].',g:{title:'“should” for advice',rule:'Use “should” to give advice: You should rest.',sk:'Giving advice'},w:[['🛌','rest'],['📚','study'],['😴','sleep'],['🧘','relax'],['🏃','exercise'],['⏳','wait']]},
-      {id:'I16C',t:'Could (suggestions)',f:'You could [w].',g:{title:'“could” for suggestions',rule:'Use “could” to suggest an option: You could call them.',sk:'Making suggestions'},w:[['📞','call'],['🙋','ask'],['🍴','try'],['⏳','wait'],['🚪','leave'],['🤝','join']]},
+      {id:'I16A',t:'Might (possibility)',f:'It might [w].',g:{title:'“might” for possibility',rule:'Use “might” for something possible but not sure: It might rain.',sk:'Talking about possibility'},w:[['🌧️','rain'],['💼','work'],['🤝','help'],['🔄','change'],['❓','happen'],['📈','improve'],['🚪','close'],['⏳','take time']]},
+      {id:'I16B',t:'Should (advice)',f:'You should [w].',g:{title:'“should” for advice',rule:'Use “should” to give advice: You should rest.',sk:'Giving advice'},w:[['🛌','rest'],['📚','study'],['😴','sleep'],['🧘','relax'],['🏃','exercise'],['⏳','wait'],['💧','drink water'],['📞','call them']]},
+      {id:'I16C',t:'Could (suggestions)',f:'You could [w].',g:{title:'“could” for suggestions',rule:'Use “could” to suggest an option: You could call them.',sk:'Making suggestions'},w:[['📞','call'],['🙋','ask'],['🍴','try'],['⏳','wait'],['🚪','leave'],['🤝','join'],['🗺️','explore'],['📖','book it']]},
     ]},
     {n:30,title:'Present Perfect',level:'Intermediate',topic:'have done · yet/already',grp:'Future & Perfect',subs:[
-      {id:'I17A',t:'Have done',f:'I have [w].',g:{title:'Present perfect',rule:'Use have/has + the past participle to link past to now: I have finished.',sk:'Linking past to now'},w:[['🏁','finished'],['🚦','started'],['🍽️','eaten'],['👀','seen'],['✅','done'],['🛬','arrived']]},
-      {id:'I17B',t:'More perfect',f:'I have [w] it.',g:{title:'More participles',rule:'Many participles are irregular: write → written, make → made.',sk:'Using the present perfect'},w:[['📖','read'],['✍️','written'],['🔨','made'],['🔍','found'],['❌','lost'],['📤','sent']]},
-      {id:'I17C',t:'Yet & already',f:'I have [w] eaten.',g:{title:'“yet” and “already”',rule:'Mark the present perfect with already, just, never: I have already eaten.',sk:'Talking about progress'},w:[['✅','already'],['🕐','just'],['🚫','never'],['🆕','recently'],['🏁','finally'],['✨','also']]},
+      {id:'I17A',t:'Have done',f:'I have [w].',g:{title:'Present perfect',rule:'Use have/has + the past participle to link past to now: I have finished.',sk:'Linking past to now'},w:[['🏁','finished'],['🚦','started'],['🍽️','eaten'],['👀','seen'],['✅','done'],['🛬','arrived'],['🚪','left'],['📞','called']]},
+      {id:'I17B',t:'More perfect',f:'I have [w] it.',g:{title:'More participles',rule:'Many participles are irregular: write → written, make → made.',sk:'Using the present perfect'},w:[['📖','read'],['✍️','written'],['🔨','made'],['🔍','found'],['❌','lost'],['📤','sent'],['🤲','taken'],['🛍️','bought']]},
+      {id:'I17C',t:'Yet & already',f:'I have [w] eaten.',g:{title:'“yet” and “already”',rule:'Mark the present perfect with already, just, never: I have already eaten.',sk:'Talking about progress'},w:[['✅','already'],['🕐','just'],['🚫','never'],['🆕','recently'],['🏁','finally'],['✨','also'],['❓','not yet'],['⏳','still']]},
     ]},
-    {n:31,title:'Out & About',level:'Intermediate',topic:'transactions · life milestones',grp:'Future & Perfect',subs:[
-      {id:'I18A',t:'Ordering',f:'I would like to [w].',g:{title:'Service language',rule:'Use “I would like to…” to be polite in shops and cafés: I would like to order.',sk:'Handling transactions'},w:[['📋','order'],['💳','pay'],['📖','book'],['🪑','reserve'],['🙋','ask'],['🍴','try']]},
-      {id:'I18B',t:'Life milestones',f:'I have [w].',g:{title:'Present perfect for experience',rule:'Use the present perfect for life experiences: I have traveled.',sk:'Talking about milestones'},w:[['✈️','traveled'],['🎓','graduated'],['💍','married'],['📦','moved'],['🏆','succeeded'],['🏖️','retired']]},
+    {n:31,title:'Out & About',level:'Intermediate',topic:'transactions · travel · milestones',grp:'Future & Perfect',subs:[
+      {id:'I18A',t:'Ordering',f:'I would like to [w].',g:{title:'Service language',rule:'Use “I would like to…” to be polite in shops and cafés: I would like to order.',sk:'Handling transactions'},w:[['📋','order'],['💳','pay'],['📖','book'],['🪑','reserve'],['🙋','ask'],['🍴','try'],['🔄','exchange'],['↩️','return it']]},
+      {id:'I18B',t:'Travel & transport',f:'I am going by [w].',g:{title:'Travel & transport',rule:'Use “by” + transport: by train, by plane.',sk:'Talking about travel'},w:[['🚆','train'],['✈️','plane'],['🚌','bus'],['🚕','taxi'],['🚇','metro'],['🚢','boat'],['🚗','car'],['🚲','bike']]},
+      {id:'I18C',t:'Life milestones',f:'I have [w].',g:{title:'Present perfect for experience',rule:'Use the present perfect for life experiences: I have traveled.',sk:'Talking about milestones'},w:[['✈️','traveled'],['🎓','graduated'],['💍','married'],['📦','moved'],['🏆','succeeded'],['🏖️','retired'],['🏠','bought a home'],['👶','had a child']]},
     ]},
     /* ───────── ADVANCED (Level 3 + Level 4 higher tracks) ───────── */
-    {n:32,title:'Question Tags',level:'Advanced',topic:'tags · agreeing',grp:'Conversation',subs:[
-      {id:'A1A',t:'Question tags',f:'You like it, [w]?',g:{title:'Question tags',rule:'Add a short tag to invite agreement: “You like it, don’t you?”',sk:'Confirming in conversation'},w:[['🙂','don’t you'],['❓','isn’t it'],['👥','aren’t they'],['💪','can’t you'],['🙏','will you'],['✅','right']]},
-      {id:'A1B',t:'Agreeing',f:'[w], I think so too.',g:{title:'Agreeing',rule:'Short responses show you agree: “So do I,” “Me too.”',sk:'Showing agreement'},w:[['🎯','Exactly'],['💯','Absolutely'],['🙋','So do I'],['👍','Me too'],['✅','Of course'],['⭐','Definitely']]},
+    {n:32,title:'Question Tags',level:'Advanced',topic:'tags · agreeing · disagreeing',grp:'Conversation',subs:[
+      {id:'A1A',t:'Question tags',f:'You like it, [w]?',g:{title:'Question tags',rule:'Add a short tag to invite agreement: “You like it, don’t you?”',sk:'Confirming in conversation'},w:[['🙂','don’t you'],['❓','isn’t it'],['👥','aren’t they'],['💪','can’t you'],['🙏','will you'],['✅','right'],['🤔','haven’t you'],['😉','do you']]},
+      {id:'A1B',t:'Agreeing',f:'[w], I think so too.',g:{title:'Agreeing',rule:'Short responses show you agree: “So do I,” “Me too.”',sk:'Showing agreement'},w:[['🎯','Exactly'],['💯','Absolutely'],['🙋','So do I'],['👍','Me too'],['✅','Of course'],['⭐','Definitely'],['🤝','Agreed'],['👌','Fair enough']]},
+      {id:'A1C',t:'Disagreeing politely',f:'[w], but I see it differently.',g:{title:'Disagreeing politely',rule:'Soften disagreement: “I’m not sure,” “I see your point, but…”',sk:'Disagreeing tactfully'},w:[['🤔','I’m not sure'],['🙃','Actually'],['😌','I see your point'],['✋','To be honest'],['🔄','On the other hand'],['💬','I’d say'],['😅','Not exactly'],['🧐','That depends']]},
     ]},
     {n:33,title:'Location & Details',level:'Advanced',topic:'precise place · contact',grp:'Conversation',subs:[
-      {id:'A2A',t:'Position',f:'It is [w] the bank.',g:{title:'Precise prepositions',rule:'Exact position phrases: opposite, between, in front of.',sk:'Giving precise directions'},w:[['↔️','opposite'],['➡️','next to'],['🔀','between'],['🔙','behind'],['⬆️','in front of'],['📍','near']]},
-      {id:'A2B',t:'Contact details',f:'Here is my [w].',g:{title:'Contact details',rule:'Share details clearly: email, number, address.',sk:'Exchanging contact details'},w:[['📧','email'],['📞','number'],['🏠','address'],['🌐','website'],['🔖','handle'],['📮','postcode']]},
+      {id:'A2A',t:'Position',f:'It is [w] the bank.',g:{title:'Precise prepositions',rule:'Exact position phrases: opposite, between, in front of.',sk:'Giving precise directions'},w:[['↔️','opposite'],['➡️','next to'],['🔀','between'],['🔙','behind'],['⬆️','in front of'],['📍','near'],['🔄','around'],['⬇️','below']]},
+      {id:'A2B',t:'Contact details',f:'Here is my [w].',g:{title:'Contact details',rule:'Share details clearly: email, number, address.',sk:'Exchanging contact details'},w:[['📧','email'],['📞','number'],['🏠','address'],['🌐','website'],['🔖','handle'],['📮','postcode'],['💼','business card'],['📱','contact']]},
     ]},
     {n:34,title:'Describing in Detail',level:'Advanced',topic:'adjective order · word-building',grp:'Conversation',subs:[
-      {id:'A3A',t:'Adjective order',f:'a [w] bag',g:{title:'Adjective order',rule:'Order adjectives: opinion → size → shape → age → colour.',sk:'Describing precisely'},w:[['😍','lovely'],['📏','big'],['⭕','round'],['🕰️','old'],['🧳','leather'],['🟤','brown']]},
-      {id:'A3B',t:'Prefixes & suffixes',f:'It is [w].',g:{title:'Prefixes & suffixes',rule:'Prefixes (un-, im-, re-) and suffixes (-ful, -less) change a word’s meaning.',sk:'Building word families'},w:[['🙁','unhappy'],['🚫','impossible'],['🤝','helpful'],['❌','useless'],['🎯','careful'],['😞','hopeless']]},
+      {id:'A3A',t:'Adjective order',f:'a [w] bag',g:{title:'Adjective order',rule:'Order adjectives: opinion → size → shape → age → colour.',sk:'Describing precisely'},w:[['😍','lovely'],['📏','big'],['⭕','round'],['🕰️','old'],['🧳','leather'],['🟤','brown'],['✨','elegant'],['🆕','modern']]},
+      {id:'A3B',t:'Prefixes & suffixes',f:'It is [w].',g:{title:'Prefixes & suffixes',rule:'Prefixes (un-, im-, re-) and suffixes (-ful, -less) change a word’s meaning.',sk:'Building word families'},w:[['🙁','unhappy'],['🚫','impossible'],['🤝','helpful'],['❌','useless'],['🎯','careful'],['😞','hopeless'],['🔁','rewrite'],['⚠️','careless']]},
     ]},
     {n:35,title:'Phrasal Verbs',level:'Advanced',topic:'verb + particle',grp:'Description & Phrasals',subs:[
-      {id:'A4A',t:'Phrasal verbs',f:'Let’s [w].',g:{title:'Phrasal verbs',rule:'A verb + particle makes a new meaning: “chill out,” “meet up.”',sk:'Speaking casually'},w:[['😌','chill out'],['🤝','meet up'],['🔊','turn up'],['🏳️','give up'],['🔍','find out'],['💪','work out']]},
-      {id:'A4B',t:'More phrasals',f:'I need to [w].',g:{title:'More phrasal verbs',rule:'Learn phrasal verbs as whole units: “look after,” “get up.”',sk:'Using everyday idioms'},w:[['⏰','get up'],['🤲','look after'],['✈️','take off'],['👕','put on'],['🛠️','set up'],['🪫','run out']]},
+      {id:'A4A',t:'Phrasal verbs',f:'Let’s [w].',g:{title:'Phrasal verbs',rule:'A verb + particle makes a new meaning: “chill out,” “meet up.”',sk:'Speaking casually'},w:[['😌','chill out'],['🤝','meet up'],['🔊','turn up'],['🏳️','give up'],['🔍','find out'],['💪','work out'],['🚪','drop by'],['🍽️','eat out']]},
+      {id:'A4B',t:'More phrasals',f:'I need to [w].',g:{title:'More phrasal verbs',rule:'Learn phrasal verbs as whole units: “look after,” “get up.”',sk:'Using everyday idioms'},w:[['⏰','get up'],['🤲','look after'],['✈️','take off'],['👕','put on'],['🛠️','set up'],['🪫','run out'],['🔌','plug in'],['🧹','tidy up']]},
+      {id:'A4C',t:'People & talk',f:'They [w].',g:{title:'Phrasals for relationships',rule:'Many phrasal verbs describe people: “get along,” “break up,” “make up.”',sk:'Describing relationships'},w:[['🤝','get along'],['💔','break up'],['🩹','make up'],['👋','catch up'],['🗣️','speak up'],['🤐','fall out'],['🫶','look up to'],['🙅','put up with']]},
     ]},
     {n:36,title:'Everyday Collocations',level:'Advanced',topic:'natural word pairs',grp:'Description & Phrasals',subs:[
-      {id:'A5A',t:'Chores',f:'I have to [w].',g:{title:'Collocations',rule:'Some words naturally pair: “do the laundry,” “make the bed.”',sk:'Talking about chores'},w:[['🧺','do the laundry'],['🌱','mow the lawn'],['🛏️','make the bed'],['🍽️','wash the dishes'],['🗑️','take out the trash'],['🛍️','run errands']]},
-      {id:'A5B',t:'Make vs do',f:'I will [w].',g:{title:'“make” vs “do”',rule:'Use “make” for creating and “do” for tasks: make a plan, do the work.',sk:'Choosing make or do'},w:[['📋','make a plan'],['💼','do the work'],['📞','make a call'],['📚','do homework'],['🍳','make dinner'],['🤝','do business']]},
+      {id:'A5A',t:'Chores',f:'I have to [w].',g:{title:'Collocations',rule:'Some words naturally pair: “do the laundry,” “make the bed.”',sk:'Talking about chores'},w:[['🧺','do the laundry'],['🌱','mow the lawn'],['🛏️','make the bed'],['🍽️','wash the dishes'],['🗑️','take out the trash'],['🛍️','run errands'],['🧹','sweep the floor'],['🪟','clean the windows']]},
+      {id:'A5B',t:'Make vs do',f:'I will [w].',g:{title:'“make” vs “do”',rule:'Use “make” for creating and “do” for tasks: make a plan, do the work.',sk:'Choosing make or do'},w:[['📋','make a plan'],['💼','do the work'],['📞','make a call'],['📚','do homework'],['🍳','make dinner'],['🤝','do business'],['😄','make friends'],['🧹','do the chores']]},
+      {id:'A5C',t:'Take · have · get',f:'I always [w].',g:{title:'take / have / get pairs',rule:'These verbs pair with set nouns: “take a break,” “have a rest,” “get ready.”',sk:'Using natural word pairs'},w:[['☕','take a break'],['🛌','have a rest'],['🚿','take a shower'],['🍽️','have lunch'],['👍','get ready'],['🚕','take a taxi'],['😴','get tired'],['📸','take a photo']]},
     ]},
     {n:37,title:'Stronger Comparisons',level:'Advanced',topic:'modifiers · -ing/-ed',grp:'Description & Phrasals',subs:[
-      {id:'A6A',t:'Strong modifiers',f:'It is [w] the tallest.',g:{title:'Strengthening comparisons',rule:'Add force to a superlative: “easily the tallest,” “by far the best.”',sk:'Comparing emphatically'},w:[['👍','easily'],['🏆','by far'],['➗','almost'],['📏','nearly'],['🔍','clearly'],['✨','simply']]},
-      {id:'A6B',t:'-ing vs -ed',f:'The film is [w].',g:{title:'-ing vs -ed adjectives',rule:'-ing describes the thing; -ed describes how you feel: boring / bored.',sk:'Describing feelings vs things'},w:[['🥱','boring'],['😑','bored'],['🤩','exciting'],['😃','excited'],['😮‍💨','tiring'],['😴','tired']]},
+      {id:'A6A',t:'Strong modifiers',f:'It is [w] the tallest.',g:{title:'Strengthening comparisons',rule:'Add force to a superlative: “easily the tallest,” “by far the best.”',sk:'Comparing emphatically'},w:[['👍','easily'],['🏆','by far'],['➗','almost'],['📏','nearly'],['🔍','clearly'],['✨','simply'],['💯','undoubtedly'],['⭐','definitely']]},
+      {id:'A6B',t:'-ing vs -ed',f:'The film is [w].',g:{title:'-ing vs -ed adjectives',rule:'-ing describes the thing; -ed describes how you feel: boring / bored.',sk:'Describing feelings vs things'},w:[['🥱','boring'],['😑','bored'],['🤩','exciting'],['😃','excited'],['😮‍💨','tiring'],['😴','tired'],['😲','surprising'],['😯','surprised']]},
     ]},
     {n:38,title:'Perfect & Emphasis',level:'Advanced',topic:'emphatic do · perfect continuous',grp:'Timelines & Conditionals',subs:[
-      {id:'A7A',t:'Emphatic “do”',f:'I [w] call her.',g:{title:'Emphatic “do / did”',rule:'Add “do” or “did” to stress a verb: “I did call her.”',sk:'Adding emphasis'},w:[['✅','did'],['💯','do'],['⭐','really'],['✔️','certainly'],['🎯','definitely'],['👍','surely']]},
-      {id:'A7B',t:'Perfect continuous',f:'I have been [w] all day.',g:{title:'Present perfect continuous',rule:'have been + -ing for an action continuing up to now.',sk:'Talking about ongoing actions'},w:[['💼','working'],['🎨','painting'],['📚','studying'],['🚶','walking'],['🍳','cooking'],['⏳','waiting']]},
-      {id:'A7C',t:'already · just · yet',f:'I have [w] finished.',g:{title:'already · just · yet · still',rule:'These mark progress in the perfect: already, just, not yet, still.',sk:'Talking about progress'},w:[['✅','already'],['🕐','just'],['🚫','not yet'],['⏳','still'],['🆕','recently'],['🏁','finally']]},
+      {id:'A7A',t:'Emphatic “do”',f:'I [w] call her.',g:{title:'Emphatic “do / did”',rule:'Add “do” or “did” to stress a verb: “I did call her.”',sk:'Adding emphasis'},w:[['✅','did'],['💯','do'],['⭐','really'],['✔️','certainly'],['🎯','definitely'],['👍','surely'],['🔥','truly'],['💪','honestly']]},
+      {id:'A7B',t:'Perfect continuous',f:'I have been [w] all day.',g:{title:'Present perfect continuous',rule:'have been + -ing for an action continuing up to now.',sk:'Talking about ongoing actions'},w:[['💼','working'],['🎨','painting'],['📚','studying'],['🚶','walking'],['🍳','cooking'],['⏳','waiting'],['🏃','running'],['🗣️','talking']]},
+      {id:'A7C',t:'already · just · yet',f:'I have [w] finished.',g:{title:'already · just · yet · still',rule:'These mark progress in the perfect: already, just, not yet, still.',sk:'Talking about progress'},w:[['✅','already'],['🕐','just'],['🚫','not yet'],['⏳','still'],['🆕','recently'],['🏁','finally'],['🔁','ever'],['❌','never']]},
     ]},
     {n:39,title:'Past Stories',level:'Advanced',topic:'past continuous · past perfect',grp:'Timelines & Conditionals',subs:[
-      {id:'A8A',t:'Past continuous',f:'I was [w] then.',g:{title:'Past continuous',rule:'was / were + -ing sets the background scene of a story.',sk:'Setting the scene'},w:[['😴','sleeping'],['🚗','driving'],['🍳','cooking'],['📖','reading'],['💼','working'],['🚶','walking']]},
-      {id:'A8B',t:'Past perfect',f:'I had [w] before.',g:{title:'Past perfect',rule:'had + past participle = an action before another past action.',sk:'Ordering past events'},w:[['🚪','left'],['🍽️','eaten'],['🏁','finished'],['👀','seen'],['🛬','arrived'],['🚦','started']]},
+      {id:'A8A',t:'Past continuous',f:'I was [w] then.',g:{title:'Past continuous',rule:'was / were + -ing sets the background scene of a story.',sk:'Setting the scene'},w:[['😴','sleeping'],['🚗','driving'],['🍳','cooking'],['📖','reading'],['💼','working'],['🚶','walking'],['🗣️','talking'],['🎧','listening']]},
+      {id:'A8B',t:'Past perfect',f:'I had [w] before.',g:{title:'Past perfect',rule:'had + past participle = an action before another past action.',sk:'Ordering past events'},w:[['🚪','left'],['🍽️','eaten'],['🏁','finished'],['👀','seen'],['🛬','arrived'],['🚦','started'],['📤','sent'],['🔍','found']]},
     ]},
     {n:40,title:'Conditionals',level:'Advanced',topic:'first · second · regret',grp:'Timelines & Conditionals',subs:[
-      {id:'A9A',t:'First conditional',f:'If it rains, I will [w].',g:{title:'Zero & first conditional',rule:'Real situations: “If it rains, I will stay home.”',sk:'Talking about likely results'},w:[['🏠','stay home'],['☂️','take an umbrella'],['🚗','drive'],['⏳','wait'],['❌','cancel'],['📞','call']]},
-      {id:'A9B',t:'Second conditional',f:'If I were rich, I would [w].',g:{title:'Second conditional',rule:'Imaginary present / future: “If I were rich, I would travel.”',sk:'Talking about imaginary situations'},w:[['✈️','travel'],['🤝','help'],['🏖️','retire'],['💰','invest'],['🧘','relax'],['🎁','give']]},
-      {id:'A9C',t:'Regret',f:'I should have [w].',g:{title:'Third conditional & regret',rule:'Talk about the unreal past: “I should have studied.”',sk:'Expressing regret'},w:[['📚','studied'],['📞','called'],['⏳','waited'],['🙋','asked'],['🚪','left'],['🍴','tried']]},
+      {id:'A9A',t:'First conditional',f:'If it rains, I will [w].',g:{title:'Zero & first conditional',rule:'Real situations: “If it rains, I will stay home.”',sk:'Talking about likely results'},w:[['🏠','stay home'],['☂️','take an umbrella'],['🚗','drive'],['⏳','wait'],['❌','cancel'],['📞','call'],['🛌','rest'],['🍽️','cook']]},
+      {id:'A9B',t:'Second conditional',f:'If I were rich, I would [w].',g:{title:'Second conditional',rule:'Imaginary present / future: “If I were rich, I would travel.”',sk:'Talking about imaginary situations'},w:[['✈️','travel'],['🤝','help'],['🏖️','retire'],['💰','invest'],['🧘','relax'],['🎁','give'],['🏠','buy a house'],['🎓','study more']]},
+      {id:'A9C',t:'Regret',f:'I should have [w].',g:{title:'Third conditional & regret',rule:'Talk about the unreal past: “I should have studied.”',sk:'Expressing regret'},w:[['📚','studied'],['📞','called'],['⏳','waited'],['🙋','asked'],['🚪','left'],['🍴','tried'],['💾','saved'],['👂','listened']]},
     ]},
     {n:41,title:'Reporting',level:'Advanced',topic:'reported speech · indirect questions',grp:'Professional & Style',subs:[
-      {id:'A10A',t:'Reported speech',f:'He said he was [w].',g:{title:'Reported speech',rule:'Reporting shifts the tense back: “He said he was tired.”',sk:'Reporting what people say'},w:[['😴','tired'],['📌','busy'],['😊','happy'],['🚪','leaving'],['💼','working'],['✅','ready']]},
-      {id:'A10B',t:'Indirect questions',f:'Could you tell me [w]?',g:{title:'Indirect questions',rule:'Polite questions: “Could you tell me where the bank is?”',sk:'Asking politely'},w:[['🕐','the time'],['🗺️','the way'],['💰','the price'],['🏷️','the name'],['📅','the date'],['💵','the cost']]},
+      {id:'A10A',t:'Reported speech',f:'He said he was [w].',g:{title:'Reported speech',rule:'Reporting shifts the tense back: “He said he was tired.”',sk:'Reporting what people say'},w:[['😴','tired'],['📌','busy'],['😊','happy'],['🚪','leaving'],['💼','working'],['✅','ready'],['🤒','sick'],['⏰','late']]},
+      {id:'A10B',t:'Indirect questions',f:'Could you tell me [w]?',g:{title:'Indirect questions',rule:'Polite questions: “Could you tell me where the bank is?”',sk:'Asking politely'},w:[['🕐','the time'],['🗺️','the way'],['💰','the price'],['🏷️','the name'],['📅','the date'],['💵','the cost'],['🚪','the address'],['📞','the number']]},
     ]},
-    {n:42,title:'Professional English',level:'Advanced',topic:'correspondence · meetings',grp:'Professional & Style',subs:[
-      {id:'A11A',t:'Applications',f:'I am writing to [w].',g:{title:'Formal correspondence',rule:'Open a formal message: “I am writing to apply / enquire.”',sk:'Writing professionally'},w:[['📝','apply'],['❓','enquire'],['✅','confirm'],['🙋','request'],['🔄','follow up'],['🙏','thank you']]},
-      {id:'A11B',t:'Meetings',f:'Let’s [w] the agenda.',g:{title:'Meeting language',rule:'Coordinate work: review, discuss, schedule, summarize.',sk:'Running meetings'},w:[['📋','review'],['🗣️','discuss'],['📅','schedule'],['📝','summarize'],['✅','confirm'],['⏳','postpone']]},
+    {n:42,title:'Professional English',level:'Advanced',topic:'correspondence · meetings · email',grp:'Professional & Style',subs:[
+      {id:'A11A',t:'Applications',f:'I am writing to [w].',g:{title:'Formal correspondence',rule:'Open a formal message: “I am writing to apply / enquire.”',sk:'Writing professionally'},w:[['📝','apply'],['❓','enquire'],['✅','confirm'],['🙋','request'],['🔄','follow up'],['🙏','thank you'],['📣','inform you'],['🤝','propose']]},
+      {id:'A11B',t:'Meetings',f:'Let’s [w] the agenda.',g:{title:'Meeting language',rule:'Coordinate work: review, discuss, schedule, summarize.',sk:'Running meetings'},w:[['📋','review'],['🗣️','discuss'],['📅','schedule'],['📝','summarize'],['✅','confirm'],['⏳','postpone'],['➕','add to'],['🚀','kick off']]},
+      {id:'A11C',t:'Email tone',f:'[w], I will send the file.',g:{title:'Professional tone',rule:'Set tone with openers: “As requested,” “Please find attached,” “Kind regards.”',sk:'Striking the right tone'},w:[['📎','As requested'],['📤','Please find attached'],['🙏','Thank you for your patience'],['🔁','Following up on'],['📌','Just to confirm'],['🤝','Kind regards'],['⏰','At your earliest convenience'],['✅','Noted']]},
     ]},
     {n:43,title:'Advanced Style',level:'Advanced',topic:'inversion · future perfect · cleft',grp:'Professional & Style',subs:[
-      {id:'A12A',t:'Inversion',f:'Never have I [w] this.',g:{title:'Dramatic inversion',rule:'Invert after a negative adverbial for emphasis: “Never have I seen…”',sk:'Adding dramatic emphasis'},w:[['👀','seen'],['👂','heard'],['💭','felt'],['🧠','known'],['🍴','tried'],['🔨','made']]},
-      {id:'A12B',t:'Future perfect',f:'By then I will have [w].',g:{title:'Future perfect',rule:'will have + participle = finished before a future point.',sk:'Talking about future deadlines'},w:[['🏁','finished'],['🛬','arrived'],['🚪','left'],['📚','learned'],['💰','saved'],['🏖️','retired']]},
-      {id:'A12C',t:'Cleft for focus',f:'What I need is [w].',g:{title:'Cleft sentences',rule:'Shift focus with a cleft: “What I need is time.”',sk:'Focusing on key details'},w:[['🕐','time'],['🛌','rest'],['🤝','help'],['🌌','space'],['💡','advice'],['💰','money']]},
+      {id:'A12A',t:'Inversion',f:'Never have I [w] this.',g:{title:'Dramatic inversion',rule:'Invert after a negative adverbial for emphasis: “Never have I seen…”',sk:'Adding dramatic emphasis'},w:[['👀','seen'],['👂','heard'],['💭','felt'],['🧠','known'],['🍴','tried'],['🔨','made'],['📖','read'],['🤝','met']]},
+      {id:'A12B',t:'Future perfect',f:'By then I will have [w].',g:{title:'Future perfect',rule:'will have + participle = finished before a future point.',sk:'Talking about future deadlines'},w:[['🏁','finished'],['🛬','arrived'],['🚪','left'],['📚','learned'],['💰','saved'],['🏖️','retired'],['📤','submitted'],['✅','completed']]},
+      {id:'A12C',t:'Cleft for focus',f:'What I need is [w].',g:{title:'Cleft sentences',rule:'Shift focus with a cleft: “What I need is time.”',sk:'Focusing on key details'},w:[['🕐','time'],['🛌','rest'],['🤝','help'],['🌌','space'],['💡','advice'],['💰','money'],['🎯','clarity'],['🔑','access']]},
     ]},
   ];
   function curSub(){const m=MODULES.find(x=>x.n===selected)||MODULES[0];return (m.subs&&m.subs[subIdx])||m.subs[0];}
@@ -607,7 +668,7 @@
   function renderSub(){
     const m=MODULES.find(x=>x.n===selected);
     document.getElementById('subLabel').textContent=curSub().t;
-    document.getElementById('subMenu').innerHTML=m.subs.map((s,i)=>`<button class="${i===subIdx?'sel':''}" onclick="selectSub(${i})"><span class="sn">${s.id}</span><span>${s.t}</span><span class="scount">${s.w.length} words</span></button>`).join('');
+    document.getElementById('subMenu').innerHTML=m.subs.map((s,i)=>`<button class="${i===subIdx?'sel':''}" onclick="selectSub(${i})"><span class="sn">${s.id}</span><span>${s.t}${PROG.isDone(s.id)?' <span style="color:#2f8f6a;font-weight:800">✓</span>':''}</span><span class="scount">${s.w.length} words</span></button>`).join('');
   }
   function toggleSub(e){e&&e.stopPropagation();document.getElementById('subMenu').classList.toggle('open');document.getElementById('subdd').classList.toggle('open');}
   function closeSub(){document.getElementById('subMenu').classList.remove('open');document.getElementById('subdd').classList.remove('open');}
@@ -798,10 +859,10 @@
     <div class="fbbar" id="fb"><div class="in"><div class="msg"><span class="ic" id="fbIc"></span><span class="t" id="fbT"></span></div><button class="nextbtn" onclick="prNext()">Continue ${I.arrow}</button></div></div>`;
   }
   function prChoose(el,en){const q=pQ[pIdx];document.querySelectorAll('.opt').forEach(o=>o.classList.add('dim'));const fb=document.getElementById('fb');
-    if(en===q.t.en){el.classList.add('correct');pScore++;document.getElementById('fbIc').innerHTML=I.check;document.getElementById('fbT').textContent='Correct · '+q.t.en;fb.className='fbbar ok show';}
-    else{el.classList.add('wrong');document.querySelectorAll('.opt').forEach(o=>{if(o.dataset.en===q.t.en)o.classList.add('correct');});pHearts--;document.querySelector('.lives').innerHTML=lives();document.getElementById('fbIc').innerHTML=I.x;document.getElementById('fbT').textContent='Answer: '+q.t.en;fb.className='fbbar no show';}}
+    if(en===q.t.en){el.classList.add('correct');pScore++;PROG.recordWord(q.t.en,true);document.getElementById('fbIc').innerHTML=I.check;document.getElementById('fbT').textContent='Correct · '+q.t.en;fb.className='fbbar ok show';}
+    else{el.classList.add('wrong');document.querySelectorAll('.opt').forEach(o=>{if(o.dataset.en===q.t.en)o.classList.add('correct');});pHearts--;PROG.recordWord(q.t.en,false);document.querySelector('.lives').innerHTML=lives();document.getElementById('fbIc').innerHTML=I.x;document.getElementById('fbT').textContent='Answer: '+q.t.en;fb.className='fbbar no show';}}
   function prNext(){document.getElementById('fb').classList.remove('show');pIdx++;drawPractice();}
-  function practiceEnd(){const pct=Math.round(pScore/pQ.length*100);
+  function practiceEnd(){PROG.markDone(curSub().id);const pct=Math.round(pScore/pQ.length*100);
     stage.innerHTML=modLine()+`<div class="endc"><div class="ic">${I.trophy}</div><h2 class="serif">${pHearts<=0?'Keep going':(pct>=80?'Excellent':'Well done')}</h2><div class="score">${pScore} / ${pQ.length}</div><p>Now drill the words to make them stick.</p><div class="row"><button class="ghostbtn" onclick="setActivity('practice')">${I.redo} Retry</button><button class="nextbtn" onclick="setActivity('drills')">Drills ${I.arrow}</button></div></div>`;}
 
   /* ===== DRILLS ===== */
@@ -863,9 +924,31 @@
   }
   function spTimeout(){document.querySelectorAll('.cell').forEach(c=>{c.style.pointerEvents='none';if(c.dataset.en===sq[sPos].t.en)c.classList.add('ok');});streak=0;const n=document.getElementById('sptNum');if(n)n.textContent='0';setTimeout(()=>{sPos++;drawSpeed();},950);}
   function spPick(el,en){clearSpeedTimer();const q=sq[sPos];document.querySelectorAll('.cell').forEach(c=>c.style.pointerEvents='none');
-    if(en===q.t.en){el.classList.add('ok');sScore++;streak++;}else{el.classList.add('bad');streak=0;document.querySelectorAll('.cell').forEach(c=>{if(c.dataset.en===q.t.en)c.classList.add('ok');});}
+    if(en===q.t.en){el.classList.add('ok');sScore++;streak++;PROG.recordWord(q.t.en,true);}else{el.classList.add('bad');streak=0;PROG.recordWord(q.t.en,false);document.querySelectorAll('.cell').forEach(c=>{if(c.dataset.en===q.t.en)c.classList.add('ok');});}
     setTimeout(()=>{sPos++;drawSpeed();},en===q.t.en?450:850);}
-  function speedEnd(){clearSpeedTimer();const pct=sScore/sq.length;const more=hasNextLesson();stage.innerHTML=modLine()+`<div class="endc"><div class="ic">${I.trophy}</div><h2 class="serif">${pct>=.8?'Fast & sharp':'Good drill'}</h2><div class="score">${sScore} / ${sq.length}</div><p>${more?'Lesson complete — on to the next one.':'You finished every lesson in this level!'}</p><div class="row"><button class="ghostbtn" onclick="drToggle('speed')">${I.redo} Again</button><button class="nextbtn" onclick="nextLesson()">${more?'Next lesson':'Back to start'} ${I.arrow}</button></div></div>`;}
+  function confetti(n){
+    if(document.getElementById('confettiC'))return;
+    const c=document.createElement('canvas');c.id='confettiC';
+    c.style.cssText='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999';
+    document.body.appendChild(c);
+    const ctx=c.getContext('2d'),dpr=Math.min(window.devicePixelRatio||1,2),W=innerWidth,H=innerHeight;
+    c.width=W*dpr;c.height=H*dpr;ctx.scale(dpr,dpr);
+    const cols=['#caa24e','#b3842b','#d8aa3c','#1a2240','#ffffff'],P=[];
+    n=n||130;
+    for(let i=0;i<n;i++)P.push({x:W/2+(Math.random()-.5)*W*0.4,y:H*0.30+(Math.random()-.5)*50,vx:(Math.random()-.5)*10,vy:Math.random()*-10-3,g:.28+Math.random()*.14,s:5+Math.random()*6,rot:Math.random()*6.28,vr:(Math.random()-.5)*.45,col:cols[i%cols.length]});
+    const start=performance.now(),dur=2000;
+    (function frame(t){const el=t-start;ctx.clearRect(0,0,W,H);let alive=false;
+      P.forEach(p=>{p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;const a=Math.max(0,1-el/dur);if(p.y<H+30&&a>0)alive=true;ctx.save();ctx.globalAlpha=a;ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.col;ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.62);ctx.restore();});
+      if(el<dur&&alive)requestAnimationFrame(frame);else if(c.parentNode)c.parentNode.removeChild(c);
+    })(start);
+  }
+  function speedEnd(){PROG.markDone(curSub().id);clearSpeedTimer();const pct=sScore/sq.length;const more=hasNextLesson();
+    const m=MODULES.find(x=>x.n===selected),modDone=m.subs.every(s=>PROG.isDone(s.id));
+    const title=modDone?'🎉 Module complete!':(pct>=.8?'Lesson complete!':'Lesson complete');
+    const msg=modDone?(`You finished every lesson in “${m.title}”. ${more?'On to the next module!':'You’ve finished the whole level — incredible!'}`):(more?'Nice work — on to the next lesson.':'You finished every lesson in this level!');
+    stage.innerHTML=modLine()+`<div class="endc"><div class="ic">${I.trophy}</div><div class="g-eyebrow" style="color:var(--gold)">Congratulations</div><h2 class="serif">${title}</h2><div class="score">${sScore} / ${sq.length}</div><p>${msg}</p><div class="row"><button class="ghostbtn" onclick="drToggle('speed')">${I.redo} Again</button><button class="nextbtn" onclick="nextLesson()">${more?'Next lesson':'Back to start'} ${I.arrow}</button></div></div>`;
+    confetti(modDone?240:140);
+  }
 
   /* paywall */
   function openPaywall(){document.getElementById('paywall').classList.add('open');}
@@ -873,7 +956,74 @@
   function checkout(p){closePaywall();}
   document.getElementById('paywall').addEventListener('click',e=>{if(e.target.id==='paywall')closePaywall();});
 
-  buildLangMenu();setAccent();renderTabs();renderSub();render();
+  /* ===== PROGRESS + STREAK (saved locally) ===== */
+  const PROG=(()=>{
+    const K='lisaany-eng-prog-v1', DAY=864e5, INT=[0,1,3,7,16,40];
+    let d={done:{},hist:{},streak:{n:0,last:0}};
+    function load(){try{const r=localStorage.getItem(K);if(r)d=Object.assign({done:{},hist:{},streak:{n:0,last:0}},JSON.parse(r));}catch(e){}}
+    function save(){try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}}
+    function midnight(){const t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate()).getTime();}
+    function touch(){const t=midnight();if(d.streak.last===t)return;d.streak.n=(d.streak.last===t-DAY)?(d.streak.n||0)+1:1;d.streak.last=t;save();}
+    return {
+      init(){load();touch();updateStreakChip();updateReviewBadge();},
+      markDone(id){if(!d.done[id]){d.done[id]=Date.now();save();updateReviewBadge();}},
+      isDone(id){return !!d.done[id];},
+      dueAt(en){const h=d.hist[en];return h?h.due:0;},
+      recordWord(en,ok){const h=d.hist[en]||{box:0,due:0,seen:0,ok:0};h.seen++;if(ok){h.ok++;h.box=Math.min(h.box+1,5);}else{h.box=0;}h.due=Date.now()+INT[h.box]*DAY;d.hist[en]=h;save();},
+      streak(){return d.streak.n||0;},
+      learnedWords(){const set=[],seen={};MODULES.forEach(m=>m.subs.forEach(s=>{if(d.done[s.id])s.w.forEach(w=>{if(!seen[w[1]]){seen[w[1]]=1;set.push({e:w[0],en:w[1],img:w[2]||''});}});}));return set;},
+      dueCount(){const now=Date.now();return this.learnedWords().filter(w=>{const h=d.hist[w.en];return !h||h.due<=now;}).length;}
+    };
+  })();
+  function updateStreakChip(){const el=document.getElementById('streakNum');if(el)el.textContent=PROG.streak();}
+  function updateReviewBadge(){const el=document.getElementById('rvLbl');if(!el)return;const n=PROG.dueCount();el.textContent=n>0?('Review '+n):'Review';}
+
+  /* ===== DAILY REVIEW (spaced repetition) ===== */
+  let revQ=[],revPos=0,revScore=0;
+  function allWordList(){const set=[],seen={};MODULES.forEach(m=>m.subs.forEach(s=>s.w.forEach(w=>{if(!seen[w[1]]){seen[w[1]]=1;set.push({e:w[0],en:w[1],img:w[2]||''});}})));return set;}
+  function startReview(){
+    clearSpeedTimer();
+    const all=allWordList();
+    let pool=PROG.learnedWords();
+    if(pool.length<4){pool=curSub().w.map(w=>({e:w[0],en:w[1],img:w[2]||''}));}
+    pool=pool.slice().sort((a,b)=>PROG.dueAt(a.en)-PROG.dueAt(b.en));
+    revQ=pool.slice(0,12).map(w=>{
+      const distract=shuffle(all.filter(x=>x.en!==w.en)).slice(0,3).map(x=>x.en);
+      return {e:w.e,en:w.en,img:w.img,opts:shuffle([w.en,...distract])};
+    });
+    revPos=0;revScore=0;drawReview();
+  }
+  function drawReview(){
+    if(revPos>=revQ.length)return reviewEnd();
+    const q=revQ[revPos], prog=Math.round(revPos/revQ.length*100);
+    stage.innerHTML=`<div class="pr" style="gap:16px">
+      <div style="display:flex;align-items:center;gap:12px;width:100%;max-width:420px">
+        <div class="pbar" style="flex:1"><i style="width:${prog}%"></i></div>
+        <button class="iconbtn sq" onclick="exitReview()" title="Exit review">${I.x}</button>
+      </div>
+      <div class="g-eyebrow" style="color:var(--gold)">Daily review · ${revPos+1} / ${revQ.length}</div>
+      <div class="vtile">${q.img?`<img src="${q.img}" class="${/flagcdn/.test(q.img)?'flag':''}">`:q.e}</div>
+      <div class="grid4" id="rvgrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:420px">
+        ${q.opts.map(o=>`<button class="opt wopt" data-en="${o.replace(/"/g,'&quot;')}" onclick="revPick(this)">${o}</button>`).join('')}
+      </div>
+      <div class="fbbar" id="rvfb"><div class="in"><div class="msg"><span class="ic" id="rvIc"></span><span class="t" id="rvT"></span></div><button class="nextbtn" onclick="revNext()">Continue ${I.arrow}</button></div></div>
+    </div>`;
+  }
+  function revPick(el){const q=revQ[revPos], en=el.dataset.en, ok=en===q.en;
+    document.querySelectorAll('#rvgrid .opt').forEach(o=>{o.style.pointerEvents='none';if(o.dataset.en===q.en)o.classList.add('correct');});
+    if(!ok)el.classList.add('wrong');
+    if(ok)revScore++;
+    PROG.recordWord(q.en,ok);
+    const fb=document.getElementById('rvfb');
+    document.getElementById('rvIc').innerHTML=ok?I.check:I.x;
+    document.getElementById('rvT').textContent=ok?('Correct · '+q.en):('Answer: '+q.en);
+    fb.className='fbbar '+(ok?'ok':'no')+' show';
+  }
+  function revNext(){const fb=document.getElementById('rvfb');if(fb)fb.classList.remove('show');revPos++;drawReview();}
+  function reviewEnd(){updateStreakChip();updateReviewBadge();stage.innerHTML=`<div class="endc"><div class="ic">${I.trophy}</div><div class="g-eyebrow" style="color:var(--gold)">Well done</div><h2 class="serif">Review done</h2><div class="score">${revScore} / ${revQ.length}</div><p>Come back tomorrow to keep these words fresh.</p><div class="row"><button class="nextbtn" onclick="exitReview()">Back to lessons ${I.arrow}</button></div></div>`;confetti(90);}
+  function exitReview(){renderSub();render();}
+
+  buildLangMenu();setAccent();PROG.init();renderTabs();renderSub();render();
 </script>
 </body>
 </html>
