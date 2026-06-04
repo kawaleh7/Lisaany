@@ -6684,7 +6684,7 @@ const S = {
 if('speechSynthesis' in window){ speechSynthesis.getVoices(); speechSynthesis.addEventListener('voiceschanged',()=>{}); }
 // ── R2 Audio with Web Speech fallback ──
 const AUDIO_BASE_URL = 'https://pub-7816de42410e4cc0a521da43fa52ba07.r2.dev/';
-const AUDIO_RATE = 0.90; // playback speed for recorded clips (1 = normal, lower = slower; pitch preserved)
+const AUDIO_RATE = 1.0; // playback speed for recorded clips (1 = normal, lower = slower; pitch preserved)
 const audioCache = {};
 let audioIndex = null;
 
