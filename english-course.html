@@ -918,7 +918,13 @@
   function seNext(){if(seIdx<SE.length-1){seIdx++;drawSentence();}else{setSentMode('build');}}
   function sePrev(){if(seIdx>0){seIdx--;drawSentence();}}
 
-  function drawBuild(){const s=SE[seIdx];buildTarget=s.text.replace(/[.!?,]/g,'').split(' ').filter(Boolean);poolArr=shuffle(buildTarget.map((w,i)=>({w,i,picked:false})));ansArr=[];
+  function drawBuild(){const s=SE[seIdx];buildTarget=s.text.replace(/[.!?,]/g,'').split(' ').filter(Boolean);
+    const tl=buildTarget.map(w=>w.toLowerCase());
+    let cand=[...new Set((CW||[]).map(x=>x.en).filter(w=>w&&!/\s/.test(w)&&!tl.includes(w.toLowerCase())))];
+    if(cand.length<2)cand=cand.concat(['yes','no','please','here','this','today','good','my','thanks'].filter(w=>!tl.includes(w)&&cand.indexOf(w)<0));
+    const nDist=Math.min(buildTarget.length<=1?1:2,cand.length);
+    const dist=shuffle(cand).slice(0,nDist);
+    poolArr=shuffle(buildTarget.map((w,i)=>({w,i,picked:false})).concat(dist.map((w,k)=>({w,i:100+k,picked:false}))));ansArr=[];
     stage.innerHTML=modLine()+`<div class="build">
       <div style="color:var(--muted);font-size:.86rem;display:flex;gap:7px;align-items:center;cursor:pointer" onclick="playExplain()">${I.soundg} Tap the words in order</div>
       <button class="play-main" id="bPlay" onclick="sePlayB()">${I.sound}</button>
