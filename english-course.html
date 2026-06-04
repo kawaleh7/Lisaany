@@ -370,6 +370,12 @@
   .exfoot.ok{border-color:rgba(47,143,106,.5)}.exfoot.ok .msg{color:var(--ok)}.exfoot.ok .msg .ic svg{stroke:var(--ok)}
   .exfoot.no{border-color:rgba(192,86,75,.5)}.exfoot.no .msg{color:var(--bad)}.exfoot.no .msg .ic svg{stroke:var(--bad)}
   .exfoot .rate{margin:0 auto}
+  .edgeHandle{display:none}
+  body.panelOpen .edgeHandle{opacity:0;pointer-events:none;transform:translateY(-50%) translateX(-28px)}
+  @media(max-width:880px){
+    .edgeHandle{display:flex;align-items:center;justify-content:center;position:fixed;left:0;top:50%;transform:translateY(-50%);width:17px;height:78px;padding:0;border:none;border-radius:0 13px 13px 0;background:linear-gradient(90deg,rgba(26,34,64,.96),rgba(26,34,64,.72));z-index:70;cursor:pointer;box-shadow:3px 0 12px -3px rgba(20,32,60,.55);transition:opacity .2s,transform .2s}
+    .edgeHandle::after{content:"";width:3px;height:34px;background:rgba(255,255,255,.66);border-radius:2px}
+  }
   </style>
 </head>
 <body>
@@ -390,6 +396,7 @@
 <div class="appbody">
 <aside class="panel" id="modPanel"></aside>
 <div class="scrim" id="panelScrim" onclick="closePanel()"></div>
+<button class="edgeHandle" id="edgeHandle" onclick="openPanel(event)" aria-label="Open modules"></button>
 <section class="maincol">
 
 <div class="levelbar">
@@ -761,8 +768,29 @@
     });
     document.getElementById('modPanel').innerHTML=html;
   }
-  function openPanel(e){e&&e.stopPropagation();document.getElementById('modPanel').classList.add('open');document.getElementById('panelScrim').classList.add('open');}
-  function closePanel(){document.getElementById('modPanel').classList.remove('open');document.getElementById('panelScrim').classList.remove('open');}
+  function panelPhone(){return window.matchMedia('(max-width:880px)').matches;}
+  function setPanelX(px,anim){const p=document.getElementById('modPanel'),s=document.getElementById('panelScrim');if(!p||!s)return;const W=p.offsetWidth||272;px=Math.max(-W,Math.min(0,px));p.style.transition=anim?'':'none';s.style.transition=anim?'':'none';p.style.transform='translateX('+px+'px)';const o=(px+W)/W;s.style.opacity=(o*0.45).toFixed(3);s.style.pointerEvents=o>0.02?'auto':'none';}
+  function openPanel(e){e&&e.stopPropagation();if(!panelPhone())return;setPanelX(0,true);document.body.classList.add('panelOpen');}
+  function closePanel(){if(panelPhone()){const p=document.getElementById('modPanel');setPanelX(-((p&&p.offsetWidth)||272),true);}document.body.classList.remove('panelOpen');}
+  (function(){
+    let dragging=false,sx=0,sy=0,intent=null,W=272;
+    document.addEventListener('pointerdown',function(e){
+      if(!panelPhone()||document.body.classList.contains('panelOpen'))return;
+      const onHandle=e.target.closest&&e.target.closest('#edgeHandle');
+      if(!onHandle&&e.clientX>30)return;
+      dragging=true;intent=null;sx=e.clientX;sy=e.clientY;W=(document.getElementById('modPanel').offsetWidth)||272;
+    });
+    document.addEventListener('pointermove',function(e){
+      if(!dragging)return;const dx=e.clientX-sx,dy=e.clientY-sy;
+      if(intent===null&&(Math.abs(dx)>6||Math.abs(dy)>6))intent=Math.abs(dx)>Math.abs(dy)?'h':'v';
+      if(intent==='v'){dragging=false;return;}
+      if(intent==='h'){if(e.cancelable)e.preventDefault();setPanelX(-W+Math.max(0,dx),false);}
+    },{passive:false});
+    function end(e){if(!dragging)return;dragging=false;if(intent!=='h')return;const dx=e.clientX-sx;if(dx>W*0.4)openPanel();else closePanel();}
+    document.addEventListener('pointerup',end);
+    document.addEventListener('pointercancel',end);
+    window.addEventListener('resize',function(){if(!panelPhone()){const p=document.getElementById('modPanel'),s=document.getElementById('panelScrim');if(p){p.style.transform='';p.style.transition='';}if(s){s.style.opacity='';s.style.transition='';s.style.pointerEvents='';}document.body.classList.remove('panelOpen');}});
+  })();
   function selectModuleFromPanel(n){selectModule(n);}
   function selectSubFromPanel(i){subIdx=i;renderPanel();render();closePanel();}
   function setAccent(){const c=gc(MODULES.find(m=>m.n===selected).grp);document.documentElement.style.setProperty('--acc',c.acc);document.documentElement.style.setProperty('--tint',c.tint);}
