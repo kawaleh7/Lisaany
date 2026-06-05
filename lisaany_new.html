@@ -2205,42 +2205,50 @@ html,body{ background:#0a1730 !important; }
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,500;9..144,600;9..144,700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
 <script src="plan.js" defer></script>
 <script src="paywall.js" defer></script>
+<style id="lis-canon-nav">
+.lis-nav{position:sticky;top:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(10,23,48,.82);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid rgba(242,190,98,.18);box-sizing:border-box;gap:14px;}
+.lis-brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-family:'Cinzel',serif;font-weight:600;flex-shrink:0;}
+.lis-brand .brand-mark{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:none!important;box-shadow:none!important;border:none!important;flex-shrink:0;border-radius:0;}
+.lis-brand .brand-name{font-size:19px;letter-spacing:.06em;color:#e8eef9;}
+.lis-links{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;}
+.lis-link{font:500 13px/1 'Inter',sans-serif;letter-spacing:.03em;color:#9ba8be;text-decoration:none;padding:9px 13px;border-radius:99px;transition:all .15s;white-space:nowrap;cursor:pointer;}
+.lis-link:hover{color:#f2be62;background:rgba(255,255,255,.05);}
+.lis-link.is-active{color:#f2be62;background:rgba(242,190,98,.10);}
+.lis-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.lis-signin{font:600 13px/1 'Inter',sans-serif;letter-spacing:.04em;padding:11px 22px;border-radius:99px;cursor:pointer;text-decoration:none;display:inline-block;background:linear-gradient(135deg,#f5d488,#f2be62);color:#0a1730;border:1px solid rgba(242,190,98,.55);box-shadow:0 0 0 rgba(242,190,98,0);transition:box-shadow .2s,transform .2s,background .2s;white-space:nowrap;}
+.lis-signin:hover{box-shadow:0 0 16px rgba(242,190,98,.75),0 0 32px rgba(242,190,98,.4);transform:translateY(-1px);}
+.lis-signin.is-authed{background:linear-gradient(135deg,#86e6a8,#34c759);color:#06381f;border-color:rgba(52,199,89,.55);}
+.lis-signin.is-authed:hover{box-shadow:0 0 16px rgba(52,199,89,.75),0 0 32px rgba(52,199,89,.4);}
+@media(max-width:900px){.lis-links{display:none;}.lis-nav{padding:0 16px;height:58px;}}
+</style>
 </head>
 <body>
 <!-- LISAANY BANNER -->
 <nav class="lis-nav">
-  <div class="lis-nav-inner">
-    <a href="index.html" class="lis-brand" title="Back to Lisaany Home">
-      <div class="brand-mark">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <path d="M30 78 L30 42 A20 20 0 0 1 70 42 L70 78" fill="none" stroke="#d8aa3c" stroke-width="13"/>
-        </svg>
-      </div>
-      <span class="lis-brand-text">Lisaany</span>
-    </a>
-    <div class="lis-links">
-      <a href="index.html" class="lis-link">Home</a>
-      <a href="arabic_platform.html" class="lis-link">Learn</a>
-      <a href="pricing.html" class="lis-link">Pricing</a>
-      <a href="tutors.html" class="lis-link">Live Tutor</a>
-    </div>
-    <div class="lis-actions">
-      <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile">
-        <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
-        <span class="lis-profile-initial" id="lis-profile-initial"></span>
-        <span class="lis-profile-dot" id="lis-profile-dot"></span>
-      </a>
-      <button class="lis-menu-btn" aria-label="Menu" onclick="document.getElementById('lisMobileMenu').classList.toggle('is-open')">
-        <svg class="lis-ico" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M3 6h18"/>
-          <path d="M3 12h18"/>
-          <path d="M3 18h18"/>
-        </svg>
-      </button>
-    </div>
+  <a href="index.html" class="lis-brand" title="Lisaany Home">
+    <span class="brand-mark">
+      <svg viewBox="0 0 180 160" aria-hidden="true" width="40" height="40">
+        <defs><linearGradient id="lisNavGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f5e0a0"/><stop offset="60%" stop-color="#d4a34a"/><stop offset="100%" stop-color="#b8882a"/></linearGradient></defs>
+        <g transform="translate(90,88)">
+          <path d="M -72,64 L -72,-32 A 72,72 0 0 1 72,-32 L 72,64 L 50,64 L 50,-28 A 50,50 0 0 0 -50,-28 L -50,64 Z" fill="url(#lisNavGold)"/>
+          <path d="M -50,64 L -50,-28 A 50,50 0 0 1 50,-28 L 50,64 L 30,64 L 30,-22 A 30,30 0 0 0 -30,-22 L -30,64 Z" fill="#0a1730"/>
+          <path d="M -30,64 L -30,-22 A 30,30 0 0 1 30,-22 L 30,64 L 10,64 L 10,-16 A 10,10 0 0 0 -10,-16 L -10,64 Z" fill="url(#lisNavGold)"/>
+        </g>
+      </svg>
+    </span>
+    <span class="brand-name">Lisaany</span>
+  </a>
+  <div class="lis-links">
+    <a href="index.html" class="lis-link">Home</a>
+    <a href="arabic_platform.html" class="lis-link">Arabic Lesson</a>
+    <a href="lisaany_new.html" class="lis-link is-active">Norania · Alif Ba Ta</a>
+    <a href="english-course.html" class="lis-link">English Course</a>
+    <a href="pricing.html" class="lis-link">Pricing</a>
+    <a href="tutors.html" class="lis-link">Live Tutor</a>
+    <a href="#" class="lis-link" onclick="var m=document.getElementById('lisContactModal');if(m){m.classList.add('open');}else{var f=document.getElementById('ls-fab');if(f){f.click();}else{location.href='mailto:admin@lisaany.com';}}return false;">Contact</a>
+  </div>
+  <div class="lis-actions">
+    <a href="auth.html" class="lis-signin" id="lis-signin">Sign In</a>
   </div>
 </nav>
 <div class="lis-mobile-menu" id="lisMobileMenu">
@@ -4519,6 +4527,12 @@ function celebrate() {
   }
 }
 
+</script>
+<script>
+(function(){var b=document.getElementById('lis-signin');if(!b)return;
+try{var raw=localStorage.getItem('sb-cfaxrzfqvoalwznkhwnx-auth-token');
+if(raw){var s=JSON.parse(raw);var t=s&&(s.access_token||(s.currentSession&&s.currentSession.access_token));var e=s&&(s.expires_at||(s.currentSession&&s.currentSession.expires_at));
+if(t&&(!e||e*1000>Date.now())){b.classList.add('is-authed');b.textContent='Account';b.href='profile.html';}}}catch(_){} })();
 </script>
 </body>
 </html>
