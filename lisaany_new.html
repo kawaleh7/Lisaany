@@ -2388,9 +2388,9 @@ const MORPH_DATA = [
 const INTRO_SLIDES = {
   2:[
     {type:"title",ar:"الحَرَكَات",title:"Short Vowels",sub:"Harakat are small marks on Arabic letters that tell you how to pronounce them. In this lesson you will learn the three most important ones."},
-    {type:"concept",ar:"بَ",name:"Fatha · فَتْحَة",tag:'"a" as in cat',color:"#D4A34A",pos:"Sits ABOVE the letter",rule:'The <strong>Fatha</strong> is a small diagonal stroke written <strong>above</strong> the letter. It gives a short <strong>"aa"</strong> sound — like the word <strong>cat</strong>.',examples:[{ar:"كَ · تَ · بَ",en:""},{ar:"وَ · لَ · دَ",en:""},{ar:"ذَ · هَ · بَ",en:""}]},
-    {type:"concept",ar:"بِ",name:"Kasra · كَسْرَة",tag:'"i" as in bit',color:"#D4A34A",pos:"Sits BELOW the letter",rule:'The <strong>Kasra</strong> is written <strong>below</strong> the letter. It gives a short <strong>"ee"</strong> sound — like the word <strong>bee</strong>.',examples:[{ar:"رِ · لِ · فِ",en:""},{ar:"مِ · يِ · قِ",en:""},{ar:"هِ · سِ · نِ",en:""}]},
-    {type:"concept",ar:"بُ",name:"Damma · ضَمَّة",tag:'"u" as in put',color:"#D4A34A",pos:"Sits ABOVE the letter",rule:'The <strong>Damma</strong> looks like a small ribbon and is written <strong>above</strong> the letter. It gives a short <strong>"u"</strong> sound — like the word <strong>you</strong>.',examples:[{ar:"وُ · تُ · دُ",en:""},{ar:"كُ · نُ · زُ",en:""},{ar:"بُ · شُ · رُ",en:""}]},
+    {type:"concept",ar:"بَ",name:"Fatha · فَتْحَة",tag:'"a" as in cat',color:"#D4A34A",pos:"Sits ABOVE the letter",explain:"fatha",rule:'A short <strong>"a"</strong> sound — like the word <strong>cat</strong>.',examples:[{ar:"كَ · تَ · بَ",en:""},{ar:"وَ · لَ · دَ",en:""},{ar:"ذَ · هَ · بَ",en:""}]},
+    {type:"concept",ar:"بِ",name:"Kasra · كَسْرَة",tag:'"i" as in bit',color:"#D4A34A",pos:"Sits BELOW the letter",explain:"kasra",rule:'A short <strong>"i"</strong> sound — like the word <strong>bit</strong>.',examples:[{ar:"رِ · لِ · فِ",en:""},{ar:"مِ · يِ · قِ",en:""},{ar:"هِ · سِ · نِ",en:""}]},
+    {type:"concept",ar:"بُ",name:"Damma · ضَمَّة",tag:'"u" as in put',color:"#D4A34A",pos:"Sits ABOVE the letter",explain:"damma",rule:'A short <strong>"u"</strong> sound — like the word <strong>put</strong>.',examples:[{ar:"وُ · تُ · دُ",en:""},{ar:"كُ · نُ · زُ",en:""},{ar:"بُ · شُ · رُ",en:""}]},
     {type:"summary",title:"All Three",sub:"Same letter — three vowels — three sounds.",items:[
       {ar:"بَ",base:"ب",mark:"َ",markColor:"#e07070",nameAr:"فَتْحَة",name:"Fatha",color:"#D4A34A"},
       {ar:"بِ",base:"ب",mark:"ِ",markColor:"#e07070",nameAr:"كَسْرَة",name:"Kasra",color:"#D4A34A"},
@@ -2749,6 +2749,27 @@ function speak(text){
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'ar-SA'; u.rate = 0.8;
   window.speechSynthesis.speak(u);
+}
+
+// ── Lesson explanation narration (record 3 clips, drop on R2, set EXPLAIN_BASE) ──
+// Set to your R2 public folder, e.g. 'https://media.lisaany.com/audio/'. Empty = phone TTS placeholder.
+const EXPLAIN_BASE='';
+const EXPLAIN_FILES={fatha:'explain_fatha.mp3',kasra:'explain_kasra.mp3',damma:'explain_damma.mp3'};
+const EXPLAIN_TEXT={
+  fatha:'Fatha. A small mark above the letter. It makes a short "a" sound, like in cat.',
+  kasra:'Kasra. A small mark below the letter. It makes a short "i" sound, like in bit.',
+  damma:'Damma. A small mark above the letter. It makes a short "u" sound, like in put.'
+};
+let _explAudio=null;
+function playExplain(key){
+  try{ if(window.speechSynthesis) window.speechSynthesis.cancel(); }catch(e){}
+  if(_explAudio){ try{_explAudio.pause();}catch(e){} _explAudio=null; }
+  if(EXPLAIN_BASE){
+    _explAudio=new Audio(EXPLAIN_BASE+(EXPLAIN_FILES[key]||''));
+    _explAudio.play().catch(()=>{});
+  }else{
+    try{ const u=new SpeechSynthesisUtterance(EXPLAIN_TEXT[key]||''); u.lang='en-US'; u.rate=0.9; window.speechSynthesis.speak(u); }catch(e){}
+  }
 }
 
 function buildAudioAssessment(pool){
@@ -3164,6 +3185,15 @@ function buildSlide(slide,el_){
       ruleCard.insertBefore(posEl, ruleEl);
     }
     el_.appendChild(ruleCard);
+  }
+
+  // ── HEAR THE EXPLANATION (teacher narration) ──
+  if(slide.explain){
+    const exBtn = document.createElement('button');
+    exBtn.style.cssText = "margin-top:4px;width:100%;border:none;background:linear-gradient(135deg,#f2be62,#d4a34a);color:#1a1303;font-family:'Inter',sans-serif;font-weight:700;font-size:14.5px;border-radius:13px;padding:14px;display:flex;align-items:center;justify-content:center;gap:11px;cursor:pointer;";
+    exBtn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#1a1303" stroke-width="1.8"><path d="M3 10v4a1 1 0 001 1h3l4 4V5L7 9H4a1 1 0 00-1 1z"/><path d="M16 8a5 5 0 010 8M19 5a9 9 0 010 14"/></svg><span>Hear the explanation</span>';
+    exBtn.addEventListener('click', ()=>playExplain(slide.explain));
+    el_.appendChild(exBtn);
   }
 
   // ── EXAMPLES / BOXES ──
