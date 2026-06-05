@@ -7814,6 +7814,7 @@ function resetBS(){
   if(blk?.type==='quiz'){ S.quizIdx=0; S.quizChosen=null; S.quizFb=null; S.quizLocked=false; S.quizScore=0; S.quizWrong=0; }
   if(blk?.type==='fill'){ S.fillIdx=0; S.fillChosen=null; S.fillFb=null; S.fillLocked=false; S.fillScore=0; S.fillWrong=0; }
   if(blk?.type==='choose'){ S.chIdx=0; S.chChosen=null; S.chFb=null; S.chLocked=false; S.chScore=0; S.chWrong=0; S.chHint=false; }
+  if(blk?.type==='grammar'){ S.gScreen=0; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -9281,109 +9282,146 @@ function _whiteRuleCard(elm){
   try{ elm.querySelectorAll('strong,b').forEach(function(s){ s.style.setProperty('color','#15203a','important'); }); }catch(e){}
   _gildArabicText(elm);
 }
+function _gramPremiumCSS(){
+  if(document.getElementById('gram-premium-css')) return;
+  var s=document.createElement('style'); s.id='gram-premium-css';
+  s.textContent=
+   "@keyframes gpRise{to{opacity:1;transform:none}}"+
+   ".gp-rise{opacity:0;transform:translateY(14px);animation:gpRise .55s cubic-bezier(.18,.7,.25,1) forwards;}"+
+   ".gp-rise:nth-child(1){animation-delay:.02s}.gp-rise:nth-child(2){animation-delay:.08s}"+
+   ".gp-rise:nth-child(3){animation-delay:.14s}.gp-rise:nth-child(4){animation-delay:.20s}"+
+   ".gp-rise:nth-child(5){animation-delay:.26s}.gp-rise:nth-child(6){animation-delay:.32s}"+
+   ".gp-rise:nth-child(7){animation-delay:.38s}.gp-rise:nth-child(8){animation-delay:.44s}"+
+   ".gp-rise:nth-child(9){animation-delay:.50s}.gp-rise:nth-child(10){animation-delay:.56s}"+
+   "@keyframes gpBreathe{0%{box-shadow:0 0 0 0 rgba(216,180,97,.55),0 14px 30px rgba(0,0,0,.34)}55%{box-shadow:0 0 0 7px rgba(216,180,97,0),0 14px 30px rgba(0,0,0,.34)}100%{box-shadow:0 0 0 2px #d8b461,0 14px 30px rgba(0,0,0,.34)}}"+
+   ".gp-plate{transition:transform .25s cubic-bezier(.2,.7,.3,1);}"+
+   ".gp-plate:active{transform:translateY(-3px);}"+
+   ".gp-plate.play{animation:gpBreathe 1.1s ease;}"+
+   ".gp-sheen{position:relative;overflow:hidden;}"+
+   ".gp-sheen:after{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:gpSheen 4.8s ease-in-out infinite;}"+
+   "@keyframes gpSheen{0%,72%{left:-60%}88%{left:130%}100%{left:130%}}";
+  document.head.appendChild(s);
+}
+
 function mkGrammar(blk){
-  const d=blk.data; const w=div('stage');
-  // Header — new design
-  const hdr = div('lesson-hdr');
-  const hdrIcon = div('lesson-hdr-icon');
-  hdrIcon.appendChild(ms('psychology'));
-  hdr.appendChild(hdrIcon);
-  const hdrBody = div('lesson-hdr-body');
-  hdrBody.appendChild(el('div', {className:'lesson-hdr-eyebrow'}, 'Grammar · ' + d.title));
-  hdrBody.appendChild(el('div', {className:'lesson-hdr-title'}, d.title));
-  if (d.titleAr) hdrBody.appendChild(el('div', {className:'lesson-hdr-arabic'}, d.titleAr));
-  hdr.appendChild(hdrBody);
-  w.appendChild(hdr);
-  const intro=div('rule-card'); intro.innerHTML=d.intro; _whiteRuleCard(intro); w.appendChild(intro);
-  if(d.keyRule){ const kr=div('rule-card'); kr.innerHTML='💡 <strong>Key Rule:</strong> '+d.keyRule; _whiteRuleCard(kr); w.appendChild(kr); }
-  if(d.table){
-    // Column headers
-    const colHdr = div('');
-    colHdr.style.cssText = 'display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-bottom:8px;align-items:center;';
-    colHdr.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'left',paddingLeft:'8px'}},'← English'));
-    colHdr.appendChild(el('div',{},''));
-    colHdr.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'right',paddingRight:'8px'}},'Arabic →'));
-    w.appendChild(colHdr);
+  _gramPremiumCSS();
+  const d=blk.data||{};
+  const w=div('stage');
+  const PLATE="background:linear-gradient(180deg,#fdfcf8,#f4f1e9);border:1px solid rgba(176,132,46,.30);border-radius:18px;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 14px 30px rgba(0,0,0,.34);";
+  const hasEx = !!(d.examples && d.examples.length);
+  if(S.gScreen===undefined) S.gScreen=0;
+  const screen = hasEx ? (S.gScreen||0) : 0;
 
-    // 2-box rows with arrow
-    d.table.rows.forEach(row=>{
-      const rowWrap = div('');
-      rowWrap.style.cssText = 'display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-bottom:10px;align-items:center;';
-
-      // Arabic box (right side visually — left in RTL flow)
-      const arBox = div('');
-      arBox.style.cssText = `
-        background:rgba(212,163,74,.07);border:1.5px solid rgba(212,163,74,.3);
-        border-radius:14px;padding:14px 12px;text-align:right;direction:rtl;
-        cursor:pointer;transition:all .2s;
-      `;
-      arBox.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'28px',color:'var(--gold)',lineHeight:'1.6',textAlign:'center',width:'100%'}},(row.ar||'')));
-      if(row.roman) arBox.appendChild(el('div',{style:{fontSize:'12px',color:'var(--dim)',marginTop:'4px',direction:'ltr',textAlign:'center'}},(row.roman||'')));
-      arBox.addEventListener('click',()=>speak(row.ar));
-
-      // Arrow
-      const arrow = el('div',{style:{
-        fontFamily:"'Material Symbols Outlined'",fontSize:'20px',
-        color:'rgba(212,163,74,.5)',textAlign:'center',flexShrink:'0',
-        fontVariationSettings:"'FILL' 1"
-      }},'arrow_forward');
-
-      // English box (left side)
-      const enBox = div('');
-      enBox.style.cssText = `
-        background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.08);
-        border-radius:14px;padding:14px 12px;text-align:center;
-        transition:all .2s;
-      `;
-      if(row.enWord){
-        // Arabic word shown big (Amiri) with English meaning below + tap to hear
-        enBox.style.cursor='pointer';
-        enBox.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'30px',color:'var(--text)',lineHeight:'1.65',direction:'rtl',textAlign:'center',width:'100%'}},(row.enWord||'')));
-        if(row.en) enBox.appendChild(el('div',{style:{fontSize:'14px',color:'var(--dim)',marginTop:'4px',direction:'ltr',textAlign:'center'}},(row.en||'')));
-        enBox.addEventListener('click',()=>speak(row.enWord));
-        enBox.addEventListener('mouseenter',()=>{enBox.style.background='rgba(242,190,98,.07)';enBox.style.borderColor='rgba(242,190,98,.3)';});
-        enBox.addEventListener('mouseleave',()=>{enBox.style.background='rgba(255,255,255,.03)';enBox.style.borderColor='rgba(255,255,255,.08)';});
-      } else {
-        enBox.appendChild(el('div',{style:{fontSize:'15px',color:'var(--text)',fontWeight:'600',lineHeight:'1.3',textAlign:'center',width:'100%'}},(row.en||'')));
-        if(row.ex) enBox.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'14px',color:'var(--dim)',marginTop:'4px',direction:'rtl'}},(row.ex||'')));
-      }
-
-      rowWrap.appendChild(enBox);
-      rowWrap.appendChild(arrow);
-      rowWrap.appendChild(arBox);
-      w.appendChild(rowWrap);
-    });
+  function gild(text,size,extra){
+    const e=el('div',{},''); e.textContent=text||'';
+    e.style.cssText="font-family:'Amiri',serif;font-weight:700;font-size:"+size+";line-height:1.55;direction:rtl;"
+      +"background:linear-gradient(135deg,#caa24e,#9c7320);-webkit-background-clip:text;background-clip:text;color:transparent;"+(extra||'');
+    return e;
   }
-  if(d.examples?.length){
-    w.appendChild(el('div',{style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.12em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',margin:'16px 0 10px'}},'Example Sentences'));
-    d.examples.forEach(ex=>{
-      const rowWrap = div('');
-      rowWrap.style.cssText = 'display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-bottom:10px;align-items:center;';
+  function glow(plate){ plate.classList.add('play'); setTimeout(function(){plate.classList.remove('play');},1200); }
+  function tap(plate,text){ plate.addEventListener('click',function(){ if(text) speak(text); glow(plate); }); plate.style.cursor='pointer'; }
 
-      // Arabic box
-      const arBox = div('');
-      arBox.style.cssText = 'background:rgba(212,163,74,.07);border:1.5px solid rgba(212,163,74,.25);border-radius:14px;padding:12px 14px;text-align:center;direction:rtl;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;';
-      arBox.appendChild(el('div',{style:{fontFamily:"'Amiri',serif",fontSize:'24px',color:'var(--text)',lineHeight:'1.5',textAlign:'center',width:'100%'}},ex.ar));
-      arBox.addEventListener('click',()=>speak(ex.ar));
-
-      // Arrow
-      const arrow = el('div',{style:{fontFamily:"'Material Symbols Outlined'",fontSize:'18px',color:'rgba(212,163,74,.45)',textAlign:'center',flexShrink:'0',fontVariationSettings:"'FILL' 1"}},'arrow_forward');
-
-      // English box
-      const enBox = div('');
-      enBox.style.cssText = 'background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.07);border-radius:14px;padding:12px 14px;text-align:center;display:flex;align-items:center;justify-content:center;';
-      enBox.appendChild(el('div',{style:{fontSize:'13px',color:'var(--dim)',fontStyle:'italic',lineHeight:'1.5',textAlign:'center',width:'100%'}},ex.en||''));
-
-      rowWrap.appendChild(enBox);
-      rowWrap.appendChild(arrow);
-      rowWrap.appendChild(arBox);
-      w.appendChild(rowWrap);
-    });
+  function masthead(eyebrowTxt, arTitle, enTitle){
+    const head=div('gp-rise');
+    const eb=el('div'); eb.style.cssText='display:flex;align-items:center;justify-content:center;gap:12px;margin-top:6px;';
+    const ln=function(dir){const i=el('span'); i.style.cssText='width:32px;height:1px;background:linear-gradient(90deg,'+(dir==='l'?'transparent,rgba(176,132,46,.45)':'rgba(176,132,46,.45),transparent')+');'; return i;};
+    const ebt=el('div',{},eyebrowTxt); ebt.style.cssText="font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:#d8b461;";
+    eb.appendChild(ln('l')); eb.appendChild(ebt); eb.appendChild(ln('r')); head.appendChild(eb);
+    if(arTitle){ head.appendChild(gild(arTitle,'44px','text-align:center;margin-top:10px;')); }
+    if(enTitle){ const st=el('div',{},enTitle); st.style.cssText="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:21px;text-align:center;color:#eaf0fb;opacity:.92;margin-top:2px;"; head.appendChild(st); }
+    return head;
   }
-  const nav=div('action-row');
-  nav.appendChild(el('button',{className:'btn btn-ghost',onclick:()=>{S.view='blocks';render();}},'← Back'));
-  nav.appendChild(el('button',{className:'btn btn-primary',onclick:()=>finishBlock()},'Grammar Understood ✓'));
-  w.appendChild(nav); return w;
+
+  if(screen===0){
+    w.appendChild(masthead('Grammar · '+(d.title||''), d.titleAr||'', d.title||''));
+
+    if(d.intro){ const lead=el('div',{className:'gp-rise'},d.intro);
+      lead.style.cssText="text-align:center;color:#9aaecb;font-size:13.5px;line-height:1.7;max-width:440px;margin:12px auto 2px;"; w.appendChild(lead); }
+
+    if(d.table && d.table.rows && d.table.rows.length){
+      const cols=d.table.cols||[];
+      const isPair=d.table.rows.some(function(r){return r.roman;});
+      const grid=div('gp-rise');
+      grid.style.cssText='display:grid;grid-template-columns:'+(isPair?'1fr':'1fr 1fr')+';gap:13px;margin-top:16px;';
+      d.table.rows.forEach(function(row){
+        const card=div('gp-plate'); card.style.cssText=PLATE+'padding:18px 14px;text-align:center;position:relative;';
+        if(isPair){
+          const inner=el('div'); inner.style.cssText='display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;';
+          const colA=el('div'); colA.style.cssText='text-align:center;cursor:pointer;';
+          if(cols[0]){ const la=el('div',{},cols[0]); la.style.cssText="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:#5a86c4;margin-bottom:4px;"; colA.appendChild(la); }
+          colA.appendChild(gild(row.ar||'','34px','text-align:center;'));
+          colA.addEventListener('click',function(e){e.stopPropagation(); if(row.ar) speak(row.ar); glow(card);});
+          inner.appendChild(colA);
+          if(row.roman){
+            const plus=el('div',{},'·'); plus.style.cssText='color:rgba(176,132,46,.5);font-size:20px;'; inner.appendChild(plus);
+            const colB=el('div'); colB.style.cssText='text-align:center;cursor:pointer;';
+            if(cols[1]){ const lb=el('div',{},cols[1]); lb.style.cssText="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:#c25d86;margin-bottom:4px;"; colB.appendChild(lb); }
+            colB.appendChild(gild(row.roman||'','34px','text-align:center;'));
+            colB.addEventListener('click',function(e){e.stopPropagation(); if(row.roman) speak(row.roman); glow(card);});
+            inner.appendChild(colB);
+          }
+          card.appendChild(inner);
+          if(row.en){ const dv=el('div'); dv.style.cssText='width:40px;height:1px;margin:11px auto 9px;background:rgba(176,132,46,.3);'; card.appendChild(dv);
+            const rule=el('div',{},row.en); rule.style.cssText="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:#5a6478;line-height:1.4;"; card.appendChild(rule); }
+        } else {
+          const big = row.enWord ? row.enWord : row.ar;
+          card.appendChild(gild(big||'','38px','text-align:center;'));
+          const dv=el('div'); dv.style.cssText='width:34px;height:1px;margin:9px auto 9px;background:rgba(176,132,46,.3);'; card.appendChild(dv);
+          const mean=el('div',{},row.en||''); mean.style.cssText="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:17px;color:#16203a;line-height:1.25;"; card.appendChild(mean);
+          if(row.roman){ const tr=el('div',{},row.roman); tr.style.cssText="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:#6a7186;margin-top:3px;"; card.appendChild(tr); }
+          tap(card, big);
+        }
+        const sp=el('div',{},'volume_up'); sp.style.cssText="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;position:absolute;top:11px;left:12px;font-size:14px;color:#b0842e;opacity:.4;"; card.appendChild(sp);
+        grid.appendChild(card);
+      });
+      w.appendChild(grid);
+    }
+
+    if(d.keyRule){
+      const note=div('gp-rise');
+      note.style.cssText="position:relative;overflow:hidden;margin-top:20px;border-radius:16px;padding:16px 18px 16px 20px;"
+        +"background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid rgba(176,132,46,.3);"
+        +"font-size:13.5px;line-height:1.65;color:#eaf0fb;";
+      const spine=el('div'); spine.style.cssText='position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#d8b461,#a9802c);'; note.appendChild(spine);
+      const k=el('div',{},'Key Rule'); k.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#d8b461;margin-bottom:6px;"; note.appendChild(k);
+      const body=el('div',{},d.keyRule); note.appendChild(body);
+      try{ _gildArabicText(body); }catch(e){}
+      w.appendChild(note);
+    }
+
+    const nav=div('action-row gp-rise');
+    nav.appendChild(el('button',{className:'btn btn-ghost',onclick:function(){S.view='blocks';render();}},'← Back'));
+    if(hasEx){
+      nav.appendChild(el('button',{className:'btn btn-primary gp-sheen',onclick:function(){S.gScreen=1;render();}},'See examples →'));
+    } else {
+      nav.appendChild(el('button',{className:'btn btn-primary gp-sheen',onclick:function(){finishBlock();}},'Grammar Understood ✓'));
+    }
+    w.appendChild(nav);
+    return w;
+  }
+
+  // Screen 1 — examples
+  w.appendChild(masthead('Grammar · '+(d.title||'')+' · In Use', 'فِي جُمْلَة', 'In a Sentence'));
+  const sub=el('div',{className:'gp-rise'},'The same idea, now inside a real sentence. Tap to hear it spoken.');
+  sub.style.cssText="text-align:center;color:#9aaecb;font-size:13.5px;line-height:1.7;max-width:440px;margin:12px auto 4px;";
+  w.appendChild(sub);
+
+  d.examples.forEach(function(ex){
+    const card=div('gp-plate gp-rise');
+    card.style.cssText=PLATE+'position:relative;padding:18px 22px 18px 20px;margin-top:12px;display:flex;align-items:center;gap:16px;';
+    const spine=el('div'); spine.style.cssText='position:absolute;right:0;top:14px;bottom:14px;width:3px;border-radius:3px;background:linear-gradient(180deg,#d8b461,#a9802c);'; card.appendChild(spine);
+    const ar=el('div',{},''); ar.textContent=ex.ar||''; ar.style.cssText="flex:1;direction:rtl;text-align:right;font-family:'Amiri',serif;font-size:30px;color:#16203a;line-height:1.6;"; card.appendChild(ar);
+    const en=el('div',{},ex.en||''); en.style.cssText="flex:0 0 38%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:#5a6478;line-height:1.35;"; card.appendChild(en);
+    const sp=el('div',{},'volume_up'); sp.style.cssText="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;position:absolute;left:14px;bottom:11px;font-size:14px;color:#b0842e;opacity:.4;"; card.appendChild(sp);
+    tap(card, ex.ar);
+    w.appendChild(card);
+  });
+
+  const nav2=div('action-row gp-rise');
+  nav2.appendChild(el('button',{className:'btn btn-ghost',onclick:function(){S.gScreen=0;render();}},'← Back'));
+  nav2.appendChild(el('button',{className:'btn btn-primary gp-sheen',onclick:function(){finishBlock();}},'Grammar Understood ✓'));
+  w.appendChild(nav2);
+  return w;
 }
 
 // ══════════════════════════════════════════════════════
