@@ -35,7 +35,7 @@
   --r-sm:12px;--r-md:16px;--r-lg:22px;
 }
 html,body{height:100%;background:#060e1b;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;-webkit-font-smoothing:antialiased;overflow:hidden}
-#app{position:fixed;top:80px;left:0;right:0;bottom:0;display:flex;flex-direction:column;}
+#app{position:fixed;top:64px;left:0;right:0;bottom:0;display:flex;flex-direction:column;}
 @media(max-width:980px){#app{top:68px;}}
 .topbar{flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:rgba(10,9,6,.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(212,163,74,.2);z-index:10;}
 .logo-row{display:flex;align-items:center;gap:10px;}
@@ -2231,14 +2231,50 @@ body.dl-active #app{top:0 !important;}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,400;9..144,500;9..144,600;9..144,700&family=Cormorant+Garamond:wght@400;500;600&display=swap">
 <script src="nav-role.js" defer></script>
+<style id="lis-canon-nav">
+.lis-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(10,23,48,.92);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid rgba(242,190,98,.18);box-sizing:border-box;gap:14px;}
+.lis-brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-family:'Cinzel',serif;font-weight:600;flex-shrink:0;}
+.lis-brand .brand-mark{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:none!important;box-shadow:none!important;border:none!important;flex-shrink:0;border-radius:0;}
+.lis-brand .brand-name{font-size:19px;letter-spacing:.06em;color:#e8eef9;}
+.lis-links{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;}
+.lis-link{font:500 13px/1 'Inter',sans-serif;letter-spacing:.03em;color:#9ba8be;text-decoration:none;padding:9px 13px;border-radius:99px;transition:all .15s;white-space:nowrap;cursor:pointer;}
+.lis-link:hover{color:#f2be62;background:rgba(255,255,255,.05);}
+.lis-link.is-active{color:#f2be62;background:rgba(242,190,98,.10);}
+.lis-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.lis-signin{font:600 13px/1 'Inter',sans-serif;letter-spacing:.04em;padding:11px 22px;border-radius:99px;cursor:pointer;text-decoration:none;display:inline-block;background:linear-gradient(135deg,#f5d488,#f2be62);color:#0a1730;border:1px solid rgba(242,190,98,.55);box-shadow:0 0 0 rgba(242,190,98,0);transition:box-shadow .2s,transform .2s,background .2s;white-space:nowrap;}
+.lis-signin:hover{box-shadow:0 0 16px rgba(242,190,98,.75),0 0 32px rgba(242,190,98,.4);transform:translateY(-1px);}
+.lis-signin.is-authed{background:linear-gradient(135deg,#86e6a8,#34c759);color:#06381f;border-color:rgba(52,199,89,.55);}
+.lis-signin.is-authed:hover{box-shadow:0 0 16px rgba(52,199,89,.75),0 0 32px rgba(52,199,89,.4);}
+@media(max-width:900px){.lis-links{display:none;}.lis-nav{padding:0 16px;}}
+</style>
+<style id="lis-profilebar">
+.lis-profile{position:relative;width:42px;height:42px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5d488,#f2be62)!important;color:#0a1730!important;border:1px solid rgba(242,190,98,.6)!important;text-decoration:none;transition:box-shadow .2s,transform .2s,background .25s;cursor:pointer;padding:0;box-shadow:0 0 0 rgba(242,190,98,0);}
+.lis-profile:hover{transform:translateY(-1px);box-shadow:0 0 14px rgba(242,190,98,.6);}
+.lis-profile .lis-profile-icon{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;display:block;}
+.lis-profile .lis-profile-initial,.lis-profile .lis-profile-dot{display:none!important;}
+.lis-profile.online,.lis-profile.is-authed{background:linear-gradient(135deg,#86e6a8,#34c759)!important;color:#06381f!important;border-color:rgba(52,199,89,.6)!important;}
+.lis-profile.online:hover,.lis-profile.is-authed:hover{box-shadow:0 0 14px rgba(52,199,89,.6);}
+.lis-menu-btn{display:inline-flex!important;width:42px;height:42px;border-radius:50%;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(242,190,98,.28);color:#e8eef9;cursor:pointer;transition:all .2s;padding:0;}
+.lis-menu-btn:hover{background:rgba(242,190,98,.12);color:#f2be62;border-color:#f2be62;}
+.lis-menu-btn .lis-ico,.lis-menu-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+.lis-mobile-menu{position:fixed;top:64px;left:0;right:0;z-index:1500;background:rgba(10,23,48,.98);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(242,190,98,.2);display:none;flex-direction:column;padding:10px 18px 18px;max-height:calc(100vh - 64px);overflow:auto;}
+.lis-mobile-menu.is-open{display:flex;}
+.lis-mlink{color:#cdd6e6;text-decoration:none;padding:14px 12px;border-radius:12px;font:600 15px/1 'Inter',sans-serif;letter-spacing:.02em;}
+.lis-mlink:hover,.lis-mlink.is-active{color:#f2be62;background:rgba(242,190,98,.08);}
+</style>
 </head>
 <body>
 <!-- ════════ LISAANY TOP NAV ════════ -->
 <nav class="lis-nav">
   <a href="index.html" class="lis-brand" title="Lisaany Home">
     <div class="brand-mark">
-      <svg viewBox="0 0 100 100" aria-hidden="true">
-        <path d="M30 78 L30 42 A20 20 0 0 1 70 42 L70 78" fill="none" stroke="#d8aa3c" stroke-width="13"/>
+      <svg viewBox="0 0 180 160" aria-hidden="true" width="40" height="40">
+        <defs><linearGradient id="lisNavGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f5e0a0"/><stop offset="60%" stop-color="#d4a34a"/><stop offset="100%" stop-color="#b8882a"/></linearGradient></defs>
+        <g transform="translate(90,88)">
+          <path d="M -72,64 L -72,-32 A 72,72 0 0 1 72,-32 L 72,64 L 50,64 L 50,-28 A 50,50 0 0 0 -50,-28 L -50,64 Z" fill="url(#lisNavGold)"/>
+          <path d="M -50,64 L -50,-28 A 50,50 0 0 1 50,-28 L 50,64 L 30,64 L 30,-22 A 30,30 0 0 0 -30,-22 L -30,64 Z" fill="#0a1730"/>
+          <path d="M -30,64 L -30,-22 A 30,30 0 0 1 30,-22 L 30,64 L 10,64 L 10,-16 A 10,10 0 0 0 -10,-16 L -10,64 Z" fill="url(#lisNavGold)"/>
+        </g>
       </svg>
     </div>
     <span class="brand-name">Lisaany</span>
@@ -2247,6 +2283,7 @@ body.dl-active #app{top:0 !important;}
     <a href="index.html" class="lis-link">Home</a>
     <a href="arabic_platform.html" class="lis-link is-active">Arabic Lesson</a>
     <a href="lisaany_new.html" class="lis-link">Norania · Alif Ba Ta</a>
+    <a href="english-course.html" class="lis-link">English Course</a>
     <a href="pricing.html" class="lis-link">Pricing</a>
     <a href="tutors.html" class="lis-link">Live Tutor</a>
     <a href="#" class="lis-link" onclick="document.getElementById('lisContactModal').classList.add('open');return false;">Contact</a>
@@ -2277,6 +2314,7 @@ body.dl-active #app{top:0 !important;}
   <a href="index.html" class="lis-link">Home</a>
   <a href="arabic_platform.html" class="lis-link is-active">Arabic Lesson</a>
   <a href="lisaany_new.html" class="lis-link">Norania · Alif Ba Ta</a>
+    <a href="english-course.html" class="lis-link">English Course</a>
   <a href="pricing.html" class="lis-link">Pricing</a>
   <a href="tutors.html" class="lis-link">Live Tutor</a>
   <a href="#" class="lis-link" onclick="document.getElementById('lisMobileMenu').classList.remove('is-open');document.getElementById('lisContactModal').classList.add('open');return false;">Contact</a>
@@ -3229,24 +3267,30 @@ const CUR = [
               {ar:"سَبُّورَة",en:"Blackboard"},
             ]}
           },
-          { id:4, type:"grammar", title:"عِنْدِي / عِنْدَكَ — I Have / You Have", desc:"التَّعْبِير عَن الْمِلْكِيَّة", icon:"psychology", color:"#D4A34A",
-            data:{ title:"Expressing Possession with عِنْدَ", titleAr:"عِنْدِي وَعِنْدَكَ",
-              intro:"To say 'I have', use عِنْدِي. For 'you have', say عِنْدَكَ (m) or عِنْدَكِ (f). This is a very common way to show possession in Arabic.",
+          { id:4, type:"grammar", title:"عِنْدِي، عِنْدَهُ، عِنْدَهَا — I / He / She Have", desc:"كُلّ الضَّمَائِر وَالنَّفْي", icon:"psychology", color:"#D4A34A",
+            data:{ title:"Possession: عِنْدَ with Every Pronoun", titleAr:"عِنْدَ مَعَ كُلّ الضَّمَائِر",
+              intro:"Arabic has no verb 'to have'. Instead, you attach a pronoun ending to عِنْدَ — the ending tells you who owns something, with no separate verb. To make it negative, simply put لَيْسَ in front: عِنْدِي قَلَم (I have a pen) becomes لَيْسَ عِنْدِي قَلَم (I don't have a pen).",
               table:{ cols:["Arabic","Meaning"], colW:"1fr 1.5fr",
                 rows:[
-                  {ar:"عِنْدِي كِتَاب",en:"I have a book"},
-                  {ar:"عِنْدَكَ قَلَم",en:"You have a pen (m)"},
+                  {ar:"عِنْدِي قَلَم",en:"I have a pen"},
+                  {ar:"عِنْدَكَ كِتَاب",en:"You have a book (m)"},
                   {ar:"عِنْدَكِ دَفْتَر",en:"You have a notebook (f)"},
-                  {ar:"عِنْدَهُ حَقِيبَة",en:"He has a bag"},
+                  {ar:"عِنْدَهُ مِسْطَرَة",en:"He has a ruler"},
                   {ar:"عِنْدَهَا مَحَّايَة",en:"She has an eraser"},
+                  {ar:"عِنْدَنَا حَقِيبَة",en:"We have a bag"},
+                  {ar:"عِنْدَكُمْ كُتُب",en:"You have books (pl)"},
+                  {ar:"عِنْدَهُمْ أَقْلَام",en:"They have pens"},
                 ]
               },
-              keyRule:"Just add the right suffix to عِنْدَ: -ِي (my), -َكَ (your m), -َكِ (your f), -هُ (his), -هَا (her).",
+              keyRule:"عِنْدَ + ending → ـِي (my), ـكَ / ـكِ (your m/f), ـهُ (his), ـهَا (her), ـنَا (our), ـكُمْ (your pl), ـهُمْ (their). Negative: add لَيْسَ before it.",
               examples:[
                 {ar:"هَلْ عِنْدَكَ كِتَاب؟ نَعَمْ، عِنْدِي كِتَاب",en:"Do you have a book? Yes, I have a book"},
-                {ar:"عِنْدَهَا قَلَمَان وَثَلَاثَة دَفَاتِر",en:"She has two pens and three notebooks"},
-                {ar:"لَيْسَ عِنْدِي مِسْطَرَة، عِنْدَهُ هُوَ",en:"I don't have a ruler, he has one"},
-                {ar:"مَاذَا عِنْدَكِ فِي الْحَقِيبَة؟",en:"What do you have in the bag?"},
+                {ar:"لَيْسَ عِنْدِي قَلَم",en:"I don't have a pen"},
+                {ar:"لَيْسَ عِنْدِي كِتَاب",en:"I don't have a book"},
+                {ar:"لَيْسَ عِنْدَهُ مِسْطَرَة",en:"He doesn't have a ruler"},
+                {ar:"لَيْسَ عِنْدَهَا دَفْتَر",en:"She doesn't have a notebook"},
+                {ar:"لَيْسَ عِنْدَنَا حَقِيبَة",en:"We don't have a bag"},
+                {ar:"مَاذَا عِنْدَكُمْ فِي الْفَصْل؟",en:"What do you (pl) have in the class?"},
               ]
             }
           },
@@ -6698,6 +6742,7 @@ Object.assign(audioIndex, {"أَربَعَة":"6ccedeb264a8","شَاي":"5f89145
 Object.assign(audioIndex, {"أُمِّي":"cce7456969a6","أُمّي":"cce7456969a6"});
 Object.assign(audioIndex, {"الأَذانَ":"6b3b5af5432d","وَالْإِنْجِلِيزِيَّة":"0da6a0997033","الصَّغِير؟":"088c045b66ef","الرَّجُلُ":"0fbee63a654f","الْمَبْلَغ":"5c2457a6a168","وَالشَّمْس":"3a4eb19b74f9","الْحَقِيبَة":"11c22130812e","الطَّاوِلَة":"857480c0444d","الزَّرْقَاء":"697c86c4f54a","الْقَلْب":"99bedcf7a33e","الْعِلْمَ":"4eefe562bcda","الرَّادْيُو":"e910864a37d7","الثُّعْبَان":"4d777e5211e2","الطَّاوِلَةِ":"857480c0444d","الشَّاي":"5f89145a0a2b","الشَّجَرَة":"afe4715de888","السَّيَّارَة":"05b80b6e457a","الْحَافِلَة":"076623456cd3","الدَّفْع":"1dde29ded055","الْكُرْسِيّ":"401672ba1eb4","التِّنِس":"1cbd0ddd38d0","القُرآن":"2505eee32b09","الْمِقْوَد":"d57f900ad4a8","السَّلامُ":"e3f3508c29c7","الْمَطَر":"c7fde5919caa","الطَّبِيعَة":"8ea7ba1e3467","الفَجر":"04f13816b25e","الْخَشَبِيّ":"8d26e6daabba","النَّافِذَة":"45428f5996b1","اللَّاعِب":"a1371947263a","الْمَتْجَر":"daa88d72a413","الْيَسَار":"9d71119daec8","الْفَهْد":"c4b599555409","الْجَمِيلَة":"f507c40caf90","الْإِيصَال":"7363c07f9e24","الشَّيخُ":"3455baffcf60","الْمَزْرَعَة":"0e6c90b2060c","الزِّيَارَة":"3919e777b99f","الدِّين":"a506e8081674","الْأَبْقَار":"745a56854808","الْفُرْصَة":"a18c16b7a1a7","الْحَقِيبَة؟":"11c22130812e","الْأُسْبُوع":"554f8fcb2c8d","الْفُسْتَان":"63f8da647768","النَّتِيجَة":"54aff4770477","الْإِيمِيل":"f1c4d761396b","الْخَلْق":"c975eb15835e","الْبَيْت":"d4c49c94cb77","الْكَبِير":"a1eeb674d83c","القَلب":"99bedcf7a33e","الْوَلَدُ":"71f17ec11adf","الدَّوَاء":"6d9dfeaa9ac8","الدَّعوَة":"959bcd3ea694","الْقِرْد":"d2c897c2883e","الْجَوَارِب":"4fa635303d6b","الْمُكَيِّف":"c2bf4077f132","الْمَلَابِس":"e32d3fbd36eb","الْقَلَمُ":"ecb7c2405e13","وَالْأَحَد":"7ae615a3ed47","السَّفَر":"c57fbdb8bb04","الْحَرَارَة":"f8e27f0f0b59","الْفَرِيق":"5ab61075f845","الْمَدْرَسَة؟":"6ec9e42b8b2b","الْعُطْلَة":"4c4d371cce53","الْمُؤْتَمَر":"42cbb1147c94","الدَّرْسَ":"c53288e3b00a","العُلَماءُ":"267db5a1990b","وَالإِنْجْلِيزِيَّة":"0da6a0997033","الْمَمَرّ":"98c613cc7a0b","الطَّالِبَة":"15e2e4d10b6f","الْبَيْت؟":"d4c49c94cb77","الشَّهْر":"ef352ce4a436","الْجُرْعَة":"ad842bde5f95","الدَّرْس":"c53288e3b00a","التَّصْوِير":"60373ae1e76a","الْحَقِيبَةِ":"11c22130812e","السَّرِيرُ":"428b26c68354","الْبَهَارَات":"32b2cfea05dd","الْبِنْتُ":"e2d017fbdd4f","التَّحَالِيل":"3f90833c05ad","الْمُسْتَشْفَى":"37e7d80348d7","الْوَقُود":"b9f03b93d945","المُحاضَرَة":"4a0cf1f0c387","الطَّائِرَة":"02de95fd4743","الصَّيْدَلِيَّة":"f46ec6a4cc1f","الْبَيْض":"5c4243e34e2d","الْأَحْمَر":"62165569364e","الْإِرْجَاع":"b8bce678375c","الْأَصْلِيّ":"fd64b37fc9cf","الْحَلْق":"80f9146db420","الْكَبِير؟":"a1eeb674d83c","الخَطِيبُ":"586ea3743bc3","الْأَكْل":"b6be2024a4a9","الْمَدْرَسَة":"6ec9e42b8b2b","الْمُعَلِّمُ":"f54fc20908da","الْمُحَرِّك":"568cba0c6188","الْمُنْتَج":"12b8a86c6e47","الْأَلَم":"be301a57446d","التَّخْفِيض":"1a7a937bd8b8","الْقِطَار":"2b5c05f3871e","الْمَوْل":"1aea13d6f4f6","الْمِيزَانِيَّة":"f0190734f526","الْفَجْر":"04f13816b25e","الْمَكْتَب":"4d394068bfae","الْكِيلُو":"5e5e032bdcb2","المَسجِد":"db386976cc44","الشِّطْرَنْج":"aff7d1cd6bb6","الْجَاكِيت،":"d6dc8ef8a5c8","الْحَشَرَات":"00ae9cf20319","الْجَدْوَل":"8b071699b09e","الِاسْتِبْدَال":"fa1ea18dbbdb","التَّأْمِين":"6f65ef432330","الصَّلاة":"a64ab3147acf","الْمَخْبَز":"9e0b21df64c4","الْبَدْلَة":"1652f7384885","الْحِصَان":"9783be8665a6","الْمَطَار":"ee6c4537bed0","الْمَقْعَد":"e9bf4b17a862","الْأَزْرَق":"3b1ec025e42f","الدَّاكِن":"d2f32d8349e9","الْبَنْطَلُون":"f4c529dd357e","الْقُرْآن":"2505eee32b09","الْمُسْتَشْفَى؟":"37e7d80348d7","الْحَقْل":"892a295af346","الْمَقَاس":"28cd678de5b2","الطَّازَج":"40f85098a8a8","الطَّبِيب":"8844d1da81d6","الطَّوِيل":"90c660333600","الْأَخْضَر":"c6aace8cf864","الْخُضَرَاوَات":"95cc62811ea7","الْعُرُوض":"0c021f5bfb62","الْقِرَاءَة":"8251d6c8a6d4","الفَجرَ":"04f13816b25e","الإِمام":"37fa42851f29","الْهَاتِف":"d3b90f4bc55c","الْفِيل":"40deb45a8f54","الْخَمْرِيّ":"9903f0e59502","الطَّبْخ":"44d3e5f0378f","الشَّرِكَة":"6162d60f1454","العِلمِ":"4eefe562bcda","الْمِرْآة":"a9737be29b95","الزَّرَافَة":"daff41b0e151","اللَّحْم":"801e7f7583b9","النَّادِي":"5cf6395cf3b6","الْبَطْن":"a5a3e1d475dc","الْأَسَد":"fd3675183e46","الرِّيَاح":"a43860dd266e","الْحَلِيب":"c8878ae41cfe","البَيت":"d4c49c94cb77","الْحِصَّة":"5f7f813176b2","السَّرِيع":"d72efebb7202","الْمَلْعَب":"b0543cf1d46e","القُرآنَ":"2505eee32b09","الْعَمَل":"1329447a7028","الْوَصْفَة":"791f1a00473a","الْخَصْم":"3e096f21c2b0","المِنبَر":"f8101f409c2a","السِّبَاحَة":"c7c95ec934f5","الْمَنْظَر":"0e8f669c7a2b","الْخِزَانَة":"255f989348aa","الْقَدَم":"44ec8c3e7d29","الْمُدَرِّسُ":"734de53d9e0b","التَّذْكِرَة":"93a37cad26b3","الدِّينَ":"a506e8081674","الْقَهْوَة":"a85418dc6f4b"});
 Object.assign(audioIndex, {"سَيَّارَة":"05b80b6e457a","سَيَّارَةٌ":"05b80b6e457a"});
+Object.assign(audioIndex, {"عِنْدِي قَلَم":"9fb78bb9bdff","عِنْدَكَ كِتَاب":"6eb6cbf8a0ba","عِنْدَهُ مِسْطَرَة":"d28d667427ff","عِنْدَنَا حَقِيبَة":"92fe4b44ee2d","عِنْدَكُمْ كُتُب":"f9b6bfc33ba8","عِنْدَهُمْ أَقْلَام":"0fa240de1b0a","لَيْسَ عِنْدِي قَلَم":"aad5af4344db","لَيْسَ عِنْدِي كِتَاب":"dd55423f5b00","لَيْسَ عِنْدَهُ مِسْطَرَة":"13519211323f","لَيْسَ عِنْدَهَا دَفْتَر":"97f65621983a","لَيْسَ عِنْدَنَا حَقِيبَة":"164cbd18dd47","مَاذَا عِنْدَكُمْ فِي الْفَصْل؟":"ab95b4bf2bfd"});
 console.log('Audio index ready:', Object.keys(audioIndex).length, 'entries');
 // Normalizer: forgive harakat, alef forms, tatweel, spacing & edge punctuation
 window.normAr = function(s){
@@ -10979,5 +11024,17 @@ render();
 </script>
 <!-- ═══════════════════════════════════════════════════ -->
 
+<script>
+(function(){var b=document.getElementById('lis-signin');if(!b)return;
+try{var raw=localStorage.getItem('sb-cfaxrzfqvoalwznkhwnx-auth-token');
+if(raw){var s=JSON.parse(raw);var t=s&&(s.access_token||(s.currentSession&&s.currentSession.access_token));var e=s&&(s.expires_at||(s.currentSession&&s.currentSession.expires_at));
+if(t&&(!e||e*1000>Date.now())){b.classList.add('is-authed');b.textContent='Account';b.href='profile.html';}}}catch(_){} })();
+</script>
+<script>
+(function(){var b=document.getElementById('lis-profile-btn');if(!b)return;
+try{var raw=localStorage.getItem('sb-cfaxrzfqvoalwznkhwnx-auth-token');
+if(raw){var s=JSON.parse(raw);var t=s&&(s.access_token||(s.currentSession&&s.currentSession.access_token));var e=s&&(s.expires_at||(s.currentSession&&s.currentSession.expires_at));
+if(t&&(!e||e*1000>Date.now())){b.classList.add('online');}}}catch(_){}})();
+</script>
 </body>
 </html>
