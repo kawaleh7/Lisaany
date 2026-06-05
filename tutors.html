@@ -202,7 +202,7 @@ body::before{display:none;}
 
 
 /* ════════ LISAANY CANONICAL NAV (matches index.html) ════════ */
-.lis-nav{position:sticky;top:0;z-index:100;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;background:rgba(10,23,48,.78);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);}
+.lis-nav{position:sticky;top:0;z-index:100;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 36px;background:#0c1d2c;backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);}
 .lis-nav::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent 0%,rgba(242,190,98,.25) 18%,rgba(242,190,98,.75) 48%,rgba(242,190,98,.75) 52%,rgba(242,190,98,.25) 82%,transparent 100%);pointer-events:none;}
 .lis-nav::before{content:'';position:absolute;left:50%;bottom:-5px;width:10px;height:10px;transform:translateX(-50%) rotate(45deg);background:linear-gradient(135deg,#f5d488,#d4a34a);box-shadow:0 0 0 1px rgba(7,15,34,1),0 0 14px rgba(242,190,98,.85),0 0 28px rgba(242,190,98,.45);pointer-events:none;z-index:1;}
 .lis-brand{display:inline-flex;align-items:center;gap:14px;text-decoration:none;font-family:'Cinzel',serif;font-weight:600;transition:opacity .2s;}
@@ -220,7 +220,7 @@ body::before{display:none;}
 .lis-profile:hover{border-color:#f2be62;background:#1b2d54;}
 .lis-profile-icon{width:18px;height:18px;stroke:#9ba8be;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;}
 .lis-profile-initial{display:none;font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:#f2be62;letter-spacing:.02em;}
-.lis-profile-dot{position:absolute;top:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#e07070;border:2px solid #0a1730;}
+.lis-profile-dot{position:absolute;top:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#e07070;border:2px solid #0c1d2c;}
 .lis-profile.online .lis-profile-icon{display:none;}
 .lis-profile.online .lis-profile-initial{display:inline-flex;}
 .lis-profile.online .lis-profile-dot{background:#7fc99c;animation:lis-pulse 2s infinite;}
@@ -377,54 +377,80 @@ body{padding-bottom:88px;}
   .premium-gate p { font-size: 12.5px; }
 }
 </style>
+<style id="lis-canon-nav">
+.lis-nav{position:sticky;top:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#0c1d2c;backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid rgba(242,190,98,.18);box-sizing:border-box;gap:14px;}
+.lis-brand{display:inline-flex;align-items:center;gap:12px;text-decoration:none;font-family:'Cinzel',serif;font-weight:600;flex-shrink:0;}
+.lis-brand .brand-mark{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:none!important;box-shadow:none!important;border:none!important;flex-shrink:0;border-radius:0;}
+.lis-brand .brand-name{font-size:19px;letter-spacing:.06em;color:#e8eef9;}
+.lis-links{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;}
+.lis-link{font:500 13px/1 'Inter',sans-serif;letter-spacing:.03em;color:#9ba8be;text-decoration:none;padding:9px 13px;border-radius:99px;transition:all .15s;white-space:nowrap;cursor:pointer;}
+.lis-link:hover{color:#f2be62;background:rgba(255,255,255,.05);}
+.lis-link.is-active{color:#f2be62;background:rgba(242,190,98,.10);}
+.lis-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.lis-signin{font:600 13px/1 'Inter',sans-serif;letter-spacing:.04em;padding:11px 22px;border-radius:99px;cursor:pointer;text-decoration:none;display:inline-block;background:linear-gradient(135deg,#f5d488,#f2be62);color:#0a1730;border:1px solid rgba(242,190,98,.55);box-shadow:0 0 0 rgba(242,190,98,0);transition:box-shadow .2s,transform .2s,background .2s;white-space:nowrap;}
+.lis-signin:hover{box-shadow:0 0 16px rgba(242,190,98,.75),0 0 32px rgba(242,190,98,.4);transform:translateY(-1px);}
+.lis-signin.is-authed{background:linear-gradient(135deg,#86e6a8,#34c759);color:#06381f;border-color:rgba(52,199,89,.55);}
+.lis-signin.is-authed:hover{box-shadow:0 0 16px rgba(52,199,89,.75),0 0 32px rgba(52,199,89,.4);}
+@media(max-width:900px){.lis-links{display:none;}.lis-nav{padding:0 16px;height:58px;}}
+</style>
+<style id="lis-profilebar">
+.lis-profile{position:relative;width:40px;height:40px;border-radius:50%;background:#0f2138!important;border:1px solid rgba(242,190,98,.5)!important;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:none;transition:all .15s;flex-shrink:0;padding:0;}
+.lis-profile:hover{border-color:#f2be62!important;box-shadow:0 0 10px rgba(242,190,98,.4);}
+.lis-profile .lis-profile-icon{width:18px;height:18px;stroke:#f2be62;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round;display:block;}
+.lis-profile .lis-profile-initial{display:none;font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:#f2be62;letter-spacing:.02em;}
+.lis-profile .lis-profile-dot{position:absolute;top:1px;right:1px;width:10px;height:10px;border-radius:50%;background:#e07070;border:2px solid #0c1d2c;}
+.lis-profile.online .lis-profile-icon{display:none;}
+.lis-profile.online .lis-profile-initial{display:inline-flex;}
+.lis-profile.online .lis-profile-dot{background:#34c759;}
+.lis-signin{font:600 13px/1 'Inter',sans-serif;letter-spacing:.04em;padding:10px 20px;border-radius:99px;cursor:pointer;text-decoration:none;display:inline-block;background:linear-gradient(135deg,#f5d488,#f2be62);color:#0a1730;border:1px solid rgba(242,190,98,.55);transition:box-shadow .2s,transform .2s;white-space:nowrap;}
+.lis-signin:hover{box-shadow:0 0 14px rgba(242,190,98,.7);transform:translateY(-1px);}
+.lis-menu-btn{display:inline-flex!important;width:42px;height:42px;border-radius:50%;align-items:center;justify-content:center;background:rgba(255,255,255,.06);border:1px solid rgba(242,190,98,.28);color:#e8eef9;cursor:pointer;transition:all .2s;padding:0;}
+.lis-menu-btn:hover{background:rgba(242,190,98,.12);color:#f2be62;border-color:#f2be62;}
+.lis-menu-btn .lis-ico,.lis-menu-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;}
+.lis-mobile-menu{position:fixed;top:64px;left:0;right:0;z-index:1500;background:#0c1d2c;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(242,190,98,.2);display:none;flex-direction:column;padding:10px 18px 18px;max-height:calc(100vh - 64px);overflow:auto;}
+.lis-mobile-menu.is-open{display:flex;}
+.lis-mlink{color:#cdd6e6;text-decoration:none;padding:14px 12px;border-radius:12px;font:600 15px/1 'Inter',sans-serif;letter-spacing:.02em;}
+.lis-mlink:hover,.lis-mlink.is-active{color:#f2be62;background:rgba(242,190,98,.08);}
+</style>
 </head>
 <body>
 
 <!-- ════════ LISAANY CANONICAL NAV (matches index.html) ════════ -->
 <nav class="lis-nav">
   <a href="index.html" class="lis-brand" title="Lisaany Home">
-        <div class="brand-mark" style="background:none;box-shadow:none;border:none;width:48px;height:48px;">
-      <svg viewBox="0 0 180 160" aria-hidden="true" width="48" height="48">
-        <defs><linearGradient id="bm-gold" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f5e0a0"/><stop offset="60%" stop-color="#d4a34a"/><stop offset="100%" stop-color="#b8882a"/></linearGradient></defs>
-        <g transform="translate(90,88)">
-          <path d="M -72,64 L -72,-32 A 72,72 0 0 1 72,-32 L 72,64 L 50,64 L 50,-28 A 50,50 0 0 0 -50,-28 L -50,64 Z" fill="url(#bm-gold)"/>
-          <path d="M -50,64 L -50,-28 A 50,50 0 0 1 50,-28 L 50,64 L 30,64 L 30,-22 A 30,30 0 0 0 -30,-22 L -30,64 Z" fill="#0a1730"/>
-          <path d="M -30,64 L -30,-22 A 30,30 0 0 1 30,-22 L 30,64 L 10,64 L 10,-16 A 10,10 0 0 0 -10,-16 L -10,64 Z" fill="url(#bm-gold)"/>
-        </g>
-      </svg>
-    </div>
+    <span class="brand-mark">
+      <svg viewBox="0 0 100 100" aria-hidden="true" style="width:100%;height:100%"><path d="M34 82 L34 50 Q34 36 50 30 Q66 36 66 50 L66 82" fill="none" stroke="#d8aa3c" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </span>
     <span class="brand-name">Lisaany</span>
   </a>
   <div class="lis-links">
     <a href="index.html" class="lis-link">Home</a>
     <a href="arabic_platform.html" class="lis-link">Arabic Lesson</a>
     <a href="lisaany_new.html" class="lis-link">Norania · Alif Ba Ta</a>
+    <a href="english-course.html" class="lis-link">English Course</a>
     <a href="pricing.html" class="lis-link">Pricing</a>
     <a href="tutors.html" class="lis-link is-active">Live Tutor</a>
-    <a href="#" class="lis-link" onclick="document.getElementById('lisContactModal').classList.add('open');return false;">Contact</a>
+    <a href="#" class="lis-link" onclick="var m=document.getElementById('lisContactModal');if(m){m.classList.add('open');}else{var f=document.getElementById('ls-fab');if(f){f.click();}else{location.href='mailto:admin@lisaany.com';}}return false;">Contact</a>
   </div>
   <div class="lis-actions">
     <a href="profile.html" class="lis-profile" id="lis-profile-btn" title="Profile" aria-label="Profile">
-      <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-        <circle cx="12" cy="7" r="4"/>
-      </svg>
-      <span class="lis-profile-initial"></span>
-      <span class="lis-profile-dot"></span>
+      <svg class="lis-profile-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span class="lis-profile-initial" id="lis-profile-initial"></span><span class="lis-profile-dot"></span>
     </a>
+    <a href="auth.html" class="lis-signin" id="lis-signin">Sign In</a>
     <button class="lis-menu-btn" aria-label="Menu" onclick="document.getElementById('lisMobileMenu').classList.toggle('is-open')">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></svg>
+      <svg class="lis-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M3 12h18"/><path d="M3 18h18"/></svg>
     </button>
   </div>
 </nav>
-
 <div class="lis-mobile-menu" id="lisMobileMenu">
-  <a href="index.html" class="lis-link">Home</a>
-  <a href="arabic_platform.html" class="lis-link">Arabic Lesson</a>
-  <a href="lisaany_new.html" class="lis-link">Norania · Alif Ba Ta</a>
-  <a href="pricing.html" class="lis-link">Pricing</a>
-  <a href="tutors.html" class="lis-link is-active">Live Tutor</a>
-  <a href="#" class="lis-link" onclick="document.getElementById('lisMobileMenu').classList.remove('is-open');document.getElementById('lisContactModal').classList.add('open');return false;">Contact</a>
+  <a href="index.html" class="lis-mlink">Home</a>
+  <a href="arabic_platform.html" class="lis-mlink">Arabic Lesson</a>
+  <a href="lisaany_new.html" class="lis-mlink">Norania · Alif Ba Ta</a>
+  <a href="english-course.html" class="lis-mlink">English Course</a>
+  <a href="pricing.html" class="lis-mlink">Pricing</a>
+  <a href="tutors.html" class="lis-mlink is-active">Live Tutor</a>
+  <a href="#" class="lis-mlink" onclick="var m=document.getElementById('lisContactModal');if(m){m.classList.add('open');}else{var f=document.getElementById('ls-fab');if(f){f.click();}else{location.href='mailto:admin@lisaany.com';}}return false;">Contact</a>
 </div>
 
 <div class="lis-contact-modal" id="lisContactModal" onclick="if(event.target===this)this.classList.remove('open')">
@@ -864,5 +890,20 @@ checkPremium();
 })();
 </script>
 <!-- ═══════════════════════════════════════════════════ -->
+<script>
+(function(){var b=document.getElementById('lis-signin');if(!b)return;
+try{var raw=localStorage.getItem('sb-cfaxrzfqvoalwznkhwnx-auth-token');
+if(raw){var s=JSON.parse(raw);var t=s&&(s.access_token||(s.currentSession&&s.currentSession.access_token));var e=s&&(s.expires_at||(s.currentSession&&s.currentSession.expires_at));
+if(t&&(!e||e*1000>Date.now())){b.classList.add('is-authed');b.textContent='Account';b.href='profile.html';}}}catch(_){} })();
+</script>
+<script>
+(function(){var b=document.getElementById('lis-profile-btn');
+try{var raw=localStorage.getItem('sb-cfaxrzfqvoalwznkhwnx-auth-token');
+if(raw){var s=JSON.parse(raw);var t=s&&(s.access_token||(s.currentSession&&s.currentSession.access_token));var e=s&&(s.expires_at||(s.currentSession&&s.currentSession.expires_at));
+if(t&&(!e||e*1000>Date.now())){if(b)b.classList.add('online');
+var u=s.user||(s.currentSession&&s.currentSession.user)||{};var nm=(u.user_metadata&&u.user_metadata.name)||u.email||'';
+var ini=document.getElementById('lis-profile-initial');if(ini&&nm)ini.textContent=nm.charAt(0).toUpperCase();
+var si=document.getElementById('lis-signin');if(si)si.style.display='none';}}}catch(_){}})();
+</script>
 </body>
 </html>
