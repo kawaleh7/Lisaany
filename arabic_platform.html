@@ -9772,13 +9772,19 @@ function mkCloze(blk){
         color = chosen ? 'var(--gold)' : 'rgba(212,163,74,.5)';
         border = 'rgba(212,163,74,.4)';
       }
-      const span = el('span',{style:{
+      const blankProps = {style:{
         display:'inline-block',padding:'2px 14px',margin:'0 4px',
         minWidth:'70px',textAlign:'center',
         borderRadius:'8px',background:bg,color:color,
         border:'1px solid '+border,
         fontFamily:"'Amiri',serif"
-      }}, chosen || '___');
+      }};
+      if(!S.clzLocked && chosen){
+        blankProps.style.cursor = 'pointer';
+        blankProps.title = 'Tap to remove';
+        blankProps.onclick = ()=>{ S.clzAns[idx] = undefined; render(); };
+      }
+      const span = el('span', blankProps, chosen || '___');
       sentenceBox.appendChild(span);
     } else {
       sentenceBox.appendChild(document.createTextNode(' '+word+' '));
@@ -9786,39 +9792,51 @@ function mkCloze(blk){
   });
   w.appendChild(sentenceBox);
 
-  // ── Word choice rows (one per blank) — only shown while unlocked ──
+  // ── Single shared word bank — tap a word to drop it into the next open blank ──
   if(!S.clzLocked){
-    cur.blankIndices.forEach((wIdx, blankIdx)=>{
-      const choiceWrap = div('');
-      choiceWrap.style.cssText = 'margin-top:14px;';
-
-      if(cur.blankIndices.length > 1){
-        choiceWrap.appendChild(el('div',{
-          style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',marginBottom:'6px'}
-        }, 'For blank '+(blankIdx+1)));
-      }
-
-      const row = div('');
-      row.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;justify-content:center;';
-      cur.choicesPerBlank[blankIdx].forEach(choice=>{
-        const isSelected = S.clzAns[blankIdx] === choice;
-        const btn = el('button',{
-          style:{
-            padding:'10px 16px',borderRadius:'12px',
-            border:'1.5px solid '+(isSelected?'var(--gold)':'rgba(212,163,74,.25)'),
-            background:isSelected?'rgba(212,163,74,.18)':'rgba(10,14,24,.6)',
-            color:isSelected?'var(--gold)':'var(--text)',
-            fontFamily:"'Amiri',serif",fontSize:'22px',
-            direction:'rtl',cursor:'pointer',
-            transition:'all .15s'
-          },
-          onclick:()=>{ S.clzAns[blankIdx] = choice; render(); }
-        }, choice);
-        row.appendChild(btn);
+    // Build a shuffled pool once per sentence: each blank's correct word + a few distractors.
+    if(!cur._bank){
+      const correct = cur.blankIndices.map(i=>cur.words[i]);
+      const seen = {}; correct.forEach(wd=>{ seen[wd] = (seen[wd]||0) + 1; });
+      const distract = [];
+      (cur.choicesPerBlank||[]).forEach((arr, bi)=>{
+        const right = cur.words[cur.blankIndices[bi]];
+        (arr||[]).forEach(c=>{ if(c!==right && !seen[c]){ seen[c]=1; distract.push(c); } });
       });
-      choiceWrap.appendChild(row);
-      w.appendChild(choiceWrap);
+      const pool = correct.concat(distract);
+      for(let k=pool.length-1;k>0;k--){ const j=Math.floor(Math.random()*(k+1)); const tmp=pool[k]; pool[k]=pool[j]; pool[j]=tmp; }
+      cur._bank = pool;
+    }
+    // Remaining tiles = bank minus the words already placed (multiset subtraction).
+    const used = {};
+    S.clzAns.forEach(wd=>{ if(wd!=null){ used[wd] = (used[wd]||0) + 1; } });
+    const remaining = [];
+    cur._bank.forEach(wd=>{ if(used[wd]>0){ used[wd]--; } else { remaining.push(wd); } });
+
+    w.appendChild(el('div',{
+      style:{fontSize:'12px',fontWeight:'700',letterSpacing:'.1em',textTransform:'uppercase',color:'var(--dim)',textAlign:'center',marginTop:'16px',marginBottom:'2px'}
+    }, 'Tap a word to place it'));
+
+    const bankRow = div('');
+    bankRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px;direction:rtl;';
+    remaining.forEach(word=>{
+      const btn = el('button',{
+        style:{
+          padding:'10px 16px',borderRadius:'12px',
+          border:'1.5px solid rgba(212,163,74,.4)',
+          background:'rgba(212,163,74,.1)',
+          color:'var(--gold)',
+          fontFamily:"'Amiri',serif",fontSize:'22px',
+          direction:'rtl',cursor:'pointer',transition:'all .15s'
+        },
+        onclick:()=>{
+          const next = cur.blankIndices.findIndex((_, bi)=> S.clzAns[bi]==null );
+          if(next>=0){ S.clzAns[next] = word; render(); }
+        }
+      }, word);
+      bankRow.appendChild(btn);
     });
+    w.appendChild(bankRow);
   }
 
   if(cur.en){
@@ -11160,6 +11178,34 @@ if(t&&(!e||e*1000>Date.now())){if(b)b.classList.add('online');
 var u=s.user||(s.currentSession&&s.currentSession.user)||{};var nm=(u.user_metadata&&u.user_metadata.name)||u.email||'';
 var ini=document.getElementById('lis-profile-initial');if(ini&&nm)ini.textContent=nm.charAt(0).toUpperCase();
 var si=document.getElementById('lis-signin');if(si)si.style.display='none';}}}catch(_){}})();
+</script>
+<!-- ═══ Resume on last screen (persist nav state across reloads/relaunch) ═══ -->
+<script>
+(function(){
+  var KEY='lisaany-ar-nav-v1', restored=false;
+  function save(){ try{
+    if(typeof S==='undefined'||!S.view||S.view==='signup'||S.view==='login') return;
+    localStorage.setItem(KEY, JSON.stringify({view:S.view,mId:S.mId,uId:S.uId,bId:S.bId}));
+  }catch(e){} }
+  function applySaved(){ try{
+    var s=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(s&&s.view&&s.view!=='hub'){
+      if(s.mId!=null)S.mId=s.mId; if(s.uId!=null)S.uId=s.uId; if(s.bId!=null)S.bId=s.bId;
+      S.view=s.view;
+    }
+  }catch(e){} }
+  (function hook(){
+    if(typeof render!=='function'||typeof S==='undefined') return setTimeout(hook,40);
+    var orig=render;
+    window.render=function(){
+      if(!restored){ restored=true; applySaved(); }
+      save();
+      return orig.apply(this,arguments);
+    };
+  })();
+  ['pagehide','beforeunload'].forEach(function(e){ window.addEventListener(e,save); });
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') save(); });
+})();
 </script>
 </body>
 </html>
