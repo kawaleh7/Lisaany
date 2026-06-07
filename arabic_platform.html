@@ -3301,14 +3301,14 @@ const CUR = [
               intro:"Arabic has no verb 'to have'. Instead, you attach a pronoun ending to عِنْدَ — the ending tells you who owns something, with no separate verb. To make it negative, simply put لَيْسَ in front: عِنْدِي قَلَم (I have a pen) becomes لَيْسَ عِنْدِي قَلَم (I don't have a pen).",
               table:{ cols:["Arabic","Meaning"], colW:"1fr 1.5fr",
                 rows:[
-                  {ar:"عِنْدِي قَلَم",en:"I have a pen"},
-                  {ar:"عِنْدَكَ كِتَاب",en:"You have a book (m)"},
-                  {ar:"عِنْدَكِ دَفْتَر",en:"You have a notebook (f)"},
-                  {ar:"عِنْدَهُ مِسْطَرَة",en:"He has a ruler"},
-                  {ar:"عِنْدَهَا مَحَّايَة",en:"She has an eraser"},
-                  {ar:"عِنْدَنَا حَقِيبَة",en:"We have a bag"},
-                  {ar:"عِنْدَكُمْ كُتُب",en:"You have books (pl)"},
-                  {ar:"عِنْدَهُمْ أَقْلَام",en:"They have pens"},
+                  {ar:"عِنْدِي قَلَم",en:"I have a pen",hl:"ِي",note:"<b style='color:#1f9d6b'>ـِي</b> = my (I have)"},
+                  {ar:"عِنْدَكَ كِتَاب",en:"You have a book (m)",hl:"كَ",note:"<b style='color:#1f9d6b'>ـكَ</b> = your (you m)"},
+                  {ar:"عِنْدَكِ دَفْتَر",en:"You have a notebook (f)",hl:"كِ",note:"<b style='color:#1f9d6b'>ـكِ</b> = your (you f)"},
+                  {ar:"عِنْدَهُ مِسْطَرَة",en:"He has a ruler",hl:"هُ",note:"<b style='color:#1f9d6b'>ـهُ</b> = his (he has)"},
+                  {ar:"عِنْدَهَا مَحَّايَة",en:"She has an eraser",hl:"هَا",note:"<b style='color:#1f9d6b'>ـهَا</b> = her (she has)"},
+                  {ar:"عِنْدَنَا حَقِيبَة",en:"We have a bag",hl:"نَا",note:"<b style='color:#1f9d6b'>ـنَا</b> = our (we have)"},
+                  {ar:"عِنْدَكُمْ كُتُب",en:"You have books (pl)",hl:"كُمْ",note:"<b style='color:#1f9d6b'>ـكُمْ</b> = your (you pl)"},
+                  {ar:"عِنْدَهُمْ أَقْلَام",en:"They have pens",hl:"هُمْ",note:"<b style='color:#1f9d6b'>ـهُمْ</b> = their (they have)"},
                 ]
               },
               keyRule:"عِنْدَ + ending → ـِي (my), ـكَ / ـكِ (your m/f), ـهُ (his), ـهَا (her), ـنَا (our), ـكُمْ (your pl), ـهُمْ (their). Negative: add لَيْسَ before it.",
@@ -3404,12 +3404,12 @@ const CUR = [
               intro:"Use أُحِبُّ (I like/love) or أُفَضِّلُ (I prefer) to talk about school subjects.",
               table:{ cols:["Verb","Meaning"], colW:"1fr 1.5fr",
                 rows:[
-                  {ar:"أُحِبُّ",en:"I like / I love"},
-                  {ar:"تُحِبُّ",en:"You like (m)"},
-                  {ar:"تُحِبِّينَ",en:"You like (f)"},
-                  {ar:"أُفَضِّلُ",en:"I prefer"},
-                  {ar:"لَا أُحِبُّ",en:"I don't like"},
-                  {ar:"يُحِبُّ",en:"He likes"},
+                  {ar:"أُحِبُّ",en:"I like / I love",hl:"أُ",note:"<b style='color:#1f9d6b'>أُ</b> = I"},
+                  {ar:"تُحِبُّ",en:"You like (m)",hl:"تُ",note:"<b style='color:#1f9d6b'>تُ</b> = you (m)"},
+                  {ar:"تُحِبِّينَ",en:"You like (f)",hl:"تُ",note:"<b style='color:#1f9d6b'>تُ…ينَ</b> = you (f)"},
+                  {ar:"أُفَضِّلُ",en:"I prefer",hl:"أُ",note:"<b style='color:#1f9d6b'>أُ</b> = I (prefer)"},
+                  {ar:"لَا أُحِبُّ",en:"I don't like",hl:"لَا",note:"<b style='color:#1f9d6b'>لَا</b> = not"},
+                  {ar:"يُحِبُّ",en:"He likes",hl:"يُ",note:"<b style='color:#1f9d6b'>يُ</b> = he"},
                 ]
               },
               keyRule:"After أُحِبُّ / أُفَضِّلُ put the subject with الـ: أُحِبُّ الرِّيَاضِيَّات (I love mathematics).",
@@ -4065,14 +4065,20 @@ const CUR = [
               intro:"أُرِيدُ means 'I want'. Use أُرِيدُ + a noun to want a thing (أُرِيدُ مَاءً = I want water), and أُرِيدُ أَنْ + a verb to want to do something (أُرِيدُ أَنْ آكُلَ = I want to eat). For the negative, add لَا in front: لَا أُرِيدُ.",
               table:{ cols:["Arabic","Meaning"], colW:"1fr 1.5fr",
                 rows:[
-                  {ar:"أُرِيدُ مَاءً",en:"I want water"},
-                  {ar:"تُرِيدُ شَايًا",en:"You want tea (m)"},
-                  {ar:"تُرِيدِينَ قَهْوَة",en:"You want coffee (f)"},
-                  {ar:"يُرِيدُ خُبْزًا",en:"He wants bread"},
-                  {ar:"تُرِيدُ سَلَطَة",en:"She wants salad"},
-                  {ar:"نُرِيدُ عَصِيرًا",en:"We want juice"},
+                  {ar:"أُرِيدُ مَاءً",en:"I want water",hl:"أُ",note:"<b style='color:#1f9d6b'>أُ</b> at the start = <b>I</b>"},
+                  {ar:"تُرِيدُ شَايًا",en:"You want tea (m)",hl:"تُ",note:"<b style='color:#1f9d6b'>تُ</b> = <b>you</b> (m)"},
+                  {ar:"تُرِيدِينَ قَهْوَة",en:"You want coffee (f)",hl:"تُ",note:"<b style='color:#1f9d6b'>تُ…ينَ</b> = <b>you</b> (f)"},
+                  {ar:"يُرِيدُ خُبْزًا",en:"He wants bread",hl:"يُ",note:"<b style='color:#1f9d6b'>يُ</b> = <b>he</b>"},
+                  {ar:"تُرِيدُ سَلَطَة",en:"She wants salad",hl:"تُ",note:"<b style='color:#1f9d6b'>تُ</b> = <b>she</b> too"},
+                  {ar:"نُرِيدُ عَصِيرًا",en:"We want juice",hl:"نُ",note:"<b style='color:#1f9d6b'>نُ</b> = <b>we</b>"},
                 ]
               },
+              practice:[
+                {pronEn:"he", root:"رِيدُ خُبْزًا", correct:"يُ"},
+                {pronEn:"I", root:"رِيدُ مَاءً", correct:"أُ"},
+                {pronEn:"we", root:"رِيدُ عَصِيرًا", correct:"نُ"},
+                {pronEn:"you (m)", root:"رِيدُ شَايًا", correct:"تُ"},
+              ],
               keyRule:"أُرِيدُ + noun = I want [thing]. أُرِيدُ أَنْ + verb = I want to [do]. Negative: لَا أُرِيدُ.",
               examples:[
                 {ar:"أُرِيدُ كُوبَ مَاء مِنْ فَضْلِكَ",en:"I want a glass of water, please"},
@@ -4574,13 +4580,13 @@ const CUR = [
               intro:"Arabic present tense uses prefixes and suffixes based on the subject. Master these patterns for all verbs.",
               table:{ cols:["Subject","Prefix+Suffix","Example with ذَهَبَ"], colW:"1fr 1fr 1.5fr",
                 rows:[
-                  {ar:"أَنَا",roman:"أَـ",en:"أَذْهَبُ"},
-                  {ar:"أَنْتَ",roman:"تَـ",en:"تَذْهَبُ"},
-                  {ar:"أَنْتِ",roman:"تَـ...ِينَ",en:"تَذْهَبِينَ"},
-                  {ar:"هُوَ",roman:"يَـ",en:"يَذْهَبُ"},
-                  {ar:"هِيَ",roman:"تَـ",en:"تَذْهَبُ"},
-                  {ar:"نَحْنُ",roman:"نَـ",en:"نَذْهَبُ"},
-                  {ar:"هُمْ",roman:"يَـ...ُونَ",en:"يَذْهَبُونَ"},
+                  {ar:"أَذْهَبُ",en:"I go",hl:"أَ",note:"<b style='color:#1f9d6b'>أَ</b> = I (أنا)"},
+                  {ar:"تَذْهَبُ",en:"you go (m)",hl:"تَ",note:"<b style='color:#1f9d6b'>تَ</b> = you (أنتَ)"},
+                  {ar:"تَذْهَبِينَ",en:"you go (f)",hl:"تَ",note:"<b style='color:#1f9d6b'>تَ…ينَ</b> = you (أنتِ)"},
+                  {ar:"يَذْهَبُ",en:"he goes",hl:"يَ",note:"<b style='color:#1f9d6b'>يَ</b> = he (هو)"},
+                  {ar:"تَذْهَبُ",en:"she goes",hl:"تَ",note:"<b style='color:#1f9d6b'>تَ</b> = she (هي) too"},
+                  {ar:"نَذْهَبُ",en:"we go",hl:"نَ",note:"<b style='color:#1f9d6b'>نَ</b> = we (نحن)"},
+                  {ar:"يَذْهَبُونَ",en:"they go",hl:"يَ",note:"<b style='color:#1f9d6b'>يَ…ونَ</b> = they (هم)"},
                 ]
               },
               keyRule:"أَ = I, تَ = you/she, يَ = he, نَ = we. Feminine 'you' adds ـِينَ. They (plural) adds ـُونَ.",
@@ -6269,13 +6275,13 @@ const CUR = [
               intro:"The verb لَعِبَ (to play) is very useful for talking about sports. Here is its present tense conjugation.",
               table:{ cols:["Pronoun","Verb","Meaning"], colW:"1fr 1fr 1.2fr",
                 rows:[
-                  {ar:"أَنَا",en:"أَلْعَب",extra:"I play"},
-                  {ar:"أَنْتَ",en:"تَلْعَب",extra:"You play (m)"},
-                  {ar:"أَنْتِ",en:"تَلْعَبِينَ",extra:"You play (f)"},
-                  {ar:"هُوَ",en:"يَلْعَب",extra:"He plays"},
-                  {ar:"هِيَ",en:"تَلْعَب",extra:"She plays"},
-                  {ar:"نَحْنُ",en:"نَلْعَب",extra:"We play"},
-                  {ar:"هُمْ",en:"يَلْعَبُونَ",extra:"They play (m)"},
+                  {ar:"أَلْعَب",en:"I play",hl:"أَ",note:"<b style='color:#1f9d6b'>أَ</b> = I (أنا)"},
+                  {ar:"تَلْعَب",en:"you play (m)",hl:"تَ",note:"<b style='color:#1f9d6b'>تَ</b> = you (أنتَ)"},
+                  {ar:"تَلْعَبِينَ",en:"you play (f)",hl:"تَ",note:"<b style='color:#1f9d6b'>تَ…ينَ</b> = you (أنتِ)"},
+                  {ar:"يَلْعَب",en:"he plays",hl:"يَ",note:"<b style='color:#1f9d6b'>يَ</b> = he (هو)"},
+                  {ar:"تَلْعَب",en:"she plays",hl:"تَ",note:"<b style='color:#1f9d6b'>تَ</b> = she (هي) too"},
+                  {ar:"نَلْعَب",en:"we play",hl:"نَ",note:"<b style='color:#1f9d6b'>نَ</b> = we (نحن)"},
+                  {ar:"يَلْعَبُونَ",en:"they play",hl:"يَ",note:"<b style='color:#1f9d6b'>يَ…ونَ</b> = they (هم)"},
                 ]
               },
               keyRule:"To say what sport you play, use the verb + name of sport: أَلْعَب كُرَة الْقَدَم (I play football).",
@@ -6372,12 +6378,12 @@ const CUR = [
               intro:"To talk about future plans, add the prefix سَـ to the present-tense verb. For more emphasis or distant future, use سَوْفَ.",
               table:{ cols:["Present","Future","Meaning"], colW:"1fr 1fr 1.2fr",
                 rows:[
-                  {ar:"أَذْهَب",en:"سَأَذْهَب",extra:"I will go"},
-                  {ar:"تَلْعَب",en:"سَتَلْعَب",extra:"You will play"},
-                  {ar:"يَقْرَأ",en:"سَيَقْرَأ",extra:"He will read"},
-                  {ar:"تَرْسُم",en:"سَتَرْسُم",extra:"She will draw"},
-                  {ar:"نَفْعَل",en:"سَنَفْعَل",extra:"We will do"},
-                  {ar:"يَلْعَبُونَ",en:"سَيَلْعَبُونَ",extra:"They will play"},
+                  {ar:"سَأَذْهَب",en:"I will go",hl:"سَ",note:"<b style='color:#1f9d6b'>سَ</b> = will (future)"},
+                  {ar:"سَتَلْعَب",en:"you will play",hl:"سَ",note:"<b style='color:#1f9d6b'>سَ</b> = will"},
+                  {ar:"سَيَقْرَأ",en:"he will read",hl:"سَ",note:"<b style='color:#1f9d6b'>سَ</b> = will"},
+                  {ar:"سَتَرْسُم",en:"she will draw",hl:"سَ",note:"<b style='color:#1f9d6b'>سَ</b> = will"},
+                  {ar:"سَنَفْعَل",en:"we will do",hl:"سَ",note:"<b style='color:#1f9d6b'>سَ</b> = will"},
+                  {ar:"سَيَلْعَبُونَ",en:"they will play",hl:"سَ",note:"<b style='color:#1f9d6b'>سَ</b> = will"},
                 ]
               },
               keyRule:"For longer-term future, use سَوْفَ instead of سَـ: سَوْفَ أُسَافِر السَّنَة الْقَادِمَة (I will travel next year).",
@@ -7824,7 +7830,7 @@ function resetBS(){
   if(blk?.type==='quiz'){ S.quizIdx=0; S.quizChosen=null; S.quizFb=null; S.quizLocked=false; S.quizScore=0; S.quizWrong=0; }
   if(blk?.type==='fill'){ S.fillIdx=0; S.fillChosen=null; S.fillFb=null; S.fillLocked=false; S.fillScore=0; S.fillWrong=0; }
   if(blk?.type==='choose'){ S.chIdx=0; S.chChosen=null; S.chFb=null; S.chLocked=false; S.chScore=0; S.chWrong=0; S.chHint=false; }
-  if(blk?.type==='grammar'){ S.gScreen=0; }
+  if(blk?.type==='grammar'){ S.gScreen=0; S.gIdx=0; }
 }
 
 // ══════════════════════════════════════════════════════
@@ -9344,6 +9350,107 @@ function mkGrammar(blk){
 
   if(screen===0){
     w.appendChild(masthead('Grammar · '+(d.title||''), d.titleAr||'', d.title||''));
+
+    // ── Notice-first stepper (Option 1): highlighted examples → your-turn practice ──
+    const _tbl = (d.table && d.table.rows && d.table.rows.length) ? d.table : null;
+    const _isPair = _tbl ? _tbl.rows.some(function(r){return r.roman;}) : false;
+    const _optIn = !!_tbl && ( _tbl.rows.some(function(r){return r.hl||r.note;}) || (Array.isArray(d.practice)&&d.practice.length>0) || d.noticeFirst===true );
+    if(_tbl && !_isPair && _optIn){
+      const rows=_tbl.rows;
+      const practice = Array.isArray(d.practice) ? d.practice : [];
+      const total = rows.length + practice.length;
+      if(typeof S.gIdx!=='number' || S.gIdx<0 || S.gIdx>=total) S.gIdx=0;
+      const gi=S.gIdx;
+      const isNotice = gi < rows.length;
+      try{ bumpPos(gi+1, total); }catch(e){}
+
+      const eye=el('div',{className:'gp-rise'},(isNotice?'Notice':'Your turn')+' \u00b7 '+(gi+1)+' / '+total);
+      eye.style.cssText="text-align:center;font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:.25em;text-transform:uppercase;color:#d8b461;margin-top:10px;";
+      w.appendChild(eye);
+
+      if(d.intro && gi===0){ const lead=el('div',{className:'gp-rise'},d.intro);
+        lead.style.cssText="text-align:center;color:#9aaecb;font-size:13px;line-height:1.65;max-width:440px;margin:10px auto 2px;"; w.appendChild(lead); }
+
+      // helper: gold Arabic with optional green-highlighted morpheme
+      function arGold(text, hl, size){
+        const e=el('div'); e.style.cssText="font-family:'Amiri',serif;font-weight:700;font-size:"+size+";line-height:1.5;direction:rtl;text-align:center;background:linear-gradient(135deg,#caa24e,#9c7320);-webkit-background-clip:text;background-clip:text;color:transparent;";
+        const esc=function(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');};
+        const G=function(s){return '<span style="-webkit-text-fill-color:#1f9d6b;color:#1f9d6b;">'+esc(s)+'</span>';};
+        const t=text||'';
+        if(hl && t.indexOf(hl)===0){ e.innerHTML=G(hl)+esc(t.slice(hl.length)); }
+        else if(hl && hl.length<=t.length && t.slice(t.length-hl.length)===hl){ e.innerHTML=esc(t.slice(0,t.length-hl.length))+G(hl); }
+        else if(hl && t.indexOf(hl)>0){ const k=t.indexOf(hl); e.innerHTML=esc(t.slice(0,k))+G(hl)+esc(t.slice(k+hl.length)); }
+        else { e.textContent=t; }
+        return e;
+      }
+
+      if(isNotice){
+        const row=rows[gi];
+        const card=div('gp-plate gp-rise');
+        card.style.cssText=PLATE+'padding:30px 22px;text-align:center;position:relative;margin:16px auto 0;max-width:430px;cursor:pointer;';
+        card.appendChild(arGold(row.ar||'', row.hl, '46px'));
+        const dv=el('div'); dv.style.cssText='width:46px;height:1px;margin:16px auto 13px;background:rgba(176,132,46,.3);'; card.appendChild(dv);
+        const mean=el('div',{},row.en||''); mean.style.cssText="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;color:#16203a;line-height:1.25;"; card.appendChild(mean);
+        if(row.note){ const cap=el('div',{}); cap.innerHTML=row.note; cap.style.cssText="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:#5a6478;margin-top:9px;line-height:1.35;"; card.appendChild(cap); }
+        const sp=el('div',{},'volume_up'); sp.style.cssText="font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 1;position:absolute;top:13px;left:14px;font-size:16px;color:#b0842e;opacity:.5;"; card.appendChild(sp);
+        card.addEventListener('click',function(){ if(row.ar) speak(row.ar); glow(card); });
+        w.appendChild(card);
+
+        if(d.keyRule && gi===rows.length-1){
+          const note=div('gp-rise');
+          note.style.cssText="position:relative;overflow:hidden;margin-top:18px;border-radius:16px;padding:15px 18px 15px 20px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid rgba(176,132,46,.3);font-size:13px;line-height:1.6;color:#eaf0fb;";
+          const spine=el('div'); spine.style.cssText='position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#d8b461,#a9802c);'; note.appendChild(spine);
+          const k=el('div',{},'Key Rule'); k.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#d8b461;margin-bottom:6px;"; note.appendChild(k);
+          const body=el('div',{},d.keyRule); note.appendChild(body); try{ _gildArabicText(body); }catch(e){}
+          w.appendChild(note);
+        }
+      } else {
+        // ── Your-turn: tap the correct prefix ──
+        const q = practice[gi - rows.length];
+        let POPTS = []; practice.forEach(function(p){ if(p.correct && POPTS.indexOf(p.correct)<0) POPTS.push(p.correct); });
+        if(POPTS.length<2) POPTS = ['أُ','تُ','يُ','نُ'];
+        for(let k=POPTS.length-1;k>0;k--){ const j=Math.floor(Math.random()*(k+1)); const t=POPTS[k];POPTS[k]=POPTS[j];POPTS[j]=t; }
+
+        const pcard=div('gp-plate gp-rise');
+        pcard.style.cssText=PLATE+'padding:26px 20px;position:relative;margin:16px auto 0;max-width:430px;';
+        const yt=el('div',{},'Add the prefix'); yt.style.cssText="font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#b0842e;text-align:center;margin-bottom:6px;"; pcard.appendChild(yt);
+        const lbl=el('div'); lbl.style.cssText='font-family:"Cormorant Garamond",serif;font-size:17px;color:#5a6478;text-align:center;margin-bottom:16px;';
+        lbl.innerHTML='for <b style="color:#9c7320;font-style:italic">'+(q.pronEn||q.pron||'')+'</b>';
+        pcard.appendChild(lbl);
+        const word=div(''); word.style.cssText="font-family:'Amiri',serif;font-size:42px;color:#16203a;text-align:center;direction:rtl;line-height:1.5;margin-bottom:18px;";
+        const blank='<span class="g-blank" style="display:inline-block;min-width:46px;border-bottom:3px dashed #c9a24a;color:#1f9d6b;margin:0 3px;">__</span>';
+        word.innerHTML=blank+(q.root||'');
+        pcard.appendChild(word);
+        const opts=div(''); opts.style.cssText='display:flex;gap:10px;justify-content:center;flex-wrap:wrap;';
+        const fb=div(''); fb.style.cssText='text-align:center;font-size:15px;margin-top:14px;min-height:22px;font-family:"Cormorant Garamond",serif;';
+        POPTS.forEach(function(o){
+          const b=el('button',{},o);
+          b.style.cssText="font-family:'Amiri',serif;font-size:30px;background:#fff;border:1.5px solid rgba(176,132,46,.35);border-radius:14px;padding:10px 22px;color:#16203a;cursor:pointer;transition:all .15s;min-width:66px;";
+          b.addEventListener('click',function(){
+            const bl=word.querySelector('.g-blank');
+            if(o===q.correct){
+              b.style.borderColor='#1f9d6b'; b.style.background='rgba(31,157,107,.12)'; b.style.color='#1f9d6b';
+              if(bl){ bl.textContent=o; bl.style.color='#1f9d6b'; bl.style.borderBottom='3px solid #1f9d6b'; }
+              fb.textContent='\u2713 Correct!'; fb.style.color='#1f9d6b';
+              speak(o+(q.root||''));
+            } else {
+              b.style.borderColor='#d9534f'; b.style.background='rgba(217,83,79,.1)'; b.style.color='#d9534f';
+              fb.textContent='\u2717 Not quite — think about who is doing it'; fb.style.color='#d9534f';
+            }
+          });
+          opts.appendChild(b);
+        });
+        pcard.appendChild(opts); pcard.appendChild(fb);
+        w.appendChild(pcard);
+      }
+
+      const navS=div('action-row gp-rise');
+      navS.appendChild(el('button',{className:'btn btn-ghost',onclick:function(){ try{stopAudio();}catch(e){} if(S.gIdx>0){S.gIdx--;render();} else {S.view='blocks';render();} }}, gi>0?'\u2039 Back':'\u2190 Back'));
+      const isLastG = gi>=total-1;
+      navS.appendChild(el('button',{className:'btn btn-primary gp-sheen',onclick:function(){ try{stopAudio();}catch(e){} if(!isLastG){S.gIdx++;render();} else if(hasEx){S.gScreen=1;render();} else {finishBlock();} }}, isLastG?(hasEx?'See examples \u2192':'Grammar Understood \u2713'):'Next \u203a'));
+      w.appendChild(navS);
+      return w;
+    }
 
     if(d.intro){ const lead=el('div',{className:'gp-rise'},d.intro);
       lead.style.cssText="text-align:center;color:#9aaecb;font-size:13.5px;line-height:1.7;max-width:440px;margin:12px auto 2px;"; w.appendChild(lead); }
