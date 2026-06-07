@@ -572,6 +572,30 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
   .hx-card.back .vk{font:700 10px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);text-align:center;margin-bottom:14px;}
   .hx-card.back .va{font-family:'Amiri',serif;direction:rtl;font-size:34px;color:#b9842a;text-align:center;line-height:1.3;}
   .hx-card.back .ve{font-size:13px;color:var(--ink2);text-align:center;margin-top:6px;}
+  /* ===== Conjugator promo band ===== */
+  .cjpromo{background:var(--bg2);border-bottom:1px solid var(--line);padding:54px 22px;}
+  .cjpromo-wrap{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:46px;justify-content:center;flex-wrap:wrap;}
+  .cjpromo-text{flex:1 1 320px;max-width:440px;}
+  .cjpromo-eyebrow{display:inline-flex;align-items:center;gap:9px;font:600 11.5px/1 'Inter';letter-spacing:.28em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:14px;}
+  .cjpromo-eyebrow .ar{font-family:'Amiri',serif;font-size:15px;letter-spacing:0;color:var(--green);}
+  .cjpromo-h{font-family:'Cinzel',serif;font-weight:600;font-size:clamp(26px,3.4vw,36px);color:var(--navy);line-height:1.12;letter-spacing:-.01em;}
+  .cjpromo-p{color:var(--ink2);font-size:16px;line-height:1.6;margin:14px 0 22px;}
+  .cjpromo-link{display:inline-flex;align-items:center;gap:8px;font:700 12px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--navy);border:1.5px solid rgba(14,28,56,.4);padding:14px 26px;border-radius:11px;text-decoration:none;transition:.2s;}
+  .cjpromo-link:hover{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .cj-card{width:330px;max-width:100%;flex:0 0 auto;background:#fff;border:1px solid #efe7d6;border-radius:22px;box-shadow:0 30px 60px rgba(20,34,63,.13);padding:22px 20px 18px;}
+  .cj-card .cjc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}
+  .cj-card .cjc-tag{font:700 11px/1 'Inter';letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);}
+  .cj-card .cjc-badge{display:inline-flex;align-items:center;font:700 10px/1 'Inter';letter-spacing:.08em;text-transform:uppercase;color:var(--green);background:rgba(47,125,82,.10);border:1px solid rgba(47,125,82,.25);padding:5px 10px;border-radius:999px;}
+  .cj-card .cjc-ar{font-family:'Amiri',serif;direction:rtl;font-size:38px;font-weight:700;line-height:1.3;color:#b9842a;text-align:center;margin:2px 0 5px;}
+  .cj-card .cjc-en{font-size:13.5px;color:var(--ink2);text-align:center;font-style:italic;margin-bottom:15px;}
+  .cj-card .cjc-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;direction:rtl;margin-bottom:16px;}
+  .cj-card .cjc-f{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:8px 3px;display:flex;flex-direction:column;align-items:center;gap:2px;}
+  .cj-card .cjc-f b{font-family:'Amiri',serif;font-size:19px;font-weight:700;color:var(--navy);line-height:1.5;}
+  .cj-card .cjc-f i{font-family:'Amiri',serif;font-style:normal;font-size:11.5px;color:var(--dim);}
+  .cj-card .cjc-go{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--navy);color:var(--gold-br);border-radius:12px;padding:13px;font:700 12px/1 'Inter';letter-spacing:.07em;text-transform:uppercase;text-decoration:none;transition:.2s;}
+  .cj-card .cjc-go:hover{background:var(--navy-deep);}
+  .cj-card .cjc-go svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.2;fill:none;}
+  @media(max-width:640px){.cjpromo{padding:42px 18px;}.cjpromo-wrap{gap:30px;}.cjpromo-text{text-align:center;margin:0 auto;}.cjpromo-eyebrow{justify-content:center;}}
   .hx-chip{position:absolute;background:#fff;border:1px solid #efe7d6;border-radius:14px;box-shadow:0 16px 34px rgba(20,34,63,.14);padding:11px 15px;display:flex;align-items:center;gap:9px;z-index:4;font:700 13px/1 'Inter';color:var(--ink);}
   .hx-chip.streak{top:36px;right:6px;}
   .hx-chip.streak .f{font-size:17px;}
@@ -788,6 +812,31 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
     <div class="st"><div class="n" data-count="12">0</div><div class="l">Modules</div></div>
     <div class="st"><div class="n" data-count="170" data-suffix="+">0</div><div class="l">Lessons</div></div>
     <div class="st"><div class="n" data-count="500" data-suffix="+">0</div><div class="l">Native Audio Clips</div></div>
+  </div>
+</section>
+
+<!-- ============ CONJUGATOR PROMO ============ -->
+<section class="cjpromo reveal">
+  <div class="cjpromo-wrap">
+    <div class="cjpromo-text">
+      <span class="cjpromo-eyebrow">New · Reference Tool<span class="ar">مُصَرِّف الأفعال</span></span>
+      <h3 class="cjpromo-h">Conjugate every verb</h3>
+      <p class="cjpromo-p">Look up 202 verbs across past, present and future — every pronoun, full harakat — then test yourself with a quick quiz.</p>
+      <a class="cjpromo-link" href="verb-conjugator.html">Open the Conjugator →</a>
+    </div>
+    <div class="cj-card">
+      <div class="cjc-top"><span class="cjc-tag">Verb Conjugator</span><span class="cjc-badge">202 verbs</span></div>
+      <div class="cjc-ar">كَتَبَ</div>
+      <div class="cjc-en">to write — past · present · future</div>
+      <div class="cjc-strip">
+        <span class="cjc-f"><b>كَتَبْتُ</b><i>أنا</i></span>
+        <span class="cjc-f"><b>كَتَبَ</b><i>هو</i></span>
+        <span class="cjc-f"><b>كَتَبُوا</b><i>هم</i></span>
+      </div>
+      <a class="cjc-go" href="verb-conjugator.html">Open the Conjugator
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </div>
   </div>
 </section>
 
