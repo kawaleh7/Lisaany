@@ -4614,150 +4614,7 @@ const CUR = [
           }
         ]
       },
-      { id:"6.2", title:"Travel & Directions", icon:"travel_explore",
-        desc:"السفر والمستقبل — 12-15 كلمة",
-        blocks:[
-          { id:1, type:"dialogue", title:"Trip to Cairo", desc:"أحمد يخطط لرحلة", icon:"forum", color:"#D4A34A",
-            data:{ title:"سَنُسَافِرُ إِلَى الْقَاهِرَة", setting:"أحمد وعمر يخططان لرحلة إلى القاهرة",
-              lines:[
-                {spk:"Omar",side:"left",ar:"أَحْمَد، سَمِعْتُ أَنَّكَ سَتُسَافِرُ قَرِيبًا، صَحِيح؟",en:"Ahmad, I heard you will travel soon, is that right?"},
-                {spk:"Ahmad",side:"right",ar:"نَعَمْ، سَأُسَافِرُ إِلَى الْقَاهِرَة الْأُسْبُوع الْقَادِم",en:"Yes, I will travel to Cairo next week"},
-                {spk:"Omar",side:"left",ar:"رَائِع! وَلِمَاذَا تَذْهَبُ إِلَى الْقَاهِرَة بِالضَّبْط؟",en:"Wonderful! And why exactly are you going to Cairo?"},
-                {spk:"Ahmad",side:"right",ar:"سَأَحْضُرُ مُؤْتَمَرًا طِبِّيًّا مُهِمًّا هُنَاك",en:"I will attend an important medical conference there"},
-                {spk:"Omar",side:"left",ar:"وَكَيْفَ سَتُسَافِرُ؟ بِالطَّائِرَة أَمْ بِالْقِطَار؟",en:"And how will you travel? By plane or train?"},
-                {spk:"Ahmad",side:"right",ar:"سَأُسَافِرُ بِالطَّائِرَة لِأَنَّهَا أَسْرَعُ وَأَكْثَرُ رَاحَةً",en:"I will travel by plane because it's faster and more comfortable"},
-                {spk:"Omar",side:"left",ar:"وَأَيْنَ سَتَنْزِلُ؟ هَلْ حَجَزْتَ فُنْدُقًا؟",en:"And where will you stay? Have you booked a hotel?"},
-                {spk:"Ahmad",side:"right",ar:"نَعَمْ، حَجَزْتُ غُرْفَةً فِي فُنْدُق قَرِيب مِنَ الْمُؤْتَمَر",en:"Yes, I booked a room in a hotel near the conference"},
-                {spk:"Omar",side:"left",ar:"هَلْ سَتَزُورُ الْأَهْرَامَات وَالْمَعَالِم السِّيَاحِيَّة؟",en:"Will you visit the Pyramids and tourist attractions?"},
-                {spk:"Ahmad",side:"right",ar:"بِالتَّأْكِيد، سَأَسْتَغِلُّ الْوَقْتَ وَأَزُورُ الْقَاهِرَة الْقَدِيمَة",en:"Definitely, I will make use of the time and visit Old Cairo"},
-              ],
-              keywords:[
-                {ar:"سَمِعْتُ أَنَّكَ",en:"I heard that you"},
-                {ar:"لِمَاذَا",en:"Why"},
-                {ar:"مُؤْتَمَر",en:"Conference"},
-                {ar:"أَسْرَع وَأَكْثَر رَاحَة",en:"Faster and more comfortable"},
-                {ar:"حَجَزَ",en:"Booked / Reserved"},
-                {ar:"مَعَالِم سِيَاحِيَّة",en:"Tourist attractions"},
-                {ar:"يَسْتَغِلُّ الْوَقْت",en:"Makes use of the time"},
-              ]
-            }
-          },
-          { id:2, type:"dialogue", title:"At the Airport", desc:"أحمد يسأل عن الطريق", icon:"forum", color:"#D4A34A",
-            data:{ title:"فِي الْمَطَار وَالْمَدِينَة", setting:"أحمد وصل القاهرة ويسأل عن الطريق",
-              lines:[
-                {spk:"Ahmad",side:"left",ar:"عَفْوًا، أَيْنَ مَحَطَّة الْأُوتُوبِيس إِلَى وَسَط الْمَدِينَة؟",en:"Excuse me, where is the bus station to the city center?"},
-                {spk:"Staff",side:"right",ar:"اِتَّجِهْ يَمِينًا ثُمَّ سِرْ مِئَتَي مِتْر حَتَّى تَصِل",en:"Turn right then walk two hundred meters until you arrive"},
-                {spk:"Ahmad",side:"left",ar:"وَهَلْ يَمُرُّ الْأُوتُوبِيس بِالْقُرْب مِن فُنْدُق النِّيل؟",en:"And does the bus pass near the Nile Hotel?"},
-                {spk:"Staff",side:"right",ar:"نَعَمْ، يَتَوَقَّف الْأُوتُوبِيس رَقْم سَبْعَة أَمَامَ الْفُنْدُق",en:"Yes, bus number seven stops in front of the hotel"},
-                {spk:"Ahmad",side:"left",ar:"وَكَمْ تَسْتَغْرِقُ الرِّحْلَة مِنَ الْمَطَار لِلْفُنْدُق؟",en:"And how long does the trip take from the airport to the hotel?"},
-                {spk:"Staff",side:"right",ar:"تَسْتَغْرِقُ حَوَالَيْ أَرْبَعِينَ دَقِيقَة فِي أَوْقَات الذُّرْوَة",en:"It takes about forty minutes in rush hour"},
-                {spk:"Ahmad",side:"left",ar:"شُكْرًا جَزِيلًا، هَلْ يُمْكِنُنِي الدَّفْع بِالْبِطَاقَة؟",en:"Thank you very much, can I pay by card?"},
-                {spk:"Staff",side:"right",ar:"لَا، الْأُوتُوبِيس نَقْدًا فَقَط بِخَمْسَة جُنَيْهَات",en:"No, the bus is cash only, five pounds"},
-                {spk:"Ahmad",side:"left",ar:"حَسَنًا، سَأَبْحَثُ عَنْ صَرَّاف آلِيّ قَرِيب",en:"Okay, I'll look for a nearby ATM"},
-                {spk:"Staff",side:"right",ar:"الصَّرَّاف الْآلِيّ مَوْجُود عِنْدَ مَدْخَل الْمَطَار",en:"The ATM is available at the airport entrance"},
-              ],
-              keywords:[
-                {ar:"اِتَّجِهْ",en:"Head towards / Turn"},
-                {ar:"سِرْ مِئَتَي مِتْر",en:"Walk two hundred meters"},
-                {ar:"يَتَوَقَّف",en:"Stops"},
-                {ar:"تَسْتَغْرِق",en:"Takes (time)"},
-                {ar:"أَوْقَات الذُّرْوَة",en:"Rush hour"},
-                {ar:"نَقْدًا",en:"Cash"},
-                {ar:"صَرَّاف آلِيّ",en:"ATM"},
-              ]
-            }
-          },
-          { id:3, type:"vocab", title:"Travel & Transport", desc:"10 كَلِمَات أَسَاسِيَّة لِلسَّفَر", icon:"translate", color:"#D4A34A",
-            data:{ words:[
-              {ar:"مَطَار / مَحَطَّة",en:"Airport / Station"},
-              {ar:"طَائِرَة / قِطَار",en:"Plane / Train"},
-              {ar:"حَافِلَة / سَيَّارَة أُجْرَة",en:"Bus / Taxi"},
-              {ar:"حَجَزَ",en:"Booked"},
-              {ar:"وَصَلَ / غَادَرَ",en:"Arrived / Departed"},
-              {ar:"يَمِين / يَسَار",en:"Right / Left"},
-              {ar:"أَمَام / خَلْف",en:"Ahead / Behind"},
-              {ar:"قَرِيب / بَعِيد",en:"Near / Far"},
-              {ar:"مَعَالِم سِيَاحِيَّة",en:"Tourist attractions"},
-              {ar:"جَوَاز السَّفَر",en:"Passport"},
-            ]}
-          },
-          { id:4, type:"grammar", title:"Future Tense", desc:"سَأَذْهَبُ، سَوْفَ نُسَافِرُ", icon:"psychology", color:"#D4A34A",
-            data:{ title:"Future Tense", titleAr:"الْمُسْتَقْبَل بِـ سَـ وَسَوْفَ",
-              intro:"Add سَـ directly before the present tense verb for near future. Use سَوْفَ before it for emphatic future. Both mean 'will'.",
-              table:{ cols:["Present","With سَـ","With سَوْفَ"], colW:"1fr 1fr 1fr",
-                rows:[
-                  {ar:"أَذْهَب",roman:"سَأَذْهَب",en:"سَوْفَ أَذْهَب"},
-                  {ar:"يُسَافِر",roman:"سَيُسَافِر",en:"سَوْفَ يُسَافِر"},
-                  {ar:"تَصِل",roman:"سَتَصِل",en:"سَوْفَ تَصِل"},
-                  {ar:"نَحْجِز",roman:"سَنَحْجِز",en:"سَوْفَ نَحْجِز"},
-                ]
-              },
-              keyRule:"سَـ + present = near future (I will). سَوْفَ + present = emphatic future (I will definitely).",
-              examples:[
-                {ar:"سَأُسَافِرُ إِلَى الْقَاهِرَة الْأُسْبُوع الْقَادِم",en:"I will travel to Cairo next week"},
-                {ar:"سَوْفَ نَزُورُ الْأَهْرَامَات وَالْمَتَاحِف الْكَبِيرَة",en:"We will definitely visit the Pyramids and large museums"},
-                {ar:"سَتَصِلُ الطَّائِرَة فِي السَّاعَة الثَّالِثَة",en:"The plane will arrive at three o'clock"},
-                {ar:"سَأَسْتَغِلُّ الْوَقْتَ وَأَزُورُ الْقَاهِرَة الْقَدِيمَة",en:"I will make use of the time and visit Old Cairo"},
-              ]
-            }
-          },
-          { id:5, type:"clutter", title:"Sentence Builder", desc:"جمل 12-15 كلمة", icon:"extension", color:"#D4A34A",
-            data:{ passing:70, sentences:[
-              {ar:"سَأُسَافِرُ إِلَى الْقَاهِرَة الْأُسْبُوع الْقَادِم لِحُضُور مُؤْتَمَر",en:"I will travel to Cairo next week to attend a conference", words:["سَأُسَافِرُ","إِلَى","الْقَاهِرَة","الْأُسْبُوع","الْقَادِم","لِحُضُور","مُؤْتَمَر"]},
-              {ar:"سَأُسَافِرُ بِالطَّائِرَة لِأَنَّهَا أَسْرَع وَأَكْثَر رَاحَة",en:"I will travel by plane because it is faster and more comfortable", words:["سَأُسَافِرُ","بِالطَّائِرَة","لِأَنَّهَا","أَسْرَع","وَأَكْثَر","رَاحَة"]},
-              {ar:"حَجَزْتُ غُرْفَةً فِي فُنْدُق قَرِيب مِن مَكَان الْمُؤْتَمَر",en:"I booked a room in a hotel near the conference venue", words:["حَجَزْتُ","غُرْفَةً","فِي","فُنْدُق","قَرِيب","مِن","مَكَان","الْمُؤْتَمَر"]},
-              {ar:"سَوْفَ نَزُورُ الْأَهْرَامَات وَالْمَعَالِم السِّيَاحِيَّة الْكَبِيرَة",en:"We will visit the pyramids and the major tourist landmarks", words:["سَوْفَ","نَزُورُ","الْأَهْرَامَات","وَالْمَعَالِم","السِّيَاحِيَّة","الْكَبِيرَة"]},
-              {ar:"تَسْتَغْرِقُ الرِّحْلَة حَوَالَيْ أَرْبَعِينَ دَقِيقَة فِي أَوْقَات الذُّرْوَة",en:"The trip takes about forty minutes during peak times", words:["تَسْتَغْرِقُ","الرِّحْلَة","حَوَالَيْ","أَرْبَعِينَ","دَقِيقَة","فِي","أَوْقَات","الذُّرْوَة"]},
-              {ar:"اِتَّجِهْ يَمِينًا ثُمَّ سِرْ مِئَتَي مِتْر حَتَّى تَصِل",en:"Turn right then walk two hundred meters until you arrive", words:["اِتَّجِهْ","يَمِينًا","ثُمَّ","سِرْ","مِئَتَي","مِتْر","حَتَّى","تَصِل"]},
-              {ar:"سَأَسْتَغِلُّ الْوَقْتَ وَأَزُورُ الْقَاهِرَة الْقَدِيمَة وَالْمَتَاحِف",en:"I will use the time and visit Old Cairo and the museums", words:["سَأَسْتَغِلُّ","الْوَقْتَ","وَأَزُورُ","الْقَاهِرَة","الْقَدِيمَة","وَالْمَتَاحِف"]},
-              {ar:"هَلْ سَتَزُورُ الْأَهْرَامَات أَمْ تَبْقَى فِي الْفُنْدُق؟",en:"Will you visit the pyramids or stay at the hotel?", words:["هَلْ","سَتَزُورُ","الْأَهْرَامَات","أَمْ","تَبْقَى","فِي","الْفُنْدُق؟"]},
-              {ar:"الصَّرَّاف الْآلِيّ مَوْجُود عِنْدَ مَدْخَل الْمَطَار الدَّوْلِيّ",en:"The ATM is located at the international airport entrance", words:["الصَّرَّاف","الْآلِيّ","مَوْجُود","عِنْدَ","مَدْخَل","الْمَطَار","الدَّوْلِيّ"]},
-              {ar:"يَتَوَقَّف الْأُوتُوبِيس رَقْم سَبْعَة أَمَامَ فُنْدُق النِّيل",en:"Bus number seven stops in front of the Nile Hotel", words:["يَتَوَقَّف","الْأُوتُوبِيس","رَقْم","سَبْعَة","أَمَامَ","فُنْدُق","النِّيل"]},
-            ]}
-          },
-          { id:6, type:"dialogue", title:"At the Umrah Travel Agency", desc:"في مكتب العمرة — تأشيرة وتصاريح", icon:"forum", color:"#D4A34A",
-            data:{ title:"فِي مَكْتَبِ الْعُمْرَة", setting:"طالب يتقدّم على تأشيرة عمرة في وكالة سفر معتمدة", note:"Real-world MSA for a travel agency. Watch the official-document words: <strong>رُخْصَة</strong> (license), <strong>تَأْشِيرَة</strong> (visa), <strong>تَصْرِيح</strong> (permit), and <strong>خَتْم</strong> (stamp). Note <strong>صَالِح</strong> (valid) vs <strong>مُنْتَهِي الصَّلَاحِيَّة</strong> (expired).",
-              lines:[
-                {spk:"Agent",side:"left",ar:"أَهْلًا وَسَهْلًا بِكَ فِي مَكْتَبِ السَّفَرِ. كَيْفَ أُسَاعِدُكَ فِي التَّقْدِيمِ عَلَى تَأْشِيرَةِ الْعُمْرَةِ؟",en:"Welcome to the travel office. How can I help you apply for the Umrah visa?"},
-                {spk:"Pilgrim",side:"right",ar:"مَرْحَبًا. أُرِيدُ التَّقْدِيمَ عَلَى التَّأْشِيرَةِ. هَلْ يَمْلِكُ هَذَا الْمَكْتَبُ رُخْصَةً رَسْمِيَّةً مِنْ وِزَارَةِ الْحَجِّ؟",en:"Hello. I want to apply for the visa. Does this office have an official license from the Ministry of Hajj?"},
-                {spk:"Agent",side:"left",ar:"نَعَمْ، نَحْنُ وَكَالَةٌ مُعْتَمَدَةٌ وَلَدَيْنَا رُخْصَةٌ سَارِيَةٌ. أَعْطِنِي جَوَازَ سَفَرِكَ وَبِطَاقَةَ الْهُوِيَّةِ، مِنْ فَضْلِكَ.",en:"Yes, we are an approved agency and we have a valid license. Give me your passport and ID card, please."},
-                {spk:"Pilgrim",side:"right",ar:"تَفَضَّلْ، هَذَا جَوَازُ السَّفَرِ وَهَذِهِ بِطَاقَةُ الْهُوِيَّةِ الشَّخْصِيَّةِ.",en:"Here you go, this is the passport and this is the personal ID card."},
-                {spk:"Agent",side:"left",ar:"مُمْتَازٌ، جَوَازُ سَفَرِكَ صَالِحٌ لِمُدَّةِ سِتَّةِ أَشْهُرٍ. هُوَ لَيْسَ مُنْتَهِيَ الصَّلَاحِيَّةِ.",en:"Excellent, your passport is valid for six months. It is not expired."},
-                {spk:"Pilgrim",side:"right",ar:"رَائِعٌ. كَمْ هِيَ مُدَّةُ الْإِقَامَةِ الْمَسْمُوحَةِ فِي الْمَمْلَكَةِ؟",en:"Great. How long is the allowed duration of stay in the Kingdom?"},
-                {spk:"Agent",side:"left",ar:"مُدَّةُ التَّأْشِيرَةِ تِسْعُونَ يَوْمًا. سَتَحْصُلُ عَلَى خَتْمِ الدُّخُولِ عِنْدَ الْوُصُولِ فِي الْمَطَارِ.",en:"The visa duration is ninety days. You will get the entry stamp upon arrival at the airport."},
-                {spk:"Pilgrim",side:"right",ar:"هَلْ أَحْتَاجُ إِلَى تَصْرِيحٍ خَاصٍّ لِلصَّلَاةِ فِي الرَّوْضَةِ الشَّرِيفَةِ؟",en:"Do I need a special permit to pray in the Rawdah Shareef?"},
-                {spk:"Agent",side:"left",ar:"نَعَمْ، يَجِبُ حَجْزُ تَصْرِيحِ الْعُمْرَةِ وَالصَّلَاةِ عَبْرَ تَطْبِيقِ نُسُك الْإِلِكْتِرُونِيِّ.",en:"Yes, you must book the Umrah and prayer permit via the Nusuk app."},
-                {spk:"Pilgrim",side:"right",ar:"حَسَنًا، وَمَاذَا عَنْ خَتْمِ الْخُرُوجِ عِنْدَ الْعَوْدَةِ؟",en:"Okay, and what about the exit stamp upon return?"},
-                {spk:"Agent",side:"left",ar:"سَيَقُومُ ضَابِطُ الْجَوَازَاتِ بِوَضْعِ خَتْمِ الْخُرُوجِ فِي الْمَطَارِ قَبْلَ مُغَادَرَتِكَ.",en:"The passport officer will place the exit stamp at the airport before your departure."},
-              ],
-              keywords:[
-                {ar:"رُخْصَة سَارِيَة",en:"Valid license"},
-                {ar:"صَالِح",en:"Valid"},
-                {ar:"مُنْتَهِي الصَّلَاحِيَّة",en:"Expired"},
-                {ar:"مُدَّة الْإِقَامَة",en:"Duration of stay"},
-                {ar:"خَتْم الدُّخُول",en:"Entry stamp"},
-                {ar:"تَصْرِيح",en:"Permit"},
-                {ar:"خَتْم الْخُرُوج",en:"Exit stamp"},
-              ]
-            }
-          },
-          { id:7, type:"vocab", title:"Travel & Permits", desc:"تأشيرات وتصاريح — كلمات رسمية", icon:"translate", color:"#D4A34A",
-            data:{ words:[
-              {ar:"دُخُول",en:"Entry"},
-              {ar:"خُرُوج",en:"Exit / Departure"},
-              {ar:"تَصْرِيح",en:"Permit"},
-              {ar:"رُخْصَة",en:"License"},
-              {ar:"مَكْتَب",en:"Office / Agency"},
-              {ar:"خَتْم",en:"Stamp"},
-              {ar:"مُدَّة",en:"Duration"},
-              {ar:"صَالِح",en:"Valid"},
-              {ar:"مُنْتَهِي الصَّلَاحِيَّة",en:"Expired"},
-              {ar:"تَأْشِيرَة",en:"Visa"},
-            ]}
-          }
-        ]
-      },
-      { id:"6.3", title:"Weather & Seasons", icon:"wb_sunny",
+      { id:"6.2", title:"Weather & Seasons", icon:"wb_sunny",
         desc:"الطقس والفصول — كَلِمَات يَوْمِيَّة",
         blocks:[
           { id:1, type:"dialogue", title:"How's the Weather?", desc:"Friends talk about the weather", icon:"forum", color:"#D4A34A",
@@ -4856,7 +4713,7 @@ const CUR = [
           }
         ]
       },
-      { id:"6.4", title:"Prayer & Daily Worship", icon:"mosque",
+      { id:"6.3", title:"Prayer & Daily Worship", icon:"mosque",
         desc:"الصَّلاة وَالعِبَادَة اليَومِيَّة",
         blocks:[
           { id:1, type:"dialogue", title:"Going to Fajr", desc:"صَدِيقَان يَتَحَدَّثَان عَن صَلاة الفَجر", icon:"forum", color:"#D4A34A",
@@ -4990,7 +4847,7 @@ const CUR = [
           }
         ]
       },
-      { id:"6.5", title:"People of Knowledge & Da'wah", icon:"auto_stories",
+      { id:"6.4", title:"People of Knowledge & Da'wah", icon:"auto_stories",
         desc:"العِلم وَالدَّعوَة وَأَهلُ العِلم",
         blocks:[
           { id:1, type:"dialogue", title:"At the Shaykh's Lecture", desc:"طالِب يَسأَل عَن المُحاضَرَة", icon:"forum", color:"#D4A34A",
@@ -5091,7 +4948,7 @@ const CUR = [
           }
         ]
       },
-      { id:"6.6", title:"Banking & ID", icon:"account_balance",
+      { id:"6.5", title:"Banking & ID", icon:"account_balance",
         desc:"المعاملات البنكية والهوية — هُوِيَّة وبِطَاقَة",
         blocks:[
           { id:1, type:"dialogue", title:"Depositing a Cheque", desc:"إيداع شيك في البنك", icon:"forum", color:"#D4A34A",
@@ -6701,6 +6558,153 @@ const CUR = [
         ]
       }
     ]
+  },
+  { id:14, title:"Travel & Visas", color:"#D4A34A", icon:"flight_takeoff",
+    units:[
+      { id:"14.1", title:"Travel & Directions", icon:"travel_explore",
+        desc:"السفر والمستقبل — 12-15 كلمة",
+        blocks:[
+          { id:1, type:"dialogue", title:"Trip to Cairo", desc:"أحمد يخطط لرحلة", icon:"forum", color:"#D4A34A",
+            data:{ title:"سَنُسَافِرُ إِلَى الْقَاهِرَة", setting:"أحمد وعمر يخططان لرحلة إلى القاهرة",
+              lines:[
+                {spk:"Omar",side:"left",ar:"أَحْمَد، سَمِعْتُ أَنَّكَ سَتُسَافِرُ قَرِيبًا، صَحِيح؟",en:"Ahmad, I heard you will travel soon, is that right?"},
+                {spk:"Ahmad",side:"right",ar:"نَعَمْ، سَأُسَافِرُ إِلَى الْقَاهِرَة الْأُسْبُوع الْقَادِم",en:"Yes, I will travel to Cairo next week"},
+                {spk:"Omar",side:"left",ar:"رَائِع! وَلِمَاذَا تَذْهَبُ إِلَى الْقَاهِرَة بِالضَّبْط؟",en:"Wonderful! And why exactly are you going to Cairo?"},
+                {spk:"Ahmad",side:"right",ar:"سَأَحْضُرُ مُؤْتَمَرًا طِبِّيًّا مُهِمًّا هُنَاك",en:"I will attend an important medical conference there"},
+                {spk:"Omar",side:"left",ar:"وَكَيْفَ سَتُسَافِرُ؟ بِالطَّائِرَة أَمْ بِالْقِطَار؟",en:"And how will you travel? By plane or train?"},
+                {spk:"Ahmad",side:"right",ar:"سَأُسَافِرُ بِالطَّائِرَة لِأَنَّهَا أَسْرَعُ وَأَكْثَرُ رَاحَةً",en:"I will travel by plane because it's faster and more comfortable"},
+                {spk:"Omar",side:"left",ar:"وَأَيْنَ سَتَنْزِلُ؟ هَلْ حَجَزْتَ فُنْدُقًا؟",en:"And where will you stay? Have you booked a hotel?"},
+                {spk:"Ahmad",side:"right",ar:"نَعَمْ، حَجَزْتُ غُرْفَةً فِي فُنْدُق قَرِيب مِنَ الْمُؤْتَمَر",en:"Yes, I booked a room in a hotel near the conference"},
+                {spk:"Omar",side:"left",ar:"هَلْ سَتَزُورُ الْأَهْرَامَات وَالْمَعَالِم السِّيَاحِيَّة؟",en:"Will you visit the Pyramids and tourist attractions?"},
+                {spk:"Ahmad",side:"right",ar:"بِالتَّأْكِيد، سَأَسْتَغِلُّ الْوَقْتَ وَأَزُورُ الْقَاهِرَة الْقَدِيمَة",en:"Definitely, I will make use of the time and visit Old Cairo"},
+              ],
+              keywords:[
+                {ar:"سَمِعْتُ أَنَّكَ",en:"I heard that you"},
+                {ar:"لِمَاذَا",en:"Why"},
+                {ar:"مُؤْتَمَر",en:"Conference"},
+                {ar:"أَسْرَع وَأَكْثَر رَاحَة",en:"Faster and more comfortable"},
+                {ar:"حَجَزَ",en:"Booked / Reserved"},
+                {ar:"مَعَالِم سِيَاحِيَّة",en:"Tourist attractions"},
+                {ar:"يَسْتَغِلُّ الْوَقْت",en:"Makes use of the time"},
+              ]
+            }
+          },
+          { id:2, type:"dialogue", title:"At the Airport", desc:"أحمد يسأل عن الطريق", icon:"forum", color:"#D4A34A",
+            data:{ title:"فِي الْمَطَار وَالْمَدِينَة", setting:"أحمد وصل القاهرة ويسأل عن الطريق",
+              lines:[
+                {spk:"Ahmad",side:"left",ar:"عَفْوًا، أَيْنَ مَحَطَّة الْأُوتُوبِيس إِلَى وَسَط الْمَدِينَة؟",en:"Excuse me, where is the bus station to the city center?"},
+                {spk:"Staff",side:"right",ar:"اِتَّجِهْ يَمِينًا ثُمَّ سِرْ مِئَتَي مِتْر حَتَّى تَصِل",en:"Turn right then walk two hundred meters until you arrive"},
+                {spk:"Ahmad",side:"left",ar:"وَهَلْ يَمُرُّ الْأُوتُوبِيس بِالْقُرْب مِن فُنْدُق النِّيل؟",en:"And does the bus pass near the Nile Hotel?"},
+                {spk:"Staff",side:"right",ar:"نَعَمْ، يَتَوَقَّف الْأُوتُوبِيس رَقْم سَبْعَة أَمَامَ الْفُنْدُق",en:"Yes, bus number seven stops in front of the hotel"},
+                {spk:"Ahmad",side:"left",ar:"وَكَمْ تَسْتَغْرِقُ الرِّحْلَة مِنَ الْمَطَار لِلْفُنْدُق؟",en:"And how long does the trip take from the airport to the hotel?"},
+                {spk:"Staff",side:"right",ar:"تَسْتَغْرِقُ حَوَالَيْ أَرْبَعِينَ دَقِيقَة فِي أَوْقَات الذُّرْوَة",en:"It takes about forty minutes in rush hour"},
+                {spk:"Ahmad",side:"left",ar:"شُكْرًا جَزِيلًا، هَلْ يُمْكِنُنِي الدَّفْع بِالْبِطَاقَة؟",en:"Thank you very much, can I pay by card?"},
+                {spk:"Staff",side:"right",ar:"لَا، الْأُوتُوبِيس نَقْدًا فَقَط بِخَمْسَة جُنَيْهَات",en:"No, the bus is cash only, five pounds"},
+                {spk:"Ahmad",side:"left",ar:"حَسَنًا، سَأَبْحَثُ عَنْ صَرَّاف آلِيّ قَرِيب",en:"Okay, I'll look for a nearby ATM"},
+                {spk:"Staff",side:"right",ar:"الصَّرَّاف الْآلِيّ مَوْجُود عِنْدَ مَدْخَل الْمَطَار",en:"The ATM is available at the airport entrance"},
+              ],
+              keywords:[
+                {ar:"اِتَّجِهْ",en:"Head towards / Turn"},
+                {ar:"سِرْ مِئَتَي مِتْر",en:"Walk two hundred meters"},
+                {ar:"يَتَوَقَّف",en:"Stops"},
+                {ar:"تَسْتَغْرِق",en:"Takes (time)"},
+                {ar:"أَوْقَات الذُّرْوَة",en:"Rush hour"},
+                {ar:"نَقْدًا",en:"Cash"},
+                {ar:"صَرَّاف آلِيّ",en:"ATM"},
+              ]
+            }
+          },
+          { id:3, type:"vocab", title:"Travel & Transport", desc:"10 كَلِمَات أَسَاسِيَّة لِلسَّفَر", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"مَطَار / مَحَطَّة",en:"Airport / Station"},
+              {ar:"طَائِرَة / قِطَار",en:"Plane / Train"},
+              {ar:"حَافِلَة / سَيَّارَة أُجْرَة",en:"Bus / Taxi"},
+              {ar:"حَجَزَ",en:"Booked"},
+              {ar:"وَصَلَ / غَادَرَ",en:"Arrived / Departed"},
+              {ar:"يَمِين / يَسَار",en:"Right / Left"},
+              {ar:"أَمَام / خَلْف",en:"Ahead / Behind"},
+              {ar:"قَرِيب / بَعِيد",en:"Near / Far"},
+              {ar:"مَعَالِم سِيَاحِيَّة",en:"Tourist attractions"},
+              {ar:"جَوَاز السَّفَر",en:"Passport"},
+            ]}
+          },
+          { id:4, type:"grammar", title:"Future Tense", desc:"سَأَذْهَبُ، سَوْفَ نُسَافِرُ", icon:"psychology", color:"#D4A34A",
+            data:{ title:"Future Tense", titleAr:"الْمُسْتَقْبَل بِـ سَـ وَسَوْفَ",
+              intro:"Add سَـ directly before the present tense verb for near future. Use سَوْفَ before it for emphatic future. Both mean 'will'.",
+              table:{ cols:["Present","With سَـ","With سَوْفَ"], colW:"1fr 1fr 1fr",
+                rows:[
+                  {ar:"أَذْهَب",roman:"سَأَذْهَب",en:"سَوْفَ أَذْهَب"},
+                  {ar:"يُسَافِر",roman:"سَيُسَافِر",en:"سَوْفَ يُسَافِر"},
+                  {ar:"تَصِل",roman:"سَتَصِل",en:"سَوْفَ تَصِل"},
+                  {ar:"نَحْجِز",roman:"سَنَحْجِز",en:"سَوْفَ نَحْجِز"},
+                ]
+              },
+              keyRule:"سَـ + present = near future (I will). سَوْفَ + present = emphatic future (I will definitely).",
+              examples:[
+                {ar:"سَأُسَافِرُ إِلَى الْقَاهِرَة الْأُسْبُوع الْقَادِم",en:"I will travel to Cairo next week"},
+                {ar:"سَوْفَ نَزُورُ الْأَهْرَامَات وَالْمَتَاحِف الْكَبِيرَة",en:"We will definitely visit the Pyramids and large museums"},
+                {ar:"سَتَصِلُ الطَّائِرَة فِي السَّاعَة الثَّالِثَة",en:"The plane will arrive at three o'clock"},
+                {ar:"سَأَسْتَغِلُّ الْوَقْتَ وَأَزُورُ الْقَاهِرَة الْقَدِيمَة",en:"I will make use of the time and visit Old Cairo"},
+              ]
+            }
+          },
+          { id:5, type:"clutter", title:"Sentence Builder", desc:"جمل 12-15 كلمة", icon:"extension", color:"#D4A34A",
+            data:{ passing:70, sentences:[
+              {ar:"سَأُسَافِرُ إِلَى الْقَاهِرَة الْأُسْبُوع الْقَادِم لِحُضُور مُؤْتَمَر",en:"I will travel to Cairo next week to attend a conference", words:["سَأُسَافِرُ","إِلَى","الْقَاهِرَة","الْأُسْبُوع","الْقَادِم","لِحُضُور","مُؤْتَمَر"]},
+              {ar:"سَأُسَافِرُ بِالطَّائِرَة لِأَنَّهَا أَسْرَع وَأَكْثَر رَاحَة",en:"I will travel by plane because it is faster and more comfortable", words:["سَأُسَافِرُ","بِالطَّائِرَة","لِأَنَّهَا","أَسْرَع","وَأَكْثَر","رَاحَة"]},
+              {ar:"حَجَزْتُ غُرْفَةً فِي فُنْدُق قَرِيب مِن مَكَان الْمُؤْتَمَر",en:"I booked a room in a hotel near the conference venue", words:["حَجَزْتُ","غُرْفَةً","فِي","فُنْدُق","قَرِيب","مِن","مَكَان","الْمُؤْتَمَر"]},
+              {ar:"سَوْفَ نَزُورُ الْأَهْرَامَات وَالْمَعَالِم السِّيَاحِيَّة الْكَبِيرَة",en:"We will visit the pyramids and the major tourist landmarks", words:["سَوْفَ","نَزُورُ","الْأَهْرَامَات","وَالْمَعَالِم","السِّيَاحِيَّة","الْكَبِيرَة"]},
+              {ar:"تَسْتَغْرِقُ الرِّحْلَة حَوَالَيْ أَرْبَعِينَ دَقِيقَة فِي أَوْقَات الذُّرْوَة",en:"The trip takes about forty minutes during peak times", words:["تَسْتَغْرِقُ","الرِّحْلَة","حَوَالَيْ","أَرْبَعِينَ","دَقِيقَة","فِي","أَوْقَات","الذُّرْوَة"]},
+              {ar:"اِتَّجِهْ يَمِينًا ثُمَّ سِرْ مِئَتَي مِتْر حَتَّى تَصِل",en:"Turn right then walk two hundred meters until you arrive", words:["اِتَّجِهْ","يَمِينًا","ثُمَّ","سِرْ","مِئَتَي","مِتْر","حَتَّى","تَصِل"]},
+              {ar:"سَأَسْتَغِلُّ الْوَقْتَ وَأَزُورُ الْقَاهِرَة الْقَدِيمَة وَالْمَتَاحِف",en:"I will use the time and visit Old Cairo and the museums", words:["سَأَسْتَغِلُّ","الْوَقْتَ","وَأَزُورُ","الْقَاهِرَة","الْقَدِيمَة","وَالْمَتَاحِف"]},
+              {ar:"هَلْ سَتَزُورُ الْأَهْرَامَات أَمْ تَبْقَى فِي الْفُنْدُق؟",en:"Will you visit the pyramids or stay at the hotel?", words:["هَلْ","سَتَزُورُ","الْأَهْرَامَات","أَمْ","تَبْقَى","فِي","الْفُنْدُق؟"]},
+              {ar:"الصَّرَّاف الْآلِيّ مَوْجُود عِنْدَ مَدْخَل الْمَطَار الدَّوْلِيّ",en:"The ATM is located at the international airport entrance", words:["الصَّرَّاف","الْآلِيّ","مَوْجُود","عِنْدَ","مَدْخَل","الْمَطَار","الدَّوْلِيّ"]},
+              {ar:"يَتَوَقَّف الْأُوتُوبِيس رَقْم سَبْعَة أَمَامَ فُنْدُق النِّيل",en:"Bus number seven stops in front of the Nile Hotel", words:["يَتَوَقَّف","الْأُوتُوبِيس","رَقْم","سَبْعَة","أَمَامَ","فُنْدُق","النِّيل"]},
+            ]}
+          },
+          { id:6, type:"dialogue", title:"At the Umrah Travel Agency", desc:"في مكتب العمرة — تأشيرة وتصاريح", icon:"forum", color:"#D4A34A",
+            data:{ title:"فِي مَكْتَبِ الْعُمْرَة", setting:"طالب يتقدّم على تأشيرة عمرة في وكالة سفر معتمدة", note:"Real-world MSA for a travel agency. Watch the official-document words: <strong>رُخْصَة</strong> (license), <strong>تَأْشِيرَة</strong> (visa), <strong>تَصْرِيح</strong> (permit), and <strong>خَتْم</strong> (stamp). Note <strong>صَالِح</strong> (valid) vs <strong>مُنْتَهِي الصَّلَاحِيَّة</strong> (expired).",
+              lines:[
+                {spk:"Agent",side:"left",ar:"أَهْلًا وَسَهْلًا بِكَ فِي مَكْتَبِ السَّفَرِ. كَيْفَ أُسَاعِدُكَ فِي التَّقْدِيمِ عَلَى تَأْشِيرَةِ الْعُمْرَةِ؟",en:"Welcome to the travel office. How can I help you apply for the Umrah visa?"},
+                {spk:"Pilgrim",side:"right",ar:"مَرْحَبًا. أُرِيدُ التَّقْدِيمَ عَلَى التَّأْشِيرَةِ. هَلْ يَمْلِكُ هَذَا الْمَكْتَبُ رُخْصَةً رَسْمِيَّةً مِنْ وِزَارَةِ الْحَجِّ؟",en:"Hello. I want to apply for the visa. Does this office have an official license from the Ministry of Hajj?"},
+                {spk:"Agent",side:"left",ar:"نَعَمْ، نَحْنُ وَكَالَةٌ مُعْتَمَدَةٌ وَلَدَيْنَا رُخْصَةٌ سَارِيَةٌ. أَعْطِنِي جَوَازَ سَفَرِكَ وَبِطَاقَةَ الْهُوِيَّةِ، مِنْ فَضْلِكَ.",en:"Yes, we are an approved agency and we have a valid license. Give me your passport and ID card, please."},
+                {spk:"Pilgrim",side:"right",ar:"تَفَضَّلْ، هَذَا جَوَازُ السَّفَرِ وَهَذِهِ بِطَاقَةُ الْهُوِيَّةِ الشَّخْصِيَّةِ.",en:"Here you go, this is the passport and this is the personal ID card."},
+                {spk:"Agent",side:"left",ar:"مُمْتَازٌ، جَوَازُ سَفَرِكَ صَالِحٌ لِمُدَّةِ سِتَّةِ أَشْهُرٍ. هُوَ لَيْسَ مُنْتَهِيَ الصَّلَاحِيَّةِ.",en:"Excellent, your passport is valid for six months. It is not expired."},
+                {spk:"Pilgrim",side:"right",ar:"رَائِعٌ. كَمْ هِيَ مُدَّةُ الْإِقَامَةِ الْمَسْمُوحَةِ فِي الْمَمْلَكَةِ؟",en:"Great. How long is the allowed duration of stay in the Kingdom?"},
+                {spk:"Agent",side:"left",ar:"مُدَّةُ التَّأْشِيرَةِ تِسْعُونَ يَوْمًا. سَتَحْصُلُ عَلَى خَتْمِ الدُّخُولِ عِنْدَ الْوُصُولِ فِي الْمَطَارِ.",en:"The visa duration is ninety days. You will get the entry stamp upon arrival at the airport."},
+                {spk:"Pilgrim",side:"right",ar:"هَلْ أَحْتَاجُ إِلَى تَصْرِيحٍ خَاصٍّ لِلصَّلَاةِ فِي الرَّوْضَةِ الشَّرِيفَةِ؟",en:"Do I need a special permit to pray in the Rawdah Shareef?"},
+                {spk:"Agent",side:"left",ar:"نَعَمْ، يَجِبُ حَجْزُ تَصْرِيحِ الْعُمْرَةِ وَالصَّلَاةِ عَبْرَ تَطْبِيقِ نُسُك الْإِلِكْتِرُونِيِّ.",en:"Yes, you must book the Umrah and prayer permit via the Nusuk app."},
+                {spk:"Pilgrim",side:"right",ar:"حَسَنًا، وَمَاذَا عَنْ خَتْمِ الْخُرُوجِ عِنْدَ الْعَوْدَةِ؟",en:"Okay, and what about the exit stamp upon return?"},
+                {spk:"Agent",side:"left",ar:"سَيَقُومُ ضَابِطُ الْجَوَازَاتِ بِوَضْعِ خَتْمِ الْخُرُوجِ فِي الْمَطَارِ قَبْلَ مُغَادَرَتِكَ.",en:"The passport officer will place the exit stamp at the airport before your departure."},
+              ],
+              keywords:[
+                {ar:"رُخْصَة سَارِيَة",en:"Valid license"},
+                {ar:"صَالِح",en:"Valid"},
+                {ar:"مُنْتَهِي الصَّلَاحِيَّة",en:"Expired"},
+                {ar:"مُدَّة الْإِقَامَة",en:"Duration of stay"},
+                {ar:"خَتْم الدُّخُول",en:"Entry stamp"},
+                {ar:"تَصْرِيح",en:"Permit"},
+                {ar:"خَتْم الْخُرُوج",en:"Exit stamp"},
+              ]
+            }
+          },
+          { id:7, type:"vocab", title:"Travel & Permits", desc:"تأشيرات وتصاريح — كلمات رسمية", icon:"translate", color:"#D4A34A",
+            data:{ words:[
+              {ar:"دُخُول",en:"Entry"},
+              {ar:"خُرُوج",en:"Exit / Departure"},
+              {ar:"تَصْرِيح",en:"Permit"},
+              {ar:"رُخْصَة",en:"License"},
+              {ar:"مَكْتَب",en:"Office / Agency"},
+              {ar:"خَتْم",en:"Stamp"},
+              {ar:"مُدَّة",en:"Duration"},
+              {ar:"صَالِح",en:"Valid"},
+              {ar:"مُنْتَهِي الصَّلَاحِيَّة",en:"Expired"},
+              {ar:"تَأْشِيرَة",en:"Visa"},
+            ]}
+          }
+        ]
+      },
+    ]
   }
 ];
 
@@ -6808,8 +6812,8 @@ const UNIT_OBJECTIVES = {
   "5.4": ["name the major parts of the body in Arabic", "use the dual form (ـَان) for paired body parts (eyes, hands, feet)", "say 'my X / your X / his X / her X' for body parts using the suffixes you learned"],
   "5.5": ["name common articles of clothing", "describe what you and others are wearing", "match color adjectives to masculine vs feminine clothing nouns"],
   "6.1": ["describe your daily routine using the present tense", "name the days of the week in Arabic", "use أَ ، تَ ، يَ ، نَ prefixes for verb conjugation"],
-  "6.2": ["talk about future plans using سَ + verb and سَوْفَ", "ask for and follow simple directions", "describe a trip including transport, hotel, and sights"],
-  "6.3": ["describe weather and the four seasons", "use كَانَ to describe past states", "explain why you prefer one season over another"],
+  "14.1": ["talk about future plans using سَ + verb and سَوْفَ", "ask for and follow simple directions", "describe a trip including transport, hotel, and sights"],
+  "6.2": ["describe weather and the four seasons", "use كَانَ to describe past states", "explain why you prefer one season over another"],
   "7.1": ["name parts of the body and describe common symptoms", "use يَجِب أَنْ to express obligation (must/should)", "buy medicine at a pharmacy and ask about dosage"],
   "7.2": ["describe symptoms and medical history to a doctor", "use إِذَا + لَمْ for conditional sentences ('if you don't...')", "name common chronic conditions and allergies"],
   "8.1": ["name common supermarket sections and items", "use أَحْتَاج أَنْ + verb to express needs", "ask staff where items are located"],
@@ -7728,7 +7732,7 @@ function mkHub(){
   // Three learning tiers
   const TIERS = [
     { label:'Beginner',     ar:'مُبْتَدِئ',   desc:'Greetings, family, school & home',       ids:[1,2,3,4] },
-    { label:'Intermediate', ar:'مُتَوَسِّط',  desc:'Food, daily life, health & groceries',   ids:[5,6,7,8] },
+    { label:'Intermediate', ar:'مُتَوَسِّط',  desc:'Food, daily life, health & groceries',   ids:[5,6,7,8,14] },
     { label:'Advanced',     ar:'مُتَقَدِّم',   desc:'Malls, travel, nature & hobbies',        ids:[9,10,11,12] },
     { label:'Expert',       ar:'مُتَمَكِّن',   desc:'Media Arabic — news & politics',         ids:[13] },
   ];
