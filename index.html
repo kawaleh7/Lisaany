@@ -743,7 +743,7 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
         <div class="pair"><span class="en">Speak</span><span class="ar">تَكَلَّم</span></div>
         <div class="pair"><span class="en">Master</span><span class="ar">تَعَلَّم</span></div>
       </div>
-      <h1 class="hx-h1 rise d2">Read the Qur'an.<br>Speak Arabic — <em>beautifully.</em></h1>
+      <h1 class="hx-h1 rise d2">Read the Qur'an.<br>Speak Arabic — <em class="hx-shine">beautifully.</em></h1>
       <p class="hx-sub rise d3">From your very first letter to full conversation — a real curriculum where every word is recorded by a native speaker.</p>
       <div class="hx-cta rise d4">
         <a class="hx-btn-p" href="arabic_platform.html">Begin the Journey</a>
@@ -767,7 +767,7 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
         <div class="c-eyebrow"><span class="e">Dialogue · 2 / 7</span><span class="c-spk"><span class="av">K</span>Khalid</span></div>
         <div class="c-ar">وَعَلَيْكُمُ السَّلَام</div>
         <div class="c-en">and peace be upon you</div>
-        <div class="c-play">🔊 Khalid speaks</div>
+        <div class="c-play"><span class="c-pico">🔊</span> Khalid speaks <span class="c-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
         <div class="c-bar"><i></i></div>
       </div>
 
@@ -782,10 +782,10 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
 <!-- ============ STATS STRIP ============ -->
 <section class="st-band reveal">
   <div class="st-grid">
-    <div class="st"><div class="n">2</div><div class="l">Courses</div></div>
-    <div class="st"><div class="n">12</div><div class="l">Modules</div></div>
-    <div class="st"><div class="n">170+</div><div class="l">Lessons</div></div>
-    <div class="st"><div class="n">500+</div><div class="l">Native Audio Clips</div></div>
+    <div class="st"><div class="n" data-count="2">0</div><div class="l">Courses</div></div>
+    <div class="st"><div class="n" data-count="12">0</div><div class="l">Modules</div></div>
+    <div class="st"><div class="n" data-count="170" data-suffix="+">0</div><div class="l">Lessons</div></div>
+    <div class="st"><div class="n" data-count="500" data-suffix="+">0</div><div class="l">Native Audio Clips</div></div>
   </div>
 </section>
 
@@ -894,6 +894,115 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
     <div class="footer-meta">© 2026 Lisaany</div>
   </div>
 </footer>
+
+<!-- ===== WOW+ : additive polish layer (layout untouched) ===== -->
+<style id="wow-plus">
+  /* hero headline — living gold shimmer on the emphasis word */
+  .hx-shine{
+    background:linear-gradient(100deg,#8a6620 0%,#b9842a 28%,#f1cc73 50%,#b9842a 72%,#8a6620 100%);
+    background-size:230% 100%;-webkit-background-clip:text;background-clip:text;
+    -webkit-text-fill-color:transparent;color:transparent;font-style:italic;
+  }
+  @media(prefers-reduced-motion:no-preference){
+    .hx-shine{animation:hxshine 6s ease-in-out infinite;}
+  }
+  @keyframes hxshine{0%{background-position:130% 0;}100%{background-position:-130% 0;}}
+
+  /* hero arch — draws itself in */
+  @media(prefers-reduced-motion:no-preference){
+    .hx-arch path{stroke-dasharray:340;stroke-dashoffset:340;animation:archDraw 2.4s cubic-bezier(.16,1,.3,1) .8s forwards;}
+  }
+  @keyframes archDraw{to{stroke-dashoffset:0;}}
+
+  /* hero lesson card — make the audio feel alive */
+  .c-pico{display:inline-block;}
+  .c-wave{display:inline-flex;align-items:flex-end;gap:2.5px;height:14px;}
+  .c-wave i{width:2.5px;height:5px;border-radius:2px;background:var(--gold-br);opacity:.92;}
+  @media(prefers-reduced-motion:no-preference){
+    .c-pico{animation:cpico 2.6s ease-in-out infinite;}
+    .c-wave i{animation:cwave 1.05s ease-in-out infinite;}
+    .c-wave i:nth-child(2){animation-delay:.11s;}
+    .c-wave i:nth-child(3){animation-delay:.23s;}
+    .c-wave i:nth-child(4){animation-delay:.34s;}
+    .c-wave i:nth-child(5){animation-delay:.19s;}
+    .c-wave i:nth-child(6){animation-delay:.29s;}
+    .c-wave i:nth-child(7){animation-delay:.07s;}
+    .hx-card .c-bar i{animation:cprog 6s ease-in-out infinite;}
+  }
+  @keyframes cwave{0%,100%{height:4px;}50%{height:13px;}}
+  @keyframes cpico{0%,90%,100%{transform:scale(1);}95%{transform:scale(1.16);}}
+  @keyframes cprog{0%{width:8%;}46%{width:62%;}52%{width:62%;}95%{width:97%;}100%{width:8%;}}
+
+  /* Your Journey — connector draws across, stages rise in sequence */
+  .jny-row::after{content:"";position:absolute;top:55px;left:11%;right:11%;height:2px;z-index:1;
+    background:linear-gradient(90deg,#e8c777,#c2922e);box-shadow:0 0 10px rgba(224,180,82,.5);
+    transform-origin:left center;transform:scaleX(0);}
+  .jny-circ{transition:transform .38s cubic-bezier(.2,.7,.2,1),box-shadow .38s;}
+  .jny-circ svg{transition:stroke .38s;}
+  .jny-stage:hover .jny-circ{transform:translateY(-6px) scale(1.05);
+    box-shadow:0 22px 42px rgba(14,28,56,.34),0 0 0 6px rgba(224,180,82,.15);}
+  .jny-stage:hover .jny-circ svg{stroke:#ffd98a;}
+  @media(prefers-reduced-motion:no-preference){
+    .jny-row.go::after{transition:transform 1.7s cubic-bezier(.16,1,.3,1) .15s;transform:scaleX(1);}
+    .jny-stage{opacity:0;transform:translateY(22px);
+      transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+    .jny-row.go .jny-stage{opacity:1;transform:none;}
+    .jny-row.go .jny-stage:nth-child(1){transition-delay:.10s;}
+    .jny-row.go .jny-stage:nth-child(2){transition-delay:.30s;}
+    .jny-row.go .jny-stage:nth-child(3){transition-delay:.50s;}
+    .jny-row.go .jny-stage:nth-child(4){transition-delay:.70s;}
+    .jny-row.go .jny-stage:nth-child(5){transition-delay:.90s;}
+  }
+  @media(max-width:720px){.jny-row::after{display:none;}}
+
+  /* stats — tabular figures so the count-up doesn't jitter the layout */
+  .st .n{font-variant-numeric:tabular-nums;}
+</style>
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var hasIO = 'IntersectionObserver' in window;
+
+  /* ---- stats count-up ---- */
+  var stBand = document.querySelector('.st-band');
+  if(stBand){
+    var nums = stBand.querySelectorAll('.n[data-count]');
+    var finalize = function(){ nums.forEach(function(n){ n.textContent = n.getAttribute('data-count') + (n.getAttribute('data-suffix')||''); }); };
+    if(reduce){ finalize(); }
+    else {
+      var ran = false;
+      var run = function(){
+        if(ran) return; ran = true;
+        nums.forEach(function(n){
+          var target = parseInt(n.getAttribute('data-count'),10),
+              suf = n.getAttribute('data-suffix')||'', dur = 1500, t0 = null;
+          var step = function(ts){
+            if(!t0) t0 = ts;
+            var p = Math.min((ts - t0)/dur, 1), e = 1 - Math.pow(1 - p, 3);
+            if(p < 1){ n.textContent = Math.round(e * target); requestAnimationFrame(step); }
+            else { n.textContent = target + suf; }
+          };
+          requestAnimationFrame(step);
+        });
+      };
+      if(hasIO){
+        var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ run(); io.disconnect(); } }); }, {threshold:.4});
+        io.observe(stBand);
+      } else { run(); }
+    }
+  }
+
+  /* ---- journey sequence ---- */
+  var jr = document.querySelector('.jny-row');
+  if(jr){
+    if(reduce || !hasIO){ jr.classList.add('go'); }
+    else {
+      var io2 = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ jr.classList.add('go'); io2.disconnect(); } }); }, {threshold:.3});
+      io2.observe(jr);
+    }
+  }
+})();
+</script>
 
 <script>
 (function(){
