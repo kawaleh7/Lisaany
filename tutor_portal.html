@@ -176,6 +176,42 @@ body::before{content:'';position:fixed;inset:0;
 .nav-btn:hover{color:var(--gold-lt);background:rgba(212,163,74,0.06);}
 .nav-btn .ms{font-size:24px;transition:all .25s;}
 .nav-btn.active .ms{font-variation-settings:'FILL' 1;}
+
+/* ── Messages & Bookings (Live Tutors) ── */
+.tp-grid{display:grid;grid-template-columns:290px 1fr;gap:14px;}
+@media(max-width:760px){.tp-grid{grid-template-columns:1fr;}.thread-list{max-height:220px;}}
+.thread-list{background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow-y:auto;max-height:430px;}
+.thread{display:flex;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer;transition:.15s;}
+.thread:hover{background:rgba(212,163,74,.06);}
+.thread.active{background:rgba(212,163,74,.1);}
+.thread .av{width:34px;height:34px;border-radius:50%;background:rgba(212,163,74,.12);border:1px solid rgba(212,163,74,.3);display:flex;align-items:center;justify-content:center;color:var(--gold);font-weight:700;font-size:13px;flex-shrink:0;}
+.thread .tmeta{flex:1;min-width:0;}
+.thread .tname{font-size:13px;color:var(--text);font-weight:600;display:block;}
+.thread .tprev{font-size:11.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}
+.thread .tdot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+.thread-view{background:var(--card);border:1.5px solid var(--border);border-radius:16px;display:flex;flex-direction:column;min-height:430px;max-height:430px;}
+.tv-head{padding:13px 16px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text);font-weight:600;}
+.tv-body{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;}
+.tv-empty{margin:auto;color:var(--dim);font-size:13px;text-align:center;padding:20px;line-height:1.5;}
+.bub{max-width:78%;padding:9px 13px;border-radius:13px;font-size:13px;line-height:1.45;}
+.bub.them{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);align-self:flex-start;border-bottom-left-radius:4px;}
+.bub.me{background:var(--gold);color:#1a1206;align-self:flex-end;border-bottom-right-radius:4px;font-weight:500;}
+.bub .bt{font-size:9.5px;opacity:.6;margin-top:3px;}
+.tv-foot{padding:12px;border-top:1px solid var(--border);display:flex;gap:8px;}
+.tv-input{flex:1;border:1.5px solid var(--border);border-radius:999px;padding:10px 15px;background:#0a1424;color:var(--text);font-size:13px;font-family:inherit;}
+.tv-input:focus{outline:none;border-color:var(--gold);}
+.tv-send{width:40px;height:40px;border-radius:50%;background:var(--gold);color:#1a1206;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.book-row{display:grid;grid-template-columns:1.4fr 1.1fr .7fr .6fr 1.1fr;gap:10px;align-items:center;padding:13px 20px;border-bottom:1px solid var(--border);font-size:12.5px;color:var(--text);}
+.book-row .bk-when{font-weight:600;}
+.bk-status{font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px;text-transform:uppercase;letter-spacing:.3px;display:inline-block;}
+.bk-status.paid{background:rgba(167,217,166,.15);color:var(--green);}
+.bk-status.requested{background:rgba(74,144,217,.15);color:#7fb0e6;}
+.bk-status.confirmed{background:rgba(212,163,74,.15);color:var(--gold);}
+.bk-status.cancelled,.bk-status.completed{background:rgba(224,112,112,.12);color:var(--red);}
+.bk-status.completed{background:rgba(167,217,166,.1);color:var(--dim);}
+.bk-act{background:none;border:1px solid var(--border);color:var(--text);border-radius:8px;padding:5px 10px;font-size:11px;cursor:pointer;font-family:inherit;margin-left:6px;}
+.bk-act:hover{border-color:var(--gold);color:var(--gold);}
+.unread-pill{background:var(--gold);color:#1a1206;font-size:10px;font-weight:800;border-radius:999px;padding:1px 8px;margin-left:8px;vertical-align:middle;}
 </style>
 </head>
 <body>
@@ -240,6 +276,27 @@ body::before{content:'';position:fixed;inset:0;
       <div class="stat-card"><div class="ms stat-icon">calendar_month</div><div class="stat-num" id="stat-sessions">0</div><div class="stat-label">Sessions This Month</div></div>
       <div class="stat-card"><div class="ms stat-icon">star</div><div class="stat-num">—</div><div class="stat-label">Rating</div></div>
     </div>
+    <div class="sec-title"><span class="ms">forum</span>Messages <span id="msg-unread" class="unread-pill" style="display:none;">0</span></div>
+    <div class="tp-grid">
+      <div class="thread-list" id="thread-list">
+        <div class="empty-state" style="padding:24px;"><span class="ms">forum</span>No messages yet.</div>
+      </div>
+      <div class="thread-view" id="thread-view">
+        <div class="tv-head" id="tv-head">Select a conversation</div>
+        <div class="tv-body" id="tv-body"><div class="tv-empty">Your student conversations appear here.<br>Tap one on the left to read and reply.</div></div>
+        <div class="tv-foot" style="display:none;" id="tv-foot">
+          <input class="tv-input" id="tv-input" placeholder="Write a reply…" onkeydown="if(event.key==='Enter')tpSendReply()">
+          <button class="tv-send" onclick="tpSendReply()"><span class="ms">send</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-title"><span class="ms">event_available</span>Bookings</div>
+    <div class="students-card">
+      <div class="table-hdr" style="grid-template-columns:1.4fr 1.1fr .7fr .6fr 1.1fr;"><span>Student</span><span>When</span><span>Length</span><span>Price</span><span>Status</span></div>
+      <div id="bookings-list"><div class="empty-state"><span class="ms">event_available</span>No bookings yet. Paid bookings from students will appear here.</div></div>
+    </div>
+
     <div class="sec-title"><span class="ms">videocam</span>Your Session Room</div>
     <div class="zoom-card" id="zoom-card">
       <div class="zoom-icon"><span class="ms">videocam</span></div>
@@ -405,6 +462,105 @@ function initPortal(user, isOwner) {
   renderSchedule();
   renderStudents();
   renderSessionLog();
+  // ── Live Tutors: messages + bookings ──
+  tpResolveTutor(user).then(()=>{ tpLoadInbox(); tpLoadBookings(); });
+  if(window.__tpPoll) clearInterval(window.__tpPoll);
+  window.__tpPoll = setInterval(()=>{ tpLoadInbox(); tpLoadBookings(); }, 15000);
+}
+
+// ════════ LIVE TUTORS — messages & bookings ════════
+let MY_TUTOR=null, CUR_THREAD=null, tpThreads={};
+const TP_DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function tpEsc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function tpTime(iso){const d=new Date(iso);return d.toLocaleDateString(undefined,{month:'short',day:'numeric'})+' '+d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});}
+
+async function tpResolveTutor(user){
+  try{
+    const {data}=await sb.from('tutors').select('id,name,slug').eq('user_id',user.id).maybeSingle();
+    MY_TUTOR=data||null;
+  }catch(e){ MY_TUTOR=null; }
+}
+function tpUnlinked(el){
+  document.getElementById(el).innerHTML='<div class="empty-state" style="padding:24px;"><span class="ms">link_off</span>This login isn\'t linked to a tutor profile yet. In Supabase, set tutors.user_id to this account.</div>';
+}
+async function tpLoadInbox(){
+  if(!MY_TUTOR){ tpUnlinked('thread-list'); return; }
+  const {data,error}=await sb.from('tutor_messages').select('*').eq('tutor_id',MY_TUTOR.id).order('created_at',{ascending:false});
+  if(error) return;
+  const msgs=data||[]; tpThreads={};
+  msgs.forEach(m=>{ const k=m.student_id||('e:'+(m.student_email||'x'));
+    if(!tpThreads[k]) tpThreads[k]={key:k,student_id:m.student_id,name:m.student_name||m.student_email||'Student',email:m.student_email,last:m,unread:0};
+    if(m.sender==='student' && !m.read_at) tpThreads[k].unread++;
+  });
+  const list=Object.values(tpThreads);
+  const totalUnread=list.reduce((s,t)=>s+t.unread,0);
+  const up=document.getElementById('msg-unread');
+  if(totalUnread>0){ up.style.display='inline-block'; up.textContent=totalUnread; } else up.style.display='none';
+  if(!list.length){ document.getElementById('thread-list').innerHTML='<div class="empty-state" style="padding:24px;"><span class="ms">forum</span>No messages yet.</div>'; return; }
+  document.getElementById('thread-list').innerHTML=list.map(t=>{
+    const init=(t.name||'S').trim().charAt(0).toUpperCase();
+    const prev=(t.last.sender==='tutor'?'You: ':'')+t.last.body;
+    const active=CUR_THREAD&&CUR_THREAD.key===t.key?' active':'';
+    return `<div class="thread${active}" onclick="tpOpenThread('${t.key}')">
+      <span class="av">${tpEsc(init)}</span>
+      <span class="tmeta"><span class="tname">${tpEsc(t.name)}</span><span class="tprev">${tpEsc(prev)}</span></span>
+      ${t.unread?'<span class="tdot"></span>':''}
+    </div>`;
+  }).join('');
+}
+async function tpOpenThread(key){
+  const t=tpThreads[key]; if(!t||!MY_TUTOR) return;
+  CUR_THREAD=t;
+  document.querySelectorAll('.thread').forEach(e=>e.classList.remove('active'));
+  document.getElementById('tv-head').textContent=t.name+(t.email?' · '+t.email:'');
+  let q=sb.from('tutor_messages').select('*').eq('tutor_id',MY_TUTOR.id);
+  q = t.student_id ? q.eq('student_id',t.student_id) : q.eq('student_email',t.email);
+  const {data}=await q.order('created_at');
+  const body=document.getElementById('tv-body');
+  body.innerHTML=(data&&data.length)?data.map(m=>`<div class="bub ${m.sender==='tutor'?'me':'them'}">${tpEsc(m.body)}<div class="bt">${tpTime(m.created_at)}</div></div>`).join(''):'<div class="tv-empty">No messages.</div>';
+  body.scrollTop=body.scrollHeight;
+  document.getElementById('tv-foot').style.display='flex';
+  if(t.student_id){
+    await sb.from('tutor_messages').update({read_at:new Date().toISOString()}).eq('tutor_id',MY_TUTOR.id).eq('student_id',t.student_id).eq('sender','student').is('read_at',null);
+    tpLoadInbox();
+  }
+}
+async function tpSendReply(){
+  const i=document.getElementById('tv-input'),v=i.value.trim();
+  if(!v||!CUR_THREAD||!MY_TUTOR) return;
+  i.value='';
+  const {error}=await sb.from('tutor_messages').insert({tutor_id:MY_TUTOR.id,student_id:CUR_THREAD.student_id,student_name:CUR_THREAD.name,student_email:CUR_THREAD.email,sender:'tutor',body:v});
+  if(error){ alert('Could not send: '+error.message); return; }
+  tpOpenThread(CUR_THREAD.key);
+  // (email the student via /api/notify once Worker + Resend are live)
+}
+async function tpLoadBookings(){
+  const el=document.getElementById('bookings-list');
+  if(!MY_TUTOR){ tpUnlinked('bookings-list'); return; }
+  const {data,error}=await sb.from('bookings').select('*').eq('tutor_id',MY_TUTOR.id).order('created_at',{ascending:false}).limit(60);
+  if(error) return;
+  const b=data||[];
+  document.getElementById('stat-sessions').textContent=b.filter(x=>['paid','confirmed','completed'].includes((x.status||'').toLowerCase())).length;
+  if(!b.length){ el.innerHTML='<div class="empty-state"><span class="ms">event_available</span>No bookings yet. Paid bookings from students will appear here.</div>'; return; }
+  el.innerHTML=b.map(x=>{
+    const when = x.starts_at ? new Date(x.starts_at).toLocaleString(undefined,{weekday:'short',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : ((TP_DAYS[x.weekday]||'')+' '+(x.slot_time||''));
+    const st=(x.status||'requested').toLowerCase();
+    let act='';
+    if(st==='requested') act=`<button class="bk-act" onclick="tpSetBooking('${x.id}','confirmed')">Confirm</button>`;
+    else if(st==='paid'||st==='confirmed') act=`<button class="bk-act" onclick="tpSetBooking('${x.id}','completed')">Mark done</button>`;
+    return `<div class="book-row" style="grid-template-columns:1.4fr 1.1fr .7fr .6fr 1.1fr;">
+      <span>${tpEsc(x.student_name||x.student_email||'Student')}</span>
+      <span class="bk-when">${tpEsc(when)}</span>
+      <span>${x.duration_min||30} min</span>
+      <span>$${x.price!=null?x.price:'—'}</span>
+      <span><span class="bk-status ${st}">${st}</span>${act}</span>
+    </div>`;
+  }).join('');
+}
+async function tpSetBooking(id,status){
+  const {error}=await sb.from('bookings').update({status}).eq('id',id);
+  if(error){ alert('Could not update: '+error.message); return; }
+  tpLoadBookings();
 }
 
 // ── Format helpers for study time + last active ──
