@@ -2,11 +2,13 @@
 //
 // Routing logic:
 //   /api/create-checkout  -> create-checkout.js
+//   /api/book-checkout    -> book-checkout.js   (one-time tutoring payments)
 //   /api/billing-portal   -> billing-portal.js
 //   /api/webhook          -> webhook.js
 //   everything else       -> static HTML files (via the ASSETS binding)
 
 import { handleCreateCheckout } from './create-checkout.js';
+import { handleBookCheckout } from './book-checkout.js';
 import { handleBillingPortal } from './billing-portal.js';
 import { handleWebhook } from './webhook.js';
 
@@ -17,6 +19,9 @@ export default {
     // API routes
     if (url.pathname === '/api/create-checkout') {
       return handleCreateCheckout(request, env);
+    }
+    if (url.pathname === '/api/book-checkout') {
+      return handleBookCheckout(request, env);
     }
     if (url.pathname === '/api/billing-portal') {
       return handleBillingPortal(request, env);
@@ -29,4 +34,3 @@ export default {
     return env.ASSETS.fetch(request);
   },
 };
-
