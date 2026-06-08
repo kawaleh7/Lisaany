@@ -366,7 +366,10 @@ a{color:inherit;text-decoration:none;}
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SB = supabase.createClient('https://cfaxrzfqvoalwznkhwnx.supabase.co','sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa');
+let STUDENT=null, THREAD_TID=null, chatPoll=null;
 /* ============================================================
    PLACEHOLDER DATA — replace with a Supabase `tutors` table.
    Each card opens the same profile/schedule, populated from here.
@@ -374,19 +377,19 @@ a{color:inherit;text-decoration:none;}
    ============================================================ */
 const PRICE={30:3,60:5};
 const TUTORS=[
-  {id:'t1',name:'Ustadh Amir Saleh',flag:'Egypt',rating:'5.0',reviews:47,years:'14+',lessons:720,students:138,
+  {id:'amir',name:'Ustadh Amir Saleh',flag:'Egypt',rating:'5.0',reviews:47,years:'14+',lessons:720,students:138,
    bio:'Al-Azhar graduate with an ijazah in Tajweed. Patient with beginners and children.',
    bioLead:'Al-Azhar graduate with an ijazah in Hafs ʿan ʿAsim and over fourteen years of teaching experience.',
    bioMore:'He specialises in Qur\'an recitation, Tajweed, and structured memorization (Hifz), and has guided hundreds of students from their first letters to confident recitation. Lessons are calm, encouraging, and paced to each learner.',
    subjects:['Qur\'an Recitation (Tajweed)','Qur\'an Memorization (Hifz)','Tafseer (Interpretation)','Arabic Grammar (Nahw)','Arabic for Beginners','Conversational Arabic','Noorani Qaida'],
    avail:{0:[],1:[],2:['02:00','02:30','04:30','05:00'],3:['14:00'],4:['02:00','02:30','08:00','08:30','09:00','09:30','14:00'],5:['02:00','04:30','05:00','14:00'],6:['02:00','02:30','04:30','05:00']}},
-  {id:'t2',name:'Ustadha Layla Hassan',flag:'Jordan',rating:'4.9',reviews:36,years:'9+',lessons:455,students:102,
+  {id:'layla',name:'Ustadha Layla Hassan',flag:'Jordan',rating:'4.9',reviews:36,years:'9+',lessons:455,students:102,
    bio:'Specialises in teaching sisters and children Qur\'an, Tajweed and beginner Arabic.',
    bioLead:'A dedicated teacher with nine years of experience helping women and young learners build a strong foundation in Qur\'an and Arabic.',
    bioMore:'Her sessions focus on correct pronunciation (makharij), Tajweed rules, and gentle, confidence-building practice. She also teaches conversational Arabic for everyday use.',
    subjects:['Qur\'an Recitation (Tajweed)','Qur\'an Memorization (Hifz)','Arabic for Beginners','Tajweed Rules','Conversational Arabic','Noorani Qaida'],
    avail:{0:['10:00','10:30','11:00'],1:['10:00','13:00'],2:['10:00','10:30'],3:['13:00','13:30','14:00'],4:[],5:['09:00','09:30'],6:['10:00','11:00']}},
-  {id:'t3',name:'Ustadh Idris Bello',flag:'United Kingdom',rating:'4.9',reviews:28,years:'7+',lessons:330,students:84,
+  {id:'idris',name:'Ustadh Idris Bello',flag:'United Kingdom',rating:'4.9',reviews:28,years:'7+',lessons:330,students:84,
    bio:'Native English speaker. Ideal for new Muslims and English-speaking learners.',
    bioLead:'A native English-speaking teacher, trained in the Islamic sciences, who makes Arabic and Qur\'an accessible to complete beginners.',
    bioMore:'He is especially popular with new Muslims and English-speaking families, teaching the alphabet, Noorani Qaida, Tajweed, and the basics of Fiqh and Seerah in clear, simple language.',
@@ -493,22 +496,92 @@ function unpick(id){const el=document.querySelector(`.slot[data-id="${id}"]`);if
 function setDur(el){document.querySelectorAll('.dur-opt').forEach(o=>o.classList.remove('active'));el.classList.add('active');duration=+el.dataset.min;renderPicks();}
 function setTab(el){document.querySelectorAll('.cal-tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');
   toast(el.dataset.tab==='single'?'Single-lesson mode — pick any open slot':'Weekly mode — repeats every week');}
-function doSchedule(){if(!selected.size)return;const tot=selected.size*PRICE[duration];
-  toast(`Booking ${selected.size} × ${duration}-min lesson(s) — $${tot}. Connect Stripe checkout to confirm.`);}
+const BOOKING_MODE='stripe'; // 'direct' = test (saves booking, no payment) | 'stripe' = pay-first via Worker
+async function doSchedule(){
+  if(!selected.size)return;
+  const btn=document.getElementById('schedBtn');
+  const {data:{user}}=await SB.auth.getUser();
+  if(!user){ toast('Please sign in to book — taking you there…'); setTimeout(()=>location.href='auth.html',1100); return; }
+  const {data:t}=await SB.from('tutors').select('id').eq('slug',current.id).maybeSingle();
+  const tutorId=t?t.id:null;
+  if(!tutorId){ toast('This tutor isn\'t in the database yet — run the SQL first.'); return; }
+  const at=document.querySelector('.cal-tab.active');
+  const recurring=at?at.dataset.tab==='weekly':true;
+  const name=(user.user_metadata&&user.user_metadata.name)||user.email.split('@')[0];
+  const slots=[...document.querySelectorAll('.slot.sel')].map(s=>({day:s.dataset.day,time:s.dataset.time}));
+  const orig=btn.textContent; btn.disabled=true;
+
+  if(BOOKING_MODE==='direct'){
+    btn.textContent='Booking…';
+    const rows=slots.map(s=>({tutor_id:tutorId,student_id:user.id,student_name:name,student_email:user.email,
+      weekday:DAYS.indexOf(s.day),slot_time:s.time,duration_min:duration,price:PRICE[duration],recurring,status:'requested'}));
+    const {error}=await SB.from('bookings').insert(rows);
+    btn.disabled=false; btn.textContent=orig;
+    if(error){ toast('Could not book: '+error.message); return; }
+    selected.clear(); document.querySelectorAll('.slot.sel').forEach(s=>s.classList.remove('sel')); renderPicks();
+    toast(`Booked ${rows.length} session${rows.length>1?'s':''}! Your tutor will see it in their portal.`);
+    return;
+  }
+  // pay-first via Stripe (enabled once the Worker route is live)
+  btn.textContent='Connecting to secure checkout…';
+  const payload={tutorSlug:current.id,duration,price:PRICE[duration],count:selected.size,slots,recurring,studentName:name,studentEmail:user.email};
+  try{
+    const r=await fetch('/api/book-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!r.ok)throw 0; const j=await r.json();
+    if(j&&j.url){ location.href=j.url; return; }
+    throw 0;
+  }catch(e){ btn.disabled=false; btn.textContent=orig; toast('Payment checkout isn\'t connected yet.'); }
+}
 
 /* ---- bio / chips ---- */
 function toggleBio(){const b=document.getElementById('bio'),btn=document.getElementById('bioBtn');b.classList.toggle('open');
   btn.innerHTML=b.classList.contains('open')?'Show less <span class="ms" style="font-size:16px;">expand_less</span>':'Read full bio <span class="ms" style="font-size:16px;">expand_more</span>';}
 function moreChips(){document.querySelectorAll('.chip.hidden').forEach(c=>c.classList.remove('hidden'));const m=document.getElementById('moreChip');if(m)m.style.display='none';}
 
-/* ---- chat ---- */
-function openChat(){document.getElementById('chatDrawer').classList.add('open');document.getElementById('chatOverlay').classList.add('open');setTimeout(()=>document.getElementById('chatInput').focus(),300);}
-function closeChat(){document.getElementById('chatDrawer').classList.remove('open');document.getElementById('chatOverlay').classList.remove('open');}
-function sendMsg(){const i=document.getElementById('chatInput'),body=document.getElementById('chatBody'),v=i.value.trim();if(!v)return;
-  const now=new Date(),tm=pad(now.getHours())+':'+pad(now.getMinutes());
-  body.insertAdjacentHTML('beforeend',`<div class="msg me">${v.replace(/</g,'&lt;')}<div class="msg-time" style="color:#9fb4c4;">${tm}</div></div>`);
-  i.value='';body.scrollTop=body.scrollHeight;
-  setTimeout(()=>{body.insertAdjacentHTML('beforeend',`<div class="msg them">Jazāk Allāhu khayran — I'll reply shortly, in shā' Allāh.<div class="msg-time">${tm}</div></div>`);body.scrollTop=body.scrollHeight;},800);}
+/* ---- chat (Supabase) ---- */
+function esc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function ctime(iso){const d=new Date(iso);return d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});}
+async function openChat(){
+  document.getElementById('chatDrawer').classList.add('open');
+  document.getElementById('chatOverlay').classList.add('open');
+  const body=document.getElementById('chatBody'),inp=document.getElementById('chatInput');
+  body.innerHTML='<div class="msg them">Loading…</div>';
+  const {data:{user}}=await SB.auth.getUser();
+  STUDENT=user||null;
+  if(!STUDENT){
+    body.innerHTML=`<div class="msg them">As-salāmu ʿalaykum 🌙 To message ${esc(current.name)}, please <a href="auth.html" style="color:var(--gold-deep);font-weight:700;">sign in or create a free account</a> first.</div>`;
+    inp.disabled=true; inp.placeholder='Sign in to send a message'; return;
+  }
+  inp.disabled=false; inp.placeholder='Write a message…';
+  try{ const {data:t}=await SB.from('tutors').select('id').eq('slug',current.id).maybeSingle(); THREAD_TID=t?t.id:null; }catch(e){ THREAD_TID=null; }
+  await loadThread(true);
+  if(chatPoll)clearInterval(chatPoll);
+  chatPoll=setInterval(()=>{ if(document.getElementById('chatDrawer').classList.contains('open'))loadThread(false); else clearInterval(chatPoll); },8000);
+  setTimeout(()=>inp.focus(),200);
+}
+function closeChat(){document.getElementById('chatDrawer').classList.remove('open');document.getElementById('chatOverlay').classList.remove('open');if(chatPoll)clearInterval(chatPoll);}
+async function loadThread(scroll){
+  if(!THREAD_TID||!STUDENT)return;
+  const {data}=await SB.from('tutor_messages').select('*').eq('tutor_id',THREAD_TID).eq('student_id',STUDENT.id).order('created_at');
+  const body=document.getElementById('chatBody');
+  if(!data||!data.length){
+    body.innerHTML=`<div class="msg them">As-salāmu ʿalaykum, and welcome! 🌙 Ask me anything about lessons, levels, or scheduling.<div class="msg-time">Tutor</div></div>`;
+  }else{
+    body.innerHTML=data.map(m=>`<div class="msg ${m.sender==='student'?'me':'them'}">${esc(m.body)}<div class="msg-time"${m.sender==='student'?' style="color:#9fb4c4;"':''}>${ctime(m.created_at)}</div></div>`).join('');
+  }
+  if(scroll)body.scrollTop=body.scrollHeight;
+}
+async function sendMsg(){
+  const i=document.getElementById('chatInput'),v=i.value.trim(); if(!v)return;
+  if(!STUDENT){ location.href='auth.html'; return; }
+  if(!THREAD_TID){ toast('Could not reach this tutor right now.'); return; }
+  i.value='';
+  const name=(STUDENT.user_metadata&&STUDENT.user_metadata.name)?STUDENT.user_metadata.name:(STUDENT.email?STUDENT.email.split('@')[0]:'Student');
+  const {error}=await SB.from('tutor_messages').insert({tutor_id:THREAD_TID,student_id:STUDENT.id,student_name:name,student_email:STUDENT.email,sender:'student',body:v});
+  if(error){ toast('Could not send: '+error.message); return; }
+  await loadThread(true);
+  // (tutor email notification via /api/notify once Worker + Resend are live)
+}
 
 /* ---- clock + toast ---- */
 function updateClock(){const tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'Local',now=new Date();
