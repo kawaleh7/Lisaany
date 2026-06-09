@@ -502,9 +502,6 @@ async function doSchedule(){
   const btn=document.getElementById('schedBtn');
   const {data:{user}}=await SB.auth.getUser();
   if(!user){ toast('Please sign in to book — taking you there…'); setTimeout(()=>location.href='auth.html',1100); return; }
-  const {data:t}=await SB.from('tutors').select('id').eq('slug',current.id).maybeSingle();
-  const tutorId=t?t.id:null;
-  if(!tutorId){ toast('This tutor isn\'t in the database yet — run the SQL first.'); return; }
   const at=document.querySelector('.cal-tab.active');
   const recurring=at?at.dataset.tab==='weekly':true;
   const name=(user.user_metadata&&user.user_metadata.name)||user.email.split('@')[0];
@@ -513,6 +510,9 @@ async function doSchedule(){
 
   if(BOOKING_MODE==='direct'){
     btn.textContent='Booking…';
+    const {data:tt}=await SB.from('tutors').select('id').eq('slug',current.id).maybeSingle();
+    const tutorId=tt?tt.id:null;
+    if(!tutorId){ btn.disabled=false; btn.textContent=orig; toast('Tutor not in database yet.'); return; }
     const rows=slots.map(s=>({tutor_id:tutorId,student_id:user.id,student_name:name,student_email:user.email,
       weekday:DAYS.indexOf(s.day),slot_time:s.time,duration_min:duration,price:PRICE[duration],recurring,status:'requested'}));
     const {error}=await SB.from('bookings').insert(rows);
@@ -524,7 +524,7 @@ async function doSchedule(){
   }
   // pay-first via Stripe (enabled once the Worker route is live)
   btn.textContent='Connecting to secure checkout…';
-  const payload={tutorSlug:current.id,duration,price:PRICE[duration],count:selected.size,slots,recurring,studentName:name,studentEmail:user.email};
+  const payload={tutorSlug:current.id,duration,price:PRICE[duration],count:selected.size,slots,recurring,studentId:user.id,studentName:name,studentEmail:user.email};
   try{
     const r=await fetch('/api/book-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     if(!r.ok)throw 0; const j=await r.json();
