@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lisaany — School setup</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{--navy:#0f1c38;--gold:#c19a4b;--paper:#f6f7fb;--card:#fff;--border:#e6eaf2;--dim:#5d6b85;--green:#1d5234;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--navy);}
+  .wrap{max-width:640px;margin:0 auto;padding:22px 16px 60px;}
+  .bar{background:var(--navy);border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+  .qrlogo{width:34px;height:34px;border-radius:8px;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:18px;font-weight:700;}
+  .bar .t1{color:#fff;font-size:16px;}.bar .t2{color:#c9b888;font-size:12px;margin-top:2px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:18px;}
+  h2{font-size:15px;margin:0 0 14px;font-weight:600;}
+  label{display:block;font-size:13px;color:var(--dim);margin:12px 0 5px;}
+  input{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;font-size:15px;color:var(--navy);background:#fff;}
+  input:focus{outline:none;border-color:var(--gold);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  button.go{margin-top:16px;background:var(--gold);color:var(--navy);border:none;font-size:15px;padding:12px 22px;border-radius:11px;cursor:pointer;}
+  button.go:disabled{opacity:.5;cursor:default;}
+  .msg{font-size:13px;margin-top:12px;}
+  .msg.err{color:#b3261e;}.msg.ok{color:var(--green);}
+  .hide{display:none;}
+  .codebox{display:flex;align-items:center;gap:10px;background:#faf6ec;border:1px solid #ecd9ad;border-radius:11px;padding:12px 14px;margin:6px 0 14px;}
+  .codebox b{font-family:ui-monospace,Menlo,monospace;font-size:18px;letter-spacing:1px;}
+  .qrimg{display:block;margin:8px auto;border:1px solid var(--border);border-radius:10px;}
+  .center{text-align:center;}
+  .roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;margin-top:6px;}
+  .chip{padding:9px 8px;background:#fff;border:1px solid var(--border);border-radius:9px;text-align:center;font-size:14px;}
+  .seatline{font-size:13px;color:var(--dim);margin-top:4px;}
+  .link{color:var(--gold);font-size:13px;cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;}
+  a.print{display:inline-block;margin-top:6px;font-size:13px;color:var(--navy);}
+  @media print{.noprint{display:none}.card{border:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar noprint"><div class="qrlogo">⌗</div><div><div class="t1">School setup</div><div class="t2">Lisaany · admin only</div></div></div>
+
+  <!-- gate -->
+  <div id="gate" class="card center"><p id="gateMsg">Checking…</p></div>
+
+  <!-- create -->
+  <div id="createCard" class="card hide noprint">
+    <h2>Create a class</h2>
+    <label>School name</label>
+    <input id="schoolName" placeholder="Madrasah an-Noor">
+    <div class="row2">
+      <div><label>Seats (how many kids)</label><input id="seats" type="number" min="1" value="30"></div>
+      <div><label>Term ends (optional)</label><input id="expiresAt" type="date"></div>
+    </div>
+    <label>Teacher name (shown to kids)</label>
+    <input id="teacherName" placeholder="Ustadh Wasel">
+    <button class="go" id="createBtn">Create class</button>
+    <div id="createMsg" class="msg"></div>
+    <p style="margin-top:14px;"><button class="link" id="toManage">or manage an existing class →</button></p>
+  </div>
+
+  <!-- manage -->
+  <div id="manageCard" class="card hide">
+    <h2 class="noprint">Class</h2>
+    <div class="noprint">
+      <label>Class code</label>
+      <div style="display:flex;gap:8px;">
+        <input id="classCode" placeholder="wasel-7k2p">
+        <button class="go" id="loadBtn" style="margin-top:0;">Load</button>
+      </div>
+      <div id="manageMsg" class="msg"></div>
+    </div>
+
+    <div id="classView" class="hide">
+      <div class="center" style="margin-top:14px;">
+        <div style="font-size:18px;" id="cvTeacher"></div>
+        <div class="seatline" id="cvSchool"></div>
+        <div class="codebox" style="justify-content:center;margin-top:12px;">code:&nbsp;<b id="cvCode"></b></div>
+        <img id="qrimg" class="qrimg" width="200" height="200" alt="class QR">
+        <div class="seatline">Print this and put it where the class can scan it.</div>
+        <a class="print noprint" href="#" onclick="window.print();return false;">🖨 Print this page</a>
+      </div>
+
+      <div class="noprint" style="margin-top:20px;">
+        <label>Add a student (first name only)</label>
+        <div style="display:flex;gap:8px;">
+          <input id="newName" placeholder="Yusuf">
+          <button class="go" id="addBtn" style="margin-top:0;">Add</button>
+        </div>
+        <div id="addMsg" class="msg"></div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <div class="seatline" id="cvCount"></div>
+        <div class="roster" id="roster"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL='https://cfaxrzfqvoalwznkhwnx.supabase.co';
+const SUPABASE_KEY='sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
+const SB=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let token=null, currentCode='';
+
+const $=id=>document.getElementById(id);
+function show(el){el.classList.remove('hide')} function hide(el){el.classList.add('hide')}
+
+async function init(){
+  const {data:{session}}=await SB.auth.getSession();
+  if(!session){ $('gateMsg').innerHTML='Please <a href="auth.html">sign in</a> as admin to set up classes.'; return; }
+  const role=session.user?.app_metadata?.role;
+  if(role!=='admin'){ $('gateMsg').innerHTML='This page is for the admin account only.'; return; }
+  token=session.access_token;
+  hide($('gate')); show($('createCard'));
+}
+init();
+
+$('toManage').onclick=()=>{ hide($('createCard')); show($('manageCard')); };
+
+$('createBtn').onclick=async()=>{
+  const b=$('createBtn'); const m=$('createMsg'); m.className='msg'; m.textContent='';
+  const schoolName=$('schoolName').value.trim(), teacherName=$('teacherName').value.trim();
+  const seats=$('seats').value, expiresAt=$('expiresAt').value||null;
+  if(!schoolName||!teacherName){ m.className='msg err'; m.textContent='School and teacher name are required.'; return; }
+  b.disabled=true; b.textContent='Creating…';
+  try{
+    const r=await fetch('/api/create-class',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify({schoolName,seats,expiresAt,teacherName})});
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Failed');
+    hide($('createCard')); show($('manageCard'));
+    $('classCode').value=j.class_code;
+    loadClass(j.class_code);
+  }catch(e){ m.className='msg err'; m.textContent=e.message; }
+  b.disabled=false; b.textContent='Create class';
+};
+
+$('loadBtn').onclick=()=>{ const c=$('classCode').value.trim(); if(c) loadClass(c); };
+
+async function loadClass(code){
+  const m=$('manageMsg'); m.className='msg'; m.textContent='Loading…';
+  try{
+    const r=await fetch('/api/class-roster?code='+encodeURIComponent(code));
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Not found');
+    currentCode=code; m.textContent='';
+    $('cvTeacher').textContent=j.teacher;
+    $('cvSchool').textContent=j.school||'';
+    $('cvCode').textContent=code;
+    const kidUrl=location.origin+'/class.html?c='+encodeURIComponent(code);
+    $('qrimg').src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(kidUrl);
+    renderRoster(j.students||[]);
+    show($('classView'));
+  }catch(e){ m.className='msg err'; m.textContent=e.message; hide($('classView')); }
+}
+
+function renderRoster(list){
+  $('cvCount').textContent=list.length+(list.length===1?' student':' students');
+  const box=$('roster'); box.innerHTML='';
+  list.forEach(s=>{ const d=document.createElement('div'); d.className='chip'; d.textContent=s.first_name; box.appendChild(d); });
+}
+
+$('addBtn').onclick=async()=>{
+  const name=$('newName').value.trim(); const m=$('addMsg'); m.className='msg'; m.textContent='';
+  if(!name){ m.className='msg err'; m.textContent='Type a first name.'; return; }
+  const b=$('addBtn'); b.disabled=true; b.textContent='Adding…';
+  try{
+    const r=await fetch('/api/add-student',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+      body:JSON.stringify({classCode:currentCode,firstName:name})});
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Failed');
+    $('newName').value=''; m.className='msg ok'; m.textContent='Added '+name;
+    loadClass(currentCode);
+  }catch(e){ m.className='msg err'; m.textContent=e.message; }
+  b.disabled=false; b.textContent='Add';
+};
+</script>
+</body>
+</html>
