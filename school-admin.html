@@ -78,7 +78,10 @@
 
   <!-- manage -->
   <div id="manageCard" class="card hide">
-    <h2 class="noprint">Class</h2>
+    <div class="noprint" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <h2 style="margin:0;">Class</h2>
+      <button class="link" id="backToSchools" style="color:var(--gold);background:none;border:none;cursor:pointer;font-size:13px;">← Back / new school</button>
+    </div>
     <div class="noprint">
       <label>Class code</label>
       <div style="display:flex;gap:8px;">
@@ -182,6 +185,7 @@ async function loadSchools(){
 function esc(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 $('toManage').onclick=()=>{ hide($('createCard')); show($('manageCard')); };
+$('backToSchools').onclick=()=>{ hide($('manageCard')); show($('schoolsCard')); show($('createCard')); loadSchools(); window.scrollTo(0,0); };
 
 $('createBtn').onclick=async()=>{
   const b=$('createBtn'); const m=$('createMsg'); m.className='msg'; m.textContent='';
