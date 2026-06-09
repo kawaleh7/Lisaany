@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<title>Lisaany — My Lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Fraunces:opsz,wght@9..144,300..700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,400,0..1">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0e1c38; --ink:#16233f; --ink2:#44516c; --dim:#7b869c;
+  --gold:#c2922e; --gold-br:#e0b452; --gold-deep:#8a6620; --gold-soft:#fbf4e4;
+  --green:#2f7d52; --green-soft:#eef5f0; --green-deep:#1d5234;
+  --paper:#ffffff; --paper-2:#f6f8fc; --card:#ffffff;
+  --line:#e8ebf2; --line-2:#dfe4ee;
+  --shadow:0 18px 50px -30px rgba(20,30,55,.2);
+  --shadow-sm:0 6px 22px -16px rgba(20,30,55,.22);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;color:var(--ink);background:var(--paper);
+  background-image:linear-gradient(180deg,#fbfcfe 0%,#ffffff 240px);min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;}
+.ms{font-family:'Material Symbols Outlined';line-height:1;display:inline-block;vertical-align:middle;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1140px;margin:0 auto;padding:0 22px;}
+
+/* NAV */
+.lis-nav{display:flex;align-items:center;justify-content:space-between;max-width:1140px;margin:0 auto;padding:16px 22px;}
+.lis-brand{display:flex;align-items:center;gap:10px;}
+.brand-name{font-family:'Cinzel',serif;font-weight:700;font-size:21px;color:var(--navy);letter-spacing:.5px;}
+.lis-links{display:flex;gap:26px;}
+.lis-link{font-size:14px;font-weight:500;color:var(--ink2);transition:color .2s;}
+.lis-link:hover,.lis-link.active{color:var(--gold-deep);}
+.nav-cta{font-size:13.5px;font-weight:600;color:#fff;background:var(--navy);padding:9px 18px;border-radius:999px;transition:transform .15s,box-shadow .2s;}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-sm);}
+.nav-burger{display:none;background:none;border:none;cursor:pointer;color:var(--navy);}
+@media(max-width:880px){.lis-links{display:none;}.nav-burger{display:block;}}
+
+/* HEAD */
+.head{padding:30px 0 8px;}
+.eyebrow{font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-deep);font-weight:600;}
+.title{font-family:'Fraunces',serif;font-size:38px;font-weight:500;color:var(--navy);letter-spacing:-.5px;margin-top:6px;}
+.title .accent{color:var(--gold);font-style:italic;}
+.sub{font-size:15px;color:var(--ink2);margin-top:8px;max-width:560px;}
+
+/* CARDS */
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:18px;margin:28px 0 44px;}
+.lcard{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow-sm);transition:.2s;display:flex;flex-direction:column;gap:14px;}
+.lcard:hover{box-shadow:var(--shadow);transform:translateY(-2px);border-color:var(--gold-br);}
+.lc-top{display:flex;align-items:center;gap:14px;}
+.lc-day{width:60px;height:60px;border-radius:14px;background:var(--gold-soft);border:1px solid rgba(194,146,46,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.lc-day .d-name{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-deep);}
+.lc-day .d-time{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--navy);line-height:1.1;}
+.lc-id{flex:1;min-width:0;}
+.lc-tutor{font-family:'Fraunces',serif;font-size:19px;font-weight:600;color:var(--navy);}
+.lc-when{font-size:12.5px;color:var(--ink2);margin-top:2px;}
+.lc-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+.pill{font-size:11px;font-weight:600;border-radius:999px;padding:4px 10px;display:inline-flex;align-items:center;gap:5px;}
+.pill.dur{background:var(--paper-2);border:1px solid var(--line);color:var(--navy);}
+.pill.price{background:var(--paper-2);border:1px solid var(--line);color:var(--navy);}
+.pill.weekly{background:var(--green-soft);border:1px solid rgba(47,125,82,.2);color:var(--green-deep);}
+.pill.status{text-transform:capitalize;}
+.pill.status.paid{background:var(--green-soft);border:1px solid rgba(47,125,82,.25);color:var(--green-deep);}
+.pill.status.requested{background:#eef3fb;border:1px solid #cfe0f5;color:#2b6cb0;}
+.pill.status.confirmed{background:var(--gold-soft);border:1px solid rgba(194,146,46,.3);color:var(--gold-deep);}
+.pill.status.completed{background:var(--paper-2);border:1px solid var(--line);color:var(--dim);}
+.pill.status.cancelled{background:#fbeeee;border:1px solid #f0caca;color:#b23b3b;}
+.lc-actions{display:flex;gap:9px;margin-top:2px;}
+.btn{display:flex;align-items:center;justify-content:center;gap:7px;font-size:13px;font-weight:600;font-family:inherit;padding:11px 14px;border-radius:11px;cursor:pointer;border:1.5px solid var(--line-2);background:var(--card);color:var(--navy);transition:.2s;flex:1;}
+.btn .ms{font-size:17px;}
+.btn:hover{border-color:var(--gold-br);transform:translateY(-1px);}
+.btn.navy{background:var(--navy);color:#fff;border-color:var(--navy);}
+.btn.navy:hover{box-shadow:var(--shadow-sm);}
+
+/* states */
+.note{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:42px 26px;text-align:center;box-shadow:var(--shadow-sm);margin:28px 0 44px;}
+.note .ms{font-size:44px;color:var(--gold-br);}
+.note h3{font-family:'Fraunces',serif;font-size:22px;color:var(--navy);font-weight:600;margin-top:10px;}
+.note p{font-size:14px;color:var(--ink2);margin-top:8px;max-width:420px;margin-inline:auto;line-height:1.6;}
+.note .cta{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:var(--navy);color:#fff;font-weight:600;font-size:14px;padding:12px 22px;border-radius:999px;}
+.note .cta:hover{box-shadow:var(--shadow-sm);}
+.skel{height:150px;border-radius:20px;background:linear-gradient(100deg,#eef1f7 30%,#f7f9fc 50%,#eef1f7 70%);background-size:200% 100%;animation:sh 1.2s infinite;}
+@keyframes sh{to{background-position:-200% 0;}}
+
+.foot{text-align:center;font-size:12px;color:var(--dim);padding:30px 0 50px;}
+
+/* CHAT (same behaviour as tutors.html) */
+.chat-overlay{position:fixed;inset:0;background:rgba(14,28,56,.4);opacity:0;pointer-events:none;transition:.25s;z-index:120;}
+.chat-overlay.open{opacity:1;pointer-events:auto;}
+.chat-drawer{position:fixed;top:0;right:0;height:100%;width:400px;max-width:92vw;background:var(--paper);box-shadow:-20px 0 60px -30px rgba(0,0,0,.5);transform:translateX(100%);transition:.3s cubic-bezier(.4,0,.2,1);z-index:121;display:flex;flex-direction:column;}
+.chat-drawer.open{transform:translateX(0);}
+.chat-head{display:flex;align-items:center;gap:12px;padding:16px 18px;background:var(--navy);color:#fff;}
+.ch-av{width:40px;height:40px;border-radius:50%;background:rgba(220,171,74,.18);display:flex;align-items:center;justify-content:center;color:var(--gold-br);}
+.ch-name{font-weight:700;font-size:15px;}
+.ch-status{font-size:11px;color:#9fb4a6;display:flex;align-items:center;gap:5px;}
+.tz-dot{width:6px;height:6px;border-radius:50%;background:#7fd0a0;display:inline-block;}
+.chat-close{margin-left:auto;background:none;border:none;color:#cdd6e4;cursor:pointer;}
+.chat-close .ms{font-size:24px;}
+.chat-body{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:12px;}
+.msg{max-width:80%;padding:11px 14px;border-radius:14px;font-size:13.5px;line-height:1.5;}
+.msg.them{background:var(--card);border:1px solid var(--line);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px;}
+.msg.me{background:var(--navy);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+.msg-time{font-size:10px;color:var(--dim);margin-top:4px;}
+.chat-foot{padding:14px;border-top:1px solid var(--line);display:flex;gap:9px;background:var(--paper-2);}
+.chat-input{flex:1;border:1.5px solid var(--line-2);border-radius:999px;padding:11px 16px;font-family:inherit;font-size:13.5px;background:var(--card);color:var(--ink);}
+.chat-input:focus{outline:none;border-color:var(--gold-br);}
+.chat-send{width:44px;height:44px;border-radius:50%;background:var(--gold);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.2s;}
+.chat-send:hover{background:var(--gold-deep);}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:13px 22px;border-radius:12px;font-size:13.5px;opacity:0;pointer-events:none;transition:.3s;z-index:200;box-shadow:var(--shadow);}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:520px){.title{font-size:30px;}.lessons{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<nav class="lis-nav">
+  <a href="index.html" class="lis-brand" title="Lisaany Home">
+    <svg viewBox="0 0 120 120" aria-hidden="true" width="42" height="42" style="border-radius:11px;display:block;">
+      <defs><linearGradient id="bm-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d488"/><stop offset=".5" stop-color="#e8b94e"/><stop offset="1" stop-color="#d4a23c"/></linearGradient></defs>
+      <rect width="120" height="120" rx="28" fill="#0d2040"/>
+      <g transform="translate(17.15,6.4) scale(0.857)"><path d="M50 10 C45 24 31 42 31 64 C31 79 40 88 50 88 C60 88 69 79 69 64 C69 42 55 24 50 10 Z M48.6 18 L51.4 18 L50.8 54 L49.2 54 Z M44.5 60 A5.5 5.5 0 1 1 55.5 60 A5.5 5.5 0 1 1 44.5 60 Z M41 94 Q41 89 50 89 Q59 89 59 94 L59 99 L41 99 Z M37 103 Q37 101 39 101 L61 101 Q63 101 63 103 L63 113 Q63 115 61 115 L39 115 Q37 115 37 113 Z" fill="url(#bm-gold)" fill-rule="evenodd"/></g>
+    </svg>
+    <span class="brand-name">Lisaany</span>
+  </a>
+  <div class="lis-links">
+    <a href="index.html" class="lis-link">Home</a>
+    <a href="arabic_platform.html" class="lis-link">Learn</a>
+    <a href="pricing.html" class="lis-link">Pricing</a>
+    <a href="tutors.html" class="lis-link">Tutors</a>
+    <a href="my-lessons.html" class="lis-link active">My Lessons</a>
+  </div>
+  <div class="lis-actions"><a href="tutors.html" class="nav-cta">Find a Tutor</a></div>
+  <button class="nav-burger" onclick="location.href='tutors.html'"><span class="ms" style="font-size:28px;">menu</span></button>
+</nav>
+
+<div class="wrap">
+  <div class="head">
+    <div class="eyebrow">Live Tutors</div>
+    <h1 class="title">My <span class="accent">Lessons</span></h1>
+    <p class="sub">Your booked one-to-one sessions. Message your tutor any time to agree the exact time and share your goals.</p>
+  </div>
+
+  <div id="content">
+    <div class="lessons"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+  </div>
+
+  <div class="foot">Lisaany · لِسَانِي — Live Tutors</div>
+</div>
+
+<!-- CHAT -->
+<div class="chat-overlay" id="chatOverlay" onclick="closeChat()"></div>
+<div class="chat-drawer" id="chatDrawer" role="dialog" aria-label="Conversation with tutor">
+  <div class="chat-head">
+    <div class="ch-av"><span class="ms">person</span></div>
+    <div><div class="ch-name" id="chatName">Tutor</div><div class="ch-status"><span class="tz-dot"></span> Usually replies within a few hours</div></div>
+    <button class="chat-close" onclick="closeChat()"><span class="ms">close</span></button>
+  </div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-foot">
+    <input class="chat-input" id="chatInput" placeholder="Write a message…" onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send" onclick="sendMsg()"><span class="ms">send</span></button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB = supabase.createClient('https://cfaxrzfqvoalwznkhwnx.supabase.co','sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa');
+const DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DAYFULL=['Sundays','Mondays','Tuesdays','Wednesdays','Thursdays','Fridays','Saturdays'];
+let STUDENT=null, THREAD_TID=null, THREAD_NAME='Tutor', chatPoll=null;
+
+function esc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function ctime(iso){const d=new Date(iso);return d.toLocaleTimeString(undefined,{hour:'2-digit',minute:'2-digit'});}
+let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2800);}
+
+function signedOut(){
+  document.getElementById('content').innerHTML=
+   `<div class="note"><span class="ms">login</span><h3>Please sign in</h3>
+    <p>Sign in to your Lisaany account to see the lessons you've booked.</p>
+    <a class="cta" href="auth.html"><span class="ms">person</span> Sign in</a></div>`;
+}
+function emptyState(){
+  document.getElementById('content').innerHTML=
+   `<div class="note"><span class="ms">calendar_add_on</span><h3>No lessons booked yet</h3>
+    <p>When you book a session with a tutor, it will appear here with all the details.</p>
+    <a class="cta" href="tutors.html"><span class="ms">search</span> Find a tutor</a></div>`;
+}
+
+async function init(){
+  const {data:{user}}=await SB.auth.getUser();
+  if(!user){ signedOut(); return; }
+  STUDENT=user;
+  // 1) my bookings (RLS limits to my own rows)
+  const {data:books,error}=await SB.from('bookings')
+    .select('id,tutor_id,weekday,slot_time,duration_min,price,recurring,status,created_at')
+    .order('created_at',{ascending:false});
+  if(error){ document.getElementById('content').innerHTML=`<div class="note"><span class="ms">error</span><h3>Couldn't load lessons</h3><p>${esc(error.message)}</p></div>`; return; }
+  if(!books||!books.length){ emptyState(); return; }
+  // 2) tutor names for the cards
+  const ids=[...new Set(books.map(b=>b.tutor_id))];
+  let tutorMap={};
+  try{
+    const {data:tutors}=await SB.from('tutors').select('id,name,slug').in('id',ids);
+    (tutors||[]).forEach(t=>tutorMap[t.id]={name:t.name,slug:t.slug});
+  }catch(e){}
+  renderCards(books,tutorMap);
+}
+
+function renderCards(books,tutorMap){
+  let h='<div class="lessons">';
+  books.forEach(b=>{
+    const t=tutorMap[b.tutor_id]||{name:'Your tutor'};
+    const time=(b.slot_time||'').slice(0,5);
+    const dayShort=DAYS[b.weekday]||'';
+    const dayFull=DAYFULL[b.weekday]||'';
+    const st=(b.status||'requested').toLowerCase();
+    h+=`<div class="lcard">
+      <div class="lc-top">
+        <div class="lc-day"><span class="d-name">${dayShort}</span><span class="d-time">${time}</span></div>
+        <div class="lc-id">
+          <div class="lc-tutor">${esc(t.name)}</div>
+          <div class="lc-when">${b.recurring?'Every '+dayFull.toLowerCase():dayFull} · ${time}</div>
+        </div>
+      </div>
+      <div class="lc-meta">
+        <span class="pill dur"><span class="ms" style="font-size:14px;">schedule</span> ${b.duration_min} min</span>
+        <span class="pill price"><span class="ms" style="font-size:14px;">payments</span> $${b.price}</span>
+        ${b.recurring?'<span class="pill weekly"><span class="ms" style="font-size:14px;">event_repeat</span> Weekly</span>':''}
+        <span class="pill status ${st}">${st}</span>
+      </div>
+      <div class="lc-actions">
+        <button class="btn navy" onclick="openChat('${b.tutor_id}','${esc(t.name).replace(/'/g,"\\'")}')"><span class="ms">chat_bubble</span> Message tutor</button>
+      </div>
+    </div>`;
+  });
+  h+='</div>';
+  document.getElementById('content').innerHTML=h;
+}
+
+/* ---- chat: same tutor_messages thread used across the site ---- */
+async function openChat(tutorId,tutorName){
+  THREAD_TID=tutorId; THREAD_NAME=tutorName||'Tutor';
+  document.getElementById('chatName').textContent=THREAD_NAME;
+  document.getElementById('chatDrawer').classList.add('open');
+  document.getElementById('chatOverlay').classList.add('open');
+  const inp=document.getElementById('chatInput'); inp.disabled=false; inp.placeholder='Write a message…';
+  await loadThread(true);
+  if(chatPoll)clearInterval(chatPoll);
+  chatPoll=setInterval(()=>{ if(document.getElementById('chatDrawer').classList.contains('open'))loadThread(false); else clearInterval(chatPoll); },8000);
+  setTimeout(()=>inp.focus(),200);
+}
+function closeChat(){document.getElementById('chatDrawer').classList.remove('open');document.getElementById('chatOverlay').classList.remove('open');if(chatPoll)clearInterval(chatPoll);}
+async function loadThread(scroll){
+  if(!THREAD_TID||!STUDENT)return;
+  const {data}=await SB.from('tutor_messages').select('*').eq('tutor_id',THREAD_TID).eq('student_id',STUDENT.id).order('created_at');
+  const body=document.getElementById('chatBody');
+  if(!data||!data.length){
+    body.innerHTML=`<div class="msg them">As-salāmu ʿalaykum 🌙 Send a message to agree your lesson time or ask anything.<div class="msg-time">Tutor</div></div>`;
+  }else{
+    body.innerHTML=data.map(m=>`<div class="msg ${m.sender==='student'?'me':'them'}">${esc(m.body)}<div class="msg-time"${m.sender==='student'?' style="color:#9fb4c4;"':''}>${ctime(m.created_at)}</div></div>`).join('');
+  }
+  if(scroll)body.scrollTop=body.scrollHeight;
+}
+async function sendMsg(){
+  const i=document.getElementById('chatInput'),v=i.value.trim(); if(!v)return;
+  if(!STUDENT){ location.href='auth.html'; return; }
+  if(!THREAD_TID){ toast('Could not reach this tutor right now.'); return; }
+  i.value='';
+  const name=(STUDENT.user_metadata&&STUDENT.user_metadata.name)?STUDENT.user_metadata.name:(STUDENT.email?STUDENT.email.split('@')[0]:'Student');
+  const {error}=await SB.from('tutor_messages').insert({tutor_id:THREAD_TID,student_id:STUDENT.id,student_name:name,student_email:STUDENT.email,sender:'student',body:v});
+  if(error){ toast('Could not send: '+error.message); return; }
+  await loadThread(true);
+}
+
+init();
+</script>
+</body>
+</html>
