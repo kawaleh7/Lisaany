@@ -636,6 +636,17 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
 .lis-link{font:500 13px/1 'Inter',sans-serif;letter-spacing:.03em;color:#9ba8be;text-decoration:none;padding:9px 13px;border-radius:99px;transition:all .15s;white-space:nowrap;cursor:pointer;}
 .lis-link:hover{color:#f2be62;background:rgba(255,255,255,.05);}
 .lis-link.is-active{color:#f2be62;background:rgba(242,190,98,.10);}
+.lis-dd{position:relative;display:inline-block;}
+.lis-dd-btn{font:500 13px/1 'Inter',sans-serif;letter-spacing:.03em;color:#9ba8be;background:none;border:none;padding:9px 13px;border-radius:99px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap;}
+.lis-dd:hover .lis-dd-btn,.lis-dd:focus-within .lis-dd-btn{color:#f2be62;background:rgba(255,255,255,.05);}
+.lis-dd-caret{font-size:9px;color:#f2be62;transition:transform .18s;opacity:.95;}
+.lis-dd:hover .lis-dd-caret,.lis-dd:focus-within .lis-dd-caret{transform:rotate(180deg);}
+.lis-dd-panel{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);margin-top:6px;min-width:228px;background:#0c1d2c;border:1px solid rgba(242,190,98,.2);border-radius:14px;padding:8px;box-shadow:0 18px 44px rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:opacity .16s,transform .16s,visibility .16s;z-index:1600;}
+.lis-dd-panel::before{content:'';position:absolute;top:-12px;left:0;right:0;height:12px;}
+.lis-dd:hover .lis-dd-panel,.lis-dd:focus-within .lis-dd-panel{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
+.lis-dd-panel a{display:block;padding:11px 14px;border-radius:9px;color:#cdd6e6;text-decoration:none;font:500 13px/1.2 'Inter',sans-serif;white-space:nowrap;transition:all .12s;}
+.lis-dd-panel a:hover{background:rgba(242,190,98,.12);color:#f2be62;}
+.lis-dd-panel .lis-dd-grp{font:700 10px/1 'Inter',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#7b869c;padding:9px 14px 5px;}
 .lis-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .lis-signin{font:600 13px/1 'Inter',sans-serif;letter-spacing:.04em;padding:11px 22px;border-radius:99px;cursor:pointer;text-decoration:none;display:inline-block;background:linear-gradient(135deg,#f5d488,#f2be62);color:#0a1730;border:1px solid rgba(242,190,98,.55);box-shadow:0 0 0 rgba(242,190,98,0);transition:box-shadow .2s,transform .2s,background .2s;white-space:nowrap;}
 .lis-signin:hover{box-shadow:0 0 16px rgba(242,190,98,.75),0 0 32px rgba(242,190,98,.4);transform:translateY(-1px);}
@@ -673,12 +684,25 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
   </a>
   <div class="lis-links">
     <a href="index.html" class="lis-link is-active">Home</a>
-    <a href="arabic_platform.html" class="lis-link">Arabic Lesson</a>
-    <a href="verb-conjugator.html" class="lis-link">Verb Conjugator</a>
-    <a href="aqida-norania.html" class="lis-link">Norania · Alif Ba Ta</a>
-    <a href="english-course.html" class="lis-link">English Course</a>
-    <a href="pricing.html" class="lis-link">Pricing</a>
+    <div class="lis-dd">
+      <button type="button" class="lis-dd-btn">Courses <span class="lis-dd-caret">▼</span></button>
+      <div class="lis-dd-panel">
+        <a href="arabic_platform.html">Arabic Lesson</a>
+        <a href="verb-conjugator.html">Verb Conjugator</a>
+        <a href="aqida-norania.html">Norania · Alif Ba Ta</a>
+        <a href="english-course.html">English Course</a>
+      </div>
+    </div>
     <a href="tutors.html" class="lis-link">Live Tutor</a>
+    <div class="lis-dd">
+      <button type="button" class="lis-dd-btn">School Sign In <span class="lis-dd-caret">▼</span></button>
+      <div class="lis-dd-panel">
+        <a href="school-portal.html">Portal home</a>
+        <a href="class.html">I’m a student</a>
+        <a href="teacher-dashboard.html">I’m a teacher</a>
+      </div>
+    </div>
+    <a href="pricing.html" class="lis-link">Pricing</a>
     <a href="#" class="lis-link" onclick="var m=document.getElementById('lisContactModal');if(m){m.classList.add('open');}else{var f=document.getElementById('ls-fab');if(f){f.click();}else{location.href='mailto:admin@lisaany.com';}}return false;">Contact</a>
   </div>
   <div class="lis-actions">
@@ -700,6 +724,7 @@ a.lis-contact-row:hover{ border-color:rgba(242,190,98,.5); background:rgba(242,1
   <a href="english-course.html" class="lis-mlink">English Course</a>
   <a href="pricing.html" class="lis-mlink">Pricing</a>
   <a href="tutors.html" class="lis-mlink">Live Tutor</a>
+  <a href="school-portal.html" class="lis-mlink">School Portal</a>
   <a href="#" class="lis-mlink" onclick="var m=document.getElementById('lisContactModal');if(m){m.classList.add('open');}else{var f=document.getElementById('ls-fab');if(f){f.click();}else{location.href='mailto:admin@lisaany.com';}}return false;">Contact</a>
 </div>
 
