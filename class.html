@@ -4,45 +4,59 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lisaany — Sign in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root{--navy:#0f1c38;--gold:#c19a4b;--paper:#f6f7fb;--card:#fff;--border:#e6eaf2;--dim:#5d6b85;}
+  :root{--navy:#1b2154;--indigo-deep:#141a44;--indigo-soft:#2a3270;--gold:#c19a4b;--gold-br:#f2be62;--gold-deep:#9c7a31;--paper:#f5f6fb;--card:#fff;--border:#e7e9f5;--dim:#5b6092;}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--navy);}
-  .wrap{max-width:700px;margin:0 auto;padding:22px 16px 50px;}
-  .bar{background:var(--navy);border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:12px;}
-  .qrlogo{width:34px;height:34px;border-radius:8px;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:18px;font-weight:700;}
-  .bar .t1{color:#fff;font-size:16px;}.bar .t2{color:#c9b888;font-size:12px;margin-top:2px;}
-  .prompt{text-align:center;color:var(--dim);font-size:18px;margin:24px 0 16px;}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;}
-  .nm{padding:20px 10px;background:#fff;border:1px solid var(--border);border-radius:14px;font-size:20px;text-align:center;cursor:pointer;color:var(--navy);}
-  .nm:active{border-color:var(--gold);}
-  .letters{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:18px;}
-  .lt{min-width:40px;height:40px;padding:0 8px;border:1px solid var(--border);background:#fff;border-radius:10px;font-size:16px;color:var(--navy);cursor:pointer;}
+  body{margin:0;background:var(--paper);font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--navy);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:720px;margin:0 auto;padding:26px 16px 60px;}
+  .bar{background:linear-gradient(135deg,var(--navy),var(--indigo-soft));border-radius:18px;padding:20px 24px;display:flex;align-items:center;gap:13px;box-shadow:0 18px 40px -24px rgba(27,33,84,.6);position:relative;overflow:hidden;}
+  .bar>*{position:relative;z-index:1;}
+  .bar::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.16;background-image:url("data:image/svg+xml,%3Csvg width='28' height='49' viewBox='0 0 28 49' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23f2be62'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l11 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");background-size:42px 73.5px;-webkit-mask-image:linear-gradient(90deg,transparent 26%,#000 100%);mask-image:linear-gradient(90deg,transparent 26%,#000 100%);}
+  .qrlogo{width:46px;height:46px;border-radius:12px;background:rgba(242,190,98,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .bar .t1{color:#fff;font-family:'Cinzel',serif;font-size:19px;font-weight:600;letter-spacing:.03em;}
+  .bar .t2{color:var(--gold-br);font-size:12.5px;margin-top:3px;font-weight:500;}
+  .prompt{text-align:center;color:var(--navy);font-family:'Cinzel',serif;font-size:24px;font-weight:600;margin:30px 0 6px;}
+  .prompt-sub{text-align:center;color:var(--dim);font-size:14px;margin-bottom:22px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:13px;}
+  .nm{padding:24px 12px;background:#fff;border:1px solid var(--border);border-radius:16px;font-size:20px;font-weight:600;text-align:center;cursor:pointer;color:var(--navy);font-family:inherit;transition:transform .14s,box-shadow .14s,border-color .14s;box-shadow:0 8px 22px -14px rgba(27,33,84,.45);}
+  .nm:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 16px 32px -16px rgba(193,154,75,.55);}
+  .nm:active{transform:translateY(0);border-color:var(--gold);background:#fffdf7;}
+  .letters{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px;}
+  .lt{min-width:42px;height:42px;padding:0 10px;border:1px solid var(--border);background:#fff;border-radius:11px;font-size:16px;font-weight:600;font-family:inherit;color:var(--navy);cursor:pointer;transition:.12s;}
+  .lt:hover{border-color:var(--gold);}
   .lt.on{background:var(--navy);color:#fff;border-color:var(--navy);}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:18px;text-align:center;}
-  .card input{width:100%;max-width:280px;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:16px;text-align:center;margin:12px 0;}
-  .go{background:var(--gold);color:var(--navy);border:none;font-size:16px;padding:12px 28px;border-radius:12px;cursor:pointer;}
-  .info{text-align:center;color:var(--dim);font-size:14px;margin-top:30px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;margin-top:20px;text-align:center;box-shadow:0 14px 36px -26px rgba(27,33,84,.4);}
+  .card input{width:100%;max-width:300px;padding:13px;border:1px solid var(--border);border-radius:11px;font-size:16px;font-family:inherit;text-align:center;margin:14px 0;transition:border-color .15s,box-shadow .15s;}
+  .card input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(193,154,75,.15);}
+  .go{background:linear-gradient(135deg,var(--gold-br),var(--gold));color:var(--navy);border:none;font-size:16px;font-weight:700;font-family:inherit;padding:13px 30px;border-radius:12px;cursor:pointer;box-shadow:0 10px 22px -12px rgba(193,154,75,.8);transition:transform .15s;}
+  .go:hover{transform:translateY(-1px);}
+  .info{text-align:center;color:var(--dim);font-size:14px;margin-top:34px;}
   .hide{display:none;}
-  .overlay{position:fixed;inset:0;background:rgba(15,28,56,.6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;}
+  .overlay{position:fixed;inset:0;background:linear-gradient(135deg,rgba(20,26,68,.94),rgba(27,33,84,.94));display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-family:'Cinzel',serif;font-size:20px;gap:18px;z-index:99;}
+  .overlay .spin{width:44px;height:44px;border:3px solid rgba(242,190,98,.3);border-top-color:var(--gold-br);border-radius:50%;animation:spin 1s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="bar"><div class="qrlogo">⌗</div><div><div class="t1" id="className">Lisaany</div><div class="t2" id="schoolName"></div></div></div>
+  <div class="bar"><div class="qrlogo"><svg viewBox="0 0 100 130" aria-hidden="true" style="width:64%;height:64%"><path d="M50 10 C45 24 31 42 31 64 C31 79 40 88 50 88 C60 88 69 79 69 64 C69 42 55 24 50 10 Z M48.6 18 L51.4 18 L50.8 54 L49.2 54 Z M44.5 60 A5.5 5.5 0 1 1 55.5 60 A5.5 5.5 0 1 1 44.5 60 Z M41 94 Q41 89 50 89 Q59 89 59 94 L59 99 L41 99 Z M37 103 Q37 101 39 101 L61 101 Q63 101 63 103 L63 113 Q63 115 61 115 L39 115 Q37 115 37 113 Z" fill="#f2be62" fill-rule="evenodd"/></svg></div><div><div class="t1" id="className">Lisaany</div><div class="t2" id="schoolName"></div></div></div>
 
   <!-- no class code yet -->
   <div id="codeCard" class="card hide">
-    <div style="font-size:17px;">Enter your class code</div>
+    <div style="font-size:18px;font-family:'Cinzel',serif;font-weight:600;">Enter your class code</div>
     <input id="codeInput" placeholder="e.g. wasel-7k2p" autocomplete="off">
     <div><button class="go" id="codeGo">Go</button></div>
-    <div id="codeMsg" style="color:#b3261e;font-size:13px;margin-top:10px;"></div>
+    <div id="codeMsg" style="color:#b3261e;font-size:13px;margin-top:12px;"></div>
   </div>
 
   <!-- names -->
   <div id="namesWrap" class="hide">
     <p class="prompt">Tap your name</p>
+    <p class="prompt-sub">Find your name below to open your lessons.</p>
     <div class="letters hide" id="letters"></div>
     <div class="grid" id="grid"></div>
   </div>
@@ -101,7 +115,7 @@ function drawNames(){
 }
 
 async function signIn(student){
-  const ov=document.createElement('div'); ov.className='overlay'; ov.textContent='Opening your lessons…'; document.body.appendChild(ov);
+  const ov=document.createElement('div'); ov.className='overlay'; ov.innerHTML='<div class="spin"></div><div>Opening your lessons…</div>'; document.body.appendChild(ov);
   try{
     const r=await fetch('/api/kid-signin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({studentId:student.id})});
     const j=await r.json();
