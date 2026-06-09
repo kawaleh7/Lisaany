@@ -34,6 +34,16 @@
   .link{color:var(--gold);font-size:13px;cursor:pointer;text-decoration:underline;background:none;border:none;padding:0;}
   a.print{display:inline-block;margin-top:6px;font-size:13px;color:var(--navy);}
   @media print{.noprint{display:none}.card{border:none}}
+  .srow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid var(--border);}
+  .srow:first-child{border-top:none;}
+  .srow .nm{font-size:15px;}
+  .srow .sub{font-size:12px;color:var(--dim);margin-top:2px;}
+  .srow .acts{display:flex;gap:8px;flex-shrink:0;}
+  .btn-sm{font-size:13px;padding:7px 12px;border-radius:9px;border:1px solid var(--border);background:#fff;color:var(--navy);cursor:pointer;}
+  .btn-del{border-color:#e9c9c4;color:#b3261e;}
+  .chip{position:relative;}
+  .chip .x{position:absolute;top:-6px;right:-6px;width:18px;height:18px;border-radius:50%;background:#b3261e;color:#fff;border:none;font-size:11px;line-height:1;cursor:pointer;display:none;}
+  .chip:hover .x{display:block;}
 </style>
 </head>
 <body>
@@ -42,6 +52,13 @@
 
   <!-- gate -->
   <div id="gate" class="card center"><p id="gateMsg">Checking…</p></div>
+
+  <!-- schools list -->
+  <div id="schoolsCard" class="card hide noprint">
+    <h2>Your schools</h2>
+    <div id="schoolsList"></div>
+    <div id="schoolsMsg" class="msg"></div>
+  </div>
 
   <!-- create -->
   <div id="createCard" class="card hide noprint">
@@ -119,9 +136,44 @@ async function init(){
     return;
   }
   token=session.access_token;
-  hide($('gate')); show($('createCard'));
+  hide($('gate')); show($('schoolsCard')); show($('createCard'));
+  loadSchools();
 }
 init();
+
+async function loadSchools(){
+  const m=$('schoolsMsg'); m.className='msg'; m.textContent='';
+  try{
+    const r=await fetch('/api/list-schools',{headers:{'Authorization':'Bearer '+token}});
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Failed');
+    const box=$('schoolsList'); box.innerHTML='';
+    if(!j.schools.length){ box.innerHTML='<div class="sub">No schools yet. Create one below.</div>'; return; }
+    j.schools.forEach(s=>{
+      const codes=s.classes.map(c=>c.class_code).join(', ')||'no class yet';
+      const row=document.createElement('div'); row.className='srow';
+      const left=document.createElement('div');
+      left.innerHTML='<div class="nm">'+esc(s.name)+'</div><div class="sub">'+s.student_count+' / '+s.seats+' seats · '+s.teacher_count+' class'+(s.teacher_count===1?'':'es')+' · '+esc(codes)+'</div>';
+      const acts=document.createElement('div'); acts.className='acts';
+      const mBtn=document.createElement('button'); mBtn.className='btn-sm'; mBtn.textContent='Manage';
+      mBtn.onclick=()=>{ const c=s.classes[0]; if(!c){ alert('This school has no class yet.'); return; } hide($('createCard')); show($('manageCard')); $('classCode').value=c.class_code; loadClass(c.class_code); window.scrollTo(0,0); };
+      const dBtn=document.createElement('button'); dBtn.className='btn-sm btn-del'; dBtn.textContent='Delete';
+      dBtn.onclick=async()=>{
+        if(!confirm('Delete "'+s.name+'" and all '+s.student_count+' of its students? This removes their accounts and progress permanently.')) return;
+        dBtn.disabled=true; dBtn.textContent='Deleting…';
+        try{
+          const rr=await fetch('/api/delete-school',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({schoolId:s.id})});
+          const jj=await rr.json(); if(!rr.ok) throw new Error(jj.error||'Failed');
+          loadSchools();
+        }catch(e){ m.className='msg err'; m.textContent=e.message; dBtn.disabled=false; dBtn.textContent='Delete'; }
+      };
+      acts.appendChild(mBtn); acts.appendChild(dBtn);
+      row.appendChild(left); row.appendChild(acts); box.appendChild(row);
+    });
+  }catch(e){ m.className='msg err'; m.textContent=e.message; }
+}
+
+function esc(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 $('toManage').onclick=()=>{ hide($('createCard')); show($('manageCard')); };
 
@@ -139,6 +191,7 @@ $('createBtn').onclick=async()=>{
     hide($('createCard')); show($('manageCard'));
     $('classCode').value=j.class_code;
     loadClass(j.class_code);
+    loadSchools();
   }catch(e){ m.className='msg err'; m.textContent=e.message; }
   b.disabled=false; b.textContent='Create class';
 };
@@ -165,7 +218,19 @@ async function loadClass(code){
 function renderRoster(list){
   $('cvCount').textContent=list.length+(list.length===1?' student':' students');
   const box=$('roster'); box.innerHTML='';
-  list.forEach(s=>{ const d=document.createElement('div'); d.className='chip'; d.textContent=s.first_name; box.appendChild(d); });
+  list.forEach(s=>{
+    const d=document.createElement('div'); d.className='chip'; d.textContent=s.first_name;
+    const x=document.createElement('button'); x.className='x'; x.textContent='×'; x.title='Remove';
+    x.onclick=async()=>{
+      if(!confirm('Remove '+s.first_name+'? This deletes their account and progress.')) return;
+      try{
+        const r=await fetch('/api/remove-student',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({studentId:s.id})});
+        const j=await r.json(); if(!r.ok) throw new Error(j.error||'Failed');
+        loadClass(currentCode); loadSchools();
+      }catch(e){ alert(e.message); }
+    };
+    d.appendChild(x); box.appendChild(d);
+  });
 }
 
 $('addBtn').onclick=async()=>{
