@@ -93,6 +93,7 @@
         <div style="font-size:18px;" id="cvTeacher"></div>
         <div class="seatline" id="cvSchool"></div>
         <div class="codebox" style="justify-content:center;margin-top:12px;">code:&nbsp;<b id="cvCode"></b></div>
+        <div id="cvClaimWrap" class="codebox hide" style="justify-content:center;background:#eef3ff;border-color:#cdd9f2;">teacher claim code:&nbsp;<b id="cvClaim"></b></div>
         <img id="qrimg" class="qrimg" width="200" height="200" alt="class QR">
         <div class="seatline">Print this and put it where the class can scan it.</div>
         <a class="print noprint" href="#" onclick="window.print();return false;">🖨 Print this page</a>
@@ -120,6 +121,7 @@ const SUPABASE_URL='https://cfaxrzfqvoalwznkhwnx.supabase.co';
 const SUPABASE_KEY='sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
 const SB=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let token=null, currentCode='';
+const claimByCode={};
 
 const $=id=>document.getElementById(id);
 function show(el){el.classList.remove('hide')} function hide(el){el.classList.add('hide')}
@@ -150,6 +152,7 @@ async function loadSchools(){
     const box=$('schoolsList'); box.innerHTML='';
     if(!j.schools.length){ box.innerHTML='<div class="sub">No schools yet. Create one below.</div>'; return; }
     j.schools.forEach(s=>{
+      s.classes.forEach(c=>{ if(c.claim_code) claimByCode[c.class_code]=c.claim_code; });
       const codes=s.classes.map(c=>c.class_code).join(', ')||'no class yet';
       const row=document.createElement('div'); row.className='srow';
       const left=document.createElement('div');
@@ -190,6 +193,7 @@ $('createBtn').onclick=async()=>{
     if(!r.ok) throw new Error(j.error||'Failed');
     hide($('createCard')); show($('manageCard'));
     $('classCode').value=j.class_code;
+    if(j.claim_code) claimByCode[j.class_code]=j.claim_code;
     loadClass(j.class_code);
     loadSchools();
   }catch(e){ m.className='msg err'; m.textContent=e.message; }
@@ -208,6 +212,7 @@ async function loadClass(code){
     $('cvTeacher').textContent=j.teacher;
     $('cvSchool').textContent=j.school||'';
     $('cvCode').textContent=code;
+    if(claimByCode[code]){ $('cvClaim').textContent=claimByCode[code]; show($('cvClaimWrap')); } else { hide($('cvClaimWrap')); }
     const kidUrl=location.origin+'/class.html?c='+encodeURIComponent(code);
     $('qrimg').src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(kidUrl);
     renderRoster(j.students||[]);
