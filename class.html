@@ -54,7 +54,8 @@
 const SUPABASE_URL='https://cfaxrzfqvoalwznkhwnx.supabase.co';
 const SUPABASE_KEY='sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
 const SB=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const LESSONS_URL='index.html';  // where a kid lands after signing in
+const COURSE_URLS={arabic:'arabic_platform.html',norania:'aqida-norania.html'};
+let landingUrl='index.html';  // set from the class's course after roster loads
 
 const $=id=>document.getElementById(id);
 const show=el=>el.classList.remove('hide'), hide=el=>el.classList.add('hide');
@@ -71,6 +72,7 @@ async function init(){
     if(!r.ok) throw new Error(j.error||'Class not found');
     $('className').textContent=j.teacher||'Your class';
     $('schoolName').textContent=j.school||'';
+    landingUrl=COURSE_URLS[j.course]||'index.html';
     allNames=(j.students||[]);
     if(!allNames.length){ show($('info')); $('info').textContent='No names here yet. Ask your teacher to add you.'; return; }
     drawLetters(); drawNames(); show($('namesWrap'));
@@ -105,7 +107,7 @@ async function signIn(student){
     const j=await r.json();
     if(!r.ok||!j.access_token) throw new Error(j.error||'Could not sign in');
     await SB.auth.setSession({access_token:j.access_token,refresh_token:j.refresh_token});
-    location.href=LESSONS_URL;
+    location.href=landingUrl;
   }catch(e){ ov.remove(); alert(e.message); }
 }
 </script>

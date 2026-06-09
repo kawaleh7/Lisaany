@@ -48,7 +48,7 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="bar noprint"><div class="qrlogo">⌗</div><div><div class="t1">School setup</div><div class="t2">Lisaany · admin only</div></div></div>
+  <div class="bar noprint"><div class="qrlogo">⌗</div><div><div class="t1">School setup</div><div class="t2">Lisaany · admin only</div></div><button id="signout" class="link" style="margin-left:auto;color:#c9b888;background:none;border:none;cursor:pointer;font-size:13px;">Sign out</button></div>
 
   <!-- gate -->
   <div id="gate" class="card center"><p id="gateMsg">Checking…</p></div>
@@ -71,6 +71,11 @@
     </div>
     <label>Teacher name (shown to kids)</label>
     <input id="teacherName" placeholder="Ustadh Wasel">
+    <label>Course this class uses</label>
+    <select id="course" style="width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:10px;font-size:15px;color:var(--navy);background:#fff;">
+      <option value="arabic">Arabic lessons</option>
+      <option value="norania">Norania (Quran)</option>
+    </select>
     <button class="go" id="createBtn">Create class</button>
     <div id="createMsg" class="msg"></div>
     <p style="margin-top:14px;"><button class="link" id="toManage">or manage an existing class →</button></p>
@@ -149,6 +154,8 @@ async function init(){
 }
 init();
 
+document.getElementById('signout').onclick=async()=>{ await SB.auth.signOut(); location.href='index.html'; };
+
 async function loadSchools(){
   const m=$('schoolsMsg'); m.className='msg'; m.textContent='';
   try{
@@ -191,11 +198,12 @@ $('createBtn').onclick=async()=>{
   const b=$('createBtn'); const m=$('createMsg'); m.className='msg'; m.textContent='';
   const schoolName=$('schoolName').value.trim(), teacherName=$('teacherName').value.trim();
   const seats=$('seats').value, expiresAt=$('expiresAt').value||null;
+  const course=$('course').value;
   if(!schoolName||!teacherName){ m.className='msg err'; m.textContent='School and teacher name are required.'; return; }
   b.disabled=true; b.textContent='Creating…';
   try{
     const r=await fetch('/api/create-class',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-      body:JSON.stringify({schoolName,seats,expiresAt,teacherName})});
+      body:JSON.stringify({schoolName,seats,expiresAt,teacherName,course})});
     const j=await r.json();
     if(!r.ok) throw new Error(j.error||'Failed');
     hide($('createCard')); show($('manageCard'));
