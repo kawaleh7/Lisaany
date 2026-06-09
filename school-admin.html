@@ -96,6 +96,9 @@
         <div id="cvClaimWrap" class="codebox hide" style="justify-content:center;background:#eef3ff;border-color:#cdd9f2;">teacher claim code:&nbsp;<b id="cvClaim"></b></div>
         <img id="qrimg" class="qrimg" width="200" height="200" alt="class QR">
         <div class="seatline">Print this and put it where the class can scan it.</div>
+        <div style="margin-top:8px;font-size:13px;color:var(--dim);">Or share this link (for computers):</div>
+        <div class="codebox" style="justify-content:center;margin-top:6px;"><b id="cvLink" style="font-size:12px;"></b></div>
+        <div><button class="link" id="cvCopy" style="text-decoration:underline;color:var(--gold);background:none;border:none;cursor:pointer;font-size:13px;">Copy link</button></div>
         <a class="print noprint" href="#" onclick="window.print();return false;">🖨 Print this page</a>
       </div>
 
@@ -215,6 +218,8 @@ async function loadClass(code){
     if(claimByCode[code]){ $('cvClaim').textContent=claimByCode[code]; show($('cvClaimWrap')); } else { hide($('cvClaimWrap')); }
     const kidUrl=location.origin+'/class.html?c='+encodeURIComponent(code);
     $('qrimg').src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(kidUrl);
+    $('cvLink').textContent=kidUrl;
+    $('cvCopy').onclick=()=>{ navigator.clipboard&&navigator.clipboard.writeText(kidUrl); $('cvCopy').textContent='Copied!'; setTimeout(()=>$('cvCopy').textContent='Copy link',1500); };
     renderRoster(j.students||[]);
     show($('classView'));
   }catch(e){ m.className='msg err'; m.textContent=e.message; hide($('classView')); }

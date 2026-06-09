@@ -72,6 +72,9 @@
       <div class="codebox" style="margin-top:10px;">class code:&nbsp;<b id="cCode"></b></div>
       <img id="qrimg" class="qrimg" width="200" height="200" alt="class QR">
       <div class="seatline">Print this and put it where your class can scan it.</div>
+      <div style="margin-top:10px;font-size:13px;color:var(--dim);">Or share this link (for computers):</div>
+      <div class="codebox" style="margin-top:6px;"><b id="cLink" style="font-size:13px;"></b></div>
+      <div><button class="link" id="copyLink" style="text-decoration:underline;">Copy link</button></div>
       <a class="print noprint" href="#" onclick="window.print();return false;">🖨 Print this page</a>
     </div>
     <div class="noprint" style="margin-top:20px;">
@@ -149,6 +152,8 @@ function renderClass(c){
   $('cCode').textContent=c.class_code;
   const kidUrl=location.origin+'/class.html?c='+encodeURIComponent(c.class_code);
   $('qrimg').src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(kidUrl);
+  $('cLink').textContent=kidUrl;
+  $('copyLink').onclick=()=>{ navigator.clipboard&&navigator.clipboard.writeText(kidUrl); $('copyLink').textContent='Copied!'; setTimeout(()=>$('copyLink').textContent='Copy link',1500); };
   renderRoster(c.students||[]);
   show($('classCard'));
 }

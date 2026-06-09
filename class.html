@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lisaany — Sign in</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{--navy:#0f1c38;--gold:#c19a4b;--paper:#f6f7fb;--card:#fff;--border:#e6eaf2;--dim:#5d6b85;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--navy);}
+  .wrap{max-width:700px;margin:0 auto;padding:22px 16px 50px;}
+  .bar{background:var(--navy);border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:12px;}
+  .qrlogo{width:34px;height:34px;border-radius:8px;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--navy);font-size:18px;font-weight:700;}
+  .bar .t1{color:#fff;font-size:16px;}.bar .t2{color:#c9b888;font-size:12px;margin-top:2px;}
+  .prompt{text-align:center;color:var(--dim);font-size:18px;margin:24px 0 16px;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;}
+  .nm{padding:20px 10px;background:#fff;border:1px solid var(--border);border-radius:14px;font-size:20px;text-align:center;cursor:pointer;color:var(--navy);}
+  .nm:active{border-color:var(--gold);}
+  .letters{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:18px;}
+  .lt{min-width:40px;height:40px;padding:0 8px;border:1px solid var(--border);background:#fff;border-radius:10px;font-size:16px;color:var(--navy);cursor:pointer;}
+  .lt.on{background:var(--navy);color:#fff;border-color:var(--navy);}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-top:18px;text-align:center;}
+  .card input{width:100%;max-width:280px;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:16px;text-align:center;margin:12px 0;}
+  .go{background:var(--gold);color:var(--navy);border:none;font-size:16px;padding:12px 28px;border-radius:12px;cursor:pointer;}
+  .info{text-align:center;color:var(--dim);font-size:14px;margin-top:30px;}
+  .hide{display:none;}
+  .overlay{position:fixed;inset:0;background:rgba(15,28,56,.6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar"><div class="qrlogo">⌗</div><div><div class="t1" id="className">Lisaany</div><div class="t2" id="schoolName"></div></div></div>
+
+  <!-- no class code yet -->
+  <div id="codeCard" class="card hide">
+    <div style="font-size:17px;">Enter your class code</div>
+    <input id="codeInput" placeholder="e.g. wasel-7k2p" autocomplete="off">
+    <div><button class="go" id="codeGo">Go</button></div>
+    <div id="codeMsg" style="color:#b3261e;font-size:13px;margin-top:10px;"></div>
+  </div>
+
+  <!-- names -->
+  <div id="namesWrap" class="hide">
+    <p class="prompt">Tap your name</p>
+    <div class="letters hide" id="letters"></div>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div id="info" class="info hide"></div>
+</div>
+
+<script>
+const SUPABASE_URL='https://cfaxrzfqvoalwznkhwnx.supabase.co';
+const SUPABASE_KEY='sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
+const SB=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const LESSONS_URL='index.html';  // where a kid lands after signing in
+
+const $=id=>document.getElementById(id);
+const show=el=>el.classList.remove('hide'), hide=el=>el.classList.add('hide');
+let allNames=[], activeLetter='All';
+
+function getCode(){ return new URLSearchParams(location.search).get('c'); }
+
+async function init(){
+  const code=getCode();
+  if(!code){ show($('codeCard')); return; }
+  try{
+    const r=await fetch('/api/class-roster?code='+encodeURIComponent(code));
+    const j=await r.json();
+    if(!r.ok) throw new Error(j.error||'Class not found');
+    $('className').textContent=j.teacher||'Your class';
+    $('schoolName').textContent=j.school||'';
+    allNames=(j.students||[]);
+    if(!allNames.length){ show($('info')); $('info').textContent='No names here yet. Ask your teacher to add you.'; return; }
+    drawLetters(); drawNames(); show($('namesWrap'));
+  }catch(e){
+    show($('codeCard')); $('codeMsg').textContent=e.message;
+  }
+}
+init();
+
+$('codeGo').onclick=()=>{ const c=$('codeInput').value.trim(); if(c) location.search='?c='+encodeURIComponent(c); };
+$('codeInput').addEventListener('keydown',e=>{ if(e.key==='Enter') $('codeGo').click(); });
+
+function drawLetters(){
+  if(allNames.length<=16){ hide($('letters')); return; }
+  const letters=['All'].concat(Array.from(new Set(allNames.map(s=>s.first_name[0].toUpperCase()))).sort());
+  const box=$('letters'); box.innerHTML=''; show(box);
+  letters.forEach(L=>{ const b=document.createElement('button'); b.className='lt'+(L===activeLetter?' on':''); b.textContent=L;
+    b.onclick=()=>{ activeLetter=L; drawLetters(); drawNames(); }; box.appendChild(b); });
+}
+function drawNames(){
+  const box=$('grid'); box.innerHTML='';
+  allNames.filter(s=>activeLetter==='All'||s.first_name[0].toUpperCase()===activeLetter).forEach(s=>{
+    const b=document.createElement('button'); b.className='nm'; b.textContent=s.first_name;
+    b.onclick=()=>signIn(s); box.appendChild(b);
+  });
+}
+
+async function signIn(student){
+  const ov=document.createElement('div'); ov.className='overlay'; ov.textContent='Opening your lessons…'; document.body.appendChild(ov);
+  try{
+    const r=await fetch('/api/kid-signin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({studentId:student.id})});
+    const j=await r.json();
+    if(!r.ok||!j.access_token) throw new Error(j.error||'Could not sign in');
+    await SB.auth.setSession({access_token:j.access_token,refresh_token:j.refresh_token});
+    location.href=LESSONS_URL;
+  }catch(e){ ov.remove(); alert(e.message); }
+}
+</script>
+</body>
+</html>
