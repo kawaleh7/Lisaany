@@ -302,3 +302,102 @@ export async function handleCreateClass(request, env) {
     return json({ error: 'Server error' }, 500);
   }
 }
+
+// ---------- 5) List all schools (admin) ----------
+export async function handleListSchools(request, env) {
+  if (request.method !== 'GET') return json({ error: 'Method not allowed' }, 405);
+  try {
+    const jwt = (request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!jwt) return json({ error: 'Not authorized' }, 401);
+    const meRes = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, { headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` } });
+    const me = await meRes.json();
+    if (!meRes.ok || !isAdmin(me, env)) return json({ error: 'Admin only' }, 403);
+
+    const [sRes, tRes, stRes] = await Promise.all([
+      fetch(`${env.SUPABASE_URL}/rest/v1/schools?select=id,name,seats,active,expires_at,created_at&order=created_at.desc`, { headers: svc(env) }),
+      fetch(`${env.SUPABASE_URL}/rest/v1/teachers?select=id,school_id,name,class_code`, { headers: svc(env) }),
+      fetch(`${env.SUPABASE_URL}/rest/v1/students?select=teacher_id`, { headers: svc(env) }),
+    ]);
+    const schools = await sRes.json();
+    const teachers = await tRes.json();
+    const students = await stRes.json();
+
+    const schoolByTeacher = {}, tCount = {}, stCount = {};
+    (teachers || []).forEach((t) => { schoolByTeacher[t.id] = t.school_id; tCount[t.school_id] = (tCount[t.school_id] || 0) + 1; });
+    (students || []).forEach((s) => { const sc = schoolByTeacher[s.teacher_id]; if (sc) stCount[sc] = (stCount[sc] || 0) + 1; });
+
+    const out = (Array.isArray(schools) ? schools : []).map((s) => ({
+      id: s.id, name: s.name, seats: s.seats, active: s.active, expires_at: s.expires_at,
+      teacher_count: tCount[s.id] || 0, student_count: stCount[s.id] || 0,
+      classes: (teachers || []).filter((t) => t.school_id === s.id).map((t) => ({ name: t.name, class_code: t.class_code })),
+    }));
+    return json({ schools: out });
+  } catch (err) {
+    console.error('list-schools error:', err);
+    return json({ error: 'Server error' }, 500);
+  }
+}
+
+// ---------- 6) Delete a school + everything under it (admin) ----------
+export async function handleDeleteSchool(request, env) {
+  if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+  try {
+    const jwt = (request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!jwt) return json({ error: 'Not authorized' }, 401);
+    const meRes = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, { headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` } });
+    const me = await meRes.json();
+    if (!meRes.ok || !isAdmin(me, env)) return json({ error: 'Admin only' }, 403);
+
+    const { schoolId } = await request.json();
+    if (!schoolId) return json({ error: 'Missing schoolId' }, 400);
+
+    // gather every kid account under this school
+    const tRes = await fetch(`${env.SUPABASE_URL}/rest/v1/teachers?school_id=eq.${schoolId}&select=id`, { headers: svc(env) });
+    const tids = (await tRes.json()).map((t) => t.id);
+    let userIds = [];
+    if (tids.length) {
+      const stRes = await fetch(`${env.SUPABASE_URL}/rest/v1/students?teacher_id=in.(${tids.join(',')})&select=user_id`, { headers: svc(env) });
+      userIds = (await stRes.json()).map((s) => s.user_id).filter(Boolean);
+    }
+    // remove each kid's hidden account + their access row
+    for (const uid of userIds) {
+      await fetch(`${env.SUPABASE_URL}/auth/v1/admin/users/${uid}`, { method: 'DELETE', headers: svc(env) });
+      await fetch(`${env.SUPABASE_URL}/rest/v1/subscriptions?user_id=eq.${uid}`, { method: 'DELETE', headers: svc(env) });
+    }
+    // delete the school — teachers + students rows cascade away with it
+    const dRes = await fetch(`${env.SUPABASE_URL}/rest/v1/schools?id=eq.${schoolId}`, { method: 'DELETE', headers: svc(env) });
+    if (!dRes.ok) return json({ error: 'Could not delete school', detail: (await dRes.text()).slice(0, 300) }, 500);
+
+    return json({ ok: true, removed_students: userIds.length });
+  } catch (err) {
+    console.error('delete-school error:', err);
+    return json({ error: 'Server error' }, 500);
+  }
+}
+
+// ---------- 7) Remove a single student (admin/staff) ----------
+export async function handleRemoveStudent(request, env) {
+  if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+  try {
+    const jwt = (request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!jwt) return json({ error: 'Not authorized' }, 401);
+    const meRes = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, { headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` } });
+    const me = await meRes.json();
+    if (!meRes.ok || !isStaffOrAdmin(me, env)) return json({ error: 'Not authorized' }, 403);
+
+    const { studentId } = await request.json();
+    if (!studentId) return json({ error: 'Missing studentId' }, 400);
+
+    const sRes = await fetch(`${env.SUPABASE_URL}/rest/v1/students?id=eq.${encodeURIComponent(studentId)}&select=user_id`, { headers: svc(env) });
+    const st = (await sRes.json())[0];
+    if (st && st.user_id) {
+      await fetch(`${env.SUPABASE_URL}/auth/v1/admin/users/${st.user_id}`, { method: 'DELETE', headers: svc(env) });
+      await fetch(`${env.SUPABASE_URL}/rest/v1/subscriptions?user_id=eq.${st.user_id}`, { method: 'DELETE', headers: svc(env) });
+    }
+    await fetch(`${env.SUPABASE_URL}/rest/v1/students?id=eq.${encodeURIComponent(studentId)}`, { method: 'DELETE', headers: svc(env) });
+    return json({ ok: true });
+  } catch (err) {
+    console.error('remove-student error:', err);
+    return json({ error: 'Server error' }, 500);
+  }
+}
