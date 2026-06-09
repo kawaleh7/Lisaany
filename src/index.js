@@ -5,12 +5,16 @@
 //   /api/book-checkout    -> book-checkout.js   (one-time tutoring payments)
 //   /api/billing-portal   -> billing-portal.js
 //   /api/webhook          -> webhook.js
+//   /api/class-roster     -> school.js          (names a kid sees after the class QR)
+//   /api/kid-signin       -> school.js          (tap a name -> sign that kid's hidden account in)
+//   /api/add-student      -> school.js          (staff/admin adds a kid to a class)
 //   everything else       -> static HTML files (via the ASSETS binding)
 
 import { handleCreateCheckout } from './create-checkout.js';
 import { handleBookCheckout } from './book-checkout.js';
 import { handleBillingPortal } from './billing-portal.js';
 import { handleWebhook } from './webhook.js';
+import { handleClassRoster, handleKidSignin, handleAddStudent } from './school.js';
 
 export default {
   async fetch(request, env, ctx) {
@@ -28,6 +32,15 @@ export default {
     }
     if (url.pathname === '/api/webhook') {
       return handleWebhook(request, env);
+    }
+    if (url.pathname === '/api/class-roster') {
+      return handleClassRoster(request, env);
+    }
+    if (url.pathname === '/api/kid-signin') {
+      return handleKidSignin(request, env);
+    }
+    if (url.pathname === '/api/add-student') {
+      return handleAddStudent(request, env);
     }
 
     // Everything else: serve the static HTML files
