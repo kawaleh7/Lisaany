@@ -35,6 +35,21 @@ function anonKey(env) {
   return env.SUPABASE_ANON_KEY || 'sb_publishable_JzVuIvyj2OEP4o0zbURcQA_NhfBFPaa';
 }
 
+// owner override: recognise the owner by email even if no admin role tag is set
+function ownerEmails(env) {
+  return (env.OWNER_EMAILS || 'ahmedstart163@gmail.com,admin@lisaany.com')
+    .split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+}
+function isAdmin(me, env) {
+  const role = me && me.app_metadata && me.app_metadata.role;
+  const email = ((me && me.email) || '').toLowerCase();
+  return role === 'admin' || ownerEmails(env).includes(email);
+}
+function isStaffOrAdmin(me, env) {
+  const role = me && me.app_metadata && me.app_metadata.role;
+  return role === 'staff' || isAdmin(me, env);
+}
+
 function randomPw() {
   const a = new Uint8Array(18);
   crypto.getRandomValues(a);
@@ -131,8 +146,7 @@ export async function handleAddStudent(request, env) {
       headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` },
     });
     const me = await meRes.json();
-    const role = me && me.app_metadata && me.app_metadata.role;
-    if (!meRes.ok || (role !== 'staff' && role !== 'admin')) return json({ error: 'Not authorized' }, 403);
+    if (!meRes.ok || !isStaffOrAdmin(me, env)) return json({ error: 'Not authorized' }, 403);
 
     const { classCode, firstName } = await request.json();
     if (!classCode || !firstName) return json({ error: 'Missing classCode or firstName' }, 400);
@@ -251,8 +265,7 @@ export async function handleCreateClass(request, env) {
       headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` },
     });
     const me = await meRes.json();
-    const role = me && me.app_metadata && me.app_metadata.role;
-    if (!meRes.ok || role !== 'admin') return json({ error: 'Admin only' }, 403);
+    if (!meRes.ok || !isAdmin(me, env)) return json({ error: 'Admin only' }, 403);
 
     const { schoolName, seats, expiresAt, teacherName } = await request.json();
     if (!schoolName || !teacherName) return json({ error: 'Missing schoolName or teacherName' }, 400);
