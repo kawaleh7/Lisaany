@@ -64,7 +64,7 @@ export async function handleClassRoster(request, env) {
     if (!code) return json({ error: 'Missing class code' }, 400);
 
     const tRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/teachers?class_code=eq.${encodeURIComponent(code)}&active=eq.true&select=id,name,school_id&limit=1`,
+      `${env.SUPABASE_URL}/rest/v1/teachers?class_code=eq.${encodeURIComponent(code)}&active=eq.true&select=id,name,school_id,course&limit=1`,
       { headers: svc(env) }
     );
     const teachers = await tRes.json();
@@ -90,6 +90,7 @@ export async function handleClassRoster(request, env) {
     return json({
       teacher: teacher.name,
       school: schoolName,
+      course: teacher.course || 'arabic',
       students: (Array.isArray(students) ? students : []).map((s) => ({ id: s.id, first_name: s.first_name })),
     });
   } catch (err) {
@@ -268,9 +269,10 @@ export async function handleCreateClass(request, env) {
     const me = await meRes.json();
     if (!meRes.ok || !isAdmin(me, env)) return json({ error: 'Admin only' }, 403);
 
-    const { schoolName, seats, expiresAt, teacherName } = await request.json();
+    const { schoolName, seats, expiresAt, teacherName, course } = await request.json();
     if (!schoolName || !teacherName) return json({ error: 'Missing schoolName or teacherName' }, 400);
     const seatCount = Math.max(0, parseInt(seats, 10) || 0);
+    const courseVal = (course === 'norania') ? 'norania' : 'arabic';
 
     // create the school
     const schRes = await fetch(`${env.SUPABASE_URL}/rest/v1/schools`, {
@@ -291,7 +293,7 @@ export async function handleCreateClass(request, env) {
       const tRes = await fetch(`${env.SUPABASE_URL}/rest/v1/teachers`, {
         method: 'POST',
         headers: { ...svc(env), Prefer: 'return=representation' },
-        body: JSON.stringify({ school_id: sch.id, name: teacherName, class_code: code, claim_code: claim }),
+        body: JSON.stringify({ school_id: sch.id, name: teacherName, class_code: code, claim_code: claim, course: courseVal }),
       });
       if (tRes.ok) { teacher = (await tRes.json())[0]; }
       else { lastErr = await tRes.text(); }
