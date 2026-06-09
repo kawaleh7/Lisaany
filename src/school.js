@@ -275,10 +275,12 @@ export async function handleCreateClass(request, env) {
     const schRes = await fetch(`${env.SUPABASE_URL}/rest/v1/schools`, {
       method: 'POST',
       headers: { ...svc(env), Prefer: 'return=representation' },
-      body: JSON.stringify({ name: schoolName, seats: seatCount, active: true, expires_at: expiresAt || null }),
+      body: JSON.stringify({ name: schoolName, seats: seatCount, active: true, expires_at: expiresAt || null, join_code: 'sch-' + code4() + code4() }),
     });
-    const sch = (await schRes.json())[0];
-    if (!schRes.ok || !sch) { console.error('school insert', sch); return json({ error: 'Could not create school' }, 500); }
+    const schText = await schRes.text();
+    let sch = null;
+    try { sch = JSON.parse(schText)[0]; } catch (e) {}
+    if (!schRes.ok || !sch) { console.error('school insert', schText); return json({ error: 'Could not create school', detail: schText.slice(0, 300) }, 500); }
 
     // create the teacher with a unique class code (retry on the rare collision)
     let teacher = null, lastErr = null;
@@ -292,7 +294,7 @@ export async function handleCreateClass(request, env) {
       if (tRes.ok) { teacher = (await tRes.json())[0]; }
       else { lastErr = await tRes.text(); }
     }
-    if (!teacher) { console.error('teacher insert', lastErr); return json({ error: 'Could not create class' }, 500); }
+    if (!teacher) { console.error('teacher insert', lastErr); return json({ error: 'Could not create class', detail: (lastErr || '').slice(0, 300) }, 500); }
 
     return json({ ok: true, school: { id: sch.id, name: sch.name, seats: sch.seats }, class_code: teacher.class_code, teacher: teacher.name });
   } catch (err) {
