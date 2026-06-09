@@ -146,18 +146,19 @@ export async function handleAddStudent(request, env) {
       headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` },
     });
     const me = await meRes.json();
-    if (!meRes.ok || !isStaffOrAdmin(me, env)) return json({ error: 'Not authorized' }, 403);
+    if (!meRes.ok || !me.id) return json({ error: 'Not authorized' }, 401);
 
     const { classCode, firstName } = await request.json();
     if (!classCode || !firstName) return json({ error: 'Missing classCode or firstName' }, 400);
 
     // find the teacher + their school
     const tRes = await fetch(
-      `${env.SUPABASE_URL}/rest/v1/teachers?class_code=eq.${encodeURIComponent(classCode)}&select=id,school_id&limit=1`,
+      `${env.SUPABASE_URL}/rest/v1/teachers?class_code=eq.${encodeURIComponent(classCode)}&select=id,school_id,user_id&limit=1`,
       { headers: svc(env) }
     );
     const teacher = (await tRes.json())[0];
     if (!teacher) return json({ error: 'Class not found' }, 404);
+    if (!isAdmin(me, env) && teacher.user_id !== me.id) return json({ error: 'Not your class' }, 403);
 
     const schRes = await fetch(
       `${env.SUPABASE_URL}/rest/v1/schools?id=eq.${teacher.school_id}&select=id,seats,active,expires_at&limit=1`,
@@ -286,17 +287,18 @@ export async function handleCreateClass(request, env) {
     let teacher = null, lastErr = null;
     for (let i = 0; i < 4 && !teacher; i++) {
       const code = slugify(teacherName) + '-' + code4();
+      const claim = code4() + code4();
       const tRes = await fetch(`${env.SUPABASE_URL}/rest/v1/teachers`, {
         method: 'POST',
         headers: { ...svc(env), Prefer: 'return=representation' },
-        body: JSON.stringify({ school_id: sch.id, name: teacherName, class_code: code }),
+        body: JSON.stringify({ school_id: sch.id, name: teacherName, class_code: code, claim_code: claim }),
       });
       if (tRes.ok) { teacher = (await tRes.json())[0]; }
       else { lastErr = await tRes.text(); }
     }
     if (!teacher) { console.error('teacher insert', lastErr); return json({ error: 'Could not create class', detail: (lastErr || '').slice(0, 300) }, 500); }
 
-    return json({ ok: true, school: { id: sch.id, name: sch.name, seats: sch.seats }, class_code: teacher.class_code, teacher: teacher.name });
+    return json({ ok: true, school: { id: sch.id, name: sch.name, seats: sch.seats }, class_code: teacher.class_code, claim_code: teacher.claim_code, teacher: teacher.name });
   } catch (err) {
     console.error('create-class error:', err);
     return json({ error: 'Server error' }, 500);
@@ -315,7 +317,7 @@ export async function handleListSchools(request, env) {
 
     const [sRes, tRes, stRes] = await Promise.all([
       fetch(`${env.SUPABASE_URL}/rest/v1/schools?select=id,name,seats,active,expires_at,created_at&order=created_at.desc`, { headers: svc(env) }),
-      fetch(`${env.SUPABASE_URL}/rest/v1/teachers?select=id,school_id,name,class_code`, { headers: svc(env) }),
+      fetch(`${env.SUPABASE_URL}/rest/v1/teachers?select=id,school_id,name,class_code,claim_code`, { headers: svc(env) }),
       fetch(`${env.SUPABASE_URL}/rest/v1/students?select=teacher_id`, { headers: svc(env) }),
     ]);
     const schools = await sRes.json();
@@ -329,7 +331,7 @@ export async function handleListSchools(request, env) {
     const out = (Array.isArray(schools) ? schools : []).map((s) => ({
       id: s.id, name: s.name, seats: s.seats, active: s.active, expires_at: s.expires_at,
       teacher_count: tCount[s.id] || 0, student_count: stCount[s.id] || 0,
-      classes: (teachers || []).filter((t) => t.school_id === s.id).map((t) => ({ name: t.name, class_code: t.class_code })),
+      classes: (teachers || []).filter((t) => t.school_id === s.id).map((t) => ({ name: t.name, class_code: t.class_code, claim_code: t.claim_code })),
     }));
     return json({ schools: out });
   } catch (err) {
@@ -383,14 +385,21 @@ export async function handleRemoveStudent(request, env) {
     if (!jwt) return json({ error: 'Not authorized' }, 401);
     const meRes = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, { headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` } });
     const me = await meRes.json();
-    if (!meRes.ok || !isStaffOrAdmin(me, env)) return json({ error: 'Not authorized' }, 403);
+    if (!meRes.ok || !me.id) return json({ error: 'Not authorized' }, 401);
 
     const { studentId } = await request.json();
     if (!studentId) return json({ error: 'Missing studentId' }, 400);
 
-    const sRes = await fetch(`${env.SUPABASE_URL}/rest/v1/students?id=eq.${encodeURIComponent(studentId)}&select=user_id`, { headers: svc(env) });
+    const sRes = await fetch(`${env.SUPABASE_URL}/rest/v1/students?id=eq.${encodeURIComponent(studentId)}&select=user_id,teacher_id`, { headers: svc(env) });
     const st = (await sRes.json())[0];
-    if (st && st.user_id) {
+    if (!st) return json({ error: 'Student not found' }, 404);
+
+    // only the class's own teacher (or admin) may remove
+    const tRes = await fetch(`${env.SUPABASE_URL}/rest/v1/teachers?id=eq.${st.teacher_id}&select=user_id&limit=1`, { headers: svc(env) });
+    const teacher = (await tRes.json())[0];
+    if (!isAdmin(me, env) && (!teacher || teacher.user_id !== me.id)) return json({ error: 'Not your class' }, 403);
+
+    if (st.user_id) {
       await fetch(`${env.SUPABASE_URL}/auth/v1/admin/users/${st.user_id}`, { method: 'DELETE', headers: svc(env) });
       await fetch(`${env.SUPABASE_URL}/rest/v1/subscriptions?user_id=eq.${st.user_id}`, { method: 'DELETE', headers: svc(env) });
     }
@@ -398,6 +407,78 @@ export async function handleRemoveStudent(request, env) {
     return json({ ok: true });
   } catch (err) {
     console.error('remove-student error:', err);
+    return json({ error: 'Server error' }, 500);
+  }
+}
+
+// ---------- 8) Teacher claims a class with a private claim code ----------
+export async function handleClaimClass(request, env) {
+  if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+  try {
+    const jwt = (request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!jwt) return json({ error: 'Please sign in first' }, 401);
+    const meRes = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, { headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` } });
+    const me = await meRes.json();
+    if (!meRes.ok || !me.id) return json({ error: 'Please sign in first' }, 401);
+
+    const { claimCode } = await request.json();
+    if (!claimCode) return json({ error: 'Missing claim code' }, 400);
+
+    const tRes = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/teachers?claim_code=eq.${encodeURIComponent(claimCode.trim())}&select=id,name,class_code,user_id&limit=1`,
+      { headers: svc(env) }
+    );
+    const teacher = (await tRes.json())[0];
+    if (!teacher) return json({ error: 'That code is not valid' }, 404);
+    if (teacher.user_id && teacher.user_id !== me.id) return json({ error: 'This class is already claimed by another account' }, 409);
+
+    if (!teacher.user_id) {
+      await fetch(`${env.SUPABASE_URL}/rest/v1/teachers?id=eq.${teacher.id}`, {
+        method: 'PATCH', headers: svc(env), body: JSON.stringify({ user_id: me.id }),
+      });
+    }
+    return json({ ok: true, class_code: teacher.class_code, teacher: teacher.name });
+  } catch (err) {
+    console.error('claim-class error:', err);
+    return json({ error: 'Server error' }, 500);
+  }
+}
+
+// ---------- 9) Teacher loads their own class(es) ----------
+export async function handleMyClass(request, env) {
+  if (request.method !== 'GET') return json({ error: 'Method not allowed' }, 405);
+  try {
+    const jwt = (request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!jwt) return json({ error: 'Please sign in first' }, 401);
+    const meRes = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, { headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` } });
+    const me = await meRes.json();
+    if (!meRes.ok || !me.id) return json({ error: 'Please sign in first' }, 401);
+
+    const tRes = await fetch(
+      `${env.SUPABASE_URL}/rest/v1/teachers?user_id=eq.${me.id}&select=id,name,class_code,school_id&order=created_at.asc`,
+      { headers: svc(env) }
+    );
+    const teachers = await tRes.json();
+    if (!Array.isArray(teachers) || !teachers.length) return json({ claimed: false, classes: [] });
+
+    const classes = [];
+    for (const t of teachers) {
+      let schoolName = '', seats = 0;
+      if (t.school_id) {
+        const sRes = await fetch(`${env.SUPABASE_URL}/rest/v1/schools?id=eq.${t.school_id}&select=name,seats&limit=1`, { headers: svc(env) });
+        const s = (await sRes.json())[0];
+        if (s) { schoolName = s.name; seats = s.seats; }
+      }
+      const stRes = await fetch(`${env.SUPABASE_URL}/rest/v1/students?teacher_id=eq.${t.id}&select=id,first_name&order=first_name.asc`, { headers: svc(env) });
+      const students = await stRes.json();
+      classes.push({
+        class_code: t.class_code, teacher: t.name, school: schoolName, seats,
+        students: (Array.isArray(students) ? students : []).map((s) => ({ id: s.id, first_name: s.first_name })),
+      });
+    }
+    return json({ claimed: true, classes });
+  } catch (err) {
+    console.error('my-class error:', err);
     return json({ error: 'Server error' }, 500);
   }
 }
