@@ -110,8 +110,14 @@ function show(el){el.classList.remove('hide')} function hide(el){el.classList.ad
 async function init(){
   const {data:{session}}=await SB.auth.getSession();
   if(!session){ $('gateMsg').innerHTML='Please <a href="auth.html">sign in</a> as admin to set up classes.'; return; }
-  const role=session.user?.app_metadata?.role;
-  if(role!=='admin'){ $('gateMsg').innerHTML='This page is for the admin account only.'; return; }
+  const u=session.user||{};
+  const email=(u.email||'').toLowerCase();
+  const role=u.app_metadata&&u.app_metadata.role;
+  const OWNERS=['ahmedstart163@gmail.com','admin@lisaany.com'];
+  if(role!=='admin' && OWNERS.indexOf(email)===-1){
+    $('gateMsg').innerHTML='This page is for the admin account only.<br><span style="font-size:12px;color:#7b869c">Signed in as: '+(u.email||'unknown')+'</span>';
+    return;
+  }
   token=session.access_token;
   hide($('gate')); show($('createCard'));
 }
