@@ -228,3 +228,62 @@ export async function handleAddStudent(request, env) {
     return json({ error: 'Server error' }, 500);
   }
 }
+
+// ---------- 4) Create a class = school + first teacher (admin only) ----------
+function slugify(s) {
+  return ((s || 'class').toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '').slice(0, 12)) || 'class';
+}
+function code4() {
+  const c = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const a = new Uint8Array(4);
+  crypto.getRandomValues(a);
+  let r = '';
+  for (const x of a) r += c[x % 36];
+  return r;
+}
+
+export async function handleCreateClass(request, env) {
+  if (request.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
+  try {
+    const jwt = (request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!jwt) return json({ error: 'Not authorized' }, 401);
+    const meRes = await fetch(`${env.SUPABASE_URL}/auth/v1/user`, {
+      headers: { apikey: anonKey(env), Authorization: `Bearer ${jwt}` },
+    });
+    const me = await meRes.json();
+    const role = me && me.app_metadata && me.app_metadata.role;
+    if (!meRes.ok || role !== 'admin') return json({ error: 'Admin only' }, 403);
+
+    const { schoolName, seats, expiresAt, teacherName } = await request.json();
+    if (!schoolName || !teacherName) return json({ error: 'Missing schoolName or teacherName' }, 400);
+    const seatCount = Math.max(0, parseInt(seats, 10) || 0);
+
+    // create the school
+    const schRes = await fetch(`${env.SUPABASE_URL}/rest/v1/schools`, {
+      method: 'POST',
+      headers: { ...svc(env), Prefer: 'return=representation' },
+      body: JSON.stringify({ name: schoolName, seats: seatCount, active: true, expires_at: expiresAt || null }),
+    });
+    const sch = (await schRes.json())[0];
+    if (!schRes.ok || !sch) { console.error('school insert', sch); return json({ error: 'Could not create school' }, 500); }
+
+    // create the teacher with a unique class code (retry on the rare collision)
+    let teacher = null, lastErr = null;
+    for (let i = 0; i < 4 && !teacher; i++) {
+      const code = slugify(teacherName) + '-' + code4();
+      const tRes = await fetch(`${env.SUPABASE_URL}/rest/v1/teachers`, {
+        method: 'POST',
+        headers: { ...svc(env), Prefer: 'return=representation' },
+        body: JSON.stringify({ school_id: sch.id, name: teacherName, class_code: code }),
+      });
+      if (tRes.ok) { teacher = (await tRes.json())[0]; }
+      else { lastErr = await tRes.text(); }
+    }
+    if (!teacher) { console.error('teacher insert', lastErr); return json({ error: 'Could not create class' }, 500); }
+
+    return json({ ok: true, school: { id: sch.id, name: sch.name, seats: sch.seats }, class_code: teacher.class_code, teacher: teacher.name });
+  } catch (err) {
+    console.error('create-class error:', err);
+    return json({ error: 'Server error' }, 500);
+  }
+}

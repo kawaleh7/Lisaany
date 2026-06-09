@@ -14,7 +14,7 @@ import { handleCreateCheckout } from './create-checkout.js';
 import { handleBookCheckout } from './book-checkout.js';
 import { handleBillingPortal } from './billing-portal.js';
 import { handleWebhook } from './webhook.js';
-import { handleClassRoster, handleKidSignin, handleAddStudent } from './school.js';
+import { handleClassRoster, handleKidSignin, handleAddStudent, handleCreateClass } from './school.js';
 
 export default {
   async fetch(request, env, ctx) {
@@ -41,6 +41,9 @@ export default {
     }
     if (url.pathname === '/api/add-student') {
       return handleAddStudent(request, env);
+    }
+    if (url.pathname === '/api/create-class') {
+      return handleCreateClass(request, env);
     }
 
     // Everything else: serve the static HTML files
