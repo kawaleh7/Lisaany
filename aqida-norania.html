@@ -191,21 +191,20 @@ function chunk(a,n){const o=[];for(let i=0;i<a.length;i+=n)o.push(a.slice(i,i+n)
 
 /* ===== LESSON LIST (foundational ~26) ===== */
 const LESSONS=[
- {part:'Letters',type:'letters',title:'Group 1 · the tooth-letters',icon:'\u0628',letters:G[0],pool:cum[0],sp:{intro:'These Quran words use letters from this group.',w:['\u0628\u0650\u0633\u0652\u0645\u0650','\u0627\u0644\u0646\u0651\u064E\u0627\u0633\u0650','\u0623\u064E\u0646\u0652\u062A\u064E','\u0627\u0644\u0652\u062D\u064E\u0645\u0652\u062F\u064F \u0644\u0650\u0644\u0651\u064E\u0647\u0650'],mission:'Find \u0628, \u062A, \u0646 \u2014 and meet al-\u1E25amdu lill\u0101h.'}},
+ {part:'Letters',type:'letters',title:'Group 1 · the tooth-letters',icon:'\u0628',letters:G[0],pool:cum[0]},
  {part:'Letters',type:'letters',title:'Group 2 · J\u012Bm family',icon:'\u062C',letters:G[1],pool:cum[1]},
  {part:'Letters',type:'letters',title:'Group 3 · D\u0101l \u00b7 R\u0101',icon:'\u062F',letters:G[2],pool:cum[2]},
  {part:'Letters',type:'letters',title:'Group 4 · S\u012Bn \u00b7 \u1E62\u0101d',icon:'\u0633',letters:G[3],pool:cum[3]},
  {part:'Letters',type:'letters',title:'Group 5 · \u1E6C\u0101 \u00b7 \u02BFAyn \u00b7 F\u0101',icon:'\u0639',letters:G[4],pool:cum[4]},
  {part:'Letters',type:'letters',title:'Group 6 · Q\u0101f \u2192 Hamza',icon:'\u0642',letters:G[5],pool:cum[5]},
- {part:'Reading & movements',type:'reading',title:'Reading practice · all letters',icon:'\u{1F4D6}',pool:ALLL,mark:F},
  {part:'Reading & movements',type:'movement',title:'Fat\u1E25a \u2014 the "a" sound',icon:'\u064E',mark:F,ex:'\u0628'+F,blurb:'A small stroke above the letter says \u201ca\u201d.',sp:{w:['\u062E\u064E\u0644\u064E\u0642\u064E','\u062C\u064E\u0639\u064E\u0644\u064E'],mission:'Find every fat\u1E25a.'}},
- {part:'Reading & movements',type:'movement',title:'Kasra \u2014 the "i" sound',icon:'\u0650',mark:K,ex:'\u0628'+K,blurb:'A small stroke below the letter says \u201ci\u201d.',sp:{w:['\u0628\u0650\u0633\u0652\u0645\u0650','\u0641\u0650\u064A'],mission:'Point to every kasra.'}},
- {part:'Reading & movements',type:'movement',title:'\u1E0Camma \u2014 the "u" sound',icon:'\u064F',mark:D,ex:'\u0628'+D,blurb:'A small loop above the letter says \u201cu\u201d.',sp:{w:['\u0642\u064F\u0644\u0652','\u0647\u064F\u0648\u064E'],mission:'Read the \u1E0Damma sounds.'}},
+ {part:'Reading & movements',type:'movement',title:'Kasra \u2014 the "i" sound',icon:'\u0650',mark:K,ex:'\u0628'+K,blurb:'A small stroke below the letter says \u201ci\u201d.'},
+ {part:'Reading & movements',type:'movement',title:'\u1E0Camma \u2014 the "u" sound',icon:'\u064F',mark:D,ex:'\u0628'+D,blurb:'A small loop above the letter says \u201cu\u201d.',sp:{w:['\u0647\u064F\u0648\u064E'],mission:'Read the \u1E0Damma sounds.'}},
  {part:'Reading & movements',type:'reading',title:'Reading practice · the three vowels',icon:'\u{1F4D6}',pool:SAMPLE,mark:'mix'},
- {part:'Reading & movements',type:'movement',title:'Tanw\u012Bn \u2014 an / in / un',icon:'\u064B',mark:TF,ex:'\u0628'+TF,blurb:'Double marks add an \u201cn\u201d sound: an, in, un.',marks:[TF,TK,TD],sp:{w:['\u0623\u064E\u062D\u064E\u062F\u064C','\u062E\u064E\u0628\u0650\u064A\u0631\u064C'],mission:'Listen for the an / in / un sound.'}},
+ {part:'Reading & movements',type:'movement',title:'Tanw\u012Bn \u2014 an / in / un',icon:'\u064B',mark:TF,ex:'\u0628'+TF,blurb:'Double marks add an \u201cn\u201d sound: an, in, un.',marks:[TF,TK,TD],sp:{w:['\u0623\u064E\u062D\u064E\u062F\u064C'],mission:'Listen for the an / in / un sound.'}},
  {part:'Reading & movements',type:'longvowel',title:'Long vowels \u2014 \u0627 \u0648 \u064A',icon:'\u0622',blurb:'Stretch the sound: b\u0101, b\u012B, b\u016B.',sp:{w:['\u0642\u064E\u0627\u0644\u064E','\u064A\u064E\u0642\u064F\u0648\u0644\u064F','\u0641\u0650\u064A'],mission:'Hold the long sound for two beats.'}},
  {part:'Reading & movements',type:'movement',title:'Suk\u016Bn \u2014 no vowel',icon:'\u0652',mark:S,ex:'\u0623\u0628'+S,blurb:'A small circle means the letter has no vowel \u2014 a clean stop.',words:[{ar:'\u0645\u0650\u0646\u0652',v:1},{ar:'\u0642\u064F\u0644\u0652',v:1},{ar:'\u0647\u064E\u0644\u0652',v:1},{ar:'\u0644\u064E\u0645\u0652',v:1}],sp:{w:['\u0645\u0650\u0646\u0652','\u0642\u064F\u0644\u0652','\u0644\u064E\u0645\u0652'],mission:'Find the silent (suk\u016Bn) letter.'}},
- {part:'Reading & movements',type:'movement',title:'Shaddah \u2014 doubling',icon:'\u0651',mark:SH,ex:'\u0628'+SH+F,blurb:'A small \u201cw\u201d shape doubles the letter \u2014 hold it.',words:[{ar:'\u0625\u0650\u0646\u0651\u064E'},{ar:'\u062B\u064F\u0645\u0651\u064E'},{ar:'\u0631\u064E\u0628\u0651\u0650'}],sp:{w:['\u0627\u0644\u0631\u0651\u064E\u062D\u0652\u0645\u0670\u0646\u0650','\u0625\u0650\u0646\u0651\u064E','\u062B\u064F\u0645\u0651\u064E'],mission:'Tap every doubled letter.'}},
+ {part:'Reading & movements',type:'movement',title:'Shaddah \u2014 doubling',icon:'\u0651',mark:SH,ex:'\u0628'+SH+F,blurb:'A small \u201cw\u201d shape doubles the letter \u2014 hold it.',words:[{ar:'\u0625\u0650\u0646\u0651\u064E'},{ar:'\u062B\u064F\u0645\u0651\u064E'},{ar:'\u0631\u064E\u0628\u0651\u0650'}],sp:{w:['\u0625\u0650\u0646\u0651\u064E','\u062B\u064F\u0645\u0651\u064E'],mission:'Tap every doubled letter.'}},
  {part:'Reading & movements',type:'reading',title:'Reading practice · suk\u016Bn & shaddah',icon:'\u{1F4D6}',pool:SAMPLE,mark:'mix2'},
  {part:'Reading rules',type:'rule',title:'Moon letters (Alif-Lam)',icon:'\u0644',blurb:'With MOON letters, the \u0644 of \u201cal-\u201d is written AND pronounced clearly.',sp:{w:['\u0627\u0644\u0652\u0642\u064E\u0645\u064E\u0631\u064F','\u0627\u0644\u0652\u0643\u0650\u062A\u064E\u0627\u0628\u064F','\u0627\u0644\u0652\u062C\u064E\u0646\u0651\u064E\u0629\u064F'],mission:'Read the \u0644 clearly.'}},
  {part:'Reading rules',type:'rule',title:'Sun letters (Alif-Lam)',icon:'\u0644',blurb:'With SUN letters, the \u0644 of \u201cal-\u201d is written but NOT pronounced \u2014 the next letter doubles.',sp:{w:['\u0627\u0644\u0634\u0651\u064E\u0645\u0652\u0633\u0650','\u0627\u0644\u0646\u0651\u064E\u0627\u0633\u0650','\u0627\u0644\u0631\u0651\u064E\u062D\u0652\u0645\u0670\u0646\u0650'],mission:'Notice the \u0644 is written but not said.'}},
@@ -224,6 +223,8 @@ let done={};try{done=JSON.parse(localStorage.getItem('norania-prog-lean')||'{}')
 function saveDone(){try{localStorage.setItem('norania-prog-lean',JSON.stringify(done));}catch(e){}}
 
 /* ===== HOME ===== */
+/* set UNLOCK_ALL=false to make students progress in order */
+const UNLOCK_ALL=true;
 function renderHome(){
  const ndone=Object.keys(done).length;
  $('prog').innerHTML='<b>'+ndone+'</b> / '+LESSONS.length+' lessons';
@@ -232,7 +233,7 @@ function renderHome(){
  parts.forEach(p=>{
   html+='<div class="grouphead">'+p+'</div><div class="lessons">';
   LESSONS.forEach((L,i)=>{ if(L.part!==p)return;
-   const isDone=done[i], locked=i>0&&!done[i-1]&&!isDone;
+   const isDone=done[i], locked=UNLOCK_ALL?false:(i>0&&!done[i-1]&&!isDone);
    html+='<div class="lcard '+(locked?'locked':'')+'" '+(locked?'':'onclick="openLesson('+i+')"')+'>'
     +(isDone?'<div class="done">\u2713</div>':(locked?'<div class="lock">\uD83D\uDD12</div>':''))
     +'<div class="lar">'+L.icon+'</div><div class="lnm" style="font-size:12.5px">'+L.title+'</div></div>';
@@ -318,17 +319,12 @@ function S_practice(pool,mark){return {name:'Practice',render:()=>{
  $('card').innerHTML='<h2>Keep reading</h2><p class="sub">More patterns. Tap, then read.</p>'+rows(cs.slice(0,6),3);
 }};}
 function S_masteryLetters(L){return {name:'Mastery',render:()=>{
- const set=L.letters.slice(0,Math.min(4,L.letters.length));
- const cs=combos(L.pool,F);
- const q=[];
- set.slice(0,3).forEach(t=>q.push({audio:t,q:'You hear it \u2014 which letter?',opts:shuffle(set),a:t}));
- const c=cs[0],c2=cs[2]||cs[1];
- q.push({audio:c,q:'Which did you hear?',opts:shuffle([c,c2,cs[4]||cs[1]]),a:c});
- if(q.length<5)q.push({audio:cs[1],q:'Which did you hear?',opts:shuffle([cs[1],cs[3]||cs[0],cs[5]||cs[2]]),a:cs[1]});
- runQuiz(q.slice(0,5));
+ const set=L.letters;const q=[];
+ for(let i=0;i<5;i++){const t=set[i%set.length];let opts=shuffle(set.slice());if(opts.length>4)opts=opts.slice(0,4);if(opts.indexOf(t)<0)opts[0]=t;q.push({audio:t,q:'You hear it \u2014 which letter?',opts:opts,a:t});}
+ runQuiz(q);
 }};}
 
-function lettersStages(L){const forms=L.letters.map(c=>c+F);return [S_learnLetters(L),S_listen(forms),S_recognize(L),S_compare(L),S_read(L.pool,F),S_masteryLetters(L)];}
+function lettersStages(L){return [S_learnLetters(L),S_listen(L.letters),S_recognize(L),S_compare(L),S_masteryLetters(L)];}
 
 function S_learnMark(L){return {name:'Learn',render:()=>{
  $('card').innerHTML='<h2>'+L.title.split(' \u2014 ')[0]+'</h2><p class="sub">'+L.blurb+'</p><div class="bigletter">'+L.ex+'</div><div class="center"><button class="listen" onclick="playAudio(\''+L.ex+'\')">\uD83C\uDFA7 Listen</button></div>';
@@ -372,7 +368,7 @@ function longvowelStages(L){
  const forms=c=>[c+F+ALIF,c+K+YA,c+D+WAW];
  const learn={name:'Learn',render:()=>{$('card').innerHTML='<h2>'+L.title.split(' \u2014 ')[0]+'</h2><p class="sub">'+L.blurb+'</p>'
    +'<div class="rows"><div class="rrow">'+forms('\u0628').map(x=>'<button class="cell" onclick="lit(this);playAudio(\''+x+'\')">'+x+'</button>').join('')+'</div></div>'
-   +'<div class="note">The letters \u0627 \u0648 \u064A stretch the vowel before them: <b>b\u0101, b\u012B, b\u016B</b>.</div>';}};
+   +'<div class="note">The letters \u0627 \u0648 \u064A stretch the vowel before them: <b>b\u0101, b\u012B, b\u016B</b>. A small upright stroke above a letter is also a long \u201ca\u201d (as in <b>al-Ra\u1E25m\u0101n</b>).</div>';}};
  const read={name:'Read',render:()=>{const all=[];SAMPLE.slice(0,2).forEach(c=>all.push.apply(all,forms(c)));$('card').innerHTML='<h2>Read the long vowels</h2><p class="sub">Tap to hear. Stretch the sound.</p>'+rows(all,3);}};
  const prac={name:'Practice',render:()=>{const all=[];SAMPLE.slice(2,4).forEach(c=>all.push.apply(all,forms(c)));$('card').innerHTML='<h2>Keep reading</h2><p class="sub">More long vowels.</p>'+rows(all,3);}};
  const mast={name:'Mastery',render:()=>{const q=[];['\u0628','\u062A','\u062F','\u0633','\u0645'].forEach(c=>{const f=forms(c);q.push({audio:f[0],q:'Which long vowel did you hear?',opts:shuffle(f),a:f[0]});});runQuiz(q);}};
