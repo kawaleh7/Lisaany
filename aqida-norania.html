@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="theme-color" content="#1b2154">
+<meta name="description" content="Quran Norania — learn to read the Quran, from the letters to your first surah.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lisaany — Quran Norania</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +15,6 @@
   body{margin:0;background:var(--paper);font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--navy);line-height:1.5;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:680px;margin:0 auto;padding:18px 16px 120px;}
   .ar{font-family:'Amiri',serif;direction:rtl}
-  .tpl{background:#fff;border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:12px;padding:10px 14px;font-size:14px;color:var(--dim);margin-bottom:16px;font-weight:600}
   .bar{background:linear-gradient(135deg,var(--navy),var(--indigo-soft));border-radius:18px;padding:16px 20px;display:flex;align-items:center;gap:13px;box-shadow:0 18px 40px -24px rgba(27,33,84,.6);position:relative;overflow:hidden}
   .bar>*{position:relative;z-index:1}
   .bar::after{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.16;background-image:url("data:image/svg+xml,%3Csvg width='28' height='49' viewBox='0 0 28 49' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23ffd83a'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l11 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.3zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");background-size:42px 73.5px;-webkit-mask-image:linear-gradient(90deg,transparent 26%,#000 100%);mask-image:linear-gradient(90deg,transparent 26%,#000 100%)}
@@ -30,6 +31,8 @@
   .lcard:hover{transform:translateY(-4px);border-color:var(--gold);box-shadow:0 18px 36px -20px rgba(232,182,43,.5)}
   .lcard.locked{opacity:.5;cursor:default}
   .lcard.locked:hover{transform:none;border-color:var(--border);box-shadow:0 10px 28px -20px rgba(27,33,84,.4)}
+.lcard.next{border-color:var(--gold);box-shadow:0 0 0 2px rgba(232,182,43,.35),0 16px 40px -22px rgba(27,33,84,.3)}
+  .upnext{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--gold-deep);background:#fff7e0;border:1px solid #f0dca0;border-radius:99px;padding:2px 8px;white-space:nowrap}
   .lcard.goldcard{background:linear-gradient(150deg,var(--gold-br),var(--gold));border-color:var(--gold-deep)}
   .lcard.goldcard:hover{border-color:var(--gold-deep);box-shadow:0 18px 38px -18px rgba(179,132,43,.6)}
   .lcard.goldcard .lar{color:var(--green)}
@@ -85,6 +88,8 @@
   .rrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
   .cell{font-family:'Amiri',serif;font-size:29px;min-width:56px;padding:7px 9px;background:#fff;border:1.5px solid var(--border);border-radius:13px;color:var(--gold-deep);cursor:pointer;transition:.13s;text-align:center}
   .cell:hover{border-color:var(--gold);background:#fffdf5}
+  .cell .trs{display:block;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:var(--dim);margin-top:2px;direction:ltr}
+  .scell .trs{display:block;font-family:'Inter',sans-serif;font-size:12px;font-weight:700;color:var(--dim);margin-top:3px;direction:ltr}
   .cell.lit{border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(255,216,58,.28)}
   .note{background:var(--paper);border-radius:12px;padding:11px 13px;font-size:14px;margin:11px 0}
   .note b{color:var(--gold-deep)}
@@ -112,6 +117,9 @@
   .btn-back{background:#fff;border:1px solid var(--border);color:var(--navy)}
   .btn-back:disabled{opacity:.4;cursor:default}
   .hide{display:none}
+  body.inlesson .bar{display:none}
+  body.inlesson .wrap{padding-top:10px}
+
 
 /* Arabic reads right-to-left: letters, combos, compare, tiles flow RTL */
 .factrow,.rrow,.cmp,.tiles{direction:rtl}
@@ -153,7 +161,6 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="tpl">🧪 Norania — foundational course (32 lessons). 🎧 = placeholder voice (record later). Quran words reviewed by teacher; final Uthmānī text to be set from <b>Quran.com</b>. Draft — not yet wired to login.</div>
 
   <div class="bar">
     <div class="qrlogo"><svg viewBox="0 0 100 130" aria-hidden="true" style="width:64%;height:64%"><defs><linearGradient id="gmixn" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe98a"/><stop offset=".55" stop-color="#ffd83a"/><stop offset="1" stop-color="#e8b62b"/></linearGradient></defs><path d="M50 10 C45 24 31 42 31 64 C31 79 40 88 50 88 C60 88 69 79 69 64 C69 42 55 24 50 10 Z M48.6 18 L51.4 18 L50.8 54 L49.2 54 Z M44.5 60 A5.5 5.5 0 1 1 55.5 60 A5.5 5.5 0 1 1 44.5 60 Z M41 94 Q41 89 50 89 Q59 89 59 94 L59 99 L41 99 Z M37 103 Q37 101 39 101 L61 101 Q63 101 63 103 L63 113 Q63 115 61 115 L39 115 Q37 115 37 113 Z" fill="url(#gmixn)" fill-rule="evenodd"/></svg></div>
@@ -185,7 +192,22 @@ const LETTER_FILES={"ا": "c86823319368.mp3", "ب": "9497c4fb6341.mp3", "ت": "9
 function letterURL(c){return LETTER_FILES[c]?R2_BASE+LETTER_FILES[c]:null;}
 let _aud=null;
 function ttsPlay(t){try{if(!('speechSynthesis'in window))return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ar-SA';u.rate=.75;speechSynthesis.speak(u);}catch(e){}}
-function playAudio(t){try{let key=null;if(LETTER_FILES[t])key=t;else{for(const c in M){if(M[c]&&M[c].n===t&&LETTER_FILES[c]){key=c;break;}}}if(key){try{if(_aud)_aud.pause();}catch(e){}try{speechSynthesis.cancel();}catch(e){}_aud=new Audio(letterURL(key));_aud.play().catch(()=>ttsPlay(t));return;}}catch(e){}ttsPlay(t);}
+function playAudio(t){try{let key=null;if(LETTER_FILES[t])key=t;else{for(const c in M){if(M[c]&&M[c].n===t&&LETTER_FILES[c]){key=c;break;}}}if(key){try{if(_aud)_aud.pause();}catch(e){}try{speechSynthesis.cancel();}catch(e){}let fb=false;const fall=()=>{if(fb)return;fb=true;ttsPlay(t);};_aud=new Audio(letterURL(key));_aud.onerror=fall;_aud.onstalled=fall;const guard=setTimeout(()=>{if(_aud&&(_aud.readyState<2)&&_aud.paused!==false){fall();}},2500);_aud.onplaying=()=>clearTimeout(guard);_aud.play().catch(fall);return;}}catch(e){}ttsPlay(t);}
+function latn(s){let out='',prev='';for(const ch of s){const c=ch.codePointAt(0);
+ if(ch==='\u064E'){out+='a';prev='a';continue}
+ if(ch==='\u0650'){out+='i';prev='i';continue}
+ if(ch==='\u064F'){out+='u';prev='u';continue}
+ if(ch==='\u064B'){out+='an';prev='TF';continue}
+ if(ch==='\u064D'){out+='in';prev='';continue}
+ if(ch==='\u064C'){out+='un';prev='';continue}
+ if(ch==='\u0652'){prev='';continue}
+ if(ch==='\u0651'){const m=out.match(/([a-z\u02BE\u02BF\u1E25\u1E63\u1E0D\u1E6D\u1E93]h?)([aiu]?)$/);if(m)out=out.slice(0,out.length-m[0].length)+m[1]+m[0];prev='';continue}
+ if(ch==='\u0627'){if(prev==='TF'){prev='';continue}if(prev==='a'){out=out.slice(0,-1)+'\u0101';}else{out+='a';}prev='';continue}
+ if(ch==='\u064A'&&prev==='i'){out=out.slice(0,-1)+'\u012B';prev='';continue}
+ if(ch==='\u0648'&&prev==='u'){out=out.slice(0,-1)+'\u016B';prev='';continue}
+ if(ch===' '){out+=' ';prev='';continue}
+ if(M[ch]){out+=M[ch].s;prev='';continue}
+}return out;}
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
 const M={
@@ -244,7 +266,7 @@ const LESSONS=[
  {part:'Short Vowels',type:'movement',title:'Kasra',icon:'\u0628\u0650',mark:K,iso:true,ex:'\u0628'+K,blurb:'A small stroke below the letter says \u201ci\u201d.',words:['\u0634\u064E\u0631\u0650\u0628\u064E','\u0639\u064E\u0645\u0650\u0644\u064E','\u0641\u064E\u0631\u0650\u062D\u064E','\u0631\u064E\u0643\u0650\u0628\u064E','\u0639\u064E\u0644\u0650\u0645\u064E','\u0631\u064E\u062D\u0650\u0645\u064E']},
  {part:'Short Vowels',type:'movement',title:'\u1E0Camma',icon:'\u0628\u064F',mark:D,iso:true,ex:'\u0628'+D,blurb:'A small loop above the letter says \u201cu\u201d.',words:['\u062D\u064E\u0633\u064F\u0646\u064E','\u0643\u064E\u0631\u064F\u0645\u064E','\u0643\u064E\u0628\u064F\u0631\u064E','\u062E\u064F\u0644\u0650\u0642\u064E','\u0631\u064F\u0633\u064F\u0644\u064F','\u0642\u064F\u062A\u0650\u0644\u064E']},
  {part:'Joining Letters',type:'joining',title:'How letters join',icon:'\u0640'},
- {part:'Joining Letters',type:'reading',title:'Reading practice · the three vowels',icon:'\u{1F4D6}',pool:SAMPLE,mark:'mix',words:['\u0643\u064e\u062a\u064e\u0628\u064e','\u0630\u064e\u0647\u064e\u0628\u064e','\u062f\u064e\u062e\u064e\u0644\u064e','\u0631\u064e\u062d\u0650\u0645\u064e','\u0639\u064e\u0644\u0650\u0645\u064e','\u0631\u064f\u0633\u064f\u0644\u064f','\u0648\u064e\u062c\u064e\u062f\u064e','\u0631\u064e\u0632\u064e\u0642\u064e','\u062c\u064e\u0639\u064e\u0644\u064e','\u0647\u064f\u0648\u064e']},
+ {part:'Joining Letters',type:'reading',title:'Reading practice · the three vowels',icon:'BOOK',pool:SAMPLE,mark:'mix',words:['\u0643\u064e\u062a\u064e\u0628\u064e','\u0630\u064e\u0647\u064e\u0628\u064e','\u062f\u064e\u062e\u064e\u0644\u064e','\u0631\u064e\u062d\u0650\u0645\u064e','\u0639\u064e\u0644\u0650\u0645\u064e','\u0631\u064f\u0633\u064f\u0644\u064f','\u0648\u064e\u062c\u064e\u062f\u064e','\u0631\u064e\u0632\u064e\u0642\u064e','\u062c\u064e\u0639\u064e\u0644\u064e','\u0647\u064f\u0648\u064e']},
  {part:'Suk\u016Bn',type:'movement',title:'Suk\u016Bn',icon:'\u0652',mark:S,ex:'\u0623\u0628'+S,blurb:'A small circle means the letter has no vowel \u2014 a clean stop. It always comes right after a vowelled letter.',words:[{ar:'\u0645\u0650\u0646\u0652',v:1},{ar:'\u0642\u064F\u0644\u0652',v:1},{ar:'\u0647\u064E\u0644\u0652',v:1},{ar:'\u0644\u064E\u0645\u0652',v:1}],sp:{w:['\u0639\u064E\u0644\u064E\u064A\u0652\u0647\u0650','\u0643\u064E\u064A\u0652\u0641\u064E','\u0623\u064E\u0644\u064E\u0645\u0652'],mission:'Find the silent (suk\u016Bn) letter.'}},
  {part:'Madd',type:'madd',title:'Alif Madd',icon:'\u0628\u064E\u0627',blurb:'A long \u201c\u0101\u201d \u2014 an alif after a fat\u1E25a.',demo:['\u0628\u064E','\u0628\u064E\u0627'],note:'\u0627 after a fat\u1E25a stretches it: ba \u2192 b\u0101. The small upright stroke \u0670 is also a long \u0101.',words:['\u0642\u064E\u0627\u0644\u064E','\u062A\u064E\u0627\u0628\u064E','\u0643\u064E\u0627\u0646\u064E','\u0642\u064E\u0627\u0645\u064E','\u0628\u064E\u0627\u0628\u064F','\u062E\u064E\u0627\u0644\u0650\u0642\u064F']},
  {part:'Madd',type:'madd',title:'Y\u0101\u02be Madd',icon:'\u0628\u0650\u064A',blurb:'A long \u201c\u012B\u201d \u2014 a y\u0101\u02be after a kasra.',demo:['\u0628\u0650','\u0628\u0650\u064A'],note:'\u064A after a kasra stretches it: bi \u2192 b\u012B.',words:['\u062D\u0650\u064A\u0646\u064E','\u062F\u0650\u064A\u0646\u0650','\u0641\u0650\u064A\u0647\u064E\u0627','\u0642\u0650\u064A\u0644\u064E','\u0633\u064E\u0628\u0650\u064A\u0644\u064F','\u0643\u064E\u0631\u0650\u064A\u0645\u064F']},
@@ -252,16 +274,16 @@ const LESSONS=[
  {part:'Madd',type:'madddrill',title:'Exercises \u00b7 the three madds',icon:'\u2713'},
  {part:'Tanw\u012Bn',type:'tanwin',title:'Tanw\u012Bn',icon:'\u0628\u064b\u0627',fat:['\u0646\u064e\u0628\u064e\u0627\u062a\u064b\u0627','\u0639\u064e\u0638\u0650\u064a\u0645\u064b\u0627','\u0636\u064e\u0628\u0652\u062d\u064b\u0627','\u0637\u064e\u0628\u064e\u0642\u064b\u0627'],kas:['\u0646\u064e\u0641\u0652\u0633\u064d','\u0643\u064e\u0628\u064e\u062f\u064d','\u0644\u064e\u0647\u064e\u0628\u064d','\u0634\u064e\u0647\u0652\u0631\u064d'],dam:['\u0646\u064f\u0648\u062d\u064c','\u0642\u064e\u0633\u064e\u0645\u064c','\u0648\u064e\u064a\u0652\u0644\u064c','\u0630\u0650\u0643\u0652\u0631\u064c']},
  {part:'Shaddah',type:'shaddah',title:'Shaddah',icon:'\u0651',mark:SH,ex:'\u0628'+SH+F,blurb:'A small \u201cw\u201d shape doubles the letter \u2014 hold it.',words:[{ar:'\u062b\u064f\u0645\u064e\u0651'},{ar:'\u0631\u064e\u0628\u0650\u0651'},{ar:'\u0643\u064e\u0644\u064e\u0651\u0627'}],sp:{w:['\u0631\u064e\u0628\u064f\u0651\u0647\u064f','\u0642\u064e\u062f\u064e\u0651\u0645\u064e\u062a\u0652','\u063a\u064e\u0631\u064e\u0651\u0643\u064e','\u0623\u064e\u0634\u064e\u062f\u064f\u0651'],mission:'Tap every doubled letter.'}},
- {part:'Shaddah',type:'reading',title:'Reading practice · suk\u016Bn & shaddah',icon:'\u{1F4D6}',pool:SAMPLE,mark:'mix2',words:['\u0645\u0650\u0646\u0652','\u0642\u064f\u0644\u0652','\u0625\u0650\u0646\u0651\u064e','\u062b\u064f\u0645\u0651\u064e','\u0631\u064e\u0628\u0651\u0650']},
+ {part:'Shaddah',type:'reading',title:'Reading practice · suk\u016Bn & shaddah',icon:'BOOK',pool:SAMPLE,mark:'mix2',words:['\u0645\u0650\u0646\u0652','\u0642\u064f\u0644\u0652','\u0625\u0650\u0646\u0651\u064e','\u062b\u064f\u0645\u0651\u064e','\u0631\u064e\u0628\u0651\u0650']},
  {part:'Reading Rules',type:'rule',title:'Hamzatul Wasl',icon:'\u0671',ex:'\u0671',blurb:'Hamzatul Wasl is pronounced when you START with it, and skipped when you connect it to the word before.',sp:{w:['\u0671\u0647\u0652\u062f\u0650\u0646\u064e\u0627','\u0671\u0630\u0652\u0643\u064f\u0631\u064f\u0648\u0627','\u0671\u0633\u0652\u062a\u064e\u0639\u0650\u064a\u0646\u064f\u0648\u0627','\u0671\u062f\u0652\u062e\u064f\u0644\u064f\u0648\u0627','\u0671\u0631\u0652\u062c\u0650\u0639\u0650\u064a','\u0671\u0646\u0652\u0638\u064f\u0631\u0652'],mission:'Read it from the start, then connected.'}},
  {part:'Reading Rules',type:'rule',title:'Moon letters (Alif-Lam)',icon:'\u0642',al:'moon',blurb:'With MOON letters, the \u0644 of \u201cal-\u201d is written AND pronounced clearly.',sp:{w:['\u0627\u0644\u0652\u0642\u064e\u0645\u064e\u0631\u064f','\u0627\u0644\u0652\u0643\u0650\u062a\u064e\u0627\u0628\u064f','\u0627\u0644\u0652\u062c\u064e\u0646\u064e\u0651\u0629\u064f','\u0627\u0644\u0652\u062d\u064e\u0645\u0652\u062f\u064f','\u0627\u0644\u0652\u0641\u064e\u062c\u0652\u0631\u064f','\u0627\u0644\u0652\u0628\u064e\u0644\u064e\u062f\u064f'],tx:['al-qamaru','al-kit\u0101bu','al-jannatu','al-\u1E25amdu','al-fajru','al-baladu'],mission:'Read the \u0644 clearly.'}},
  {part:'Reading Rules',type:'rule',title:'Sun letters (Alif-Lam)',icon:'\u0633',al:'sun',blurb:'With SUN letters, the \u0644 of \u201cal-\u201d is written but NOT pronounced \u2014 the next letter doubles.',sp:{w:['\u0627\u0644\u0634\u064e\u0651\u0645\u0652\u0633\u0650','\u0627\u0644\u0646\u064e\u0651\u0627\u0633\u0650','\u0627\u0644\u062f\u0650\u0651\u064a\u0646\u0650','\u0627\u0644\u062a\u0650\u0651\u064a\u0646\u0650','\u0627\u0644\u0632\u064e\u0651\u064a\u0652\u062a\u064f\u0648\u0646\u0650','\u0627\u0644\u0646\u064e\u0651\u062c\u0652\u0645\u064f','\u0627\u0644\u062b\u064e\u0651\u0627\u0642\u0650\u0628\u064f','\u0627\u0644\u0633\u064e\u0651\u0645\u064e\u0627\u0621\u0650','\u0627\u0644\u0637\u064e\u0651\u0627\u0631\u0650\u0642\u0650'],tx:['ash-shamsi','an-n\u0101si','ad-d\u012Bni','at-t\u012Bni','az-zayt\u016Bni','an-najmu','ath-th\u0101qibu','as-sam\u0101\u02bei','a\u1E6D-\u1E6D\u0101riqi'],mission:'Notice the \u0644 is written but not said.'}},
  {part:'Reading Rules',type:'stopping',title:'Stopping (Waqf)',icon:'\u0652',pairs:[['\u062e\u064e\u0627\u0634\u0650\u0639\u064e\u0629\u064c','\u062e\u064e\u0627\u0634\u0650\u0639\u064e\u0647\u0652'],['\u0633\u0650\u062c\u0650\u0651\u064a\u0646\u064d','\u0633\u0650\u062c\u0650\u0651\u064a\u0646\u0652'],['\u062d\u0650\u0633\u064e\u0627\u0628\u064b\u0627','\u062d\u0650\u0633\u064e\u0627\u0628\u064e\u0627'],['\u0639\u064e\u0638\u0650\u064a\u0645\u064c','\u0639\u064e\u0638\u0650\u064a\u0645\u0652'],['\u063a\u064e\u0641\u064f\u0648\u0631\u064c','\u063a\u064e\u0641\u064f\u0648\u0631\u0652'],['\u0642\u064e\u062f\u0650\u064a\u0631\u064c','\u0642\u064e\u062f\u0650\u064a\u0631\u0652']]},
  {part:'Reading Rules',type:'shapes',title:'Tricky letter shapes',icon:'\u0640\u0647\u0640',items:[{c:'\u0647',w:'\u0641\u0650\u064a\u0647\u064e\u0627',a:3,b:5,t:'In the middle, \u0647\u0640 turns into two little loops \u2014 a tiny figure-8.'},{c:'\u0639',w:'\u062a\u064e\u0639\u0652\u0631\u064f\u062c\u064f',a:2,b:4,t:'In the middle, \u0639 closes into a small triangle \u2014 the open mouth is gone.'},{c:'\u062d',w:'\u0623\u064e\u062d\u064e\u062f\u064c',a:2,b:4,t:'In the middle, \u062D loses its big tail \u2014 just the roof remains.'},{c:'\u0643',w:'\u063a\u064e\u0631\u064e\u0651\u0643\u064e',a:5,b:7,t:'At the end, \u0643 opens up and carries a small mark inside its bowl.'},{c:'\u064a',w:'\u0628\u0650\u0631\u0650\u064a\u062d\u064d',a:4,b:7,t:'In the middle, \u064A shrinks to a small tooth with two dots below \u2014 and here the kasrat\u0101n hides BELOW the \u062D.'},{c:'\u0644',w:'\u0627\u0644\u0644\u064e\u0651\u0647\u064f',a:1,b:5,t:'Two \u0644s joined with a shaddah \u2014 the famous ligature you read in every \u0627\u0644\u0644\u0651\u064E\u0647\u064F.'}]},
- {part:'Reading Rules',type:'sentences',title:'Sentence practice',icon:'\u{1F4D6}',rem:1,sents:['\u0646\u064e\u0643\u064e\u0627\u0644\u064e \u0627\u0644\u0652\u0622\u062e\u0650\u0631\u064e\u0629\u0650 \u0648\u064e\u0627\u0644\u0652\u0623\u064f\u0648\u0644\u064e\u0649\u0670','\u0648\u064e\u0630\u064e\u0643\u064e\u0631\u064e \u0627\u0633\u0652\u0645\u064e \u0631\u064e\u0628\u0650\u0651\u0647\u0650 \u0641\u064e\u0635\u064e\u0644\u064e\u0651\u0649\u0670','\u0641\u064e\u0627\u0644\u0652\u0645\u064f\u062f\u064e\u0628\u0650\u0651\u0631\u064e\u0627\u062a\u0650 \u0623\u064e\u0645\u0652\u0631\u064b\u0627','\u0623\u064f\u0648\u0644\u064e\u0670\u0626\u0650\u0643\u064e \u0647\u064f\u0645\u064f \u0627\u0644\u0652\u0643\u064e\u0641\u064e\u0631\u064e\u0629\u064f \u0627\u0644\u0652\u0641\u064e\u062c\u064e\u0631\u064e\u0629\u064f','\u0625\u0650\u0630\u0650 \u0627\u0646\u0652\u0628\u064e\u0639\u064e\u062b\u064e \u0623\u064e\u0634\u0652\u0642\u064e\u0627\u0647\u064e\u0627','\u0641\u064e\u0623\u064e\u0631\u064e\u0627\u0647\u064f \u0627\u0644\u0652\u0622\u064a\u064e\u0629\u064e \u0627\u0644\u0652\u0643\u064f\u0628\u0652\u0631\u064e\u0649\u0670','\u0628\u0650\u0627\u0644\u0652\u0648\u064e\u0627\u062f\u0650 \u0627\u0644\u0652\u0645\u064f\u0642\u064e\u062f\u064e\u0651\u0633\u0650','\u0641\u064e\u0627\u062f\u0652\u062e\u064f\u0644\u0650\u064a \u0641\u0650\u064a \u0639\u0650\u0628\u064e\u0627\u062f\u0650\u064a','\u0648\u064e\u0628\u064f\u0631\u0650\u0651\u0632\u064e\u062a\u0650 \u0627\u0644\u0652\u062c\u064e\u062d\u0650\u064a\u0645\u064f','\u0648\u064e\u0627\u0644\u0634\u064e\u0651\u0645\u0652\u0633\u0650 \u0648\u064e\u0636\u064f\u062d\u064e\u0627\u0647\u064e\u0627','\u0648\u064e\u0627\u0644\u062a\u0650\u0651\u064a\u0646\u0650 \u0648\u064e\u0627\u0644\u0632\u064e\u0651\u064a\u0652\u062a\u064f\u0648\u0646\u0650','\u0627\u0644\u0646\u064e\u0651\u062c\u0652\u0645\u064f \u0627\u0644\u062b\u064e\u0651\u0627\u0642\u0650\u0628\u064f','\u0648\u064e\u0627\u0644\u0633\u064e\u0651\u0645\u064e\u0627\u0621\u0650 \u0648\u064e\u0627\u0644\u0637\u064e\u0651\u0627\u0631\u0650\u0642\u0650','\u0645\u064e\u0644\u0650\u0643\u0650 \u0627\u0644\u0646\u064e\u0651\u0627\u0633\u0650'],notes:{6:'Look closely at <span class="ar" style="font-size:22px;color:var(--red);font-weight:700">\u0628\u0650\u0631\u0650\u064a\u062d\u064d</span> \u2014 after the \u0631 there is a small joined \u064A\u0640 flowing into the \u062D, and the kasrat\u0101n (\u0640\u064D two strokes) hides BELOW the \u062D: bi-r\u012B-\u1E25in.'}},
- {part:'Reading the Qur\u02be\u0101n',type:'words',title:'Common Quran words',icon:'\u{1F4D6}',words:[{ar:'\u0627\u0644\u0644\u0651\u064E\u0647\u064F'},{ar:'\u0627\u0644\u0652\u062D\u064E\u0645\u0652\u062F\u064F'},{ar:'\u0628\u0650\u0633\u0652\u0645\u0650'},{ar:'\u0631\u064E\u0628\u0651\u0650'},{ar:'\u0627\u0644\u0631\u0651\u064E\u062D\u0652\u0645\u0670\u0646\u0650'},{ar:'\u0642\u064F\u0644\u0652'},{ar:'\u0646\u064F\u0648\u0631\u064C'}]},
- {part:'Reading the Qur\u02be\u0101n',type:'surah',title:'Your first s\u016Brah \u00b7 al-Ikhl\u0101\u1E63',icon:'\u{1F3C6}',ref:'Qur\u02BEan 112',verses:['\u0642\u064f\u0644\u0652 \u0647\u064f\u0648\u064e \u0627\u0644\u0644\u064e\u0651\u0647\u064f \u0623\u064e\u062d\u064e\u062f\u064c','\u0627\u0644\u0644\u064e\u0651\u0647\u064f \u0627\u0644\u0635\u064e\u0651\u0645\u064e\u062f\u064f','\u0644\u064e\u0645\u0652 \u064a\u064e\u0644\u0650\u062f\u0652 \u0648\u064e\u0644\u064e\u0645\u0652 \u064a\u064f\u0648\u0644\u064e\u062f\u0652','\u0648\u064e\u0644\u064e\u0645\u0652 \u064a\u064e\u0643\u064f\u0646 \u0644\u064e\u0651\u0647\u064f \u0643\u064f\u0641\u064f\u0648\u064b\u0627 \u0623\u064e\u062d\u064e\u062f\u064c']},
- {part:'Reading the Qur\u02be\u0101n',type:'sentences',title:'Quran reading practice',icon:'\u{1F4D6}',sents:['\u0625\u0650\u0630\u064e\u0627 \u0623\u064f\u0644\u0652\u0642\u064f\u0648\u0627 \u0641\u0650\u064a\u0647\u064e\u0627','\u0633\u064e\u0645\u0650\u0639\u064f\u0648\u0627 \u0644\u064e\u0647\u064e\u0627','\u0634\u064e\u0647\u0650\u064a\u0642\u064b\u0627 \u0648\u064e\u0647\u0650\u064a\u064e \u062a\u064e\u0641\u064f\u0648\u0631\u064f','\u0625\u0650\u0630\u064e\u0627 \u062a\u064f\u062a\u0652\u0644\u064e\u0649\u0670 \u0639\u064e\u0644\u064e\u064a\u0652\u0647\u0650','\u0622\u064a\u064e\u0627\u062a\u064f\u0646\u064e\u0627 \u0642\u064e\u0627\u0644\u064e \u0623\u064e\u0633\u064e\u0627\u0637\u0650\u064a\u0631\u064f \u0627\u0644\u0652\u0623\u064e\u0648\u064e\u0651\u0644\u0650\u064a\u0646\u064e','\u0648\u064e\u0623\u064e\u0645\u064e\u0651\u0627 \u0639\u064e\u0627\u062f\u064c','\u0641\u064e\u0623\u064f\u0647\u0652\u0644\u0650\u0643\u064f\u0648\u0627 \u0628\u0650\u0631\u0650\u064a\u062d\u064d','\u0635\u064e\u0631\u0652\u0635\u064e\u0631\u064d \u0639\u064e\u0627\u062a\u0650\u064a\u064e\u0629\u064d','\u0644\u0650\u0646\u064e\u062c\u0652\u0639\u064e\u0644\u064e\u0647\u064e\u0627 \u0644\u064e\u0643\u064f\u0645\u0652 \u062a\u064e\u0630\u0652\u0643\u0650\u0631\u064e\u0629\u064b','\u0648\u064e\u062a\u064e\u0639\u0650\u064a\u064e\u0647\u064e\u0627 \u0623\u064f\u0630\u064f\u0646\u064c \u0648\u064e\u0627\u0639\u0650\u064a\u064e\u0629\u064c','\u062a\u064e\u0639\u0652\u0631\u064f\u062c\u064f \u0627\u0644\u0652\u0645\u064e\u0644\u064e\u0627\u0626\u0650\u0643\u064e\u0629\u064f','\u0648\u064e\u0627\u0644\u0631\u064f\u0651\u0648\u062d\u064f \u0625\u0650\u0644\u064e\u064a\u0652\u0647\u0650','\u064a\u064e\u0648\u0652\u0645\u064d \u0643\u064e\u0627\u0646\u064e \u0645\u0650\u0642\u0652\u062f\u064e\u0627\u0631\u064f\u0647\u064f','\u062e\u064e\u0645\u0652\u0633\u0650\u064a\u0646\u064e \u0623\u064e\u0644\u0652\u0641\u064e \u0633\u064e\u0646\u064e\u0629\u064d']},
+ {part:'Reading Rules',type:'sentences',title:'Sentence practice',icon:'BOOK',rem:1,sents:['\u0646\u064e\u0643\u064e\u0627\u0644\u064e \u0627\u0644\u0652\u0622\u062e\u0650\u0631\u064e\u0629\u0650 \u0648\u064e\u0627\u0644\u0652\u0623\u064f\u0648\u0644\u064e\u0649\u0670','\u0648\u064e\u0630\u064e\u0643\u064e\u0631\u064e \u0627\u0633\u0652\u0645\u064e \u0631\u064e\u0628\u0650\u0651\u0647\u0650 \u0641\u064e\u0635\u064e\u0644\u064e\u0651\u0649\u0670','\u0641\u064e\u0627\u0644\u0652\u0645\u064f\u062f\u064e\u0628\u0650\u0651\u0631\u064e\u0627\u062a\u0650 \u0623\u064e\u0645\u0652\u0631\u064b\u0627','\u0623\u064f\u0648\u0644\u064e\u0670\u0626\u0650\u0643\u064e \u0647\u064f\u0645\u064f \u0627\u0644\u0652\u0643\u064e\u0641\u064e\u0631\u064e\u0629\u064f \u0627\u0644\u0652\u0641\u064e\u062c\u064e\u0631\u064e\u0629\u064f','\u0625\u0650\u0630\u0650 \u0627\u0646\u0652\u0628\u064e\u0639\u064e\u062b\u064e \u0623\u064e\u0634\u0652\u0642\u064e\u0627\u0647\u064e\u0627','\u0641\u064e\u0623\u064e\u0631\u064e\u0627\u0647\u064f \u0627\u0644\u0652\u0622\u064a\u064e\u0629\u064e \u0627\u0644\u0652\u0643\u064f\u0628\u0652\u0631\u064e\u0649\u0670','\u0628\u0650\u0627\u0644\u0652\u0648\u064e\u0627\u062f\u0650 \u0627\u0644\u0652\u0645\u064f\u0642\u064e\u062f\u064e\u0651\u0633\u0650','\u0641\u064e\u0627\u062f\u0652\u062e\u064f\u0644\u0650\u064a \u0641\u0650\u064a \u0639\u0650\u0628\u064e\u0627\u062f\u0650\u064a','\u0648\u064e\u0628\u064f\u0631\u0650\u0651\u0632\u064e\u062a\u0650 \u0627\u0644\u0652\u062c\u064e\u062d\u0650\u064a\u0645\u064f','\u0648\u064e\u0627\u0644\u0634\u064e\u0651\u0645\u0652\u0633\u0650 \u0648\u064e\u0636\u064f\u062d\u064e\u0627\u0647\u064e\u0627','\u0648\u064e\u0627\u0644\u062a\u0650\u0651\u064a\u0646\u0650 \u0648\u064e\u0627\u0644\u0632\u064e\u0651\u064a\u0652\u062a\u064f\u0648\u0646\u0650','\u0627\u0644\u0646\u064e\u0651\u062c\u0652\u0645\u064f \u0627\u0644\u062b\u064e\u0651\u0627\u0642\u0650\u0628\u064f','\u0648\u064e\u0627\u0644\u0633\u064e\u0651\u0645\u064e\u0627\u0621\u0650 \u0648\u064e\u0627\u0644\u0637\u064e\u0651\u0627\u0631\u0650\u0642\u0650','\u0645\u064e\u0644\u0650\u0643\u0650 \u0627\u0644\u0646\u064e\u0651\u0627\u0633\u0650'],notes:{6:'Look closely at <span class="ar" style="font-size:22px;color:var(--red);font-weight:700">\u0628\u0650\u0631\u0650\u064a\u062d\u064d</span> \u2014 after the \u0631 there is a small joined \u064A\u0640 flowing into the \u062D, and the kasrat\u0101n (\u0640\u064D two strokes) hides BELOW the \u062D: bi-r\u012B-\u1E25in.'}},
+ {part:'Reading the Qur\u02be\u0101n',type:'words',title:'Common Quran words',icon:'BOOK',words:[{ar:'\u0627\u0644\u0644\u0651\u064E\u0647\u064F'},{ar:'\u0627\u0644\u0652\u062D\u064E\u0645\u0652\u062F\u064F'},{ar:'\u0628\u0650\u0633\u0652\u0645\u0650'},{ar:'\u0631\u064E\u0628\u0651\u0650'},{ar:'\u0627\u0644\u0631\u0651\u064E\u062D\u0652\u0645\u0670\u0646\u0650'},{ar:'\u0642\u064F\u0644\u0652'},{ar:'\u0646\u064F\u0648\u0631\u064C'}]},
+ {part:'Reading the Qur\u02be\u0101n',type:'surah',title:'Your first s\u016Brah \u00b7 al-Ikhl\u0101\u1E63',icon:'STAR',ref:'Qur\u02BEan 112',verses:['\u0642\u064f\u0644\u0652 \u0647\u064f\u0648\u064e \u0627\u0644\u0644\u064e\u0651\u0647\u064f \u0623\u064e\u062d\u064e\u062f\u064c','\u0627\u0644\u0644\u064e\u0651\u0647\u064f \u0627\u0644\u0635\u064e\u0651\u0645\u064e\u062f\u064f','\u0644\u064e\u0645\u0652 \u064a\u064e\u0644\u0650\u062f\u0652 \u0648\u064e\u0644\u064e\u0645\u0652 \u064a\u064f\u0648\u0644\u064e\u062f\u0652','\u0648\u064e\u0644\u064e\u0645\u0652 \u064a\u064e\u0643\u064f\u0646 \u0644\u064e\u0651\u0647\u064f \u0643\u064f\u0641\u064f\u0648\u064b\u0627 \u0623\u064e\u062d\u064e\u062f\u064c']},
+ {part:'Reading the Qur\u02be\u0101n',type:'sentences',title:'Quran reading practice',icon:'BOOK',sents:['\u0625\u0650\u0630\u064e\u0627 \u0623\u064f\u0644\u0652\u0642\u064f\u0648\u0627 \u0641\u0650\u064a\u0647\u064e\u0627','\u0633\u064e\u0645\u0650\u0639\u064f\u0648\u0627 \u0644\u064e\u0647\u064e\u0627','\u0634\u064e\u0647\u0650\u064a\u0642\u064b\u0627 \u0648\u064e\u0647\u0650\u064a\u064e \u062a\u064e\u0641\u064f\u0648\u0631\u064f','\u0625\u0650\u0630\u064e\u0627 \u062a\u064f\u062a\u0652\u0644\u064e\u0649\u0670 \u0639\u064e\u0644\u064e\u064a\u0652\u0647\u0650','\u0622\u064a\u064e\u0627\u062a\u064f\u0646\u064e\u0627 \u0642\u064e\u0627\u0644\u064e \u0623\u064e\u0633\u064e\u0627\u0637\u0650\u064a\u0631\u064f \u0627\u0644\u0652\u0623\u064e\u0648\u064e\u0651\u0644\u0650\u064a\u0646\u064e','\u0648\u064e\u0623\u064e\u0645\u064e\u0651\u0627 \u0639\u064e\u0627\u062f\u064c','\u0641\u064e\u0623\u064f\u0647\u0652\u0644\u0650\u0643\u064f\u0648\u0627 \u0628\u0650\u0631\u0650\u064a\u062d\u064d','\u0635\u064e\u0631\u0652\u0635\u064e\u0631\u064d \u0639\u064e\u0627\u062a\u0650\u064a\u064e\u0629\u064d','\u0644\u0650\u0646\u064e\u062c\u0652\u0639\u064e\u0644\u064e\u0647\u064e\u0627 \u0644\u064e\u0643\u064f\u0645\u0652 \u062a\u064e\u0630\u0652\u0643\u0650\u0631\u064e\u0629\u064b','\u0648\u064e\u062a\u064e\u0639\u0650\u064a\u064e\u0647\u064e\u0627 \u0623\u064f\u0630\u064f\u0646\u064c \u0648\u064e\u0627\u0639\u0650\u064a\u064e\u0629\u064c','\u062a\u064e\u0639\u0652\u0631\u064f\u062c\u064f \u0627\u0644\u0652\u0645\u064e\u0644\u064e\u0627\u0626\u0650\u0643\u064e\u0629\u064f','\u0648\u064e\u0627\u0644\u0631\u064f\u0651\u0648\u062d\u064f \u0625\u0650\u0644\u064e\u064a\u0652\u0647\u0650','\u064a\u064e\u0648\u0652\u0645\u064d \u0643\u064e\u0627\u0646\u064e \u0645\u0650\u0642\u0652\u062f\u064e\u0627\u0631\u064f\u0647\u064f','\u062e\u064e\u0645\u0652\u0633\u0650\u064a\u0646\u064e \u0623\u064e\u0644\u0652\u0641\u064e \u0633\u064e\u0646\u064e\u0629\u064d']},
  {part:'Bonus \u00b7 Tajw\u012Bd',type:'rule',title:'I\u1E93h\u0101r (clear N)',icon:'\u0646',blurb:'I\u1E93h\u0101r: the \u0646 is pronounced clearly.',sp:{w:['\u0645\u0650\u0646\u0652\u0647\u064F\u0645\u0652'],mission:'Pronounce the \u0646 clearly.'}},
  {part:'Bonus \u00b7 Tajw\u012Bd',type:'rule',title:'Idgh\u0101m (merging)',icon:'\u0646',blurb:'Idgh\u0101m: the \u0646 merges into the next letter.',sp:{w:['\u0645\u0650\u0646 \u0631\u0651\u064E\u0628\u0651\u0650\u0647\u0650\u0645\u0652'],mission:'Hear the sounds merge.'}},
  {part:'Bonus \u00b7 Tajw\u012Bd',type:'rule',title:'Ikhf\u0101 (hidden N)',icon:'\u0646',blurb:'Ikhf\u0101: the \u0646 is hidden and nasalized.',sp:{w:['\u0645\u0650\u0646 \u0634\u064E\u0631\u0651\u0650'],mission:'Hear the hidden \u0646.'}},
@@ -269,9 +291,14 @@ const LESSONS=[
  {part:'Bonus \u00b7 Tajw\u012Bd',type:'rule',title:'Qalqalah (the bounce)',icon:'\u0642',blurb:'Qalqalah: a slight bounce on \u0642 \u0637 \u0628 \u062C \u062F when they carry suk\u016Bn.',sp:{w:['\u0642\u064E\u062F\u0652','\u064A\u064E\u0644\u0650\u062F\u0652','\u062A\u064E\u0628\u0651\u064E\u062A\u0652','\u0623\u064E\u062D\u064E\u062F\u0652','\u0627\u0644\u0652\u0641\u064E\u0644\u064E\u0642\u0652'],mission:'Bounce on \u0642 \u0637 \u0628 \u062C \u062F. Start with qad, yalid, tabbat.'}}
 ];
 
+const SVGBOOK='<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--gold-deep)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h7a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a2.5 2.5 0 0 1 2.5-2.5H22z"/></svg>';
+const SVGSTAR='<svg width="44" height="44" viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold-deep)" stroke-width="1.2" stroke-linejoin="round"><path d="M12 2.5l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z"/></svg>';
+const SVGLOCK='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--dim)" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+const ICN=ic=>ic==='BOOK'?SVGBOOK:(ic==='STAR'?SVGSTAR:ic);
+const DK=i=>LESSONS[i]?LESSONS[i].title:i;
 /* ===== progress ===== */
-let done={};try{done=JSON.parse(localStorage.getItem('norania-prog-lean')||'{}')||{};}catch(e){done={};}
-function saveDone(){try{localStorage.setItem('norania-prog-lean',JSON.stringify(done));}catch(e){}}
+let done={};try{done=JSON.parse(localStorage.getItem('norania-prog-v2')||'{}')||{};}catch(e){done={};}
+function saveDone(){try{localStorage.setItem('norania-prog-v2',JSON.stringify(done));}catch(e){}}
 
 /* ===== HOME ===== */
 /* set UNLOCK_ALL=false to make students progress in order */
@@ -286,7 +313,7 @@ function renderChapters(){
  $('prog').innerHTML='<b>'+ndone+'</b> / '+LESSONS.length+' lessons';
  let html='<div class="chintro"><div class="chintro-k">Read the Qur\u02be\u0101n</div><div class="chintro-t">From the letters to your first \u0101yah, one chapter at a time.</div></div><div class="chapters">';
  parts.forEach((p,ci)=>{
-  const idxs=partIdxs(p);const dn=idxs.filter(i=>done[i]).length;const tot=idxs.length;const pct=tot?Math.round(dn/tot*100):0;const full=tot>0&&dn===tot;
+  const idxs=partIdxs(p);const dn=idxs.filter(i=>done[DK(i)]).length;const tot=idxs.length;const pct=tot?Math.round(dn/tot*100):0;const full=tot>0&&dn===tot;
   html+='<div class="chcard'+(full?' full':'')+'" onclick="openChapter('+ci+')">'
    +'<div class="char">'+CHICON[ci]+'</div>'
    +'<div class="chmid"><div class="chkick">Chapter '+(ci+1)+' \u00b7 '+tot+' lesson'+(tot>1?'s':'')+'</div>'
@@ -299,29 +326,30 @@ function renderChapters(){
 }
 function openChapter(ci){
  const p=parts[ci];curChapter=ci;const idxs=partIdxs(p);
+ const firstOpen=idxs.find(i=>!done[DK(i)]);
  if(idxs.length===1){openLesson(idxs[0]);return;}
  let html='<div class="chback" onclick="renderChapters()"><span class="bk">\u2190</span><span class="bt">All Chapters</span></div><div class="grouphead">'+p+'</div><div class="lessons">';
- idxs.forEach(i=>{const L=LESSONS[i];const isDone=done[i],locked=UNLOCK_ALL?false:(i>0&&!done[i-1]&&!isDone);const gold=L.type==='letterdrill'||L.type==='madddrill';
-  html+='<div class="lcard '+(gold?'goldcard ':'')+(locked?'locked':'')+'" '+(locked?'':'onclick="openLesson('+i+')"')+'>'
+ idxs.forEach(i=>{const L=LESSONS[i];const isDone=done[DK(i)],locked=UNLOCK_ALL?false:(i>0&&!done[DK(i-1)]&&!isDone);const gold=L.type==='letterdrill'||L.type==='madddrill';const nxt=(i===firstOpen&&!isDone);
+  html+='<div class="lcard '+(gold?'goldcard ':'')+(nxt?'next ':'')+(locked?'locked':'')+'" '+(locked?'':'onclick="openLesson('+i+')"')+'>'
    +'<div class="lno">'+(i+1)+'</div>'
-   +(isDone?'<div class="done">\u2713</div>':(locked?'<div class="lock">\uD83D\uDD12</div>':''))
-   +'<div class="lar">'+L.icon+'</div><div class="lnm" style="font-size:14px">'+L.title+'</div></div>';
+   +(isDone?'<div class="done">\u2713</div>':(locked?'<div class="lock">'+SVGLOCK+'</div>':''))
+   +'<div class="lar">'+ICN(L.icon)+'</div><div class="lnm" style="font-size:14px">'+L.title+'</div>'+(nxt?'<div class="upnext">UP NEXT</div>':'')+'</div>';
  });
  html+='</div>';
  $('home').innerHTML=html;window.scrollTo(0,0);
 }
-function goHome(){$('player').classList.add('hide');$('navbar').classList.add('hide');$('home').classList.remove('hide');if(curChapter!==null&&partIdxs(parts[curChapter]).length>1)openChapter(curChapter);else renderChapters();window.scrollTo(0,0);}
+function goHome(){document.body.classList.remove('inlesson');$('player').classList.add('hide');$('navbar').classList.add('hide');$('home').classList.remove('hide');if(curChapter!==null&&partIdxs(parts[curChapter]).length>1)openChapter(curChapter);else renderChapters();window.scrollTo(0,0);}
 
 /* ===== PLAYER ===== */
 let L=null,Li=0,stages=[],cur=0;
-function openLesson(i){Li=i;L=LESSONS[i];curChapter=parts.indexOf(L.part);stages=buildStages(L);cur=0;$('home').classList.add('hide');$('player').classList.remove('hide');$('navbar').classList.remove('hide');go(0);}
+function openLesson(i){Li=i;L=LESSONS[i];curChapter=parts.indexOf(L.part);stages=buildStages(L);cur=0;$('home').classList.add('hide');$('player').classList.remove('hide');$('navbar').classList.remove('hide');document.body.classList.add('inlesson');go(0);}
 function drawSteps(){$('steps').innerHTML=stages.map((s,i)=>'<div class="step '+(i<cur?'done':'')+' '+(i===cur?'cur':'')+'"></div>').join('');$('stepname').textContent=(cur+1)+' / '+stages.length+' \u00b7 '+stages[cur].name;}
 function go(i){cur=Math.max(0,Math.min(stages.length-1,i));drawSteps();stages[cur].render();$('backBtn').disabled=false;$('backBtn').textContent=cur===0?'\u2190 Lessons':'\u2190 Back';$('nextBtn').textContent=cur===stages.length-1?'Finish':'Next \u2192';window.scrollTo(0,0);}
-$('nextBtn').onclick=()=>{ if(cur===stages.length-1){ if(L.type==='placeholder'||L.type==='words'){done[Li]=true;saveDone();} goHome(); } else go(cur+1); };
+$('nextBtn').onclick=()=>{ if(cur===stages.length-1){ if(L.type==='placeholder'||L.type==='words'){done[DK(Li)]=true;saveDone();} goHome(); } else go(cur+1); };
 $('backBtn').onclick=()=>{if(cur===0){goHome();}else{go(cur-1);}};
 function lit(el){document.querySelectorAll('.cell.lit').forEach(x=>x.classList.remove('lit'));el.classList.add('lit');}
-function cells(arr){return '<div class="rrow">'+arr.map(x=>'<button class="cell" onclick="lit(this);playAudio(\''+x+'\')">'+x+'</button>').join('')+'</div>';}
-function rows(arr,per){return '<div class="rows">'+chunk(arr,per||3).map(r=>cells(r)).join('')+'</div>';}
+function cells(arr,tn,silent){return '<div class="rrow">'+arr.map((x,i)=>'<button class="cell" onclick="lit(this)'+(silent?'':';playAudio(\''+x+'\')')+'">'+x+(i<(tn||0)?'<span class="trs">'+latn(x)+'</span>':'')+'</button>').join('')+'</div>';}
+function rows(arr,per,silent){return '<div class="rows">'+chunk(arr,per||3).map((r,ri)=>cells(r,ri===0?2:0,silent)).join('')+'</div>';}
 function spell(w){const out=[];let cur='';for(const ch of w){const c=ch.codePointAt(0);if(c===0x0640)continue;const comb=(c>=0x064B&&c<=0x0655)||c===0x0670;if(comb){cur+=ch;}else{if(cur)out.push(cur);cur=ch;}}if(cur)out.push(cur);for(let i=out.length-1;i>0;i--){if(out[i]==='\u0627'&&out[i-1].indexOf('\u064B')>=0){out[i-1]+='\u0627';out.splice(i,1);}}for(let i=out.length-1;i>=0;i--){const u=out[i];if(u.indexOf('\u0651')>=0){const base=u[0];const rest=u.slice(1).replace('\u0651','');out.splice(i,1,base+'\u0652',base+rest);}}return out;}
 function spellOne(w){return '<div class="spellrow"><div class="rrow sp">'+spell(w).map(u=>'<span class="scell">'+u+'</span>').join('')+'</div><div class="sarrow">\u2193</div><button class="joined" onclick="playAudio(\''+w+'\')">'+w+'</button></div>';}
 function S_spellread(words,title,sub){return {name:title||'Spell & read',render:()=>{$('card').innerHTML='<h2>'+(title||'Spell, then read')+'</h2><p class="sub">'+(sub||'Read the letters, then blend them into the word. Tap the word to hear it.')+'</p>'+words.map(spellOne).join('')+'<div class="note" style="font-size:14px;color:var(--dim)">From the book.</div>';}};}
@@ -355,7 +383,7 @@ function S_spotlight(L){return {name:'Quran',render:()=>{
  const w=(L.sp&&L.sp.w)||[];
  const deco=x=>{if(!L.al||x.indexOf('\u0627\u0644')!==0)return x;const n=(x[2]==='\u0652')?3:2;const col=L.al==='moon'?'var(--red)':'#9aa3c4';return '<span style="color:'+col+'">'+x.slice(0,n)+'</span>'+x.slice(n);};
  const decoT=(t)=>{if(!t)return'';if(!L.al)return t;const k=t.indexOf('-')+1;const col=L.al==='moon'?'var(--red)':'#9aa3c4';return '<span style="color:'+col+';font-weight:800">'+t.slice(0,k)+'</span>'+t.slice(k);};
- const row=(x,xi)=>'<div class="qword"><span class="ar">'+deco(x)+'</span><span class="tx">'+decoT((L.sp&&L.sp.tx&&L.sp.tx[xi])||'')+'</span><button class="listen sm" onclick="playAudio(\''+x+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>';
+ const row=(x,xi)=>'<div class="qword"><span class="ar">'+deco(x)+'</span><span class="tx">'+decoT((L.sp&&L.sp.tx&&L.sp.tx[xi])||'')+'</span><button class="listen sm" aria-label="Listen" onclick="playAudio(\''+x+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>';
  $('card').innerHTML='<h2>Find it in the Quran</h2><p class="sub">'+((L.sp&&L.sp.intro)||'These Quran words use what you just learned.')+'</p>'
   +(w.length?w.map(row).join(''):'<div class="note">Quran words to add from your source site.</div>')
   +'<div class="note" style="margin-top:10px"><b>Mission:</b> '+((L.sp&&L.sp.mission)||'Find what you learned in these words.')+'</div>'
@@ -424,29 +452,29 @@ function ruleStages(L){
  if(w.length>=3){
   st.push({name:'Mastery',render:()=>{const all=shuffle(w);const q=[];for(let i=0;i<10;i++){const a=all[i%all.length];q.push({audio:a,q:'Which did you hear?',opts:shuffle([a,all[(i+1)%all.length],all[(i+2)%all.length]]),a:a});}runQuiz(q);}});
  } else {
-  st.push({name:'Done',render:()=>{done[Li]=true;saveDone();$('card').innerHTML='<div class="result"><div class="bigletter" style="font-size:60px">\u{1F4D6}</div><div class="big" style="font-family:Cinzel;font-size:28px;font-weight:700">Lesson complete</div><p class="sub">Remember: verify the Quran examples with your reviewer.</p></div>';drawSteps();}});
+  st.push({name:'Done',render:()=>{done[DK(Li)]=true;saveDone();$('card').innerHTML='<div class="result"><div style="text-align:center"><svg width="54" height="70" viewBox="0 0 100 130"><path d="M50 10 C45 24 31 42 31 64 C31 79 40 88 50 88 C60 88 69 79 69 64 C69 42 55 24 50 10 Z M48.6 18 L51.4 18 L50.8 54 L49.2 54 Z M44.5 60 A5.5 5.5 0 1 1 55.5 60 A5.5 5.5 0 1 1 44.5 60 Z" fill="var(--gold)" fill-rule="evenodd"/></svg></div><div class="big" style="font-family:Cinzel;font-size:28px;font-weight:700">Lesson complete</div><p class="sub">Remember: verify the Quran examples with your reviewer.</p></div>';drawSteps();}});
  }
  return st;
 }
 
 function S_learnLetters(L){return {name:'Learn',render:()=>{
- $('card').innerHTML='<h2>Meet the letters</h2><p class="sub">Tap each letter to hear it.</p>'
- +'<div class="factrow">'+L.letters.map(c=>{var two=(c==='\u0647');var disp=two?('\u0647 \u0647\u0640'):c;return '<div class="fact" style="cursor:pointer;min-width:62px;padding:12px 10px" onclick="playAudio(\''+c+'\')"><div class="v ar" style="font-size:'+(two?34:46)+'px">'+disp+'</div><div style="font-size:14px;color:var(--gold-deep);margin-top:2px">'+(two?'both forms <svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>':'<svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>')+'</div></div>';}).join('')+'</div>'
+ $('card').innerHTML='<h2>Meet the letters</h2><p class="sub">Tap each letter to hear its name. The English letter under it is its sound.</p>'
+ +'<div class="factrow">'+L.letters.map(c=>{var two=(c==='\u0647');var disp=two?('\u0647 \u0647\u0640'):c;return '<div class="fact" style="cursor:pointer;min-width:62px;padding:12px 10px" onclick="playAudio(\''+c+'\')"><div class="v ar" style="font-size:'+(two?34:46)+'px">'+disp+'</div><div style="font-size:14px;color:var(--gold-deep);margin-top:2px;font-weight:700;direction:ltr">'+M[c].s+(two?' \u00b7 both forms':'')+'</div></div>';}).join('')+'</div>'
  +'<div class="note" style="margin-top:16px"><b>The win:</b> once you know these, you can already read short combinations \u2014 you\u2019ll do it in this lesson.</div>';
 }};}
-function S_listen(items,all){return {name:'Listen',render:()=>{
- $('card').innerHTML='<h2>Listen</h2><p class="sub">Tap each to hear it.</p>'+rows(items,4)+'<div class="center" style="margin-top:8px"><button class="listen" onclick="playAudio(\''+(all||items.join(' '))+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Listen to all</button></div>';
+function S_listen(items,all){return {name:'Sound it out',render:()=>{
+ $('card').innerHTML='<h2>Sound it out</h2><p class="sub">The first two show you the sound \u2014 read the rest yourself, in Arabic.</p>'+rows(items,4,true);
 }};}
 function S_recognize(L){return {name:'Recognize',render:()=>{
  const t=L.letters[Math.floor(Math.random()*L.letters.length)];let opts=shuffle(L.letters).slice(0,Math.min(4,L.letters.length));if(opts.indexOf(t)<0){opts[Math.floor(Math.random()*opts.length)]=t;}opts=shuffle(opts);
- $('card').innerHTML='<h2>Find the letter</h2><p class="sub">Listen, then tap the letter you hear. <button class="listen sm" onclick="playAudio(\''+t+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Play</button></p><div class="tiles" id="rT"></div><div class="feedback" id="rF"></div>';
+ $('card').innerHTML='<h2>Find the letter</h2><p class="sub">Listen, then tap the letter you hear. <button class="listen sm" aria-label="Listen" onclick="playAudio(\''+t+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Play</button></p><div class="tiles" id="rT"></div><div class="feedback" id="rF"></div>';
  quizTiles('rT','rF',opts,t);
 }};}
 function S_compare(L){return {name:'Compare',render:()=>{
  const set=L.letters.slice(0,Math.min(4,L.letters.length));const ans=set[Math.floor(Math.random()*set.length)];
  $('card').innerHTML='<h2>Tell them apart</h2><p class="sub">Same family \u2014 the dots differ.</p>'
  +'<div class="cmp">'+set.map(c=>'<div class="cmpc"><div class="ca">'+c+'</div><div class="ck">'+M[c].d+'</div></div>').join('')+'</div>'
- +'<p class="sub center" style="margin-top:14px">Which did you hear? <button class="listen sm" onclick="playAudio(\''+ans+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Play</button></p><div class="tiles" id="cT"></div><div class="feedback" id="cF"></div>';
+ +'<p class="sub center" style="margin-top:14px">Which did you hear? <button class="listen sm" aria-label="Listen" onclick="playAudio(\''+ans+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Play</button></p><div class="tiles" id="cT"></div><div class="feedback" id="cF"></div>';
  quizTiles('cT','cF',shuffle(set),ans);
 }};}
 function S_read(pool,mark,title){return {name:'Read',render:()=>{
@@ -472,16 +500,16 @@ function S_markRead(L){return {name:'Read',render:()=>{
  let items;
  if(L.marks){items=SAMPLE.slice(0,8).map(c=>c+L.marks[0]);}
  else{items=SAMPLE.slice(0,8).map(c=>c+L.mark);}
- $('card').innerHTML='<h2>Read with the mark</h2><p class="sub">Every letter takes the mark. Tap to hear.</p>'+rows(items,4);
+ $('card').innerHTML='<h2>Read with the mark</h2><p class="sub">Every letter takes the mark. Read each one out loud.</p>'+rows(items,4,true);
 }};}
 function S_markPractice(L){return {name:'Practice',render:()=>{
  const mk=L.marks?L.marks[0]:L.mark;
- if(L.iso){const items=SAMPLE.slice(6).map(c=>c+mk);$('card').innerHTML='<h2>Read more</h2><p class="sub">Each letter on its own, with the mark. Tap to hear.</p>'+rows(items,4);}
- else{const cs=combos(SAMPLE.slice(0,6),mk);$('card').innerHTML='<h2>Read patterns</h2><p class="sub">Joined letters now. Tap, then read.</p>'+rows(cs.slice(0,6),3);}
+ if(L.iso){const items=SAMPLE.slice(6).map(c=>c+mk);$('card').innerHTML='<h2>Read more</h2><p class="sub">Each letter on its own, with the mark. Read out loud.</p>'+rows(items,4,true);}
+ else{const cs=combos(SAMPLE.slice(0,6),mk);$('card').innerHTML='<h2>Read patterns</h2><p class="sub">Joined letters now. Read out loud.</p>'+rows(cs.slice(0,6),3,true);}
 }};}
 function S_words(L,name){return {name:name||'Words',render:()=>{
  if(!L.words||!L.words.length){$('card').innerHTML='<h2>Words</h2><div class="note">Example words for this lesson are to be added with your reviewer.</div>';return;}
- const row=w=>'<div class="qword"><span class="ar">'+w.ar+'</span><span class="tx">'+(w.v?'':'')+'</span><button class="listen sm" onclick="playAudio(\''+w.ar+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>';
+ const row=w=>'<div class="qword"><span class="ar">'+w.ar+'</span><span class="tx">'+(w.v?'':'')+'</span><button class="listen sm" aria-label="Listen" onclick="playAudio(\''+w.ar+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>';
  $('card').innerHTML='<h2>Read real words</h2><p class="sub">Tap to hear. Reviewed by teacher \u2014 confirm final text on Quran.com.</p>'+L.words.map(row).join('');
 }};}
 const MARKINFO={'\u064E':{nm:'fat\u1E25a',snd:'a'},'\u0650':{nm:'kasra',snd:'i'},'\u064F':{nm:'\u1E0Damma',snd:'u'},'\u0652':{nm:'suk\u016Bn',snd:''}};
@@ -518,7 +546,7 @@ function movementStages(L){
   const picks=shuffle(drillable).slice(0,16).map((c,i)=>(Math.random()<.5?T:Y)+c+S0);
   listenItems=picks.slice(0,8);
   const rest=picks.slice(8);
-  sukRead={name:'Read',render:()=>{$('card').innerHTML='<h2>Read with the suk\u016Bn</h2><p class="sub">A vowelled letter first, then the silent letter \u2014 the syllable closes. Tap to hear.</p>'+rows(rest,4)+'<div class="note" style="font-size:14px;color:var(--dim)">Book-style drill (\u062A\u064E \u00b7 \u064A\u064E + silent letter).</div>';}};
+  sukRead={name:'Read',render:()=>{$('card').innerHTML='<h2>Read with the suk\u016Bn</h2><p class="sub">A vowelled letter first, then the silent letter \u2014 the syllable closes. Read each one out loud.</p>'+rows(rest,4,true)+'<div class="note" style="font-size:14px;color:var(--dim)">Book-style drill (\u062A\u064E \u00b7 \u064A\u064E + silent letter).</div>';}};
  } else {
   listenItems=SAMPLE.slice(0,6).map(c=>c+(L.marks?L.marks[0]:L.mark));
  }
@@ -571,7 +599,7 @@ function wordsStages(L){
 }
 
 function placeholderStages(L){
- return [{name:'Lesson',render:()=>{done[Li]=true;saveDone();$('card').innerHTML='<h2>'+L.title+'</h2>'+(L.ex?'<div class="bigletter" style="font-size:38px;line-height:1.6">'+L.ex+'</div>'+(L.ref?'<p class="sub center" style="margin-top:-2px">'+L.ref+'</p>':''):'<div class="center" style="margin-top:10px"><div class="bigletter" style="font-size:54px">\u{1F4D6}</div></div>')+'<div class="note" style="font-size:14px">'+L.note+'</div>';}}];
+ return [{name:'Lesson',render:()=>{done[DK(Li)]=true;saveDone();$('card').innerHTML='<h2>'+L.title+'</h2>'+(L.ex?'<div class="bigletter" style="font-size:38px;line-height:1.6">'+L.ex+'</div>'+(L.ref?'<p class="sub center" style="margin-top:-2px">'+L.ref+'</p>':''):'<div class="center" style="margin-top:10px"><svg width="54" height="70" viewBox="0 0 100 130"><path d="M50 10 C45 24 31 42 31 64 C31 79 40 88 50 88 C60 88 69 79 69 64 C69 42 55 24 50 10 Z M48.6 18 L51.4 18 L50.8 54 L49.2 54 Z M44.5 60 A5.5 5.5 0 1 1 55.5 60 A5.5 5.5 0 1 1 44.5 60 Z" fill="var(--gold)" fill-rule="evenodd"/></svg></div>')+'<div class="note" style="font-size:14px">'+L.note+'</div>';}}];
 }
 
 function joiningStages(L){
@@ -599,7 +627,7 @@ function joiningStages(L){
   ['\u0648','\u0648\u064E\u062C\u064E\u062F\u064E']
  ];
  const orph=(pair,i)=>({name:'Orphan '+(i+1)+'/6',render:()=>{
-   if(i===ORPH.length-1){done[Li]=true;saveDone();}
+   if(i===ORPH.length-1){done[DK(Li)]=true;saveDone();}
    $('card').innerHTML='<h2>Orphan letter \u00b7 <span class="ar" style="color:var(--gold-deep)">'+pair[0]+'</span></h2><p class="sub">'+pair[0]+' takes the letter on its right, but the letter after it starts fresh \u2014 watch the gap in the word.</p>'
    +'<div class="bigletter" style="font-size:64px"><button class="cell" style="font-size:64px;border:none;background:none;padding:0" onclick="playAudio(\''+pair[0]+'\')">'+pair[0]+'</button></div>'
    +spellOne(pair[1])
@@ -609,12 +637,12 @@ function joiningStages(L){
 }function tanwinStages(L){
  const NB='\u0646\u0652';
  const concept={name:'What is Tanw\u012Bn',render:()=>{
-   const t=[['\u0628\u064B','an'],['\u0628\u064D','in'],['\u0628\u064C','un']];
+   const t=[['\u0628\u064B','ban'],['\u0628\u064D','bin'],['\u0628\u064C','bun']];
    $('card').innerHTML='<h2>Tanw\u012Bn \u2014 a hidden \u201Cn\u201D</h2><p class="sub">At the end of a noun, a doubled vowel is written and you read an extra <b>n</b> sound \u2014 a n\u016Bn s\u0101kinah ('+NB+').</p>'
    +'<div class="cmp">'+t.map(x=>'<div class="cmpc"><div class="ca"><button class="cell" style="font-size:42px;border:none;background:none;padding:0" onclick="playAudio(\''+x[0]+'\')">'+x[0]+'</button></div><div class="ck">\u201C'+x[1]+'\u201D</div></div>').join('')+'</div>'
    +'<div class="note">\u0628\u064E \u2192 \u201Cba\u201D, but \u0628\u064B \u2192 \u201Cban\u201D. The sign = vowel + a soft \u201Cn\u201D ('+NB+').</div>';
  }};
- const wl=(nm,sub,ex,a)=>({name:nm,render:()=>{$('card').innerHTML='<h2>'+nm+'</h2><p class="sub">'+sub+'</p>'+(ex?'<div class="bigletter" style="font-size:54px">'+ex+'</div>':'')+a.map(w=>'<div class="qword"><span class="ar">'+w+'</span><span class="tx"></span><button class="listen sm" onclick="playAudio(\''+w+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>').join('')+'<div class="note" style="font-size:14px;color:var(--dim)">Q\u016Br\u02bc\u0101n words from the book.</div>';}});
+ const wl=(nm,sub,ex,a)=>({name:nm,render:()=>{$('card').innerHTML='<h2>'+nm+'</h2><p class="sub">'+sub+'</p>'+(ex?'<div class="bigletter" style="font-size:54px">'+ex+'</div>':'')+a.map(w=>'<div class="qword"><span class="ar">'+w+'</span><span class="tx"></span><button class="listen sm" aria-label="Listen" onclick="playAudio(\''+w+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>').join('')+'<div class="note" style="font-size:14px;color:var(--dim)">Q\u016Br\u02bc\u0101n words from the book.</div>';}});
  const fat=wl('Fat\u1E25at\u0101n \u2014 \u201Can\u201D','Ends in an \u201Can\u201D sound. Tap to hear, then read.','\u0628\u064B\u0627',L.fat);
  const kas=wl('Kasrat\u0101n \u2014 \u201Cin\u201D','Ends in an \u201Cin\u201D sound.','\u0628\u064D',L.kas);
  const dam=wl('\u1E0Cammat\u0101n \u2014 \u201Cun\u201D','Ends in an \u201Cun\u201D sound.','\u0628\u064C',L.dam);
@@ -630,9 +658,9 @@ function joiningStages(L){
    +'<div class="mkgrid">'+V.map(x=>'<div class="mkitem"><button class="cell" onclick="playAudio(\''+x[0]+'\')">'+x[0]+'</button><div class="vo">\u0628'+SK+' + \u0628'+x[1]+' \u2192 \u201C'+x[2]+'\u201D</div></div>').join('')+'</div>';
  }};
  const sr=S_spellread(W,'Spell & read');
- const spot={name:'More shaddah words',render:()=>{$('card').innerHTML='<h2>More shaddah words</h2><p class="sub">Hold the doubled letter. Tap to hear.</p>'+L.sp.w.map(w=>'<div class="qword"><span class="ar">'+w+'</span><span class="tx"></span><button class="listen sm" onclick="playAudio(\''+w+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>').join('')+'<div class="note" style="font-size:14px;color:var(--dim)">Words from the book.</div>';}};
+ const spot={name:'More shaddah words',render:()=>{$('card').innerHTML='<h2>More shaddah words</h2><p class="sub">Hold the doubled letter. Tap to hear.</p>'+L.sp.w.map(w=>'<div class="qword"><span class="ar">'+w+'</span><span class="tx"></span><button class="listen sm" aria-label="Listen" onclick="playAudio(\''+w+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>').join('')+'<div class="note" style="font-size:14px;color:var(--dim)">Words from the book.</div>';}};
  const ST=['\u062d\u064e\u0628\u064b\u0651\u0627','\u0642\u064f\u0648\u064e\u0651\u0629\u064d','\u0643\u064e\u0631\u064e\u0651\u0629\u064c'];
- const stt={name:'Shaddah with Tanw\u012Bn',render:()=>{$('card').innerHTML='<h2>Shaddah with Tanw\u012Bn</h2><p class="sub">The doubled letter can also carry tanw\u012Bn \u2014 hold it, then say the \u201Cn\u201D.</p>'+ST.map(w=>'<div class="qword"><span class="ar">'+w+'</span><span class="tx"></span><button class="listen sm" onclick="playAudio(\''+w+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>').join('')+'<div class="note" style="font-size:14px;color:var(--dim)">From the book (p. 78) \u2014 one of each tanw\u012Bn.</div>';}};
+ const stt={name:'Shaddah with Tanw\u012Bn',render:()=>{$('card').innerHTML='<h2>Shaddah with Tanw\u012Bn</h2><p class="sub">The doubled letter can also carry tanw\u012Bn \u2014 hold it, then say the \u201Cn\u201D.</p>'+ST.map(w=>'<div class="qword"><span class="ar">'+w+'</span><span class="tx"></span><button class="listen sm" aria-label="Listen" onclick="playAudio(\''+w+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>').join('')+'<div class="note" style="font-size:14px;color:var(--dim)">From the book (p. 78) \u2014 one of each tanw\u012Bn.</div>';}};
  const EX=['\u064a\u064e\u0641\u0650\u0631\u064f\u0651','\u0644\u0650\u0643\u064f\u0644\u0650\u0651','\u0633\u0650\u062a\u0650\u0651\u064a\u0646\u064e','\u062a\u064e\u0646\u064e\u0641\u064e\u0651\u0633\u064e','\u0631\u064e\u0628\u064f\u0651\u0643\u064f\u0645\u0652','\u0625\u0650\u0646\u064e\u0651\u0647\u064f\u0645\u0652'];
  const exer=S_spellread(EX.slice(0,3),'Exercise','Read carefully \u2014 letters first, then the word. From the book\u2019s Exercise 9.');
  const exer2=S_spellread(EX.slice(3),'Exercise \u00b7 continued','Keep going \u2014 hold every doubled letter.');
@@ -648,9 +676,9 @@ function surahStages(L){
   +'<div class="center"><button class="listen" onclick="playAudio(\''+x+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Listen</button></div>'
   +'<div class="note" style="font-size:14px;color:var(--dim)">Verify against the Mushaf before live.</div>';
  }}));
- st.push({name:'Complete',render:()=>{done[Li]=true;saveDone();
+ st.push({name:'Complete',render:()=>{done[DK(Li)]=true;saveDone();
   $('card').innerHTML='<h2>'+L.title+'</h2><p class="sub">The whole s\u016Brah \u2014 read it start to finish.</p>'
-  +v.map((x,i)=>'<div class="qword"><span class="ar" style="font-size:26px">'+x+'</span><span class="tx">'+(i+1)+'</span><button class="listen sm" onclick="playAudio(\''+x+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>').join('')
+  +v.map((x,i)=>'<div class="qword"><span class="ar" style="font-size:26px">'+x+'</span><span class="tx">'+(i+1)+'</span><button class="listen sm" aria-label="Listen" onclick="playAudio(\''+x+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button></div>').join('')
   +'<div class="note"><b>You did it.</b> Your first complete s\u016Brah of the Qur\u02be\u0101n.</div>';
   drawSteps();}});
  return st;
@@ -658,7 +686,7 @@ function surahStages(L){
 function shapeStages(L){
  const it=L.items;
  return it.map((x,i)=>({name:'Shape '+(i+1)+'/'+it.length,render:()=>{
-  if(i===it.length-1){done[Li]=true;saveDone();}
+  if(i===it.length-1){done[DK(Li)]=true;saveDone();}
   const wh='<span>'+x.w.slice(0,x.a)+'</span><span style="color:var(--red)">'+x.w.slice(x.a,x.b)+'</span><span>'+x.w.slice(x.b)+'</span>';
   $('card').innerHTML='<h2>Tricky shapes \u00b7 '+(i+1)+' of '+it.length+'</h2><p class="sub">Some letters look very different inside a word. Find the <span style="color:var(--red);font-weight:800">red</span> one.</p>'
   +'<div class="cmp" style="align-items:stretch"><div class="cmpc"><div class="ca"><button class="cell" style="font-size:52px;border:none;background:none;padding:0" onclick="playAudio(\''+x.c+'\')">'+x.c+'</button></div><div class="ck">on its own</div></div><div class="cmpc" style="min-width:170px"><div class="ca" style="font-size:44px">'+wh+'</div><div class="ck">inside the word</div></div></div>'
@@ -668,7 +696,7 @@ function shapeStages(L){
 function sentenceStages(L){
  const s=L.sents;
  return s.map((x,i)=>({name:'Sentence '+(i+1)+'/'+s.length,render:()=>{
-  if(i===s.length-1){done[Li]=true;saveDone();}
+  if(i===s.length-1){done[DK(Li)]=true;saveDone();}
   $('card').innerHTML='<h2>Sentence '+(i+1)+' of '+s.length+'</h2><p class="sub">Read it aloud, slowly, right to left.</p>'
   +'<div class="bigletter" style="font-size:40px;line-height:1.9;padding:6px 10px">'+x+'</div>'
   +((L.notes&&L.notes[i])?'<div class="note" style="border:1px solid #f0dca0;background:#fff7e0"><b style="color:var(--gold-deep)">Look closely:</b> '+L.notes[i]+'</div>':'')
@@ -688,7 +716,7 @@ function stoppingStages(L){
 function maddStages(L){
  const learn={name:'Learn',render:()=>{
    $('card').innerHTML='<h2>'+L.title+'</h2><p class="sub">'+L.blurb+'</p>'
-   +'<div class="cmp"><div class="cmpc"><div class="ca"><button class="cell" style="font-size:40px;border:none;background:none;padding:0" onclick="playAudio(\''+L.demo[0]+'\')">'+L.demo[0]+'</button></div><div class="ck">short</div></div><div class="cmpc"><div class="ca"><button class="cell" style="font-size:40px;border:none;background:none;padding:0" onclick="playAudio(\''+L.demo[1]+'\')">'+L.demo[1]+'</button></div><div class="ck">long</div></div></div>'
+   +'<div class="cmp"><div class="cmpc"><div class="ca"><button class="cell" style="font-size:40px;border:none;background:none;padding:0" onclick="playAudio(\''+L.demo[0]+'\')">'+L.demo[0]+'</button></div><div class="ck">short \u00b7 '+latn(L.demo[0])+'</div></div><div class="cmpc"><div class="ca"><button class="cell" style="font-size:40px;border:none;background:none;padding:0" onclick="playAudio(\''+L.demo[1]+'\')">'+L.demo[1]+'</button></div><div class="ck">long \u00b7 '+latn(L.demo[1])+'</div></div></div>'
    +'<div class="note">'+L.note+'</div>';}};
  const w=L.words;
  const one=(x,i)=>({name:'Word '+(i+1)+'/'+w.length,render:()=>{$('card').innerHTML='<h2>Word '+(i+1)+' of '+w.length+'</h2><p class="sub">Sound each letter, then blend \u2014 hold the long vowel. Tap the word to hear it.</p>'+spellOne(x);}});
@@ -728,12 +756,12 @@ function runQuiz(arr){qz=arr;qi=0;score=0;renderQ();}
 function renderQ(){
  if(qi>=qz.length)return renderResult();
  const it=qz[qi];
- $('card').innerHTML='<div class="qcount">Check \u00b7 '+(qi+1)+' of '+qz.length+'</div><div class="q">'+it.q+' '+(it.audio?'<button class="listen sm" onclick="playAudio(\''+it.audio+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Play</button>':'')+'</div>'+(it.big?'<div class="bigletter" style="font-size:64px">'+it.big+'</div>':'')+'<div class="tiles'+(it.latin?' latin':'')+'" id="qT"></div><div class="feedback" id="qF"></div>';
+ $('card').innerHTML='<div class="qcount">Check \u00b7 '+(qi+1)+' of '+qz.length+'</div><div class="q">'+it.q+' '+(it.audio?'<button class="listen sm" aria-label="Listen" onclick="playAudio(\''+it.audio+'\')"><svg class="hp" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg> Play</button>':'')+'</div>'+(it.big?'<div class="bigletter" style="font-size:64px">'+it.big+'</div>':'')+'<div class="tiles'+(it.latin?' latin':'')+'" id="qT"></div><div class="feedback" id="qF"></div>';
  quizTiles('qT','qF',it.opts,it.a,ok=>{if(ok)score++;qi++;renderQ();});
 }
 function renderResult(){
  const pct=Math.round(score/qz.length*100),pass=pct>=80,off=314-(314*pct/100);
- if(pass){done[Li]=true;saveDone();}
+ if(pass){done[DK(Li)]=true;saveDone();}
  $('card').innerHTML='<div class="result"><div class="ring"><svg width="120" height="120"><circle cx="60" cy="60" r="50" stroke="#eef0fb" stroke-width="12" fill="none"/><circle cx="60" cy="60" r="50" stroke="'+(pass?'#15803d':'#b3261e')+'" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="'+off+'"/></svg><span class="pct" style="color:'+(pass?'#15803d':'#b3261e')+'">'+pct+'%</span></div><div class="big" style="font-family:Cinzel;font-size:36px;font-weight:700;color:'+(pass?'#15803d':'#b3261e')+'">'+(pass?'Passed':'Almost!')+'</div><p class="sub">'+(pass?'Next lesson unlocked.':'You need 80%. Review and try again.')+'</p><button class="listen" onclick="go(cur)">\u21BB Try again</button></div>';
  drawSteps();
 }
