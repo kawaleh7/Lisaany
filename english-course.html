@@ -524,11 +524,14 @@
     return hex(a)+hex(b)+hex(c)+hex(d);
   }
   function enAudio(text){
-    const t=(text||'').normalize('NFC').trim();
+    let t=(text||'').normalize('NFC').trim();
     if(!t) return '';
-    const o=EN_AUDIO[t]||EN_AUDIO[t.toLowerCase()];
+    // ignore trailing sentence punctuation so "Hello." uses the "Hello" file
+    const key=t.replace(/[.!?]+$/,'').trim();
+    if(!key) return '';
+    const o=EN_AUDIO[key]||EN_AUDIO[key.toLowerCase()];
     if(o) return /^(https?:|data:)/.test(o)?o:(EN_R2_BASE+o);
-    return EN_R2_BASE+md5(t).slice(0,12)+'.mp3';
+    return EN_R2_BASE+md5(key).slice(0,12)+'.mp3';
   }
 
   /* word audio (english target) */
