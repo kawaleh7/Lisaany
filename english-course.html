@@ -481,6 +481,56 @@
   function setLang(c){lang=c;document.getElementById('langLabel').textContent=LANGS.find(l=>l.code===c).label;document.getElementById('langMenu').classList.remove('open');buildLangMenu();}
   document.addEventListener('click',()=>{document.getElementById('langMenu').classList.remove('open');});
 
+  /* ===== Audio (R2, MD5 auto-naming — same scheme as the Arabic course) =====
+     The mp3 filename is derived from the text itself:
+        md5( NFC(text).trim() ).slice(0,12) + '.mp3'
+     The page builds the R2 URL automatically. If the file exists it plays;
+     otherwise it silently falls back to browser TTS. No map to maintain.
+     EN_AUDIO below is an OPTIONAL override (pin a specific file or full URL). */
+  const EN_R2_BASE='https://pub-7816de42410e4cc0a521da43fa52ba07.r2.dev/'; // change if English audio lives in a different bucket
+  const EN_AUDIO={}; // optional overrides, e.g. 'Good morning':'custom.mp3'
+  function md5(str){
+    function rl(n,c){return(n<<c)|(n>>>(32-c));}
+    function au(x,y){var l=(x&0xFFFF)+(y&0xFFFF);return(((x>>16)+(y>>16)+(l>>16))<<16)|(l&0xFFFF);}
+    function cmn(q,a,b,x,s,t){return au(rl(au(au(a,q),au(x,t)),s),b);}
+    function ff(a,b,c,d,x,s,t){return cmn((b&c)|(~b&d),a,b,x,s,t);}
+    function gg(a,b,c,d,x,s,t){return cmn((b&d)|(c&~d),a,b,x,s,t);}
+    function hh(a,b,c,d,x,s,t){return cmn(b^c^d,a,b,x,s,t);}
+    function ii(a,b,c,d,x,s,t){return cmn(c^(b|~d),a,b,x,s,t);}
+    function utf8(s){return unescape(encodeURIComponent(s));}
+    function tb(s){var n=s.length,b=[],i;for(i=0;i<n*8;i+=8)b[i>>5]|=(s.charCodeAt(i/8)&0xFF)<<(i%32);return b;}
+    var s=utf8(str),x=tb(s),len=s.length*8;
+    x[len>>5]|=0x80<<(len%32);x[(((len+64)>>>9)<<4)+14]=len;
+    var a=1732584193,b=-271733879,c=-1732584194,d=271733878,i;
+    for(i=0;i<x.length;i+=16){var oa=a,ob=b,oc=c,od=d;
+      a=ff(a,b,c,d,x[i],7,-680876936);d=ff(d,a,b,c,x[i+1],12,-389564586);c=ff(c,d,a,b,x[i+2],17,606105819);b=ff(b,c,d,a,x[i+3],22,-1044525330);
+      a=ff(a,b,c,d,x[i+4],7,-176418897);d=ff(d,a,b,c,x[i+5],12,1200080426);c=ff(c,d,a,b,x[i+6],17,-1473231341);b=ff(b,c,d,a,x[i+7],22,-45705983);
+      a=ff(a,b,c,d,x[i+8],7,1770035416);d=ff(d,a,b,c,x[i+9],12,-1958414417);c=ff(c,d,a,b,x[i+10],17,-42063);b=ff(b,c,d,a,x[i+11],22,-1990404162);
+      a=ff(a,b,c,d,x[i+12],7,1804603682);d=ff(d,a,b,c,x[i+13],12,-40341101);c=ff(c,d,a,b,x[i+14],17,-1502002290);b=ff(b,c,d,a,x[i+15],22,1236535329);
+      a=gg(a,b,c,d,x[i+1],5,-165796510);d=gg(d,a,b,c,x[i+6],9,-1069501632);c=gg(c,d,a,b,x[i+11],14,643717713);b=gg(b,c,d,a,x[i],20,-373897302);
+      a=gg(a,b,c,d,x[i+5],5,-701558691);d=gg(d,a,b,c,x[i+10],9,38016083);c=gg(c,d,a,b,x[i+15],14,-660478335);b=gg(b,c,d,a,x[i+4],20,-405537848);
+      a=gg(a,b,c,d,x[i+9],5,568446438);d=gg(d,a,b,c,x[i+14],9,-1019803690);c=gg(c,d,a,b,x[i+3],14,-187363961);b=gg(b,c,d,a,x[i+8],20,1163531501);
+      a=gg(a,b,c,d,x[i+13],5,-1444681467);d=gg(d,a,b,c,x[i+2],9,-51403784);c=gg(c,d,a,b,x[i+7],14,1735328473);b=gg(b,c,d,a,x[i+12],20,-1926607734);
+      a=hh(a,b,c,d,x[i+5],4,-378558);d=hh(d,a,b,c,x[i+8],11,-2022574463);c=hh(c,d,a,b,x[i+11],16,1839030562);b=hh(b,c,d,a,x[i+14],23,-35309556);
+      a=hh(a,b,c,d,x[i+1],4,-1530992060);d=hh(d,a,b,c,x[i+4],11,1272893353);c=hh(c,d,a,b,x[i+7],16,-155497632);b=hh(b,c,d,a,x[i+10],23,-1094730640);
+      a=hh(a,b,c,d,x[i+13],4,681279174);d=hh(d,a,b,c,x[i],11,-358537222);c=hh(c,d,a,b,x[i+3],16,-722521979);b=hh(b,c,d,a,x[i+6],23,76029189);
+      a=hh(a,b,c,d,x[i+9],4,-640364487);d=hh(d,a,b,c,x[i+12],11,-421815835);c=hh(c,d,a,b,x[i+15],16,530742520);b=hh(b,c,d,a,x[i+2],23,-995338651);
+      a=ii(a,b,c,d,x[i],6,-198630844);d=ii(d,a,b,c,x[i+7],10,1126891415);c=ii(c,d,a,b,x[i+14],15,-1416354905);b=ii(b,c,d,a,x[i+5],21,-57434055);
+      a=ii(a,b,c,d,x[i+12],6,1700485571);d=ii(d,a,b,c,x[i+3],10,-1894986606);c=ii(c,d,a,b,x[i+10],15,-1051523);b=ii(b,c,d,a,x[i+1],21,-2054922799);
+      a=ii(a,b,c,d,x[i+8],6,1873313359);d=ii(d,a,b,c,x[i+15],10,-30611744);c=ii(c,d,a,b,x[i+6],15,-1560198380);b=ii(b,c,d,a,x[i+13],21,1309151649);
+      a=ii(a,b,c,d,x[i+4],6,-145523070);d=ii(d,a,b,c,x[i+11],10,-1120210379);c=ii(c,d,a,b,x[i+2],15,718787259);b=ii(b,c,d,a,x[i+9],21,-343485551);
+      a=au(a,oa);b=au(b,ob);c=au(c,oc);d=au(d,od);}
+    function hex(n){var s='',j;for(j=0;j<4;j++)s+=('0'+((n>>(j*8))&0xFF).toString(16)).slice(-2);return s;}
+    return hex(a)+hex(b)+hex(c)+hex(d);
+  }
+  function enAudio(text){
+    const t=(text||'').normalize('NFC').trim();
+    if(!t) return '';
+    const o=EN_AUDIO[t]||EN_AUDIO[t.toLowerCase()];
+    if(o) return /^(https?:|data:)/.test(o)?o:(EN_R2_BASE+o);
+    return EN_R2_BASE+md5(t).slice(0,12)+'.mp3';
+  }
+
   /* word audio (english target) */
   let wAudio=null;
   function sayWord(w,btn){if(wAudio){wAudio.pause();wAudio=null;}if(window.speechSynthesis)speechSynthesis.cancel();if(btn)btn.classList.add('playing');const done=()=>btn&&btn.classList.remove('playing');
@@ -720,8 +770,8 @@
     ]},
   ];
   function curSub(){const m=MODULES.find(x=>x.n===selected)||MODULES[0];return (m.subs&&m.subs[subIdx])||m.subs[0];}
-  function moduleWords(){return curSub().w.map(p=>({e:p[0],en:p[1],audio:'',img:p[2]||''}));}
-  let CW=MODULES[0].subs[0].w.map(p=>({e:p[0],en:p[1],audio:'',img:''}));
+  function moduleWords(){return curSub().w.map(p=>({e:p[0],en:p[1],audio:enAudio(p[1]),img:p[2]||''}));}
+  let CW=MODULES[0].subs[0].w.map(p=>({e:p[0],en:p[1],audio:enAudio(p[1]),img:''}));
 
   /* sentence templates per module ([w]=word, [art]=a/an). Placeholder sentences — swap for your own content later. */
   /* sentence frames = the grammar structure each module teaches, filled with OUR words ([w]=word, [art]=a/an). All original; swap for your own later. */
@@ -731,9 +781,9 @@
   const SENT={};
   function sentencesFor(){
     const sub=curSub();
-    if(SENT[sub.id])return SENT[sub.id].map(s=>({e:s[0],text:s[1],audio:''}));
+    if(SENT[sub.id])return SENT[sub.id].map(s=>({e:s[0],text:s[1],audio:enAudio(s[1])}));
     const pat=sub.f||SUBPAT[sub.id]||PAT[selected]||'This is [art] [w].';
-    return sub.w.map(p=>{let t=pat.replace('[w]',p[1]).replace('[art]',/^[aeiou]/i.test(p[1])?'an':'a');t=t.charAt(0).toUpperCase()+t.slice(1);return {e:p[0],text:t,audio:''};});
+    return sub.w.map(p=>{let t=pat.replace('[w]',p[1]).replace('[art]',/^[aeiou]/i.test(p[1])?'an':'a');t=t.charAt(0).toUpperCase()+t.slice(1);return {e:p[0],text:t,audio:enAudio(t)};});
   }
   const GRPC={'Foundations':{acc:'#b3842b',tint:'#f7efdb'},'Everyday Life':{acc:'#2f8f86',tint:'#e4f1ef'},'Expressing Yourself':{acc:'#5b62a8',tint:'#ecedf8'},'Present in Motion':{acc:'#46785c',tint:'#e8f0ea'},'Body & World':{acc:'#3f7fa6',tint:'#e8f1f6'},'The Past':{acc:'#9a6b3f',tint:'#f3ece0'},'Future & Perfect':{acc:'#5f6aa8',tint:'#edeef9'},'Conversation':{acc:'#2f6f6b',tint:'#e6efee'},'Description & Phrasals':{acc:'#8a5a3c',tint:'#f1eae2'},'Timelines & Conditionals':{acc:'#5a6a3a',tint:'#edf0e4'},'Professional & Style':{acc:'#45517a',tint:'#eaecf5'}};
   function gc(g){return GRPC[g]||GRPC.Foundations;}
