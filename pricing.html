@@ -637,27 +637,27 @@ a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190
   </div>
   <!-- Plans grid -->
   <div class="plans-grid">
-    <!-- BASIC -->
-    <div class="plan" id="card-basic">
+    <!-- PREMIUM MONTHLY -->
+    <div class="plan" id="card-premium-monthly">
       <div class="plan-header">
-        <div class="plan-name">Basic</div>
-        <div class="plan-tagline">Self-paced learning</div>
+        <div class="plan-name">Premium Monthly</div>
+        <div class="plan-tagline">Full access · billed monthly</div>
       </div>
       <div class="plan-price">
-        <span class="plan-price-main">$12.99</span>
+        <span class="plan-price-main">$19.99</span>
         <span class="plan-price-period">/month</span>
       </div>
-      <div class="plan-price-note empty">Billed monthly</div>
+      <div class="plan-price-note empty">Billed monthly · cancel anytime</div>
       <ul class="plan-features">
         <li><span class="ms check">check_circle</span>Full Arabic curriculum (5 modules · 40 units)</li>
         <li><span class="ms check">check_circle</span>Complete Tajweed lesson library</li>
         <li><span class="ms check">check_circle</span>Real Arabic dialogues with audio</li>
         <li><span class="ms check">check_circle</span>Grammar tables + sentence builder</li>
         <li><span class="ms check">check_circle</span>Progress tracking, XP, streaks</li>
-        <li class="dim"><span class="ms dim">remove_circle_outline</span>No live tutor sessions</li>
+        <li><span class="ms check">check_circle</span>Cancel anytime, no commitment</li>
       </ul>
-      <button class="plan-cta" onclick="selectPlan('basic_monthly', this.closest('.plan'))">
-        <span class="plan-cta-text"><span>Choose Basic</span> <span class="ms arr">arrow_forward</span></span>
+      <button class="plan-cta" onclick="selectPlan('premium_monthly', this.closest('.plan'))">
+        <span class="plan-cta-text"><span>Choose Monthly</span> <span class="ms arr">arrow_forward</span></span>
         <span class="plan-cta-loading"><span class="spinner"></span>Loading…</span>
       </button>
     </div>
@@ -686,20 +686,20 @@ a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190
 
     <!-- PREMIUM YEARLY -->
     <div class="plan featured" id="card-premium-yearly">
-      <div class="plan-badge savings">Best Value</div>
+      <div class="plan-badge savings">Save 58%</div>
       <div class="plan-header">
         <div class="plan-name">Premium Yearly</div>
         <div class="plan-tagline">Best value · 12 months</div>
       </div>
       <div class="plan-price">
-        <span class="plan-price-main">$199.99</span>
+        <span class="plan-price-main">$99.99</span>
         <span class="plan-price-period">/year</span>
       </div>
-      <div class="plan-price-note">Just $16.67/month · billed yearly</div>
+      <div class="plan-price-note">Just $8.33/month · save 58% vs monthly</div>
       <ul class="plan-features">
-        <li><span class="ms check">check_circle</span>Everything in Premium</li>
+        <li><span class="ms check">check_circle</span>Everything in Premium Monthly</li>
         <li><span class="ms check">check_circle</span>One simple yearly payment</li>
-        <li><span class="ms check">check_circle</span>Lock in $16.67/mo equivalent</li>
+        <li><span class="ms check">check_circle</span>Save $139.89 vs paying monthly</li>
         <li><span class="ms check">check_circle</span>Cancel anytime before renewal</li>
         <li><span class="ms check">check_circle</span>Priority email support</li>
         <li><span class="ms check">check_circle</span>Certificate of completion (coming soon)</li>
@@ -725,7 +725,6 @@ a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190
     </div>
   </div>
 </div>
-<!-- Bottom Navigation -->
 <!-- Contact modal -->
 <div class="lis-contact-modal" id="lisContactModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="lis-contact-card">
@@ -741,6 +740,7 @@ a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190
     <div class="lis-contact-foot"><a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a><br>© 2026 Lisaany. All Rights Reserved.</div>
   </div>
 </div>
+<!-- Bottom Navigation -->
 <div class="bottom-nav">
   <a href="index.html" class="nav-btn">
     <span class="ms" style="font-variation-settings:'FILL' 0">home</span>
@@ -775,13 +775,20 @@ a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190
     const isOpen = item.classList.contains('open');
     item.classList.toggle('open', !isOpen);
   }
-  // ── Stripe price IDs (LIVE mode) ──
+  // ─────────────────────────────────────────────────────────────
+  //  ⚠️ TODO — STRIPE PRICE IDs (LIVE mode)
+  //  These are PLACEHOLDERS. Checkout will refuse to run until you
+  //  replace BOTH with the real price_… IDs from your Stripe dashboard.
+  //
+  //  Create ONE product "Lisaany Premium" with TWO recurring prices:
+  //     • $19.99 / month  → paste into premium_monthly
+  //     • $99.99 / year   → paste into premium_yearly
+  //  (Products → + Add product → add first price → + Add another price)
+  //  Then ⋯ on each price → Copy price ID.
+  // ─────────────────────────────────────────────────────────────
   const PRICE_IDS = {
-    basic_monthly:    'price_1TZybRRzhUYYXw5g1syCALrZ',
-    // ⚠️ TODO: create the $199.99/year price in Stripe and paste its ID below.
-    // The old ID here was the $119.99 price — until you swap it, the card shows
-    // $199.99 but charges $119.99.
-    premium_yearly:   'price_1TZybRRzhUYYXw5ggv9qBsIy',
+    premium_monthly: 'price_PASTE_MONTHLY_ID',
+    premium_yearly:  'price_PASTE_YEARLY_ID',
   };
   // ── Supabase ──
   const SUPABASE_URL = 'https://cfaxrzfqvoalwznkhwnx.supabase.co';
@@ -791,8 +798,9 @@ a.lis-contact-row:hover{border-color:rgba(242,190,98,.5);background:rgba(242,190
   async function selectPlan(planKey, cardEl) {
     if (cardEl.classList.contains('loading')) return;
     const priceId = PRICE_IDS[planKey];
-    if (!priceId) {
-      alert('That plan is not configured. Please contact support.');
+    // Guard: refuse to run with an unconfigured placeholder ID.
+    if (!priceId || priceId.indexOf('PASTE') !== -1) {
+      alert('This plan isn’t connected to Stripe yet — the price ID still needs to be added.');
       return;
     }
     cardEl.classList.add('loading');
