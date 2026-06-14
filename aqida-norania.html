@@ -42,6 +42,22 @@
   .lcard .lsnd{font-size:14px;color:var(--dim)}
   .lcard .done{position:absolute;top:10px;right:10px;width:22px;height:22px;border-radius:50%;background:var(--green);color:#fff;font-size:14px;display:flex;align-items:center;justify-content:center;font-weight:900}
   .lcard .lock{position:absolute;top:10px;right:12px;color:var(--dim);font-size:14px}
+  .lcard.paywalled{cursor:pointer;opacity:.92}
+  .lcard.paywalled .lar{opacity:.32}
+  .lcard.paywalled .lnm{opacity:.55}
+  .lcard.paywalled:hover{transform:translateY(-4px);border-color:var(--gold-deep);box-shadow:0 18px 36px -20px rgba(232,182,43,.5)}
+  .lcard .plock{position:absolute;top:9px;right:11px;width:24px;height:24px;border-radius:50%;background:linear-gradient(150deg,var(--gold-br),var(--gold));border:1px solid var(--gold-deep);display:flex;align-items:center;justify-content:center}
+  .lcard .plock svg{width:13px;height:13px;stroke:var(--navy)}
+  .premtag{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:800;letter-spacing:.12em;color:var(--navy);background:linear-gradient(150deg,var(--gold-br),var(--gold));border:1px solid var(--gold-deep);border-radius:99px;padding:2px 9px;white-space:nowrap}
+  .premM{position:fixed;inset:0;z-index:999;background:rgba(20,24,55,.6);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:20px}
+  .premM.open{display:flex}
+  .premM .box{background:#fff;border:1.5px solid var(--gold-deep);border-radius:20px;max-width:360px;width:100%;padding:30px 26px 24px;text-align:center;box-shadow:0 30px 80px -30px rgba(27,33,84,.6)}
+  .premM .pico{width:54px;height:54px;border-radius:50%;margin:0 auto 14px;background:linear-gradient(150deg,var(--gold-br),var(--gold));border:1px solid var(--gold-deep);display:flex;align-items:center;justify-content:center}
+  .premM .pico svg{width:26px;height:26px;stroke:var(--navy)}
+  .premM h3{font-family:'Cinzel',serif;font-size:21px;color:var(--navy);margin:0 0 8px}
+  .premM p{font-size:14px;color:var(--dim);line-height:1.6;margin:0 0 20px}
+  .premM .pbtn{display:block;width:100%;padding:13px;border-radius:12px;border:none;background:linear-gradient(150deg,var(--gold-br),var(--gold));color:var(--navy);font-family:'Cinzel',serif;font-weight:700;font-size:14px;letter-spacing:.04em;cursor:pointer;margin-bottom:9px}
+  .premM .pclose{display:block;width:100%;padding:11px;border-radius:12px;border:1px solid var(--border);background:#fff;color:var(--dim);font-size:13px;font-weight:600;cursor:pointer}
 
   /* PLAYER */
   .steps{display:flex;gap:6px;margin:18px 0 6px}
@@ -182,6 +198,17 @@
   <button class="btn btn-next" id="nextBtn">Next →</button>
 </div>
 
+<!-- Premium upsell modal (draft) -->
+<div class="premM" id="premModal" onclick="if(event.target===this)closePrem()">
+  <div class="box">
+    <div class="pico"><svg viewBox="0 0 24 24" fill="none" stroke="#1b2154" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+    <h3>Premium lesson</h3>
+    <p>Lessons 1&ndash;3 are free. Upgrade to Lisaany Premium to unlock the full Norania course &mdash; all the way to your first s&#363;rah.</p>
+    <button class="pbtn" onclick="closePrem()">Got it</button>
+    <button class="pclose" onclick="closePrem()">Maybe later</button>
+  </div>
+</div>
+
 <script>
 const $=id=>document.getElementById(id);
 const F='\u064E',K='\u0650',D='\u064F',S='\u0652';            // fatha kasra damma sukun
@@ -301,11 +328,28 @@ let done={};try{done=JSON.parse(localStorage.getItem('norania-prog-v2')||'{}')||
 function saveDone(){try{localStorage.setItem('norania-prog-v2',JSON.stringify(done));}catch(e){}}
 
 /* ===== HOME ===== */
-/* set UNLOCK_ALL=false to make students progress in order */
-const UNLOCK_ALL=true;
+/* Sequential progression: a lesson stays locked until the one before it is finished. */
+const UNLOCK_ALL=false;
+
+/* ===== Paywall (DRAFT — cosmetic only) =====
+   Lessons with array index < FREE_LESSONS are free (Lesson 1, 2, 3).
+   Index >= FREE_LESSONS show a gold premium lock and an upgrade prompt.
+   ⚠️ This is NOT real enforcement. Norania is not wired to auth, so this
+   gate is client-side only and can be bypassed via devtools. To make it
+   real later: connect Supabase, replace the IS_PREMIUM line below with a
+   live isPremium() check, and (ideally) gate lesson content server-side. */
+const FREE_LESSONS=3;
+let IS_PREMIUM=false; // TODO: set from real isPremium() once Norania has auth.
 const parts=['The Arabic Letters','Short Vowels','Joining Letters','Suk\u016Bn','Madd','Tanw\u012Bn','Shaddah','Reading Rules','Reading the Qur\u02be\u0101n','Bonus \u00b7 Tajw\u012Bd'];
 let curChapter=null;
 function partIdxs(p){const a=[];LESSONS.forEach((L,i)=>{if(L.part===p)a.push(i);});return a;}
+/* Premium upsell for paywalled lessons (draft placeholder). */
+function premiumPrompt(){
+  const m=document.getElementById('premModal');
+  if(m){m.classList.add('open');return;}
+  alert('This lesson is part of Lisaany Premium. Lessons 1\u20133 are free \u2014 upgrade to unlock the rest.');
+}
+function closePrem(){const m=document.getElementById('premModal');if(m)m.classList.remove('open');}
 const CHICON=['\u0628','\u0628\u064E','\u0628\u0640','\u0628\u0652','\u0628\u064E\u0627','\u0628\u064B\u0627','\u0628\u0651','\u0627\u0644','\u0642','\u0646'];
 function renderChapters(){
  curChapter=null;
@@ -329,11 +373,15 @@ function openChapter(ci){
  const firstOpen=idxs.find(i=>!done[DK(i)]);
  if(idxs.length===1){openLesson(idxs[0]);return;}
  let html='<div class="chback" onclick="renderChapters()"><span class="bk">\u2190</span><span class="bt">All Chapters</span></div><div class="grouphead">'+p+'</div><div class="lessons">';
- idxs.forEach(i=>{const L=LESSONS[i];const isDone=done[DK(i)],locked=UNLOCK_ALL?false:(i>0&&!done[DK(i-1)]&&!isDone);const gold=L.type==='letterdrill'||L.type==='madddrill';const nxt=(i===firstOpen&&!isDone);
-  html+='<div class="lcard '+(gold?'goldcard ':'')+(nxt?'next ':'')+(locked?'locked':'')+'" '+(locked?'':'onclick="openLesson('+i+')"')+'>'
+ idxs.forEach(i=>{const L=LESSONS[i];const isDone=done[DK(i)],locked=UNLOCK_ALL?false:(i>0&&!done[DK(i-1)]&&!isDone);const paywalled=!IS_PREMIUM&&i>=FREE_LESSONS;const gold=L.type==='letterdrill'||L.type==='madddrill';const nxt=(i===firstOpen&&!isDone&&!paywalled);
+  let click;
+  if(paywalled){click='onclick="premiumPrompt()"';}
+  else if(locked){click='';}
+  else{click='onclick="openLesson('+i+')"';}
+  html+='<div class="lcard '+(gold?'goldcard ':'')+(nxt?'next ':'')+(paywalled?'paywalled':(locked?'locked':''))+'" '+click+'>'
    +'<div class="lno">'+(i+1)+'</div>'
-   +(isDone?'<div class="done">\u2713</div>':(locked?'<div class="lock">'+SVGLOCK+'</div>':''))
-   +'<div class="lar">'+ICN(L.icon)+'</div><div class="lnm" style="font-size:14px">'+L.title+'</div>'+(nxt?'<div class="upnext">UP NEXT</div>':'')+'</div>';
+   +(isDone?'<div class="done">\u2713</div>':(paywalled?'<div class="plock">'+SVGLOCK+'</div>':(locked?'<div class="lock">'+SVGLOCK+'</div>':'')))
+   +'<div class="lar">'+ICN(L.icon)+'</div><div class="lnm" style="font-size:14px">'+L.title+'</div>'+(nxt?'<div class="upnext">UP NEXT</div>':(paywalled?'<div class="premtag">PREMIUM</div>':''))+'</div>';
  });
  html+='</div>';
  $('home').innerHTML=html;window.scrollTo(0,0);

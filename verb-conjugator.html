@@ -109,6 +109,13 @@
   .r-no{color:#c0473f;font-weight:600;font-size:.95rem}
   .quiz-next{font-family:var(--body);font-size:.95rem;color:#fff;background:var(--navy);border:none;border-radius:11px;padding:10px 22px;cursor:pointer;margin-left:auto}
   .quiz-next:hover{background:#1a2d52}
+  /* paywall gate (draft) */
+  .cj-gate{text-align:center;padding:40px 24px;max-width:380px;margin:0 auto}
+  .cj-gate-ic{width:56px;height:56px;border-radius:50%;margin:0 auto 14px;background:linear-gradient(150deg,#d9b86a,var(--gold));display:flex;align-items:center;justify-content:center}
+  .cj-gate-ic svg{width:26px;height:26px}
+  .cj-gate-t{font-family:var(--head,var(--body));font-weight:800;font-size:20px;color:var(--navy);margin-bottom:8px;letter-spacing:.02em}
+  .cj-gate-p{font-size:14px;color:var(--navy-mute);line-height:1.6}
+  .cj-chip-lock{background:linear-gradient(150deg,#d9b86a,var(--gold))!important;color:var(--navy)!important;border-color:var(--gold-deep)!important;font-weight:700}
 </style>
 </head>
 <body>
@@ -214,12 +221,39 @@ const input=document.getElementById('cjInput'), tense=document.getElementById('c
       baseEl=document.getElementById('cjBase'), enEl=document.getElementById('cjEn'),
       harakatBox=document.getElementById('cjHarakat'), suggest=document.getElementById('cjSuggest');
 
-// quick-pick chips (first 8 verbs)
-VERBS.slice(0,8).forEach(v=>{
+// ===== Paywall (DRAFT — cosmetic only) =====
+// The first FREE_VERB_COUNT verbs (the quick-pick chips) are free.
+// Any other verb lookup, and Quiz mode, show an upgrade gate.
+// ⚠️ NOT real enforcement — the full verb data sits in this HTML. To make
+// it real, serve this tool behind Supabase isPremium() like the main
+// platform, and replace the IS_PREMIUM line below with that check.
+let IS_PREMIUM=false; // TODO: set from real isPremium() once this tool has auth.
+const FREE_VERB_COUNT=8;
+function isVerbFree(v){ return IS_PREMIUM || VERBS.indexOf(v) < FREE_VERB_COUNT; }
+function conjGateHTML(kind){
+  const lockSvg='<svg viewBox="0 0 24 24" fill="none" stroke="#0f1c38" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+  const msg = kind==='quiz'
+    ? 'Quiz mode is part of Lisaany Premium.'
+    : 'These '+FREE_VERB_COUNT+' starter verbs are free.';
+  const tail = kind==='quiz' ? 'all '+VERBS.length+' verbs' : 'all '+VERBS.length+' verbs and Quiz mode';
+  return '<div class="cj-gate"><div class="cj-gate-ic">'+lockSvg+'</div>'
+    +'<div class="cj-gate-t">Premium</div>'
+    +'<div class="cj-gate-p">'+msg+' Unlock '+tail+' with Lisaany Premium.</div></div>';
+}
+function showVerbGate(){ if(subbar) subbar.hidden=true; body.innerHTML=conjGateHTML('verb'); }
+
+// quick-pick chips (first FREE_VERB_COUNT verbs = the free ones)
+VERBS.slice(0,FREE_VERB_COUNT).forEach(v=>{
   const c=document.createElement('span'); c.className='cj-chip'; c.textContent=v.ar;
   c.onclick=()=>{ input.value=v.ar; render(); };
   suggest.appendChild(c);
 });
+if(!IS_PREMIUM && VERBS.length>FREE_VERB_COUNT){
+  const lc=document.createElement('span'); lc.className='cj-chip cj-chip-lock';
+  lc.textContent='+'+(VERBS.length-FREE_VERB_COUNT)+' more';
+  lc.onclick=()=>{ input.value=''; suggest.style.display='flex'; showVerbGate(); };
+  suggest.appendChild(lc);
+}
 
 const SECTIONS = [
   {label:'Singular', ar:'\u0645\u0641\u0631\u062F',
@@ -289,6 +323,7 @@ function render(){
   if(SUBJECTS[ql]){ subbar.hidden=true; body.innerHTML='<div class="cj-empty">Add a verb after \u201c<b>'+q+'</b>\u201d — e.g. \u201c'+ql+' go\u201d.</div>'; return; }
   const verb=findVerb(q);
   if(!verb){ subbar.hidden=true; body.innerHTML='<div class="cj-empty">No verb matching \u201c<b>'+q+'</b>\u201d in the table yet.</div>'; return; }
+  if(!isVerbFree(verb)){ subbar.hidden=true; body.innerHTML=conjGateHTML('verb'); return; }
   subbar.hidden=false;
   const t=tense.value, showH=harakatBox.checked;
   const cite = verb.forms.past.huwa;  // fully-voweled 3ms-past = standard dictionary citation form
@@ -356,7 +391,16 @@ function choose(btn){
   qEl('quizNext').onclick = newQuiz;
 }
 function score(){ qEl('quizScore').textContent='Score  '+qGot+' / '+qSeen; }
+let _quizGate=null;
 function setMode(quiz){
+  if(quiz && !IS_PREMIUM){
+    refWrap.hidden=true; quizWrap.hidden=true;
+    modeRef.classList.remove('is-active'); modeQuiz.classList.add('is-active');
+    if(!_quizGate){ _quizGate=document.createElement('div'); quizWrap.parentNode.insertBefore(_quizGate, quizWrap); }
+    _quizGate.innerHTML=conjGateHTML('quiz'); _quizGate.hidden=false;
+    return;
+  }
+  if(_quizGate) _quizGate.hidden=true;
   quizWrap.hidden=!quiz; refWrap.hidden=quiz;
   modeRef.classList.toggle('is-active',!quiz);
   modeQuiz.classList.toggle('is-active',quiz);
